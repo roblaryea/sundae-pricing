@@ -168,11 +168,16 @@ export function useROICalculation(
     }
     
     if (config.modules.includes('reservations')) {
-      // NEW: Calculate based on incremental covers, not % of revenue
+      // Calculate based on incremental covers with no-show realization
       const { incrementalCoversPerMonth, averageCheck, profitMarginOnIncremental } = IMPROVEMENT_RATES.modules.reservations;
       
-      // Profit from incremental covers per location
-      reservationSavings = incrementalCoversPerMonth * averageCheck * profitMarginOnIncremental * config.locations;
+      // Apply realization factor based on no-show rate
+      // reservationNoShowRate is 0-100, so realizationFactor reduces expected covers
+      const realizationFactor = 1 - (reservationNoShowRate / 100);
+      const realizedIncrementalCovers = incrementalCoversPerMonth * realizationFactor;
+      
+      // Profit from realized incremental covers per location
+      reservationSavings = realizedIncrementalCovers * averageCheck * profitMarginOnIncremental * config.locations;
       
       // Apply per-location cap
       const maxReservations = GUARDRAILS.maxSavingsPerLocation.reservations * config.locations;
@@ -180,7 +185,7 @@ export function useROICalculation(
         reservationSavings = maxReservations;
       }
       
-      tableUtilizationImprovement = (incrementalCoversPerMonth * averageCheck * profitMarginOnIncremental) / (monthlyRevenue || 1) * 100;
+      tableUtilizationImprovement = (realizedIncrementalCovers * averageCheck * profitMarginOnIncremental) / (monthlyRevenue || 1) * 100;
     }
     
     // Watchtower improvements

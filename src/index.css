@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Custom Colors */
+  --color-sundae-dark: #0F172A;
+  --color-sundae-surface: #1E293B;
+  --color-sundae-surface-hover: #334155;
+  --color-sundae-text: #F8FAFC;
+  --color-sundae-muted: #94A3B8;
+  --color-sundae-accent: #38BDF8;
+  --color-sundae-success: #22C55E;
+  --color-sundae-warning: #F59E0B;
+  
+  /* Report Tier Colors */
+  --color-sundae-report-lite: #10B981;
+  --color-sundae-report-plus: #3B82F6;
+  --color-sundae-report-pro: #6366F1;
+  
+  /* Core Tier Colors */
+  --color-sundae-core-lite: #8B5CF6;
+  --color-sundae-core-pro: #A855F7;
+  
+  /* Special Tier Colors */
+  --color-sundae-enterprise: #F59E0B;
+  --color-sundae-watchtower: #EF4444;
+  
+  /* Box Shadows */
+  --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.5);
+  --shadow-glow-lg: 0 0 50px rgba(102, 126, 234, 0.6);
+  
+  /* Font Families */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  
+  /* Animations */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar styles */
+@layer base {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-sundae-surface;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-sundae-muted rounded-full hover:bg-sundae-accent transition-colors;
+  }
+}
+
+/* Custom utility classes */
+@layer components {
+  .glow-border {
+    @apply relative;
+  }
+  
+  .glow-border::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl blur-xl opacity-50;
+    background: inherit;
+  }
+  
+  .glass {
+    @apply bg-sundae-surface/50 backdrop-blur-sm border border-white/10;
+  }
+  
+  .button-primary {
+    @apply bg-gradient-to-br from-[#667eea] to-[#764ba2] text-white font-semibold px-6 py-3 rounded-lg 
+           hover:shadow-glow transition-all duration-300 transform hover:scale-105;
+  }
+  
+  .button-secondary {
+    @apply bg-sundae-surface text-white font-medium px-6 py-3 rounded-lg 
+           hover:bg-sundae-surface-hover transition-all duration-300 border border-white/10;
+  }
+  
+  .card-hover {
+    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-glow;
+  }
+  
+  .tier-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide;
+  }
+}
+
+/* Smooth number transitions */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255,255,255,0.1) 50%, 
+    transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Layer stack perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Achievement notification styles */
+.achievement-enter {
+  animation: slideInRight 0.5s ease-out;
+}
+
+.achievement-exit {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+}

@@ -48,3 +48,10 @@
     "vitest": "^4.0.16"
   }
 }
+{
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:github": "tsc -b && vite build --mode github"
+  }
+}

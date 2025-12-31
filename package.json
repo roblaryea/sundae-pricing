@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build --base=/",
+    "build": "tsc -b && vite build",
+    "build:github": "tsc -b && vite build --mode github",
     "lint": "eslint .",
     "preview": "vite preview",
     "validate:pricing": "tsx scripts/validate-pricing.ts",
@@ -13,7 +14,7 @@
     "test": "vitest",
     "test:pricing": "vitest run __tests__/pricing.test.ts",
     "prebuild": "npm run validate:pricing",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build:github",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
@@ -46,12 +47,5 @@
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
     "vitest": "^4.0.16"
-  }
-}
-{
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:github": "tsc -b && vite build --mode github"
   }
 }

@@ -13,7 +13,6 @@ import { ROISimulator } from './components/PricingDisplay/ROISimulator';
 import { ConfigSummary } from './components/Summary/ConfigSummary';
 import { ProgressIndicator } from './components/shared/ProgressIndicator';
 import { AchievementNotification } from './components/shared/AchievementNotification';
-import { LiveCalculator } from './components/PricingDisplay/LiveCalculator';
 
 function App() {
   const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement } = useConfiguration();
@@ -88,11 +87,6 @@ function App() {
             {renderStep()}
           </AnimatePresence>
         </main>
-
-        {/* Live price calculator (visible after tier selection, but not on LocationSlider step 3) */}
-        {currentStep >= 2 && currentStep < 7 && currentStep !== 3 && (
-          <LiveCalculator />
-        )}
 
         {/* Achievement notifications */}
         <AnimatePresence>

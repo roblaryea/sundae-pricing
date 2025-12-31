@@ -1,12 +1,14 @@
 // Final configuration summary component
 
 import { motion } from 'framer-motion';
-import { Check, Mail, Phone, Rocket, Download } from 'lucide-react';
+import { Check, Mail, Rocket } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { reportTiers, coreTiers, watchtower } from '../../data/pricing';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
+import { PDFExportButton } from './PDFExport';
+import { BookDemoButton } from './BookDemoButton';
 
 export function ConfigSummary() {
   const { 
@@ -217,18 +219,19 @@ export function ConfigSummary() {
         transition={{ delay: 0.4 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
       >
-        <button className="button-secondary flex items-center justify-center gap-2">
+        <button 
+          className="button-secondary flex items-center justify-center gap-2"
+          onClick={() => {
+            const subject = encodeURIComponent(`Sundae Quote - ${locations} Locations`);
+            const body = encodeURIComponent(`I'm interested in Sundae for ${locations} location(s).\n\nConfiguration: ${layer?.toUpperCase()} ${tier}\nMonthly: $${pricing.total}\n\nPlease send me more information.`);
+            window.location.href = `mailto:hello@sundae.io?subject=${subject}&body=${body}`;
+          }}
+        >
           <Mail className="w-5 h-5" />
           Email Quote
         </button>
-        <button className="button-secondary flex items-center justify-center gap-2">
-          <Download className="w-5 h-5" />
-          Download PDF
-        </button>
-        <button className="button-primary flex items-center justify-center gap-2">
-          <Phone className="w-5 h-5" />
-          Book Demo
-        </button>
+        <PDFExportButton />
+        <BookDemoButton />
       </motion.div>
 
       {/* Final CTA */}

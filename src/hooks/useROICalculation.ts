@@ -63,12 +63,13 @@ const IMPROVEMENT_RATES = {
       revenue: 0.02, // 2% revenue lift from better campaigns
     },
     purchasing: {
-      cost: 0.03, // 3% purchasing savings
+      cost: 0.02, // 2% purchasing savings (reduced from 3%)
       efficiency: 0.02, // 2% process efficiency
     },
     reservations: {
-      utilization: 0.07, // 7% better table utilization
-      noShow: 0.3, // 30% reduction in no-shows
+      incrementalCoversPerMonth: 100, // 100 extra covers per location/month
+      averageCheck: 45, // $45 average check
+      profitMarginOnIncremental: 0.25, // 25% profit margin
     }
   },
   // Watchtower improvements
@@ -79,13 +80,27 @@ const IMPROVEMENT_RATES = {
     },
     events: {
       labor: 0.005, // 0.5% better labor planning
-      revenue: 0.015, // 1.5% revenue from event optimization
+      revenue: 0.01, // 1% revenue from event optimization (reduced)
     },
     trends: {
-      menu: 0.02, // 2% from menu optimization
+      menu: 0.01, // 1% from menu optimization (reduced)
       marketing: 0.1, // 10% marketing efficiency from trends
     }
   }
+};
+
+// Guardrails to prevent unrealistic ROI projections
+const GUARDRAILS = {
+  maxSavingsPerLocation: {
+    labor: 2500,      // $2,500/mo per location max
+    food: 1500,       // $1,500/mo per location max
+    marketing: 1000,  // $1,000/mo per location max
+    purchasing: 2000, // $2,000/mo per location max
+    reservations: 1500, // $1,500/mo per location max
+  },
+  maxTotalSavingsPerLocation: 6000, // $6,000/mo per location max
+  maxROIMultiple: 15,  // Cap ROI at 15x
+  minPaybackDays: 14,  // Minimum 2 weeks payback
 };
 
 export function useROICalculation(
@@ -152,12 +167,20 @@ export function useROICalculation(
       purchasingSavings = monthlyPurchasing * purchasingImprovement;
     }
     
-    if (config.modules.includes('reservations') && reservationNoShowRate > 0) {
-      tableUtilizationImprovement = IMPROVEMENT_RATES.modules.reservations.utilization;
-      // Calculate lost revenue from no-shows and poor utilization
-      const lostRevenue = monthlyRevenue * (reservationNoShowRate / 100) * config.locations;
-      const utilizationGain = monthlyRevenue * tableUtilizationImprovement * config.locations;
-      reservationSavings = (lostRevenue * IMPROVEMENT_RATES.modules.reservations.noShow) + (utilizationGain * 0.3);
+    if (config.modules.includes('reservations')) {
+      // NEW: Calculate based on incremental covers, not % of revenue
+      const { incrementalCoversPerMonth, averageCheck, profitMarginOnIncremental } = IMPROVEMENT_RATES.modules.reservations;
+      
+      // Profit from incremental covers per location
+      reservationSavings = incrementalCoversPerMonth * averageCheck * profitMarginOnIncremental * config.locations;
+      
+      // Apply per-location cap
+      const maxReservations = GUARDRAILS.maxSavingsPerLocation.reservations * config.locations;
+      if (reservationSavings > maxReservations) {
+        reservationSavings = maxReservations;
+      }
+      
+      tableUtilizationImprovement = (incrementalCoversPerMonth * averageCheck * profitMarginOnIncremental) / (monthlyRevenue || 1) * 100;
     }
     
     // Watchtower improvements
@@ -187,18 +210,62 @@ export function useROICalculation(
       }
     }
     
-    // Calculate totals
-    const totalMonthlySavings = laborSavings + foodSavings + marketingSavings + purchasingSavings + reservationSavings;
+    // ═══════════════════════════════════════════════════════════════════
+    // APPLY GUARDRAILS
+    // ═══════════════════════════════════════════════════════════════════
+    
+    // Apply per-category caps
+    const maxLabor = GUARDRAILS.maxSavingsPerLocation.labor * config.locations;
+    if (laborSavings > maxLabor) laborSavings = maxLabor;
+    
+    const maxFood = GUARDRAILS.maxSavingsPerLocation.food * config.locations;
+    if (foodSavings > maxFood) foodSavings = maxFood;
+    
+    const maxMarketing = GUARDRAILS.maxSavingsPerLocation.marketing * config.locations;
+    if (marketingSavings > maxMarketing) marketingSavings = maxMarketing;
+    
+    const maxPurchasing = GUARDRAILS.maxSavingsPerLocation.purchasing * config.locations;
+    if (purchasingSavings > maxPurchasing) purchasingSavings = maxPurchasing;
+    
+    // reservationSavings already capped above
+    
+    // Calculate totals after per-category caps
+    let totalMonthlySavings = laborSavings + foodSavings + marketingSavings + purchasingSavings + reservationSavings;
+    
+    // Apply global cap: max total savings per location
+    const maxTotalByLocation = GUARDRAILS.maxTotalSavingsPerLocation * config.locations;
+    if (totalMonthlySavings > maxTotalByLocation) {
+      // Scale down all categories proportionally
+      const scaleFactor = maxTotalByLocation / totalMonthlySavings;
+      laborSavings = Math.round(laborSavings * scaleFactor);
+      foodSavings = Math.round(foodSavings * scaleFactor);
+      marketingSavings = Math.round(marketingSavings * scaleFactor);
+      purchasingSavings = Math.round(purchasingSavings * scaleFactor);
+      reservationSavings = Math.round(reservationSavings * scaleFactor);
+      totalMonthlySavings = maxTotalByLocation;
+    }
+    
     const totalAnnualSavings = totalMonthlySavings * 12;
     
-    // Calculate ROI
-    const monthlyROI = platformCost > 0 ? totalMonthlySavings / platformCost : 0;
+    // Calculate ROI with guardrails
+    let monthlyROI = platformCost > 0 ? totalMonthlySavings / platformCost : 0;
+    
+    // Cap ROI multiple
+    if (monthlyROI > GUARDRAILS.maxROIMultiple) {
+      monthlyROI = GUARDRAILS.maxROIMultiple;
+    }
+    
     const roiPercent = monthlyROI * 100;
     
     // Calculate payback period in days
-    const paybackDays = platformCost > 0 && totalMonthlySavings > 0 
+    let paybackDays = platformCost > 0 && totalMonthlySavings > 0 
       ? Math.ceil((platformCost / totalMonthlySavings) * 30)
       : 0;
+    
+    // Apply minimum payback period
+    if (paybackDays > 0 && paybackDays < GUARDRAILS.minPaybackDays) {
+      paybackDays = GUARDRAILS.minPaybackDays;
+    }
     
     return {
       monthlySavings: Math.round(totalMonthlySavings),
@@ -224,18 +291,18 @@ export function useROICalculation(
   }, [config, inputs, platformCost]);
 }
 
-// Helper function to generate ROI description
+// Helper function to generate ROI description - Conservative messaging
 export function generateROIDescription(roi: ROICalculation): string {
-  if (roi.paybackDays <= 7) {
-    return "🚀 Lightning-fast ROI! Your investment pays for itself in less than a week.";
-  } else if (roi.paybackDays <= 30) {
-    return "⚡ Excellent ROI! You'll break even within the first month.";
-  } else if (roi.paybackDays <= 60) {
-    return "💪 Strong ROI! Your investment returns value quickly.";
-  } else if (roi.paybackDays <= 90) {
-    return "👍 Good ROI! Solid returns within the first quarter.";
+  if (roi.roi >= 10) {
+    return `🚀 Strong ROI! ${roi.roi}x return with ${Math.ceil(roi.paybackDays / 7)}-week payback period.`;
+  } else if (roi.roi >= 5) {
+    return `📈 Solid returns with ${roi.roi}x ROI and ${Math.ceil(roi.paybackDays / 7)}-week payback.`;
+  } else if (roi.roi >= 2) {
+    return `✅ Positive ROI with measurable impact on your operations.`;
+  } else if (roi.roi >= 1) {
+    return `💡 Value builds as you optimize operations over time.`;
   } else {
-    return "📈 Building value over time with consistent returns.";
+    return `📊 Long-term investment in operational intelligence.`;
   }
 }
 

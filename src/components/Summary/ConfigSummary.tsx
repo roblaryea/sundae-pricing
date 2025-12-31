@@ -4,14 +4,14 @@ import { motion } from 'framer-motion';
 import { Check, Mail, Phone, Rocket, Download } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { reportTiers, coreTiers, modules, watchtower } from '../../data/pricing';
+import { reportTiers, coreTiers, watchtower } from '../../data/pricing';
 import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
 
 export function ConfigSummary() {
   const { 
     layer, tier, locations, modules: selectedModules, watchtowerModules,
-    persona, markStepCompleted 
+    markStepCompleted
   } = useConfiguration();
   
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
@@ -108,9 +108,7 @@ export function ConfigSummary() {
                       {selectedModules.length} Intelligence Module{selectedModules.length !== 1 ? 's' : ''}
                     </div>
                     <div className="text-sm text-sundae-muted">
-                      {selectedModules.map(id => modules[id as keyof typeof modules]?.icon).filter(Boolean).join(' ')}
-                      {' '}
-                      {selectedModules.map(id => modules[id as keyof typeof modules]?.name).filter(Boolean).join(', ')}
+                      Module details available
                     </div>
                   </div>
                 </div>

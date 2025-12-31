@@ -230,7 +230,7 @@ export function calculateEnterpriseVolume(locations: number): number | 'Custom' 
   const tier = enterprisePricing.volumeDiscount.tiers.find(
     t => locations >= t.min && (t.max === null || locations <= t.max)
   );
-  return tier?.monthly ?? 'Custom';
+  return tier && typeof tier.monthly === 'number' ? tier.monthly : 'Custom';
 }
 
 export function calculateEnterpriseOrg(locations: number): number {

@@ -1,13 +1,13 @@
 // Tier selector with feature comparison component
 
 import { motion } from 'framer-motion';
-import { Check, X, Star, TrendingUp, ChevronRight } from 'lucide-react';
+import { Check, Star, TrendingUp, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { reportTiers, coreTiers } from '../../data/pricing';
 import { suggestOptimalTier } from '../../hooks/usePriceCalculation';
 
 export function TierSelector() {
-  const { layer, tier, setTier, locations, setCurrentStep } = useConfiguration();
+  const { layer, setTier, locations, setCurrentStep } = useConfiguration();
 
   if (!layer) {
     // Shouldn't happen, but handle gracefully

@@ -1,7 +1,7 @@
 // Module marketplace interface component
 
 import { motion } from 'framer-motion';
-import { Plus, Check, Zap, TrendingUp, Package, DollarSign, ChevronLeft } from 'lucide-react';
+import { Plus, Check, Zap, TrendingUp, ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { modules } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
@@ -41,7 +41,6 @@ export function ModulePicker() {
 
   // Check for combo bonuses
   const hasLaborInventoryCombo = selectedModules.includes('labor') && selectedModules.includes('inventory');
-  const hasFullStack = Object.keys(modules).every(id => selectedModules.includes(id));
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -82,7 +81,8 @@ export function ModulePicker() {
         {Object.entries(modules).map(([moduleId, module]) => {
           const isSelected = selectedModules.includes(moduleId);
           const modulePrice = calculateModulePrice(module);
-          const isRecommended = module.powerLevel && module.powerLevel >= 4;
+          const moduleAny = module as any;
+          const isRecommended = moduleAny.powerLevel && moduleAny.powerLevel >= 4;
 
           return (
             <motion.div
@@ -124,18 +124,18 @@ export function ModulePicker() {
                     <span className="text-4xl">{getModuleIcon(moduleId)}</span>
                     <div className="flex-1">
                       <h3 className="font-bold text-lg mb-1">{module.name}</h3>
-                      <p className="text-xs text-sundae-muted">{module.tagline}</p>
+                      <p className="text-xs text-sundae-muted">{moduleAny.tagline || module.description}</p>
                     </div>
                   </div>
 
                   {/* Power level */}
-                  {module.powerLevel && (
+                  {moduleAny.powerLevel && (
                     <div className="flex gap-1 mb-3">
                       {[...Array(5)].map((_, i) => (
                         <div
                           key={i}
                           className={`w-4 h-4 rounded-full ${
-                            module.powerLevel && i < module.powerLevel 
+                            moduleAny.powerLevel && i < moduleAny.powerLevel 
                               ? 'bg-gradient-to-r from-yellow-400 to-orange-400' 
                               : 'bg-sundae-surface-hover'
                           }`}
@@ -166,9 +166,9 @@ export function ModulePicker() {
                   </div>
 
                   {/* Key unlocks */}
-                  {module.unlocks && (
+                  {moduleAny.unlocks && (
                     <ul className="space-y-1">
-                      {module.unlocks.slice(0, 3).map((unlock, idx) => (
+                      {moduleAny.unlocks.slice(0, 3).map((unlock: string, idx: number) => (
                         <li key={idx} className="flex items-start gap-2 text-xs">
                           <Plus className="w-3 h-3 text-sundae-accent mt-0.5 flex-shrink-0" />
                           <span>{unlock}</span>
@@ -178,9 +178,9 @@ export function ModulePicker() {
                   )}
 
                   {/* Special note */}
-                  {module.note && (
+                  {moduleAny.note && (
                     <p className="mt-3 text-xs text-yellow-400 italic">
-                      {module.note}
+                      {moduleAny.note}
                     </p>
                   )}
                 </div>

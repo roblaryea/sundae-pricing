@@ -1,7 +1,15 @@
 // ROI calculation hook for Sundae pricing configurator
 
 import { useMemo } from 'react';
-import type { Configuration } from './usePriceCalculation';
+
+// Define Configuration interface inline
+interface Configuration {
+  layer: 'report' | 'core' | null;
+  tier: 'lite' | 'plus' | 'pro' | 'enterprise' | null;
+  locations: number;
+  modules: string[];
+  watchtowerModules: string[];
+}
 
 export interface ROIInputs {
   monthlyRevenue: number;

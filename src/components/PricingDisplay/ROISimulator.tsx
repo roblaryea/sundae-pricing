@@ -1,7 +1,7 @@
 // ROI calculator component
 
 import { motion } from 'framer-motion';
-import { TrendingUp, DollarSign, Clock, ChevronRight } from 'lucide-react';
+import { TrendingUp, Clock, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { useROICalculation, generateROIDescription, getTopSavingsCategories } from '../../hooks/useROICalculation';

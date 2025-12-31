@@ -63,7 +63,7 @@ const watchtowerLayer = {
 };
 
 export function LayerStack() {
-  const { layer, setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
+  const { setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
 
   const handleLayerSelect = (layerId: 'report' | 'core') => {
     setLayer(layerId);

@@ -4,7 +4,7 @@
 
 import { competitors } from '../data/competitors';
 import type { CompetitorId } from '../data/competitors';
-import type { Configuration, PriceResult } from './pricingEngine';
+import type { PriceResult } from './pricingEngine';
 
 export interface CompetitorCost {
   competitorId: CompetitorId;
@@ -106,7 +106,7 @@ function calculateR365Cost(locations: number): CompetitorCost {
   };
 }
 
-function calculatePowerBICost(locations: number, users: number = 10): CompetitorCost {
+function calculatePowerBICost(_locations: number, users: number = 10): CompetitorCost {
   const licenseMonthly = users * 10;
   const dataEngineerAnnual = 80000;  // Conservative estimate
   const dashboardDevelopment = 30000;  // One-time
@@ -133,7 +133,7 @@ function calculatePowerBICost(locations: number, users: number = 10): Competitor
   };
 }
 
-function calculateTableauCost(locations: number, users: number = 10): CompetitorCost {
+function calculateTableauCost(_locations: number, users: number = 10): CompetitorCost {
   const licenseMonthly = users * 70;
   const dataEngineerAnnual = 100000;
   const dashboardDevelopment = 50000;
@@ -160,7 +160,7 @@ function calculateTableauCost(locations: number, users: number = 10): Competitor
   };
 }
 
-function calculateLookerCost(locations: number, users: number = 10): CompetitorCost {
+function calculateLookerCost(_locations: number, users: number = 10): CompetitorCost {
   const baseMonthly = 3000;
   const perUserMonthly = users * 60;
   const dataWarehouse = 500;  // Monthly

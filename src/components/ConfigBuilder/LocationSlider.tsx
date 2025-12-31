@@ -6,13 +6,6 @@ import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { useState } from 'react';
 
-// Visual milestone markers (display only, not for snapping)
-const MILESTONE_MARKERS = [
-  { position: 3, label: 'Cheaper than Tenzo', color: '#10B981' },
-  { position: 14, label: 'Core Pro break-even', color: '#8B5CF6' },
-  { position: 30, label: 'Enterprise pricing', color: '#F59E0B' }
-];
-
 export function LocationSlider() {
   const { layer, tier, locations, setLocations, setCurrentStep } = useConfiguration();
   // Calculate pricing with ONLY current selections (no modules yet)

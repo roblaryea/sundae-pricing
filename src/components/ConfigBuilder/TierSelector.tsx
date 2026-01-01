@@ -111,13 +111,18 @@ export function TierSelector() {
                   <div className="mb-6">
                     <div className="flex items-baseline gap-1">
                       <span className="text-4xl font-bold tabular-nums">
-                        ${tierData.basePrice}
+                        {typeof tierData.basePrice === 'number' ? `$${tierData.basePrice}` : tierData.basePrice}
                       </span>
-                      <span className="text-sundae-muted">/mo</span>
+                      {typeof tierData.basePrice === 'number' && <span className="text-sundae-muted">/mo</span>}
                     </div>
-                    {tierData.additionalLocationPrice > 0 && (
+                    {typeof tierData.additionalLocationPrice === 'number' && tierData.additionalLocationPrice > 0 && (
                       <p className="text-sm text-sundae-muted mt-1">
                         +${tierData.additionalLocationPrice} per additional location
+                      </p>
+                    )}
+                    {typeof tierData.additionalLocationPrice === 'string' && (
+                      <p className="text-sm text-sundae-muted mt-1">
+                        {tierData.additionalLocationPrice} pricing
                       </p>
                     )}
                   </div>

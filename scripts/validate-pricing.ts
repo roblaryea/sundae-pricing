@@ -20,10 +20,10 @@ console.log('🔍 Validating pricing data...\n');
 check('reportTiers.lite.basePrice', 0, reportTiers.lite.basePrice);
 check('reportTiers.lite.aiSeats', 1, reportTiers.lite.aiSeats);
 
-// Report Plus corrections
-check('reportTiers.plus.visuals', 120, reportTiers.plus.visuals);
+// Report Plus corrections (per sundae_pricing_card_v2.md)
+check('reportTiers.plus.visuals', 50, reportTiers.plus.visuals);
 check('reportTiers.plus.aiSeats', 3, reportTiers.plus.aiSeats);
-check('reportTiers.plus.benchmarkRadius', '1-2km', reportTiers.plus.benchmarkRadius);
+check('reportTiers.plus.benchmarkRadius', '1-2km adjustable', reportTiers.plus.benchmarkRadius);
 
 // Module prices (UPDATED - Pricing Optimization)
 check('modules.labor.orgLicensePrice', 139, modules.labor.orgLicensePrice);

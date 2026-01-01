@@ -16,10 +16,11 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
       {
         id: 'pricing-follow',
         title: 'Pricing Optimization',
-        description: 'Competitor raises prices 5% — you follow on 30% of menu',
+        description: 'Spot competitor price increase, follow on portion of menu',
         calculation: (revenuePerLocation: number) => {
-          const priceIncrease = 0.05;
-          const menuPortion = 0.30;
+          // CONSERVATIVE: 3% price increase on 20% of menu, happens 1-2x/year
+          const priceIncrease = 0.03;
+          const menuPortion = 0.20;
           const annualLift = revenuePerLocation * 12 * priceIncrease * menuPortion;
           return {
             impact: Math.round(annualLift),
@@ -32,10 +33,12 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
       {
         id: 'share-protection',
         title: 'Market Share Protection',
-        description: 'Early warning on new competitor — time to respond',
+        description: 'Early warning on competitive threats',
         calculation: (revenuePerLocation: number) => {
-          const shareLossPrevented = 0.02;  // 2% of revenue
-          const annualValue = revenuePerLocation * 12 * shareLossPrevented;
+          // CONSERVATIVE: 1% share protection (not 2%), 30% probability
+          const shareLossPrevented = 0.01;
+          const probability = 0.3;  // 30% chance this happens in a year
+          const annualValue = revenuePerLocation * 12 * shareLossPrevented * probability;
           return {
             impact: Math.round(annualValue),
             explanation: `Preventing ${(shareLossPrevented * 100).toFixed(0)}% share erosion`
@@ -61,19 +64,19 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
       }
     ],
     
-    // Conservative annual range (not monthly!)
+    // REVISED: More conservative annual range (not monthly!)
     annualValueRange: {
       perLocation: {
-        low: 15000,   // $15K per location per year
-        mid: 30000,   // $30K
-        high: 50000   // $50K
+        low: 5000,    // $5K per location per year (was $15K)
+        mid: 10000,   // $10K (was $30K)
+        high: 15000   // $15K (was $50K)
       }
     },
     
     // "One win" threshold - one scenario that pays for the module
     oneWinExample: {
       description: 'Following one competitor price increase',
-      typicalValue: 15000
+      typicalValue: 7000
     }
   },
   
@@ -87,12 +90,12 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
       {
         id: 'major-event',
         title: 'Major Event Preparation',
-        description: 'Concert, game, or convention drives 40% demand spike',
+        description: 'Optimal staffing and inventory for local events',
         calculation: (revenuePerLocation: number) => {
           const dailyRevenue = revenuePerLocation / 30;
-          const demandSpike = 0.40;
-          const captureImprovement = 0.25;  // Capture 25% more of spike with prep
-          const eventsPerYear = 12;  // ~1 major event per month
+          const demandSpike = 0.30;  // 30% spike (not 40%)
+          const captureImprovement = 0.15;  // Capture 15% more (not 25%)
+          const eventsPerYear = 8;  // 8 major events (not 12)
           const annualValue = dailyRevenue * demandSpike * captureImprovement * eventsPerYear;
           return {
             impact: Math.round(annualValue),
@@ -105,12 +108,12 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
       {
         id: 'staffing-optimization',
         title: 'Staffing Optimization',
-        description: 'Right staff levels for demand — less overtime, less understaffing',
+        description: 'Right staff levels for predicted demand',
         calculation: (revenuePerLocation: number) => {
           const laborPercent = 0.30;
           const laborCost = revenuePerLocation * 12 * laborPercent;
-          const efficiencyGain = 0.02;  // 2% labor efficiency on event days
-          const eventDaysPercent = 0.15;  // 15% of days have events
+          const efficiencyGain = 0.01;  // 1% labor efficiency (not 2%)
+          const eventDaysPercent = 0.10;  // 10% of days (not 15%)
           const annualValue = laborCost * efficiencyGain * eventDaysPercent;
           return {
             impact: Math.round(annualValue),
@@ -139,17 +142,18 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
       }
     ],
     
+    // REVISED: More conservative
     annualValueRange: {
       perLocation: {
-        low: 10000,
-        mid: 20000,
-        high: 35000
+        low: 3000,    // $3K (was $10K)
+        mid: 6000,    // $6K (was $20K)
+        high: 10000   // $10K (was $35K)
       }
     },
     
     oneWinExample: {
       description: 'Perfect preparation for 2 major events',
-      typicalValue: 12000
+      typicalValue: 5000
     }
   },
   
@@ -163,11 +167,11 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
       {
         id: 'menu-trend',
         title: 'Trend-Informed Menu Addition',
-        description: 'Add trending item before competitors — capture early demand',
+        description: 'Add trending item that captures demand',
         calculation: (revenuePerLocation: number) => {
-          const newItemShare = 0.025;  // New item becomes 2.5% of sales
-          const successRate = 0.60;  // 60% of trend-informed items succeed
-          const attemptsPerYear = 3;
+          const newItemShare = 0.015;  // 1.5% of sales (not 2.5%)
+          const successRate = 0.50;  // 50% success (not 60%)
+          const attemptsPerYear = 2;  // 2 attempts (not 3)
           const annualValue = revenuePerLocation * 12 * newItemShare * successRate * attemptsPerYear / 3;
           return {
             impact: Math.round(annualValue),
@@ -212,17 +216,18 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
       }
     ],
     
+    // REVISED: More conservative
     annualValueRange: {
       perLocation: {
-        low: 5000,
-        mid: 12000,
-        high: 25000
+        low: 2000,    // $2K (was $5K)
+        mid: 5000,    // $5K (was $12K)
+        high: 8000    // $8K (was $25K)
       }
     },
     
     oneWinExample: {
       description: 'One successful trend-informed menu item',
-      typicalValue: 8000
+      typicalValue: 4000
     }
   }
 };
@@ -231,14 +236,23 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
 // BUNDLE SUMMARY
 // ═══════════════════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════════════════
+// REVISED BUNDLE TOTALS - More Conservative
+// ═══════════════════════════════════════════════════════════════════════════
+
 export const WATCHTOWER_BUNDLE_VALUE = {
   annualValueRange: {
     perLocation: {
-      low: 30000,   // Sum of lows
-      mid: 62000,   // Sum of mids
-      high: 110000  // Sum of highs
+      low: 10000,   // $10K (was $30K) - Sum of lows: $5K + $3K + $2K
+      mid: 21000,   // $21K (was $62K) - Sum of mids: $10K + $6K + $5K
+      high: 33000   // $33K (was $110K) - Sum of highs: $15K + $10K + $8K
     }
   },
+  
+  // For 10 locations:
+  // Low: $100,000 (was $300,000)
+  // Mid: $210,000 (was $620,000)
+  // High: $330,000 (was $1,100,000)
   
   // Key message: one win per module pays for the year
   oneWinMessage: 'One competitive insight, two well-prepared events, and one successful trend item pays for Watchtower 2-3x over'

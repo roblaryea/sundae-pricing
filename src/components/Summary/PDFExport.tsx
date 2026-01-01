@@ -199,7 +199,7 @@ export function PDFExportButton() {
         doc.setFontSize(10);
         doc.setTextColor(30, 41, 59);
         
-        savingsComparisons.forEach((comp, idx) => {
+        savingsComparisons.forEach((comp) => {
           if (yPos > pageHeight - 40) {
             doc.addPage();
             yPos = 25;

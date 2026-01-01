@@ -3,10 +3,11 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import {
-  reportTiers, coreTiers, modules, watchtower,
+  reportTiers, coreTiers, modules,
   CLIENT_TYPE_RULES, EARLY_ADOPTER_TERMS, enterprisePricing
 } from '../data/pricing';
 import type { ReportTier, CoreTier, ModuleId, ClientType } from '../data/pricing';
+import { calculateWatchtowerPrice as calcWatchtowerPrice, type WatchtowerModuleId } from './watchtowerEngine';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -87,22 +88,23 @@ export function calculateModulePrice(moduleId: ModuleId, locations: number): num
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// WATCHTOWER CALCULATIONS
+// WATCHTOWER CALCULATIONS (Uses new base + per-location model)
 // ═══════════════════════════════════════════════════════════════════════════
 
-export function calculateWatchtowerPrice(selected: string[]): { price: number; savings: number; isBundle: boolean } {
-  if (selected.includes('bundle') || selected.includes('watchtower-bundle')) {
-    return { 
-      price: watchtower.bundle.price, 
-      savings: watchtower.bundle.savings,
-      isBundle: true 
-    };
+export function calculateWatchtowerPrice(
+  selected: string[], 
+  locations: number
+): { price: number; savings: number; isBundle: boolean } {
+  if (selected.length === 0) {
+    return { price: 0, savings: 0, isBundle: false };
   }
-  const total = selected.reduce((sum, id) => {
-    const w = watchtower[id as keyof typeof watchtower];
-    return sum + (w && 'price' in w ? w.price : 0);
-  }, 0);
-  return { price: total, savings: 0, isBundle: false };
+  
+  const result = calcWatchtowerPrice(selected as WatchtowerModuleId[], locations);
+  return { 
+    price: result.total, 
+    savings: result.bundleSavings,
+    isBundle: result.isBundle 
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -194,11 +196,11 @@ export function calculateFullPrice(config: Configuration): PriceResult {
   
   // Watchtower
   if (config.watchtower.length > 0) {
-    const wt = calculateWatchtowerPrice(config.watchtower);
+    const wt = calculateWatchtowerPrice(config.watchtower, config.locations);
     breakdown.push({
       item: wt.isBundle ? 'Watchtower Bundle' : 'Watchtower',
       price: wt.price,
-      note: wt.isBundle ? 'Saves $98 (22%)' : undefined
+      note: wt.isBundle && wt.savings > 0 ? `Saves $${Math.round(wt.savings)}/mo (15%)` : undefined
     });
   }
   

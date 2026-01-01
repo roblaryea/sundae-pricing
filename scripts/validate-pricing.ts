@@ -25,15 +25,15 @@ check('reportTiers.plus.visuals', 120, reportTiers.plus.visuals);
 check('reportTiers.plus.aiSeats', 3, reportTiers.plus.aiSeats);
 check('reportTiers.plus.benchmarkRadius', '1-2km', reportTiers.plus.benchmarkRadius);
 
-// Module prices
-check('modules.labor.orgLicensePrice', 129, modules.labor.orgLicensePrice);
-check('modules.inventory.orgLicensePrice', 129, modules.inventory.orgLicensePrice);
+// Module prices (UPDATED - Pricing Optimization)
+check('modules.labor.orgLicensePrice', 139, modules.labor.orgLicensePrice);
+check('modules.inventory.orgLicensePrice', 139, modules.inventory.orgLicensePrice);
 check('modules.inventory.perLocationPrice', 19, modules.inventory.perLocationPrice);
-check('modules.purchasing.orgLicensePrice', 99, modules.purchasing.orgLicensePrice);
+check('modules.purchasing.orgLicensePrice', 119, modules.purchasing.orgLicensePrice);
 check('modules.purchasing.perLocationPrice', 15, modules.purchasing.perLocationPrice);
 
-// Watchtower
-check('watchtower.bundle.savingsPercent', 22, watchtower.bundle.savingsPercent);
+// Watchtower (UPDATED - New bundle savings)
+check('watchtower.bundle.savingsPercent', 15, watchtower.bundle.savingsPercent);
 
 // Client types
 if (!CLIENT_TYPE_RULES['multi-site']) {

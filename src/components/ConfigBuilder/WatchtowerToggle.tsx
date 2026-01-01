@@ -1,10 +1,12 @@
 // Watchtower competitive intelligence add-on component
+// UPDATED: Uses new base + per-location pricing model
 
 import { motion } from 'framer-motion';
 import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { watchtower } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
+import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/watchtowerEngine';
 
 export function WatchtowerToggle() {
   const { layer, tier, locations, modules, watchtowerModules, toggleWatchtowerModule, setCurrentStep } = useConfiguration();
@@ -30,16 +32,16 @@ export function WatchtowerToggle() {
     return icons[moduleId] || Eye;
   };
 
-  // Check if individual modules would be cheaper as bundle
-  const individualCost = watchtowerModules
-    .filter(id => id !== 'bundle')
-    .reduce((total, id) => {
-      const module = watchtower[id as keyof typeof watchtower];
-      return total + (module && !('includes' in module) ? module.price : 0);
-    }, 0);
+  // Calculate individual cost if user selected modules separately
+  const individualResult = watchtowerModules.length > 0 && !watchtowerModules.includes('bundle')
+    ? calculateWatchtowerPrice(watchtowerModules as WatchtowerModuleId[], locations)
+    : null;
 
-  const bundle = watchtower.bundle;
-  const shouldSuggestBundle = bundle && 'includes' in bundle && individualCost > bundle.price && !watchtowerModules.includes('bundle');
+  // Calculate bundle cost
+  const bundleResult = calculateWatchtowerPrice(['bundle'], locations);
+  
+  // Suggest bundle if individual modules cost more
+  const shouldSuggestBundle = individualResult && individualResult.total > bundleResult.total && !watchtowerModules.includes('bundle');
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -54,10 +56,13 @@ export function WatchtowerToggle() {
         <p className="text-xl text-sundae-muted">
           See what your competitors can't with Watchtower competitive intel
         </p>
+        <p className="text-sm text-sundae-muted mt-2">
+          Base price covers your first location, then ${watchtower.bundle.perLocationPrice}/location for additional markets
+        </p>
       </motion.div>
 
       {/* Bundle suggestion */}
-      {shouldSuggestBundle && (
+      {shouldSuggestBundle && individualResult && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -67,12 +72,12 @@ export function WatchtowerToggle() {
             <div>
               <h3 className="font-bold text-lg text-watchtower mb-1">Bundle & Save!</h3>
               <p className="text-sm text-sundae-muted">
-                Get all three Watchtower modules for ${bundle.price}/mo
+                Get all three Watchtower modules for ${bundleResult.total.toLocaleString()}/mo
               </p>
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold text-green-400">
-                Save ${bundle.savings}
+                Save ${Math.round(individualResult.total - bundleResult.total)}
               </div>
               <button
                 onClick={() => toggleWatchtowerModule('bundle')}
@@ -93,7 +98,8 @@ export function WatchtowerToggle() {
           const isDisabledByBundle = watchtowerModules.includes('bundle');
           const Icon = getModuleIcon(moduleId);
 
-          if ('includes' in module) return null;
+          // Calculate price for this module
+          const modulePrice = module.basePrice + ((locations - 1) * module.perLocationPrice);
 
           return (
             <motion.div
@@ -127,8 +133,11 @@ export function WatchtowerToggle() {
                   </div>
 
                   <div className="mb-4">
-                    <span className="text-2xl font-bold">${module.price}</span>
+                    <span className="text-2xl font-bold">${modulePrice.toLocaleString()}</span>
                     <span className="text-sundae-muted">/mo</span>
+                    <div className="text-xs text-sundae-muted mt-1">
+                      ${module.basePrice} base + ${module.perLocationPrice} × {locations - 1} locations
+                    </div>
                   </div>
 
                   <ul className="space-y-2">
@@ -161,29 +170,30 @@ export function WatchtowerToggle() {
             }`}
           >
             <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full">
-              BEST VALUE - SAVE ${bundle.savings}
+              BEST VALUE - SAVE 15%
             </div>
 
             <div className="flex items-center justify-between">
               <div className="text-left">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="text-5xl">{bundle.icon}</span>
+                  <span className="text-5xl">{watchtower.bundle.icon}</span>
                   <div>
-                    <h3 className="font-bold text-2xl mb-1">{bundle.name}</h3>
-                    <p className="text-sundae-muted">{bundle.description}</p>
+                    <h3 className="font-bold text-2xl mb-1">{watchtower.bundle.name}</h3>
+                    <p className="text-sundae-muted">{watchtower.bundle.description}</p>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {bundle.includes.map((includedId: string) => {
+                  {watchtower.bundle.includes.map((includedId: string) => {
                     const included = watchtower[includedId as keyof typeof watchtower];
                     if (!included || 'includes' in included) return null;
                     const Icon = getModuleIcon(includedId);
+                    const individualPrice = included.basePrice + ((locations - 1) * included.perLocationPrice);
                     return (
                       <div key={includedId} className="flex items-center gap-2 text-sm">
                         <Icon className="w-4 h-4 text-watchtower" />
                         <span>{included.name}</span>
-                        <span className="text-sundae-muted">(${included.price})</span>
+                        <span className="text-sundae-muted">(${individualPrice})</span>
                       </div>
                     );
                   })}
@@ -191,14 +201,14 @@ export function WatchtowerToggle() {
               </div>
 
               <div className="text-right">
-                <div className="text-3xl font-bold mb-1">${bundle.price}/mo</div>
-                <div className="text-sm text-sundae-muted line-through">
-                  ${bundle.includes.reduce((total: number, id: string) => {
-                    const m = watchtower[id as keyof typeof watchtower];
-                    return total + (m && !('includes' in m) ? m.price : 0);
-                  }, 0)}/mo
+                <div className="text-3xl font-bold mb-1">${bundleResult.total.toLocaleString()}/mo</div>
+                <div className="text-xs text-sundae-muted mb-2">
+                  ${watchtower.bundle.basePrice} base + ${watchtower.bundle.perLocationPrice} × {locations - 1} locs
                 </div>
-                <div className="text-green-400 font-semibold">22% OFF</div>
+                <div className="text-sm text-sundae-muted line-through">
+                  ${bundleResult.subtotal.toLocaleString()}/mo individual
+                </div>
+                <div className="text-green-400 font-semibold">15% OFF</div>
               </div>
             </div>
           </button>

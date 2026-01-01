@@ -127,7 +127,7 @@ export const coreTiers = {
     name: 'Core Lite',
     tagline: 'Real-Time Operations',
     basePrice: 169,
-    additionalLocationPrice: 49,
+    additionalLocationPrice: 54,          // WAS $49 → NOW $54 (fixes inversion)
     aiCredits: { base: 800, perLocation: 160 },
     aiSeats: 5,
     benchmarkMetrics: 50,
@@ -166,8 +166,8 @@ export const coreTiers = {
     id: 'core-pro',
     name: 'Core Pro',
     tagline: 'Portfolio Intelligence',
-    basePrice: 299,
-    additionalLocationPrice: 39,           // ✅ LOWER than Lite — break-even ~14 locs
+    basePrice: 319,                        // WAS $299 → NOW $319
+    additionalLocationPrice: 49,           // WAS $39 → NOW $49 (Pro now ALWAYS > Lite)
     aiCredits: { base: 1400, perLocation: 280 },
     aiSeats: 10,
     benchmarkMetrics: 50,
@@ -208,7 +208,7 @@ export const modules = {
     id: 'labor',
     name: 'Labor Intelligence',
     icon: '👥',
-    orgLicensePrice: 129,                  // ✅ CORRECT (v3 had $99)
+    orgLicensePrice: 139,                  // WAS $129 → NOW $139 (+$10)
     perLocationPrice: 19,
     includedLocations: 5,
     description: 'Deep labor analytics, scheduling optimization, productivity tracking',
@@ -227,8 +227,8 @@ export const modules = {
     id: 'inventory',
     name: 'Inventory Connect',
     icon: '📦',
-    orgLicensePrice: 129,                  // ✅ CORRECT (v3 had $149)
-    perLocationPrice: 19,                  // ✅ CORRECT (v3 had $25)
+    orgLicensePrice: 139,                  // WAS $129 → NOW $139 (+$10)
+    perLocationPrice: 19,
     includedLocations: 5,
     description: 'Food cost management, waste tracking, recipe costing',
     features: [
@@ -246,8 +246,8 @@ export const modules = {
     id: 'purchasing',
     name: 'Purchasing Analytics',
     icon: '🛒',
-    orgLicensePrice: 99,                   // ✅ CORRECT (v3 had $199)
-    perLocationPrice: 15,                  // ✅ CORRECT (v3 had $49)
+    orgLicensePrice: 119,                  // WAS $99 → NOW $119 (+$20)
+    perLocationPrice: 15,
     includedLocations: 5,
     description: 'Supplier optimization, contract tracking, spend analysis',
     features: [
@@ -265,7 +265,7 @@ export const modules = {
     id: 'marketing',
     name: 'Marketing Performance',
     icon: '📣',
-    orgLicensePrice: 149,
+    orgLicensePrice: 169,                  // WAS $149 → NOW $169 (+$20)
     perLocationPrice: 25,
     includedLocations: 5,
     description: 'Campaign ROI, attribution modeling, promotional analysis',
@@ -284,7 +284,7 @@ export const modules = {
     id: 'reservations',
     name: 'Reservations Intelligence',
     icon: '📅',
-    orgLicensePrice: 99,
+    orgLicensePrice: 119,                  // WAS $99 → NOW $119 (+$20)
     perLocationPrice: 15,
     includedLocations: 5,
     description: 'Booking analytics for OpenTable, Resy, SevenRooms',
@@ -302,76 +302,127 @@ export const modules = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
-// WATCHTOWER — CORRECTED SAVINGS PERCENTAGE
+// WATCHTOWER — RESTRUCTURED TO BASE + PER-LOCATION MODEL
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const watchtower = {
   competitive: {
     id: 'competitive',
     name: 'Competitive Intelligence',
-    icon: '🔭',
-    price: 199,
-    description: 'Track competitor pricing, menus, reviews, and market positioning',
+    icon: '🔍',
+    basePrice: 399,                        // WAS $249 flat → NOW $399 base
+    perLocationPrice: 49,                  // NEW: $49 per additional location
+    includedLocations: 1,                  // Base price covers 1 location
+    description: 'Track competitor pricing, promotions, and market moves',
     features: [
-      'Track up to 10 competitors',
-      'Menu & pricing change alerts',
+      'Track up to 10 competitors per location',
+      'Daily menu/pricing monitoring',
       'Review sentiment analysis',
-      'Market share estimates',
-      'Competitive positioning map',
-      'New competitor alerts'
-    ]
+      'Social media tracking',
+      'Competitive alerts',
+      'Market share estimates'
+    ],
+    valueProposition: 'Prevent market share loss, optimize pricing strategy'
   },
   
   events: {
     id: 'events',
     name: 'Event & Calendar Signals',
-    icon: '📆',
-    price: 99,
-    description: 'Local events, sports schedules, holidays, weather demand prediction',
+    icon: '📅',
+    basePrice: 199,                        // WAS $119 flat → NOW $199 base
+    perLocationPrice: 29,                  // NEW: $29 per additional location
+    includedLocations: 1,
+    description: 'Local events, holidays, weather impact on demand',
     features: [
       'Local event calendar integration',
-      'Sports schedule correlation',
-      'Holiday impact forecasting',
-      'Weather demand adjustment',
-      'Convention & tourism signals',
-      'Staffing recommendations'
-    ]
+      'Weather demand correlation',
+      'Holiday impact modeling',
+      'Sports event tracking',
+      'Convention/tourism data',
+      'Traffic pattern analysis'
+    ],
+    valueProposition: 'Optimize staffing and inventory for demand spikes'
   },
   
   trends: {
     id: 'trends',
     name: 'Market Trends',
     icon: '📈',
-    price: 149,
-    description: 'Google Trends, search demand, category analysis',
+    basePrice: 249,                        // WAS $179 flat → NOW $249 base
+    perLocationPrice: 19,                  // NEW: $19 per additional location
+    includedLocations: 1,
+    description: 'Industry trends, consumer behavior shifts, emerging concepts',
     features: [
-      'Cuisine trend tracking',
-      'Search demand signals',
-      'Category growth analysis',
-      'Consumer preference shifts',
-      'Emerging concept alerts',
-      'Strategic planning insights'
-    ]
+      'Google Trends integration',
+      'Category trend analysis',
+      'Demographic shift alerts',
+      'Economic indicators',
+      'Emerging concept tracking',
+      'Consumer behavior insights'
+    ],
+    valueProposition: 'Stay ahead of market shifts, inform strategic decisions'
   },
   
   bundle: {
-    id: 'watchtower-bundle',
+    id: 'bundle',
     name: 'Full Watchtower Bundle',
     icon: '🏰',
-    price: 349,
-    originalPrice: 447,                    // $199 + $99 + $149
-    savings: 98,
-    savingsPercent: 22,                    // ✅ FIXED (was showing 20%)
-    description: 'All competitive intelligence modules — save $98 (22%)',
+    basePrice: 720,                        // WAS $449 flat → NOW $720 base
+    perLocationPrice: 82,                  // NEW: $82 per additional location
+    includedLocations: 1,
+    individualBaseTotal: 847,              // $399 + $199 + $249 = $847
+    individualPerLocTotal: 97,             // $49 + $29 + $19 = $97
+    baseSavings: 127,                      // $847 - $720 = $127 (15% off base)
+    perLocSavings: 15,                     // $97 - $82 = $15 (15% off per-loc)
+    savingsPercent: 15,
+    description: 'Complete market intelligence suite',
+    includes: ['competitive', 'events', 'trends'],
     features: [
-      'Everything in Competitive Intelligence',
-      'Everything in Event & Calendar Signals',
-      'Everything in Market Trends',
-      'Cross-signal correlation analysis',
-      'Unified strategic dashboard'
-    ],
-    includes: ['competitive', 'events', 'trends']
+      'All Competitive Intelligence features',
+      'All Event & Calendar features',
+      'All Market Trends features',
+      'Unified intelligence dashboard',
+      'Cross-module insights',
+      'Priority intelligence support'
+    ]
   }
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// WATCHTOWER ENTERPRISE TIERS (30+ Locations)
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const watchtowerEnterprise = {
+  description: 'Volume pricing for large chains',
+  tiers: [
+    {
+      name: 'Enterprise Standard',
+      locationRange: [30, 50],
+      bundlePrice: 2500,
+      perModulePricing: {
+        competitive: 1500,
+        events: 800,
+        trends: 600
+      }
+    },
+    {
+      name: 'Enterprise Plus',
+      locationRange: [51, 100],
+      bundlePrice: 4000,
+      perModulePricing: {
+        competitive: 2400,
+        events: 1200,
+        trends: 900
+      }
+    },
+    {
+      name: 'Enterprise Custom',
+      locationRange: [101, null] as [number, null],
+      bundlePrice: null,
+      perModulePricing: null,
+      note: 'Contact sales for custom enterprise pricing'
+    }
+  ]
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -498,7 +549,7 @@ export const enterprisePricing = {
 
 export const BREAK_EVEN_POINTS = {
   sundaeVsTenzo: { locations: 3, description: 'Sundae becomes cheaper than Tenzo' },
-  coreProVsLite: { locations: 14, description: 'Core Pro becomes cheaper per-location than Core Lite' },
+  coreProVsLite: { locations: null, description: 'Core Pro is premium-priced at all scales for premium features' },
   enterprise: { locations: 30, description: 'Qualifies for Enterprise pricing' }
 };
 

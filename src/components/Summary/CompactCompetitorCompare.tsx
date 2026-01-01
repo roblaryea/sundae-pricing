@@ -3,10 +3,10 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, TrendingDown, Info, AlertTriangle, X } from 'lucide-react';
+import { ChevronDown, TrendingDown, Info, AlertTriangle, X, CheckCircle, AlertCircle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { calculateAllComparisons, COMPETITOR_ASSUMPTIONS, type ComparisonResult } from '../../data/competitorPricing';
+import { calculateAllComparisons, COMPETITOR_ASSUMPTIONS, COMPETITOR_PRICING, type ComparisonResult } from '../../data/competitorPricing';
 import { cn } from '../../utils/cn';
 
 export function CompactCompetitorCompare() {
@@ -140,6 +140,10 @@ interface ComparisonCardProps {
 }
 
 function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: ComparisonCardProps) {
+  // Get verification info
+  const competitor = COMPETITOR_PRICING[comparison.competitor.id];
+  const verification = competitor?.verification || 'estimated';
+  
   return (
     <div
       className={cn(
@@ -159,13 +163,14 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
         <div className="flex items-center gap-3">
           <span className="text-lg">{comparison.competitor.icon}</span>
           <div>
-            <div className="font-medium text-white flex items-center gap-2">
+            <div className="font-medium text-white flex items-center gap-2 flex-wrap">
               vs {comparison.competitor.name}
               {isBest && (
-                <span className="text-xs bg-green-900/50 text-green-400 px-2 py-0.5 rounded">
+                <span className="text-xs bg-green-900/50 text-green-400 px-2 py-0.5 rounded border border-green-500/30">
                   Best savings
                 </span>
               )}
+              <VerificationBadge level={verification} />
             </div>
             <div className="text-xs text-slate-400">{comparison.competitor.category}</div>
           </div>
@@ -260,6 +265,21 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
                 </div>
               </div>
               
+              {/* Pricing source */}
+              {competitor?.sourceUrl && (
+                <div className="text-xs text-slate-500 mt-2">
+                  <a 
+                    href={competitor.sourceUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-slate-400 underline"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    View {comparison.competitor.name} pricing →
+                  </a>
+                </div>
+              )}
+              
               {/* Ongoing savings */}
               <div className="pt-3 mt-3 border-t border-slate-700">
                 <div className="flex justify-between text-sm">
@@ -274,5 +294,45 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// VERIFICATION BADGE COMPONENT
+// ═══════════════════════════════════════════════════════════════════════════
+
+interface VerificationBadgeProps {
+  level: 'verified' | 'estimated' | 'unverified';
+}
+
+function VerificationBadge({ level }: VerificationBadgeProps) {
+  const config = {
+    verified: {
+      icon: CheckCircle,
+      className: 'bg-green-900/30 text-green-400 border-green-500/30',
+      label: 'Verified'
+    },
+    estimated: {
+      icon: AlertCircle,
+      className: 'bg-amber-900/30 text-amber-400 border-amber-500/30',
+      label: 'Estimated'
+    },
+    unverified: {
+      icon: AlertTriangle,
+      className: 'bg-red-900/30 text-red-400 border-red-500/30',
+      label: 'Unverified'
+    }
+  }[level];
+  
+  const Icon = config.icon;
+  
+  return (
+    <span className={cn(
+      'text-xs px-2 py-0.5 rounded border flex items-center gap-1',
+      config.className
+    )}>
+      <Icon className="w-3 h-3" />
+      {config.label}
+    </span>
   );
 }

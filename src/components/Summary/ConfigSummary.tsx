@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import { PDFExportButton } from './PDFExport';
 import { BookDemoButton } from './BookDemoButton';
 import { CompactCompetitorCompare } from './CompactCompetitorCompare';
+import { WatchtowerValue } from './WatchtowerValue';
 
 export function ConfigSummary() {
   const { 
@@ -203,12 +204,22 @@ export function ConfigSummary() {
         <CompactCompetitorCompare />
       </motion.div>
 
+      {/* Watchtower Strategic Value */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.35 }}
+        className="mb-8"
+      >
+        <WatchtowerValue />
+      </motion.div>
+
       {/* Features included */}
       {tierDetails && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
+          transition={{ delay: 0.4 }}
           className="bg-sundae-surface rounded-xl p-8 mb-8"
         >
           <h3 className="text-lg font-bold mb-6">What's Included</h3>
@@ -227,7 +238,7 @@ export function ConfigSummary() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
+        transition={{ delay: 0.45 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
       >
         <button 

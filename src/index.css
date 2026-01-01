@@ -45,13 +45,17 @@
   --color-sundae-muted: #64748B;
   
   /* Adjust shadows for light mode */
-  --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.2);
-  --shadow-glow-lg: 0 0 50px rgba(102, 126, 234, 0.3);
+  --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.15);
+  --shadow-glow-lg: 0 0 50px rgba(102, 126, 234, 0.2);
 }
 
-/* Light mode specific styles */
+/* ═══════════════════════════════════════════════════════════════════
+   COMPREHENSIVE LIGHT MODE STYLES
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Body and base backgrounds */
 .light body {
-  @apply bg-slate-50 text-slate-900;
+  @apply bg-gradient-to-br from-slate-50 via-white to-slate-50;
 }
 
 .light .bg-sundae-dark {
@@ -59,23 +63,262 @@
 }
 
 .light .bg-sundae-surface {
-  @apply bg-white border-slate-200;
+  @apply bg-white shadow-sm;
 }
 
-.light .text-sundae-muted {
+.light .bg-sundae-surface-hover {
+  @apply bg-slate-50;
+}
+
+/* Text colors */
+.light .text-white {
+  @apply text-slate-900;
+}
+
+.light .text-sundae-muted,
+.light .text-slate-400,
+.light .text-slate-500 {
   @apply text-slate-600;
 }
 
-.light .border-white\/10 {
+/* Borders */
+.light .border-white\/10,
+.light .border-white\/20 {
   @apply border-slate-200;
 }
 
-.light .bg-slate-800\/50 {
+.light .border-slate-700,
+.light .border-slate-600 {
+  @apply border-slate-300;
+}
+
+/* Surfaces and cards */
+.light .bg-slate-800,
+.light .bg-slate-900 {
+  @apply bg-white shadow-sm;
+}
+
+.light .bg-slate-800\/50,
+.light .bg-slate-900\/50 {
+  @apply bg-slate-50;
+}
+
+.light .bg-slate-700 {
+  @apply bg-slate-200;
+}
+
+/* Gradients - keep them visible but softer */
+.light .bg-gradient-to-br.from-sundae-surface {
+  @apply from-white to-slate-50;
+}
+
+.light .bg-gradient-to-r.from-green-500\/10 {
+  @apply from-green-50 to-emerald-50 border-green-300;
+}
+
+.light .bg-gradient-to-r.from-purple-500\/10 {
+  @apply from-purple-50 to-violet-50 border-purple-300;
+}
+
+.light .bg-gradient-to-r.from-sundae-accent\/10 {
+  @apply from-cyan-50 to-blue-50 border-cyan-300;
+}
+
+.light .bg-gradient-to-r.from-violet-500\/10 {
+  @apply from-violet-50 to-purple-50 border-violet-300;
+}
+
+.light .bg-gradient-to-r.from-green-900\/30 {
+  @apply from-green-100 to-emerald-100 border-green-400;
+}
+
+/* Input fields */
+.light input[type="text"],
+.light input[type="range"] {
+  @apply border-slate-300;
+}
+
+.light input[type="text"]:focus {
+  @apply border-amber-500 bg-white;
+}
+
+.light .bg-slate-800.border-slate-600 {
+  @apply bg-white border-slate-300;
+}
+
+/* Buttons - keep gradients vibrant */
+.light .button-secondary {
+  @apply bg-white text-slate-900 border-slate-300 hover:bg-slate-50 hover:border-slate-400;
+}
+
+/* Cards and panels */
+.light .bg-slate-800\/50.rounded-lg {
+  @apply bg-white shadow-sm border border-slate-200;
+}
+
+.light .bg-sundae-dark\/50 {
   @apply bg-slate-100;
 }
 
-.light .text-white {
-  @apply text-slate-900;
+/* Hover states */
+.light .hover\:bg-sundae-surface-hover:hover {
+  @apply hover:bg-slate-100;
+}
+
+.light .hover\:border-slate-600:hover {
+  @apply hover:border-slate-400;
+}
+
+/* Special background patterns */
+.light .bg-purple-900\/20 {
+  @apply bg-purple-100 border-purple-300;
+}
+
+.light .bg-green-500\/10 {
+  @apply bg-green-50 border-green-300;
+}
+
+/* Text on colored backgrounds */
+.light .text-purple-300 {
+  @apply text-purple-700;
+}
+
+.light .text-green-400 {
+  @apply text-green-600;
+}
+
+.light .text-amber-400,
+.light .text-amber-500 {
+  @apply text-amber-600;
+}
+
+.light .text-blue-400 {
+  @apply text-blue-600;
+}
+
+.light .text-cyan-400 {
+  @apply text-cyan-600;
+}
+
+.light .text-orange-400 {
+  @apply text-orange-600;
+}
+
+.light .text-pink-400 {
+  @apply text-pink-600;
+}
+
+.light .text-violet-400,
+.light .text-purple-400 {
+  @apply text-purple-600;
+}
+
+.light .text-red-400 {
+  @apply text-red-600;
+}
+
+/* Achievement and notification styles */
+.light .bg-green-900\/30 {
+  @apply bg-green-100 text-green-700;
+}
+
+/* Competitor compare widget */
+.light .border-amber-500\/50 {
+  @apply border-amber-400;
+}
+
+/* Progress indicator and tabs */
+.light .bg-slate-700 {
+  @apply bg-slate-200;
+}
+
+/* Track/slider components */
+.light input[type="range"]::-webkit-slider-track {
+  @apply bg-slate-300;
+}
+
+.light input[type="range"]::-webkit-slider-thumb {
+  @apply border-amber-500;
+}
+
+/* ROI simulator cards */
+.light .bg-gradient-to-br.from-sundae-surface.to-sundae-surface\/50 {
+  @apply from-white to-slate-50 border border-slate-200 shadow-lg;
+}
+
+/* Summary page cards */
+.light .bg-gradient-primary {
+  /* Keep the gradient for CTA buttons */
+  background: linear-gradient(to bottom right, #667eea, #764ba2);
+}
+
+/* Glass effect in light mode */
+.light .glass {
+  @apply bg-white/90 backdrop-blur-sm border-slate-200 shadow-sm;
+}
+
+/* Scrollbar in light mode */
+.light ::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  @apply bg-slate-400 hover:bg-cyan-500;
+}
+
+/* Tooltip and popover styles */
+.light .bg-slate-900 {
+  @apply bg-white shadow-lg;
+}
+
+/* Charts and data visualization (if any) */
+.light .text-slate-300 {
+  @apply text-slate-700;
+}
+
+/* Header and navigation */
+.light header {
+  @apply bg-white/95 backdrop-blur-sm border-slate-200 shadow-sm;
+}
+
+/* Footer and secondary info */
+.light .text-sm.text-sundae-muted {
+  @apply text-slate-500;
+}
+
+/* Badge and tag components */
+.light .tier-badge {
+  @apply shadow-sm;
+}
+
+/* Modal and overlay backgrounds */
+.light .bg-slate-900\/50 {
+  @apply bg-slate-900/30;
+}
+
+/* Dividers */
+.light .border-slate-700\/50 {
+  @apply border-slate-200;
+}
+
+/* Special utility classes */
+.light .shadow-glow {
+  box-shadow: 0 0 30px rgba(102, 126, 234, 0.15);
+}
+
+.light .shadow-glow-lg {
+  box-shadow: 0 0 50px rgba(102, 126, 234, 0.2);
+}
+
+/* Preserve certain dark elements that look good in light mode */
+.light .bg-gradient-primary {
+  /* Primary gradient buttons stay vibrant */
+  background: linear-gradient(to bottom right, #667eea, #764ba2);
+  color: white;
+}
+
+.light .button-primary:hover {
+  box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
 }
 
 /* Custom scrollbar styles */

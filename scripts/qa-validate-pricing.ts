@@ -67,7 +67,7 @@ console.log('\n⚡ VALIDATING CORE TIERS...\n');
 
 // Core Lite
 validate('Core Lite', 'basePrice', 169, coreTiers.lite.basePrice);
-validate('Core Lite', 'additionalLocationPrice', 49, coreTiers.lite.additionalLocationPrice);
+validate('Core Lite', 'additionalLocationPrice', 54, coreTiers.lite.additionalLocationPrice);
 validate('Core Lite', 'aiSeats', 5, coreTiers.lite.aiSeats);
 validate('Core Lite', 'aiCredits.base', 800, coreTiers.lite.aiCredits.base);
 validate('Core Lite', 'aiCredits.perLocation', 160, coreTiers.lite.aiCredits.perLocation);
@@ -75,8 +75,8 @@ validate('Core Lite', 'predictiveDays', 14, coreTiers.lite.predictiveDays);
 validate('Core Lite', 'customDashboards', 3, coreTiers.lite.customDashboards);
 
 // Core Pro
-validate('Core Pro', 'basePrice', 299, coreTiers.pro.basePrice);
-validate('Core Pro', 'additionalLocationPrice', 39, coreTiers.pro.additionalLocationPrice);
+validate('Core Pro', 'basePrice', 319, coreTiers.pro.basePrice);
+validate('Core Pro', 'additionalLocationPrice', 49, coreTiers.pro.additionalLocationPrice);
 validate('Core Pro', 'aiSeats', 10, coreTiers.pro.aiSeats);
 validate('Core Pro', 'aiCredits.base', 1400, coreTiers.pro.aiCredits.base);
 validate('Core Pro', 'aiCredits.perLocation', 280, coreTiers.pro.aiCredits.perLocation);
@@ -90,26 +90,26 @@ validate('Core Pro', 'customDashboards', 15, coreTiers.pro.customDashboards);
 console.log('\n🧩 VALIDATING MODULES...\n');
 
 // Labor
-validate('Labor Module', 'orgLicensePrice', 129, modules.labor.orgLicensePrice);
+validate('Labor Module', 'orgLicensePrice', 139, modules.labor.orgLicensePrice);
 validate('Labor Module', 'perLocationPrice', 19, modules.labor.perLocationPrice);
 validate('Labor Module', 'includedLocations', 5, modules.labor.includedLocations);
 
 // Inventory
-validate('Inventory Module', 'orgLicensePrice', 129, modules.inventory.orgLicensePrice);
+validate('Inventory Module', 'orgLicensePrice', 139, modules.inventory.orgLicensePrice);
 validate('Inventory Module', 'perLocationPrice', 19, modules.inventory.perLocationPrice);
 validate('Inventory Module', 'includedLocations', 5, modules.inventory.includedLocations);
 
 // Purchasing
-validate('Purchasing Module', 'orgLicensePrice', 99, modules.purchasing.orgLicensePrice);
+validate('Purchasing Module', 'orgLicensePrice', 119, modules.purchasing.orgLicensePrice);
 validate('Purchasing Module', 'perLocationPrice', 15, modules.purchasing.perLocationPrice);
 validate('Purchasing Module', 'includedLocations', 5, modules.purchasing.includedLocations);
 
 // Marketing
-validate('Marketing Module', 'orgLicensePrice', 149, modules.marketing.orgLicensePrice);
+validate('Marketing Module', 'orgLicensePrice', 169, modules.marketing.orgLicensePrice);
 validate('Marketing Module', 'perLocationPrice', 25, modules.marketing.perLocationPrice);
 
 // Reservations
-validate('Reservations Module', 'orgLicensePrice', 99, modules.reservations.orgLicensePrice);
+validate('Reservations Module', 'orgLicensePrice', 119, modules.reservations.orgLicensePrice);
 validate('Reservations Module', 'perLocationPrice', 15, modules.reservations.perLocationPrice);
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -118,17 +118,22 @@ validate('Reservations Module', 'perLocationPrice', 15, modules.reservations.per
 
 console.log('\n🔭 VALIDATING WATCHTOWER...\n');
 
-validate('Watchtower', 'competitive.price', 199, watchtower.competitive.price);
-validate('Watchtower', 'events.price', 99, watchtower.events.price);
-validate('Watchtower', 'trends.price', 149, watchtower.trends.price);
-validate('Watchtower', 'bundle.price', 349, watchtower.bundle.price);
-validate('Watchtower', 'bundle.savings', 98, watchtower.bundle.savings);
-validate('Watchtower', 'bundle.savingsPercent', 22, watchtower.bundle.savingsPercent);
+// Watchtower now uses base + per-location pricing model
+validate('Watchtower', 'competitive.basePrice', 399, watchtower.competitive.basePrice);
+validate('Watchtower', 'competitive.perLocationPrice', 49, watchtower.competitive.perLocationPrice);
+validate('Watchtower', 'events.basePrice', 199, watchtower.events.basePrice);
+validate('Watchtower', 'events.perLocationPrice', 29, watchtower.events.perLocationPrice);
+validate('Watchtower', 'trends.basePrice', 249, watchtower.trends.basePrice);
+validate('Watchtower', 'trends.perLocationPrice', 19, watchtower.trends.perLocationPrice);
+validate('Watchtower', 'bundle.basePrice', 720, watchtower.bundle.basePrice);
+validate('Watchtower', 'bundle.perLocationPrice', 82, watchtower.bundle.perLocationPrice);
+validate('Watchtower', 'bundle.baseSavings', 127, watchtower.bundle.baseSavings);
+validate('Watchtower', 'bundle.savingsPercent', 15, watchtower.bundle.savingsPercent);
 
-// Verify bundle math
-const individualTotal = watchtower.competitive.price + watchtower.events.price + watchtower.trends.price;
-validate('Watchtower', 'individual total = 447', 447, individualTotal);
-validate('Watchtower', 'bundle savings math', individualTotal - watchtower.bundle.price, watchtower.bundle.savings);
+// Verify bundle math (base prices only)
+const individualBaseTotal = watchtower.competitive.basePrice + watchtower.events.basePrice + watchtower.trends.basePrice;
+validate('Watchtower', 'individual base total = 847', 847, individualBaseTotal);
+validate('Watchtower', 'bundle base savings math', individualBaseTotal - watchtower.bundle.basePrice, watchtower.bundle.baseSavings);
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CLIENT TYPE RULES
@@ -187,7 +192,8 @@ validate('Enterprise', 'minLocations', 30, enterprisePricing.minLocations);
 console.log('\n📍 VALIDATING BREAK-EVEN POINTS...\n');
 
 validate('Break-Even', 'sundaeVsTenzo.locations', 3, BREAK_EVEN_POINTS?.sundaeVsTenzo?.locations);
-validate('Break-Even', 'coreProVsLite.locations', 14, BREAK_EVEN_POINTS?.coreProVsLite?.locations);
+// Note: Core Pro is now ALWAYS more expensive than Lite (premium positioning)
+// No break-even point exists anymore - this is intentional
 validate('Break-Even', 'enterprise.locations', 30, BREAK_EVEN_POINTS?.enterprise?.locations);
 
 // ═══════════════════════════════════════════════════════════════════════════

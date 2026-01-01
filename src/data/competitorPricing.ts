@@ -1,22 +1,53 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// COMPETITOR PRICING DATA
+// VERIFICATION LEVELS & COMPETITOR PRICING DATA
 // Sources: Public pricing pages, industry research, customer interviews
 // Last updated: January 2026
 // ═══════════════════════════════════════════════════════════════════════════
+
+export type VerificationLevel = 'verified' | 'estimated' | 'unverified';
+
+export const VERIFICATION_LABELS = {
+  verified: {
+    label: 'Verified',
+    description: 'From public pricing page or official documentation',
+    color: 'green',
+    badge: '✓',
+    showInComparison: true
+  },
+  estimated: {
+    label: 'Estimated',
+    description: 'Based on industry research and estimates',
+    color: 'amber',
+    badge: '~',
+    showInComparison: true
+  },
+  unverified: {
+    label: 'Unverified',
+    description: 'Pricing not publicly available - contact vendor',
+    color: 'red',
+    badge: '?',
+    showInComparison: false  // Don't show in main comparison
+  }
+};
 
 export interface CompetitorPricing {
   id: string;
   name: string;
   category: string;
   icon: string;
+  verification: VerificationLevel;
+  sourceUrl?: string | null;
+  lastVerified?: string | null;
+  showPricing?: boolean;
   pricing: any;
   calculate: (locations: number, modules: string[]) => {
-    monthly: number;
-    firstYear: number;
-    ongoing: number;
-    setupFee: number;
-    breakdown?: Record<string, number>;
+    monthly: number | null;
+    firstYear: number | null;
+    ongoing: number | null;
+    setupFee: number | null;
+    breakdown?: Record<string, number> | null;
     notes: string | null;
+    confidence?: 'high' | 'medium' | 'low' | 'none';
   };
   limitations: string[];
 }
@@ -24,14 +55,17 @@ export interface CompetitorPricing {
 export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   
   // ─────────────────────────────────────────────────────────────────────────
-  // TENZO - Direct Competitor
-  // Source: tenzo.io/pricing (verified)
+  // TENZO - ✅ VERIFIED
+  // Source: tenzo.io/pricing (last checked: January 2026)
   // ─────────────────────────────────────────────────────────────────────────
   tenzo: {
     id: 'tenzo',
     name: 'Tenzo',
     category: 'Restaurant analytics platform',
     icon: '📊',
+    verification: 'verified' as VerificationLevel,
+    sourceUrl: 'https://tenzo.io/pricing',
+    lastVerified: '2026-01-01',
     
     pricing: {
       perLocationPerModule: 75,  // $75/location/module/month
@@ -74,9 +108,14 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
         firstYear,
         ongoing,
         setupFee,
+        breakdown: {
+          'Monthly licenses': monthly * 12,
+          'Setup fees': setupFee
+        },
         notes: unavailableModules.length > 0
           ? `Tenzo doesn't offer: ${unavailableModules.join(', ')}`
-          : null
+          : null,
+        confidence: 'high'
       };
     },
     
@@ -90,14 +129,18 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   },
   
   // ─────────────────────────────────────────────────────────────────────────
-  // NORY - AI Restaurant Operations
-  // Source: nory.ai, industry estimates
+  // NORY - ❌ UNVERIFIED (Pricing not public - excluded from comparisons)
+  // Note: Contact Nory directly for custom quotes
   // ─────────────────────────────────────────────────────────────────────────
   nory: {
     id: 'nory',
     name: 'Nory',
     category: 'AI restaurant operations',
     icon: '🤖',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: null,
+    lastVerified: null,
+    showPricing: false,  // Don't show in comparisons
     
     pricing: {
       // Nory uses value-based pricing, typically $800-1,200/location/month
@@ -111,23 +154,16 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       }
     },
     
-    calculate: (locations: number) => {
-      const perLoc = 1000;  // Mid estimate
-      const monthly = perLoc * locations;
-      const setupFee = 2000 * locations;
-      const firstYear = (monthly * 12) + setupFee;
-      const ongoing = monthly * 12;
-      
+    calculate: () => {
+      // Nory pricing not publicly available
       return {
-        monthly,
-        firstYear,
-        ongoing,
-        setupFee,
-        breakdown: {
-          licenses: monthly * 12,
-          implementation: setupFee
-        },
-        notes: 'AI-first platform with different feature set'
+        monthly: null,
+        firstYear: null,
+        ongoing: null,
+        setupFee: null,
+        breakdown: null,
+        notes: 'Pricing not publicly available. Contact Nory directly for custom quotes based on your restaurant size and needs.',
+        confidence: 'none'
       };
     },
     
@@ -140,14 +176,17 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   },
   
   // ─────────────────────────────────────────────────────────────────────────
-  // RESTAURANT365 - Full ERP Suite
-  // Source: restaurant365.com, industry estimates
+  // RESTAURANT365 - ⚠️ ESTIMATED
+  // Source: Industry estimates (pricing not fully public)
   // ─────────────────────────────────────────────────────────────────────────
   restaurant365: {
     id: 'restaurant365',
     name: 'Restaurant365',
     category: 'Restaurant ERP & accounting',
     icon: '📒',
+    verification: 'estimated' as VerificationLevel,
+    sourceUrl: 'https://www.restaurant365.com',
+    lastVerified: '2026-01-01',
     
     pricing: {
       // R365 bundles accounting + ops, typically $200 base + $50/location
@@ -169,10 +208,11 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
         ongoing,
         setupFee,
         breakdown: {
-          subscription: monthly * 12,
-          implementation: setupFee
+          'Monthly subscription': monthly * 12,
+          'Implementation': setupFee
         },
-        notes: 'Includes accounting; different focus than pure analytics'
+        notes: 'Includes accounting; different focus than pure analytics. Industry estimate.',
+        confidence: 'medium'
       };
     },
     
@@ -185,14 +225,17 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   },
   
   // ─────────────────────────────────────────────────────────────────────────
-  // POWER BI - Build Your Own
-  // Source: Microsoft pricing + implementation estimates
+  // POWER BI - ⚠️ ESTIMATED (Licenses verified, implementation estimated)
+  // Source: Microsoft pricing (verified) + industry implementation estimates
   // ─────────────────────────────────────────────────────────────────────────
   powerbi: {
     id: 'powerbi',
     name: 'Power BI',
     category: 'Build-your-own with Microsoft BI',
     icon: '📊',
+    verification: 'estimated' as VerificationLevel,
+    sourceUrl: 'https://powerbi.microsoft.com/pricing/',
+    lastVerified: '2026-01-01',
     
     pricing: {
       // Power BI Pro: $10/user/month
@@ -250,12 +293,13 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
         ongoing,
         setupFee: implementation,
         breakdown: {
-          licenses: licenseCost,
-          implementation,
-          maintenance,
-          analystCost
+          'Licenses (verified)': licenseCost,
+          'Implementation (estimated)': implementation,
+          'Maintenance (estimated)': maintenance,
+          'Analyst 0.5 FTE (estimated)': analystCost
         },
-        notes: 'Requires technical expertise to build and maintain'
+        notes: 'Requires technical expertise. License costs verified from Microsoft; implementation and maintenance are industry estimates.',
+        confidence: 'medium'
       };
     },
     
@@ -270,7 +314,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   },
   
   // ─────────────────────────────────────────────────────────────────────────
-  // SPREADSHEETS - Manual Approach
+  // SPREADSHEETS - ⚠️ ESTIMATED
   // Source: Industry labor cost estimates
   // ─────────────────────────────────────────────────────────────────────────
   spreadsheets: {
@@ -278,6 +322,9 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     name: 'Spreadsheets',
     category: 'Excel / Google Sheets',
     icon: '📋',
+    verification: 'estimated' as VerificationLevel,
+    sourceUrl: null,
+    lastVerified: '2026-01-01',
     
     pricing: {
       // Software is cheap, labor is expensive
@@ -300,21 +347,21 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       const softwareCost = 200;
       const errorCost = locations * 100000 * 12 * 0.002;  // 0.2% of revenue lost to errors
       
-      const monthly = Math.round((laborCost + softwareCost + errorCost) / 12);
-      const firstYear = laborCost + softwareCost + errorCost;
-      const ongoing = firstYear;  // Same every year
+      const totalAnnual = laborCost + softwareCost + errorCost;
+      const monthly = Math.round(totalAnnual / 12);
       
       return {
         monthly,
-        firstYear,
-        ongoing,
+        firstYear: totalAnnual,
+        ongoing: totalAnnual,
         setupFee: 0,
         breakdown: {
-          labor: laborCost,
-          software: softwareCost,
-          errorCost: Math.round(errorCost)
+          [`Labor (${hoursPerWeek} hrs/week @ $35/hr)`]: laborCost,
+          'Software': softwareCost,
+          'Error/rework cost (0.2% revenue)': Math.round(errorCost)
         },
-        notes: 'Hidden costs in labor time and decision errors'
+        notes: 'Hidden costs in manual labor and decision-making errors. Based on industry research.',
+        confidence: 'medium'
       };
     },
     
@@ -330,14 +377,17 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   },
   
   // ─────────────────────────────────────────────────────────────────────────
-  // MARKETMAN - Inventory Focus
-  // Source: marketman.com
+  // MARKETMAN - ✅ VERIFIED
+  // Source: marketman.com/pricing (last checked: January 2026)
   // ─────────────────────────────────────────────────────────────────────────
   marketman: {
     id: 'marketman',
     name: 'MarketMan',
     category: 'Inventory & purchasing',
     icon: '📦',
+    verification: 'verified' as VerificationLevel,
+    sourceUrl: 'https://www.marketman.com/pricing',
+    lastVerified: '2026-01-01',
     
     pricing: {
       perLocationMonthly: {
@@ -360,7 +410,12 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
         firstYear,
         ongoing,
         setupFee,
-        notes: 'Inventory-focused; limited analytics outside inventory'
+        breakdown: {
+          'Monthly licenses (Professional)': monthly * 12,
+          'Setup fees': setupFee
+        },
+        notes: 'Inventory & purchasing focused only. Professional tier used for comparison.',
+        confidence: 'high'
       };
     },
     
@@ -374,14 +429,17 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   },
   
   // ─────────────────────────────────────────────────────────────────────────
-  // 7SHIFTS - Labor Focus
-  // Source: 7shifts.com/pricing
+  // 7SHIFTS - ✅ VERIFIED
+  // Source: 7shifts.com/pricing (last checked: January 2026)
   // ─────────────────────────────────────────────────────────────────────────
   sevenShifts: {
     id: '7shifts',
     name: '7shifts',
     category: 'Labor & scheduling',
     icon: '👥',
+    verification: 'verified' as VerificationLevel,
+    sourceUrl: 'https://www.7shifts.com/pricing',
+    lastVerified: '2026-01-01',
     
     pricing: {
       // Per location pricing
@@ -396,7 +454,6 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     calculate: (locations: number) => {
       const perLoc = 76.99;  // The Works tier for comparison
       const monthly = perLoc * locations;
-      const setupFee = 0;
       const firstYear = monthly * 12;
       const ongoing = firstYear;
       
@@ -404,8 +461,12 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
         monthly: Math.round(monthly),
         firstYear: Math.round(firstYear),
         ongoing: Math.round(ongoing),
-        setupFee,
-        notes: 'Labor/scheduling only; would need other tools for full analytics'
+        setupFee: 0,
+        breakdown: {
+          'Monthly licenses (The Works tier)': Math.round(monthly * 12)
+        },
+        notes: 'Labor & scheduling only. The Works tier used for comparison.',
+        confidence: 'high'
       };
     },
     
@@ -465,6 +526,12 @@ export function calculateCompetitorComparison(
   if (!competitor) return null;
   
   const competitorCost = competitor.calculate(locations, modules);
+  
+  // If pricing not available (null), return null
+  if (competitorCost.firstYear === null || competitorCost.monthly === null) {
+    return null;
+  }
+  
   const sundaeAnnual = sundaeMonthlyCost * 12;
   
   return {
@@ -477,9 +544,9 @@ export function calculateCompetitorComparison(
     competitorCost: {
       monthly: competitorCost.monthly,
       firstYear: competitorCost.firstYear,
-      ongoing: competitorCost.ongoing,
-      setupFee: competitorCost.setupFee,
-      breakdown: competitorCost.breakdown
+      ongoing: competitorCost.ongoing ?? competitorCost.firstYear,
+      setupFee: competitorCost.setupFee ?? 0,
+      breakdown: competitorCost.breakdown ?? undefined
     },
     sundaeCost: {
       monthly: sundaeMonthlyCost,
@@ -487,7 +554,7 @@ export function calculateCompetitorComparison(
     },
     savings: {
       firstYear: competitorCost.firstYear - sundaeAnnual,
-      ongoing: competitorCost.ongoing - sundaeAnnual,
+      ongoing: (competitorCost.ongoing ?? competitorCost.firstYear) - sundaeAnnual,
       monthly: competitorCost.monthly - sundaeMonthlyCost
     },
     notes: competitorCost.notes,
@@ -504,7 +571,16 @@ export function calculateAllComparisons(
   
   const comparisons = competitorIds
     .map(id => calculateCompetitorComparison(id, locations, modules, sundaeMonthlyCost))
-    .filter((c): c is ComparisonResult => c !== null);
+    .filter((c): c is ComparisonResult => {
+      if (!c) return false;
+      // Exclude unverified or those without pricing
+      const competitor = COMPETITOR_PRICING[c.competitor.id];
+      if (!competitor) return false;
+      if (competitor.verification === 'unverified') return false;
+      if (competitor.showPricing === false) return false;
+      if (c.competitorCost.firstYear === null) return false;
+      return true;
+    });
   
   return comparisons.sort((a, b) => b.savings.firstYear - a.savings.firstYear);  // Highest savings first
 }

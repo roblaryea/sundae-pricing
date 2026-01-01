@@ -43,7 +43,12 @@ export interface ROICalculation {
 
 // Conservative improvement percentages based on module selection
 const IMPROVEMENT_RATES = {
-  // Base improvements from core platform
+  // Base improvements from Report tier (historical analysis & benchmarking)
+  report: {
+    labor: 0.002, // 0.2% from insights & benchmarking
+    food: 0.0015, // 0.15% from historical trend analysis
+  },
+  // Base improvements from core platform (real-time)
   core: {
     labor: 0.005, // 0.5% from visibility alone
     food: 0.003,  // 0.3% from visibility alone
@@ -130,8 +135,13 @@ export function useROICalculation(
     let purchasingImprovement = 0;
     let tableUtilizationImprovement = 0;
     
-    // Base improvements from core platform
-    if (config.layer === 'core') {
+    // Base improvements from tier
+    if (config.layer === 'report') {
+      // Report tier: conservative improvements from historical insights
+      laborImprovement += IMPROVEMENT_RATES.report.labor;
+      foodImprovement += IMPROVEMENT_RATES.report.food;
+    } else if (config.layer === 'core') {
+      // Core tier: better improvements from real-time data
       laborImprovement += IMPROVEMENT_RATES.core.labor;
       foodImprovement += IMPROVEMENT_RATES.core.food;
     }

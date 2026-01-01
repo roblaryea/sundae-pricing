@@ -9,6 +9,7 @@ import confetti from 'canvas-confetti';
 import { useEffect } from 'react';
 import { PDFExportButton } from './PDFExport';
 import { BookDemoButton } from './BookDemoButton';
+import { CompactCompetitorCompare } from './CompactCompetitorCompare';
 
 export function ConfigSummary() {
   const { 
@@ -192,12 +193,22 @@ export function ConfigSummary() {
         </div>
       </motion.div>
 
+      {/* Competitor Comparison */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="bg-sundae-surface rounded-xl p-8 mb-8"
+      >
+        <CompactCompetitorCompare />
+      </motion.div>
+
       {/* Features included */}
       {tierDetails && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.35 }}
           className="bg-sundae-surface rounded-xl p-8 mb-8"
         >
           <h3 className="text-lg font-bold mb-6">What's Included</h3>

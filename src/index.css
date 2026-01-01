@@ -36,6 +36,48 @@
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Light mode overrides */
+.light {
+  --color-sundae-dark: #F8FAFC;
+  --color-sundae-surface: #FFFFFF;
+  --color-sundae-surface-hover: #F1F5F9;
+  --color-sundae-text: #0F172A;
+  --color-sundae-muted: #64748B;
+  
+  /* Adjust shadows for light mode */
+  --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.2);
+  --shadow-glow-lg: 0 0 50px rgba(102, 126, 234, 0.3);
+}
+
+/* Light mode specific styles */
+.light body {
+  @apply bg-slate-50 text-slate-900;
+}
+
+.light .bg-sundae-dark {
+  @apply bg-slate-50;
+}
+
+.light .bg-sundae-surface {
+  @apply bg-white border-slate-200;
+}
+
+.light .text-sundae-muted {
+  @apply text-slate-600;
+}
+
+.light .border-white\/10 {
+  @apply border-slate-200;
+}
+
+.light .bg-slate-800\/50 {
+  @apply bg-slate-100;
+}
+
+.light .text-white {
+  @apply text-slate-900;
+}
+
 /* Custom scrollbar styles */
 @layer base {
   ::-webkit-scrollbar {

@@ -1,33 +1,105 @@
-// Location slider with dynamic pricing updates and logarithmic scale
+// Location slider with logarithmic scale mapping
 
+import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, TrendingUp, Info, ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { useState } from 'react';
+import { cn } from '../../utils/cn';
+
+// Fixed scale points that appear on the slider
+const SCALE_POINTS = [1, 5, 10, 30, 50, 100, 250, 500];
+
+// Get the percentage position for a given location count (logarithmic)
+function locationToPercent(location: number): number {
+  if (location <= 1) return 0;
+  if (location >= 500) return 100;
+  
+  // Find which segment the location falls into
+  for (let i = 0; i < SCALE_POINTS.length - 1; i++) {
+    const start = SCALE_POINTS[i];
+    const end = SCALE_POINTS[i + 1];
+    
+    if (location >= start && location <= end) {
+      // Linear interpolation within this segment
+      const segmentStart = (i / (SCALE_POINTS.length - 1)) * 100;
+      const segmentEnd = ((i + 1) / (SCALE_POINTS.length - 1)) * 100;
+      const ratio = (location - start) / (end - start);
+      return segmentStart + (ratio * (segmentEnd - segmentStart));
+    }
+  }
+  
+  return 100;
+}
+
+// Get the location count for a given percentage position
+function percentToLocation(percent: number): number {
+  if (percent <= 0) return 1;
+  if (percent >= 100) return 500;
+  
+  // Find which segment the percent falls into
+  const segmentSize = 100 / (SCALE_POINTS.length - 1);
+  const segmentIndex = Math.floor(percent / segmentSize);
+  const segmentProgress = (percent % segmentSize) / segmentSize;
+  
+  // Clamp segment index
+  const safeIndex = Math.min(segmentIndex, SCALE_POINTS.length - 2);
+  
+  const start = SCALE_POINTS[safeIndex];
+  const end = SCALE_POINTS[safeIndex + 1];
+  
+  // Linear interpolation within segment
+  const location = start + (segmentProgress * (end - start));
+  
+  return Math.round(location);
+}
+
+// Get scale label for location count
+function getScaleLabel(locations: number): { label: string; color: string } {
+  if (locations <= 2) return { label: 'Independent', color: 'text-slate-400' };
+  if (locations <= 9) return { label: 'Small Portfolio', color: 'text-blue-400' };
+  if (locations <= 24) return { label: 'Growth Stage', color: 'text-green-400' };
+  if (locations <= 50) return { label: 'Enterprise', color: 'text-amber-400' };
+  if (locations <= 100) return { label: 'Regional Chain', color: 'text-orange-400' };
+  if (locations <= 250) return { label: 'Major Chain', color: 'text-pink-400' };
+  return { label: 'National Scale', color: 'text-purple-400' };
+}
 
 export function LocationSlider() {
   const { layer, tier, locations, setLocations, setCurrentStep } = useConfiguration();
-  // Calculate pricing with ONLY current selections (no modules yet)
   const pricing = usePriceCalculation(layer, tier, locations, [], []);
   
-  const [isEditing, setIsEditing] = useState(false);
   const [inputValue, setInputValue] = useState(locations.toString());
-
-  // Direct integer slider (no snapping)
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newLocations = parseInt(e.target.value, 10);
-    setLocations(newLocations);
-    setInputValue(newLocations.toString());
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [isDragging, setIsDragging] = useState(false);
+  
+  // Sync input value with prop
+  useEffect(() => {
+    if (!isDragging) {
+      setInputValue(locations.toString());
+    }
+  }, [locations, isDragging]);
+  
+  const percent = useMemo(() => locationToPercent(locations), [locations]);
+  const scaleInfo = getScaleLabel(locations);
+  
+  const handleSliderChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsDragging(true);
+    const newPercent = parseFloat(e.target.value);
+    const newLocation = percentToLocation(newPercent);
+    setLocations(newLocation);
+    setInputValue(newLocation.toString());
+  }, [setLocations]);
+  
+  const handleSliderEnd = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+  
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value.replace(/[^0-9]/g, '');
     setInputValue(val);
-  };
-
-  const handleInputBlur = () => {
-    setIsEditing(false);
+  }, []);
+  
+  const handleInputBlur = useCallback(() => {
     const num = parseInt(inputValue, 10);
     if (!isNaN(num) && num >= 1) {
       const clamped = Math.min(Math.max(num, 1), 9999);
@@ -36,13 +108,19 @@ export function LocationSlider() {
     } else {
       setInputValue(locations.toString());
     }
-  };
-
-  const handleInputKeyDown = (e: React.KeyboardEvent) => {
+  }, [inputValue, setLocations, locations]);
+  
+  const handleInputKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleInputBlur();
     }
-  };
+  }, [handleInputBlur]);
+  
+  // Calculate positions for scale point labels
+  const scalePointPositions = SCALE_POINTS.map((point, index) => ({
+    value: point,
+    percent: (index / (SCALE_POINTS.length - 1)) * 100
+  }));
 
   const handleContinue = () => {
     setCurrentStep(4);
@@ -50,32 +128,6 @@ export function LocationSlider() {
 
   const handleBack = () => {
     setCurrentStep(2);
-  };
-
-  // Determine optimal range based on persona
-  const getLocationLabel = (value: number) => {
-    if (value === 1) return 'Solo Location';
-    if (value === 2) return 'Dual Location';
-    if (value <= 5) return 'Small Portfolio';
-    if (value <= 9) return 'Growing Portfolio';
-    if (value <= 24) return 'Growth Stage';
-    if (value <= 29) return 'Multi-Site';
-    if (value <= 50) return 'Enterprise';
-    if (value <= 100) return 'Regional Chain';
-    if (value <= 250) return 'Major Chain';
-    if (value <= 500) return 'National Brand';
-    return 'Global Scale';
-  };
-
-  const getLocationColor = (value: number) => {
-    if (value === 1) return '#10B981';
-    if (value <= 5) return '#3B82F6';
-    if (value <= 10) return '#6366F1';
-    if (value <= 24) return '#8B5CF6';
-    if (value <= 50) return '#A855F7';
-    if (value <= 100) return '#F59E0B';
-    if (value <= 250) return '#EC4899';
-    return '#EF4444';
   };
 
   return (
@@ -100,82 +152,85 @@ export function LocationSlider() {
         transition={{ delay: 0.1 }}
         className="bg-gradient-to-br from-sundae-surface to-sundae-surface/50 rounded-2xl p-8 border border-white/10"
       >
-        {/* Current value display */}
+        {/* Current value display - clickable */}
         <div className="text-center mb-8">
           <motion.div
             key={locations}
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="inline-block"
+            initial={{ scale: 1.05 }}
+            animate={{ scale: 1 }}
+            className="inline-block cursor-pointer"
+            onClick={() => document.getElementById('location-input')?.focus()}
           >
-            <div className="text-7xl font-bold tabular-nums mb-2" style={{ color: getLocationColor(locations) }}>
-              {locations}
+            <div className={cn('text-7xl font-bold tabular-nums mb-2', scaleInfo.color)}>
+              {locations.toLocaleString()}
             </div>
-            <div className="text-lg font-medium" style={{ color: getLocationColor(locations) }}>
-              {getLocationLabel(locations)}
+            <div className={cn('text-lg font-medium', scaleInfo.color)}>
+              {scaleInfo.label}
             </div>
           </motion.div>
         </div>
 
-        {/* Continuous integer slider (1-500) - True linear mapping */}
+        {/* Slider with logarithmic mapping */}
         <div className="mb-8">
-          <input
-            type="range"
-            min="1"
-            max="500"
-            step="1"
-            value={locations}
-            onChange={handleSliderChange}
-            className="w-full h-3 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer slider"
-            style={{
-              background: `linear-gradient(to right, ${getLocationColor(locations)} 0%, ${getLocationColor(locations)} ${(locations / 500) * 100}%, #334155 ${(locations / 500) * 100}%, #334155 100%)`
-            }}
-          />
-          
-          {/* Scale markers (visual only, no snapping) */}
-          <div className="flex justify-between mt-2 text-xs text-sundae-muted">
-            <span>1</span>
-            <span>5</span>
-            <span>10</span>
-            <span>30</span>
-            <span>50</span>
-            <span>100</span>
-            <span>250</span>
-            <span>500</span>
+          <div className="relative pt-2 pb-8">
+            {/* Track background */}
+            <div className="relative h-2 bg-slate-700 rounded-full">
+              {/* Filled track */}
+              <div
+                className="absolute h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full transition-all duration-75"
+                style={{ width: `${percent}%` }}
+              />
+              
+              {/* Slider input */}
+              <input
+                type="range"
+                min="0"
+                max="100"
+                step="0.5"
+                value={percent}
+                onChange={handleSliderChange}
+                onMouseUp={handleSliderEnd}
+                onTouchEnd={handleSliderEnd}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+              
+              {/* Thumb */}
+              <div
+                className="absolute top-1/2 -translate-y-1/2 w-5 h-5 bg-white rounded-full shadow-lg border-2 border-amber-400 pointer-events-none transition-all duration-75"
+                style={{ left: `calc(${percent}% - 10px)` }}
+              />
+            </div>
+            
+            {/* Scale labels - positioned at exact percentages */}
+            <div className="relative mt-3">
+              {scalePointPositions.map(({ value: scaleValue, percent: labelPercent }) => (
+                <div
+                  key={scaleValue}
+                  className="absolute transform -translate-x-1/2 text-sm text-slate-500"
+                  style={{ left: `${labelPercent}%` }}
+                >
+                  {scaleValue >= 500 ? '500+' : scaleValue}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         
-        {/* Click-to-edit large number input */}
-        {locations >= 100 && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            className="mb-6 text-center"
-          >
-            <p className="text-sm text-sundae-muted mb-2">
-              For precise counts, click the number above or type here:
-            </p>
-            {isEditing ? (
-              <input
-                type="text"
-                value={inputValue}
-                onChange={handleInputChange}
-                onBlur={handleInputBlur}
-                onKeyDown={handleInputKeyDown}
-                className="bg-sundae-dark border border-sundae-accent rounded-lg px-4 py-2 text-center text-lg w-32 focus:border-sundae-accent outline-none"
-                autoFocus
-              />
-            ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="bg-sundae-dark border border-white/20 hover:border-sundae-accent rounded-lg px-4 py-2 text-lg w-32 transition-colors"
-              >
-                {locations.toLocaleString()}
-              </button>
-            )}
-          </motion.div>
-        )}
+        {/* Manual input */}
+        <div className="text-center mb-6">
+          <p className="text-sm text-slate-400 mb-2">
+            For precise counts, click the number above or type here:
+          </p>
+          <input
+            id="location-input"
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            onBlur={handleInputBlur}
+            onKeyDown={handleInputKeyDown}
+            className="bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-center text-lg w-28 focus:border-amber-400 focus:outline-none"
+          />
+        </div>
 
         {/* Live pricing display */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -210,6 +265,19 @@ export function LocationSlider() {
             </div>
           </motion.div>
         </div>
+
+        {/* Enterprise notice for large chains */}
+        {locations >= 100 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-6 text-center p-4 bg-purple-900/20 border border-purple-500/30 rounded-lg"
+          >
+            <p className="text-purple-300 text-sm">
+              🏆 With {locations.toLocaleString()} locations, you qualify for <strong>Enterprise pricing</strong> with dedicated support.
+            </p>
+          </motion.div>
+        )}
       </motion.div>
 
       {/* Pricing insights */}

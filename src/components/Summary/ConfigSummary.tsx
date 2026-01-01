@@ -13,6 +13,7 @@ import { BookDemoButton } from './BookDemoButton';
 import { CompactCompetitorCompare } from './CompactCompetitorCompare';
 import { WatchtowerValue } from './WatchtowerValue';
 import { PricingFAQ } from './PricingFAQ';
+import { pricingFooter } from '../../data/pricing';
 
 export function ConfigSummary() {
   const { 
@@ -292,6 +293,20 @@ export function ConfigSummary() {
           </a>
         </p>
         <p className="mt-2">Your dedicated Customer Success Manager will help you get started</p>
+      </motion.div>
+
+      {/* Pricing footer with effective date */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.7 }}
+        className="mt-8 pt-6 border-t border-white/10 text-center text-xs text-sundae-muted space-y-2"
+      >
+        <p>
+          <strong>Pricing effective {pricingFooter.effectiveDate}</strong> • All prices in {pricingFooter.currency}
+        </p>
+        <p>{pricingFooter.taxNote} • {pricingFooter.changeNotice}</p>
+        <p className="text-[10px] opacity-70">{pricingFooter.locationPricingNote}</p>
       </motion.div>
     </div>
   );

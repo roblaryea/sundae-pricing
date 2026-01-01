@@ -264,8 +264,8 @@ export function TierSelector() {
           <p className="text-sm flex items-start gap-2">
             <Star className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
             <span>
-              <strong>Portfolio Pricing Advantage:</strong> Core Pro becomes cheaper per location than Core Lite at 15+ locations 
-              due to its lower per-location pricing ($39 vs $49).
+              <strong>Portfolio Pricing Advantage:</strong> Core Pro becomes cheaper per location than Core Lite at 10+ locations 
+              due to its lower per-location pricing ($49 vs $54).
             </span>
           </p>
         </motion.div>

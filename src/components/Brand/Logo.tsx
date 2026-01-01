@@ -10,9 +10,9 @@ interface LogoProps {
 }
 
 const sizeMap = {
-  sm: 'h-6 md:h-7', // 24-28px
-  md: 'h-7 md:h-8', // 28-32px  
-  lg: 'h-8 md:h-10', // 32-40px
+  sm: 'h-8 md:h-9', // 32-36px (was 24-28px, +33%)
+  md: 'h-9 md:h-11', // 36-44px (was 28-32px, +35%)
+  lg: 'h-11 md:h-13', // 44-52px (was 32-40px, +30%)
 };
 
 export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) {

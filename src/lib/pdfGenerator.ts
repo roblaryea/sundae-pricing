@@ -52,8 +52,8 @@ export async function generateQuotePDF(
       img.crossOrigin = 'anonymous';
       img.onload = () => {
         try {
-          // Add logo image (height 8, width auto-scaled)
-          doc.addImage(img, 'PNG', 20, 18, 0, 8);
+          // Add logo image (height 11, width auto-scaled - increased from 8 for +37.5% size)
+          doc.addImage(img, 'PNG', 20, 16, 0, 11);
           resolve();
         } catch (err) {
           reject(err);
@@ -67,7 +67,7 @@ export async function generateQuotePDF(
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
-    doc.text('Decision Intelligence for Restaurants', 20, 32);
+    doc.text('Decision Intelligence for Restaurants', 20, 33);
   } catch (error) {
     // Fallback to text logo if image fails
     console.warn('Logo image failed to load, using text fallback:', error);
@@ -238,7 +238,7 @@ export async function generateQuotePDF(
         yPos = 25;
       }
       
-      // Competitor name with verification badge
+      // Competitor name with verification badge (row 1)
       doc.setFont('helvetica', 'bold');
       doc.text(comp.competitor.name, 25, yPos);
       
@@ -248,7 +248,7 @@ export async function generateQuotePDF(
       doc.setFont('helvetica', 'normal');
       doc.text('(verified)', 25 + doc.getTextWidth(comp.competitor.name) + 2, yPos);
       
-      // Costs and savings
+      // Costs and savings (same row)
       doc.setFontSize(10);
       doc.setTextColor(30, 41, 59);
       doc.text(`$${comp.competitorCost.firstYear.toLocaleString()}`, 90, yPos);
@@ -258,9 +258,16 @@ export async function generateQuotePDF(
       doc.setFont('helvetica', 'bold');
       doc.text(`$${comp.savings.firstYear.toLocaleString()}`, pageWidth - 30, yPos, { align: 'right' });
       
+      // Category subtitle (row 2 - prevents overlap)
+      yPos += 6;
+      doc.setFontSize(8);
+      doc.setTextColor(100, 116, 139);
+      doc.setFont('helvetica', 'normal');
+      doc.text(comp.competitor.category, 25, yPos);
+      
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(30, 41, 59);
-      yPos += 8;
+      yPos += 8; // More spacing between rows
     });
     
     // Best savings highlight

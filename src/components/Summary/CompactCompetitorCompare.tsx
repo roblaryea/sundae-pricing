@@ -160,32 +160,32 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
         onClick={onToggle}
         className="w-full p-4 flex items-center justify-between text-left"
       >
-        <div className="flex items-center gap-3">
-          <span className="text-lg">{comparison.competitor.icon}</span>
-          <div>
-            <div className="font-medium text-white flex items-center gap-2 flex-wrap">
-              vs {comparison.competitor.name}
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <span className="text-lg flex-shrink-0">{comparison.competitor.icon}</span>
+          <div className="min-w-0 flex-1">
+            <div className="font-medium text-white flex items-start gap-2 flex-wrap">
+              <span className="break-words">vs {comparison.competitor.name}</span>
               {isBest && (
-                <span className="text-xs bg-green-900/50 text-green-400 px-2 py-0.5 rounded border border-green-500/30">
+                <span className="text-xs bg-green-900/50 text-green-400 px-2 py-0.5 rounded border border-green-500/30 whitespace-nowrap flex-shrink-0">
                   Best savings
                 </span>
               )}
               <VerificationBadge level={verification} />
             </div>
-            <div className="text-xs text-slate-400">{comparison.competitor.category}</div>
+            <div className="text-xs text-slate-400 mt-0.5 break-words">{comparison.competitor.category}</div>
           </div>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 flex-shrink-0">
           <div className="text-right">
-            <div className="text-green-400 font-bold">
+            <div className="text-green-400 font-bold whitespace-nowrap">
               Save ${comparison.savings.firstYear.toLocaleString()}
             </div>
-            <div className="text-xs text-slate-400">first year</div>
+            <div className="text-xs text-slate-400 whitespace-nowrap">first year</div>
           </div>
           <ChevronDown 
             className={cn(
-              'w-5 h-5 text-slate-400 transition-transform',
+              'w-5 h-5 text-slate-400 transition-transform flex-shrink-0',
               isExpanded && 'rotate-180'
             )} 
           />

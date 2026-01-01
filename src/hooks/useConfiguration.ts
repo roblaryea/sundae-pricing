@@ -163,8 +163,13 @@ export const useConfiguration = create<ConfigurationState>()(
           const watchtowerModules = get().watchtowerModules;
           
           if (moduleId === 'bundle') {
-            // If selecting bundle, clear individual modules
-            set({ watchtowerModules: ['bundle'] });
+            // Toggle bundle: if already selected, deselect it
+            if (watchtowerModules.includes('bundle')) {
+              set({ watchtowerModules: [] });
+            } else {
+              // If selecting bundle, clear individual modules
+              set({ watchtowerModules: ['bundle'] });
+            }
           } else {
             // Toggle individual module
             let newModules = watchtowerModules.includes(moduleId)

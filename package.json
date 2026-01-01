@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "validate:pricing": "tsx scripts/validate-pricing.ts",
     "qa": "tsx scripts/qa-validate-pricing.ts",
-    "test": "vitest",
+    "test": "vitest run",
     "test:pricing": "vitest run __tests__/pricing.test.ts",
     "prebuild": "npm run validate:pricing",
     "predeploy": "npm run build:github",

@@ -100,7 +100,7 @@ const GUARDRAILS = {
   },
   maxTotalSavingsPerLocation: 6000, // $6,000/mo per location max
   maxROIMultiple: 15,  // Cap ROI at 15x
-  minPaybackDays: 14,  // Minimum 2 weeks payback
+  minPaybackDays: 1,  // Minimum 1 day (just to avoid 0)
 };
 
 export function useROICalculation(
@@ -262,12 +262,12 @@ export function useROICalculation(
     
     const roiPercent = monthlyROI * 100;
     
-    // Calculate payback period in days
+    // Calculate payback period in days (naturally computed, no artificial floor)
     let paybackDays = platformCost > 0 && totalMonthlySavings > 0 
       ? Math.ceil((platformCost / totalMonthlySavings) * 30)
       : 0;
     
-    // Apply minimum payback period
+    // Only apply minimum to avoid zero
     if (paybackDays > 0 && paybackDays < GUARDRAILS.minPaybackDays) {
       paybackDays = GUARDRAILS.minPaybackDays;
     }

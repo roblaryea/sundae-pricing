@@ -283,7 +283,17 @@ export function ConfigSummary() {
         transition={{ delay: 0.6 }}
         className="mt-12 text-center text-sm text-sundae-muted"
       >
-        <p>Questions? Call us at 1-800-SUNDAE1 or email hello@sundae.io</p>
+        <p>
+          Questions?{' '}
+          <a 
+            href="https://www.sundae.io/contact" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-sundae-accent hover:underline font-medium"
+          >
+            Click here to contact us
+          </a>
+        </p>
         <p className="mt-2">Your dedicated Customer Success Manager will help you get started</p>
       </motion.div>
     </div>

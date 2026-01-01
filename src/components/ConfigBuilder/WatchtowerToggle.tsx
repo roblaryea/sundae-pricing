@@ -91,7 +91,7 @@ export function WatchtowerToggle() {
       )}
 
       {/* Module cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 overflow-visible">
         {/* Individual modules */}
         {Object.entries(watchtower).filter(([id]) => id !== 'bundle').map(([moduleId, module]) => {
           const isSelected = watchtowerModules.includes(moduleId);
@@ -159,18 +159,18 @@ export function WatchtowerToggle() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           whileHover={{ y: -5, scale: 1.02 }}
-          className="md:col-span-2"
+          className="md:col-span-2 relative overflow-visible"
         >
           <button
             onClick={() => toggleWatchtowerModule('bundle')}
-            className={`w-full p-6 rounded-xl border-2 transition-all relative ${
+            className={`w-full p-6 rounded-xl border-2 transition-all relative overflow-visible ${
               watchtowerModules.includes('bundle')
                 ? 'bg-gradient-to-br from-watchtower/30 to-red-500/30 border-watchtower'
                 : 'bg-gradient-to-br from-watchtower/10 to-red-500/10 border-watchtower/50 hover:border-watchtower'
             }`}
           >
-            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full">
-              BEST VALUE - SAVE 15%
+            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-10 whitespace-nowrap shadow-lg">
+              BEST VALUE – SAVE 15%
             </div>
 
             <div className="flex items-center justify-between">

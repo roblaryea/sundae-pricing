@@ -13,6 +13,7 @@ import { ROISimulator } from './components/PricingDisplay/ROISimulator';
 import { ConfigSummary } from './components/Summary/ConfigSummary';
 import { ProgressIndicator } from './components/shared/ProgressIndicator';
 import { AchievementNotification } from './components/shared/AchievementNotification';
+import { ThemeToggle } from './components/shared/ThemeToggle';
 
 function App() {
   const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement } = useConfiguration();
@@ -70,14 +71,19 @@ function App() {
               </p>
             </div>
             
-            {/* Progress for non-quiz steps */}
-            {currentStep > 0 && (
-              <ProgressIndicator
-                steps={journeySteps}
-                onStepClick={setCurrentStep}
-                currentStep={currentStep}
-              />
-            )}
+            <div className="flex items-center gap-4">
+              {/* Progress for non-quiz steps */}
+              {currentStep > 0 && (
+                <ProgressIndicator
+                  steps={journeySteps}
+                  onStepClick={setCurrentStep}
+                  currentStep={currentStep}
+                />
+              )}
+              
+              {/* Theme toggle */}
+              <ThemeToggle />
+            </div>
           </div>
         </header>
 

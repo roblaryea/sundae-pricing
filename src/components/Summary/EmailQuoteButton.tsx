@@ -70,7 +70,10 @@ Please contact me to discuss next steps.
 
 Best regards`);
       
-      // Step 3: Open email client with mailto link
+      // Step 3: Show instruction modal then open email
+      alert(`✅ PDF Downloaded!\n\n"${filename}" has been downloaded to your computer.\n\nYour email will open next - please attach the downloaded PDF before sending.\n\nTip: The PDF is usually in your Downloads folder.`);
+      
+      // Step 4: Open email client with mailto link
       window.location.href = `mailto:sales@sundae.io?subject=${subject}&body=${body}`;
       
       setIsComplete(true);

@@ -128,7 +128,34 @@ export const useConfiguration = create<ConfigurationState>()(
         },
         
         setTier: (tier) => {
-          set({ tier });
+          const { layer } = get();
+          const updates: Partial<ConfigurationState> = { tier };
+          
+          // Import tier availability check
+          const key = `${layer}-${tier}`;
+          const TIER_AVAILABILITY: Record<string, { modules: boolean; watchtower: boolean }> = {
+            'report-lite': { modules: false, watchtower: false },
+            'report-plus': { modules: false, watchtower: false },
+            'report-pro': { modules: false, watchtower: false },
+            'report-enterprise': { modules: false, watchtower: false },
+            'core-lite': { modules: true, watchtower: true },
+            'core-pro': { modules: true, watchtower: true },
+            'core-enterprise': { modules: true, watchtower: true }
+          };
+          
+          const features = TIER_AVAILABILITY[key];
+          
+          // Clear modules if tier doesn't support them
+          if (features && !features.modules) {
+            updates.modules = [];
+          }
+          
+          // Clear watchtower if tier doesn't support it
+          if (features && !features.watchtower) {
+            updates.watchtowerModules = [];
+          }
+          
+          set(updates);
           get().markStepCompleted('tier');
           get().checkAchievements();
         },

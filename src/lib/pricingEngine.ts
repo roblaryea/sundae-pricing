@@ -184,18 +184,20 @@ export function calculateFullPrice(config: Configuration): PriceResult {
     aiSeats += c.aiSeats;
   }
   
-  // Modules
-  config.modules.forEach(id => {
-    const price = calculateModulePrice(id, config.locations);
-    breakdown.push({
-      item: modules[id].name,
-      price,
-      note: config.locations > 5 ? `Org + ${config.locations - 5} extra @ $${modules[id].perLocationPrice}` : 'Org license (≤5 loc)'
+  // Modules (only for Core tier)
+  if (config.layer === 'core') {
+    config.modules.forEach(id => {
+      const price = calculateModulePrice(id, config.locations);
+      breakdown.push({
+        item: modules[id].name,
+        price,
+        note: config.locations > 5 ? `Org + ${config.locations - 5} extra @ $${modules[id].perLocationPrice}` : 'Org license (≤5 loc)'
+      });
     });
-  });
+  }
   
-  // Watchtower
-  if (config.watchtower.length > 0) {
+  // Watchtower (only for Core tier)
+  if (config.layer === 'core' && config.watchtower.length > 0) {
     const wt = calculateWatchtowerPrice(config.watchtower, config.locations);
     breakdown.push({
       item: wt.isBundle ? 'Watchtower Bundle' : 'Watchtower',

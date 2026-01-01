@@ -6,6 +6,7 @@ import { MapPin, TrendingUp, Info, ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { cn } from '../../utils/cn';
+import { getSkipToStep } from '../../utils/tierAvailability';
 
 // Fixed scale points that appear on the slider
 const SCALE_POINTS = [1, 5, 10, 30, 50, 100, 250, 500];
@@ -123,7 +124,9 @@ export function LocationSlider() {
   }));
 
   const handleContinue = () => {
-    setCurrentStep(4);
+    // Check if tier requires skipping steps
+    const skipTo = getSkipToStep(layer, tier);
+    setCurrentStep(skipTo || 4); // Default to step 4 (Modules) if no skip
   };
 
   const handleBack = () => {
@@ -353,7 +356,7 @@ export function LocationSlider() {
           className="button-primary relative z-50"
           data-testid="continue-button"
         >
-          Continue to Modules
+          {getSkipToStep(layer, tier) === 6 ? 'Continue to ROI Calculator' : 'Continue to Modules'}
         </button>
       </motion.div>
     </div>

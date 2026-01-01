@@ -159,19 +159,21 @@ export function WatchtowerToggle() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           whileHover={{ y: -5, scale: 1.02 }}
-          className="md:col-span-2 relative overflow-visible"
+          className="md:col-span-2 relative mt-6"
         >
+          {/* Badge positioned above card with proper spacing */}
+          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-10 whitespace-nowrap shadow-lg">
+            BEST VALUE – SAVE 15%
+          </div>
+          
           <button
             onClick={() => toggleWatchtowerModule('bundle')}
-            className={`w-full p-6 rounded-xl border-2 transition-all relative overflow-visible ${
+            className={`w-full p-6 rounded-xl border-2 transition-all relative ${
               watchtowerModules.includes('bundle')
                 ? 'bg-gradient-to-br from-watchtower/30 to-red-500/30 border-watchtower'
                 : 'bg-gradient-to-br from-watchtower/10 to-red-500/10 border-watchtower/50 hover:border-watchtower'
             }`}
           >
-            <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-10 whitespace-nowrap shadow-lg">
-              BEST VALUE – SAVE 15%
-            </div>
 
             <div className="flex items-center justify-between">
               <div className="text-left">

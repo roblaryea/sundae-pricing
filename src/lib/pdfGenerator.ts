@@ -35,20 +35,51 @@ export async function generateQuotePDF(
   const validUntil = new Date(today);
   validUntil.setDate(validUntil.getDate() + 30);
   
+  // Load logo image - use current origin (works in browser)
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark.png` : '/logos/sundae-wordmark.png';
+  
   // ═══════════════════════════════════════════════════════════════
   // Header
   // ═══════════════════════════════════════════════════════════════
   doc.setFillColor(15, 23, 42); // slate-900
   doc.rect(0, 0, pageWidth, 40, 'F');
   
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(24);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Sundae 🍨', 20, 25);
-  
-  doc.setFontSize(12);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Decision Intelligence for Restaurants', 20, 33);
+  // Try to add logo image, fallback to text if it fails
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        try {
+          // Add logo image (height 8, width auto-scaled)
+          doc.addImage(img, 'PNG', 20, 18, 0, 8);
+          resolve();
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = () => reject(new Error('Failed to load logo'));
+      img.src = logoUrl;
+    });
+    
+    // Subtitle below logo
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Decision Intelligence for Restaurants', 20, 32);
+  } catch (error) {
+    // Fallback to text logo if image fails
+    console.warn('Logo image failed to load, using text fallback:', error);
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(20);
+    doc.setFont('helvetica', 'bold');
+    doc.text('SUNDAE', 20, 25);
+    
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Decision Intelligence for Restaurants', 20, 32);
+  }
   
   // Quote details (right side)
   doc.setTextColor(148, 163, 184);

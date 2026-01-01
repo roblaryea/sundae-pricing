@@ -14,6 +14,7 @@ import { ConfigSummary } from './components/Summary/ConfigSummary';
 import { ProgressIndicator } from './components/shared/ProgressIndicator';
 import { AchievementNotification } from './components/shared/AchievementNotification';
 import { ThemeToggle } from './components/shared/ThemeToggle';
+import { Logo } from './components/Brand/Logo';
 
 function App() {
   const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement } = useConfiguration();
@@ -63,9 +64,7 @@ function App() {
         <header className="py-6 px-8 border-b border-white/10">
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Sundae 🍨
-              </h1>
+              <Logo size="lg" linkToHome />
               <p className="text-sm text-sundae-muted mt-1">
                 Decision Intelligence Platform
               </p>

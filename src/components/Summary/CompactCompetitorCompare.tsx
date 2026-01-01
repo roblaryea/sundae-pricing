@@ -1,176 +1,278 @@
 // Compact multi-competitor comparison widget for summary page
+// UPDATED: Now uses comprehensive competitorPricing.ts data
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, TrendingDown, DollarSign } from 'lucide-react';
+import { ChevronDown, TrendingDown, Info, AlertTriangle, X } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { competitors, type CompetitorId, calculateSavingsVsCompetitor, competitorQuizOptions } from '../../data/competitors';
+import { calculateAllComparisons, COMPETITOR_ASSUMPTIONS, type ComparisonResult } from '../../data/competitorPricing';
 import { cn } from '../../utils/cn';
 
-// Default competitors to show if none selected
-const DEFAULT_COMPETITORS: CompetitorId[] = ['tenzo', 'powerbi', 'excel'];
-
 export function CompactCompetitorCompare() {
-  const { layer, tier, locations, modules: selectedModules, watchtowerModules, competitors: selectedCompetitors } = useConfiguration();
+  const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
   
-  const [expandedCompetitor, setExpandedCompetitor] = useState<CompetitorId | null>(null);
+  const [expandedCompetitor, setExpandedCompetitor] = useState<string | null>(null);
+  const [showAssumptions, setShowAssumptions] = useState(false);
   
-  // Get competitors to compare - from quiz selection or defaults
-  const competitorsToShow = selectedCompetitors?.current?.filter(c => c !== 'nothing')?.length > 0
-    ? selectedCompetitors.current.filter(c => c !== 'nothing')
-    : DEFAULT_COMPETITORS;
+  // Calculate all competitor comparisons using new system
+  const allModules = [...selectedModules, `${layer}-${tier}`];
+  const comparisons = calculateAllComparisons(locations, allModules, pricing.total);
   
-  // Calculate savings for each competitor
-  const comparisons = competitorsToShow.map(id => {
-    const savings = calculateSavingsVsCompetitor(pricing.total, id, locations, selectedModules);
-    const monthlySavings = savings.monthly - pricing.total;
-    
-    return {
-      id,
-      info: competitors[id],
-      savings: {
-        monthly: monthlySavings,
-        setup: savings.setup,
-        firstYear: (monthlySavings * 12) + savings.setup
-      }
-    };
-  });
+  // Split into savings vs costs more
+  const savingsComparisons = comparisons.filter(c => c.savings.firstYear > 0);
+  const costsMoreComparisons = comparisons.filter(c => c.savings.firstYear <= 0);
   
-  // Sort by first year savings (highest first)
-  comparisons.sort((a, b) => b.savings.firstYear - a.savings.firstYear);
-  
-  // Get icon for competitor
-  const getIcon = (id: CompetitorId) => {
-    const option = competitorQuizOptions.find(o => o.id === id);
-    return option?.icon || '📊';
-  };
+  const bestSavings = savingsComparisons[0];
   
   return (
     <div className="compact-competitor-compare">
-      <h4 className="text-lg font-semibold mb-4 flex items-center gap-2">
-        <TrendingDown className="w-5 h-5 text-green-400" />
-        How You Compare
-      </h4>
-      
-      {/* Competitor cards */}
-      <div className="space-y-3">
-        {comparisons.map(({ id, info, savings }) => (
-          <div
-            key={id}
-            className={cn(
-              'bg-slate-800/50 rounded-lg border transition-all',
-              expandedCompetitor === id 
-                ? 'border-amber-500/50' 
-                : 'border-slate-700 hover:border-slate-600'
-            )}
-          >
-            {/* Main row - always visible */}
-            <button
-              onClick={() => setExpandedCompetitor(expandedCompetitor === id ? null : id)}
-              className="w-full p-4 flex items-center justify-between text-left"
-            >
-              <div className="flex items-center gap-3">
-                <span className="text-lg">{getIcon(id)}</span>
-                <div>
-                  <div className="font-medium text-white">vs {info.name}</div>
-                  <div className="text-xs text-slate-400">{info.tagline}</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-4">
-                {savings.firstYear > 0 ? (
-                  <div className="text-right">
-                    <div className="text-green-400 font-bold">
-                      Save ${savings.firstYear.toLocaleString()}
-                    </div>
-                    <div className="text-xs text-slate-400">first year</div>
-                  </div>
-                ) : (
-                  <div className="text-right">
-                    <div className="text-slate-400 text-sm">Similar cost</div>
-                  </div>
-                )}
-                <ChevronDown 
-                  className={cn(
-                    'w-5 h-5 text-slate-400 transition-transform',
-                    expandedCompetitor === id && 'rotate-180'
-                  )} 
-                />
-              </div>
-            </button>
-            
-            {/* Expanded details */}
-            <AnimatePresence>
-              {expandedCompetitor === id && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-4 pb-4 pt-2 border-t border-slate-700/50">
-                    {/* Quick stats */}
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="text-center p-2 bg-slate-900/50 rounded">
-                        <DollarSign className="w-4 h-4 text-green-400 mx-auto mb-1" />
-                        <div className="text-sm font-medium text-white">
-                          ${Math.abs(savings.monthly).toLocaleString()}
-                        </div>
-                        <div className="text-xs text-slate-500">monthly savings</div>
-                      </div>
-                      
-                      {savings.setup > 0 && (
-                        <div className="text-center p-2 bg-slate-900/50 rounded">
-                          <DollarSign className="w-4 h-4 text-amber-400 mx-auto mb-1" />
-                          <div className="text-sm font-medium text-white">
-                            ${savings.setup.toLocaleString()}
-                          </div>
-                          <div className="text-xs text-slate-500">setup avoided</div>
-                        </div>
-                      )}
-                    </div>
-                    
-                    {/* What Sundae adds */}
-                    <div className="text-xs text-slate-400 mb-2">What Sundae gives you:</div>
-                    <div className="flex flex-wrap gap-2">
-                      {info.sundaeAdvantages.slice(0, 3).map((adv, i) => (
-                        <span 
-                          key={i}
-                          className="inline-flex items-center gap-1 px-2 py-1 bg-green-900/30 text-green-400 rounded text-xs"
-                        >
-                          {adv}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        ))}
+      {/* Header with assumptions button */}
+      <div className="flex items-center justify-between mb-4">
+        <h4 className="text-lg font-semibold flex items-center gap-2">
+          <TrendingDown className="w-5 h-5 text-green-400" />
+          How You Compare
+        </h4>
+        <button
+          onClick={() => setShowAssumptions(!showAssumptions)}
+          className="text-xs text-slate-500 hover:text-slate-400 flex items-center gap-1 transition-colors"
+        >
+          <Info className="w-3 h-3" />
+          {showAssumptions ? 'Hide' : 'View'} assumptions
+        </button>
       </div>
       
+      {/* Assumptions Panel */}
+      <AnimatePresence>
+        {showAssumptions && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden mb-4"
+          >
+            <div className="bg-slate-800/50 rounded-lg p-4 text-xs text-slate-400 space-y-2 border border-slate-700">
+              <p className="text-slate-300 font-medium mb-2">Pricing Sources & Assumptions:</p>
+              {Object.entries(COMPETITOR_ASSUMPTIONS).slice(0, 4).map(([id, data]) => (
+                <p key={id}>
+                  <strong className="text-slate-300 capitalize">{id}:</strong> {data.notes} 
+                  <span className="text-slate-500"> ({data.source})</span>
+                </p>
+              ))}
+              <p className="text-amber-500/70 mt-3">
+                ⚠️ Competitor pricing may vary. Contact vendors for exact quotes.
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      
+      {/* Competitor cards - show savings first */}
+      {savingsComparisons.length > 0 && (
+        <div className="space-y-3 mb-4">
+          {savingsComparisons.map((comparison) => (
+            <ComparisonCard
+              key={comparison.competitor.id}
+              comparison={comparison}
+              isExpanded={expandedCompetitor === comparison.competitor.id}
+              onToggle={() => setExpandedCompetitor(
+                expandedCompetitor === comparison.competitor.id ? null : comparison.competitor.id
+              )}
+              isBest={comparison === bestSavings}
+            />
+          ))}
+        </div>
+      )}
+      
       {/* Best savings highlight */}
-      {comparisons.length > 0 && comparisons[0].savings.firstYear > 0 && (
-        <div className="mt-4 p-4 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-500/30 rounded-lg">
+      {bestSavings && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-500/30 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
               <div className="text-green-400 font-medium">Best Savings Opportunity</div>
               <div className="text-sm text-slate-400">
-                vs {competitors[comparisons[0].id].name}
+                vs {bestSavings.competitor.name}
               </div>
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold text-green-400">
-                ${comparisons[0].savings.firstYear.toLocaleString()}
+                ${bestSavings.savings.firstYear.toLocaleString()}
               </div>
               <div className="text-xs text-slate-400">first year</div>
             </div>
           </div>
         </div>
       )}
+      
+      {/* Competitors where Sundae costs more - honest positioning */}
+      {costsMoreComparisons.length > 0 && (
+        <div className="mt-4">
+          <div className="text-xs text-slate-500 mb-2 flex items-center gap-2">
+            <AlertTriangle className="w-3 h-3" />
+            Note: Some point solutions may be cheaper if you only need specific features
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {costsMoreComparisons.map(c => (
+              <span 
+                key={c.competitor.id} 
+                className="text-xs bg-slate-800 px-2 py-1 rounded border border-slate-700"
+              >
+                {c.competitor.icon} {c.competitor.name} ({c.competitor.category})
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COMPARISON CARD COMPONENT
+// ═══════════════════════════════════════════════════════════════════════════
+
+interface ComparisonCardProps {
+  comparison: ComparisonResult;
+  isExpanded: boolean;
+  onToggle: () => void;
+  isBest: boolean;
+}
+
+function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: ComparisonCardProps) {
+  return (
+    <div
+      className={cn(
+        'bg-slate-800/50 rounded-lg border transition-all',
+        isBest 
+          ? 'border-green-500/50 ring-1 ring-green-500/20' 
+          : isExpanded 
+            ? 'border-amber-500/50' 
+            : 'border-slate-700 hover:border-slate-600'
+      )}
+    >
+      {/* Main row - always visible */}
+      <button
+        onClick={onToggle}
+        className="w-full p-4 flex items-center justify-between text-left"
+      >
+        <div className="flex items-center gap-3">
+          <span className="text-lg">{comparison.competitor.icon}</span>
+          <div>
+            <div className="font-medium text-white flex items-center gap-2">
+              vs {comparison.competitor.name}
+              {isBest && (
+                <span className="text-xs bg-green-900/50 text-green-400 px-2 py-0.5 rounded">
+                  Best savings
+                </span>
+              )}
+            </div>
+            <div className="text-xs text-slate-400">{comparison.competitor.category}</div>
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-4">
+          <div className="text-right">
+            <div className="text-green-400 font-bold">
+              Save ${comparison.savings.firstYear.toLocaleString()}
+            </div>
+            <div className="text-xs text-slate-400">first year</div>
+          </div>
+          <ChevronDown 
+            className={cn(
+              'w-5 h-5 text-slate-400 transition-transform',
+              isExpanded && 'rotate-180'
+            )} 
+          />
+        </div>
+      </button>
+      
+      {/* Expanded details */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="px-4 pb-4 pt-2 border-t border-slate-700/50">
+              {/* Cost breakdown */}
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="bg-slate-900/50 rounded-lg p-3">
+                  <div className="text-xs text-slate-500 mb-1">
+                    {comparison.competitor.name} First Year
+                  </div>
+                  <div className="text-lg font-bold text-white">
+                    ${comparison.competitorCost.firstYear.toLocaleString()}
+                  </div>
+                  {comparison.competitorCost.breakdown && (
+                    <div className="mt-2 space-y-1 text-xs text-slate-400">
+                      {Object.entries(comparison.competitorCost.breakdown).slice(0, 3).map(([key, value]) => (
+                        <div key={key} className="flex justify-between">
+                          <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                          <span>${(value as number).toLocaleString()}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
+                <div className="bg-amber-900/20 rounded-lg p-3 border border-amber-500/20">
+                  <div className="text-xs text-slate-500 mb-1">Sundae First Year</div>
+                  <div className="text-lg font-bold text-amber-400">
+                    ${comparison.sundaeCost.annual.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-slate-400 mt-1">
+                    No setup fees
+                  </div>
+                </div>
+              </div>
+              
+              {/* Notes */}
+              {comparison.notes && (
+                <div className="flex items-start gap-2 text-xs text-amber-400 bg-amber-900/10 rounded p-2 mb-3">
+                  <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                  <span>{comparison.notes}</span>
+                </div>
+              )}
+              
+              {/* Limitations */}
+              <div>
+                <div className="text-xs text-slate-500 mb-2">
+                  What {comparison.competitor.name} doesn't offer:
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {comparison.limitations.slice(0, 4).map((limitation, i) => (
+                    <span 
+                      key={i} 
+                      className="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded flex items-center gap-1"
+                    >
+                      <X className="w-3 h-3 text-red-400" />
+                      {limitation}
+                    </span>
+                  ))}
+                  {comparison.limitations.length > 4 && (
+                    <span className="text-xs text-slate-500">
+                      +{comparison.limitations.length - 4} more
+                    </span>
+                  )}
+                </div>
+              </div>
+              
+              {/* Ongoing savings */}
+              <div className="pt-3 mt-3 border-t border-slate-700">
+                <div className="flex justify-between text-sm">
+                  <span className="text-slate-400">Ongoing annual savings</span>
+                  <span className="text-green-400 font-medium">
+                    ${comparison.savings.ongoing.toLocaleString()}/year
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

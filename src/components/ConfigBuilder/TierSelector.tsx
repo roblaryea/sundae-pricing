@@ -5,6 +5,7 @@ import { Check, Star, TrendingUp, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { reportTiers, coreTiers } from '../../data/pricing';
 import { suggestOptimalTier } from '../../hooks/usePriceCalculation';
+import { getCoreProAdvantageMessage } from '../../utils/pricingCalculators';
 
 export function TierSelector() {
   const { layer, setTier, locations, setCurrentStep } = useConfiguration();
@@ -253,23 +254,25 @@ export function TierSelector() {
         </div>
       </motion.div>
 
-      {/* Special note for Core Pro */}
-      {layer === 'core' && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="mt-6 p-4 bg-gradient-to-r from-purple-500/10 to-violet-500/10 rounded-lg border border-purple-500/30"
-        >
-          <p className="text-sm flex items-start gap-2">
-            <Star className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
-            <span>
-              <strong>Portfolio Pricing Advantage:</strong> Core Pro becomes cheaper per location than Core Lite at 10+ locations 
-              due to its lower per-location pricing ($49 vs $54).
-            </span>
-          </p>
-        </motion.div>
-      )}
+      {/* Special note for Core Pro - DYNAMIC calculation */}
+      {layer === 'core' && (() => {
+        const advantageMessage = getCoreProAdvantageMessage();
+        return advantageMessage ? (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="mt-6 p-4 bg-gradient-to-r from-purple-500/10 to-violet-500/10 rounded-lg border border-purple-500/30"
+          >
+            <p className="text-sm flex items-start gap-2">
+              <Star className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+              <span>
+                <strong>Portfolio Pricing Advantage:</strong> {advantageMessage}
+              </span>
+            </p>
+          </motion.div>
+        ) : null;
+      })()}
     </div>
   );
 }

@@ -59,6 +59,13 @@ export function PricingFAQ() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleFAQ(index);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -83,7 +90,11 @@ export function PricingFAQ() {
           >
             <button
               onClick={() => toggleFAQ(index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
               className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+              aria-expanded={openIndex === index}
+              aria-controls={`faq-answer-${index}`}
+              type="button"
             >
               <span className="font-semibold pr-4">{item.question}</span>
               <motion.div
@@ -95,6 +106,8 @@ export function PricingFAQ() {
             </button>
             
             <motion.div
+              id={`faq-answer-${index}`}
+              role="region"
               initial={false}
               animate={{
                 height: openIndex === index ? 'auto' : 0,
@@ -103,7 +116,7 @@ export function PricingFAQ() {
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="px-6 pb-4 text-sundae-muted">
+              <div className="px-6 pb-4 text-sundae-muted" aria-live="polite">
                 {item.answer}
               </div>
             </motion.div>

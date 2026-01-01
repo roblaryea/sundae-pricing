@@ -26,6 +26,7 @@ export function ConfigSummary() {
   // Collapsible states
   const [whatsIncludedOpen, setWhatsIncludedOpen] = useState(true);
   const [comparisonOpen, setComparisonOpen] = useState(false);
+  const [watchtowerOpen, setWatchtowerOpen] = useState(true);
 
   useEffect(() => {
     // Mark summary as viewed and trigger confetti
@@ -58,24 +59,6 @@ export function ConfigSummary() {
   };
 
   const tierDetails = getTierDetails();
-
-  // Calculate best savings opportunity
-  const getBestSavings = () => {
-    const tenzoMonthly = pricing.savings.tenzo.monthly;
-    const ourMonthly = pricing.total;
-    const monthlySavings = tenzoMonthly - ourMonthly;
-    
-    if (monthlySavings > 0) {
-      return {
-        competitor: 'Tenzo',
-        monthly: monthlySavings,
-        annual: monthlySavings * 12
-      };
-    }
-    return null;
-  };
-
-  const bestSavings = getBestSavings();
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -129,7 +112,11 @@ export function ConfigSummary() {
                 <div>
                   <div className="font-semibold">{locations} Location{locations !== 1 ? 's' : ''}</div>
                   <div className="text-sm text-sundae-muted">
-                    ${pricing.perLocation.toFixed(0)} per location
+                    {tier === 'enterprise'
+                      ? 'Volume-based pricing'
+                      : isNaN(pricing.perLocation) || !isFinite(pricing.perLocation)
+                        ? 'Custom pricing'
+                        : `$${pricing.perLocation.toFixed(0)} per location`}
                   </div>
                 </div>
               </div>
@@ -187,9 +174,19 @@ export function ConfigSummary() {
               {/* Monthly total */}
               <div className="text-center p-6 bg-sundae-dark/50 rounded-lg">
                 <div className="text-sm text-sundae-muted mb-1">Monthly Investment</div>
-                <div className="text-4xl md:text-5xl font-bold mb-1">${pricing.total.toLocaleString()}</div>
+                <div className="text-4xl md:text-5xl font-bold mb-1">
+                  {tier === 'enterprise' 
+                    ? 'Custom Pricing'
+                    : isNaN(pricing.total) || !isFinite(pricing.total)
+                      ? 'Custom Pricing'
+                      : `$${pricing.total.toLocaleString()}`}
+                </div>
                 <div className="text-sm text-sundae-muted">
-                  ${(pricing.total * 12).toLocaleString()} annually
+                  {tier === 'enterprise'
+                    ? 'Contact sales@sundae.io for enterprise quote'
+                    : isNaN(pricing.total) || !isFinite(pricing.total)
+                      ? 'Contact sales for quote'
+                      : `$${(pricing.total * 12).toLocaleString()} annually`}
                 </div>
               </div>
 
@@ -254,39 +251,8 @@ export function ConfigSummary() {
         </motion.div>
       )}
 
-      {/* 3. Best Savings Opportunity - ALWAYS VISIBLE */}
-      {bestSavings && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-          className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-xl p-6 border border-green-500/30 mb-6"
-        >
-          <h3 className="text-lg font-bold mb-3 flex items-center gap-2">
-            <span className="text-2xl">💰</span>
-            Best Savings Opportunity
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <div className="text-sm text-sundae-muted mb-1">vs {bestSavings.competitor}</div>
-              <div className="text-3xl font-bold text-green-400">
-                ${Math.round(bestSavings.monthly).toLocaleString()}/mo
-              </div>
-              <div className="text-sm text-sundae-muted mt-1">
-                ${Math.round(bestSavings.annual).toLocaleString()} per year
-              </div>
-            </div>
-            <div className="flex items-center">
-              <p className="text-sm text-sundae-muted">
-                You'll save <strong className="text-white">${Math.round(bestSavings.monthly).toLocaleString()}</strong> every month compared to {bestSavings.competitor}, 
-                while getting more features and better support.
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {/* 4. How You Compare - COLLAPSIBLE (hidden by default) */}
+      {/* 3. How You Compare - COLLAPSIBLE (hidden by default) */}
+      {/* Note: CompactCompetitorCompare has its own "Best Savings Opportunity" card */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -326,15 +292,45 @@ export function ConfigSummary() {
         </AnimatePresence>
       </motion.div>
 
-      {/* Watchtower Strategic Value - Only if selected */}
+      {/* Watchtower Strategic Value - COLLAPSIBLE (only if selected) */}
       {watchtowerModules.length > 0 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.35 }}
-          className="mb-6"
+          className="bg-sundae-surface rounded-xl mb-6"
         >
-          <WatchtowerValue />
+          <button
+            onClick={() => setWatchtowerOpen(!watchtowerOpen)}
+            className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors rounded-xl"
+            aria-expanded={watchtowerOpen}
+            aria-controls="watchtower-content"
+          >
+            <h3 className="text-lg font-bold">Watchtower Strategic Value</h3>
+            <motion.div
+              animate={{ rotate: watchtowerOpen ? 180 : 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <ChevronDown className="w-5 h-5 text-sundae-accent" />
+            </motion.div>
+          </button>
+          
+          <AnimatePresence initial={false}>
+            {watchtowerOpen && (
+              <motion.div
+                id="watchtower-content"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="px-6 pb-6">
+                  <WatchtowerValue />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
 

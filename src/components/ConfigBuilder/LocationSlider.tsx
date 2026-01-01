@@ -70,8 +70,19 @@ export function LocationSlider() {
   const { layer, tier, locations, setLocations, setCurrentStep } = useConfiguration();
   const pricing = usePriceCalculation(layer, tier, locations, [], []);
   
+  // Enterprise tier requires minimum 101 locations
+  const isEnterprise = tier === 'enterprise';
+  const minLocations = isEnterprise ? 101 : 1;
+  
   const [inputValue, setInputValue] = useState(locations.toString());
   const [isDragging, setIsDragging] = useState(false);
+  
+  // Ensure Enterprise tier starts at 101+ locations
+  useEffect(() => {
+    if (isEnterprise && locations < minLocations) {
+      setLocations(minLocations);
+    }
+  }, [isEnterprise, locations, minLocations, setLocations]);
   
   // Sync input value with prop
   useEffect(() => {
@@ -86,10 +97,16 @@ export function LocationSlider() {
   const handleSliderChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setIsDragging(true);
     const newPercent = parseFloat(e.target.value);
-    const newLocation = percentToLocation(newPercent);
+    let newLocation = percentToLocation(newPercent);
+    
+    // Enforce minimum for Enterprise
+    if (isEnterprise && newLocation < minLocations) {
+      newLocation = minLocations;
+    }
+    
     setLocations(newLocation);
     setInputValue(newLocation.toString());
-  }, [setLocations]);
+  }, [setLocations, isEnterprise, minLocations]);
   
   const handleSliderEnd = useCallback(() => {
     setIsDragging(false);
@@ -102,14 +119,14 @@ export function LocationSlider() {
   
   const handleInputBlur = useCallback(() => {
     const num = parseInt(inputValue, 10);
-    if (!isNaN(num) && num >= 1) {
-      const clamped = Math.min(Math.max(num, 1), 9999);
+    if (!isNaN(num) && num >= minLocations) {
+      const clamped = Math.min(Math.max(num, minLocations), 9999);
       setLocations(clamped);
       setInputValue(clamped.toString());
     } else {
       setInputValue(locations.toString());
     }
-  }, [inputValue, setLocations, locations]);
+  }, [inputValue, setLocations, locations, minLocations]);
   
   const handleInputKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
@@ -222,7 +239,9 @@ export function LocationSlider() {
         {/* Manual input */}
         <div className="text-center mb-6">
           <p className="text-sm text-slate-400 mb-2">
-            For precise counts, click the number above or type here:
+            {isEnterprise 
+              ? 'Enterprise tier requires 101+ locations. Type precise count here:'
+              : 'For precise counts, click the number above or type here:'}
           </p>
           <input
             id="location-input"
@@ -231,8 +250,14 @@ export function LocationSlider() {
             onChange={handleInputChange}
             onBlur={handleInputBlur}
             onKeyDown={handleInputKeyDown}
+            min={minLocations}
             className="bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-center text-lg w-28 focus:border-amber-400 focus:outline-none"
           />
+          {isEnterprise && (
+            <p className="text-xs text-amber-400 mt-2">
+              Minimum: {minLocations} locations for Enterprise tier
+            </p>
+          )}
         </div>
 
         {/* Live pricing display */}

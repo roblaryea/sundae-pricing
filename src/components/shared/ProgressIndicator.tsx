@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import { useState } from 'react';
 import type { JourneyStep } from '../../hooks/useConfiguration';
+import { useConfiguration } from '../../hooks/useConfiguration';
+import { shouldShowStep } from '../../utils/tierAvailability';
 
 interface ProgressIndicatorProps {
   steps: JourneyStep[];
@@ -13,8 +15,14 @@ interface ProgressIndicatorProps {
 
 export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressIndicatorProps) {
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+  const { layer, tier } = useConfiguration();
 
   const handleStepClick = (index: number) => {
+    // Check if step is available for current tier
+    if (!shouldShowStep(index, layer, tier)) {
+      return; // Don't allow navigation to unavailable steps
+    }
+    
     const isCompleted = steps[index].completed;
     const isPast = index < currentStep;
     
@@ -27,10 +35,18 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
   return (
     <div className="flex items-center gap-2">
       {steps.map((step, index) => {
+        // Check if this step should be shown for the current tier
+        const isAvailable = shouldShowStep(index, layer, tier);
+        
+        // Skip rendering unavailable steps
+        if (!isAvailable) {
+          return null;
+        }
+        
         const isActive = index === currentStep;
         const isCompleted = step.completed;
         const isPast = index < currentStep;
-        const isClickable = (isCompleted || isPast) && index !== currentStep;
+        const isClickable = (isCompleted || isPast) && index !== currentStep && isAvailable;
         const isHovered = hoveredStep === index;
 
         return (

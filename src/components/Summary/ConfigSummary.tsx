@@ -27,6 +27,7 @@ export function ConfigSummary() {
   const [whatsIncludedOpen, setWhatsIncludedOpen] = useState(true);
   const [comparisonOpen, setComparisonOpen] = useState(false);
   const [watchtowerOpen, setWatchtowerOpen] = useState(true);
+  const [faqOpen, setFaqOpen] = useState(false);
 
   useEffect(() => {
     // Mark summary as viewed and trigger confetti
@@ -334,10 +335,45 @@ export function ConfigSummary() {
         </motion.div>
       )}
 
-      {/* 5. FAQ Section - Already has accordion behavior */}
-      <div className="mb-6">
-        <PricingFAQ />
-      </div>
+      {/* 5. FAQ Section - COLLAPSIBLE (hidden by default) */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4 }}
+        className="bg-sundae-surface rounded-xl mb-6"
+      >
+        <button
+          onClick={() => setFaqOpen(!faqOpen)}
+          className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors rounded-xl"
+          aria-expanded={faqOpen}
+          aria-controls="faq-content"
+        >
+          <h3 className="text-lg font-bold">Frequently Asked Questions</h3>
+          <motion.div
+            animate={{ rotate: faqOpen ? 180 : 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ChevronDown className="w-5 h-5 text-sundae-accent" />
+          </motion.div>
+        </button>
+        
+        <AnimatePresence initial={false}>
+          {faqOpen && (
+            <motion.div
+              id="faq-content"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="overflow-hidden"
+            >
+              <div className="px-6 pb-6">
+                <PricingFAQ />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
 
       {/* 6. CTA Row */}
       <motion.div

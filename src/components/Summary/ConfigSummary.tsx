@@ -12,6 +12,7 @@ import { EmailQuoteButton } from './EmailQuoteButton';
 import { BookDemoButton } from './BookDemoButton';
 import { CompactCompetitorCompare } from './CompactCompetitorCompare';
 import { WatchtowerValue } from './WatchtowerValue';
+import { PricingFAQ } from './PricingFAQ';
 
 export function ConfigSummary() {
   const { 
@@ -234,6 +235,11 @@ export function ConfigSummary() {
           </div>
         </motion.div>
       )}
+
+      {/* FAQ Section - BEFORE CTAs as per requirements */}
+      <div className="mb-8">
+        <PricingFAQ />
+      </div>
 
       {/* CTAs */}
       <motion.div

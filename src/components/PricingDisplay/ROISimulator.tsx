@@ -1,7 +1,7 @@
 // ROI calculator component
 
 import { motion } from 'framer-motion';
-import { TrendingUp, Clock, ChevronRight } from 'lucide-react';
+import { TrendingUp, Clock, ChevronRight, Users, Package, Megaphone, ShoppingCart, CalendarDays } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { useROICalculation, generateROIDescription, getTopSavingsCategories } from '../../hooks/useROICalculation';
@@ -188,18 +188,25 @@ export function ROISimulator() {
               if (amount === 0) return null;
               
               const percentage = (amount / roi.monthlySavings) * 100;
-              const labels: Record<string, string> = {
-                labor: '👥 Labor Optimization',
-                food: '📦 Food Cost Reduction',
-                marketing: '📣 Marketing Efficiency',
-                purchasing: '🛒 Purchasing Savings',
-                reservations: '📅 Table Utilization'
+              const labelConfig: Record<string, { icon: any; label: string }> = {
+                labor: { icon: Users, label: 'Labor Optimization' },
+                food: { icon: Package, label: 'Food Cost Reduction' },
+                marketing: { icon: Megaphone, label: 'Marketing Efficiency' },
+                purchasing: { icon: ShoppingCart, label: 'Purchasing Savings' },
+                reservations: { icon: CalendarDays, label: 'Table Utilization' }
               };
+              
+              const config = labelConfig[category];
+              if (!config) return null;
+              const IconComponent = config.icon;
               
               return (
                 <div key={category}>
                   <div className="flex justify-between mb-2">
-                    <span className="text-sm font-medium">{labels[category]}</span>
+                    <span className="text-sm font-medium flex items-center gap-2">
+                      <IconComponent className="w-4 h-4" />
+                      {config.label}
+                    </span>
                     <span className="text-sm font-bold">${amount.toLocaleString()}/mo</span>
                   </div>
                   <div className="w-full bg-sundae-surface-hover rounded-full h-2">

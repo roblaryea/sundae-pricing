@@ -309,15 +309,15 @@ export function useROICalculation(
 // Helper function to generate ROI description - Conservative messaging
 export function generateROIDescription(roi: ROICalculation): string {
   if (roi.roi >= 10) {
-    return `🚀 Strong ROI! ${roi.roi}x return with ${Math.ceil(roi.paybackDays / 7)}-week payback period.`;
+    return `Strong ROI! ${roi.roi}x return with ${Math.ceil(roi.paybackDays / 7)}-week payback period.`;
   } else if (roi.roi >= 5) {
-    return `📈 Solid returns with ${roi.roi}x ROI and ${Math.ceil(roi.paybackDays / 7)}-week payback.`;
+    return `Solid returns with ${roi.roi}x ROI and ${Math.ceil(roi.paybackDays / 7)}-week payback.`;
   } else if (roi.roi >= 2) {
-    return `✅ Positive ROI with measurable impact on your operations.`;
+    return `Positive ROI with measurable impact on your operations.`;
   } else if (roi.roi >= 1) {
-    return `💡 Value builds as you optimize operations over time.`;
+    return `Value builds as you optimize operations over time.`;
   } else {
-    return `📊 Long-term investment in operational intelligence.`;
+    return `Long-term investment in operational intelligence.`;
   }
 }
 

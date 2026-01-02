@@ -60,8 +60,9 @@ export function CompactCompetitorCompare() {
                   <span className="text-slate-500"> ({data.source})</span>
                 </p>
               ))}
-              <p className="text-amber-500/70 mt-3">
-                ⚠️ Competitor pricing may vary. Contact vendors for exact quotes.
+              <p className="text-amber-500/70 mt-3 flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                Competitor pricing may vary. Contact vendors for exact quotes.
               </p>
             </div>
           </motion.div>

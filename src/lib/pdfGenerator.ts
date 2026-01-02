@@ -238,19 +238,13 @@ export async function generateQuotePDF(
         yPos = 25;
       }
       
-      // Competitor name with verification badge (row 1)
+      // Competitor name (row 1)
       doc.setFont('helvetica', 'bold');
-      doc.text(comp.competitor.name, 25, yPos);
-      
-      // Add verification indicator
-      doc.setFontSize(7);
-      doc.setTextColor(100, 116, 139);
-      doc.setFont('helvetica', 'normal');
-      doc.text('(verified)', 25 + doc.getTextWidth(comp.competitor.name) + 2, yPos);
-      
-      // Costs and savings (same row)
       doc.setFontSize(10);
       doc.setTextColor(30, 41, 59);
+      doc.text(comp.competitor.name, 25, yPos);
+      
+      // Costs and savings (same row)
       doc.text(`$${comp.competitorCost.firstYear.toLocaleString()}`, 90, yPos);
       doc.text(`$${comp.sundaeCost.annual.toLocaleString()}`, 130, yPos);
       
@@ -258,12 +252,12 @@ export async function generateQuotePDF(
       doc.setFont('helvetica', 'bold');
       doc.text(`$${comp.savings.firstYear.toLocaleString()}`, pageWidth - 30, yPos, { align: 'right' });
       
-      // Category subtitle (row 2 - prevents overlap)
+      // Category subtitle + verified badge (row 2 - prevents overlap)
       yPos += 6;
-      doc.setFontSize(8);
+      doc.setFontSize(7);
       doc.setTextColor(100, 116, 139);
       doc.setFont('helvetica', 'normal');
-      doc.text(comp.competitor.category, 25, yPos);
+      doc.text(`${comp.competitor.category} • Verified`, 25, yPos);
       
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(30, 41, 59);

@@ -60,17 +60,17 @@ function App() {
 
       {/* Main content */}
       <div className="relative z-10">
-        {/* Header */}
-        <header className="py-6 px-8 border-b border-white/10">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div>
+        {/* Header - Sticky with backdrop */}
+        <header className="sticky top-0 z-50 py-4 md:py-6 px-4 md:px-8 border-b border-white/10 bg-sundae-dark/95 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <div className="min-w-0">
               <Logo size="lg" linkToHome />
-              <p className="text-sm text-sundae-muted mt-1">
+              <p className="text-xs md:text-sm text-sundae-muted mt-1 hidden sm:block">
                 Decision Intelligence Platform
               </p>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
               {/* Progress for non-quiz steps */}
               {currentStep > 0 && (
                 <ProgressIndicator
@@ -86,8 +86,8 @@ function App() {
           </div>
         </header>
 
-        {/* Journey content */}
-        <main className="max-w-7xl mx-auto p-8">
+        {/* Journey content - padding to account for sticky header */}
+        <main className="max-w-7xl mx-auto p-4 md:p-8 pt-6 md:pt-8">
           <AnimatePresence mode="wait">
             {renderStep()}
           </AnimatePresence>

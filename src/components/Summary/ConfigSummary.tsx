@@ -1,7 +1,7 @@
 // Final configuration summary component - Optimized with collapsibles
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Rocket, ChevronDown } from 'lucide-react';
+import { Check, Rocket, ChevronDown, Sparkles } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { reportTiers, coreTiers, watchtower } from '../../data/pricing';
@@ -72,9 +72,10 @@ export function ConfigSummary() {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", stiffness: 200 }}
-          className="text-4xl md:text-5xl font-bold mb-3"
+          className="text-4xl md:text-5xl font-bold mb-3 flex items-center justify-center gap-3"
         >
-          Your Sundae Stack 🍨
+          Your Sundae Stack
+          <Sparkles className="w-10 h-10 text-sundae-accent" />
         </motion.h1>
         <p className="text-lg md:text-xl text-sundae-muted">
           Ready to transform your restaurant intelligence

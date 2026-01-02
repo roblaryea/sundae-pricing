@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp, Zap, Target, Info, Castle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
+import { getIconByEmoji } from '../../lib/iconMap';
 import { calculateWatchtowerValue } from '../../lib/watchtowerValueScenarios';
 import { calculateWatchtowerPrice } from '../../lib/watchtowerEngine';
 import { cn } from '../../utils/cn';
@@ -145,10 +146,8 @@ function ModuleValueCard({ module, isExpanded, onToggle }: ModuleValueCardProps)
       >
         <div className="flex items-center gap-3">
           {(() => {
-            const IconComponent = module.icon === '📅' ? import('lucide-react').then(m => m.CalendarDays) : 
-                                  module.icon === '📈' ? import('lucide-react').then(m => m.TrendingUp) : 
-                                  Castle;
-            return typeof IconComponent === 'object' ? <Castle className="w-5 h-5" /> : <IconComponent className="w-5 h-5" />;
+            const IconComponent = getIconByEmoji(module.icon);
+            return <IconComponent className="w-5 h-5 text-watchtower" />;
           })()}
           <div className="text-left">
             <div className="font-medium">{module.name}</div>

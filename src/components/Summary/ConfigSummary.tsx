@@ -1,7 +1,8 @@
 // Final configuration summary component - Optimized with collapsibles
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Rocket, ChevronDown, Sparkles } from 'lucide-react';
+import { Check, Rocket, ChevronDown, Sparkles, Castle } from 'lucide-react';
+import { getIconByEmoji } from '../../lib/iconMap';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { reportTiers, coreTiers, watchtower } from '../../data/pricing';
@@ -144,10 +145,20 @@ export function ConfigSummary() {
                   <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="font-semibold">Watchtower Intelligence</div>
-                    <div className="text-sm text-sundae-muted">
-                      {watchtowerModules.includes('bundle') 
-                        ? '🏰 Full Bundle (All modules)'
-                        : watchtowerModules.map(id => watchtower[id as keyof typeof watchtower]?.icon).filter(Boolean).join(' ')}
+                    <div className="text-sm text-sundae-muted flex items-center gap-1">
+                      {watchtowerModules.includes('bundle') ? (
+                        <>
+                          <Castle className="w-4 h-4 inline" />
+                          <span>Full Bundle (All modules)</span>
+                        </>
+                      ) : (
+                        watchtowerModules.map((id, idx) => {
+                          const module = watchtower[id as keyof typeof watchtower];
+                          if (!module || 'includes' in module) return null;
+                          const IconComponent = getIconByEmoji(module.icon);
+                          return <IconComponent key={idx} className="w-4 h-4" />;
+                        })
+                      )}
                     </div>
                   </div>
                 </div>

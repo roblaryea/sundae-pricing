@@ -35,6 +35,8 @@ import {
   UtensilsCrossed,
   MessageCircle,
   Warehouse,
+  Table,
+  Activity,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -109,7 +111,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   
   // AI/Tech
   '🤖': Bot,
-  '⚡': Zap,
+  '⚡': Activity,  // Activity/efficiency icon (distinct from Zap used for CORE tier)
   
   // Actions
   '🚀': Rocket,
@@ -132,7 +134,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   '🔭': Radar,
   
   // Analytics
-  '📊': BarChart3,
+  '📊': Table,  // Spreadsheet table icon (distinct from BarChart3 used for REPORT tier)
   
   // Money
   '💰': DollarSign,

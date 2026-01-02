@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDown, Check, Star, ChevronRight, AlertCircle, BarChart3, Zap, Castle } from 'lucide-react';
+import { ChevronDown, Check, Star, ChevronRight, AlertCircle } from 'lucide-react';
 import { reportTiers, coreTiers, modules, watchtower, pricingFooter } from '../data/pricing';
+import { PRODUCT_ICONS } from '../constants/icons';
+
+// Get product icons from centralized mapping (per SUNDAE_ICON_MAPPING.md)
+const { report: FileText, core: Zap, watchtower: Castle } = PRODUCT_ICONS;
 import { getCoreProAdvantageMessage } from '../utils/pricingCalculators';
 import { cn } from '../utils/cn';
 import { reportFeatureComparison, coreFeatureComparison } from '../data/featureComparisons';
@@ -86,7 +90,7 @@ export function PricingOverview() {
         <div>
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <BarChart3 className="w-8 h-8 text-green-400" />
+              <FileText className="w-8 h-8 text-green-400" />
               <h2 className="text-3xl md:text-4xl font-bold text-white">Sundae Report</h2>
             </div>
             <p className="text-sundae-muted">Analytics and insights for restaurant data</p>

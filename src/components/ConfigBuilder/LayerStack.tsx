@@ -1,8 +1,12 @@
 // Layer stack 3D visualization component
 
 import { motion } from 'framer-motion';
-import { ChevronRight, Check, Layers, BarChart3, Zap, Castle } from 'lucide-react';
+import { ChevronRight, Check, Layers } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
+import { PRODUCT_ICONS } from '../../constants/icons';
+
+// Get product icons from centralized mapping
+const { report: FileText, core: Zap, watchtower: Castle } = PRODUCT_ICONS;
 
 interface Layer {
   id: 'report' | 'core';
@@ -19,7 +23,7 @@ const layers: Layer[] = [
   {
     id: 'report',
     name: 'REPORT',
-    icon: 'BarChart3',
+    icon: 'FileText',
     tagline: 'Historical analysis & benchmarking',
     startingPrice: 'Starting at $0/month',
     color: '#10B981',
@@ -156,7 +160,7 @@ export function LayerStack() {
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <BarChart3 className="w-8 h-8 text-green-400 flex-shrink-0" />
+                  <FileText className="w-8 h-8 text-green-400 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="font-bold text-lg leading-tight">{layers[0].name}</h3>
@@ -191,7 +195,7 @@ export function LayerStack() {
             className="p-6 bg-sundae-surface rounded-xl border border-white/10"
           >
             <div className="flex items-start gap-3 mb-4">
-              {layerItem.icon === 'BarChart3' && <BarChart3 className="w-6 h-6" style={{ color: layerItem.color }} />}
+              {layerItem.icon === 'FileText' && <FileText className="w-6 h-6" style={{ color: layerItem.color }} />}
               {layerItem.icon === 'Zap' && <Zap className="w-6 h-6" style={{ color: layerItem.color }} />}
               <div className="flex-1">
                 <h3 className="font-bold text-lg" style={{ color: layerItem.color }}>

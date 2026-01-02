@@ -1,10 +1,11 @@
 // Module marketplace interface component
 
 import { motion } from 'framer-motion';
-import { Plus, Check, Zap, TrendingUp, ChevronLeft, Users, Package, ShoppingCart, Megaphone, CalendarDays } from 'lucide-react';
+import { Plus, Check, Zap, TrendingUp, ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { modules } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
+import { MODULE_ICONS } from '../../constants/icons';
 
 export function ModulePicker() {
   const { layer, tier, locations, modules: selectedModules, toggleModule, setCurrentStep } = useConfiguration();
@@ -21,14 +22,8 @@ export function ModulePicker() {
   };
 
   const getModuleIcon = (moduleId: string) => {
-    const iconMap: Record<string, any> = {
-      labor: Users,
-      inventory: Package,
-      purchasing: ShoppingCart,
-      marketing: Megaphone,
-      reservations: CalendarDays
-    };
-    return iconMap[moduleId] || Package;
+    // Use official module icons from SUNDAE_ICON_MAPPING
+    return MODULE_ICONS[moduleId as keyof typeof MODULE_ICONS] || MODULE_ICONS.labor;
   };
 
   const calculateModulePrice = (module: typeof modules[keyof typeof modules]) => {

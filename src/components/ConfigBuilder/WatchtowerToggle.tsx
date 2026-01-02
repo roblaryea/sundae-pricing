@@ -109,8 +109,15 @@ export function WatchtowerToggle() {
               whileHover={{ y: isDisabledByBundle ? 0 : -5 }}
             >
               <button
-                onClick={() => !isDisabledByBundle && toggleWatchtowerModule(moduleId)}
-                disabled={isDisabledByBundle}
+                onClick={() => {
+                  if (isDisabledByBundle) {
+                    // If bundle is selected, deselect it and select this individual module
+                    toggleWatchtowerModule('bundle'); // Deselect bundle
+                    toggleWatchtowerModule(moduleId); // Select this module
+                  } else {
+                    toggleWatchtowerModule(moduleId);
+                  }
+                }}
                 className={`w-full p-6 rounded-xl border-2 transition-all relative ${
                   isSelected || isDisabledByBundle
                     ? 'bg-gradient-to-br from-watchtower/20 to-red-500/20 border-watchtower/50'
@@ -159,16 +166,16 @@ export function WatchtowerToggle() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           whileHover={{ y: -5, scale: 1.02 }}
-          className="md:col-span-2 relative mt-6"
+          className="md:col-span-2 relative mt-6 isolate"
         >
           {/* Badge positioned above card with proper spacing */}
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-20 whitespace-nowrap shadow-lg">
+          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-50 whitespace-nowrap shadow-lg">
             BEST VALUE – SAVE 15%
           </div>
           
           <button
             onClick={() => toggleWatchtowerModule('bundle')}
-            className={`w-full p-6 rounded-xl border-2 transition-all relative z-0 ${
+            className={`w-full p-6 rounded-xl border-2 transition-all relative z-10 ${
               watchtowerModules.includes('bundle')
                 ? 'bg-gradient-to-br from-watchtower/30 to-red-500/30 border-watchtower'
                 : 'bg-gradient-to-br from-watchtower/10 to-red-500/10 border-watchtower/50 hover:border-watchtower'

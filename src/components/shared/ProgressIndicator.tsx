@@ -33,7 +33,7 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="hidden md:flex items-center gap-2">
       {steps.map((step, index) => {
         // Check if this step should be shown for the current tier
         const isAvailable = shouldShowStep(index, layer, tier);

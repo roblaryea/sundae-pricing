@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ChevronRight, Sparkles } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { quizQuestions, calculatePersonaMatch } from '../../data/personas';
+import { getIconByEmoji } from '../../lib/iconMap';
 import confetti from 'canvas-confetti';
 
 export function PathwaySelector() {
@@ -60,7 +61,12 @@ export function PathwaySelector() {
           transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
           className="mb-8"
         >
-          <div className="text-8xl mb-4">{persona.emoji}</div>
+          <div className="mb-4">
+            {(() => {
+              const IconComponent = getIconByEmoji(persona.emoji);
+              return <IconComponent className="w-20 h-20 mx-auto" style={{ color: persona.color }} />;
+            })()}
+          </div>
           <motion.h1
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -145,8 +151,9 @@ export function PathwaySelector() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className="text-5xl font-bold mb-4">
-            Welcome to Sundae 🍨
+          <h1 className="text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+            Welcome to Sundae
+            <Sparkles className="w-12 h-12 text-sundae-accent" />
           </h1>
           <p className="text-xl text-sundae-muted">
             Let's find your perfect intelligence stack
@@ -203,11 +210,10 @@ export function PathwaySelector() {
             className="p-6 bg-sundae-surface hover:bg-sundae-surface-hover rounded-xl border border-white/10 hover:border-sundae-accent/50 transition-all duration-300 text-left group"
           >
             <div className="flex items-start gap-4">
-              {option.emoji && (
-                <span className="text-3xl group-hover:scale-110 transition-transform">
-                  {option.emoji}
-                </span>
-              )}
+              {option.emoji && (() => {
+                const IconComponent = getIconByEmoji(option.emoji);
+                return <IconComponent className="w-8 h-8 group-hover:scale-110 transition-transform flex-shrink-0" />;
+              })()}
               <div>
                 <div className="font-semibold text-lg mb-1">
                   {option.label}

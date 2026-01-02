@@ -1,7 +1,7 @@
 // Module marketplace interface component
 
 import { motion } from 'framer-motion';
-import { Plus, Check, Zap, TrendingUp, ChevronLeft } from 'lucide-react';
+import { Plus, Check, Zap, TrendingUp, ChevronLeft, Users, Package, ShoppingCart, Megaphone, CalendarDays } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { modules } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
@@ -21,14 +21,14 @@ export function ModulePicker() {
   };
 
   const getModuleIcon = (moduleId: string) => {
-    const icons: Record<string, any> = {
-      labor: '👥',
-      inventory: '📦',
-      purchasing: '🛒',
-      marketing: '📣',
-      reservations: '📅'
+    const iconMap: Record<string, any> = {
+      labor: Users,
+      inventory: Package,
+      purchasing: ShoppingCart,
+      marketing: Megaphone,
+      reservations: CalendarDays
     };
-    return icons[moduleId] || '📊';
+    return iconMap[moduleId] || Package;
   };
 
   const calculateModulePrice = (module: typeof modules[keyof typeof modules]) => {
@@ -121,7 +121,10 @@ export function ModulePicker() {
                 <div className="text-left">
                   {/* Header */}
                   <div className="flex items-start gap-4 mb-4">
-                    <span className="text-4xl">{getModuleIcon(moduleId)}</span>
+                    {(() => {
+                      const IconComponent = getModuleIcon(moduleId);
+                      return <IconComponent className="w-10 h-10 flex-shrink-0" />;
+                    })()}
                     <div className="flex-1">
                       <h3 className="font-bold text-lg mb-1">{module.name}</h3>
                       <p className="text-xs text-sundae-muted">{moduleAny.tagline || module.description}</p>

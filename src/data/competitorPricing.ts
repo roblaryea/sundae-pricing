@@ -4,6 +4,8 @@
 // Last updated: January 2026
 // ═══════════════════════════════════════════════════════════════════════════
 
+import { SPREADSHEETS_LABOR_RATE_USD } from '../config/pricingAssumptions';
+
 export type VerificationLevel = 'verified' | 'estimated' | 'unverified';
 
 export const VERIFICATION_LABELS = {
@@ -332,7 +334,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       
       // Analyst time to maintain manual reporting
       analystHoursPerWeek: (locations: number) => Math.max(10, locations * 2),
-      analystHourlyRate: 35,  // $35/hour
+      analystHourlyRate: SPREADSHEETS_LABOR_RATE_USD,  // $25/hour (updated Jan 2026)
       
       // Error cost (industry studies: 2-5% of decisions affected by spreadsheet errors)
       errorCostPercent: 0.002  // 0.2% of revenue
@@ -341,7 +343,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     calculate: (locations: number) => {
       const hoursPerWeek = Math.max(10, locations * 2);
       const weeksPerYear = 50;
-      const hourlyRate = 35;
+      const hourlyRate = SPREADSHEETS_LABOR_RATE_USD;
       
       const laborCost = hoursPerWeek * weeksPerYear * hourlyRate;
       const softwareCost = 200;
@@ -356,7 +358,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
         ongoing: totalAnnual,
         setupFee: 0,
         breakdown: {
-          [`Labor (${hoursPerWeek} hrs/week @ $35/hr)`]: laborCost,
+          [`Labor (${hoursPerWeek} hrs/week @ $${SPREADSHEETS_LABOR_RATE_USD}/hr)`]: laborCost,
           'Software': softwareCost,
           'Error/rework cost (0.2% revenue)': Math.round(errorCost)
         },
@@ -607,7 +609,7 @@ export const COMPETITOR_ASSUMPTIONS = {
   },
   spreadsheets: {
     source: 'Industry labor cost estimates',
-    notes: `${'{locations * 2}'} hours/week analyst @ $35/hr + 0.2% revenue impact from errors`,
+    notes: `${'{locations * 2}'} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr + 0.2% revenue impact from errors`,
     lastVerified: 'January 2026'
   },
   restaurant365: {

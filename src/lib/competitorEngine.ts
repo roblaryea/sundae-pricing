@@ -5,6 +5,7 @@
 import { competitors } from '../data/competitors';
 import type { CompetitorId } from '../data/competitors';
 import type { PriceResult } from './pricingEngine';
+import { SPREADSHEETS_LABOR_RATE_USD } from '../config/pricingAssumptions';
 
 export interface CompetitorCost {
   competitorId: CompetitorId;
@@ -188,7 +189,7 @@ function calculateLookerCost(_locations: number, users: number = 10): Competitor
 function calculateExcelCost(locations: number): CompetitorCost {
   // Calculate opportunity cost
   const managerHoursPerWeek = 10;
-  const managerHourlyRate = 35;
+  const managerHourlyRate = SPREADSHEETS_LABOR_RATE_USD;
   const weeklyOpportunityCost = managerHoursPerWeek * managerHourlyRate * locations;
   const monthlyOpportunityCost = weeklyOpportunityCost * 4.33;
   

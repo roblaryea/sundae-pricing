@@ -1,7 +1,7 @@
 // Layer stack 3D visualization component
 
 import { motion } from 'framer-motion';
-import { ChevronRight, Check, Layers } from 'lucide-react';
+import { ChevronRight, Check, Layers, BarChart3, Zap, Castle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 
 interface Layer {
@@ -19,7 +19,7 @@ const layers: Layer[] = [
   {
     id: 'report',
     name: 'REPORT',
-    icon: '📊',
+    icon: 'BarChart3',
     tagline: 'Historical analysis & benchmarking',
     startingPrice: 'Starting at $0/month',
     color: '#10B981',
@@ -33,7 +33,7 @@ const layers: Layer[] = [
   {
     id: 'core',
     name: 'CORE',
-    icon: '⚡',
+    icon: 'Zap',
     tagline: 'Real-time operations & AI',
     startingPrice: 'Starting at $169/month',
     color: '#8B5CF6',
@@ -50,9 +50,9 @@ const layers: Layer[] = [
 const watchtowerLayer = {
   id: 'watchtower' as const,
   name: 'WATCHTOWER',
-  icon: '🔭',
+  icon: 'Castle',
   tagline: 'Competitive intelligence',
-  startingPrice: 'Add-on: $99-349/month',
+  startingPrice: 'Add-on: From $199/mo + per-location',
   color: '#EF4444',
   features: [
     'Competitor tracking',
@@ -98,7 +98,7 @@ export function LayerStack() {
           >
             <div className="p-4 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-xl border border-red-500/30 backdrop-blur">
               <div className="flex items-center gap-3">
-                <span className="text-2xl flex-shrink-0">{watchtowerLayer.icon}</span>
+                <Castle className="w-6 h-6 text-red-400 flex-shrink-0" />
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-base leading-tight">{watchtowerLayer.name}</h3>
                   <p className="text-xs text-sundae-muted leading-tight mt-1">{watchtowerLayer.tagline}</p>
@@ -123,7 +123,7 @@ export function LayerStack() {
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <span className="text-3xl flex-shrink-0">{layers[1].icon}</span>
+                  <Zap className="w-8 h-8 text-violet-400 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="font-bold text-lg leading-tight">{layers[1].name}</h3>
@@ -156,7 +156,7 @@ export function LayerStack() {
             >
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <span className="text-3xl flex-shrink-0">{layers[0].icon}</span>
+                  <BarChart3 className="w-8 h-8 text-green-400 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
                       <h3 className="font-bold text-lg leading-tight">{layers[0].name}</h3>
@@ -191,7 +191,8 @@ export function LayerStack() {
             className="p-6 bg-sundae-surface rounded-xl border border-white/10"
           >
             <div className="flex items-start gap-3 mb-4">
-              <span className="text-2xl">{layerItem.icon}</span>
+              {layerItem.icon === 'BarChart3' && <BarChart3 className="w-6 h-6" style={{ color: layerItem.color }} />}
+              {layerItem.icon === 'Zap' && <Zap className="w-6 h-6" style={{ color: layerItem.color }} />}
               <div className="flex-1">
                 <h3 className="font-bold text-lg" style={{ color: layerItem.color }}>
                   {layerItem.name}

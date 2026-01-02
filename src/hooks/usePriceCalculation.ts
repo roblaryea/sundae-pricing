@@ -119,7 +119,8 @@ export function suggestOptimalTier(locations: number, layer: 'report' | 'core'):
   
   if (layer === 'core') {
     if (locations <= 5) return 'lite';
-    if (locations >= 14) return 'pro'; // Pro becomes cheaper per location at 14+
+    const crossover = calculateCoreProCrossoverPoint();
+    if (locations >= crossover + 1) return 'pro'; // Pro becomes cheaper at crossover + 1
     return 'lite';
   }
   
@@ -128,11 +129,12 @@ export function suggestOptimalTier(locations: number, layer: 'report' | 'core'):
 
 // Calculate crossover point where Core Pro becomes cheaper than Core Lite
 export function calculateCoreProCrossoverPoint(): number {
-  // Core Lite: $169 + (n-1) * $49
-  // Core Pro: $299 + (n-1) * $39
-  // Solve: 169 + 49n - 49 = 299 + 39n - 39
-  // 120 + 49n = 260 + 39n
-  // 10n = 140
-  // n = 14
-  return 14;
+  // Core Lite: $169 + (n-1) * $54
+  // Core Pro: $319 + (n-1) * $49
+  // Solve: 169 + (n-1)*54 = 319 + (n-1)*49
+  // 169 + 54n - 54 = 319 + 49n - 49
+  // 115 + 54n = 270 + 49n
+  // 5n = 155
+  // n = 31 (break-even), cheaper at 32+
+  return 31;
 }

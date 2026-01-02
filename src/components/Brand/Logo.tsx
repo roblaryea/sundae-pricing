@@ -1,7 +1,6 @@
 // Reusable Sundae logo component - Single source of truth for branding
 
 import { cn } from '../../utils/cn';
-import { Sparkles } from 'lucide-react';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -41,7 +40,7 @@ export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) 
   const fallbackText = (
     <span
       className={cn(
-        'font-bold bg-gradient-primary bg-clip-text text-transparent hidden flex items-center gap-2',
+        'font-bold bg-gradient-primary bg-clip-text text-transparent hidden',
         size === 'sm' && 'text-xl',
         size === 'md' && 'text-2xl md:text-3xl',
         size === 'lg' && 'text-3xl md:text-4xl',
@@ -49,11 +48,6 @@ export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) 
       )}
     >
       Sundae
-      <Sparkles className={cn(
-        size === 'sm' && 'w-5 h-5',
-        size === 'md' && 'w-6 h-6',
-        size === 'lg' && 'w-8 h-8'
-      )} />
     </span>
   );
 

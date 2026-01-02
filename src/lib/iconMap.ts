@@ -32,6 +32,9 @@ import {
   Lightbulb,
   AlertTriangle,
   Building,
+  UtensilsCrossed,
+  MessageCircle,
+  Warehouse,
   type LucideIcon,
 } from 'lucide-react';
 
@@ -74,6 +77,8 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   '🍨': Sparkles,
   
   // Locations/Buildings
+  '🏪': Store,
+  '🏬': Warehouse,
   '🏢': Building2,
   '🏙️': Building2,
   '🏨': Building,
@@ -94,6 +99,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   // Weather/Feelings
   '☁️': Cloud,
   '🤔': HelpCircle,
+  '💭': MessageCircle,
   
   // Documents/Reports
   '📋': ClipboardList,
@@ -140,6 +146,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   
   // Food/Waste
   '🍲': Trash2,
+  '🥘': UtensilsCrossed,
   
   // Other
   '🌐': Building2,

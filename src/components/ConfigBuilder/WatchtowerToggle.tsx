@@ -162,13 +162,13 @@ export function WatchtowerToggle() {
           className="md:col-span-2 relative mt-6"
         >
           {/* Badge positioned above card with proper spacing */}
-          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-10 whitespace-nowrap shadow-lg">
+          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-20 whitespace-nowrap shadow-lg">
             BEST VALUE – SAVE 15%
           </div>
           
           <button
             onClick={() => toggleWatchtowerModule('bundle')}
-            className={`w-full p-6 rounded-xl border-2 transition-all relative ${
+            className={`w-full p-6 rounded-xl border-2 transition-all relative z-0 ${
               watchtowerModules.includes('bundle')
                 ? 'bg-gradient-to-br from-watchtower/30 to-red-500/30 border-watchtower'
                 : 'bg-gradient-to-br from-watchtower/10 to-red-500/10 border-watchtower/50 hover:border-watchtower'

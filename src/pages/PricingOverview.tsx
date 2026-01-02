@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, Check, Star, ChevronRight, AlertCircle, BarChart3, Zap, Castle } from 'lucide-react';
 import { reportTiers, coreTiers, modules, watchtower, pricingFooter } from '../data/pricing';
-import { calculateTierCost, getCoreProAdvantageMessage } from '../utils/pricingCalculators';
+import { getCoreProAdvantageMessage } from '../utils/pricingCalculators';
 import { cn } from '../utils/cn';
 import { reportFeatureComparison, coreFeatureComparison } from '../data/featureComparisons';
 import { FeatureComparisonTable } from '../components/PricingOverview/FeatureComparisonTable';

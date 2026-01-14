@@ -1,0 +1,7 @@
+chore: align icon mapping with official SUNDAE_ICON_MAPPING.md
+
+- Update Sundae Report icon from BarChart3 to FileText
+- Fix module icons: inventory (Layers), purchasing (Truck), marketing (Target), reservations (Calendar)
+- Add centralized PRODUCT_ICONS and MODULE_ICONS exports
+- Update LayerStack, ModulePicker, and PricingOverview components
+- Add ICON_MAPPING.md documentation for consistency reference

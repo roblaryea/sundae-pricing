@@ -1,0 +1,39 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@theme",
+      "description": "Tailwind v4 theme directive for defining design tokens"
+    },
+    {
+      "name": "@import",
+      "description": "Import Tailwind CSS or other stylesheets"
+    },
+    {
+      "name": "@apply",
+      "description": "Apply Tailwind utility classes in CSS"
+    },
+    {
+      "name": "@layer",
+      "description": "Organize CSS into Tailwind layers (base, components, utilities)"
+    }
+  ],
+  "properties": [
+    {
+      "name": "--color-*",
+      "description": "Custom color token"
+    },
+    {
+      "name": "--shadow-*",
+      "description": "Custom shadow token"
+    },
+    {
+      "name": "--font-*",
+      "description": "Custom font token"
+    },
+    {
+      "name": "--ease-*",
+      "description": "Custom easing function"
+    }
+  ]
+}

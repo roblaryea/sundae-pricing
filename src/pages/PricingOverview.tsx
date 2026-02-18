@@ -9,6 +9,7 @@ const { report: FileText, core: Zap, watchtower: Castle } = PRODUCT_ICONS;
 import { getCoreProAdvantageMessage } from '../utils/pricingCalculators';
 import { cn } from '../utils/cn';
 import { reportFeatureComparison, coreFeatureComparison } from '../data/featureComparisons';
+import { LEGAL } from '../config/legal';
 import { FeatureComparisonTable } from '../components/PricingOverview/FeatureComparisonTable';
 
 type ProductTab = 'report' | 'core' | 'watchtower';
@@ -307,7 +308,7 @@ export function PricingOverview() {
                     {/* CTA */}
                     {tierKey === 'enterprise' ? (
                       <a
-                        href="https://sundae.io/demo"
+                        href={LEGAL.demoUrl}
                         className="block w-full text-center py-2 text-sm font-semibold"
                         style={{ color: tierColor }}
                       >

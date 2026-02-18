@@ -100,10 +100,10 @@ export function getWatchtowerBundleSavings(selectedModules: string[]): number {
   );
   
   if (hasAllBundleModules && !selectedModules.includes('bundle')) {
-    // Individual prices: $199 + $99 + $149 = $447
-    // Bundle price: $349
-    // Savings: $98
-    return 98;
+    // Individual base prices: $399 + $199 + $249 = $847
+    // Bundle base price: $699
+    // Base savings: $148
+    return 148;
   }
   
   return 0;
@@ -129,12 +129,12 @@ export function suggestOptimalTier(locations: number, layer: 'report' | 'core'):
 
 // Calculate crossover point where Core Pro becomes cheaper than Core Lite
 export function calculateCoreProCrossoverPoint(): number {
-  // Core Lite: $169 + (n-1) * $54
-  // Core Pro: $319 + (n-1) * $49
-  // Solve: 169 + (n-1)*54 = 319 + (n-1)*49
-  // 169 + 54n - 54 = 319 + 49n - 49
-  // 115 + 54n = 270 + 49n
-  // 5n = 155
-  // n = 31 (break-even), cheaper at 32+
-  return 31;
+  // Core Lite: $199 + (n-1) * $39
+  // Core Pro: $349 + (n-1) * $35
+  // Solve: 199 + (n-1)*39 = 349 + (n-1)*35
+  // 199 + 39n - 39 = 349 + 35n - 35
+  // 160 + 39n = 314 + 35n
+  // 4n = 154
+  // n = 38.5 → ceil = 39 (break-even at 39, cheaper at 39+)
+  return 39;
 }

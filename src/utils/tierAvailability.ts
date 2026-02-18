@@ -8,26 +8,27 @@ export interface TierFeatures {
 
 // Define which features are available for each layer+tier combination
 export const TIER_AVAILABILITY: Record<string, TierFeatures> = {
-  // Report tiers - no modules or watchtower
+  // Report tiers - no modules or watchtower → skip directly to Summary
+  // (ROI calculator requires modules to show meaningful savings)
   'report-lite': {
     modules: false,
     watchtower: false,
-    skipToStep: 6 // Skip to ROI Calculator (step 6)
+    skipToStep: 7
   },
   'report-plus': {
     modules: false,
     watchtower: false,
-    skipToStep: 6
+    skipToStep: 7
   },
   'report-pro': {
     modules: false,
     watchtower: false,
-    skipToStep: 6
+    skipToStep: 7
   },
   'report-enterprise': {
     modules: false,
     watchtower: false,
-    skipToStep: 6
+    skipToStep: 7
   },
   
   // Core tiers - full features

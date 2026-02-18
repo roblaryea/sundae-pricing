@@ -15,6 +15,7 @@ import { CompactCompetitorCompare } from './CompactCompetitorCompare';
 import { WatchtowerValue } from './WatchtowerValue';
 import { PricingFAQ } from './PricingFAQ';
 import { pricingFooter } from '../../data/pricing';
+import { LEGAL } from '../../config/legal';
 
 export function ConfigSummary() {
   const { 
@@ -196,7 +197,7 @@ export function ConfigSummary() {
                 </div>
                 <div className="text-sm text-sundae-muted">
                   {tier === 'enterprise'
-                    ? 'Contact sales@sundae.io for enterprise quote'
+                    ? `Contact ${LEGAL.supportEmail} for enterprise quote`
                     : isNaN(pricing.total) || !isFinite(pricing.total)
                       ? 'Contact sales for quote'
                       : `$${(pricing.total * 12).toLocaleString()} annually`}
@@ -429,7 +430,7 @@ export function ConfigSummary() {
         <p>
           Questions?{' '}
           <a 
-            href="https://www.sundae.io/contact" 
+            href={LEGAL.contactUrl}
             target="_blank" 
             rel="noopener noreferrer"
             className="text-sundae-accent hover:underline font-medium"

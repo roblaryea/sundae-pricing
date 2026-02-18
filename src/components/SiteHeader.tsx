@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Logo } from './Brand/Logo';
 import { ThemeToggle } from './shared/ThemeToggle';
+import { LEGAL } from '../config/legal';
 
 export function SiteHeader() {
   const location = useLocation();
@@ -11,7 +12,7 @@ export function SiteHeader() {
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Left: Logo */}
         <div className="min-w-0">
-          <a href="https://sundae.io" className="block">
+          <a href={LEGAL.website} className="block">
             <Logo size="lg" />
           </a>
           <p className="text-xs md:text-sm text-sundae-muted mt-1 hidden sm:block">
@@ -43,7 +44,7 @@ export function SiteHeader() {
           
           {/* Book Demo CTA */}
           <a
-            href="https://sundae.io/demo"
+            href={LEGAL.demoUrl}
             className="px-3 py-1.5 md:px-4 md:py-2 border border-white/20 text-white text-xs md:text-sm font-medium rounded-lg hover:bg-white/5 transition-colors"
           >
             Book Demo

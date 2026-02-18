@@ -39,7 +39,7 @@ const layers: Layer[] = [
     name: 'CORE',
     icon: 'Zap',
     tagline: 'Real-time operations & AI',
-    startingPrice: 'Starting at $169/month',
+    startingPrice: 'Starting at $199/month',
     color: '#8B5CF6',
     features: [
       'Real-time POS integration',
@@ -235,8 +235,7 @@ export function LayerStack() {
         <p className="text-sm flex items-start gap-2">
           <Layers className="w-4 h-4 text-sundae-accent mt-0.5 flex-shrink-0" />
           <span>
-            <strong>Pro tip:</strong> You can always upgrade later. Most customers start with Report 
-            and upgrade to Core within 3 months as they see the value.
+            <strong>Pro tip:</strong> You can always upgrade later. 
           </span>
         </p>
       </motion.div>

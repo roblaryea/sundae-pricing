@@ -3,6 +3,7 @@
 
 import jsPDF from 'jspdf';
 import { calculateAllComparisons } from '../data/competitorPricing';
+import { LEGAL } from '../config/legal';
 
 interface PricingData {
   total: number;
@@ -308,14 +309,14 @@ export async function generateQuotePDF(
     doc.setFontSize(8);
     doc.setTextColor(100, 116, 139);
     doc.setFont('helvetica', 'normal');
-    doc.text('Sundae.io | Decision Intelligence for Restaurants', 20, pageHeight - 12);
+    doc.text(`${LEGAL.legalName} | sundae.io`, 20, pageHeight - 12);
     doc.text(`Quote ${quoteId}`, pageWidth / 2, pageHeight - 12, { align: 'center' });
     doc.text(`Page ${i} of ${totalPages}`, pageWidth - 20, pageHeight - 12, { align: 'right' });
     
     doc.setFontSize(7);
     doc.setTextColor(148, 163, 184);
     doc.text(
-      'This quote is for informational purposes. Contact us for a formal proposal.',
+      `This quote is for informational purposes only. ${LEGAL.legalName} — contact us for a formal proposal.`,
       pageWidth / 2,
       pageHeight - 6,
       { align: 'center' }

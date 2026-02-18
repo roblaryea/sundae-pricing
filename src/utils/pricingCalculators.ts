@@ -39,7 +39,7 @@ export function getCoreProAdvantageMessage(): string | null {
 
   const cheaperAt = breakEven + 1;
   
-  return `Core Pro becomes cheaper per location than Core Lite at ${cheaperAt}+ locations (break-even at ${breakEven}) due to its lower per-location pricing ($${coreTiers.pro.additionalLocationPrice} vs $${coreTiers.lite.additionalLocationPrice}).`;
+  return `Core Pro becomes cheaper than Core Lite at ${cheaperAt}+ locations (break-even at ${breakEven}) due to lower per-location pricing ($${coreTiers.pro.additionalLocationPrice} vs $${coreTiers.lite.additionalLocationPrice}).`;
 }
 
 /**

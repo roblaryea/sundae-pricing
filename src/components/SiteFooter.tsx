@@ -1,11 +1,13 @@
+import { LEGAL } from '../config/legal';
+
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = [
-    { label: 'Privacy', href: 'https://sundae.io/privacy' },
-    { label: 'Terms', href: 'https://sundae.io/terms' },
-    { label: 'Contact', href: 'https://sundae.io/contact' },
-    { label: 'Demo', href: 'https://sundae.io/demo' },
+    { label: 'Privacy', href: LEGAL.privacyUrl },
+    { label: 'Terms', href: LEGAL.termsUrl },
+    { label: 'Contact', href: LEGAL.contactUrl },
+    { label: 'Demo', href: LEGAL.demoUrl },
   ];
 
   return (
@@ -14,7 +16,7 @@ export function SiteFooter() {
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           {/* Copyright */}
           <p className="text-sm text-sundae-muted">
-            © {currentYear} Sundae
+            &copy; {currentYear} {LEGAL.legalName}
           </p>
 
           {/* Links */}

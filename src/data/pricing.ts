@@ -1,15 +1,17 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // SUNDAE PRICING DATA — SINGLE SOURCE OF TRUTH
 // ═══════════════════════════════════════════════════════════════════════════
-// ✅ UPDATED: 2026-01-01 to match sundae_pricing_card_v2.md
-// ⚠️ ALL pricing values verified against canonical pricing sheet
+// ✅ UPDATED: 2026-02-17 to match sundae_final_pricing_v4.3.md
+// ⚠️ ALL pricing values verified against canonical pricing sheet v4.3
 // ⚠️ Do NOT modify without updating tests in __tests__/pricing.test.ts
 
 export type ReportTier = 'lite' | 'plus' | 'pro';
 export type CoreTier = 'lite' | 'pro';
-export type ModuleId = 'labor' | 'inventory' | 'purchasing' | 'marketing' | 'reservations' | 'profit' | 'revenue' | 'delivery' | 'guest';
+export type ModuleId = 'labor' | 'inventory' | 'purchasing' | 'marketing' | 'reservations' | 'profit' | 'revenue' | 'delivery' | 'guest' | 'pulse';
+export type BundleId = 'ops_suite' | 'growth_suite' | 'finance_addon' | 'channel_suite' | 'realtime_suite' | 'complete_intelligence';
 export type WatchtowerId = 'competitive' | 'events' | 'trends' | 'bundle';
 export type ClientType = 'independent' | 'growth' | 'multi-site' | 'enterprise' | 'franchise';
+export type BillingCycle = 'monthly' | 'annual' | 'two_year';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // PRICING CHANGELOG
@@ -30,13 +32,33 @@ export const pricingChangelog: PricingChange[] = [
     summary: 'Complete pricing update to match canonical pricing sheet v2',
     sectionsTouched: [
       'Report tiers',
-      'Core tiers', 
+      'Core tiers',
       'Modules',
       'Watchtower',
       'Features comparison',
       'Add-ons'
     ],
     notes: 'Updated all pricing values, feature entitlements, AI credits, benchmarking details, data retention, and support SLAs to match sundae_pricing_card_v2.md. Added comprehensive feature comparison tables and FAQ content.'
+  },
+  {
+    id: 'update-2026-02-17-v4.3',
+    date: '2026-02-17',
+    summary: 'Complete pricing update to match sundae_final_pricing_v4.3.md',
+    sectionsTouched: [
+      'Report tiers',
+      'Core tiers',
+      'Modules',
+      'Watchtower',
+      'Module bundles',
+      'Discounts',
+      'Setup fees',
+      'AI credits',
+      'Users model',
+      'Data refresh',
+      'Enterprise eligibility',
+      'Trial policy'
+    ],
+    notes: 'v4.3: Updated all tier pricing (Report Plus $59, Pro $119, Core Lite $199, Pro $349). AI credits 10x increase. Added Pulse module. Added 6 module bundles. Changed discount model to non-stacking volume/billing (max 15%). Added setup fees. Changed watchtower bundle from $720 to $699 (~18% savings). Updated users model and data refresh terminology.'
   }
 ];
 
@@ -51,7 +73,7 @@ export const reportTiers = {
     tagline: 'FREE Forever',
     basePrice: 0,
     additionalLocationPrice: 0,
-    aiCredits: { base: 40, perLocation: 8 },
+    aiCredits: { base: 400, perLocation: 80 },
     aiSeats: 1,
     benchmarkMetrics: 5,
     benchmarkRadius: '1km (locked)',
@@ -63,6 +85,14 @@ export const reportTiers = {
     support: 'Email (72hr)',
     rolloverPolicy: 'No rollover',
     customDashboards: 'Pre-built only',
+    additionalSeatCost: 12,
+    historicalData: '90 days',
+    chatWithData: false,
+    pulseAccess: false,
+    apiAccess: false,
+    modulesAllowed: false,
+    watchtowerAllowed: false,
+    aiPackages: false,
     features: [
       '20 core visuals',
       'Pre-built dashboard layouts',
@@ -84,25 +114,33 @@ export const reportTiers = {
     ],
     bestFor: 'Testing Sundae, Basic visibility, Proof of concept'
   },
-  
+
   plus: {
     id: 'report-plus',
     name: 'Report Plus',
     tagline: 'Automated Insights',
-    basePrice: 49,
-    additionalLocationPrice: 29,
-    aiCredits: { base: 150, perLocation: 30 },
-    aiSeats: 3,
+    basePrice: 59,
+    additionalLocationPrice: 25,
+    aiCredits: { base: 1500, perLocation: 300 },
+    aiSeats: 5,
     benchmarkMetrics: 15,
     benchmarkRadius: '1-2km adjustable',
     segmentFilters: '1 simultaneous filter',
     visuals: 50,
     dataInput: 'AI-parsed upload (PDF/Excel/Screenshot)',
     dataRetention: 'Current month + 1 year',
-    refresh: 'Manual or AI-parsed (daily EOD)',
+    refresh: 'Daily EOD (AI-assisted)',
     support: 'Email + Chat (24hr)',
-    rolloverPolicy: '25% (max 50)',
+    rolloverPolicy: '25% (max 375)',
     customDashboards: 'Pre-built + custom',
+    additionalSeatCost: 10,
+    historicalData: '1 year',
+    chatWithData: false,
+    pulseAccess: false,
+    apiAccess: false,
+    modulesAllowed: false,
+    watchtowerAllowed: false,
+    aiPackages: false,
     features: [
       '50 comprehensive visuals',
       'AI-parsed data ingestion (2-3 min process)',
@@ -112,7 +150,7 @@ export const reportTiers = {
       'Weekly + monthly AI summaries',
       'Dashboard sharing (internal only)',
       'Basic commenting',
-      '25% credit rollover (max 50)',
+      '25% credit rollover',
       'Custom date ranges'
     ],
     limitations: [
@@ -124,25 +162,33 @@ export const reportTiers = {
     ],
     bestFor: 'Serious single-location, Automated data input, Regular AI insights'
   },
-  
+
   pro: {
     id: 'report-pro',
     name: 'Report Pro',
     tagline: 'API-Powered Analytics',
-    basePrice: 99,
-    additionalLocationPrice: 49,
-    aiCredits: { base: 400, perLocation: 80 },
-    aiSeats: 5,
+    basePrice: 119,
+    additionalLocationPrice: 35,
+    aiCredits: { base: 4000, perLocation: 800 },
+    aiSeats: 15,
     benchmarkMetrics: 30,
     benchmarkRadius: '1-3km adjustable',
     segmentFilters: '2 simultaneous filters',
     visuals: 120,
     dataInput: 'API integration (automated)',
     dataRetention: 'Current month + 2 years',
-    refresh: 'Fully automated API (daily EOD)',
+    refresh: 'Daily EOD (automated API)',
     support: 'Email + Chat (12hr)',
-    rolloverPolicy: '25% (max 100)',
+    rolloverPolicy: '25% (max 1000)',
     customDashboards: 'Pre-built + custom',
+    additionalSeatCost: 8,
+    historicalData: '2 years',
+    chatWithData: { available: true, unlockFee: 49 },
+    pulseAccess: { available: true, unlockFee: 99 },
+    apiAccess: true,
+    modulesAllowed: false,
+    watchtowerAllowed: false,
+    aiPackages: false,
     features: [
       'Up to 120 comprehensive visuals',
       'Full API integration',
@@ -155,7 +201,7 @@ export const reportTiers = {
       'Multi-location comparison',
       'Full commenting with @mentions',
       '2 custom shared views',
-      '25% credit rollover (max 100)',
+      '25% credit rollover',
       'Chat with visual (2 credits)'
     ],
     limitations: [
@@ -176,26 +222,35 @@ export const coreTiers = {
     id: 'core-lite',
     name: 'Core Lite',
     tagline: 'Real-Time Operations',
-    basePrice: 169,
-    additionalLocationPrice: 54,
-    aiCredits: { base: 800, perLocation: 160 },
+    basePrice: 199,
+    additionalLocationPrice: 39,
+    aiCredits: { base: 8000, perLocation: 1600 },
     aiSeats: 10,
+    aiSeatsPerLocation: 2,
     benchmarkMetrics: '30+',
     benchmarkRadius: '1-5km',
     visuals: 200,
     dataInput: 'Real-time POS API',
     dataRetention: 'Current month + 2 years',
-    refresh: '4-hour refresh cycle',
-    support: 'Email + Chat + Phone (4hr)',
-    rolloverPolicy: '25% (max 200)',
+    refresh: '15-min refresh',
+    support: 'Chat (4hr SLA)',
+    rolloverPolicy: '25% (max 2000)',
     customDashboards: 30,
     customKPIs: 0,
     predictiveDays: 14,
     posIntegrations: '1 system',
     multiPOS: false,
     salesAnalyticsIncluded: true,
+    additionalSeatCost: 5,
+    historicalData: '2 years',
+    chatWithData: { available: true, unlockFee: 0 },
+    pulseAccess: { available: true, unlockFee: 0 },
+    apiAccess: true,
+    modulesAllowed: true,
+    watchtowerAllowed: true,
+    aiPackages: true,
     features: [
-      'Real-time POS integration (4-hour refresh)',
+      'Real-time POS integration (15-min refresh)',
       'FULL sales analytics included',
       '30+ benchmark metrics',
       '1-5km adjustable radius',
@@ -207,43 +262,52 @@ export const coreTiers = {
       '30 custom dashboards',
       'AI Chart Builder',
       'Quarterly reviews (optional)',
-      '25% credit rollover (max 200)'
+      '25% credit rollover'
     ],
     limitations: [
       'Single POS system only',
-      '4-hour refresh (not 2-hour)',
+      '15-min refresh (not 5-min)',
       '14-day forecasting (not 30-day)',
       'No custom KPI builder',
       'No multi-POS support'
     ],
     bestFor: '1-10 locations, Real-time operations, Portfolio management, Single POS system'
   },
-  
+
   pro: {
     id: 'core-pro',
     name: 'Core Pro',
     tagline: 'Portfolio Intelligence',
-    basePrice: 319,
-    additionalLocationPrice: 49,
-    aiCredits: { base: 1400, perLocation: 280 },
-    aiSeats: 20,
+    basePrice: 349,
+    additionalLocationPrice: 35,
+    aiCredits: { base: 14000, perLocation: 2800 },
+    aiSeats: 25,
+    aiSeatsPerLocation: 5,
     benchmarkMetrics: '30+',
     benchmarkRadius: '0.5-10km',
     visuals: 200,
     dataInput: 'Real-time POS API',
     dataRetention: 'Current month + 3 years',
-    refresh: '2-hour refresh cycle',
-    support: 'Email + Chat + Phone (2hr priority)',
-    rolloverPolicy: '25% (max 350)',
+    refresh: '5-min refresh',
+    support: 'Phone (2hr priority)',
+    rolloverPolicy: '25% (max 3500)',
     customDashboards: 75,
     customKPIs: 10,
     predictiveDays: 30,
     posIntegrations: 'Unlimited (multi-POS)',
     multiPOS: true,
     salesAnalyticsIncluded: true,
+    additionalSeatCost: 5,
+    historicalData: '3 years',
+    chatWithData: { available: true, unlockFee: 0 },
+    pulseAccess: { available: true, unlockFee: 0 },
+    apiAccess: true,
+    modulesAllowed: true,
+    watchtowerAllowed: true,
+    aiPackages: true,
     features: [
       'Everything in Core Lite PLUS:',
-      '2-hour data refresh (vs 4-hour)',
+      '5-min data refresh (vs 15-min)',
       '30-day predictive forecasting',
       'Multi-POS support (unlimited systems)',
       'Consolidated cross-platform analytics',
@@ -263,21 +327,21 @@ export const coreTiers = {
     limitations: [],
     bestFor: '10-50 locations, Multi-POS environments, Advanced forecasting, Strategic planning'
   },
-  
+
   enterprise: {
     id: 'core-enterprise',
     name: 'Enterprise',
     tagline: 'Custom Solutions',
     basePrice: 'Custom',
     additionalLocationPrice: 'Volume-based',
-    aiCredits: { base: 'Unlimited', perLocation: 'Unlimited' },
+    aiCredits: { base: 50000, perLocation: 5000 },
     aiSeats: 'Unlimited',
     benchmarkMetrics: '30+',
     benchmarkRadius: 'Custom geography',
     visuals: 200,
     dataInput: 'Real-time POS API',
     dataRetention: 'Custom (typically 5+ years)',
-    refresh: 'Custom (configurable)',
+    refresh: 'Real-time',
     support: 'Dedicated CSM (24/7 available, 15min SLA)',
     rolloverPolicy: 'N/A (unlimited)',
     customDashboards: 'Unlimited',
@@ -286,6 +350,14 @@ export const coreTiers = {
     posIntegrations: 'Unlimited + custom',
     multiPOS: true,
     salesAnalyticsIncluded: true,
+    historicalData: 'Custom',
+    chatWithData: { available: true, unlockFee: 0 },
+    pulseAccess: { available: true, unlockFee: 0 },
+    apiAccess: true,
+    modulesAllowed: true,
+    watchtowerAllowed: true,
+    aiPackages: true,
+    setupFeesWaived: true,
     features: [
       'Everything in Core Pro PLUS:',
       'Dedicated CSM',
@@ -315,7 +387,7 @@ export const coreTiers = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
-// MODULES (Add-ons for Core tier only)
+// MODULES (Add-ons for Core tier only; Pulse also on Report Pro with unlock)
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const modules = {
@@ -323,9 +395,12 @@ export const modules = {
     id: 'labor',
     name: 'Labor Intelligence',
     icon: '👥',
-    orgLicensePrice: 139,
-    perLocationPrice: 19,
+    orgLicensePrice: 169,
+    perLocationPrice: 17,
     includedLocations: 5,
+    setupFee: 299,
+    setupIncludes: '1 labor/scheduling system integration',
+    prerequisites: [] as string[],
     description: 'Labor cost %, sales per labor hour, actual vs scheduled variance, overtime analysis, break compliance, benchmarking, predictive staffing, demand-based scheduling, shift performance, server rankings',
     features: [
       'Labor cost % by location/day part',
@@ -342,14 +417,17 @@ export const modules = {
     ],
     roiPotential: '1-3% labor cost reduction'
   },
-  
+
   inventory: {
     id: 'inventory',
     name: 'Inventory Connect',
     icon: '📦',
-    orgLicensePrice: 139,
+    orgLicensePrice: 179,
     perLocationPrice: 19,
     includedLocations: 5,
+    setupFee: 499,
+    setupIncludes: '1 inventory management system integration',
+    prerequisites: [] as string[],
     description: 'COGS tracking, recipe costing, theoretical vs actual variance, menu engineering, waste tracking, menu item profitability, price optimization, portion cost, inventory turnover, supplier performance',
     features: [
       'COGS tracking by category',
@@ -366,14 +444,17 @@ export const modules = {
     ],
     roiPotential: '0.5-2% food cost reduction'
   },
-  
+
   purchasing: {
     id: 'purchasing',
     name: 'Purchasing Analytics',
     icon: '🛒',
-    orgLicensePrice: 119,
-    perLocationPrice: 15,
+    orgLicensePrice: 129,
+    perLocationPrice: 12,
     includedLocations: 5,
+    setupFee: 299,
+    setupIncludes: '1 purchasing/vendor system integration',
+    prerequisites: [] as string[],
     description: 'Spend analysis by supplier, price variance alerts, supplier performance, contract compliance, consolidation opportunities, volume discount analysis, order frequency optimization, delivery cost, contract renewal alerts',
     features: [
       'Spend analysis by supplier',
@@ -389,14 +470,17 @@ export const modules = {
     ],
     roiPotential: '2-5% purchasing savings'
   },
-  
+
   marketing: {
     id: 'marketing',
     name: 'Marketing Performance',
     icon: '📣',
-    orgLicensePrice: 169,
-    perLocationPrice: 25,
+    orgLicensePrice: 199,
+    perLocationPrice: 20,
     includedLocations: 5,
+    setupFee: 299,
+    setupIncludes: 'Up to 3 marketing platform integrations',
+    prerequisites: [] as string[],
     description: 'Meta/Facebook Ads, Google Ads integration, campaign performance, multi-touch attribution, CAC, channel ROI by location, budget allocation, new vs returning customers, lifetime value estimation',
     features: [
       'Meta/Facebook Ads integration',
@@ -412,14 +496,17 @@ export const modules = {
     ],
     roiPotential: '10-20% marketing efficiency improvement'
   },
-  
+
   reservations: {
     id: 'reservations',
     name: 'Reservations Intelligence',
     icon: '📅',
-    orgLicensePrice: 119,
-    perLocationPrice: 15,
+    orgLicensePrice: 129,
+    perLocationPrice: 12,
     includedLocations: 5,
+    setupFee: 299,
+    setupIncludes: '1 reservation system integration',
+    prerequisites: [] as string[],
     description: 'Booked vs actual, no-show rate tracking, booking channel attribution, table utilization, revenue per reservation, optimal booking pace, cancellation pattern analysis',
     features: [
       'Covers booked vs actual',
@@ -434,18 +521,18 @@ export const modules = {
     roiPotential: '5-10% table utilization improvement',
     note: 'Only for standalone reservation systems (OpenTable, Resy, SevenRooms). POS-based reservations included in Core Lite/Pro (no add-on charge).'
   },
-  
-  // ═══════════════════════════════════════════════════════════════════════════
-  // NEW MODULES (Added January 2026)
-  // ═══════════════════════════════════════════════════════════════════════════
-  
+
   profit: {
     id: 'profit',
     name: 'Profit Intelligence',
     icon: '💰',
-    orgLicensePrice: 199,
-    perLocationPrice: 29,
+    orgLicensePrice: 229,
+    perLocationPrice: 22,
     includedLocations: 5,
+    setupFee: 0,
+    setupIncludes: 'Uses Labor + Inventory data (no new integration)',
+    prerequisites: ['labor', 'inventory'],
+    prerequisiteMessage: 'Requires Labor Intelligence and Inventory Connect',
     description: 'See true unit economics. Complete P&L visibility, profit margin analysis, cost allocation, break-even analysis, and profitability forecasting by location.',
     features: [
       'True unit economics per location',
@@ -459,16 +546,19 @@ export const modules = {
     ],
     roiPotential: 'See true unit economics',
     tier: 'Super Premium',
-    isNew: true
+    isNew: false
   },
-  
+
   revenue: {
     id: 'revenue',
     name: 'Revenue Assurance',
     icon: '🔒',
-    orgLicensePrice: 99,
-    perLocationPrice: 12,
+    orgLicensePrice: 109,
+    perLocationPrice: 10,
     includedLocations: 5,
+    setupFee: 149,
+    setupIncludes: 'POS transaction-level data configuration',
+    prerequisites: [] as string[],
     description: 'Catch 1-2% leakage. Identify revenue loss from voids, comps, discounts, theft patterns, and transaction anomalies before they impact your bottom line.',
     features: [
       'Revenue leakage detection',
@@ -482,16 +572,19 @@ export const modules = {
     ],
     roiPotential: 'Catch 1-2% leakage',
     tier: 'Protection',
-    isNew: true
+    isNew: false
   },
-  
+
   delivery: {
     id: 'delivery',
     name: 'Delivery Economics',
     icon: '🛵',
-    orgLicensePrice: 129,
+    orgLicensePrice: 169,
     perLocationPrice: 17,
     includedLocations: 5,
+    setupFee: 499,
+    setupIncludes: 'Up to 3 delivery platform integrations',
+    prerequisites: [] as string[],
     description: 'True delivery profitability. Platform-by-platform margin analysis, delivery vs dine-in comparison, commission impact, and channel optimization insights.',
     features: [
       'True delivery profitability',
@@ -505,16 +598,19 @@ export const modules = {
     ],
     roiPotential: 'True delivery profitability',
     tier: 'Channel',
-    isNew: true
+    isNew: false
   },
-  
+
   guest: {
     id: 'guest',
     name: 'Guest Experience',
     icon: '⭐',
-    orgLicensePrice: 89,
+    orgLicensePrice: 99,
     perLocationPrice: 10,
     includedLocations: 5,
+    setupFee: 249,
+    setupIncludes: 'Up to 5 review platform integrations',
+    prerequisites: [] as string[],
     description: 'Why customers leave. Aggregate review sentiment, rating trends, guest feedback patterns, and experience correlation to identify what drives satisfaction.',
     features: [
       'Aggregate review sentiment',
@@ -528,7 +624,108 @@ export const modules = {
     ],
     roiPotential: 'Why customers leave',
     tier: 'Insight',
-    isNew: true
+    isNew: false
+  },
+
+  pulse: {
+    id: 'pulse',
+    name: 'Pulse',
+    icon: '📡',
+    orgLicensePrice: 199,
+    perLocationPrice: 24,
+    includedLocations: 5,
+    setupFee: 399,
+    setupIncludes: '1 POS + 1 Labor + 1 Inventory system integration',
+    additionalIntegrationFee: 149,
+    prerequisites: [] as string[],
+    isPremium: true,
+    description: 'Real-time operational pulse. Live monitoring, instant alerts, cross-system correlation, and proactive anomaly detection across all your operations.',
+    features: [
+      'Real-time operational monitoring',
+      'Instant anomaly alerts',
+      'Cross-system data correlation',
+      'Proactive issue detection',
+      'Live performance dashboards',
+      'Threshold-based notifications',
+      'Multi-system health monitoring',
+      'Monthly Pulse Analytics Report'
+    ],
+    roiPotential: 'Real-time operational awareness',
+    tier: 'Premium',
+    isNew: true,
+    integrationCreditRules: {
+      laborSameSystem: 299,
+      inventorySameSystem: 499,
+      maxCredit: 399
+    }
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MODULE BUNDLES (10-20% monthly discount)
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const moduleBundles = {
+  ops_suite: {
+    id: 'ops_suite',
+    name: 'Ops Suite',
+    modules: ['labor', 'inventory', 'purchasing'] as ModuleId[],
+    basePrice: 429,
+    perLocationPrice: 43,
+    discountPercent: 10,
+    setupFee: 879,
+    prerequisites: [] as string[],
+  },
+  growth_suite: {
+    id: 'growth_suite',
+    name: 'Growth Suite',
+    modules: ['marketing', 'reservations', 'guest'] as ModuleId[],
+    basePrice: 385,
+    perLocationPrice: 38,
+    discountPercent: 10,
+    setupFee: 679,
+    prerequisites: [] as string[],
+  },
+  finance_addon: {
+    id: 'finance_addon',
+    name: 'Finance Add-On',
+    modules: ['profit', 'revenue'] as ModuleId[],
+    basePrice: 304,
+    perLocationPrice: 29,
+    discountPercent: 10,
+    setupFee: 149,
+    prerequisites: ['labor', 'inventory'],
+    prerequisiteMessage: 'Requires Ops data (Labor + Inventory modules)',
+  },
+  channel_suite: {
+    id: 'channel_suite',
+    name: 'Channel Suite',
+    modules: ['delivery', 'marketing'] as ModuleId[],
+    basePrice: 331,
+    perLocationPrice: 33,
+    discountPercent: 10,
+    setupFee: 639,
+    prerequisites: [] as string[],
+  },
+  realtime_suite: {
+    id: 'realtime_suite',
+    name: 'Real-time Suite',
+    modules: ['pulse', 'revenue'] as ModuleId[],
+    basePrice: 277,
+    perLocationPrice: 31,
+    discountPercent: 10,
+    setupFee: 439,
+    prerequisites: [] as string[],
+  },
+  complete_intelligence: {
+    id: 'complete_intelligence',
+    name: 'Complete Intelligence',
+    modules: ['labor', 'inventory', 'purchasing', 'marketing', 'reservations', 'profit', 'revenue', 'delivery', 'guest', 'pulse'] as ModuleId[],
+    basePrice: 1288,
+    perLocationPrice: 130,
+    discountPercent: 20,
+    setupFee: 999,
+    prerequisites: [] as string[],
   }
 };
 
@@ -561,7 +758,7 @@ export const watchtower = {
     ],
     valueProposition: 'Prevent market share loss, optimize pricing strategy'
   },
-  
+
   events: {
     id: 'events',
     name: 'Event & Calendar Signals',
@@ -586,7 +783,7 @@ export const watchtower = {
     ],
     valueProposition: 'Optimize staffing and inventory for demand spikes'
   },
-  
+
   trends: {
     id: 'trends',
     name: 'Market Trends',
@@ -611,19 +808,20 @@ export const watchtower = {
     ],
     valueProposition: 'Stay ahead of market shifts, inform strategic decisions'
   },
-  
+
   bundle: {
     id: 'bundle',
     name: 'Full Watchtower Bundle',
     icon: '🏰',
-    basePrice: 720,
-    perLocationPrice: 82,
+    basePrice: 699,
+    perLocationPrice: 79,
     includedLocations: 1,
     individualBaseTotal: 847,
     individualPerLocTotal: 97,
-    baseSavings: 127,
-    perLocSavings: 15,
-    savingsPercent: 15,
+    baseSavings: 148,
+    perLocSavings: 18,
+    savingsPercent: 17,
+    savingsNote: 'approximately 18%',
     description: 'Complete market intelligence suite',
     includes: ['competitive', 'events', 'trends'],
     features: [
@@ -634,12 +832,37 @@ export const watchtower = {
       'Cross-module insights',
       'Comprehensive monthly intelligence report'
     ],
-    valueProposition: 'Full market intelligence at 15% discount'
+    valueProposition: 'Full market intelligence at ~18% discount'
   }
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
-// CLIENT TYPE RULES
+// DISCOUNT RULES (v4.3 — non-stacking, max 15%)
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const volumeDiscounts = {
+  tiers: [
+    { min: 1, max: 29, percent: 0, label: 'Standard pricing' },
+    { min: 30, max: 99, percent: 5, label: 'Eligible for Enterprise' },
+    { min: 100, max: 200, percent: 7, label: 'Eligible for Enterprise' },
+    { min: 201, max: null, percent: 0, label: 'Enterprise only — custom pricing required' }
+  ]
+};
+
+export const billingDiscounts: Record<BillingCycle, number> = {
+  monthly: 0,
+  annual: 10,
+  two_year: 15
+};
+
+export const DISCOUNT_RULES = {
+  stackingAllowed: false,
+  maxDiscountPercent: 15,
+  note: 'Volume OR Billing — choose one, not both'
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CLIENT TYPE RULES (kept for backward compat, updated to v4.3 volume model)
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const CLIENT_TYPE_RULES: Record<ClientType, {
@@ -649,28 +872,28 @@ export const CLIENT_TYPE_RULES: Record<ClientType, {
   features: string[];
 }> = {
   'independent': {
-    locationRange: [1, 2],
+    locationRange: [1, 29],
     discountTier: 0,
     pricingModel: 'standard',
     features: ['Standard pricing', 'Self-service onboarding']
   },
   'growth': {
-    locationRange: [3, 24],
-    discountTier: 10,
+    locationRange: [30, 99],
+    discountTier: 5,
     pricingModel: 'growth',
-    features: ['10% growth discount', 'Priority onboarding', 'Quarterly reviews']
+    features: ['5% volume discount', 'Eligible for Enterprise pricing']
   },
   'multi-site': {
-    locationRange: [25, 29],
-    discountTier: 15,
+    locationRange: [100, 200],
+    discountTier: 7,
     pricingModel: 'growth',
-    features: ['15% multi-site discount', 'Dedicated onboarding', 'Monthly reviews']
+    features: ['7% volume discount', 'Eligible for Enterprise pricing']
   },
   'enterprise': {
     locationRange: [30, null],
     discountTier: 0,
     pricingModel: 'enterprise',
-    features: ['Volume or Org License pricing', 'Dedicated CSM', 'Custom SLA']
+    features: ['Custom Enterprise pricing', 'Dedicated CSM', 'Custom SLA']
   },
   'franchise': {
     locationRange: [1, null],
@@ -682,14 +905,21 @@ export const CLIENT_TYPE_RULES: Record<ClientType, {
 
 export function detectClientType(locations: number, isFranchise = false): ClientType {
   if (isFranchise) return 'franchise';
-  if (locations <= 2) return 'independent';
-  if (locations <= 24) return 'growth';
-  if (locations <= 29) return 'multi-site';
+  if (locations <= 29) return 'independent';
+  if (locations <= 99) return 'growth';
+  if (locations <= 200) return 'multi-site';
   return 'enterprise';
 }
 
+export function getVolumeDiscount(locations: number): number {
+  const tier = volumeDiscounts.tiers.find(
+    t => locations >= t.min && (t.max === null || locations <= t.max)
+  );
+  return tier?.percent ?? 0;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
-// EARLY ADOPTER PROGRAM
+// EARLY ADOPTER PROGRAM (kept for backward compatibility)
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const EARLY_ADOPTER_TERMS = {
@@ -713,7 +943,17 @@ export const EARLY_ADOPTER_TERMS = {
 
 export const enterprisePricing = {
   minLocations: 30,
-  
+
+  eligibilityTriggers: [
+    '30+ locations',
+    '$10,000+/month projected spend',
+    'Custom integration requirements',
+    'SSO/SAML requirements',
+    'Custom SLA requirements'
+  ],
+
+  eligibilityNote: 'Eligible customers may choose standard pricing with volume discount OR request custom Enterprise pricing',
+
   volumeDiscount: {
     id: 'enterprise-volume',
     name: 'Enterprise Volume',
@@ -734,7 +974,7 @@ export const enterprisePricing = {
       '24/7 priority support'
     ]
   },
-  
+
   orgLicense: {
     id: 'enterprise-org',
     name: 'Enterprise Org License',
@@ -794,13 +1034,92 @@ export const watchtowerEnterprise = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
+// SETUP FEE DISCOUNTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const setupFeeDiscounts = {
+  threeOrMoreModulesPercent: 20,
+  completeIntelligencePercent: 50,
+  annualPrepayPercent: 25,
+  enterprisePercent: 100,
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// AI CREDIT SYSTEM
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const aiCreditActions: Record<string, number> = {
+  VIEW_SUMMARY: 5,
+  CHAT: 8,
+  INSIGHTS_WIDGET: 10,
+  DOC_EXTRACT_TEXT: 12,
+  INSIGHTS_CHAT: 12,
+  DOC_EXTRACT_OCR: 18,
+  DATA_ANALYSIS: 20,
+  SQL_GENERATION: 15,
+  CHAT_DATA_QUERY: 25,
+  REPORT_GENERATION: 35,
+};
+
+export const aiCreditTopups = {
+  report_lite: { 1000: 30 },
+  report_plus: { 1000: 20, 3000: 55 },
+  report_pro: { 1000: 15, 3000: 40, 5000: 60 },
+  core_lite: { 1000: 12, 3000: 33, 5000: 50, 10000: 90 },
+  core_pro: { 1000: 10, 3000: 27, 5000: 40, 10000: 70 },
+};
+
+export const aiCreditRollover = {
+  capPercent: 25,
+  durationMonths: 1,
+  purchasedCreditsExpire: false,
+  usageOrder: ['Rollover', 'Monthly', 'Purchased'],
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// AI PACKAGES (Core tiers only)
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const aiPackages = {
+  ai_plus: {
+    id: 'ai_plus',
+    name: 'AI Plus',
+    monthlyFee: 399,
+    dailyCap: 500,
+    overflow: 'credit_wallet',
+    availability: 'core_only',
+  },
+  ai_pro: {
+    id: 'ai_pro',
+    name: 'AI Pro',
+    monthlyFee: 599,
+    dailyCap: 1000,
+    overflow: 'credit_wallet',
+    availability: 'core_only',
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TRIAL POLICY
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const trialPolicy = {
+  report_plus: { days: 14, cardRequired: false },
+  report_pro: { days: 14, cardRequired: false },
+  core_lite: { days: 14, cardRequired: true },
+  core_pro: { days: 14, cardRequired: true },
+  modules: { days: 7, cardRequired: true },
+  watchtower: { days: 7, cardRequired: true },
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
 // BREAK-EVEN POINTS (For backward compatibility)
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const BREAK_EVEN_POINTS = {
   sundaeVsTenzo: { locations: 3, description: 'Sundae becomes cheaper than Tenzo' },
   coreProVsLite: { locations: null, description: 'Core Pro is premium-priced at all scales for premium features' },
-  enterprise: { locations: 30, description: 'Qualifies for Enterprise pricing' }
+  enterprise: { locations: 30, description: 'Eligible for Enterprise pricing' }
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -830,10 +1149,11 @@ export const competitorPricing = {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const pricingFooter = {
-  effectiveDate: 'January 1, 2026',
+  effectiveDate: 'February 17, 2026',
   currency: 'USD',
   taxNote: 'Taxes (VAT/GST) not included unless stated',
   changeNotice: 'Subject to change with 30-day notice',
   supportHours: 'M-F 9am-6pm UTC+4 (Report), M-F 8am-8pm UTC+4 (Core)',
-  locationPricingNote: 'Additional locations are billed from location #2 onward (location #1 is included in the base price)'
+  locationPricingNote: 'Additional locations are billed from location #2 onward (location #1 is included in the base price)',
+  bundleRoundingNote: 'Bundle prices rounded to nearest whole dollar'
 };

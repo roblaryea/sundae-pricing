@@ -394,3 +394,8 @@ export const useConfiguration = create<ConfigurationState>()(
     )
   )
 );
+
+// Expose store for E2E testing in dev mode
+if (import.meta.env.DEV) {
+  (window as any).__SUNDAE_STORE__ = useConfiguration;
+}

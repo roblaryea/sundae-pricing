@@ -1,0 +1,410 @@
+{
+  "version": "4.3",
+  "last_updated": "2026-02-17",
+  "currency": "USD",
+
+  "tiers": {
+    "report_lite": {
+      "id": "report_lite",
+      "name": "Report Lite",
+      "pricing": { "base": 0, "per_location": 0 },
+      "ai_credits": { "base": 400, "per_location": 80 },
+      "users_included": 1,
+      "additional_seat_cost": 12,
+      "data_refresh": "manual_upload",
+      "modules_allowed": false,
+      "watchtower_allowed": false,
+      "chat_with_data": false,
+      "pulse_access": false,
+      "ai_packages": false
+    },
+    "report_plus": {
+      "id": "report_plus",
+      "name": "Report Plus",
+      "pricing": { "base": 59, "per_location": 25 },
+      "ai_credits": { "base": 1500, "per_location": 300 },
+      "users_included": 5,
+      "additional_seat_cost": 10,
+      "data_refresh": "daily_eod_ai_assisted",
+      "modules_allowed": false,
+      "watchtower_allowed": false,
+      "chat_with_data": false,
+      "pulse_access": false,
+      "ai_packages": false
+    },
+    "report_pro": {
+      "id": "report_pro",
+      "name": "Report Pro",
+      "pricing": { "base": 119, "per_location": 35 },
+      "ai_credits": { "base": 4000, "per_location": 800 },
+      "users_included": 15,
+      "additional_seat_cost": 8,
+      "data_refresh": "daily_eod_automated_api",
+      "modules_allowed": false,
+      "watchtower_allowed": false,
+      "chat_with_data": { "available": true, "unlock_fee": 49 },
+      "pulse_access": { "available": true, "unlock_fee": 99 },
+      "ai_packages": false
+    },
+    "core_lite": {
+      "id": "core_lite",
+      "name": "Core Lite",
+      "pricing": { "base": 199, "per_location": 39 },
+      "ai_credits": { "base": 8000, "per_location": 1600 },
+      "users_included": { "base": 10, "per_location": 2 },
+      "additional_seat_cost": 5,
+      "data_refresh": "15_minute",
+      "modules_allowed": true,
+      "watchtower_allowed": true,
+      "chat_with_data": { "available": true, "unlock_fee": 0 },
+      "pulse_access": { "available": true, "unlock_fee": 0 },
+      "ai_packages": true
+    },
+    "core_pro": {
+      "id": "core_pro",
+      "name": "Core Pro",
+      "pricing": { "base": 349, "per_location": 35 },
+      "ai_credits": { "base": 14000, "per_location": 2800 },
+      "users_included": { "base": 25, "per_location": 5 },
+      "additional_seat_cost": 5,
+      "data_refresh": "5_minute",
+      "modules_allowed": true,
+      "watchtower_allowed": true,
+      "chat_with_data": { "available": true, "unlock_fee": 0 },
+      "pulse_access": { "available": true, "unlock_fee": 0 },
+      "ai_packages": true
+    },
+    "enterprise": {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "pricing": { "base": "custom", "per_location": "custom" },
+      "ai_credits": { "base": 50000, "per_location": 5000 },
+      "users_included": "unlimited",
+      "data_refresh": "real_time",
+      "all_features_included": true,
+      "setup_fees_waived": true
+    }
+  },
+
+  "expected_tier_totals": {
+    "report_lite":  { "1": 0, "5": 0, "10": 0, "20": 0, "50": 0 },
+    "report_plus":  { "1": 59, "5": 159, "10": 284, "20": 534, "50": 1284 },
+    "report_pro":   { "1": 119, "5": 259, "10": 434, "20": 784, "50": 1834 },
+    "core_lite":    { "1": 199, "5": 355, "10": 550, "20": 940, "50": 2110 },
+    "core_pro":     { "1": 349, "5": 489, "10": 664, "20": 1014, "50": 2064 }
+  },
+
+  "expected_ai_credits": {
+    "report_lite":  { "10": 1120 },
+    "report_plus":  { "10": 4200 },
+    "report_pro":   { "10": 11200 },
+    "core_lite":    { "10": 22400 },
+    "core_pro":     { "10": 39200 }
+  },
+
+  "modules": {
+    "labor": {
+      "id": "labor",
+      "name": "Labor Intelligence",
+      "icon": "👥",
+      "pricing": { "base": 169, "per_location": 17, "base_includes": 5 },
+      "setup_fee": 299,
+      "setup_includes": "1 labor/scheduling system integration",
+      "prerequisites": []
+    },
+    "inventory": {
+      "id": "inventory",
+      "name": "Inventory Connect",
+      "icon": "📦",
+      "pricing": { "base": 179, "per_location": 19, "base_includes": 5 },
+      "setup_fee": 499,
+      "setup_includes": "1 inventory management system integration",
+      "prerequisites": []
+    },
+    "purchasing": {
+      "id": "purchasing",
+      "name": "Purchasing Analytics",
+      "icon": "🛒",
+      "pricing": { "base": 129, "per_location": 12, "base_includes": 5 },
+      "setup_fee": 299,
+      "setup_includes": "1 purchasing/vendor system integration",
+      "prerequisites": []
+    },
+    "marketing": {
+      "id": "marketing",
+      "name": "Marketing Performance",
+      "icon": "📣",
+      "pricing": { "base": 199, "per_location": 20, "base_includes": 5 },
+      "setup_fee": 299,
+      "setup_includes": "Up to 3 marketing platform integrations",
+      "prerequisites": []
+    },
+    "reservations": {
+      "id": "reservations",
+      "name": "Reservations Intelligence",
+      "icon": "📅",
+      "pricing": { "base": 129, "per_location": 12, "base_includes": 5 },
+      "setup_fee": 299,
+      "setup_includes": "1 reservation system integration",
+      "prerequisites": []
+    },
+    "profit": {
+      "id": "profit",
+      "name": "Profit Intelligence",
+      "icon": "💰",
+      "pricing": { "base": 229, "per_location": 22, "base_includes": 5 },
+      "setup_fee": 0,
+      "setup_includes": "Uses Labor + Inventory data",
+      "prerequisites": ["labor", "inventory"],
+      "prerequisite_message": "Requires Labor Intelligence and Inventory Connect"
+    },
+    "revenue": {
+      "id": "revenue",
+      "name": "Revenue Assurance",
+      "icon": "🔒",
+      "pricing": { "base": 109, "per_location": 10, "base_includes": 5 },
+      "setup_fee": 149,
+      "setup_includes": "POS transaction-level data configuration",
+      "prerequisites": []
+    },
+    "delivery": {
+      "id": "delivery",
+      "name": "Delivery Economics",
+      "icon": "🛵",
+      "pricing": { "base": 169, "per_location": 17, "base_includes": 5 },
+      "setup_fee": 499,
+      "setup_includes": "Up to 3 delivery platform integrations",
+      "prerequisites": []
+    },
+    "guest": {
+      "id": "guest",
+      "name": "Guest Experience",
+      "icon": "⭐",
+      "pricing": { "base": 99, "per_location": 10, "base_includes": 5 },
+      "setup_fee": 249,
+      "setup_includes": "Up to 5 review platform integrations",
+      "prerequisites": []
+    },
+    "pulse": {
+      "id": "pulse",
+      "name": "Pulse",
+      "icon": "📡",
+      "pricing": { "base": 199, "per_location": 24, "base_includes": 5 },
+      "setup_fee": 399,
+      "setup_includes": "1 POS + 1 Labor + 1 Inventory system integration",
+      "additional_integration_fee": 149,
+      "is_premium": true,
+      "prerequisites": [],
+      "integration_credit_rules": {
+        "labor_same_system": 299,
+        "inventory_same_system": 499,
+        "max_credit": 399
+      }
+    }
+  },
+
+  "expected_module_totals": {
+    "labor":        { "5": 169, "10": 254, "20": 424, "50": 934 },
+    "inventory":    { "5": 179, "10": 274, "20": 464, "50": 1034 },
+    "purchasing":   { "5": 129, "10": 189, "20": 309, "50": 669 },
+    "marketing":    { "5": 199, "10": 299, "20": 499, "50": 1099 },
+    "reservations": { "5": 129, "10": 189, "20": 309, "50": 669 },
+    "profit":       { "5": 229, "10": 339, "20": 559, "50": 1219 },
+    "revenue":      { "5": 109, "10": 159, "20": 259, "50": 559 },
+    "delivery":     { "5": 169, "10": 254, "20": 424, "50": 934 },
+    "guest":        { "5": 99, "10": 149, "20": 249, "50": 549 },
+    "pulse":        { "5": 199, "10": 319, "20": 559, "50": 1279 },
+    "all_10":       { "5": 1610, "10": 2425, "20": 4055, "50": 8945 }
+  },
+
+  "module_bundles": {
+    "ops_suite": {
+      "modules": ["labor", "inventory", "purchasing"],
+      "pricing": { "base": 429, "per_location": 43 },
+      "discount_percent": 10,
+      "setup_fee": 879,
+      "prerequisites": []
+    },
+    "growth_suite": {
+      "modules": ["marketing", "reservations", "guest"],
+      "pricing": { "base": 385, "per_location": 38 },
+      "discount_percent": 10,
+      "setup_fee": 679,
+      "prerequisites": []
+    },
+    "finance_addon": {
+      "modules": ["profit", "revenue"],
+      "pricing": { "base": 304, "per_location": 29 },
+      "discount_percent": 10,
+      "setup_fee": 149,
+      "prerequisites": ["labor", "inventory"],
+      "prerequisite_message": "Requires Ops data (Labor + Inventory modules)"
+    },
+    "channel_suite": {
+      "modules": ["delivery", "marketing"],
+      "pricing": { "base": 331, "per_location": 33 },
+      "discount_percent": 10,
+      "setup_fee": 639,
+      "prerequisites": []
+    },
+    "realtime_suite": {
+      "modules": ["pulse", "revenue"],
+      "pricing": { "base": 277, "per_location": 31 },
+      "discount_percent": 10,
+      "setup_fee": 439,
+      "prerequisites": []
+    },
+    "complete_intelligence": {
+      "modules": ["labor", "inventory", "purchasing", "marketing", "reservations", "profit", "revenue", "delivery", "guest", "pulse"],
+      "pricing": { "base": 1288, "per_location": 130 },
+      "discount_percent": 20,
+      "setup_fee": 999,
+      "prerequisites": []
+    }
+  },
+
+  "expected_bundle_totals": {
+    "ops_suite":              { "5": 429, "10": 644, "20": 1074, "50": 2364 },
+    "growth_suite":           { "5": 385, "10": 575, "20": 955, "50": 2095 },
+    "finance_addon":          { "5": 304, "10": 449, "20": 739, "50": 1609 },
+    "channel_suite":          { "5": 331, "10": 496, "20": 826, "50": 1816 },
+    "realtime_suite":         { "5": 277, "10": 432, "20": 742, "50": 1672 },
+    "complete_intelligence":  { "5": 1288, "10": 1938, "20": 3238, "50": 7138 }
+  },
+
+  "watchtower": {
+    "competitive": { "base": 399, "per_location": 49 },
+    "events": { "base": 199, "per_location": 29 },
+    "trends": { "base": 249, "per_location": 19 },
+    "bundle": { "base": 699, "per_location": 79, "discount_note": "~18%" }
+  },
+
+  "expected_watchtower_totals": {
+    "competitive": { "1": 399, "5": 595, "10": 840, "20": 1330, "50": 2800 },
+    "events":      { "1": 199, "5": 315, "10": 460, "20": 750, "50": 1620 },
+    "trends":      { "1": 249, "5": 325, "10": 420, "20": 610, "50": 1180 },
+    "bundle":      { "1": 699, "5": 1015, "10": 1410, "20": 2200, "50": 4570 }
+  },
+
+  "ai_credits": {
+    "actions": {
+      "VIEW_SUMMARY": 5,
+      "CHAT": 8,
+      "INSIGHTS_WIDGET": 10,
+      "DOC_EXTRACT_TEXT": 12,
+      "INSIGHTS_CHAT": 12,
+      "DOC_EXTRACT_OCR": 18,
+      "DATA_ANALYSIS": 20,
+      "SQL_GENERATION": 15,
+      "CHAT_DATA_QUERY": 25,
+      "REPORT_GENERATION": 35
+    },
+    "topups": {
+      "report_lite": { "1000": 30 },
+      "report_plus": { "1000": 20, "3000": 55 },
+      "report_pro": { "1000": 15, "3000": 40, "5000": 60 },
+      "core_lite": { "1000": 12, "3000": 33, "5000": 50, "10000": 90 },
+      "core_pro": { "1000": 10, "3000": 27, "5000": 40, "10000": 70 }
+    },
+    "rollover": {
+      "cap_percent": 25,
+      "duration_months": 1,
+      "purchased_credits_expire": false,
+      "usage_order": ["Rollover", "Monthly", "Purchased"]
+    }
+  },
+
+  "ai_packages": {
+    "ai_plus": {
+      "monthly": 399,
+      "daily_cap": 500,
+      "overflow": "credit_wallet",
+      "availability": "core_only"
+    },
+    "ai_pro": {
+      "monthly": 599,
+      "daily_cap": 1000,
+      "overflow": "credit_wallet",
+      "availability": "core_only"
+    }
+  },
+
+  "discounts": {
+    "volume": [
+      { "min": 1, "max": 29, "percent": 0 },
+      { "min": 30, "max": 99, "percent": 5 },
+      { "min": 100, "max": 200, "percent": 7 },
+      { "min": 201, "max": null, "percent": null, "note": "enterprise_custom" }
+    ],
+    "billing": {
+      "monthly": 0,
+      "annual": 10,
+      "two_year": 15
+    },
+    "stacking_allowed": false,
+    "max_discount_percent": 15
+  },
+
+  "setup_fee_discounts": {
+    "three_plus_modules_percent": 20,
+    "complete_intelligence_percent": 50,
+    "annual_prepay_percent": 25,
+    "enterprise_percent": 100
+  },
+
+  "complete_examples": {
+    "example_1_single_report_plus": {
+      "description": "Single Location (Report Plus)",
+      "tier": "report_plus",
+      "locations": 1,
+      "one_time": 0,
+      "monthly": 59
+    },
+    "example_2_5loc_core_ops": {
+      "description": "5-Location Chain (Core Lite + Ops Suite)",
+      "tier": "core_lite",
+      "locations": 5,
+      "modules": ["ops_suite"],
+      "one_time": 879,
+      "monthly": 784,
+      "per_location": 157
+    },
+    "example_3_10loc_full": {
+      "description": "10-Location Chain (Core Pro + Complete + Watchtower)",
+      "tier": "core_pro",
+      "locations": 10,
+      "modules": ["complete_intelligence"],
+      "watchtower": "bundle",
+      "one_time": 999,
+      "monthly": 4012,
+      "annual_total_with_10pct_discount": 43330,
+      "per_location": 401
+    },
+    "example_4_35loc_enterprise_level": {
+      "description": "35-Location Chain (Full Platform + AI Pro)",
+      "tier": "core_pro",
+      "locations": 35,
+      "modules": ["complete_intelligence"],
+      "watchtower": "bundle",
+      "ai_package": "ai_pro",
+      "one_time": 999,
+      "subtotal_monthly": 10711,
+      "volume_discount_5pct": -536,
+      "monthly_after_discount": 10175,
+      "per_location": 291
+    },
+    "example_5_report_pro_pulse": {
+      "description": "Report Pro + Pulse (5 locations)",
+      "tier": "report_pro",
+      "locations": 5,
+      "pulse_enabled": true,
+      "one_time": 399,
+      "monthly": 557,
+      "monthly_breakdown": {
+        "report_pro_5loc": 259,
+        "pulse_unlock_fee": 99,
+        "pulse_module_5loc": 199
+      }
+    }
+  }
+}

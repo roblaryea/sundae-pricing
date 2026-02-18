@@ -12,7 +12,11 @@
     "validate:pricing": "tsx scripts/validate-pricing.ts",
     "qa": "tsx scripts/qa-validate-pricing.ts",
     "test": "vitest run",
-    "test:pricing": "vitest run __tests__/pricing.test.ts",
+    "test:pricing": "vitest run __tests__/pricing.v4_3.spec.ts __tests__/pricing.test.ts",
+    "test:e2e:pricing": "npx playwright test e2e/pricing-simulator.spec.ts",
+    "pricing:audit": "tsx scripts/pricing_audit.ts",
+    "pricing:audit:full": "tsx scripts/pricing_audit.ts --with-release-notes",
+    "release:notes": "tsx scripts/release_notes.ts",
     "prebuild": "npm run validate:pricing",
     "predeploy": "npm run build:github",
     "deploy": "gh-pages -d dist"
@@ -32,6 +36,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^24.10.1",

@@ -26,14 +26,16 @@ export interface WatchtowerPriceResult {
 
 /**
  * Calculate Watchtower pricing based on selected modules and location count
+ * v4.3: Enterprise pricing is opt-in, not auto-applied by location count.
  */
 export function calculateWatchtowerPrice(
   selectedModules: WatchtowerModuleId[],
-  locations: number
+  locations: number,
+  options?: { isEnterprise?: boolean }
 ): WatchtowerPriceResult {
-  
-  // Check for enterprise pricing (30+ locations)
-  if (locations >= 30) {
+
+  // Enterprise pricing only when explicitly opted in
+  if (options?.isEnterprise && locations >= 30) {
     return calculateEnterpriseWatchtower(selectedModules, locations);
   }
   
@@ -52,16 +54,16 @@ export function calculateWatchtowerPrice(
     const basePrice = bundleData.basePrice;
     const locationPrice = additionalLocations * bundleData.perLocationPrice;
     const total = basePrice + locationPrice;
-    
+
     // Calculate what individual would have cost
-    const individualBase = watchtower.competitive.basePrice + 
-                          watchtower.events.basePrice + 
+    const individualBase = watchtower.competitive.basePrice +
+                          watchtower.events.basePrice +
                           watchtower.trends.basePrice;
-    const individualPerLoc = (watchtower.competitive.perLocationPrice + 
-                             watchtower.events.perLocationPrice + 
+    const individualPerLoc = (watchtower.competitive.perLocationPrice +
+                             watchtower.events.perLocationPrice +
                              watchtower.trends.perLocationPrice) * additionalLocations;
     const individualTotal = individualBase + individualPerLoc;
-    
+
     return {
       modules: [{
         id: 'bundle',
@@ -75,7 +77,7 @@ export function calculateWatchtowerPrice(
       bundleSavings: individualTotal - total,
       total,
       perLocation: locations > 0 ? Math.round(total / locations) : 0,
-      isEnterprise: false
+      isEnterprise: false,
     };
   }
   
@@ -211,20 +213,8 @@ export function getWatchtowerPricingExamples(): {
 }[] {
   return [1, 3, 5, 10, 20, 30].map(locations => {
     const addl = Math.max(0, locations - 1);
-    
-    // Enterprise flat pricing for 30+
-    if (locations >= 30) {
-      const tier = watchtowerEnterprise.tiers[0];  // 30-50 tier
-      return {
-        locations,
-        competitive: tier.perModulePricing!.competitive,
-        events: tier.perModulePricing!.events,
-        trends: tier.perModulePricing!.trends,
-        bundle: tier.bundlePrice || 0,
-        perLocation: tier.bundlePrice ? Math.round(tier.bundlePrice / locations) : 0
-      };
-    }
-    
+
+    // v4.3: Use standard base + per-location pricing at all counts
     return {
       locations,
       competitive: watchtower.competitive.basePrice + (addl * watchtower.competitive.perLocationPrice),

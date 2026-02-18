@@ -3,9 +3,7 @@
 import { Calendar } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-
-// Update this URL to your actual demo booking page
-const DEMO_URL = 'https://www.sundae.io/demo';
+import { LEGAL } from '../../config/legal';
 
 export function BookDemoButton() {
   const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
@@ -21,7 +19,7 @@ export function BookDemoButton() {
       source: 'pricing-configurator'
     });
     
-    const demoUrl = `${DEMO_URL}?${params.toString()}`;
+    const demoUrl = `${LEGAL.demoUrl}?${params.toString()}`;
     
     // Open in new tab
     window.open(demoUrl, '_blank', 'noopener,noreferrer');

@@ -15,7 +15,8 @@ export function WatchtowerToggle() {
   const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules);
 
   const handleContinue = () => {
-    setCurrentStep(6);
+    // Skip ROI page when no modules selected (ROI requires modules for savings)
+    setCurrentStep(modules.length === 0 ? 7 : 6);
   };
 
   const handleBack = () => {
@@ -170,7 +171,7 @@ export function WatchtowerToggle() {
         >
           {/* Badge positioned above card with proper spacing */}
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-50 whitespace-nowrap shadow-lg">
-            BEST VALUE – SAVE 15%
+            BEST VALUE – SAVE ~18%
           </div>
           
           <button
@@ -217,7 +218,7 @@ export function WatchtowerToggle() {
                 <div className="text-sm text-sundae-muted line-through">
                   ${bundleResult.subtotal.toLocaleString()}/mo individual
                 </div>
-                <div className="text-green-400 font-semibold">15% OFF</div>
+                <div className="text-green-400 font-semibold">~18% OFF</div>
               </div>
             </div>
           </button>

@@ -128,7 +128,8 @@ export function calculateModuleRecommendations(
     profit: { score: 0, rationales: [], fromPains: [] },
     revenue: { score: 0, rationales: [], fromPains: [] },
     delivery: { score: 0, rationales: [], fromPains: [] },
-    guest: { score: 0, rationales: [], fromPains: [] }
+    guest: { score: 0, rationales: [], fromPains: [] },
+    pulse: { score: 0, rationales: [], fromPains: [] }
   };
 
   // Score modules based on selected pain points

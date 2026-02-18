@@ -6,6 +6,7 @@ import { Mail, Loader2, CheckCircle, Download } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { generateQuotePDF } from '../../lib/pdfGenerator';
+import { LEGAL } from '../../config/legal';
 
 export function EmailQuoteButton() {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -74,7 +75,7 @@ Best regards`);
       alert(`PDF Downloaded!\n\n"${filename}" has been downloaded to your computer.\n\nYour email will open next - please attach the downloaded PDF before sending.\n\nTip: The PDF is usually in your Downloads folder.`);
       
       // Step 4: Open email client with mailto link
-      window.location.href = `mailto:sales@sundae.io?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:${LEGAL.supportEmail}?subject=${subject}&body=${body}`;
       
       setIsComplete(true);
       setTimeout(() => setIsComplete(false), 3000);

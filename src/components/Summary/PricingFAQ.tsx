@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { HelpCircle, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
+import { LEGAL } from '../../config/legal';
 
 interface FAQItem {
   question: string;
@@ -12,11 +13,11 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     question: 'Are there setup fees?',
-    answer: 'No mandatory setup fees for standard onboarding. We charge $0 for standard implementation, POS integration, data import, and training at all tiers. Optional premium services (white-label branding, custom integrations, on-site training) are priced separately.'
+    answer: 'Yes — each module has a one-time setup fee covering integration work (e.g. Labor $299, Inventory $499, Pulse $399). Discounts apply: 20% off for 3+ modules, 50% off for Complete Intelligence bundle, 25% off with annual prepay, and setup fees are waived for Enterprise contracts.'
   },
   {
     question: "What's the contract term?",
-    answer: 'Report and Core tiers: Month-to-month. Cancel anytime with no penalty. Large portfolios (100+ locations): Annual or multi-year billing commitments may be offered for volume discounts, with minimum location guarantees. Custom terms available.'
+    answer: 'Month-to-month by default. Cancel anytime with no penalty. Annual prepay saves 10%, 2-year prepay saves 15%. Enterprise contracts have custom terms.'
   },
   {
     question: 'Can I upgrade or downgrade?',
@@ -24,31 +25,35 @@ const faqItems: FAQItem[] = [
   },
   {
     question: 'Do modules require Core tier?',
-    answer: 'Yes. Modules are add-ons to Core tier only. Report tier cannot add modules.'
+    answer: 'Yes. All 10 intelligence modules are Core tier add-ons. The exception is Pulse, which can also be added to Report Pro with a $99/mo unlock fee.'
   },
   {
     question: 'Can I add Watchtower to Report tier?',
     answer: 'No. Watchtower requires Core tier or higher.'
   },
   {
-    question: 'What payment methods do you accept?',
-    answer: 'Credit card, ACH, wire transfer (Enterprise only).'
+    question: 'How do discounts work?',
+    answer: 'Volume discounts (5% at 30-99 locations, 7% at 100-200) and billing discounts (10% annual, 15% 2-year) are non-stacking — you get whichever is larger, up to a maximum of 15%. Enterprise customers receive custom pricing.'
   },
   {
     question: 'Are AI credits shared across locations?',
-    answer: 'Yes. AI credits are pooled at the org level and can be used across all locations.'
+    answer: 'Yes. AI credits are pooled at the org level and can be used across all locations. Unused credits roll over at 25% (one month). Purchased top-up credits never expire.'
   },
   {
-    question: 'Do AI seats carry over month-to-month?',
-    answer: 'AI seats are monthly subscriptions. Credits have rollover (25% for most tiers), but seats do not accumulate.'
+    question: 'What are viewer seats vs user seats?',
+    answer: 'Viewer seats (read-only, no AI queries) are unlimited and free at all tiers. "Users" are accounts with AI query capabilities — each tier includes a set number, with additional seats available at $5-$12/seat/mo depending on tier.'
   },
   {
-    question: 'Can I buy just data retention without upgrading my tier?',
-    answer: 'Yes. Data retention upgrades are available as standalone add-ons (see Add-Ons section).'
+    question: 'What is Pulse and how does it work?',
+    answer: 'Pulse is a premium real-time monitoring module. On Core tiers it costs $199/mo + $24/loc. On Report Pro it requires an additional $99/mo unlock fee. Setup is $399 (covers 1 POS + 1 Labor + 1 Inventory integration).'
   },
   {
-    question: 'What if I need custom pricing for 50+ locations?',
-    answer: 'We offer volume pricing for 50-99 locations under Core Pro. Enterprise pricing typically starts at 100+ locations (or when enterprise requirements such as SSO, SLAs, or dedicated CSM apply). Contact sales@sundae.io for a custom quote.'
+    question: 'What is the Finance Add-On prerequisite?',
+    answer: 'The Finance Add-On bundle (Profit Intelligence + Revenue Assurance) requires active Labor Intelligence and Inventory Connect modules. You can get these individually or via the Ops Suite bundle.'
+  },
+  {
+    question: 'When does Enterprise pricing apply?',
+    answer: 'You are eligible for Enterprise pricing if you have 30+ locations, $10,000+/month projected spend, or need custom integrations, SSO/SAML, or custom SLAs. Eligible customers may choose standard pricing with a volume discount OR request custom Enterprise pricing.'
   }
 ];
 
@@ -127,20 +132,20 @@ export function PricingFAQ() {
       <div className="mt-6 p-4 bg-violet-500/10 rounded-lg border border-violet-500/30">
         <p className="text-sm text-center">
           <strong>Still have questions?</strong> Contact us at{' '}
-          <a 
-            href="mailto:sales@sundae.io" 
+          <a
+            href={`mailto:${LEGAL.supportEmail}`}
             className="text-sundae-accent hover:underline font-semibold"
           >
-            sales@sundae.io
+            {LEGAL.supportEmail}
           </a>
           {' '}or visit{' '}
-          <a 
-            href="https://sundae.io/demo" 
+          <a
+            href={LEGAL.demoUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sundae-accent hover:underline font-semibold"
           >
-            sundae.io/demo
+            {LEGAL.primaryDomain}/demo
           </a>
         </p>
       </div>

@@ -316,7 +316,7 @@ export function LocationSlider() {
         className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4"
       >
         {/* Volume discount callout */}
-        {locations >= 5 && (
+        {locations >= 30 && (
           <div className="p-4 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-lg border border-green-500/30">
             <div className="flex items-start gap-3">
               <TrendingUp className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
@@ -381,7 +381,7 @@ export function LocationSlider() {
           className="button-primary relative z-50"
           data-testid="continue-button"
         >
-          {getSkipToStep(layer, tier) === 6 ? 'Continue to ROI Calculator' : 'Continue to Modules'}
+          {getSkipToStep(layer, tier) ? 'Continue to Summary' : 'Continue to Modules'}
         </button>
       </motion.div>
     </div>

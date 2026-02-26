@@ -578,61 +578,61 @@ export const competitorQuizOptions = [
     id: 'tenzo' as CompetitorId,
     label: 'Tenzo',
     category: 'restaurant-bi',
-    icon: '📊'
+    icon: 'chart'
   },
   {
     id: 'nory' as CompetitorId,
     label: 'Nory',
     category: 'restaurant-bi',
-    icon: '🤖'
+    icon: 'bot'
   },
   {
     id: 'marketman' as CompetitorId,
     label: 'MarketMan',
     category: 'restaurant-bi',
-    icon: '📦'
+    icon: 'package'
   },
   {
     id: 'restaurant365' as CompetitorId,
     label: 'Restaurant365',
     category: 'restaurant-bi',
-    icon: '🏢'
+    icon: 'building'
   },
   {
     id: 'powerbi' as CompetitorId,
     label: 'Power BI',
     category: 'generic-bi',
-    icon: '📈'
+    icon: 'trending-up'
   },
   {
     id: 'tableau' as CompetitorId,
     label: 'Tableau',
     category: 'generic-bi',
-    icon: '📉'
+    icon: 'trending-down'
   },
   {
     id: 'looker' as CompetitorId,
     label: 'Looker',
     category: 'generic-bi',
-    icon: '🔍'
+    icon: 'search'
   },
   {
     id: 'excel' as CompetitorId,
     label: 'Excel / Google Sheets',
     category: 'spreadsheets',
-    icon: '📋'
+    icon: 'clipboard'
   },
   {
     id: 'pos-native' as CompetitorId,
     label: 'POS Reports Only',
     category: 'pos-native',
-    icon: '🧾'
+    icon: 'file'
   },
   {
     id: 'nothing' as CompetitorId,
     label: 'Nothing Yet / Gut Feel',
     category: 'nothing',
-    icon: '🤔'
+    icon: 'help'
   }
 ];
 

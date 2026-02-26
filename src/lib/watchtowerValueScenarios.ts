@@ -8,7 +8,7 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
   competitive: {
     id: 'competitive',
     name: 'Competitive Intelligence',
-    icon: '🔍',
+    icon: 'search',
     tagline: 'Know what your competitors are doing before your customers do',
     
     // Specific, defensible scenarios
@@ -83,7 +83,7 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
   events: {
     id: 'events',
     name: 'Event & Calendar Signals',
-    icon: '📅',
+    icon: 'calendar',
     tagline: 'Never be caught understaffed for a big night again',
     
     scenarios: [
@@ -160,7 +160,7 @@ export const WATCHTOWER_VALUE_SCENARIOS = {
   trends: {
     id: 'trends',
     name: 'Market Trends',
-    icon: '📈',
+    icon: 'trending-up',
     tagline: 'See where the market is going before your competitors do',
     
     scenarios: [

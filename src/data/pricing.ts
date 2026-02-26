@@ -448,7 +448,7 @@ export const modules = {
   labor: {
     id: 'labor',
     name: 'Labor Intelligence',
-    icon: '👥',
+    icon: 'users',
     orgLicensePrice: 219,
     perLocationPrice: 22,
     baseIncludesLocations: 3,
@@ -479,7 +479,7 @@ export const modules = {
   inventory: {
     id: 'inventory',
     name: 'Inventory Connect',
-    icon: '📦',
+    icon: 'package',
     orgLicensePrice: 229,
     perLocationPrice: 24,
     baseIncludesLocations: 3,
@@ -510,7 +510,7 @@ export const modules = {
   purchasing: {
     id: 'purchasing',
     name: 'Purchasing Analytics',
-    icon: '🛒',
+    icon: 'cart',
     orgLicensePrice: 169,
     perLocationPrice: 16,
     baseIncludesLocations: 3,
@@ -540,7 +540,7 @@ export const modules = {
   marketing: {
     id: 'marketing',
     name: 'Marketing Performance',
-    icon: '📣',
+    icon: 'megaphone',
     orgLicensePrice: 249,
     perLocationPrice: 25,
     baseIncludesLocations: 3,
@@ -570,7 +570,7 @@ export const modules = {
   reservations: {
     id: 'reservations',
     name: 'Reservations Intelligence',
-    icon: '📅',
+    icon: 'calendar',
     orgLicensePrice: 169,
     perLocationPrice: 16,
     baseIncludesLocations: 3,
@@ -599,7 +599,7 @@ export const modules = {
   profit: {
     id: 'profit',
     name: 'Profit Intelligence',
-    icon: '💰',
+    icon: 'profit',
     orgLicensePrice: 299,
     perLocationPrice: 28,
     baseIncludesLocations: 3,
@@ -630,7 +630,7 @@ export const modules = {
   revenue: {
     id: 'revenue',
     name: 'Revenue Assurance',
-    icon: '🔒',
+    icon: 'revenue',
     orgLicensePrice: 149,
     perLocationPrice: 14,
     baseIncludesLocations: 3,
@@ -660,7 +660,7 @@ export const modules = {
   delivery: {
     id: 'delivery',
     name: 'Delivery Economics',
-    icon: '🛵',
+    icon: 'delivery',
     orgLicensePrice: 219,
     perLocationPrice: 22,
     baseIncludesLocations: 3,
@@ -690,7 +690,7 @@ export const modules = {
   guest: {
     id: 'guest',
     name: 'Guest Experience',
-    icon: '⭐',
+    icon: 'guest',
     orgLicensePrice: 149,
     perLocationPrice: 14,
     baseIncludesLocations: 3,
@@ -720,7 +720,7 @@ export const modules = {
   pulse: {
     id: 'pulse',
     name: 'Pulse',
-    icon: '📡',
+    icon: 'pulse',
     orgLicensePrice: 269,
     perLocationPrice: 29,
     baseIncludesLocations: 3,
@@ -849,7 +849,7 @@ export const watchtower = {
   competitive: {
     id: 'competitive',
     name: 'Competitive Intelligence',
-    icon: '🔍',
+    icon: 'search',
     basePrice: 549,
     perLocationPrice: 69,
     includedLocations: 1,
@@ -874,7 +874,7 @@ export const watchtower = {
   events: {
     id: 'events',
     name: 'Event & Calendar Signals',
-    icon: '📅',
+    icon: 'calendar',
     basePrice: 249,
     perLocationPrice: 39,
     includedLocations: 1,
@@ -899,7 +899,7 @@ export const watchtower = {
   trends: {
     id: 'trends',
     name: 'Market Trends',
-    icon: '📈',
+    icon: 'trending-up',
     basePrice: 299,
     perLocationPrice: 29,
     includedLocations: 1,
@@ -924,7 +924,7 @@ export const watchtower = {
   bundle: {
     id: 'bundle',
     name: 'Full Watchtower Bundle',
-    icon: '🏰',
+    icon: 'castle',
     basePrice: 899,
     perLocationPrice: 109,
     includedLocations: 1,

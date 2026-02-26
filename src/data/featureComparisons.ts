@@ -62,10 +62,10 @@ export const reportFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 7: Chat with Data + Pulse Access
+    // Derived from v5.1: Sundae Intelligence + Pulse Access
     category: 'Add-ons (Report Pro Only)',
     features: [
-      { name: 'Chat with Data', lite: '❌', plus: '❌', pro: '+$49/mo unlock' },
+      { name: 'Sundae Intelligence', lite: '❌', plus: '❌', pro: '+$79/mo unlock' },
       { name: 'Pulse access', lite: '❌', plus: '❌', pro: '+$99/mo unlock + $199/mo module (setup fee applies)' },
       { name: 'API access', lite: '❌', plus: '❌', pro: '✓ (5,000 calls/mo)' },
     ]
@@ -164,7 +164,7 @@ export const coreFeatureComparison = [
       { name: 'What-if scenario modeling', lite: 'Basic (limited)', pro: '✓', enterprise: '✓ Advanced' },
       { name: 'AI insights & recommendations', lite: '✓', pro: '✓', enterprise: '✓' },
       { name: 'Live performance alerts', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Chat with Data', lite: '✓ Included', pro: '✓ Included', enterprise: '✓ Included' },
+      { name: 'Sundae Intelligence', lite: '✓ Included', pro: '✓ Included', enterprise: '✓ Included' },
       { name: 'AI Plus/Pro packages', lite: '✓ Available', pro: '✓ Available', enterprise: 'Custom cap' },
       { name: 'Custom ML models', lite: '❌', pro: '❌', enterprise: '✓ (contracted)' },
       { name: 'Priority AI capacity', lite: '❌', pro: '❌', enterprise: '✓ (contracted)' },

@@ -197,6 +197,19 @@ export type IconName =
   | 'alert'
   | 'muscle'
   | 'growth'
+  | 'star'
+  | 'message'
+  | 'search'
+  | 'trending-down'
+  | 'delivery'
+  | 'revenue'
+  | 'guest'
+  | 'profit'
+  | 'pulse'
+  | 'utensils'
+  | 'gear'
+  | 'plug'
+  | 'shield'
   // New official names
   | 'report'
   | 'core'
@@ -333,10 +346,32 @@ export function getConceptIcon(concept: keyof typeof CONCEPT_ICONS): LucideIcon 
 }
 
 /**
- * Get icon by emoji (legacy support)
+ * Get icon by emoji or string name (legacy support)
+ * Checks emoji map first, then named icon map for string-based icon keys.
  */
-export function getIconByEmoji(emoji: string): LucideIcon {
-  return ICON_MAP[emoji] || Sparkles;
+export function getIconByEmoji(emojiOrName: string): LucideIcon {
+  // Check emoji map first (legacy support)
+  if (ICON_MAP[emojiOrName]) return ICON_MAP[emojiOrName];
+  // Check named icon map
+  const namedIcons: Record<string, LucideIcon> = {
+    'sundae': Sparkles, 'store': Store, 'building': Building2, 'crown': Crown,
+    'users': Users, 'trash': Trash2, 'swords': Swords, 'trending-up': TrendingUp,
+    'trending-down': TrendingDown, 'cloud': Cloud, 'clipboard': ClipboardList,
+    'bot': Bot, 'help': HelpCircle, 'badge-check': BadgeCheck, 'rocket': Rocket,
+    'target': Target, 'package': Boxes, 'cart': ShoppingCart, 'megaphone': Megaphone,
+    'calendar': Calendar, 'radar': Radar, 'chart': BarChart3, 'zap': Zap,
+    'castle': Castle, 'check': CheckCircle, 'dollar': DollarSign, 'file': FileText,
+    'map-pin': MapPin, 'lightbulb': Lightbulb, 'alert': AlertTriangle,
+    'muscle': BadgeCheck, 'growth': Rocket, 'star': Sparkles, 'message': MessageCircle,
+    'search': Search, 'delivery': Truck, 'revenue': BadgeCheck, 'guest': Sparkles,
+    'profit': DollarSign, 'pulse': Radar, 'utensils': UtensilsCrossed,
+    'gear': Cpu, 'plug': Link2, 'shield': BadgeCheck,
+    // Product & module names
+    'report': FileText, 'core': Zap, 'watchtower': Castle,
+    'labor': Users, 'inventory': Layers, 'purchasing': Truck,
+    'marketing': Target, 'reservations': Calendar,
+  };
+  return namedIcons[emojiOrName] || Sparkles;
 }
 
 /**
@@ -388,6 +423,19 @@ export function getIcon(name: IconName): LucideIcon {
     'alert': AlertTriangle,
     'muscle': BadgeCheck,
     'growth': Rocket,
+    'star': Sparkles,       // ⭐
+    'message': MessageCircle, // 💭
+    'search': Search,       // 🔍
+    'trending-down': TrendingDown, // 📉
+    'delivery': Truck,      // 🛵 (Delivery module)
+    'revenue': BadgeCheck,  // 🔒 (Revenue Assurance)
+    'guest': Sparkles,      // ⭐ (Guest Experience)
+    'profit': DollarSign,   // 💰 (Profit module)
+    'pulse': Radar,         // 📡 (Pulse module)
+    'utensils': UtensilsCrossed, // 🥘
+    'gear': Cpu,            // ⚙️
+    'plug': Link2,          // 🔌
+    'shield': BadgeCheck,   // 🔒
   };
   return map[name] || Sparkles;
 }

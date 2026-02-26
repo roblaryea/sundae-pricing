@@ -33,39 +33,39 @@ describe('Report Tier Pricing', () => {
     expect(reportTiers.lite.aiSeats).toBe(1);
   });
 
-  it('Report Plus @ 5 locations = $159', () => {
-    expect(calculateReportPrice('plus', 5).price).toBe(159); // 59 + 4*25
+  it('Report Plus @ 5 locations = $235', () => {
+    expect(calculateReportPrice('plus', 5).price).toBe(235); // 79 + 4*39
   });
 
-  it('Report Plus has 5 AI seats, 50 visuals, 1-2km adjustable radius', () => {
+  it('Report Plus has 5 AI seats, 30 visuals, 1-2km adjustable radius', () => {
     expect(reportTiers.plus.aiSeats).toBe(5);
-    expect(reportTiers.plus.visuals).toBe(50);
+    expect(reportTiers.plus.visuals).toBe(30);
     expect(reportTiers.plus.benchmarkRadius).toBe('1-2km adjustable');
   });
 
-  it('Report Pro @ 10 locations = $434', () => {
-    expect(calculateReportPrice('pro', 10).price).toBe(434); // 119 + 9*35
+  it('Report Pro @ 10 locations = $690', () => {
+    expect(calculateReportPrice('pro', 10).price).toBe(690); // 159 + 9*59
   });
 });
 
 describe('Core Tier Pricing', () => {
-  it('Core Lite @ 5 locations = $355', () => {
-    expect(calculateCorePrice('lite', 5).price).toBe(355); // 199 + 4*39
+  it('Core Lite @ 5 locations = $595', () => {
+    expect(calculateCorePrice('lite', 5).price).toBe(595); // 279 + 4*79
   });
 
-  it('Core Pro @ 5 locations = $489', () => {
-    expect(calculateCorePrice('pro', 5).price).toBe(489); // 349 + 4*35
+  it('Core Pro @ 5 locations = $805', () => {
+    expect(calculateCorePrice('pro', 5).price).toBe(805); // 449 + 4*89
   });
 
   it('Core Pro total cost ALWAYS higher (premium positioning)', () => {
     // Pro should always cost more in total (premium tier)
     const lite5 = calculateCorePrice('lite', 5).price;
     const pro5 = calculateCorePrice('pro', 5).price;
-    expect(pro5).toBeGreaterThan(lite5); // 489 > 355
+    expect(pro5).toBeGreaterThan(lite5); // 805 > 595
 
     const lite14 = calculateCorePrice('lite', 14).price;
     const pro14 = calculateCorePrice('pro', 14).price;
-    expect(pro14).toBeGreaterThan(lite14); // 804 > 706
+    expect(pro14).toBeGreaterThan(lite14); // 1606 > 1306
 
     // Note: Pro becomes better per-location value at scale (intended)
     // This is fine - premium tier should reward scale
@@ -73,48 +73,47 @@ describe('Core Tier Pricing', () => {
 });
 
 describe('Module Pricing', () => {
-  it('Labor = $169 org license (v4.3 pricing)', () => {
-    expect(modules.labor.orgLicensePrice).toBe(169);
+  it('Labor = $219 org license (v5.1 Core Pro pricing)', () => {
+    expect(modules.labor.orgLicensePrice).toBe(219);
   });
 
-  it('Labor @ 10 locations = $254', () => {
-    expect(calculateModulePrice('labor', 10)).toBe(254); // 169 + 5*17
+  it('Labor @ 10 locations = $373', () => {
+    expect(calculateModulePrice('labor', 10)).toBe(373); // 219 + 7*22
   });
 
-  it('Inventory = $179 org, $19/extra (v4.3)', () => {
-    expect(modules.inventory.orgLicensePrice).toBe(179);
-    expect(modules.inventory.perLocationPrice).toBe(19);
+  it('Inventory = $229 org, $24/extra (v5.1)', () => {
+    expect(modules.inventory.orgLicensePrice).toBe(229);
+    expect(modules.inventory.perLocationPrice).toBe(24);
   });
 
-  it('Purchasing = $129 org, $12/extra (v4.3)', () => {
-    expect(modules.purchasing.orgLicensePrice).toBe(129);
-    expect(modules.purchasing.perLocationPrice).toBe(12);
+  it('Purchasing = $169 org, $16/extra (v5.1)', () => {
+    expect(modules.purchasing.orgLicensePrice).toBe(169);
+    expect(modules.purchasing.perLocationPrice).toBe(16);
   });
 
-  it('Purchasing @ 10 locations = $189', () => {
-    expect(calculateModulePrice('purchasing', 10)).toBe(189); // 129 + 5*12
+  it('Purchasing @ 10 locations = $281', () => {
+    expect(calculateModulePrice('purchasing', 10)).toBe(281); // 169 + 7*16
   });
 });
 
 describe('Watchtower Pricing (New Base + Per-Location Model)', () => {
-  it('Bundle @ 1 location = $699 base', () => {
-    expect(calculateWatchtowerPrice(['bundle'], 1).price).toBe(699);
+  it('Bundle @ 1 location = $899 base', () => {
+    expect(calculateWatchtowerPrice(['bundle'], 1).price).toBe(899);
   });
 
-  it('Bundle @ 5 locations = $1,015', () => {
-    expect(calculateWatchtowerPrice(['bundle'], 5).price).toBe(1015); // 699 + 4*79
+  it('Bundle @ 5 locations = $1,335', () => {
+    expect(calculateWatchtowerPrice(['bundle'], 5).price).toBe(1335); // 899 + 4*109
   });
 
   it('Individual modules @ 1 location calculated correctly', () => {
     const result = calculateWatchtowerPrice(['competitive', 'events', 'trends'], 1);
     // When selecting all 3 individual modules, returns bundle price + shows savings
-    expect(result.price).toBe(699); // Automatically gets bundle price
-    expect(result.savings).toBe(148); // Shows what you're saving vs individual
+    expect(result.price).toBe(899); // Automatically gets bundle price
+    expect(result.savings).toBe(198); // Shows what you're saving vs individual (1097 - 899)
   });
 
-  it('Bundle data shows ~18% savings', () => {
-    expect(watchtower.bundle.savingsPercent).toBe(17);
-    expect(watchtower.bundle.baseSavings).toBe(148); // 847 - 699
+  it('Bundle data shows savings', () => {
+    expect(watchtower.bundle.baseSavings).toBe(198); // 1097 - 899
   });
 });
 
@@ -257,10 +256,10 @@ describe('Bundle Discount Correctness', () => {
     const individualSum = watchtower.competitive.basePrice +
                           watchtower.events.basePrice +
                           watchtower.trends.basePrice;
-    expect(watchtower.bundle.individualBaseTotal).toBe(individualSum);
-    expect(watchtower.bundle.baseSavings).toBe(individualSum - watchtower.bundle.basePrice);
+    expect(watchtower.bundle.individualBaseTotal).toBe(individualSum); // 1097
+    expect(watchtower.bundle.baseSavings).toBe(individualSum - watchtower.bundle.basePrice); // 198
 
-    // Verify ~17-18% discount
+    // Verify ~18% discount
     const discountPct = watchtower.bundle.baseSavings / individualSum * 100;
     expect(discountPct).toBeCloseTo(watchtower.bundle.savingsPercent, 0);
   });
@@ -326,22 +325,22 @@ describe('Module Pricing — All 10 Modules', () => {
     }
   });
 
-  it('every module includes 5 locations in org license', () => {
+  it('every module includes 3 locations in org license', () => {
     for (const id of allModules) {
-      expect(modules[id].includedLocations).toBe(5);
+      expect(modules[id].baseIncludesLocations).toBe(3);
     }
   });
 
-  it('module price at includedLocations = orgLicensePrice only', () => {
+  it('module price at baseIncludesLocations = orgLicensePrice only', () => {
     for (const id of allModules) {
-      const price = calculateModulePrice(id, modules[id].includedLocations);
+      const price = calculateModulePrice(id, modules[id].baseIncludesLocations);
       expect(price).toBe(modules[id].orgLicensePrice);
     }
   });
 
-  it('module price at includedLocations + 1 = orgLicensePrice + 1 * perLocationPrice', () => {
+  it('module price at baseIncludesLocations + 1 = orgLicensePrice + 1 * perLocationPrice', () => {
     for (const id of allModules) {
-      const price = calculateModulePrice(id, modules[id].includedLocations + 1);
+      const price = calculateModulePrice(id, modules[id].baseIncludesLocations + 1);
       expect(price).toBe(modules[id].orgLicensePrice + modules[id].perLocationPrice);
     }
   });

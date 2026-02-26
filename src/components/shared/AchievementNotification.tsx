@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Trophy, X } from 'lucide-react';
+import { getIconByEmoji } from '../../lib/iconMap';
 import type { Achievement } from '../../data/personas';
 import { useConfiguration } from '../../hooks/useConfiguration';
 
@@ -60,7 +61,7 @@ export function AchievementNotification({ achievement }: AchievementNotification
                   {achievement.description}
                 </p>
                 <div className="flex items-center gap-2">
-                  <span className="text-2xl">{achievement.icon}</span>
+                  {(() => { const AchIcon = getIconByEmoji(achievement.icon); return <AchIcon className="w-6 h-6 text-sundae-accent" />; })()}
                   <span className="text-sm font-bold text-sundae-accent">
                     +{achievement.points} points
                   </span>

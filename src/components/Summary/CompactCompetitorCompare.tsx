@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, TrendingDown, Info, AlertTriangle, X, CheckCircle, AlertCircle } from 'lucide-react';
+import { getIconByEmoji } from '../../lib/iconMap';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateAllComparisons, COMPETITOR_ASSUMPTIONS, COMPETITOR_PRICING, type ComparisonResult } from '../../data/competitorPricing';
@@ -114,14 +115,17 @@ export function CompactCompetitorCompare() {
             Note: Some point solutions may be cheaper if you only need specific features
           </div>
           <div className="flex flex-wrap gap-2">
-            {costsMoreComparisons.map(c => (
-              <span 
-                key={c.competitor.id} 
-                className="text-xs bg-slate-800 px-2 py-1 rounded border border-slate-700"
-              >
-                {c.competitor.icon} {c.competitor.name} ({c.competitor.category})
-              </span>
-            ))}
+            {costsMoreComparisons.map(c => {
+              const CompIcon = getIconByEmoji(c.competitor.icon);
+              return (
+                <span
+                  key={c.competitor.id}
+                  className="text-xs bg-slate-800 px-2 py-1 rounded border border-slate-700 inline-flex items-center gap-1"
+                >
+                  <CompIcon className="w-3 h-3" /> {c.competitor.name} ({c.competitor.category})
+                </span>
+              );
+            })}
           </div>
         </div>
       )}
@@ -162,7 +166,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
         className="w-full p-4 flex items-center justify-between text-left"
       >
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          <span className="text-lg flex-shrink-0">{comparison.competitor.icon}</span>
+          {(() => { const CompIcon = getIconByEmoji(comparison.competitor.icon); return <CompIcon className="w-5 h-5 flex-shrink-0" />; })()}
           <div className="min-w-0 flex-1">
             <div className="font-medium text-white flex items-start gap-2 flex-wrap">
               <span className="break-words">vs {comparison.competitor.name}</span>

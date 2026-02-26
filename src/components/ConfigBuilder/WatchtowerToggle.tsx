@@ -2,7 +2,7 @@
 // UPDATED: Uses new base + per-location pricing model
 
 import { motion } from 'framer-motion';
-import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft, Castle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { watchtower } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
@@ -186,7 +186,7 @@ export function WatchtowerToggle() {
             <div className="flex items-center justify-between">
               <div className="text-left">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="text-5xl">{watchtower.bundle.icon}</span>
+                  <Castle className="w-12 h-12 text-watchtower" />
                   <div>
                     <h3 className="font-bold text-2xl mb-1">{watchtower.bundle.name}</h3>
                     <p className="text-sundae-muted">{watchtower.bundle.description}</p>

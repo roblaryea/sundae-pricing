@@ -66,7 +66,7 @@ export const reportFeatureComparison = [
     category: 'Add-ons (Report Pro Only)',
     features: [
       { name: 'Sundae Intelligence', lite: '❌', plus: '❌', pro: '+$79/mo unlock' },
-      { name: 'Pulse access', lite: '❌', plus: '❌', pro: '+$99/mo unlock + $199/mo module (setup fee applies)' },
+      { name: 'Pulse access', lite: '❌', plus: '❌', pro: '+$99/mo unlock + $299/mo module (setup fee applies)' },
       { name: 'API access', lite: '❌', plus: '❌', pro: '✓ (5,000 calls/mo)' },
     ]
   },

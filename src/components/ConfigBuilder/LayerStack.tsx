@@ -39,7 +39,7 @@ const layers: Layer[] = [
     name: 'CORE',
     icon: 'Zap',
     tagline: 'Real-time operations & AI',
-    startingPrice: 'Starting at $199/month',
+    startingPrice: 'Starting at $279/month',
     color: '#8B5CF6',
     features: [
       'Real-time POS integration',
@@ -56,7 +56,7 @@ const watchtowerLayer = {
   name: 'WATCHTOWER',
   icon: 'Castle',
   tagline: 'Competitive intelligence',
-  startingPrice: 'Add-on: From $199/mo + per-location',
+  startingPrice: 'Add-on: From $249/mo + per-location',
   color: '#EF4444',
   features: [
     'Competitor tracking',

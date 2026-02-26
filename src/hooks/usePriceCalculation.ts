@@ -100,10 +100,10 @@ export function getWatchtowerBundleSavings(selectedModules: string[]): number {
   );
   
   if (hasAllBundleModules && !selectedModules.includes('bundle')) {
-    // Individual base prices: $399 + $199 + $249 = $847
-    // Bundle base price: $699
-    // Base savings: $148
-    return 148;
+    // Individual base prices: $549 + $249 + $299 = $1,097
+    // Bundle base price: $899
+    // Base savings: $198
+    return 198;
   }
   
   return 0;
@@ -129,12 +129,11 @@ export function suggestOptimalTier(locations: number, layer: 'report' | 'core'):
 
 // Calculate crossover point where Core Pro becomes cheaper than Core Lite
 export function calculateCoreProCrossoverPoint(): number {
-  // Core Lite: $199 + (n-1) * $39
-  // Core Pro: $349 + (n-1) * $35
-  // Solve: 199 + (n-1)*39 = 349 + (n-1)*35
-  // 199 + 39n - 39 = 349 + 35n - 35
-  // 160 + 39n = 314 + 35n
-  // 4n = 154
-  // n = 38.5 → ceil = 39 (break-even at 39, cheaper at 39+)
-  return 39;
+  // Core Lite: $279 + (n-1) * $79
+  // Core Pro: $449 + (n-1) * $89
+  // Core Pro has both higher base and higher per-location in v5.1,
+  // so there is no crossover — Core Pro is always more expensive.
+  // Core Pro's value is in features/capabilities, not cost savings at scale.
+  // Return a high number so tier suggestion defaults to 'lite' for cost optimization.
+  return Number.MAX_SAFE_INTEGER;
 }

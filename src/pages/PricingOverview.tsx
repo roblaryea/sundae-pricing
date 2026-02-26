@@ -374,7 +374,7 @@ export function PricingOverview() {
               </div>
               <h3 className="text-2xl font-bold mb-2 text-white">Module Add-ons for Core</h3>
               <p className="text-sundae-muted max-w-3xl mx-auto">
-                Add specialized intelligence to Core tier. Org license covers locations 1-5, then per-location from #6+
+                Add specialized intelligence to Core tier. Org license covers locations 1-3, then per-location from #4+
               </p>
             </div>
 
@@ -384,7 +384,7 @@ export function PricingOverview() {
                   <tr className="bg-violet-500/20 border-b border-violet-500/30">
                     <th className="text-left p-4 font-semibold text-white">Module</th>
                     <th className="text-right p-4 font-semibold text-white">Org License</th>
-                    <th className="text-right p-4 font-semibold text-white">Per Location (#6+)</th>
+                    <th className="text-right p-4 font-semibold text-white">Per Location (#4+)</th>
                     <th className="text-right p-4 font-semibold text-white">5 Locations</th>
                     <th className="text-right p-4 font-semibold text-white">10 Locations</th>
                   </tr>
@@ -406,9 +406,9 @@ export function PricingOverview() {
                       </td>
                       <td className="text-right p-4 font-semibold text-violet-300">${module.orgLicensePrice}</td>
                       <td className="text-right p-4 text-white">${module.perLocationPrice}</td>
-                      <td className="text-right p-4 font-semibold text-white">${module.orgLicensePrice}</td>
+                      <td className="text-right p-4 font-semibold text-white">${module.orgLicensePrice + (module.perLocationPrice * 2)}</td>
                       <td className="text-right p-4 font-semibold text-white">
-                        ${module.orgLicensePrice + (module.perLocationPrice * 5)}
+                        ${module.orgLicensePrice + (module.perLocationPrice * 7)}
                       </td>
                     </tr>
                   ))}

@@ -5,7 +5,7 @@
 import {
   reportTiers, coreTiers, modules, moduleBundles,
   CLIENT_TYPE_RULES, EARLY_ADOPTER_TERMS, enterprisePricing,
-  billingDiscounts, DISCOUNT_RULES, setupFeeDiscounts, seatCaps
+  billingDiscounts, DISCOUNT_RULES, setupFeeDiscounts
 } from '../data/pricing';
 import type { ReportTier, CoreTier, ModuleId, BundleId, ClientType, BillingCycle } from '../data/pricing';
 import { calculateWatchtowerPrice as calcWatchtowerPrice, type WatchtowerModuleId } from './watchtowerEngine';

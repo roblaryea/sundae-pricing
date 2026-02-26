@@ -28,5 +28,5 @@ export const LEGAL = {
   contactUrl: 'https://sundae.io/contact',
   privacyUrl: 'https://sundae.io/privacy',
   termsUrl: 'https://sundae.io/terms',
-  signUpUrl: 'https://app.sundaetech.ai/sign-up',
+  signUpUrl: 'https://www.sundae.io/sign-in',
 } as const;

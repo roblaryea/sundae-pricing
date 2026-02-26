@@ -38,7 +38,7 @@ export const personas: Record<string, Persona> = {
   explorer: {
     id: "explorer",
     name: "The Data Explorer",
-    emoji: "🔭",
+    emoji: "radar",
     description: "You're curious about analytics but want to test the waters before diving in. Perfect for single locations looking to understand their data better.",
     recommendedPath: "report-lite",
     color: "#10B981", // green
@@ -48,7 +48,7 @@ export const personas: Record<string, Persona> = {
   optimizer: {
     id: "optimizer",
     name: "The Efficiency Hunter",
-    emoji: "⚡",
+    emoji: "zap",
     description: "Every percentage point matters. You want real-time control over operations and are ready to optimize labor and inventory costs.",
     recommendedPath: "core-lite",
     color: "#3B82F6", // blue
@@ -58,7 +58,7 @@ export const personas: Record<string, Persona> = {
   commander: {
     id: "commander",
     name: "The Portfolio Commander",
-    emoji: "🎯",
+    emoji: "target",
     description: "Multiple locations need unified visibility and strategic tools. You're building an empire and need intelligence to match.",
     recommendedPath: "core-pro",
     color: "#8B5CF6", // purple
@@ -68,7 +68,7 @@ export const personas: Record<string, Persona> = {
   strategist: {
     id: "strategist",
     name: "The Market Strategist",
-    emoji: "🏆",
+    emoji: "crown",
     description: "Competitive intelligence and market positioning drive your decisions. You're playing the long game and want every edge.",
     recommendedPath: "core-pro-watchtower",
     color: "#F59E0B", // amber
@@ -88,28 +88,28 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "solo",
         label: "Solo Act",
-        emoji: "🏪",
+        emoji: "store",
         value: 1,
         weight: { explorer: 10, optimizer: 0, commander: 0, strategist: 0 }
       },
       {
         id: "small",
         label: "Small Squad",
-        emoji: "🏬",
+        emoji: "building",
         value: 3,
         weight: { explorer: 5, optimizer: 10, commander: 3, strategist: 0 }
       },
       {
         id: "growing",
         label: "Growing Empire",
-        emoji: "🏙️",
+        emoji: "building",
         value: 8,
         weight: { explorer: 0, optimizer: 5, commander: 10, strategist: 5 }
       },
       {
         id: "enterprise",
         label: "Restaurant Royalty",
-        emoji: "👑",
+        emoji: "crown",
         value: 25,
         weight: { explorer: 0, optimizer: 0, commander: 5, strategist: 10 }
       }
@@ -126,7 +126,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "labor_costs",
         label: "Labor costs & staffing",
-        emoji: "👥",
+        emoji: "users",
         value: "labor_costs",
         weight: { explorer: 3, optimizer: 10, commander: 8, strategist: 5 },
         moduleMapping: "labor_costs"
@@ -134,7 +134,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "food_waste",
         label: "Food cost & waste",
-        emoji: "🥘",
+        emoji: "utensils",
         value: "food_waste",
         weight: { explorer: 3, optimizer: 10, commander: 8, strategist: 5 },
         moduleMapping: "food_waste"
@@ -142,7 +142,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "supplier_prices",
         label: "Supplier prices & purchasing control",
-        emoji: "🛒",
+        emoji: "cart",
         value: "supplier_prices",
         weight: { explorer: 2, optimizer: 8, commander: 7, strategist: 5 },
         moduleMapping: "supplier_prices"
@@ -150,7 +150,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "revenue_leakage",
         label: "Discounts, comps & revenue leakage",
-        emoji: "🔒",
+        emoji: "shield",
         value: "revenue_leakage",
         weight: { explorer: 2, optimizer: 7, commander: 8, strategist: 6 },
         moduleMapping: "revenue_leakage"
@@ -158,7 +158,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "delivery_profitability",
         label: "Delivery profitability & aggregator fees",
-        emoji: "🛵",
+        emoji: "delivery",
         value: "delivery_profitability",
         weight: { explorer: 2, optimizer: 6, commander: 7, strategist: 5 },
         moduleMapping: "delivery_profitability"
@@ -166,7 +166,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "table_utilization",
         label: "Table utilization & reservations",
-        emoji: "📅",
+        emoji: "calendar",
         value: "table_utilization",
         weight: { explorer: 3, optimizer: 6, commander: 7, strategist: 4 },
         moduleMapping: "table_utilization"
@@ -174,7 +174,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "marketing_roi",
         label: "Marketing ROI & demand generation",
-        emoji: "📣",
+        emoji: "megaphone",
         value: "marketing_roi",
         weight: { explorer: 2, optimizer: 5, commander: 8, strategist: 9 },
         moduleMapping: "marketing_roi"
@@ -182,7 +182,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "guest_complaints",
         label: "Guest complaints & reviews",
-        emoji: "⭐",
+        emoji: "star",
         value: "guest_complaints",
         weight: { explorer: 3, optimizer: 5, commander: 7, strategist: 6 },
         moduleMapping: "guest_complaints"
@@ -190,7 +190,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "profit_visibility",
         label: "Profit visibility (what actually drops to bottom line)",
-        emoji: "💰",
+        emoji: "dollar",
         value: "profit_visibility",
         weight: { explorer: 2, optimizer: 7, commander: 9, strategist: 8 },
         moduleMapping: "profit_visibility"
@@ -198,7 +198,7 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "competition",
         label: "Competition & market pressure",
-        emoji: "🥊",
+        emoji: "swords",
         value: "competition",
         weight: { explorer: 0, optimizer: 3, commander: 5, strategist: 10 },
         moduleMapping: "competition"
@@ -215,42 +215,42 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "gut",
         label: "Gut feel / experience",
-        emoji: "💭",
+        emoji: "message",
         value: "gut",
         weight: { explorer: 10, optimizer: 0, commander: 0, strategist: 0 }
       },
       {
         id: "pos",
         label: "POS reports only",
-        emoji: "📋",
+        emoji: "clipboard",
         value: "pos",
         weight: { explorer: 8, optimizer: 8, commander: 5, strategist: 3 }
       },
       {
         id: "spreadsheets",
         label: "Spreadsheets & manual tracking",
-        emoji: "📊",
+        emoji: "chart",
         value: "spreadsheets",
         weight: { explorer: 5, optimizer: 10, commander: 3, strategist: 2 }
       },
       {
         id: "fragmented",
         label: "Multiple tools that don't talk to each other",
-        emoji: "🔌",
+        emoji: "plug",
         value: "fragmented",
         weight: { explorer: 3, optimizer: 6, commander: 8, strategist: 7 }
       },
       {
         id: "bi",
         label: "We already use BI dashboards",
-        emoji: "📈",
+        emoji: "trending-up",
         value: "bi",
         weight: { explorer: 0, optimizer: 5, commander: 8, strategist: 9 }
       },
       {
         id: "ai",
         label: "I want AI to help prioritize actions",
-        emoji: "🤖",
+        emoji: "bot",
         value: "ai",
         weight: { explorer: 3, optimizer: 5, commander: 10, strategist: 10 }
       }
@@ -265,21 +265,21 @@ export const quizQuestions: QuizQuestion[] = [
       {
         id: "exploring",
         label: "Just exploring",
-        emoji: "🔭",
+        emoji: "radar",
         value: "exploring",
         weight: { explorer: 10, optimizer: 2, commander: 0, strategist: 0 }
       },
       {
         id: "ready",
         label: "Ready to improve with a plan",
-        emoji: "📝",
+        emoji: "file",
         value: "ready",
         weight: { explorer: 0, optimizer: 10, commander: 8, strategist: 5 }
       },
       {
         id: "urgent",
         label: "Need results fast",
-        emoji: "🚀",
+        emoji: "rocket",
         value: "urgent",
         weight: { explorer: 0, optimizer: 5, commander: 10, strategist: 10 }
       }
@@ -344,7 +344,7 @@ export const achievements: Achievement[] = [
     id: "explorer",
     name: "Data Explorer",
     description: "Completed the persona quiz",
-    icon: "🔭",
+    icon: "radar",
     trigger: "quiz_complete",
     points: 10
   },
@@ -352,7 +352,7 @@ export const achievements: Achievement[] = [
     id: "stack-builder",
     name: "Stack Builder",
     description: "Selected your first tier",
-    icon: "🏗️",
+    icon: "building",
     trigger: "tier_selected",
     points: 20
   },
@@ -360,7 +360,7 @@ export const achievements: Achievement[] = [
     id: "module-master",
     name: "Module Master",
     description: "Added 2+ modules to your stack",
-    icon: "⚡",
+    icon: "zap",
     trigger: "modules_count >= 2",
     points: 30
   },
@@ -368,7 +368,7 @@ export const achievements: Achievement[] = [
     id: "intelligence-commander",
     name: "Intelligence Commander",
     description: "Unlocked Watchtower",
-    icon: "🏰",
+    icon: "castle",
     trigger: "watchtower_selected",
     points: 50
   },
@@ -376,7 +376,7 @@ export const achievements: Achievement[] = [
     id: "roi-believer",
     name: "ROI Believer",
     description: "Calculated your projected returns",
-    icon: "📈",
+    icon: "trending-up",
     trigger: "roi_calculated",
     points: 25
   },
@@ -384,7 +384,7 @@ export const achievements: Achievement[] = [
     id: "sundae-ready",
     name: "Sundae Ready",
     description: "Completed your full configuration",
-    icon: "🍨",
+    icon: "sundae",
     trigger: "summary_viewed",
     points: 100
   },
@@ -392,7 +392,7 @@ export const achievements: Achievement[] = [
     id: "savings-hero",
     name: "Savings Hero",
     description: "Discovered 50%+ savings vs competitors",
-    icon: "💰",
+    icon: "dollar",
     trigger: "savings_percent >= 50",
     points: 40
   },
@@ -400,7 +400,7 @@ export const achievements: Achievement[] = [
     id: "efficiency-expert",
     name: "Efficiency Expert",
     description: "Selected labor + inventory modules",
-    icon: "⚙️",
+    icon: "gear",
     trigger: "combo_labor_inventory",
     points: 35
   },
@@ -408,7 +408,7 @@ export const achievements: Achievement[] = [
     id: "full-stack",
     name: "Full Stack Operator",
     description: "Selected all available modules",
-    icon: "🎯",
+    icon: "target",
     trigger: "all_modules",
     points: 75
   },
@@ -416,7 +416,7 @@ export const achievements: Achievement[] = [
     id: "empire-builder",
     name: "Empire Builder",
     description: "Configured 10+ locations",
-    icon: "🏰",
+    icon: "castle",
     trigger: "locations >= 10",
     points: 45
   }

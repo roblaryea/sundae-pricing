@@ -14,42 +14,42 @@ function check(name: string, expected: any, actual: any) {
   }
 }
 
-console.log('🔍 Validating pricing data (v4.3)...\n');
+console.log('🔍 Validating pricing data (v5.1)...\n');
 
 // Report Lite FREE
 check('reportTiers.lite.basePrice', 0, reportTiers.lite.basePrice);
 check('reportTiers.lite.aiSeats', 1, reportTiers.lite.aiSeats);
 
-// Report Plus (v4.3)
-check('reportTiers.plus.basePrice', 59, reportTiers.plus.basePrice);
-check('reportTiers.plus.additionalLocationPrice', 25, reportTiers.plus.additionalLocationPrice);
-check('reportTiers.plus.visuals', 50, reportTiers.plus.visuals);
+// Report Plus (v5.1)
+check('reportTiers.plus.basePrice', 79, reportTiers.plus.basePrice);
+check('reportTiers.plus.additionalLocationPrice', 39, reportTiers.plus.additionalLocationPrice);
+check('reportTiers.plus.visuals', 30, reportTiers.plus.visuals);
 check('reportTiers.plus.aiSeats', 5, reportTiers.plus.aiSeats);
 check('reportTiers.plus.benchmarkRadius', '1-2km adjustable', reportTiers.plus.benchmarkRadius);
 
-// Report Pro (v4.3)
-check('reportTiers.pro.basePrice', 119, reportTiers.pro.basePrice);
-check('reportTiers.pro.additionalLocationPrice', 35, reportTiers.pro.additionalLocationPrice);
-check('reportTiers.pro.aiSeats', 15, reportTiers.pro.aiSeats);
+// Report Pro (v5.1)
+check('reportTiers.pro.basePrice', 159, reportTiers.pro.basePrice);
+check('reportTiers.pro.additionalLocationPrice', 59, reportTiers.pro.additionalLocationPrice);
+check('reportTiers.pro.aiSeats', 10, reportTiers.pro.aiSeats);
 
-// Module prices (v4.3)
-check('modules.labor.orgLicensePrice', 169, modules.labor.orgLicensePrice);
-check('modules.inventory.orgLicensePrice', 179, modules.inventory.orgLicensePrice);
-check('modules.inventory.perLocationPrice', 19, modules.inventory.perLocationPrice);
-check('modules.purchasing.orgLicensePrice', 129, modules.purchasing.orgLicensePrice);
-check('modules.purchasing.perLocationPrice', 12, modules.purchasing.perLocationPrice);
+// Module prices (v5.1 — Core Pro defaults)
+check('modules.labor.orgLicensePrice', 219, modules.labor.orgLicensePrice);
+check('modules.inventory.orgLicensePrice', 229, modules.inventory.orgLicensePrice);
+check('modules.inventory.perLocationPrice', 24, modules.inventory.perLocationPrice);
+check('modules.purchasing.orgLicensePrice', 169, modules.purchasing.orgLicensePrice);
+check('modules.purchasing.perLocationPrice', 16, modules.purchasing.perLocationPrice);
 
-// Pulse module exists (v4.3 — 10th module)
-check('modules.pulse.orgLicensePrice', 199, modules.pulse.orgLicensePrice);
-check('modules.pulse.perLocationPrice', 24, modules.pulse.perLocationPrice);
+// Pulse module (v5.1 — Core Pro default)
+check('modules.pulse.orgLicensePrice', 269, modules.pulse.orgLicensePrice);
+check('modules.pulse.perLocationPrice', 29, modules.pulse.perLocationPrice);
 
-// Watchtower (v4.3 — ~18% bundle savings)
-check('watchtower.bundle.basePrice', 699, watchtower.bundle.basePrice);
-check('watchtower.bundle.perLocationPrice', 79, watchtower.bundle.perLocationPrice);
-check('watchtower.bundle.savingsPercent', 17, watchtower.bundle.savingsPercent);
-check('watchtower.bundle.baseSavings', 148, watchtower.bundle.baseSavings);
+// Watchtower (v5.1 — ~18% bundle savings)
+check('watchtower.bundle.basePrice', 899, watchtower.bundle.basePrice);
+check('watchtower.bundle.perLocationPrice', 109, watchtower.bundle.perLocationPrice);
+check('watchtower.bundle.savingsPercent', 18, watchtower.bundle.savingsPercent);
+check('watchtower.bundle.baseSavings', 198, watchtower.bundle.baseSavings);
 
-// Client types (v4.3 volume discount tiers)
+// Client types (v5.1 volume discount tiers)
 if (!CLIENT_TYPE_RULES['multi-site']) {
   errors.push("❌ CLIENT_TYPE_RULES['multi-site'] is undefined (wrong key?)");
 }

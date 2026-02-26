@@ -1,4 +1,4 @@
-// Detailed feature comparison tables — v4.3 (Derived from sundae_final_pricing_v4.3.md)
+// Detailed feature comparison tables — v5.1 (Derived from sundae_final_pricing_v5.1.md)
 
 export const reportFeatureComparison = [
   {
@@ -13,7 +13,7 @@ export const reportFeatureComparison = [
   {
     category: 'Visuals & Analytics',
     features: [
-      { name: 'Pre-built visuals', lite: '20 core visuals', plus: '50 visuals', pro: 'Up to 120 visuals' },
+      { name: 'Pre-built visuals', lite: '~20 core visuals', plus: '~30 visuals', pro: '~80 visuals' },
       { name: 'Dashboard type', lite: 'Pre-built only', plus: 'Pre-built + custom', pro: 'Pre-built + custom' },
       { name: 'Filtering', lite: 'Basic', plus: 'Advanced', pro: 'Advanced' },
       { name: 'Custom date ranges', lite: '❌', plus: '✓', pro: '✓' },
@@ -22,26 +22,26 @@ export const reportFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 5: AI Credit System
+    // Derived from v5.1 Section 5: AI Credit System
     category: 'AI Credits (Monthly)',
     features: [
-      { name: 'Base org credits', lite: '400 credits', plus: '1,500 credits', pro: '4,000 credits' },
+      { name: 'Base org credits', lite: '250 credits', plus: '1,200 credits', pro: '3,500 credits' },
       { name: 'Credits per additional location', lite: '+80 credits', plus: '+300 credits', pro: '+800 credits' },
-      { name: 'Rollover policy', lite: 'No rollover', plus: '25% of monthly allocation (1 month)', pro: '25% of monthly allocation (1 month)' },
+      { name: 'Rollover policy', lite: 'No rollover', plus: '25% of base credits (1 month)', pro: '25% of base credits (1 month)' },
       { name: 'Can purchase top-ups?', lite: '✓ (1,000 cr only)', plus: '✓', pro: '✓' },
     ]
   },
   {
-    // Derived from v4.3 Section 7: User Seats
+    // Derived from v5.1 Section 7: User Seats
     category: 'Users',
     features: [
-      { name: 'Included users', lite: '1 user', plus: '3 users', pro: '5 users' },
+      { name: 'Included seats', lite: '1 seat', plus: '5 seats', pro: '10 seats' },
       { name: 'Unlimited viewer seats', lite: '✓ (free)', plus: '✓ (free)', pro: '✓ (free)' },
-      { name: 'Additional user cost', lite: '$15/seat/mo', plus: '$12/seat/mo', pro: '$10/seat/mo' },
+      { name: 'Additional seats', lite: 'None', plus: '$19/seat (max 3 additional)', pro: '$15/seat (max 5 additional)' },
     ]
   },
   {
-    // Derived from v4.3 Section 1: Benchmarking included at all tiers (free)
+    // Derived from v5.1 Section 1: Benchmarking included at all tiers (free)
     category: 'Benchmarking',
     features: [
       { name: 'Benchmarking included', lite: '✓ Basic', plus: '✓ Expanded', pro: '✓ Full' },
@@ -51,10 +51,10 @@ export const reportFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 7: Data Retention Upgrades
-    category: 'Data Retention',
+    // Derived from v5.1 Section 7: Historical Access Upgrades
+    category: 'Historical Access',
     features: [
-      { name: 'Included retention', lite: '90 days', plus: '1 year', pro: '2 years' },
+      { name: 'Included access', lite: '90 days', plus: '1 year', pro: '2 years' },
       { name: 'Upgrade to 1 year', lite: '+$19/mo', plus: 'Included', pro: 'Included' },
       { name: 'Upgrade to 2 years', lite: 'Not available', plus: '+$19/mo', pro: 'Included' },
       { name: 'Upgrade to 3 years', lite: 'Not available', plus: '+$32/mo', pro: '+$29/mo' },
@@ -62,10 +62,10 @@ export const reportFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 7: Chat with Data + Pulse Access
+    // Derived from v5.1: Sundae Intelligence + Pulse Access
     category: 'Add-ons (Report Pro Only)',
     features: [
-      { name: 'Chat with Data', lite: '❌', plus: '❌', pro: '+$49/mo unlock' },
+      { name: 'Sundae Intelligence', lite: '❌', plus: '❌', pro: '+$79/mo unlock' },
       { name: 'Pulse access', lite: '❌', plus: '❌', pro: '+$99/mo unlock + $199/mo module (setup fee applies)' },
       { name: 'API access', lite: '❌', plus: '❌', pro: '✓ (5,000 calls/mo)' },
     ]
@@ -89,7 +89,7 @@ export const reportFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 7: Support Upgrades
+    // Derived from v5.1 Section 7: Support Upgrades
     category: 'Support',
     features: [
       { name: 'Support channels', lite: 'Email only', plus: 'Email + Chat', pro: 'Priority Email + Chat' },
@@ -99,7 +99,7 @@ export const reportFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 5: AI Credit Top-Up Bundles
+    // Derived from v5.1 Section 5: AI Credit Top-Up Bundles
     category: 'AI Credit Top-Ups',
     features: [
       { name: '1,000 credits', lite: '$30', plus: '$20', pro: '$15' },
@@ -122,7 +122,7 @@ export const coreFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 1: Tier Feature Summary
+    // Derived from v5.1 Section 1: Tier Feature Summary
     category: 'Data Refresh',
     features: [
       { name: 'Refresh frequency', lite: '15-min', pro: '5-min', enterprise: 'Real-time (configurable)' },
@@ -146,17 +146,17 @@ export const coreFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 5: AI Credit System
+    // Derived from v5.1 Section 5: AI Credit System
     category: 'AI Credits (Monthly)',
     features: [
       { name: 'Base org credits', lite: '8,000 credits', pro: '14,000 credits', enterprise: '50,000+' },
       { name: 'Credits per additional location', lite: '+1,600 credits', pro: '+2,800 credits', enterprise: '+5,000 credits' },
-      { name: 'Rollover policy', lite: '25% of monthly allocation (1 month)', pro: '25% of monthly allocation (1 month)', enterprise: 'N/A (50,000+ base)' },
+      { name: 'Rollover policy', lite: '25% of base credits (1 month)', pro: '25% of base credits (1 month)', enterprise: 'N/A (50,000+ base)' },
       { name: 'Can purchase top-ups?', lite: '✓', pro: '✓', enterprise: 'Custom' },
     ]
   },
   {
-    // Derived from v4.3 Section 1 + Section 6: AI Capabilities
+    // Derived from v5.1 Section 1 + Section 6: AI Capabilities
     category: 'AI Capabilities',
     features: [
       { name: 'Anomaly detection & alerts', lite: '✓ (15-min cadence)', pro: '✓ (5-min cadence)', enterprise: '✓ Real-time (configurable)' },
@@ -164,23 +164,23 @@ export const coreFeatureComparison = [
       { name: 'What-if scenario modeling', lite: 'Basic (limited)', pro: '✓', enterprise: '✓ Advanced' },
       { name: 'AI insights & recommendations', lite: '✓', pro: '✓', enterprise: '✓' },
       { name: 'Live performance alerts', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Chat with Data', lite: '✓ Included', pro: '✓ Included', enterprise: '✓ Included' },
+      { name: 'Sundae Intelligence', lite: '✓ Included', pro: '✓ Included', enterprise: '✓ Included' },
       { name: 'AI Plus/Pro packages', lite: '✓ Available', pro: '✓ Available', enterprise: 'Custom cap' },
       { name: 'Custom ML models', lite: '❌', pro: '❌', enterprise: '✓ (contracted)' },
       { name: 'Priority AI capacity', lite: '❌', pro: '❌', enterprise: '✓ (contracted)' },
     ]
   },
   {
-    // Derived from v4.3 Section 7: User Seats
+    // Derived from v5.1 Section 7: User Seats
     category: 'Users',
     features: [
-      { name: 'Included users', lite: '10', pro: '15', enterprise: 'Custom (contracted)' },
+      { name: 'Included seats', lite: '15', pro: '25', enterprise: 'Unlimited' },
       { name: 'Unlimited viewer seats', lite: '✓ (free)', pro: '✓ (free)', enterprise: '✓ (free)' },
-      { name: 'Additional user cost', lite: '$8/seat/mo', pro: '$5/seat/mo', enterprise: 'N/A (unlimited)' },
+      { name: 'Additional seats', lite: '$12/seat/mo (unlimited)', pro: '$10/seat/mo (unlimited)', enterprise: 'N/A (unlimited)' },
     ]
   },
   {
-    // Derived from v4.3 Section 1: Benchmarking included (free)
+    // Derived from v5.1 Section 1: Benchmarking included (free)
     category: 'Benchmarking',
     features: [
       { name: 'Benchmarking included', lite: '✓', pro: '✓', enterprise: '✓ Custom' },
@@ -194,7 +194,7 @@ export const coreFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 2 + Section 4: Modules & Watchtower availability
+    // Derived from v5.1 Section 2 + Section 4: Modules & Watchtower availability
     category: 'Modules & Watchtower',
     features: [
       { name: 'Intelligence modules', lite: '✓ (10 available)', pro: '✓ (10 available)', enterprise: 'Included (contract-based)' },
@@ -227,17 +227,17 @@ export const coreFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 7: Data Retention Upgrades
-    category: 'Data Retention',
+    // Derived from v5.1 Section 7: Historical Access Upgrades
+    category: 'Historical Access',
     features: [
-      { name: 'Included retention', lite: '2 years', pro: '3 years', enterprise: 'Custom' },
+      { name: 'Included access', lite: '2 years', pro: '3 years', enterprise: 'Custom' },
       { name: 'Upgrade to 3 years', lite: '+$29/mo', pro: 'Included', enterprise: 'Custom' },
       { name: 'Upgrade to 5 years', lite: '+$49/mo', pro: '+$49/mo', enterprise: 'Custom' },
       { name: 'Archival options', lite: '❌', pro: '❌', enterprise: '✓' },
     ]
   },
   {
-    // Derived from v4.3 Section 7: API Add-Ons
+    // Derived from v5.1 Section 7: API Add-Ons
     category: 'API Access',
     features: [
       { name: 'Base API calls', lite: '10,000/mo', pro: '100,000/mo', enterprise: 'Custom' },
@@ -248,7 +248,7 @@ export const coreFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 7: Support Upgrades
+    // Derived from v5.1 Section 7: Support Upgrades
     category: 'Support',
     features: [
       { name: 'Base support', lite: 'Chat', pro: 'Phone', enterprise: 'Dedicated CSM' },
@@ -259,7 +259,7 @@ export const coreFeatureComparison = [
     ]
   },
   {
-    // Derived from v4.3 Section 5: AI Credit Top-Up Bundles
+    // Derived from v5.1 Section 5: AI Credit Top-Up Bundles
     category: 'AI Credit Top-Ups',
     features: [
       { name: '1,000 credits', lite: '$12', pro: '$10', enterprise: 'Custom' },

@@ -411,10 +411,15 @@ export function ConfigSummary() {
         <p className="text-base md:text-lg text-sundae-muted mb-5">
           Join hundreds of restaurants already using Sundae to make smarter decisions
         </p>
-        <button className="bg-gradient-primary text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-glow transition-all inline-flex items-center gap-2">
+        <a
+          href={LEGAL.signUpUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-gradient-primary text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-glow transition-all inline-flex items-center gap-2"
+        >
           <Rocket className="w-6 h-6" />
           Start Free Trial
-        </button>
+        </a>
         <p className="text-sm text-sundae-muted mt-4">
           No credit card required • 14-day free trial • Cancel anytime
         </p>

@@ -28,8 +28,8 @@ export function ModulePicker() {
 
   const calculateModulePrice = (module: typeof modules[keyof typeof modules]) => {
     let price = module.orgLicensePrice;
-    if (locations > module.includedLocations) {
-      price += (locations - module.includedLocations) * module.perLocationPrice;
+    if (locations > module.baseIncludesLocations) {
+      price += (locations - module.baseIncludesLocations) * module.perLocationPrice;
     }
     return price;
   };
@@ -148,9 +148,9 @@ export function ModulePicker() {
                       <span className="text-2xl font-bold tabular-nums">${modulePrice}</span>
                       <span className="text-sm text-sundae-muted">/mo</span>
                     </div>
-                    {locations > module.includedLocations && (
+                    {locations > module.baseIncludesLocations && (
                       <p className="text-xs text-sundae-muted mt-1">
-                        Includes {module.includedLocations} locations + {locations - module.includedLocations} extra
+                        Includes {module.baseIncludesLocations} locations + {locations - module.baseIncludesLocations} extra
                       </p>
                     )}
                   </div>

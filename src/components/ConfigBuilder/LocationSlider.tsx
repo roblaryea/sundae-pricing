@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, TrendingUp, Info, ChevronLeft } from 'lucide-react';
+import { MapPin, TrendingUp, Info, ChevronLeft, Crown } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { cn } from '../../utils/cn';
@@ -302,7 +302,7 @@ export function LocationSlider() {
             className="mt-6 text-center p-4 bg-purple-900/20 border border-purple-500/30 rounded-lg"
           >
             <p className="text-purple-300 text-sm">
-              🏆 With {locations.toLocaleString()} locations, you qualify for <strong>Enterprise pricing</strong> with dedicated support.
+              <Crown className="inline-block w-4 h-4 mr-1 -mt-0.5" /> With {locations.toLocaleString()} locations, you qualify for <strong>Enterprise pricing</strong> with dedicated support.
             </p>
           </motion.div>
         )}

@@ -13,7 +13,7 @@ interface FAQItem {
 const faqItems: FAQItem[] = [
   {
     question: 'Are there setup fees?',
-    answer: 'Yes — each module has a one-time setup fee covering integration work (e.g. Labor $299, Inventory $499, Pulse $399). Discounts apply: 20% off for 3+ modules, 50% off for Complete Intelligence bundle, 25% off with annual prepay, and setup fees are waived for Enterprise contracts.'
+    answer: 'Yes — each module has a one-time setup fee covering integration work (e.g. Labor $399, Inventory $499, Pulse $499). Discounts apply: 20% off for 3+ modules, 50% off for Complete Intelligence bundle, 25% off with annual prepay, and setup fees are waived for Enterprise contracts.'
   },
   {
     question: "What's the contract term?",
@@ -37,15 +37,15 @@ const faqItems: FAQItem[] = [
   },
   {
     question: 'Are AI credits shared across locations?',
-    answer: 'Yes. AI credits are pooled at the org level and can be used across all locations. Unused credits roll over at 25% (one month). Purchased top-up credits never expire.'
+    answer: 'Yes. AI credits are pooled at the org level and can be used across all locations. Unused credits roll over at 25% of base credits (one month). Purchased top-up credits never expire.'
   },
   {
     question: 'What are viewer seats vs user seats?',
-    answer: 'Viewer seats (read-only, no AI queries) are unlimited and free at all tiers. "Users" are accounts with AI query capabilities — each tier includes a set number, with additional seats available at $5-$12/seat/mo depending on tier.'
+    answer: 'Viewer seats (read-only, no AI queries) are unlimited and free at all tiers. "Users" are accounts with AI query capabilities — each tier includes a set number (1-25 depending on tier), with additional seats available at $10-$19/seat/mo depending on tier.'
   },
   {
     question: 'What is Pulse and how does it work?',
-    answer: 'Pulse is a premium real-time monitoring module. On Core tiers it costs $199/mo + $24/loc. On Report Pro it requires an additional $99/mo unlock fee. Setup is $399 (covers 1 POS + 1 Labor + 1 Inventory integration).'
+    answer: 'Pulse is a premium real-time monitoring module. On Core Pro it costs $269/mo + $29/loc (Core Lite: $299/mo + $33/loc). On Report Pro it requires an additional $99/mo unlock fee. Setup is $499 (covers 1 POS + 1 Labor + 1 Inventory integration).'
   },
   {
     question: 'What is the Finance Add-On prerequisite?',

@@ -1,11 +1,11 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// SUNDAE PRICING ENGINE — All calculation logic
+// SUNDAE PRICING ENGINE — All calculation logic (v5.1)
 // ═══════════════════════════════════════════════════════════════════════════
 
 import {
   reportTiers, coreTiers, modules, moduleBundles,
   CLIENT_TYPE_RULES, EARLY_ADOPTER_TERMS, enterprisePricing,
-  billingDiscounts, DISCOUNT_RULES, setupFeeDiscounts
+  billingDiscounts, DISCOUNT_RULES, setupFeeDiscounts, seatCaps
 } from '../data/pricing';
 import type { ReportTier, CoreTier, ModuleId, BundleId, ClientType, BillingCycle } from '../data/pricing';
 import { calculateWatchtowerPrice as calcWatchtowerPrice, type WatchtowerModuleId } from './watchtowerEngine';
@@ -72,12 +72,10 @@ export function calculateReportPrice(tier: ReportTier, locations: number) {
 export function calculateCorePrice(tier: CoreTier, locations: number) {
   const t = coreTiers[tier];
   const additionalLocs = Math.max(0, locations - 1);
-  const baseSeats = t.aiSeats as number;
-  const perLocSeats = (t as any).aiSeatsPerLocation ?? 0;
   return {
     price: t.basePrice + (additionalLocs * t.additionalLocationPrice),
     aiCredits: t.aiCredits.base + (additionalLocs * t.aiCredits.perLocation),
-    aiSeats: baseSeats + (additionalLocs * perLocSeats)
+    aiSeats: t.aiSeats as number
   };
 }
 
@@ -85,10 +83,13 @@ export function calculateCorePrice(tier: CoreTier, locations: number) {
 // MODULE CALCULATIONS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export function calculateModulePrice(moduleId: ModuleId, locations: number): number {
+export function calculateModulePrice(moduleId: ModuleId, locations: number, tier?: 'core_lite' | 'core_pro'): number {
   const m = modules[moduleId];
-  const extraLocs = Math.max(0, locations - m.includedLocations);
-  return m.orgLicensePrice + (extraLocs * m.perLocationPrice);
+  const extraLocs = Math.max(0, locations - m.baseIncludesLocations);
+  const tierPricing = tier && m.pricingByTier?.[tier];
+  const orgPrice = tierPricing?.orgLicensePrice ?? m.orgLicensePrice;
+  const perLocPrice = tierPricing?.perLocationPrice ?? m.perLocationPrice;
+  return orgPrice + (extraLocs * perLocPrice);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -115,10 +116,13 @@ export function calculateWatchtowerPrice(
 // BUNDLE CALCULATIONS
 // ═══════════════════════════════════════════════════════════════════════════
 
-export function calculateBundlePrice(bundleId: BundleId, locations: number): number {
+export function calculateBundlePrice(bundleId: BundleId, locations: number, tier?: 'core_lite' | 'core_pro'): number {
   const b = moduleBundles[bundleId];
-  const extraLocs = Math.max(0, locations - 5); // bundles include 5 locations
-  return b.basePrice + (extraLocs * b.perLocationPrice);
+  const tierPricing = tier && b.pricingByTier?.[tier];
+  const basePrice = tierPricing?.basePrice ?? b.basePrice;
+  const perLocPrice = tierPricing?.perLocationPrice ?? b.perLocationPrice;
+  const extraLocs = Math.max(0, locations - 3); // bundles include 3 locations
+  return basePrice + (extraLocs * perLocPrice);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -126,7 +130,7 @@ export function calculateBundlePrice(bundleId: BundleId, locations: number): num
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface UnlockFees {
-  chatWithData: number;
+  intelligence: number;
   pulseAccess: number;
   total: number;
 }
@@ -134,18 +138,18 @@ export interface UnlockFees {
 export function calculateUnlockFees(
   layer: 'report' | 'core',
   tier: string,
-  selections: { chatWithData?: boolean; pulse?: boolean }
+  selections: { intelligence?: boolean; pulse?: boolean }
 ): UnlockFees {
-  let chatWithData = 0;
+  let intelligence = 0;
   let pulseAccess = 0;
 
   if (layer === 'report' && tier === 'pro') {
-    // Report Pro has unlock fees for Chat with Data and Pulse
-    if (selections.chatWithData) {
+    // Report Pro has unlock fees for Sundae Intelligence and Pulse
+    if (selections.intelligence) {
       const tierData = reportTiers.pro;
-      const chat = tierData.chatWithData;
-      if (chat && typeof chat === 'object' && 'unlockFee' in chat) {
-        chatWithData = chat.unlockFee;
+      const intel = tierData.intelligenceAccess;
+      if (intel && typeof intel === 'object' && 'unlockFee' in intel) {
+        intelligence = intel.unlockFee;
       }
     }
     if (selections.pulse) {
@@ -158,7 +162,7 @@ export function calculateUnlockFees(
   }
   // Core tiers: unlock fees are 0 (included)
 
-  return { chatWithData, pulseAccess, total: chatWithData + pulseAccess };
+  return { intelligence, pulseAccess, total: intelligence + pulseAccess };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -288,7 +292,7 @@ export interface ScenarioInput {
   modules: ModuleId[];
   bundle?: BundleId;
   watchtower: string[];
-  chatWithData?: boolean;
+  intelligence?: boolean;
   pulse?: boolean;
   aiPackage?: 'ai_plus' | 'ai_pro';
   billingCycle?: BillingCycle;
@@ -317,6 +321,11 @@ export interface ScenarioResult {
 }
 
 export function calculateScenario(input: ScenarioInput): ScenarioResult {
+  // Determine the module tier key for tier-aware pricing
+  const moduleTier = input.layer === 'core'
+    ? (`core_${input.tier}` as 'core_lite' | 'core_pro')
+    : undefined;
+
   // Tier price
   let tierPrice = 0;
   let aiCredits = 0;
@@ -333,16 +342,16 @@ export function calculateScenario(input: ScenarioInput): ScenarioResult {
   // Module price
   let modulePrice = 0;
   if (input.bundle) {
-    modulePrice = calculateBundlePrice(input.bundle, input.locations);
+    modulePrice = calculateBundlePrice(input.bundle, input.locations, moduleTier);
   } else {
     for (const id of input.modules) {
-      modulePrice += calculateModulePrice(id, input.locations);
+      modulePrice += calculateModulePrice(id, input.locations, moduleTier);
     }
   }
 
   // Pulse module price when selected via pulse flag (not already in modules list)
   if (input.pulse && !input.modules.includes('pulse' as ModuleId) && !input.bundle) {
-    modulePrice += calculateModulePrice('pulse' as ModuleId, input.locations);
+    modulePrice += calculateModulePrice('pulse' as ModuleId, input.locations, moduleTier);
   }
 
   // Watchtower price
@@ -353,7 +362,7 @@ export function calculateScenario(input: ScenarioInput): ScenarioResult {
 
   // Unlock fees
   const unlocks = calculateUnlockFees(input.layer, input.tier, {
-    chatWithData: input.chatWithData,
+    intelligence: input.intelligence,
     pulse: input.pulse
   });
 
@@ -417,7 +426,8 @@ export function calculateScenario(input: ScenarioInput): ScenarioResult {
 
 // ═══════════════════════════════════════════════════════════════════════════
 // DISCOUNT APPLICATION
-// v4.3: Volume OR Billing — choose one, not both. Max 15%.
+// v5.1: Volume OR Billing — choose one, not both. Max 15%.
+// Volume: 30-99 locs = 5%, 100-200 = 7%, 201+ = Enterprise custom.
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function applyDiscounts(
@@ -427,14 +437,14 @@ export function applyDiscounts(
   let running = subtotal;
   const discounts: DiscountLine[] = [];
 
-  // v4.3 non-stacking discount model: choose the best between volume and billing
+  // v5.1 non-stacking discount model: choose the best between volume and billing
   const billingPct = profile.billingCycle ? billingDiscounts[profile.billingCycle] : 0;
 
-  // Client type discount (maps to volume discount tiers in v4.3)
+  // Client type discount (maps to volume discount tiers in v5.1)
   const rules = CLIENT_TYPE_RULES[profile.type];
   const clientTypePct = rules?.discountTier ?? 0;
 
-  // Per v4.3: volume OR billing, whichever is larger, capped at 15%
+  // Per v5.1: volume OR billing, whichever is larger, capped at 15%
   const bestStandardDiscount = Math.min(
     Math.max(clientTypePct, billingPct),
     DISCOUNT_RULES.maxDiscountPercent
@@ -486,6 +496,11 @@ export function calculateFullPrice(config: Configuration): PriceResult {
   const breakdown: PriceBreakdown[] = [];
   let aiCredits = 0, aiSeats = 0;
 
+  // Determine the module tier key for tier-aware pricing
+  const moduleTier = config.layer === 'core'
+    ? (`core_${config.tier}` as 'core_lite' | 'core_pro')
+    : undefined;
+
   // Base tier
   if (config.layer === 'report') {
     const r = calculateReportPrice(config.tier as ReportTier, config.locations);
@@ -508,12 +523,15 @@ export function calculateFullPrice(config: Configuration): PriceResult {
 
   // Modules (only for Core tier)
   if (config.layer === 'core') {
+    const baseIncl = 3;
     config.modules.forEach(id => {
-      const price = calculateModulePrice(id, config.locations);
+      const price = calculateModulePrice(id, config.locations, moduleTier);
+      const tierPricing = moduleTier && modules[id].pricingByTier?.[moduleTier];
+      const perLocPrice = tierPricing?.perLocationPrice ?? modules[id].perLocationPrice;
       breakdown.push({
         item: modules[id].name,
         price,
-        note: config.locations > 5 ? `Base + ${config.locations - 5} extra @ $${modules[id].perLocationPrice}` : 'Base (incl 5 loc)'
+        note: config.locations > baseIncl ? `Base + ${config.locations - baseIncl} extra @ $${perLocPrice}` : `Base (incl ${baseIncl} loc)`
       });
     });
   }

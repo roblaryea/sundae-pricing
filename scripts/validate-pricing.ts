@@ -24,13 +24,13 @@ check('reportTiers.lite.aiSeats', 1, reportTiers.lite.aiSeats);
 check('reportTiers.plus.basePrice', 79, reportTiers.plus.basePrice);
 check('reportTiers.plus.additionalLocationPrice', 39, reportTiers.plus.additionalLocationPrice);
 check('reportTiers.plus.visuals', 30, reportTiers.plus.visuals);
-check('reportTiers.plus.aiSeats', 5, reportTiers.plus.aiSeats);
+check('reportTiers.plus.aiSeats', 3, reportTiers.plus.aiSeats);
 check('reportTiers.plus.benchmarkRadius', '1-2km adjustable', reportTiers.plus.benchmarkRadius);
 
 // Report Pro (v5.1)
 check('reportTiers.pro.basePrice', 159, reportTiers.pro.basePrice);
 check('reportTiers.pro.additionalLocationPrice', 59, reportTiers.pro.additionalLocationPrice);
-check('reportTiers.pro.aiSeats', 10, reportTiers.pro.aiSeats);
+check('reportTiers.pro.aiSeats', 5, reportTiers.pro.aiSeats);
 
 // Module prices (v5.1 — Core Pro defaults)
 check('modules.labor.orgLicensePrice', 219, modules.labor.orgLicensePrice);

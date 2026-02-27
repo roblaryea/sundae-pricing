@@ -1,7 +1,7 @@
 // Module marketplace interface component
 
 import { motion } from 'framer-motion';
-import { Plus, Check, Zap, TrendingUp, ChevronLeft } from 'lucide-react';
+import { Plus, Check, Zap, TrendingUp, ChevronLeft, Sparkles, GitBranch } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { modules } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
@@ -187,6 +187,38 @@ export function ModulePicker() {
           );
         })}
       </div>
+
+      {/* Cross-Intelligence unlock indicator */}
+      {selectedModules.length >= 3 ? (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="mb-6 p-4 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-lg border border-purple-500/30"
+        >
+          <div className="flex items-center gap-3">
+            <Sparkles className="w-6 h-6 text-purple-400" />
+            <div>
+              <span className="font-semibold text-purple-300">Cross-Intelligence Unlocked!</span>
+              <span className="ml-2 text-sm text-sundae-muted">
+                Free correlation engine enabled with {selectedModules.length} modules — upgrade to Pro in the next step
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      ) : selectedModules.length >= 1 ? (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="mb-6 p-4 bg-sundae-surface rounded-lg border border-white/10"
+        >
+          <div className="flex items-center gap-3">
+            <GitBranch className="w-5 h-5 text-sundae-muted" />
+            <p className="text-sm text-sundae-muted">
+              Select {3 - selectedModules.length} more module{3 - selectedModules.length !== 1 ? 's' : ''} to unlock <span className="text-purple-400 font-semibold">Cross-Intelligence</span> — free correlation engine across your data sources
+            </p>
+          </div>
+        </motion.div>
+      ) : null}
 
       {/* Current total with modules */}
       <motion.div

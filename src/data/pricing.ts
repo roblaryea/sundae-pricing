@@ -94,25 +94,25 @@ export const seatCaps = {
     note: 'No additional seats available'
   },
   report_plus: {
-    included: 5,
+    included: 3,
     maxAdditional: 3,
     additionalCost: 19,
     note: 'Max 3 additional seats at $19/seat/mo'
   },
   report_pro: {
-    included: 10,
+    included: 5,
     maxAdditional: 5,
     additionalCost: 15,
     note: 'Max 5 additional seats at $15/seat/mo'
   },
   core_lite: {
-    included: 15,
+    included: 10,
     maxAdditional: null,
     additionalCost: 12,
     note: 'Unlimited additional seats at $12/seat/mo'
   },
   core_pro: {
-    included: 25,
+    included: 15,
     maxAdditional: null,
     additionalCost: 10,
     note: 'Unlimited additional seats at $10/seat/mo'
@@ -179,7 +179,7 @@ export const reportTiers = {
     basePrice: 79,
     additionalLocationPrice: 39,
     aiCredits: { base: 1200, perLocation: 300 },
-    aiSeats: 5,
+    aiSeats: 3,
     benchmarkMetrics: 15,
     benchmarkRadius: '1-2km adjustable',
     segmentFilters: '1 simultaneous filter',
@@ -228,7 +228,7 @@ export const reportTiers = {
     basePrice: 159,
     additionalLocationPrice: 59,
     aiCredits: { base: 3500, perLocation: 800 },
-    aiSeats: 10,
+    aiSeats: 5,
     benchmarkMetrics: 30,
     benchmarkRadius: '1-3km adjustable',
     segmentFilters: '2 simultaneous filters',
@@ -284,7 +284,7 @@ export const coreTiers = {
     basePrice: 279,
     additionalLocationPrice: 79,
     aiCredits: { base: 8000, perLocation: 1600 },
-    aiSeats: 15,
+    aiSeats: 10,
     benchmarkMetrics: '30+',
     benchmarkRadius: '1-5km',
     visuals: 200,
@@ -336,7 +336,7 @@ export const coreTiers = {
     basePrice: 449,
     additionalLocationPrice: 89,
     aiCredits: { base: 14000, perLocation: 2800 },
-    aiSeats: 25,
+    aiSeats: 15,
     benchmarkMetrics: '30+',
     benchmarkRadius: '0.5-10km',
     visuals: 200,

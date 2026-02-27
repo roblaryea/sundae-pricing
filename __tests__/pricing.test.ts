@@ -37,8 +37,8 @@ describe('Report Tier Pricing', () => {
     expect(calculateReportPrice('plus', 5).price).toBe(235); // 79 + 4*39
   });
 
-  it('Report Plus has 5 AI seats, 30 visuals, 1-2km adjustable radius', () => {
-    expect(reportTiers.plus.aiSeats).toBe(5);
+  it('Report Plus has 3 AI seats, 30 visuals, 1-2km adjustable radius', () => {
+    expect(reportTiers.plus.aiSeats).toBe(3);
     expect(reportTiers.plus.visuals).toBe(30);
     expect(reportTiers.plus.benchmarkRadius).toBe('1-2km adjustable');
   });

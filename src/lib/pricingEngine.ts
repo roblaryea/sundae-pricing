@@ -5,9 +5,10 @@
 import {
   reportTiers, coreTiers, modules, moduleBundles,
   CLIENT_TYPE_RULES, EARLY_ADOPTER_TERMS, enterprisePricing,
-  billingDiscounts, DISCOUNT_RULES, setupFeeDiscounts
+  billingDiscounts, DISCOUNT_RULES, setupFeeDiscounts,
+  crossIntelligence, completeIntelligenceWithCrossIntel
 } from '../data/pricing';
-import type { ReportTier, CoreTier, ModuleId, BundleId, ClientType, BillingCycle } from '../data/pricing';
+import type { ReportTier, CoreTier, ModuleId, BundleId, ClientType, BillingCycle, CrossIntelligenceTier } from '../data/pricing';
 import { calculateWatchtowerPrice as calcWatchtowerPrice, type WatchtowerModuleId } from './watchtowerEngine';
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -30,6 +31,7 @@ export interface Configuration {
   modules: ModuleId[];
   watchtower: string[];
   clientProfile: ClientProfile;
+  crossIntelligence?: CrossIntelligenceTier;
 }
 
 export interface PriceBreakdown {
@@ -282,6 +284,24 @@ export function validatePrerequisites(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// CROSS-INTELLIGENCE CALCULATIONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+export function isCrossIntelligenceEligible(activeModuleCount: number): boolean {
+  return activeModuleCount >= crossIntelligence.base.autoEnableThreshold;
+}
+
+export function calculateCrossIntelligencePrice(
+  tier: CrossIntelligenceTier,
+  locations: number
+): number {
+  if (tier === 'base') return 0;
+  const pro = crossIntelligence.pro;
+  const additionalLocs = Math.max(0, locations - pro.includedLocations);
+  return pro.monthlyFee + (additionalLocs * pro.perLocationPrice);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // FULL SCENARIO CALCULATION (one-time + monthly)
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -295,6 +315,7 @@ export interface ScenarioInput {
   intelligence?: boolean;
   pulse?: boolean;
   aiPackage?: 'ai_plus' | 'ai_pro';
+  crossIntelligence?: CrossIntelligenceTier;
   billingCycle?: BillingCycle;
   isEnterprise?: boolean;
   isAnnualPrepay?: boolean;
@@ -308,6 +329,7 @@ export interface ScenarioResult {
     watchtowerPrice: number;
     unlockFees: number;
     aiPackagePrice: number;
+    crossIntelligencePrice: number;
     subtotal: number;
     discountAmount: number;
     total: number;
@@ -317,6 +339,7 @@ export interface ScenarioResult {
   };
   perLocation: number;
   aiCredits: number;
+  crossIntelligenceEligible: boolean;
   prerequisiteErrors: PrerequisiteError[];
 }
 
@@ -371,7 +394,32 @@ export function calculateScenario(input: ScenarioInput): ScenarioResult {
   if (input.aiPackage === 'ai_plus') aiPackagePrice = 399;
   if (input.aiPackage === 'ai_pro') aiPackagePrice = 599;
 
-  const subtotal = tierPrice + modulePrice + watchtowerPrice + unlocks.total + aiPackagePrice;
+  // Cross-Intelligence
+  const activeModuleCount = input.bundle
+    ? moduleBundles[input.bundle].modules.length
+    : input.modules.length + (input.pulse && !input.modules.includes('pulse' as ModuleId) ? 1 : 0);
+  const crossIntelEligible = input.layer === 'core' && isCrossIntelligenceEligible(activeModuleCount);
+  let crossIntelligencePrice = 0;
+  if (crossIntelEligible && input.crossIntelligence === 'pro') {
+    // Check for Complete Intelligence + Cross-Intel bundle discount
+    if (input.bundle === 'complete_intelligence') {
+      const tierKey = moduleTier === 'core_lite' ? 'core_lite' : 'core_pro';
+      const bundlePricing = completeIntelligenceWithCrossIntel.pricingByTier[tierKey];
+      const regularBundlePrice = calculateBundlePrice(input.bundle, input.locations, moduleTier);
+      const regularCrossIntelPrice = calculateCrossIntelligencePrice('pro', input.locations);
+      // Bundle discount: use pre-calculated bundle price minus what we'd charge separately
+      crossIntelligencePrice = (bundlePricing.basePrice + Math.max(0, input.locations - 3) * bundlePricing.perLocationPrice) - regularBundlePrice;
+      crossIntelligencePrice = Math.max(0, crossIntelligencePrice);
+      // If the combined bundle is cheaper, use the savings
+      if (crossIntelligencePrice > regularCrossIntelPrice) {
+        crossIntelligencePrice = regularCrossIntelPrice;
+      }
+    } else {
+      crossIntelligencePrice = calculateCrossIntelligencePrice('pro', input.locations);
+    }
+  }
+
+  const subtotal = tierPrice + modulePrice + watchtowerPrice + unlocks.total + aiPackagePrice + crossIntelligencePrice;
 
   // Apply discounts
   const volumePct = input.locations >= 100 ? 7 : input.locations >= 30 ? 5 : 0;
@@ -411,6 +459,7 @@ export function calculateScenario(input: ScenarioInput): ScenarioResult {
       watchtowerPrice,
       unlockFees: unlocks.total,
       aiPackagePrice,
+      crossIntelligencePrice,
       subtotal,
       discountAmount,
       total: monthlyTotal
@@ -420,6 +469,7 @@ export function calculateScenario(input: ScenarioInput): ScenarioResult {
     },
     perLocation: input.locations > 0 ? Math.round(monthlyTotal / input.locations) : 0,
     aiCredits,
+    crossIntelligenceEligible: crossIntelEligible,
     prerequisiteErrors
   };
 }
@@ -544,6 +594,25 @@ export function calculateFullPrice(config: Configuration): PriceResult {
       price: wt.price,
       note: wt.isBundle && wt.savings > 0 ? `Saves $${Math.round(wt.savings)}/mo (~18%)` : undefined
     });
+  }
+
+  // Cross-Intelligence (only for Core tier with 3+ modules)
+  if (config.layer === 'core' && config.crossIntelligence) {
+    const eligible = isCrossIntelligenceEligible(config.modules.length);
+    if (eligible && config.crossIntelligence === 'pro') {
+      const ciPrice = calculateCrossIntelligencePrice('pro', config.locations);
+      breakdown.push({
+        item: 'Cross-Intelligence Pro',
+        price: ciPrice,
+        note: `$199/mo + $19/loc from #2 (${config.locations} loc)`
+      });
+    } else if (eligible) {
+      breakdown.push({
+        item: 'Cross-Intelligence',
+        price: 0,
+        note: 'Included with 3+ modules'
+      });
+    }
   }
 
   const subtotal = breakdown.reduce((sum, b) => sum + b.price, 0);

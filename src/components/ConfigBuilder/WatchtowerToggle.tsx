@@ -2,17 +2,22 @@
 // UPDATED: Uses new base + per-location pricing model
 
 import { motion } from 'framer-motion';
-import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft, Castle } from 'lucide-react';
+import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft, Castle, Sparkles, Zap, GitBranch, BarChart3, Radar, Activity, AlertTriangle, Search } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { watchtower } from '../../data/pricing';
+import { watchtower, crossIntelligence } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/watchtowerEngine';
+import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '../../lib/pricingEngine';
 
 export function WatchtowerToggle() {
-  const { layer, tier, locations, modules, watchtowerModules, toggleWatchtowerModule, setCurrentStep } = useConfiguration();
-  
+  const { layer, tier, locations, modules, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep } = useConfiguration();
+
   // Calculate pricing with current configuration
-  const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules);
+  const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules, undefined, crossIntelSelection);
+
+  // Cross-Intelligence eligibility
+  const crossIntelEligible = isCrossIntelligenceEligible(modules.length);
+  const crossIntelProPrice = calculateCrossIntelligencePrice('pro', locations);
 
   const handleContinue = () => {
     // Skip ROI page when no modules selected (ROI requires modules for savings)
@@ -225,6 +230,108 @@ export function WatchtowerToggle() {
         </motion.div>
       </div>
 
+      {/* Cross-Intelligence Section */}
+      {crossIntelEligible && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mb-8"
+        >
+          <div className="text-center mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 rounded-full mb-4">
+              <Sparkles className="w-4 h-4 text-purple-400" />
+              <span className="text-sm font-semibold text-purple-300">Unlocked with {modules.length} modules</span>
+            </div>
+            <h2 className="text-2xl font-bold mb-2">Cross-Intelligence Correlation Engine</h2>
+            <p className="text-sundae-muted">
+              Surfaces hidden connections between your data sources — automatically enabled with 3+ modules
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Base tier - Auto-included */}
+            <motion.div
+              whileHover={{ y: -3 }}
+              className={`p-6 rounded-xl border-2 transition-all ${
+                crossIntelSelection === 'base'
+                  ? 'bg-gradient-to-br from-purple-500/15 to-cyan-500/15 border-purple-500/50'
+                  : 'bg-sundae-surface border-white/10'
+              }`}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <GitBranch className="w-8 h-8 text-purple-400" />
+                <div>
+                  <h3 className="font-bold text-lg">{crossIntelligence.base.name}</h3>
+                  <span className="text-green-400 text-sm font-semibold">Included Free</span>
+                </div>
+              </div>
+              <p className="text-sm text-sundae-muted mb-4">{crossIntelligence.base.description}</p>
+              <ul className="space-y-2">
+                {crossIntelligence.base.features.map((feature, idx) => (
+                  <li key={idx} className="flex items-start gap-2 text-sm">
+                    <span className="text-purple-400">•</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Pro tier - Upgrade option */}
+            <motion.div
+              whileHover={{ y: -5, scale: 1.01 }}
+            >
+              <button
+                onClick={() => setCrossIntelligence(crossIntelSelection === 'pro' ? 'base' : 'pro')}
+                className={`w-full h-full text-left p-6 rounded-xl border-2 transition-all ${
+                  crossIntelSelection === 'pro'
+                    ? 'bg-gradient-to-br from-purple-500/25 to-cyan-500/25 border-purple-500'
+                    : 'bg-gradient-to-br from-purple-500/5 to-cyan-500/5 border-purple-500/30 hover:border-purple-500/60'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <Zap className="w-8 h-8 text-cyan-400" />
+                    <div>
+                      <h3 className="font-bold text-lg">{crossIntelligence.pro.name}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl font-bold">${crossIntelProPrice.toLocaleString()}</span>
+                        <span className="text-sundae-muted">/mo</span>
+                      </div>
+                    </div>
+                  </div>
+                  {crossIntelSelection === 'pro' && (
+                    <div className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-semibold rounded-full">
+                      Selected
+                    </div>
+                  )}
+                </div>
+                <div className="text-xs text-sundae-muted mb-4">
+                  $199/mo + $19/loc from location #2 ({locations} locations)
+                </div>
+                <p className="text-sm text-sundae-muted mb-4">{crossIntelligence.pro.description}</p>
+
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { icon: BarChart3, name: 'Correlation Matrix' },
+                    { icon: Activity, name: 'Revenue Attribution' },
+                    { icon: Radar, name: 'Spend Efficiency Radar' },
+                    { icon: AlertTriangle, name: 'Cannibalization Detector' },
+                    { icon: Search, name: 'Campaign Pulse Monitor' },
+                    { icon: Sparkles, name: 'Custom Alert Rules' },
+                  ].map(({ icon: Icon, name }) => (
+                    <div key={name} className="flex items-center gap-2 text-xs text-sundae-muted">
+                      <Icon className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                      <span>{name}</span>
+                    </div>
+                  ))}
+                </div>
+              </button>
+            </motion.div>
+          </div>
+        </motion.div>
+      )}
+
       {/* Current total */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -234,7 +341,7 @@ export function WatchtowerToggle() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm text-sundae-muted mb-1">Total with Watchtower</div>
+            <div className="text-sm text-sundae-muted mb-1">Total with Add-ons</div>
             <div className="text-3xl font-bold tabular-nums">
               ${pricing.total.toLocaleString()}/mo
             </div>

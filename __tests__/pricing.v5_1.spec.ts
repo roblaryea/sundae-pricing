@@ -110,7 +110,7 @@ describe('A) Tier Pricing vs Spec', () => {
       expect(coreTiers.lite.aiCredits.base).toBe(spec.tiers.core_lite.ai_credits.base);
       expect(coreTiers.lite.aiCredits.perLocation).toBe(spec.tiers.core_lite.ai_credits.per_location);
     });
-    it('has correct fixed seat count (15)', () => {
+    it('has correct fixed seat count (10)', () => {
       expect(coreTiers.lite.aiSeats).toBe(spec.tiers.core_lite.users_included);
     });
   });
@@ -126,7 +126,7 @@ describe('A) Tier Pricing vs Spec', () => {
       expect(coreTiers.pro.aiCredits.base).toBe(spec.tiers.core_pro.ai_credits.base);
       expect(coreTiers.pro.aiCredits.perLocation).toBe(spec.tiers.core_pro.ai_credits.per_location);
     });
-    it('has correct fixed seat count (25)', () => {
+    it('has correct fixed seat count (15)', () => {
       expect(coreTiers.pro.aiSeats).toBe(spec.tiers.core_pro.users_included);
     });
   });
@@ -591,26 +591,26 @@ describe('Seat Caps', () => {
     expect(seatCaps.report_lite.maxAdditional).toBe(0);
   });
 
-  it('Report Plus: 5 seats, max 3 additional at $19', () => {
-    expect(seatCaps.report_plus.included).toBe(5);
+  it('Report Plus: 3 seats, max 3 additional at $19', () => {
+    expect(seatCaps.report_plus.included).toBe(3);
     expect(seatCaps.report_plus.maxAdditional).toBe(3);
     expect(seatCaps.report_plus.additionalCost).toBe(19);
   });
 
-  it('Report Pro: 10 seats, max 5 additional at $15', () => {
-    expect(seatCaps.report_pro.included).toBe(10);
+  it('Report Pro: 5 seats, max 5 additional at $15', () => {
+    expect(seatCaps.report_pro.included).toBe(5);
     expect(seatCaps.report_pro.maxAdditional).toBe(5);
     expect(seatCaps.report_pro.additionalCost).toBe(15);
   });
 
-  it('Core Lite: 15 seats, unlimited additional at $12', () => {
-    expect(seatCaps.core_lite.included).toBe(15);
+  it('Core Lite: 10 seats, unlimited additional at $12', () => {
+    expect(seatCaps.core_lite.included).toBe(10);
     expect(seatCaps.core_lite.maxAdditional).toBeNull();
     expect(seatCaps.core_lite.additionalCost).toBe(12);
   });
 
-  it('Core Pro: 25 seats, unlimited additional at $10', () => {
-    expect(seatCaps.core_pro.included).toBe(25);
+  it('Core Pro: 15 seats, unlimited additional at $10', () => {
+    expect(seatCaps.core_pro.included).toBe(15);
     expect(seatCaps.core_pro.maxAdditional).toBeNull();
     expect(seatCaps.core_pro.additionalCost).toBe(10);
   });

@@ -35,7 +35,7 @@ export const reportFeatureComparison = [
     // Derived from v5.1 Section 7: User Seats
     category: 'Users',
     features: [
-      { name: 'Included seats', lite: '1 seat', plus: '5 seats', pro: '10 seats' },
+      { name: 'Included seats', lite: '1 seat', plus: '3 seats', pro: '5 seats' },
       { name: 'Unlimited viewer seats', lite: '✓ (free)', plus: '✓ (free)', pro: '✓ (free)' },
       { name: 'Additional seats', lite: 'None', plus: '$19/seat (max 3 additional)', pro: '$15/seat (max 5 additional)' },
     ]
@@ -174,7 +174,7 @@ export const coreFeatureComparison = [
     // Derived from v5.1 Section 7: User Seats
     category: 'Users',
     features: [
-      { name: 'Included seats', lite: '15', pro: '25', enterprise: 'Unlimited' },
+      { name: 'Included seats', lite: '10', pro: '15', enterprise: 'Unlimited' },
       { name: 'Unlimited viewer seats', lite: '✓ (free)', pro: '✓ (free)', enterprise: '✓ (free)' },
       { name: 'Additional seats', lite: '$12/seat/mo (unlimited)', pro: '$10/seat/mo (unlimited)', enterprise: 'N/A (unlimited)' },
     ]

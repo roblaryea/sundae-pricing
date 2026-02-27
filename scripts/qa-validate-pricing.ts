@@ -1,5 +1,5 @@
 // QA Validation Script for Sundae Pricing Data
-// Validates all pricing values against the Source of Truth (v4.3)
+// Validates all pricing values against the Source of Truth (v5.1)
 
 import {
   reportTiers,
@@ -38,26 +38,26 @@ console.log('\n📊 VALIDATING REPORT TIERS...\n');
 validate('Report Lite', 'basePrice', 0, reportTiers.lite.basePrice);
 validate('Report Lite', 'additionalLocationPrice', 0, reportTiers.lite.additionalLocationPrice);
 validate('Report Lite', 'aiSeats', 1, reportTiers.lite.aiSeats);
-validate('Report Lite', 'aiCredits.base', 400, reportTiers.lite.aiCredits.base);
+validate('Report Lite', 'aiCredits.base', 250, reportTiers.lite.aiCredits.base);
 validate('Report Lite', 'aiCredits.perLocation', 80, reportTiers.lite.aiCredits.perLocation);
 validate('Report Lite', 'visuals', 20, reportTiers.lite.visuals);
 
 // Report Plus
-validate('Report Plus', 'basePrice', 59, reportTiers.plus.basePrice);
-validate('Report Plus', 'additionalLocationPrice', 25, reportTiers.plus.additionalLocationPrice);
-validate('Report Plus', 'aiSeats', 5, reportTiers.plus.aiSeats);
-validate('Report Plus', 'aiCredits.base', 1500, reportTiers.plus.aiCredits.base);
+validate('Report Plus', 'basePrice', 79, reportTiers.plus.basePrice);
+validate('Report Plus', 'additionalLocationPrice', 39, reportTiers.plus.additionalLocationPrice);
+validate('Report Plus', 'aiSeats', 3, reportTiers.plus.aiSeats);
+validate('Report Plus', 'aiCredits.base', 1200, reportTiers.plus.aiCredits.base);
 validate('Report Plus', 'aiCredits.perLocation', 300, reportTiers.plus.aiCredits.perLocation);
-validate('Report Plus', 'visuals', 50, reportTiers.plus.visuals);
+validate('Report Plus', 'visuals', 30, reportTiers.plus.visuals);
 validate('Report Plus', 'benchmarkRadius', '1-2km adjustable', reportTiers.plus.benchmarkRadius);
 
 // Report Pro
-validate('Report Pro', 'basePrice', 119, reportTiers.pro.basePrice);
-validate('Report Pro', 'additionalLocationPrice', 35, reportTiers.pro.additionalLocationPrice);
-validate('Report Pro', 'aiSeats', 15, reportTiers.pro.aiSeats);
-validate('Report Pro', 'aiCredits.base', 4000, reportTiers.pro.aiCredits.base);
+validate('Report Pro', 'basePrice', 159, reportTiers.pro.basePrice);
+validate('Report Pro', 'additionalLocationPrice', 59, reportTiers.pro.additionalLocationPrice);
+validate('Report Pro', 'aiSeats', 5, reportTiers.pro.aiSeats);
+validate('Report Pro', 'aiCredits.base', 3500, reportTiers.pro.aiCredits.base);
 validate('Report Pro', 'aiCredits.perLocation', 800, reportTiers.pro.aiCredits.perLocation);
-validate('Report Pro', 'visuals', 120, reportTiers.pro.visuals);
+validate('Report Pro', 'visuals', 80, reportTiers.pro.visuals);
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CORE TIERS
@@ -66,62 +66,77 @@ validate('Report Pro', 'visuals', 120, reportTiers.pro.visuals);
 console.log('\n⚡ VALIDATING CORE TIERS...\n');
 
 // Core Lite
-validate('Core Lite', 'basePrice', 199, coreTiers.lite.basePrice);
-validate('Core Lite', 'additionalLocationPrice', 39, coreTiers.lite.additionalLocationPrice);
+validate('Core Lite', 'basePrice', 279, coreTiers.lite.basePrice);
+validate('Core Lite', 'additionalLocationPrice', 79, coreTiers.lite.additionalLocationPrice);
 validate('Core Lite', 'aiSeats', 10, coreTiers.lite.aiSeats);
 validate('Core Lite', 'aiCredits.base', 8000, coreTiers.lite.aiCredits.base);
 validate('Core Lite', 'aiCredits.perLocation', 1600, coreTiers.lite.aiCredits.perLocation);
-validate('Core Lite', 'predictiveDays', 14, coreTiers.lite.predictiveDays);
 validate('Core Lite', 'customDashboards', 30, coreTiers.lite.customDashboards);
 
 // Core Pro
-validate('Core Pro', 'basePrice', 349, coreTiers.pro.basePrice);
-validate('Core Pro', 'additionalLocationPrice', 35, coreTiers.pro.additionalLocationPrice);
-validate('Core Pro', 'aiSeats', 25, coreTiers.pro.aiSeats);
+validate('Core Pro', 'basePrice', 449, coreTiers.pro.basePrice);
+validate('Core Pro', 'additionalLocationPrice', 89, coreTiers.pro.additionalLocationPrice);
+validate('Core Pro', 'aiSeats', 15, coreTiers.pro.aiSeats);
 validate('Core Pro', 'aiCredits.base', 14000, coreTiers.pro.aiCredits.base);
 validate('Core Pro', 'aiCredits.perLocation', 2800, coreTiers.pro.aiCredits.perLocation);
 validate('Core Pro', 'predictiveDays', 30, coreTiers.pro.predictiveDays);
 validate('Core Pro', 'customDashboards', 75, coreTiers.pro.customDashboards);
 
 // ═══════════════════════════════════════════════════════════════════════════
-// MODULES (v4.3 — 10 modules including Pulse)
+// MODULES (v5.1 — 10 modules with tier-aware pricing)
 // ═══════════════════════════════════════════════════════════════════════════
 
 console.log('\n🧩 VALIDATING MODULES...\n');
 
 // Labor
-validate('Labor Module', 'orgLicensePrice', 169, modules.labor.orgLicensePrice);
-validate('Labor Module', 'perLocationPrice', 17, modules.labor.perLocationPrice);
-validate('Labor Module', 'includedLocations', 5, modules.labor.includedLocations);
-validate('Labor Module', 'setupFee', 299, modules.labor.setupFee);
+validate('Labor Module', 'orgLicensePrice', 219, modules.labor.orgLicensePrice);
+validate('Labor Module', 'perLocationPrice', 22, modules.labor.perLocationPrice);
+validate('Labor Module', 'setupFee', 399, modules.labor.setupFee);
 
 // Inventory
-validate('Inventory Module', 'orgLicensePrice', 179, modules.inventory.orgLicensePrice);
-validate('Inventory Module', 'perLocationPrice', 19, modules.inventory.perLocationPrice);
-validate('Inventory Module', 'includedLocations', 5, modules.inventory.includedLocations);
+validate('Inventory Module', 'orgLicensePrice', 229, modules.inventory.orgLicensePrice);
+validate('Inventory Module', 'perLocationPrice', 24, modules.inventory.perLocationPrice);
 validate('Inventory Module', 'setupFee', 499, modules.inventory.setupFee);
 
 // Purchasing
-validate('Purchasing Module', 'orgLicensePrice', 129, modules.purchasing.orgLicensePrice);
-validate('Purchasing Module', 'perLocationPrice', 12, modules.purchasing.perLocationPrice);
-validate('Purchasing Module', 'includedLocations', 5, modules.purchasing.includedLocations);
-validate('Purchasing Module', 'setupFee', 299, modules.purchasing.setupFee);
+validate('Purchasing Module', 'orgLicensePrice', 169, modules.purchasing.orgLicensePrice);
+validate('Purchasing Module', 'perLocationPrice', 16, modules.purchasing.perLocationPrice);
+validate('Purchasing Module', 'setupFee', 399, modules.purchasing.setupFee);
 
 // Marketing
-validate('Marketing Module', 'orgLicensePrice', 199, modules.marketing.orgLicensePrice);
-validate('Marketing Module', 'perLocationPrice', 20, modules.marketing.perLocationPrice);
-validate('Marketing Module', 'setupFee', 299, modules.marketing.setupFee);
+validate('Marketing Module', 'orgLicensePrice', 249, modules.marketing.orgLicensePrice);
+validate('Marketing Module', 'perLocationPrice', 25, modules.marketing.perLocationPrice);
+validate('Marketing Module', 'setupFee', 399, modules.marketing.setupFee);
 
 // Reservations
-validate('Reservations Module', 'orgLicensePrice', 129, modules.reservations.orgLicensePrice);
-validate('Reservations Module', 'perLocationPrice', 12, modules.reservations.perLocationPrice);
-validate('Reservations Module', 'setupFee', 299, modules.reservations.setupFee);
+validate('Reservations Module', 'orgLicensePrice', 169, modules.reservations.orgLicensePrice);
+validate('Reservations Module', 'perLocationPrice', 16, modules.reservations.perLocationPrice);
+validate('Reservations Module', 'setupFee', 399, modules.reservations.setupFee);
 
-// Pulse (v4.3 new module)
-validate('Pulse Module', 'orgLicensePrice', 199, modules.pulse.orgLicensePrice);
-validate('Pulse Module', 'perLocationPrice', 24, modules.pulse.perLocationPrice);
-validate('Pulse Module', 'includedLocations', 5, modules.pulse.includedLocations);
-validate('Pulse Module', 'setupFee', 399, modules.pulse.setupFee);
+// Pulse (v5.1)
+validate('Pulse Module', 'orgLicensePrice', 269, modules.pulse.orgLicensePrice);
+validate('Pulse Module', 'perLocationPrice', 29, modules.pulse.perLocationPrice);
+validate('Pulse Module', 'setupFee', 499, modules.pulse.setupFee);
+
+// Profit Intelligence
+validate('Profit Module', 'orgLicensePrice', 299, modules.profit.orgLicensePrice);
+validate('Profit Module', 'perLocationPrice', 28, modules.profit.perLocationPrice);
+validate('Profit Module', 'setupFee', 0, modules.profit.setupFee);
+
+// Revenue Optimization
+validate('Revenue Module', 'orgLicensePrice', 149, modules.revenue.orgLicensePrice);
+validate('Revenue Module', 'perLocationPrice', 14, modules.revenue.perLocationPrice);
+validate('Revenue Module', 'setupFee', 299, modules.revenue.setupFee);
+
+// Delivery
+validate('Delivery Module', 'orgLicensePrice', 219, modules.delivery.orgLicensePrice);
+validate('Delivery Module', 'perLocationPrice', 22, modules.delivery.perLocationPrice);
+validate('Delivery Module', 'setupFee', 499, modules.delivery.setupFee);
+
+// Guest Experience
+validate('Guest Module', 'orgLicensePrice', 149, modules.guest.orgLicensePrice);
+validate('Guest Module', 'perLocationPrice', 14, modules.guest.perLocationPrice);
+validate('Guest Module', 'setupFee', 299, modules.guest.setupFee);
 
 // ═══════════════════════════════════════════════════════════════════════════
 // WATCHTOWER
@@ -129,25 +144,23 @@ validate('Pulse Module', 'setupFee', 399, modules.pulse.setupFee);
 
 console.log('\n🔭 VALIDATING WATCHTOWER...\n');
 
-// Watchtower uses base + per-location pricing model
-validate('Watchtower', 'competitive.basePrice', 399, watchtower.competitive.basePrice);
-validate('Watchtower', 'competitive.perLocationPrice', 49, watchtower.competitive.perLocationPrice);
-validate('Watchtower', 'events.basePrice', 199, watchtower.events.basePrice);
-validate('Watchtower', 'events.perLocationPrice', 29, watchtower.events.perLocationPrice);
-validate('Watchtower', 'trends.basePrice', 249, watchtower.trends.basePrice);
-validate('Watchtower', 'trends.perLocationPrice', 19, watchtower.trends.perLocationPrice);
-validate('Watchtower', 'bundle.basePrice', 699, watchtower.bundle.basePrice);
-validate('Watchtower', 'bundle.perLocationPrice', 79, watchtower.bundle.perLocationPrice);
-validate('Watchtower', 'bundle.baseSavings', 148, watchtower.bundle.baseSavings);
-validate('Watchtower', 'bundle.savingsPercent', 17, watchtower.bundle.savingsPercent);
+// Watchtower uses base + per-location pricing model (v5.1)
+validate('Watchtower', 'competitive.basePrice', 549, watchtower.competitive.basePrice);
+validate('Watchtower', 'competitive.perLocationPrice', 69, watchtower.competitive.perLocationPrice);
+validate('Watchtower', 'events.basePrice', 249, watchtower.events.basePrice);
+validate('Watchtower', 'events.perLocationPrice', 39, watchtower.events.perLocationPrice);
+validate('Watchtower', 'trends.basePrice', 299, watchtower.trends.basePrice);
+validate('Watchtower', 'trends.perLocationPrice', 29, watchtower.trends.perLocationPrice);
+validate('Watchtower', 'bundle.basePrice', 899, watchtower.bundle.basePrice);
+validate('Watchtower', 'bundle.perLocationPrice', 109, watchtower.bundle.perLocationPrice);
 
 // Verify bundle math (base prices only)
 const individualBaseTotal = watchtower.competitive.basePrice + watchtower.events.basePrice + watchtower.trends.basePrice;
-validate('Watchtower', 'individual base total = 847', 847, individualBaseTotal);
+validate('Watchtower', 'individual base total = 1097', 1097, individualBaseTotal);
 validate('Watchtower', 'bundle base savings math', individualBaseTotal - watchtower.bundle.basePrice, watchtower.bundle.baseSavings);
 
 // ═══════════════════════════════════════════════════════════════════════════
-// CLIENT TYPE RULES (v4.3 — non-stacking volume discounts)
+// CLIENT TYPE RULES (v5.1 — non-stacking volume discounts)
 // ═══════════════════════════════════════════════════════════════════════════
 
 console.log('\n👥 VALIDATING CLIENT TYPE RULES...\n');

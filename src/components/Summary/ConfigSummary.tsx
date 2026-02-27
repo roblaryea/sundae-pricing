@@ -1,7 +1,7 @@
 // Final configuration summary component - Optimized with collapsibles
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Rocket, ChevronDown, Sparkles, Castle } from 'lucide-react';
+import { Check, Rocket, ChevronDown, Sparkles, Castle, GitBranch, Zap } from 'lucide-react';
 import { getIconByEmoji } from '../../lib/iconMap';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
@@ -18,12 +18,12 @@ import { pricingFooter } from '../../data/pricing';
 import { LEGAL } from '../../config/legal';
 
 export function ConfigSummary() {
-  const { 
+  const {
     layer, tier, locations, modules: selectedModules, watchtowerModules,
-    markStepCompleted
+    crossIntelligence: crossIntelSelection, markStepCompleted
   } = useConfiguration();
-  
-  const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
+
+  const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules, undefined, crossIntelSelection);
   
   // Collapsible states
   const [whatsIncludedOpen, setWhatsIncludedOpen] = useState(true);
@@ -160,6 +160,27 @@ export function ConfigSummary() {
                           return <IconComponent key={idx} className="w-4 h-4" />;
                         })
                       )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Cross-Intelligence */}
+              {crossIntelSelection !== 'none' && (
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold flex items-center gap-2">
+                      {crossIntelSelection === 'pro' ? (
+                        <><Zap className="w-4 h-4 text-cyan-400" /> Cross-Intelligence Pro</>
+                      ) : (
+                        <><GitBranch className="w-4 h-4 text-purple-400" /> Cross-Intelligence</>
+                      )}
+                    </div>
+                    <div className="text-sm text-sundae-muted">
+                      {crossIntelSelection === 'pro'
+                        ? 'Full correlation engine with attribution & cannibalization detection'
+                        : 'Auto-enabled correlation insights (included with 3+ modules)'}
                     </div>
                   </div>
                 </div>

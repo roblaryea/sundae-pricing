@@ -9,6 +9,7 @@ export type ReportTier = 'lite' | 'plus' | 'pro';
 export type CoreTier = 'lite' | 'pro';
 export type ModuleId = 'labor' | 'inventory' | 'purchasing' | 'marketing' | 'reservations' | 'profit' | 'revenue' | 'delivery' | 'guest' | 'pulse';
 export type BundleId = 'ops_suite' | 'growth_suite' | 'finance_addon' | 'channel_suite' | 'realtime_suite' | 'complete_intelligence';
+export type CrossIntelligenceTier = 'base' | 'pro';
 export type WatchtowerId = 'competitive' | 'events' | 'trends' | 'bundle';
 export type ClientType = 'independent' | 'growth' | 'multi-site' | 'enterprise' | 'franchise';
 export type BillingCycle = 'monthly' | 'annual' | 'two_year';
@@ -1233,6 +1234,80 @@ export const aiPackages = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════
+// CROSS-INTELLIGENCE CORRELATION ENGINE
+// Auto-unlocking premium layer that surfaces correlations across modules
+// Base: Free when 3+ modules active | Pro: $199/mo + $19/loc
+// ═══════════════════════════════════════════════════════════════════════════
+
+export const crossIntelligence = {
+  base: {
+    id: 'cross_intelligence_base',
+    name: 'Cross-Intelligence',
+    tier: 'base' as CrossIntelligenceTier,
+    monthlyFee: 0,
+    perLocationPrice: 0,
+    setupFee: 0,
+    availability: 'core_only',
+    autoEnableThreshold: 3, // auto-enabled when 3+ modules are active
+    description: 'Automatic cross-module correlation insights — surfaces hidden connections between your data sources',
+    features: [
+      'Basic correlation alerts',
+      'Marketing Impact Timeline (30-day lookback)',
+      'Cause & Effect Cards',
+      'What Changed weekly digest',
+    ],
+  },
+  pro: {
+    id: 'cross_intelligence_pro',
+    name: 'Cross-Intelligence Pro',
+    tier: 'pro' as CrossIntelligenceTier,
+    monthlyFee: 199,
+    perLocationPrice: 19,
+    includedLocations: 1, // 1 location included in base, additional from #2
+    setupFee: 0,
+    availability: 'core_only',
+    autoEnableThreshold: 3,
+    description: 'Full correlation engine with advanced attribution, cannibalization detection, and real-time campaign monitoring',
+    features: [
+      'Everything in Cross-Intelligence Base',
+      'Full Correlation Matrix',
+      'Revenue Attribution Waterfall',
+      'Spend Efficiency Radar',
+      'Campaign Pulse Monitor',
+      'Cannibalization Detector',
+      'Unlimited timeline lookback',
+      'Custom alert rules & thresholds',
+      'API access for correlation data',
+      'Priority processing',
+    ],
+    components: [
+      { name: 'Marketing Impact Timeline', tier: 'base', description: 'Overlay marketing spend on revenue timeline to see delayed effects' },
+      { name: 'Cause & Effect Cards', tier: 'base', description: 'Auto-generated cards explaining why metrics changed' },
+      { name: 'Correlation Matrix', tier: 'pro', description: 'Full NxN matrix showing strength of connections between all data sources' },
+      { name: 'Revenue Attribution Waterfall', tier: 'pro', description: 'Attribute revenue changes to specific operational or marketing actions' },
+      { name: 'Spend Efficiency Radar', tier: 'pro', description: 'Multi-axis radar comparing ROI across marketing, labor, inventory spend' },
+      { name: 'Campaign Pulse Monitor', tier: 'pro', description: 'Real-time campaign performance with correlation to sales and operations' },
+      { name: 'Cannibalization Detector', tier: 'pro', description: 'Detect when promotions or new items steal sales from existing products' },
+      { name: 'What Changed Engine', tier: 'base', description: 'Automatic root cause analysis for metric movements' },
+    ],
+  },
+};
+
+// Complete Intelligence + Cross-Intelligence Pro bundle pricing
+export const completeIntelligenceWithCrossIntel = {
+  id: 'complete_intelligence_plus_cross',
+  name: 'Complete Intelligence + Cross-Intelligence Pro',
+  pricingByTier: {
+    core_pro: { basePrice: 1795, perLocationPrice: 179, setupFee: 999 },
+    core_lite: { basePrice: 2005, perLocationPrice: 200, setupFee: 999 },
+  },
+  savings: {
+    core_pro: { monthly: 100, description: '~5% bundle discount vs separate purchase' },
+    core_lite: { monthly: 106, description: '~5% bundle discount vs separate purchase' },
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
 // CONNECTOR SETUP TIERS
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -1271,6 +1346,7 @@ export const trialPolicy = {
   core_pro: { days: 14, cardRequired: true },
   modules: { days: 7, cardRequired: true },
   watchtower: { days: 7, cardRequired: true },
+  cross_intelligence_pro: { days: 14, cardRequired: true },
 };
 
 // ═══════════════════════════════════════════════════════════════════════════

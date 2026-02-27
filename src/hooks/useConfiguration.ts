@@ -45,6 +45,7 @@ export interface ConfigurationState extends Configuration {
   setModules: (modules: string[]) => void;
   toggleWatchtowerModule: (moduleId: string) => void;
   setWatchtowerModules: (modules: string[]) => void;
+  setCrossIntelligence: (selection: 'none' | 'base' | 'pro') => void;
   
   // Quiz actions
   setQuizAnswer: (questionId: string, answerId: string) => void;
@@ -74,6 +75,7 @@ const initialState = {
   locations: 1,
   modules: [] as string[],
   watchtowerModules: [] as string[],
+  crossIntelligence: 'none' as 'none' | 'base' | 'pro',
   competitors: {
     current: [] as CompetitorId[],
     evaluating: [] as CompetitorId[],
@@ -148,8 +150,9 @@ export const useConfiguration = create<ConfigurationState>()(
           // Clear modules if tier doesn't support them
           if (features && !features.modules) {
             updates.modules = [];
+            updates.crossIntelligence = 'none' as const;
           }
-          
+
           // Clear watchtower if tier doesn't support it
           if (features && !features.watchtower) {
             updates.watchtowerModules = [];
@@ -171,15 +174,28 @@ export const useConfiguration = create<ConfigurationState>()(
           const newModules = modules.includes(moduleId)
             ? modules.filter(id => id !== moduleId)
             : [...modules, moduleId];
-          set({ modules: newModules });
+          const updates: Partial<ConfigurationState> = { modules: newModules };
+          // Auto-enable Cross-Intelligence Base when 3+ modules
+          if (newModules.length >= 3 && get().crossIntelligence === 'none') {
+            updates.crossIntelligence = 'base' as const;
+          } else if (newModules.length < 3 && get().crossIntelligence !== 'none') {
+            updates.crossIntelligence = 'none' as const;
+          }
+          set(updates);
           if (newModules.length > 0) {
             get().markStepCompleted('modules');
           }
           get().checkAchievements();
         },
-        
+
         setModules: (modules) => {
-          set({ modules });
+          const updates: Partial<ConfigurationState> = { modules };
+          if (modules.length >= 3 && get().crossIntelligence === 'none') {
+            updates.crossIntelligence = 'base' as const;
+          } else if (modules.length < 3) {
+            updates.crossIntelligence = 'none' as const;
+          }
+          set(updates);
           if (modules.length > 0) {
             get().markStepCompleted('modules');
           }
@@ -228,7 +244,12 @@ export const useConfiguration = create<ConfigurationState>()(
           }
           get().checkAchievements();
         },
-        
+
+        setCrossIntelligence: (selection) => {
+          set({ crossIntelligence: selection });
+          get().checkAchievements();
+        },
+
         // Quiz actions
         setQuizAnswer: (questionId, answerId) => {
           const quizAnswers = { ...get().quizAnswers, [questionId]: answerId };
@@ -383,6 +404,7 @@ export const useConfiguration = create<ConfigurationState>()(
           locations: state.locations,
           modules: state.modules,
           watchtowerModules: state.watchtowerModules,
+          crossIntelligence: state.crossIntelligence,
           competitors: state.competitors,
           quizAnswers: state.quizAnswers,
           persona: state.persona,

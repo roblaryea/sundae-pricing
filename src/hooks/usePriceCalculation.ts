@@ -4,9 +4,9 @@
 import { useMemo } from 'react';
 import { calculateFullPrice, calculateTenzoPrice } from '../lib/pricingEngine';
 import type { PriceResult, ClientProfile } from '../lib/pricingEngine';
-import type { ModuleId } from '../data/pricing';
+import type { ModuleId, CrossIntelligenceTier } from '../data/pricing';
 import type { Configuration as EngineConfig } from '../lib/pricingEngine';
-import type { PriceBreakdown, PriceCalculation } from '../types/configuration';
+import type { PriceBreakdown, PriceCalculation, CrossIntelligenceSelection } from '../types/configuration';
 
 // Re-export for backward compatibility
 export type { PriceBreakdown, PriceCalculation };
@@ -18,14 +18,22 @@ function convertToEngineConfig(
   locations: number,
   modules: string[],
   watchtowerModules: string[],
-  clientProfile?: ClientProfile
+  clientProfile?: ClientProfile,
+  crossIntelligence?: CrossIntelligenceSelection
 ): EngineConfig {
+  // Map crossIntelligence selection to engine tier
+  const ciTier: CrossIntelligenceTier | undefined =
+    crossIntelligence === 'pro' ? 'pro' :
+    crossIntelligence === 'base' ? 'base' :
+    undefined;
+
   return {
     layer: layer || 'report',
     tier,
     locations: Math.max(1, locations),
     modules: modules as ModuleId[],
     watchtower: watchtowerModules,
+    crossIntelligence: ciTier,
     clientProfile: clientProfile || {
       type: 'independent',
       isEarlyAdopter: false,
@@ -41,18 +49,21 @@ export function usePriceCalculation(
   locations: number,
   modules: string[] = [],
   watchtowerModules: string[] = [],
-  clientProfile?: ClientProfile
+  clientProfile?: ClientProfile,
+  crossIntelligence?: CrossIntelligenceSelection
 ): PriceCalculation {
   return useMemo(() => {
     // Use centralized pricing engine
-    const config = convertToEngineConfig(layer, tier, locations, modules, watchtowerModules, clientProfile);
+    const config = convertToEngineConfig(layer, tier, locations, modules, watchtowerModules, clientProfile, crossIntelligence);
     const result: PriceResult = calculateFullPrice(config);
     
     // Convert breakdown to old format
     const breakdown: PriceBreakdown[] = result.breakdown.map(item => {
-      let category: 'base' | 'module' | 'watchtower' = 'base';
-      
-      if (item.item.includes('Intelligence') || item.item.includes('Connect') || item.item.includes('Analytics') || item.item.includes('Performance')) {
+      let category: 'base' | 'module' | 'watchtower' | 'cross_intelligence' = 'base';
+
+      if (item.item.includes('Cross-Intelligence')) {
+        category = 'cross_intelligence';
+      } else if (item.item.includes('Intelligence') || item.item.includes('Connect') || item.item.includes('Analytics') || item.item.includes('Performance')) {
         category = 'module';
       } else if (item.item.includes('Watchtower')) {
         category = 'watchtower';
@@ -84,7 +95,7 @@ export function usePriceCalculation(
         tenzo: tenzoComparison
       }
     };
-  }, [layer, tier, locations, modules, watchtowerModules, clientProfile]);
+  }, [layer, tier, locations, modules, watchtowerModules, clientProfile, crossIntelligence]);
 }
 
 // Helper to check if a configuration includes specific module combinations

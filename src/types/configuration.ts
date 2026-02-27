@@ -2,12 +2,15 @@
 
 import type { CompetitorId } from '../data/competitors';
 
+export type CrossIntelligenceSelection = 'none' | 'base' | 'pro';
+
 export interface Configuration {
   layer: 'report' | 'core' | null;
   tier: 'lite' | 'plus' | 'pro' | 'enterprise';
   locations: number;
   modules: string[];
   watchtowerModules: string[];
+  crossIntelligence: CrossIntelligenceSelection;
   competitors: {
     current: CompetitorId[];      // What they use today (from quiz)
     evaluating: CompetitorId[];   // What they're considering (from quiz)
@@ -19,7 +22,7 @@ export interface PriceBreakdown {
   item: string;
   price: number;
   perLocation: number;
-  category: 'base' | 'module' | 'watchtower';
+  category: 'base' | 'module' | 'watchtower' | 'cross_intelligence';
   note?: string;
 }
 

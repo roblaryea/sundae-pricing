@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDown, Check, Star, ChevronRight, AlertCircle } from 'lucide-react';
-import { reportTiers, coreTiers, modules, watchtower, pricingFooter } from '../data/pricing';
+import { reportTiers, coreTiers, modules, watchtower, crossIntelligence, pricingFooter } from '../data/pricing';
 import { PRODUCT_ICONS } from '../constants/icons';
 
 // Get product icons from centralized mapping (per SUNDAE_ICON_MAPPING.md)
@@ -414,6 +414,61 @@ export function PricingOverview() {
                   ))}
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          {/* Cross-Intelligence Correlation Engine */}
+          <div className="mb-8 p-6 rounded-xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 to-cyan-500/10" style={{ boxShadow: '0 0 30px rgba(168, 85, 247, 0.15)' }}>
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 rounded-full border border-purple-500/30 mb-4">
+                <Star className="w-4 h-4 text-purple-400" />
+                <span className="text-sm font-semibold text-purple-300">CROSS-INTELLIGENCE ENGINE</span>
+              </div>
+              <h3 className="text-2xl font-bold mb-2 text-white">Cross-Intelligence Correlation Engine</h3>
+              <p className="text-sundae-muted max-w-3xl mx-auto">
+                Surfaces hidden correlations between your data sources — automatically enabled when you activate 3+ modules
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Base tier */}
+              <div className="p-5 rounded-xl bg-sundae-surface border border-purple-500/20">
+                <div className="flex items-center justify-between mb-3">
+                  <h4 className="font-bold text-lg text-white">{crossIntelligence.base.name}</h4>
+                  <span className="px-3 py-1 bg-green-500/20 text-green-400 text-sm font-semibold rounded-full">Free</span>
+                </div>
+                <p className="text-sm text-sundae-muted mb-4">Auto-enabled with 3+ modules — no extra cost</p>
+                <ul className="space-y-2">
+                  {crossIntelligence.base.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm">
+                      <Check className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-white">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Pro tier */}
+              <div className="p-5 rounded-xl bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border-2 border-purple-500/40 relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-cyan-500" />
+                <div className="flex items-center justify-between mb-1">
+                  <h4 className="font-bold text-lg text-white">{crossIntelligence.pro.name}</h4>
+                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-semibold rounded-full">Pro</span>
+                </div>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="text-2xl font-bold text-white">${crossIntelligence.pro.monthlyFee}</span>
+                  <span className="text-sundae-muted">/mo</span>
+                </div>
+                <p className="text-xs text-sundae-muted mb-4">+${crossIntelligence.pro.perLocationPrice}/location from location #2</p>
+                <ul className="space-y-2">
+                  {crossIntelligence.pro.features.slice(1, 7).map((feature, idx) => (
+                    <li key={idx} className="flex items-start gap-2 text-sm">
+                      <Check className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-white">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

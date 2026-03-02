@@ -21,12 +21,12 @@ export const PAIN_TO_MODULES: Record<string, {
   food_waste: {
     primary: ['inventory'],
     secondary: ['purchasing'],
-    rationale: 'Inventory Connect tracks food costs and reduces waste by 0.5-2%'
+    rationale: 'Inventory Intelligence tracks food costs and reduces waste by 0.5-2%'
   },
   supplier_prices: {
     primary: ['purchasing'],
     secondary: ['inventory'],
-    rationale: 'Purchasing Analytics finds savings of 2-5% through better supplier management'
+    rationale: 'Purchasing Intelligence finds savings of 2-5% through better supplier management'
   },
   revenue_leakage: {
     primary: ['revenue'],
@@ -36,7 +36,7 @@ export const PAIN_TO_MODULES: Record<string, {
   delivery_profitability: {
     primary: ['delivery'],
     secondary: ['profit'],
-    rationale: 'Delivery Economics shows true profitability by platform and channel'
+    rationale: 'Delivery Intelligence shows true profitability by platform and channel'
   },
   table_utilization: {
     primary: ['reservations'],

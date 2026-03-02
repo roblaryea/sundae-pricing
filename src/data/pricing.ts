@@ -59,7 +59,7 @@ export const pricingChangelog: PricingChange[] = [
       'Enterprise eligibility',
       'Trial policy'
     ],
-    notes: 'v4.3: Updated all tier pricing (Report Plus $59, Pro $119, Core Lite $199, Pro $349). AI credits 10x increase. Added Pulse module. Added 6 module bundles. Changed discount model to non-stacking volume/billing (max 15%). Added setup fees. Changed watchtower bundle from $720 to $699 (~18% savings). Updated users model and data refresh terminology.'
+    notes: 'v4.3: Updated all tier pricing. AI credits 10x increase. Added Pulse module. Added 6 module bundles. Changed discount model to non-stacking volume/billing (max 15%). Added setup fees. Changed watchtower bundle from $720 to $699 (~18% savings). Updated users model and data refresh terminology.'
   },
   {
     id: 'update-2026-02-26-v5.1',
@@ -78,7 +78,7 @@ export const pricingChangelog: PricingChange[] = [
       'Connector setup tiers',
       'Terminology'
     ],
-    notes: 'v5.1: Report Plus $79, Pro $159. Core Lite $279, Pro $449. Tier-aware module pricing (Core Lite vs Core Pro). Tier-aware bundle pricing. Updated seat caps with max additional limits. Replaced "Chat with Data" with "Sundae Intelligence" ($79 unlock, $399 Intelligence Pro). Replaced "data retention" with "historical access". Added connector setup tiers. Reduced baseIncludesLocations from 5 to 3 for modules. Updated volume discount thresholds.'
+    notes: 'v5.1: Updated Report Plus to $79, Report Pro to $159, Core Lite to $279, Core Pro to $449. Tier-aware module pricing (Core Lite vs Core Pro). Tier-aware bundle pricing. Updated seat caps with max additional limits. Introduced "Sundae Intelligence" branding ($79 unlock, $399 Intelligence Pro). Replaced "data retention" with "historical access". Added connector setup tiers. Reduced baseIncludesLocations from 5 to 3 for modules. Updated volume discount thresholds.'
   }
 ];
 
@@ -479,7 +479,7 @@ export const modules = {
 
   inventory: {
     id: 'inventory',
-    name: 'Inventory Connect',
+    name: 'Inventory Intelligence',
     icon: 'package',
     orgLicensePrice: 229,
     perLocationPrice: 24,
@@ -510,7 +510,7 @@ export const modules = {
 
   purchasing: {
     id: 'purchasing',
-    name: 'Purchasing Analytics',
+    name: 'Purchasing Intelligence',
     icon: 'cart',
     orgLicensePrice: 169,
     perLocationPrice: 16,
@@ -533,7 +533,7 @@ export const modules = {
       'Order frequency optimization',
       'Delivery cost analysis',
       'Contract renewal alerts',
-      'Monthly Purchasing Analytics Report'
+      'Monthly Purchasing Intelligence Report'
     ],
     roiPotential: '2-5% purchasing savings'
   },
@@ -607,7 +607,7 @@ export const modules = {
     setupFee: 0,
     setupIncludes: 'Uses Labor + Inventory data (no new integration)',
     prerequisites: ['labor', 'inventory'],
-    prerequisiteMessage: 'Requires Labor Intelligence and Inventory Connect',
+    prerequisiteMessage: 'Requires Labor Intelligence and Inventory Intelligence',
     pricingByTier: {
       core_pro: { orgLicensePrice: 299, perLocationPrice: 28 },
       core_lite: { orgLicensePrice: 339, perLocationPrice: 32 }
@@ -660,7 +660,7 @@ export const modules = {
 
   delivery: {
     id: 'delivery',
-    name: 'Delivery Economics',
+    name: 'Delivery Intelligence',
     icon: 'delivery',
     orgLicensePrice: 219,
     perLocationPrice: 22,
@@ -681,7 +681,7 @@ export const modules = {
       'Driver efficiency metrics',
       'Peak delivery time optimization',
       'Channel mix optimization',
-      'Monthly Delivery Economics Report'
+      'Monthly Delivery Intelligence Report'
     ],
     roiPotential: 'True delivery profitability',
     tier: 'Channel',

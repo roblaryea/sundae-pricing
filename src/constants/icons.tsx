@@ -22,7 +22,7 @@ import {
   Calendar,    // Reservations Intelligence
   DollarSign,  // Profit Intelligence (NEW)
   Shield,      // Revenue Assurance (NEW)
-  Bike,        // Delivery Economics (NEW)
+  Bike,        // Delivery Intelligence (NEW)
   Star,        // Guest Experience (NEW)
 
   // Generic Concept Icons
@@ -67,7 +67,7 @@ export const MODULE_ICONS = {
   reservations: Calendar, // Reservations Intelligence
   profit: DollarSign,    // Profit Intelligence (NEW)
   revenue: Shield,       // Revenue Assurance (NEW)
-  delivery: Bike,        // Delivery Economics (NEW)
+  delivery: Bike,        // Delivery Intelligence (NEW)
   guest: Star,           // Guest Experience (NEW)
 } as const;
 

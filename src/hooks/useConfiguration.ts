@@ -341,8 +341,8 @@ export const useConfiguration = create<ConfigurationState>()(
             state.unlockAchievement('efficiency-expert');
           }
           
-          // Check all modules (now 9 modules)
-          const allModules = ['labor', 'inventory', 'marketing', 'purchasing', 'reservations', 'profit', 'revenue', 'delivery', 'guest'];
+          // Check all modules (now 12 modules)
+          const allModules = ['labor', 'inventory', 'marketing', 'purchasing', 'reservations', 'profit', 'revenue', 'delivery', 'guest', 'accounting', 'guest_crm', 'economic'];
           if (allModules.every(m => state.modules.includes(m)) && 
               !state.unlockedAchievements.includes('full-stack')) {
             state.unlockAchievement('full-stack');

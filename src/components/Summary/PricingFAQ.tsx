@@ -25,7 +25,7 @@ const faqItems: FAQItem[] = [
   },
   {
     question: 'Do modules require Core tier?',
-    answer: 'Yes. All 10 intelligence modules are Core tier add-ons. The exception is Pulse, which can also be added to Report Pro with a $99/mo unlock fee.'
+    answer: 'Yes. All 12 intelligence modules are Core tier add-ons. The exception is Pulse, which can also be added to Report Pro with a $159/mo unlock fee.'
   },
   {
     question: 'Can I add Watchtower to Report tier?',
@@ -45,11 +45,11 @@ const faqItems: FAQItem[] = [
   },
   {
     question: 'What is Pulse and how does it work?',
-    answer: 'Pulse is a premium real-time monitoring module. On Core Pro it costs $269/mo + $29/loc (Core Lite: $299/mo + $33/loc). On Report Pro it requires an additional $99/mo unlock fee. Setup is $499 (covers 1 POS + 1 Labor + 1 Inventory integration).'
+    answer: 'Pulse is a premium real-time monitoring module. On Core Pro it costs $269/mo + $29/loc (Core Lite: $299/mo + $33/loc). Report tier users can unlock Pulse for an additional $159/mo. Setup is $499 (covers 1 POS + 1 Labor + 1 Inventory integration).'
   },
   {
     question: 'What is the Finance Add-On prerequisite?',
-    answer: 'The Finance Add-On bundle (Profit Intelligence + Revenue Assurance) requires active Labor Intelligence and Inventory Connect modules. You can get these individually or via the Ops Suite bundle.'
+    answer: 'The Finance Add-On bundle (Profit Intelligence + Revenue Assurance) requires active Labor Intelligence and Inventory Intelligence modules. You can get these individually or via the Ops Suite bundle.'
   },
   {
     question: 'When does Enterprise pricing apply?',

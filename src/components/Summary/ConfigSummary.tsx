@@ -402,7 +402,7 @@ export function ConfigSummary() {
               className="overflow-hidden"
             >
               <div className="px-6 pb-6">
-                <PricingFAQ />
+                <PricingFAQ category={layer === 'report' || layer === 'core' ? layer : 'general'} />
               </div>
             </motion.div>
           )}

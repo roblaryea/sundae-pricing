@@ -58,7 +58,7 @@ const coreFAQ: FAQItem[] = [
   },
   {
     question: 'What is the Cross-Intelligence Engine?',
-    answer: 'When you activate 3+ modules, the Cross-Intelligence Engine automatically surfaces hidden correlations between your data sources — e.g., how weather impacts both labor scheduling and inventory waste. The base tier is included free; Cross-Intelligence Pro ($89/mo) adds attribution modeling and cannibalization detection.'
+    answer: 'When you activate 3+ modules, the Cross-Intelligence Engine automatically surfaces hidden correlations between your data sources — e.g., how weather impacts both labor scheduling and inventory waste. The base tier is included free; Cross-Intelligence Pro ($199/mo + $19/location) adds full correlation matrix, revenue attribution, spend efficiency radar, campaign pulse monitoring, and cannibalization detection.'
   },
   {
     question: 'What\'s included in Core Lite vs Core Pro?',

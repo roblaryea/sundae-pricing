@@ -11,6 +11,7 @@ import { cn } from '../utils/cn';
 import { reportFeatureComparison, coreFeatureComparison } from '../data/featureComparisons';
 import { LEGAL } from '../config/legal';
 import { FeatureComparisonTable } from '../components/PricingOverview/FeatureComparisonTable';
+import { PricingFAQ } from '../components/Summary/PricingFAQ';
 
 type ProductTab = 'report' | 'core' | 'watchtower';
 
@@ -606,25 +607,8 @@ export function PricingOverview() {
         isExpanded={expandedSections['faq']}
         onToggle={() => toggleSection('faq')}
       >
-        <div className="pt-6 space-y-6">
-          <div>
-            <h4 className="font-semibold mb-2 text-white">What's included in the base price?</h4>
-            <p className="text-sm text-sundae-muted">
-              The base price includes your first location. Additional locations are charged from location #2 onward.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-2 text-white">Can I switch tiers later?</h4>
-            <p className="text-sm text-sundae-muted">
-              Yes! You can upgrade or downgrade anytime. Upgrades are instant, downgrades take effect at the next billing cycle.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-2 text-white">What POS systems do you integrate with?</h4>
-            <p className="text-sm text-sundae-muted">
-              We integrate with all major POS systems including Toast, Square, Clover, Lightspeed, and more. Custom integrations available for Enterprise.
-            </p>
-          </div>
+        <div className="pt-2">
+          <PricingFAQ category={activeTab} />
         </div>
       </CollapsibleSection>
 

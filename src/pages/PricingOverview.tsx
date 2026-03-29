@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Check, Star, ChevronRight, AlertCircle } from 'lucide-react';
 import { reportTiers, coreTiers, modules, watchtower, crossIntelligence, pricingFooter } from '../data/pricing';
 import { PRODUCT_ICONS } from '../constants/icons';
@@ -87,9 +88,16 @@ export function PricingOverview() {
         </div>
       </div>
 
-      {/* REPORT TIER */}
+      {/* TIER CONTENT */}
+      <AnimatePresence mode="wait">
       {activeTab === 'report' && (
-        <div>
+        <motion.div
+          key="report"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        >
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-2">
               <FileText className="w-8 h-8 text-green-400" />
@@ -100,12 +108,19 @@ export function PricingOverview() {
 
           {/* Tier Cards - Matching Simulator Style */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {Object.values(reportTiers).map((tier) => {
+            {Object.values(reportTiers).map((tier, index) => {
               const tierColor = getTierColor(tier.id);
               const isPopular = tier.id === 'report-plus';
 
               return (
-                <div key={tier.id} className="relative">
+                <motion.div
+                  key={tier.id}
+                  className="relative"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                >
                   {isPopular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
                       <div className="bg-gradient-primary text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1">
@@ -117,7 +132,7 @@ export function PricingOverview() {
 
                   <div
                     className={cn(
-                      'h-full p-6 rounded-xl border-2 transition-all',
+                      'h-full p-6 rounded-xl border-2 transition-all hover:scale-[1.02] hover:shadow-lg',
                       isPopular
                         ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/30'
                         : 'bg-sundae-surface border-white/10'
@@ -190,7 +205,7 @@ export function PricingOverview() {
                       </p>
                     )}
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -208,12 +223,17 @@ export function PricingOverview() {
               tierColors={['#10B981', '#3B82F6', '#6366F1']}
             />
           </CollapsibleSection>
-        </div>
+        </motion.div>
       )}
 
-      {/* CORE TIER */}
       {activeTab === 'core' && (
-        <div>
+        <motion.div
+          key="core"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        >
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-2">
               <Zap className="w-8 h-8 text-violet-400" />
@@ -224,13 +244,20 @@ export function PricingOverview() {
 
           {/* Tier Cards - Matching Simulator Style */}
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            {['lite', 'pro', 'enterprise'].map((tierKey) => {
+            {['lite', 'pro', 'enterprise'].map((tierKey, index) => {
               const tier = coreTiers[tierKey as keyof typeof coreTiers];
               const tierColor = getTierColor(`core-${tierKey}`);
               const isPopular = tierKey === 'pro';
 
               return (
-                <div key={tier.id} className="relative">
+                <motion.div
+                  key={tier.id}
+                  className="relative"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                >
                   {isPopular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
                       <div className="bg-gradient-primary text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1">
@@ -242,7 +269,7 @@ export function PricingOverview() {
 
                   <div
                     className={cn(
-                      'h-full p-6 rounded-xl border-2 transition-all',
+                      'h-full p-6 rounded-xl border-2 transition-all hover:scale-[1.02] hover:shadow-lg',
                       isPopular
                         ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/30'
                         : 'bg-sundae-surface border-white/10'
@@ -332,7 +359,7 @@ export function PricingOverview() {
                       </p>
                     )}
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -472,12 +499,17 @@ export function PricingOverview() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
 
-      {/* WATCHTOWER */}
       {activeTab === 'watchtower' && (
-        <div>
+        <motion.div
+          key="watchtower"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        >
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-2">
               <Castle className="w-8 h-8 text-red-400" />
@@ -598,8 +630,9 @@ export function PricingOverview() {
               <strong className="text-white">Strategic value estimates</strong> based on typical scenarios. Actual impact depends on market conditions, competitive landscape, and actions taken on insights. Unlike operational savings, strategic value is opportunistic — it materializes when opportunities arise and you act on them.
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* FAQ */}
       <CollapsibleSection

@@ -111,13 +111,16 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
               )}
             </motion.div>
 
-            {/* Connector line */}
+            {/* Connector line with animated fill */}
             {index < steps.length - 1 && (
-              <div className={`w-12 h-0.5 mx-1 transition-all ${
-                isPast 
-                  ? 'bg-green-500'
-                  : 'bg-sundae-surface-hover'
-              }`} />
+              <div className="relative w-12 h-0.5 mx-1 bg-sundae-surface-hover overflow-hidden rounded-full">
+                <motion.div
+                  className="absolute inset-0 bg-green-500 origin-left"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: isPast ? 1 : 0 }}
+                  transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                />
+              </div>
             )}
           </div>
         );

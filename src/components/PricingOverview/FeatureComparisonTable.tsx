@@ -1,3 +1,4 @@
+import React from 'react';
 import { Check, X } from 'lucide-react';
 
 interface Feature {
@@ -49,9 +50,9 @@ export function FeatureComparisonTable({ data, tierKeys, tierLabels, tierColors 
         </thead>
         <tbody>
           {data.map((categoryData, catIdx) => (
-            <>
+            <React.Fragment key={`cat-${catIdx}`}>
               {/* Category Header */}
-              <tr key={`cat-${catIdx}`} className="bg-white/10">
+              <tr className="bg-white/10">
                 <td
                   colSpan={tierKeys.length + 1}
                   className="p-3 font-bold text-white uppercase text-sm tracking-wide"
@@ -78,7 +79,7 @@ export function FeatureComparisonTable({ data, tierKeys, tierLabels, tierColors 
                   ))}
                 </tr>
               ))}
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>

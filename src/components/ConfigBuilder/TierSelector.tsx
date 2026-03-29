@@ -80,7 +80,7 @@ export function TierSelector() {
                   transition={{ delay: 0.3 }}
                   className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10"
                 >
-                  <div className="bg-gradient-primary text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                  <div className="bg-gradient-primary text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1 shimmer">
                     <Star className="w-4 h-4" />
                     RECOMMENDED
                   </div>
@@ -90,13 +90,16 @@ export function TierSelector() {
               <motion.button
                 onClick={() => handleTierSelect(tierData.id.split('-').pop() || 'lite')}
                 className={`w-full h-full p-6 rounded-xl border-2 transition-all ${
-                  isOptimal 
+                  isOptimal
                     ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/30 hover:border-white/50'
                     : 'bg-sundae-surface border-white/10 hover:border-white/30'
                 }`}
-                style={{ 
+                style={{
                   borderColor: isOptimal ? `${tierColor}50` : undefined,
                   boxShadow: isOptimal ? `0 0 30px ${tierColor}30` : undefined
+                }}
+                whileHover={{
+                  boxShadow: `0 20px 40px ${tierColor}30`,
                 }}
               >
                 <div className="text-left">

@@ -1,6 +1,7 @@
 // Reusable Sundae logo component - Single source of truth for branding
 
 import { cn } from '../../utils/cn';
+import { useTheme } from '../../contexts/ThemeContext';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
@@ -16,9 +17,12 @@ const sizeMap = {
 };
 
 export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) {
+  const { theme } = useTheme();
+  const logoSrc = theme === 'dark' ? '/logos/sundae-wordmark-white.svg' : '/logos/sundae-wordmark.svg';
+
   const logoImg = (
     <img
-      src="/logos/sundae-wordmark.png"
+      src={logoSrc}
       alt="Sundae"
       className={cn(
         sizeMap[size],
@@ -40,7 +44,7 @@ export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) 
   const fallbackText = (
     <span
       className={cn(
-        'font-bold bg-gradient-primary bg-clip-text text-transparent hidden',
+        theme === 'dark' ? 'font-bold text-white hidden' : 'font-bold bg-gradient-primary bg-clip-text text-transparent hidden',
         size === 'sm' && 'text-xl',
         size === 'md' && 'text-2xl md:text-3xl',
         size === 'lg' && 'text-3xl md:text-4xl',

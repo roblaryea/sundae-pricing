@@ -38,7 +38,7 @@ export async function generateQuotePDF(
   
   // Load logo image - use current origin (works in browser)
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark.png` : '/logos/sundae-wordmark.png';
+  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark-white.png` : '/logos/sundae-wordmark-white.png';
   
   // ═══════════════════════════════════════════════════════════════
   // Header

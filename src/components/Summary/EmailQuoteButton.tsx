@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { Mail, Loader2, CheckCircle, Download } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { generateQuotePDF } from '../../lib/pdfGenerator';
 import { LEGAL } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
 import { localizeModuleName, localizeTierName, localizeWatchtowerName, type PricingLocale } from '../../lib/pricingI18n';
@@ -22,6 +21,8 @@ export function EmailQuoteButton() {
     setIsGenerating(true);
     
     try {
+      const { generateQuotePDF } = await import('../../lib/pdfGenerator');
+
       // Step 1: Generate and download PDF
       const pdfBlob = await generateQuotePDF(
         layer,

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { Download, Loader2, CheckCircle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { generateQuotePDF } from '../../lib/pdfGenerator';
 import { useLocale } from '../../contexts/LocaleContext';
 
 export function PDFExportButton() {
@@ -19,6 +18,8 @@ export function PDFExportButton() {
     setIsGenerating(true);
     
     try {
+      const { generateQuotePDF } = await import('../../lib/pdfGenerator');
+
       // Generate PDF using shared utility
       const pdfBlob = await generateQuotePDF(
         layer,

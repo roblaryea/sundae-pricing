@@ -297,7 +297,7 @@ const messages: Record<PricingLocale, any> = {
         core: {
           lite: { name: 'Core Lite', tagline: 'Real-Time Operations', bestFor: '1-10 locations, real-time operations, portfolio management, single POS system' },
           pro: { name: 'Core Pro', tagline: 'Portfolio Intelligence', bestFor: '10-50 locations, multi-POS environments, advanced forecasting, strategic planning' },
-          enterprise: { name: 'Enterprise', tagline: 'Custom Solutions', bestFor: '100+ locations or enterprise requirements, multi-brand portfolios' }
+          enterprise: { name: 'Enterprise', tagline: 'Custom Solutions', bestFor: '30+ locations or enterprise requirements, multi-brand portfolios' }
         }
       },
       modules: {
@@ -583,7 +583,7 @@ const messages: Record<PricingLocale, any> = {
         core: {
           lite: { name: 'Core Lite', tagline: 'عمليات لحظية', bestFor: 'من 1 الى 10 مواقع وعمليات لحظية وادارة محفظة ونظام POS واحد' },
           pro: { name: 'Core Pro', tagline: 'ذكاء المحفظة', bestFor: 'من 10 الى 50 موقعا وبيئات متعددة POS وتنبؤات متقدمة وتخطيط استراتيجي' },
-          enterprise: { name: 'Enterprise', tagline: 'حلول مخصصة', bestFor: 'اكثر من 100 موقع او متطلبات مؤسسية ومحافظ متعددة العلامات' }
+          enterprise: { name: 'Enterprise', tagline: 'حلول مخصصة', bestFor: '30+ موقعاً او متطلبات مؤسسية ومحافظ متعددة العلامات' }
         }
       },
       modules: {
@@ -599,10 +599,10 @@ const messages: Record<PricingLocale, any> = {
         pulse: { name: 'Pulse', description: 'مراقبة لحظية وتنبيهات وترابط وكشف استباقي للشذوذ عبر العمليات', roi: 'وعي تشغيلي لحظي' }
       },
       watchtower: {
-        competitive: { name: 'Competitive Intelligence', description: 'اسعار المنافسين وقوائمهم وعروضهم ومراجعاتهم وتموضعهم وتنبيهات التغيير اللحظية', value: 'منع خسارة الحصة السوقية وتحسين استراتيجية التسعير' },
-        events: { name: 'Event & Calendar Signals', description: 'الفعاليات والرياضة والطقس والسياحة والمرور ومحركات الطلب المحلية الاخرى', value: 'تحسين التوظيف والمخزون عند طفرات الطلب' },
-        trends: { name: 'Market Trends', description: 'طلب البحث واتجاهات المطبخ والتركيبة السكانية والاقتصاد واشارات الطلب بعيدة المدى', value: 'استبق تحولات السوق وادعم قراراتك الاستراتيجية' },
-        bundle: { name: 'Full Watchtower Bundle', description: 'حزمة ذكاء سوق كاملة', value: 'ذكاء سوق كامل بخصم يقارب 18%' }
+        competitive: { name: 'الذكاء التنافسي', description: 'اسعار المنافسين وقوائمهم وعروضهم ومراجعاتهم وتموضعهم وتنبيهات التغيير اللحظية', value: 'منع خسارة الحصة السوقية وتحسين استراتيجية التسعير' },
+        events: { name: 'إشارات الفعاليات والتقويم', description: 'الفعاليات والرياضة والطقس والسياحة والمرور ومحركات الطلب المحلية الاخرى', value: 'تحسين التوظيف والمخزون عند طفرات الطلب' },
+        trends: { name: 'اتجاهات السوق', description: 'طلب البحث واتجاهات المطبخ والتركيبة السكانية والاقتصاد واشارات الطلب بعيدة المدى', value: 'استبق تحولات السوق وادعم قراراتك الاستراتيجية' },
+        bundle: { name: 'حزمة Watchtower الكاملة', description: 'حزمة ذكاء سوق كاملة', value: 'ذكاء سوق كامل بخصم يقارب 18%' }
       },
       crossIntelligence: {
         base: { name: 'Cross-Intelligence', description: 'رؤى ترابط تلقائية بين الوحدات تكشف الروابط الخفية بين مصادر البيانات' },
@@ -869,7 +869,7 @@ const messages: Record<PricingLocale, any> = {
         core: {
           lite: { name: 'Core Lite', tagline: 'Operations en temps reel', bestFor: '1 a 10 sites, operations temps reel, gestion de portefeuille, POS unique' },
           pro: { name: 'Core Pro', tagline: 'Intelligence portefeuille', bestFor: '10 a 50 sites, environnements multi-POS, previsions avancees, planification strategique' },
-          enterprise: { name: 'Enterprise', tagline: 'Solutions sur mesure', bestFor: '100+ sites ou exigences enterprise, portefeuilles multi-marques' }
+          enterprise: { name: 'Enterprise', tagline: 'Solutions sur mesure', bestFor: '30+ sites ou exigences enterprise, portefeuilles multi-marques' }
         }
       },
       modules: {
@@ -885,10 +885,10 @@ const messages: Record<PricingLocale, any> = {
         pulse: { name: 'Pulse', description: 'Monitoring temps reel, alertes, correlation et detection proactive des anomalies', roi: 'Visibilite operationnelle en temps reel' }
       },
       watchtower: {
-        competitive: { name: 'Competitive Intelligence', description: 'Prix concurrents, menus, promotions, avis, positionnement et alertes temps reel', value: 'Evitez la perte de part de marche et optimisez votre strategie tarifaire' },
-        events: { name: 'Event & Calendar Signals', description: 'Evenements, sport, meteo, tourisme, trafic et autres moteurs locaux de demande', value: 'Optimisez staffing et stocks lors des pics de demande' },
-        trends: { name: 'Market Trends', description: 'Demande de recherche, tendances cuisine, demographie, economie et signaux de demande long terme', value: 'Anticipez les evolutions du marche et eclairez vos decisions' },
-        bundle: { name: 'Full Watchtower Bundle', description: 'Suite complete d intelligence marche', value: 'Intelligence marche complete avec environ 18% de remise' }
+        competitive: { name: 'Intelligence concurrentielle', description: 'Prix concurrents, menus, promotions, avis, positionnement et alertes temps reel', value: 'Evitez la perte de part de marche et optimisez votre strategie tarifaire' },
+        events: { name: 'Signaux evenements et calendrier', description: 'Evenements, sport, meteo, tourisme, trafic et autres moteurs locaux de demande', value: 'Optimisez staffing et stocks lors des pics de demande' },
+        trends: { name: 'Tendances de marche', description: 'Demande de recherche, tendances cuisine, demographie, economie et signaux de demande long terme', value: 'Anticipez les evolutions du marche et eclairez vos decisions' },
+        bundle: { name: 'Pack complet Watchtower', description: 'Suite complete d intelligence marche', value: 'Intelligence marche complete avec environ 18% de remise' }
       },
       crossIntelligence: {
         base: { name: 'Cross-Intelligence', description: 'Insights de correlation automatiques entre modules qui revelent les connexions cachees entre sources de donnees' },
@@ -1155,7 +1155,7 @@ const messages: Record<PricingLocale, any> = {
         core: {
           lite: { name: 'Core Lite', tagline: 'Operaciones en tiempo real', bestFor: '1-10 locales, operaciones en tiempo real, gestion de portafolio y un solo POS' },
           pro: { name: 'Core Pro', tagline: 'Inteligencia de portafolio', bestFor: '10-50 locales, entornos multi-POS, pronosticos avanzados y planificacion estrategica' },
-          enterprise: { name: 'Enterprise', tagline: 'Soluciones personalizadas', bestFor: '100+ locales o requisitos enterprise, portafolios multi-marca' }
+          enterprise: { name: 'Enterprise', tagline: 'Soluciones personalizadas', bestFor: '30+ locales o requisitos enterprise, portafolios multi-marca' }
         }
       },
       modules: {
@@ -1171,10 +1171,10 @@ const messages: Record<PricingLocale, any> = {
         pulse: { name: 'Pulse', description: 'Monitoreo en tiempo real, alertas, correlacion y deteccion proactiva de anomalias', roi: 'Visibilidad operativa en tiempo real' }
       },
       watchtower: {
-        competitive: { name: 'Competitive Intelligence', description: 'Precios, menus, promociones, resenas, posicionamiento y alertas en tiempo real de competidores', value: 'Evita perder cuota de mercado y optimiza tu estrategia de precios' },
-        events: { name: 'Event & Calendar Signals', description: 'Eventos, deporte, clima, turismo, trafico y otros impulsores locales de la demanda', value: 'Optimiza personal e inventario para picos de demanda' },
-        trends: { name: 'Market Trends', description: 'Demanda de busqueda, tendencias de cocina, demografia, economia y senales de demanda de largo plazo', value: 'Anticipate a cambios del mercado y mejora tus decisiones estrategicas' },
-        bundle: { name: 'Full Watchtower Bundle', description: 'Suite completa de inteligencia de mercado', value: 'Inteligencia de mercado completa con aproximadamente 18% de descuento' }
+        competitive: { name: 'Inteligencia competitiva', description: 'Precios, menus, promociones, resenas, posicionamiento y alertas en tiempo real de competidores', value: 'Evita perder cuota de mercado y optimiza tu estrategia de precios' },
+        events: { name: 'Senales de eventos y calendario', description: 'Eventos, deporte, clima, turismo, trafico y otros impulsores locales de la demanda', value: 'Optimiza personal e inventario para picos de demanda' },
+        trends: { name: 'Tendencias de mercado', description: 'Demanda de busqueda, tendencias de cocina, demografia, economia y senales de demanda de largo plazo', value: 'Anticipate a cambios del mercado y mejora tus decisiones estrategicas' },
+        bundle: { name: 'Paquete completo Watchtower', description: 'Suite completa de inteligencia de mercado', value: 'Inteligencia de mercado completa con aproximadamente 18% de descuento' }
       },
       crossIntelligence: {
         base: { name: 'Cross-Intelligence', description: 'Insights automaticos de correlacion entre modulos que revelan conexiones ocultas entre fuentes de datos' },

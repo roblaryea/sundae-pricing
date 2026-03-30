@@ -9,6 +9,17 @@ import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateAllComparisons, COMPETITOR_ASSUMPTIONS, COMPETITOR_PRICING, type ComparisonResult } from '../../data/competitorPricing';
 import { cn } from '../../utils/cn';
+import { useLocale } from '../../contexts/LocaleContext';
+import {
+  formatMessage,
+  getCompetitorCompareCopy,
+  getLocalizedCompetitorBreakdownLabel,
+  getLocalizedCompetitorCategory,
+  getLocalizedCompetitorLimitation,
+  getLocalizedCompetitorNote,
+  getLocalizedCompetitorSource,
+  type PricingUiLocale,
+} from '../../lib/pricingUiCopy';
 
 function EmojiIcon({ emoji, className }: { emoji: string; className?: string }) {
   const Icon = getIconByEmoji(emoji);
@@ -16,6 +27,8 @@ function EmojiIcon({ emoji, className }: { emoji: string; className?: string }) 
 }
 
 export function CompactCompetitorCompare() {
+  const { locale } = useLocale();
+  const copy = getCompetitorCompareCopy(locale as PricingUiLocale);
   const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
   
@@ -38,14 +51,14 @@ export function CompactCompetitorCompare() {
       <div className="flex items-center justify-between mb-4">
         <h4 className="text-lg font-semibold flex items-center gap-2">
           <TrendingDown className="w-5 h-5 text-green-400" />
-          How You Compare
+          {copy.title}
         </h4>
         <button
           onClick={() => setShowAssumptions(!showAssumptions)}
           className="text-xs text-slate-500 hover:text-slate-400 flex items-center gap-1 transition-colors"
         >
           <Info className="w-3 h-3" />
-          {showAssumptions ? 'Hide' : 'View'} assumptions
+          {showAssumptions ? copy.hideAssumptions : copy.viewAssumptions}
         </button>
       </div>
       
@@ -59,16 +72,20 @@ export function CompactCompetitorCompare() {
             className="overflow-hidden mb-4"
           >
             <div className="bg-slate-800/50 rounded-lg p-4 text-xs text-slate-400 space-y-2 border border-slate-700">
-              <p className="text-slate-300 font-medium mb-2">Pricing Sources & Assumptions:</p>
+              <p className="text-slate-300 font-medium mb-2">{copy.assumptionsTitle}</p>
               {Object.entries(COMPETITOR_ASSUMPTIONS).slice(0, 4).map(([id, data]) => (
                 <p key={id}>
-                  <strong className="text-slate-300 capitalize">{id}:</strong> {data.notes} 
-                  <span className="text-slate-500"> ({data.source})</span>
+                  <strong className="text-slate-300 capitalize">{id}:</strong>{' '}
+                  {getLocalizedCompetitorNote(locale as PricingUiLocale, data.notes)}
+                  <span className="text-slate-500">
+                    {' '}
+                    ({getLocalizedCompetitorSource(locale as PricingUiLocale, data.source)})
+                  </span>
                 </p>
               ))}
               <p className="text-amber-500/70 mt-3 flex items-start gap-2">
                 <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                Competitor pricing may vary. Contact vendors for exact quotes.
+                {copy.competitorPricingMayVary}
               </p>
             </div>
           </motion.div>
@@ -87,6 +104,8 @@ export function CompactCompetitorCompare() {
                 expandedCompetitor === comparison.competitor.id ? null : comparison.competitor.id
               )}
               isBest={comparison === bestSavings}
+              locale={locale as PricingUiLocale}
+              copy={copy}
             />
           ))}
         </div>
@@ -97,16 +116,16 @@ export function CompactCompetitorCompare() {
         <div className="mb-4 p-4 bg-gradient-to-r from-green-900/30 to-emerald-900/30 border border-green-500/30 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-green-400 font-medium">Best Savings Opportunity</div>
+              <div className="text-green-400 font-medium">{copy.bestSavingsOpportunity}</div>
               <div className="text-sm text-slate-400">
-                vs {bestSavings.competitor.name}
+                {formatMessage(copy.vsName, { name: bestSavings.competitor.name })}
               </div>
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold text-green-400">
-                ${bestSavings.savings.firstYear.toLocaleString()}
+                ${bestSavings.savings.firstYear.toLocaleString(locale)}
               </div>
-              <div className="text-xs text-slate-400">first year</div>
+              <div className="text-xs text-slate-400">{copy.firstYear}</div>
             </div>
           </div>
         </div>
@@ -117,7 +136,7 @@ export function CompactCompetitorCompare() {
         <div className="mt-4">
           <div className="text-xs text-slate-500 mb-2 flex items-center gap-2">
             <AlertTriangle className="w-3 h-3" />
-            Note: Some point solutions may be cheaper if you only need specific features
+            {copy.notePointSolutions}
           </div>
           <div className="flex flex-wrap gap-2">
             {costsMoreComparisons.map(c => {
@@ -127,7 +146,7 @@ export function CompactCompetitorCompare() {
                   key={c.competitor.id}
                   className="text-xs bg-slate-800 px-2 py-1 rounded border border-slate-700 inline-flex items-center gap-1"
                 >
-                  <CompIcon className="w-3 h-3" /> {c.competitor.name} ({c.competitor.category})
+                  <CompIcon className="w-3 h-3" /> {c.competitor.name} ({getLocalizedCompetitorCategory(locale as PricingUiLocale, c.competitor.category)})
                 </span>
               );
             })}
@@ -147,9 +166,11 @@ interface ComparisonCardProps {
   isExpanded: boolean;
   onToggle: () => void;
   isBest: boolean;
+  locale: PricingUiLocale;
+  copy: ReturnType<typeof getCompetitorCompareCopy>;
 }
 
-function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: ComparisonCardProps) {
+function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy }: ComparisonCardProps) {
   // Get verification info
   const competitor = COMPETITOR_PRICING[comparison.competitor.id];
   const verification = competitor?.verification || 'estimated';
@@ -174,24 +195,28 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
           <EmojiIcon emoji={comparison.competitor.icon} className="w-5 h-5 flex-shrink-0" />
           <div className="min-w-0 flex-1">
             <div className="font-medium text-white flex items-start gap-2 flex-wrap">
-              <span className="break-words">vs {comparison.competitor.name}</span>
+              <span className="break-words">{formatMessage(copy.vsName, { name: comparison.competitor.name })}</span>
               {isBest && (
                 <span className="text-xs bg-green-900/50 text-green-400 px-2 py-0.5 rounded border border-green-500/30 whitespace-nowrap flex-shrink-0">
-                  Best savings
+                  {copy.bestSavings}
                 </span>
               )}
-              <VerificationBadge level={verification} />
+              <VerificationBadge level={verification} copy={copy} />
             </div>
-            <div className="text-xs text-slate-400 mt-0.5 break-words">{comparison.competitor.category}</div>
+            <div className="text-xs text-slate-400 mt-0.5 break-words">
+              {getLocalizedCompetitorCategory(locale, comparison.competitor.category)}
+            </div>
           </div>
         </div>
         
         <div className="flex items-center gap-4 flex-shrink-0">
           <div className="text-right">
             <div className="text-green-400 font-bold whitespace-nowrap">
-              Save ${comparison.savings.firstYear.toLocaleString()}
+              {formatMessage(copy.saveVsCompetitor, {
+                amount: comparison.savings.firstYear.toLocaleString(locale),
+              })}
             </div>
-            <div className="text-xs text-slate-400 whitespace-nowrap">first year</div>
+            <div className="text-xs text-slate-400 whitespace-nowrap">{copy.firstYear}</div>
           </div>
           <ChevronDown 
             className={cn(
@@ -216,17 +241,17 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="bg-slate-900/50 rounded-lg p-3">
                   <div className="text-xs text-slate-500 mb-1">
-                    {comparison.competitor.name} First Year
+                    {formatMessage(copy.competitorFirstYear, { name: comparison.competitor.name })}
                   </div>
                   <div className="text-lg font-bold text-white">
-                    ${comparison.competitorCost.firstYear.toLocaleString()}
+                    ${comparison.competitorCost.firstYear.toLocaleString(locale)}
                   </div>
                   {comparison.competitorCost.breakdown && (
                     <div className="mt-2 space-y-1 text-xs text-slate-400">
                       {Object.entries(comparison.competitorCost.breakdown).slice(0, 3).map(([key, value]) => (
                         <div key={key} className="flex justify-between">
-                          <span className="capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                          <span>${(value as number).toLocaleString()}</span>
+                          <span>{getLocalizedCompetitorBreakdownLabel(locale, key)}</span>
+                          <span>${(value as number).toLocaleString(locale)}</span>
                         </div>
                       ))}
                     </div>
@@ -234,12 +259,12 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
                 </div>
                 
                 <div className="bg-amber-900/20 rounded-lg p-3 border border-amber-500/20">
-                  <div className="text-xs text-slate-500 mb-1">Sundae First Year</div>
+                  <div className="text-xs text-slate-500 mb-1">{copy.sundaeFirstYear}</div>
                   <div className="text-lg font-bold text-amber-400">
-                    ${comparison.sundaeCost.annual.toLocaleString()}
+                    ${comparison.sundaeCost.annual.toLocaleString(locale)}
                   </div>
                   <div className="text-xs text-slate-400 mt-1">
-                    No setup fees
+                    {copy.noSetupFees}
                   </div>
                 </div>
               </div>
@@ -248,14 +273,14 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
               {comparison.notes && (
                 <div className="flex items-start gap-2 text-xs text-amber-400 bg-amber-900/10 rounded p-2 mb-3">
                   <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                  <span>{comparison.notes}</span>
+                  <span>{getLocalizedCompetitorNote(locale, comparison.notes)}</span>
                 </div>
               )}
               
               {/* Limitations */}
               <div>
                 <div className="text-xs text-slate-500 mb-2">
-                  What {comparison.competitor.name} doesn't offer:
+                  {formatMessage(copy.missingOffer, { name: comparison.competitor.name })}
                 </div>
                 <div className="flex flex-wrap gap-1">
                   {comparison.limitations.slice(0, 4).map((limitation, i) => (
@@ -264,12 +289,12 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
                       className="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded flex items-center gap-1"
                     >
                       <X className="w-3 h-3 text-red-400" />
-                      {limitation}
+                      {getLocalizedCompetitorLimitation(locale, limitation)}
                     </span>
                   ))}
                   {comparison.limitations.length > 4 && (
                     <span className="text-xs text-slate-500">
-                      +{comparison.limitations.length - 4} more
+                      {formatMessage(copy.plusMore, { count: comparison.limitations.length - 4 })}
                     </span>
                   )}
                 </div>
@@ -285,7 +310,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
                     className="hover:text-slate-400 underline"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    View {comparison.competitor.name} pricing →
+                    {formatMessage(copy.viewPricing, { name: comparison.competitor.name })}
                   </a>
                 </div>
               )}
@@ -293,9 +318,9 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
               {/* Ongoing savings */}
               <div className="pt-3 mt-3 border-t border-slate-700">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Ongoing annual savings</span>
+                  <span className="text-slate-400">{copy.ongoingAnnualSavings}</span>
                   <span className="text-green-400 font-medium">
-                    ${comparison.savings.ongoing.toLocaleString()}/year
+                    ${comparison.savings.ongoing.toLocaleString(locale)}
                   </span>
                 </div>
               </div>
@@ -313,24 +338,25 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
 
 interface VerificationBadgeProps {
   level: 'verified' | 'estimated' | 'unverified';
+  copy: ReturnType<typeof getCompetitorCompareCopy>;
 }
 
-function VerificationBadge({ level }: VerificationBadgeProps) {
+function VerificationBadge({ level, copy }: VerificationBadgeProps) {
   const config = {
     verified: {
       icon: CheckCircle,
       className: 'bg-green-900/30 text-green-400 border-green-500/30',
-      label: 'Verified'
+      label: copy.verified
     },
     estimated: {
       icon: AlertCircle,
       className: 'bg-amber-900/30 text-amber-400 border-amber-500/30',
-      label: 'Estimated'
+      label: copy.estimated
     },
     unverified: {
       icon: AlertTriangle,
       className: 'bg-red-900/30 text-red-400 border-red-500/30',
-      label: 'Unverified'
+      label: copy.unverified
     }
   }[level];
   

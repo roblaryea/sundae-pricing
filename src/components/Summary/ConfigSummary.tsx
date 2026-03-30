@@ -16,6 +16,7 @@ import { PricingFAQ } from './PricingFAQ';
 import { LEGAL } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
 import { useLivePricingCatalog } from '../../data/livePricing';
+import { formatAnnualAmount, getLocalizedLayerName } from '../../lib/pricingUiCopy';
 
 const WATCHTOWER_ICON_MAP = {
   competitive: Search,
@@ -33,6 +34,7 @@ export function ConfigSummary() {
 
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules, undefined, crossIntelSelection);
   const localizedTiers = getLocalizedTierCatalog(locale);
+  const layerLabel = getLocalizedLayerName(locale, layer);
   
   // Collapsible states
   const [whatsIncludedOpen, setWhatsIncludedOpen] = useState(true);
@@ -105,7 +107,7 @@ export function ConfigSummary() {
                 <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                 <div>
                   <div className="font-semibold">
-                    {layer?.toUpperCase()} {tierDetails?.name}
+                    {layerLabel} {tierDetails?.name}
                   </div>
                   <div className="text-sm text-sundae-muted">
                     {tierDetails?.tagline}
@@ -117,13 +119,13 @@ export function ConfigSummary() {
               <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                 <div>
-                  <div className="font-semibold">{locations} {messages.summary.locationLabel}{locations !== 1 ? messages.summary.locationPluralSuffix : ''}</div>
+                  <div className="font-semibold">{locations.toLocaleString(locale)} {messages.summary.locationLabel}{locations !== 1 ? messages.summary.locationPluralSuffix : ''}</div>
                   <div className="text-sm text-sundae-muted">
                     {tier === 'enterprise'
                       ? messages.summary.volumePricing
                       : isNaN(pricing.perLocation) || !isFinite(pricing.perLocation)
                         ? messages.summary.customPricing
-                        : `$${pricing.perLocation.toFixed(0)} ${messages.summary.perLocation}`}
+                        : `$${pricing.perLocation.toLocaleString(locale, { maximumFractionDigits: 0 })} ${messages.summary.perLocation}`}
                   </div>
                 </div>
               </div>
@@ -223,14 +225,14 @@ export function ConfigSummary() {
                     ? messages.summary.customPricing
                     : isNaN(pricing.total) || !isFinite(pricing.total)
                       ? messages.summary.customPricing
-                      : `$${pricing.total.toLocaleString()}`}
+                      : `$${pricing.total.toLocaleString(locale)}`}
                 </div>
                 <div className="text-sm text-sundae-muted">
                   {tier === 'enterprise'
                     ? messages.summary.enterpriseQuote.replace('{email}', LEGAL.supportEmail)
                     : isNaN(pricing.total) || !isFinite(pricing.total)
                       ? messages.summary.contactSales
-                      : `$${(pricing.total * 12).toLocaleString()} annually`}
+                      : formatAnnualAmount(locale, `$${(pricing.total * 12).toLocaleString(locale)}`)}
                 </div>
               </div>
 
@@ -239,7 +241,7 @@ export function ConfigSummary() {
                 {pricing.breakdown.map((item, idx) => (
                   <div key={idx} className="flex justify-between">
                     <span className="text-sundae-muted">{item.item}</span>
-                    <span className="font-medium">${item.price.toLocaleString()}</span>
+                    <span className="font-medium">${item.price.toLocaleString(locale)}</span>
                   </div>
                 ))}
               </div>

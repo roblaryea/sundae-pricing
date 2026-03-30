@@ -2,6 +2,7 @@
 // All values sourced from pricing.ts
 
 import { coreTiers } from '../data/pricing';
+import { getCoreProAdvantageText, type PricingUiLocale } from '../lib/pricingUiCopy';
 
 /**
  * Calculate the break-even point between Core Lite and Core Pro
@@ -30,7 +31,7 @@ export function calculateCoreProBreakEven(): number {
 /**
  * Get a human-readable message about Core Pro pricing advantage
  */
-export function getCoreProAdvantageMessage(): string | null {
+export function getCoreProAdvantageMessage(locale: PricingUiLocale = 'en'): string | null {
   const breakEven = calculateCoreProBreakEven();
   
   if (breakEven === Infinity) {
@@ -39,7 +40,12 @@ export function getCoreProAdvantageMessage(): string | null {
 
   const cheaperAt = breakEven + 1;
   
-  return `Core Pro becomes cheaper than Core Lite at ${cheaperAt}+ locations (break-even at ${breakEven}) due to lower per-location pricing ($${coreTiers.pro.additionalLocationPrice} vs $${coreTiers.lite.additionalLocationPrice}).`;
+  return getCoreProAdvantageText(locale, {
+    cheaperAt,
+    breakEven,
+    proPrice: coreTiers.pro.additionalLocationPrice as number,
+    litePrice: coreTiers.lite.additionalLocationPrice as number,
+  });
 }
 
 /**

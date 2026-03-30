@@ -523,7 +523,13 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
 
   const localizedFaqItems =
     localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.[category];
-  const faqItems = localizedFaqItems || faqByCategory[category] || generalFAQ;
+  const localizedGeneralFaqItems =
+    localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.general;
+  const faqItems =
+    localizedFaqItems ??
+    (locale === 'en'
+      ? faqByCategory[category] || generalFAQ
+      : localizedGeneralFaqItems || []);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);

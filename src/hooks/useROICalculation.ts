@@ -2,6 +2,8 @@
 // CONSERVATIVE + DEFENSIBLE assumptions based on module selection
 
 import { useMemo } from 'react';
+import { useLocale } from '../contexts/LocaleContext';
+import { getRoiCopy, type PricingUiLocale, formatMessage } from '../lib/pricingUiCopy';
 
 interface Configuration {
   layer: 'report' | 'core' | null;
@@ -185,7 +187,13 @@ export function useROICalculation(
   inputs: ROIInputs,
   platformCost: number
 ): ROICalculation {
+  const { locale } = useLocale();
+
   return useMemo(() => {
+    const copy = getRoiCopy(locale as PricingUiLocale);
+    const assumptionLabels = copy.assumptionLabels as Record<string, string>;
+    const tooltips = copy.tooltips as Record<string, string>;
+    const missingInputs = copy.missingInput as Record<string, string>;
     const { 
       monthlyRevenue, 
       // laborPercent and foodCostPercent are collected for context but savings are calculated as % of revenue
@@ -210,6 +218,9 @@ export function useROICalculation(
       isCountedInTotal: boolean = true,
       missingInput: boolean = false
     ) => {
+      const localizedLabel = assumptionLabels[moduleId] ?? assumption.label;
+      const localizedTooltip = tooltips[moduleId] ?? assumption.tooltip;
+      const localizedMissingInput = missingInputs[moduleId] ?? assumption.missingInputMessage;
       const minAmount = baseAmount * assumption.minPct;
       const maxAmount = baseAmount * assumption.maxPct;
       const midAmount = baseAmount * assumption.midPct;
@@ -221,15 +232,15 @@ export function useROICalculation(
       const line: SavingsLineItem = {
         moduleId,
         category: moduleId,
-        label: assumption.label,
+        label: localizedLabel,
         icon: assumption.icon,
         amount: missingInput ? 0 : Math.round(cappedAmount),
         rangeMin: Math.round(minAmount),
         rangeMax: Math.round(Math.min(maxAmount, maxCap * config.locations)),
-        tooltip: assumption.tooltip,
+        tooltip: localizedTooltip,
         isCountedInTotal: isCountedInTotal && !missingInput,
         requiresInput: assumption.requiresInput,
-        missingInputMessage: missingInput ? assumption.missingInputMessage : undefined
+        missingInputMessage: missingInput ? localizedMissingInput : undefined
       };
       
       savingsLines.push(line);
@@ -315,7 +326,7 @@ export function useROICalculation(
       if (!countInTotal) {
         const guestLine = savingsLines.find(l => l.moduleId === 'guest');
         if (guestLine) {
-          guestLine.missingInputMessage = 'Potential upside (not counted in totals)';
+          guestLine.missingInputMessage = missingInputs.guest ?? copy.potentialUpside;
           guestLine.isCountedInTotal = false;
         }
       }
@@ -366,21 +377,26 @@ export function useROICalculation(
       breakdowns,
       projectedImprovements
     };
-  }, [config, inputs, platformCost]);
+  }, [config, inputs, locale, platformCost]);
 }
 
 // Helper function to generate ROI description
-export function generateROIDescription(roi: ROICalculation): string {
+export function generateROIDescription(
+  roi: ROICalculation,
+  locale: PricingUiLocale = 'en'
+): string {
+  const copy = getRoiCopy(locale);
+  const weeks = Math.ceil(roi.paybackDays / 7);
   if (roi.roi >= 10) {
-    return `Strong ROI potential: ${roi.roi}x return with ${Math.ceil(roi.paybackDays / 7)}-week payback period.`;
+    return formatMessage(copy.roiDescriptions.strong, { roi: roi.roi, weeks });
   } else if (roi.roi >= 5) {
-    return `Solid returns with ${roi.roi}x ROI and ${Math.ceil(roi.paybackDays / 7)}-week payback.`;
+    return formatMessage(copy.roiDescriptions.solid, { roi: roi.roi, weeks });
   } else if (roi.roi >= 2) {
-    return `Positive ROI with measurable impact on your operations.`;
+    return copy.roiDescriptions.positive;
   } else if (roi.roi >= 1) {
-    return `Value builds as you optimize operations over time.`;
+    return copy.roiDescriptions.value;
   } else {
-    return `Long-term investment in operational intelligence.`;
+    return copy.roiDescriptions.longTerm;
   }
 }
 

@@ -7,6 +7,12 @@ import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { cn } from '../../utils/cn';
 import { getSkipToStep } from '../../utils/tierAvailability';
+import { useLocale } from '../../contexts/LocaleContext';
+import {
+  formatMessage,
+  getLocationSliderCopy,
+  type PricingUiLocale,
+} from '../../lib/pricingUiCopy';
 
 // Fixed scale points that appear on the slider
 const SCALE_POINTS = [1, 5, 10, 30, 50, 100, 250, 500];
@@ -56,29 +62,34 @@ function percentToLocation(percent: number): number {
 }
 
 // Get scale label for location count
-function getScaleLabel(locations: number): { label: string; color: string } {
-  if (locations <= 2) return { label: 'Independent', color: 'text-slate-400' };
-  if (locations <= 9) return { label: 'Small Portfolio', color: 'text-blue-400' };
-  if (locations <= 24) return { label: 'Growth Stage', color: 'text-green-400' };
-  if (locations <= 50) return { label: 'Enterprise', color: 'text-amber-400' };
-  if (locations <= 100) return { label: 'Regional Chain', color: 'text-orange-400' };
-  if (locations <= 250) return { label: 'Major Chain', color: 'text-pink-400' };
-  return { label: 'National Scale', color: 'text-purple-400' };
+function getScaleLabel(
+  locations: number,
+  copy: ReturnType<typeof getLocationSliderCopy>
+): { label: string; color: string } {
+  if (locations <= 2) return { label: copy.scale.independent, color: 'text-slate-400' };
+  if (locations <= 9) return { label: copy.scale.smallPortfolio, color: 'text-blue-400' };
+  if (locations <= 24) return { label: copy.scale.growthStage, color: 'text-green-400' };
+  if (locations <= 50) return { label: copy.scale.enterprise, color: 'text-amber-400' };
+  if (locations <= 100) return { label: copy.scale.regionalChain, color: 'text-orange-400' };
+  if (locations <= 250) return { label: copy.scale.majorChain, color: 'text-pink-400' };
+  return { label: copy.scale.nationalScale, color: 'text-purple-400' };
 }
 
 export function LocationSlider() {
+  const { locale } = useLocale();
+  const copy = getLocationSliderCopy(locale as PricingUiLocale);
   const { layer, tier, locations, setLocations, setCurrentStep } = useConfiguration();
   const pricing = usePriceCalculation(layer, tier, locations, [], []);
   
-  // Enterprise tier requires minimum 101 locations
+  // Enterprise tier requires minimum 30 locations
   const isEnterprise = tier === 'enterprise';
-  const minLocations = isEnterprise ? 101 : 1;
+  const minLocations = isEnterprise ? 30 : 1;
   
   const [inputValue, setInputValue] = useState(locations.toString());
   const [isDragging, setIsDragging] = useState(false);
   const [isEditingInput, setIsEditingInput] = useState(false);
   
-  // Ensure Enterprise tier starts at 101+ locations
+  // Ensure Enterprise tier starts at 30+ locations
   useEffect(() => {
     if (isEnterprise && locations < minLocations) {
       setLocations(minLocations);
@@ -86,7 +97,7 @@ export function LocationSlider() {
   }, [isEnterprise, locations, minLocations, setLocations]);
   
   const percent = useMemo(() => locationToPercent(locations), [locations]);
-  const scaleInfo = getScaleLabel(locations);
+  const scaleInfo = getScaleLabel(locations, copy);
   const displayedInputValue = isDragging || isEditingInput ? inputValue : locations.toString();
   
   const handleSliderChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -154,10 +165,10 @@ export function LocationSlider() {
         className="text-center mb-12"
       >
         <h1 className="text-4xl font-bold mb-4">
-          How Many Locations?
+          {copy.title}
         </h1>
         <p className="text-xl text-sundae-muted">
-          Slide to configure your portfolio size. Pricing scales efficiently.
+          {copy.subtitle}
         </p>
       </motion.div>
 
@@ -178,7 +189,7 @@ export function LocationSlider() {
             onClick={() => document.getElementById('location-input')?.focus()}
           >
             <div className={cn('text-7xl font-bold tabular-nums mb-2', scaleInfo.color)}>
-              {locations.toLocaleString()}
+              {locations.toLocaleString(locale)}
             </div>
             <div className={cn('text-lg font-medium', scaleInfo.color)}>
               {scaleInfo.label}
@@ -225,7 +236,7 @@ export function LocationSlider() {
                   className="absolute transform -translate-x-1/2 text-sm text-slate-500"
                   style={{ left: `${labelPercent}%` }}
                 >
-                  {scaleValue >= 500 ? '500+' : scaleValue}
+                  {scaleValue >= 500 ? '500+' : scaleValue.toLocaleString(locale)}
                 </div>
               ))}
             </div>
@@ -236,8 +247,8 @@ export function LocationSlider() {
         <div className="text-center mb-6">
           <p className="text-sm text-slate-400 mb-2">
             {isEnterprise 
-              ? 'Enterprise tier requires 101+ locations. Type precise count here:'
-              : 'For precise counts, click the number above or type here:'}
+              ? formatMessage(copy.preciseCountEnterprise, { min: minLocations })
+              : copy.preciseCount}
           </p>
           <input
             id="location-input"
@@ -252,7 +263,7 @@ export function LocationSlider() {
           />
           {isEnterprise && (
             <p className="text-xs text-amber-400 mt-2">
-              Minimum: {minLocations} locations for Enterprise tier
+              {formatMessage(copy.minimum, { min: minLocations })}
             </p>
           )}
         </div>
@@ -265,12 +276,12 @@ export function LocationSlider() {
             transition={{ delay: 0.2 }}
             className="p-4 bg-sundae-dark/50 rounded-lg"
           >
-            <div className="text-sm text-sundae-muted mb-1">Total Monthly</div>
+            <div className="text-sm text-sundae-muted mb-1">{copy.totalMonthly}</div>
             <div className="text-3xl font-bold tabular-nums">
-              ${pricing.total.toLocaleString()}
+              ${pricing.total.toLocaleString(locale)}
             </div>
             <div className="text-sm text-sundae-muted mt-1">
-              ${(pricing.total * 12).toLocaleString()}/year
+              ${(pricing.total * 12).toLocaleString(locale)}{copy.annualSuffix}
             </div>
           </motion.div>
 
@@ -280,26 +291,30 @@ export function LocationSlider() {
             transition={{ delay: 0.3 }}
             className="p-4 bg-sundae-dark/50 rounded-lg"
           >
-            <div className="text-sm text-sundae-muted mb-1">Per Location</div>
+            <div className="text-sm text-sundae-muted mb-1">{copy.perLocation}</div>
             <div className="text-3xl font-bold tabular-nums">
               ${pricing.perLocation.toFixed(0)}
             </div>
             <div className="text-sm text-green-400 mt-1">
-              {locations > 1 && `Save ${Math.round((1 - pricing.perLocation / pricing.total) * 100)}% vs single`}
-              {locations === 1 && 'Best value at scale'}
+              {locations > 1 &&
+                formatMessage(copy.saveVsSingle, {
+                  percent: Math.round((1 - pricing.perLocation / pricing.total) * 100),
+                })}
+              {locations === 1 && copy.bestValueAtScale}
             </div>
           </motion.div>
         </div>
 
         {/* Enterprise notice for large chains */}
-        {locations >= 100 && (
+        {locations >= minLocations && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-6 text-center p-4 bg-purple-900/20 border border-purple-500/30 rounded-lg"
           >
             <p className="text-purple-300 text-sm">
-              <Crown className="inline-block w-4 h-4 mr-1 -mt-0.5" /> With {locations.toLocaleString()} locations, you qualify for <strong>Enterprise pricing</strong> with dedicated support.
+              <Crown className="inline-block w-4 h-4 mr-1 -mt-0.5" />{' '}
+              {formatMessage(copy.enterpriseQualified, { locations: locations.toLocaleString(locale) })}
             </p>
           </motion.div>
         )}
@@ -318,9 +333,9 @@ export function LocationSlider() {
             <div className="flex items-start gap-3">
               <TrendingUp className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
               <div>
-                <div className="font-semibold text-green-400 mb-1">Volume Discount Active</div>
+                <div className="font-semibold text-green-400 mb-1">{copy.volumeDiscountTitle}</div>
                 <p className="text-sm text-sundae-muted">
-                  You're getting enterprise pricing benefits with {locations} locations
+                  {formatMessage(copy.volumeDiscountBody, { locations: locations.toLocaleString(locale) })}
                 </p>
               </div>
             </div>
@@ -333,9 +348,9 @@ export function LocationSlider() {
             <div className="flex items-start gap-3">
               <Info className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
               <div>
-                <div className="font-semibold text-purple-400 mb-1">Consider Core Pro</div>
+                <div className="font-semibold text-purple-400 mb-1">{copy.considerCoreProTitle}</div>
                 <p className="text-sm text-sundae-muted">
-                  At {locations} locations, Core Pro is more cost-effective than Core Lite
+                  {formatMessage(copy.considerCoreProBody, { locations: locations.toLocaleString(locale) })}
                 </p>
               </div>
             </div>
@@ -348,9 +363,9 @@ export function LocationSlider() {
             <div className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-sundae-accent mt-0.5 flex-shrink-0" />
               <div>
-                <div className="font-semibold text-sundae-accent mb-1">Portfolio Management Unlocked</div>
+                <div className="font-semibold text-sundae-accent mb-1">{copy.portfolioUnlockedTitle}</div>
                 <p className="text-sm text-sundae-muted">
-                  Compare performance across all {locations} locations in one view
+                  {formatMessage(copy.portfolioUnlockedBody, { locations: locations.toLocaleString(locale) })}
                 </p>
               </div>
             </div>
@@ -370,7 +385,7 @@ export function LocationSlider() {
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-sundae-surface hover:bg-sundae-surface-hover border border-white/10 hover:border-white/20 transition-colors font-semibold"
         >
           <ChevronLeft className="w-5 h-5" />
-          Back
+          {copy.back}
         </button>
         
         <button
@@ -378,7 +393,7 @@ export function LocationSlider() {
           className="button-primary relative z-50"
           data-testid="continue-button"
         >
-          {getSkipToStep(layer, tier) ? 'Continue to Summary' : 'Continue to Modules'}
+          {getSkipToStep(layer, tier) ? copy.continueToSummary : copy.continueToModules}
         </button>
       </motion.div>
     </div>

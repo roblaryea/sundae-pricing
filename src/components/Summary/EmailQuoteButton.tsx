@@ -7,7 +7,13 @@ import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { LEGAL } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
-import { localizeModuleName, localizeTierName, localizeWatchtowerName, type PricingLocale } from '../../lib/pricingI18n';
+import {
+  getPricingPdfCopy,
+  localizeModuleName,
+  localizeTierName,
+  localizeWatchtowerName,
+  type PricingLocale,
+} from '../../lib/pricingI18n';
 
 export function EmailQuoteButton() {
   const { locale, messages } = useLocale();
@@ -37,7 +43,8 @@ export function EmailQuoteButton() {
       // Download PDF
       const today = new Date();
       const dateStr = new Intl.DateTimeFormat(locale).format(today).replace(/[\\/]/g, '-');
-      const filename = `Sundae-Quote-${locations}loc-${dateStr}.pdf`;
+      const pdfCopy = getPricingPdfCopy(locale as PricingLocale);
+      const filename = `Sundae-${pdfCopy.quoteLabel}-${locations}-${dateStr}.pdf`;
       
       const url = URL.createObjectURL(pdfBlob);
       const link = document.createElement('a');

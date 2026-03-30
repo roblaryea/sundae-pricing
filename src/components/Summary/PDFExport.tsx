@@ -5,6 +5,7 @@ import { Download, Loader2, CheckCircle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { useLocale } from '../../contexts/LocaleContext';
+import { getPricingPdfCopy, type PricingLocale } from '../../lib/pricingI18n';
 
 export function PDFExportButton() {
   const { locale, messages } = useLocale();
@@ -34,7 +35,8 @@ export function PDFExportButton() {
       // Convert blob to file and download
       const today = new Date();
       const dateStr = new Intl.DateTimeFormat(locale).format(today).replace(/[\\/]/g, '-');
-      const filename = `Sundae-Quote-${locations}loc-${dateStr}.pdf`;
+      const pdfCopy = getPricingPdfCopy(locale as PricingLocale);
+      const filename = `Sundae-${pdfCopy.quoteLabel}-${locations}-${dateStr}.pdf`;
       
       // Create download link
       const url = URL.createObjectURL(pdfBlob);

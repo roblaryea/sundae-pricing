@@ -6,8 +6,16 @@ import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { competitors } from '../../data/competitors';
 import { useEffect, useRef, useState } from 'react';
+import { useLocale } from '../../contexts/LocaleContext';
+import {
+  formatMessage,
+  getLiveCalculatorCopy,
+  type PricingUiLocale,
+} from '../../lib/pricingUiCopy';
 
 export function LiveCalculator() {
+  const { locale } = useLocale();
+  const copy = getLiveCalculatorCopy(locale as PricingUiLocale);
   const { layer, tier, locations, modules, watchtowerModules, competitors: configCompetitors } = useConfiguration();
   const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules);
   
@@ -99,11 +107,11 @@ export function LiveCalculator() {
           >
             <div className="flex items-center gap-3">
               <DollarSign className="w-5 h-5 text-sundae-accent" />
-              <span className="font-bold text-lg tabular-nums">${pricing.total.toLocaleString()}/mo</span>
+              <span className="font-bold text-lg tabular-nums">${pricing.total.toLocaleString(locale)}{copy.perMonthShort}</span>
             </div>
             <button
               className="p-1 hover:bg-white/10 rounded transition-colors"
-              aria-label="Expand price calculator"
+              aria-label={copy.expandAria}
             >
               <ChevronUp className="w-4 h-4" />
             </button>
@@ -123,7 +131,7 @@ export function LiveCalculator() {
                   <DollarSign className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="text-xs text-sundae-muted">Monthly Total</div>
+                  <div className="text-xs text-sundae-muted">{copy.monthlyTotal}</div>
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={pricing.total}
@@ -132,7 +140,7 @@ export function LiveCalculator() {
                       exit={{ opacity: 0, y: 10 }}
                       className="text-2xl font-bold tabular-nums"
                     >
-                      ${pricing.total.toLocaleString()}
+                      ${pricing.total.toLocaleString(locale)}
                     </motion.div>
                   </AnimatePresence>
                 </div>
@@ -140,7 +148,7 @@ export function LiveCalculator() {
 
               {/* Right side - Per location and savings */}
               <div className="text-right">
-                <div className="text-xs text-sundae-muted">Per Location</div>
+                <div className="text-xs text-sundae-muted">{copy.perLocation}</div>
                 <div className="text-lg font-bold tabular-nums">
                   ${pricing.perLocation.toFixed(0)}
                 </div>
@@ -157,7 +165,12 @@ export function LiveCalculator() {
                       className="flex items-center gap-1 text-green-400 text-xs mt-1"
                     >
                       <TrendingDown className="w-3 h-3" />
-                      <span>Save {Math.round(savingsPercent)}% vs {competitorName}</span>
+                      <span>
+                        {formatMessage(copy.saveVs, {
+                          percent: Math.round(savingsPercent),
+                          competitor: competitorName,
+                        })}
+                      </span>
                     </motion.div>
                   ) : null;
                 })()}
@@ -167,7 +180,7 @@ export function LiveCalculator() {
               <button
                 onClick={toggleCollapse}
                 className="ml-2 p-1 hover:bg-white/10 rounded transition-colors"
-                aria-label="Minimize price calculator"
+                aria-label={copy.minimizeAria}
               >
                 <ChevronDown className="w-4 h-4" />
               </button>

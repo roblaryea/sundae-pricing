@@ -492,8 +492,17 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '1 seat': 'مقعد واحد',
     '3 seats': '3 مقاعد',
     '5 seats': '5 مقاعد',
+    '250 credits': '250 رصيداً',
+    '1,200 credits': '1200 رصيد',
+    '3,500 credits': '3500 رصيد',
+    '+80 credits': '+80 رصيداً',
+    '+300 credits': '+300 رصيد',
+    '+800 credits': '+800 رصيد',
     '✓ (free)': '✓ (مجاني)',
     None: 'لا يوجد',
+    'No rollover': 'بدون ترحيل',
+    '25% of base credits (1 month)': '25% من الأرصدة الأساسية (شهر واحد)',
+    '✓ (1,000 cr only)': '✓ (1000 رصيد فقط)',
     '✓ Basic': '✓ أساسي',
     '✓ Expanded': '✓ موسع',
     '✓ Full': '✓ كامل',
@@ -519,6 +528,8 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '✓ (5,000 calls/mo)': '✓ (5000 طلب/شهرياً)',
     '✓ Internal only': '✓ داخلي فقط',
     '✓ Internal + exports (PDF/CSV)': '✓ داخلي + تصديرات (PDF/CSV)',
+    'Full + @mentions': 'كامل + @mentions',
+    '2 views': 'عرضان',
     Weekly: 'أسبوعي',
     Daily: 'يومي',
     Monthly: 'شهري',
@@ -542,6 +553,7 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '0.5-10km': '0.5-10 كم',
     '1-10 locations': '1-10 مواقع',
     '✓ Available': '✓ متاح',
+    '✓ (add-on)': '✓ (إضافة)',
     '✓ Available as module (setup fee applies)': '✓ متاح كوحدة (تطبق رسوم الإعداد)',
     '✓ (contracted)': '✓ (حسب العقد)',
     '✓ (where integrations exist)': '✓ (حيثما تتوفر التكاملات)',
@@ -570,11 +582,17 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '3 years': '3 سنوات',
     '10': '10',
     '15': '15',
+    '50,000+': '50000+',
+    '+5,000 credits': '+5000 رصيد',
+    'N/A (50,000+ base)': 'غير متاح (قاعدة 50000+)',
     Unlimited: 'غير محدود',
+    '$19/seat (max 3 additional)': '19$/مقعد (حد اقصى 3 اضافية)',
+    '$15/seat (max 5 additional)': '15$/مقعد (حد اقصى 5 اضافية)',
     '$12/seat/mo (unlimited)': '12$/مقعد/شهرياً (غير محدود)',
     '$10/seat/mo (unlimited)': '10$/مقعد/شهرياً (غير محدود)',
     'N/A (unlimited)': 'غير متاح (غير محدود)',
     '✓ Custom': '✓ مخصص',
+    'Custom geography': 'جغرافيا مخصصة',
     'Multiple simultaneous': 'متعدد متزامن',
     'Expanded filters': 'فلاتر موسعة',
     'Expanded + custom': 'موسع + مخصص',
@@ -596,6 +614,11 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     'No limit (contracted)': 'لا يوجد حد (حسب العقد)',
     '✓ Advanced': '✓ متقدم',
     'Archival options': 'خيارات الأرشفة',
+    'Base API calls': 'استدعاءات API الأساسية',
+    '+10K calls': '+10 آلاف استدعاء',
+    '+50K calls': '+50 ألف استدعاء',
+    'BI Connector': 'موصل BI',
+    'Additional POS': 'POS إضافي',
     '10,000/mo': '10000/شهرياً',
     '100,000/mo': '100000/شهرياً',
     '+$39/mo': '+39$/شهرياً',
@@ -606,6 +629,9 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     Chat: 'دردشة',
     Phone: 'هاتف',
     'Dedicated CSM': 'مدير نجاح مخصص',
+    'Priority (4hr SLA)': 'أولوية (SLA 4 ساعات)',
+    'Premium 24/7 (2hr)': 'مميز 24/7 (ساعتان)',
+    'Slack/Teams': 'Slack/Teams',
     '+$79/mo': '+79$/شهرياً',
     Included: 'مشمول',
     '$33': '33$',
@@ -627,8 +653,17 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '1 seat': '1 siege',
     '3 seats': '3 sieges',
     '5 seats': '5 sieges',
+    '250 credits': '250 credits',
+    '1,200 credits': '1200 credits',
+    '3,500 credits': '3500 credits',
+    '+80 credits': '+80 credits',
+    '+300 credits': '+300 credits',
+    '+800 credits': '+800 credits',
     '✓ (free)': '✓ (gratuit)',
     None: 'Aucun',
+    'No rollover': 'Pas de rollover',
+    '25% of base credits (1 month)': '25% des credits de base (1 mois)',
+    '✓ (1,000 cr only)': '✓ (1000 credits uniquement)',
     '✓ Basic': '✓ De base',
     '✓ Expanded': '✓ Etendu',
     '✓ Full': '✓ Complet',
@@ -654,6 +689,8 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '✓ (5,000 calls/mo)': '✓ (5000 appels/mois)',
     '✓ Internal only': '✓ Interne uniquement',
     '✓ Internal + exports (PDF/CSV)': '✓ Interne + exports (PDF/CSV)',
+    'Full + @mentions': 'Complet + @mentions',
+    '2 views': '2 vues',
     Weekly: 'Hebdomadaire',
     Daily: 'Quotidien',
     Monthly: 'Mensuel',
@@ -677,6 +714,7 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '0.5-10km': '0,5-10 km',
     '1-10 locations': '1-10 sites',
     '✓ Available': '✓ Disponible',
+    '✓ (add-on)': '✓ (option)',
     '✓ Available as module (setup fee applies)': '✓ Disponible en module (frais de configuration applicables)',
     '✓ (contracted)': '✓ (contractualise)',
     '✓ (where integrations exist)': '✓ (lorsque des integrations existent)',
@@ -705,11 +743,17 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '3 years': '3 ans',
     '10': '10',
     '15': '15',
+    '50,000+': '50000+',
+    '+5,000 credits': '+5000 credits',
+    'N/A (50,000+ base)': 'N/A (base 50000+)',
     Unlimited: 'Illimite',
+    '$19/seat (max 3 additional)': '19$/siege (max 3 supplementaires)',
+    '$15/seat (max 5 additional)': '15$/siege (max 5 supplementaires)',
     '$12/seat/mo (unlimited)': '12$/siege/mois (illimite)',
     '$10/seat/mo (unlimited)': '10$/siege/mois (illimite)',
     'N/A (unlimited)': 'N/A (illimite)',
     '✓ Custom': '✓ Personnalise',
+    'Custom geography': 'Geographie personnalisee',
     'Multiple simultaneous': 'Plusieurs simultanes',
     'Expanded filters': 'Filtres etendus',
     'Expanded + custom': 'Etendu + personnalise',
@@ -731,6 +775,11 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     'No limit (contracted)': 'Aucune limite (selon contrat)',
     '✓ Advanced': '✓ Avance',
     'Archival options': 'Options d archivage',
+    'Base API calls': 'Appels API de base',
+    '+10K calls': '+10K appels',
+    '+50K calls': '+50K appels',
+    'BI Connector': 'Connecteur BI',
+    'Additional POS': 'POS supplementaire',
     '10,000/mo': '10000/mois',
     '100,000/mo': '100000/mois',
     '+$39/mo': '+39$/mois',
@@ -741,6 +790,9 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     Chat: 'Chat',
     Phone: 'Telephone',
     'Dedicated CSM': 'CSM dedie',
+    'Priority (4hr SLA)': 'Priorite (SLA 4h)',
+    'Premium 24/7 (2hr)': 'Premium 24/7 (2h)',
+    'Slack/Teams': 'Slack/Teams',
     '+$79/mo': '+79$/mois',
     Included: 'Inclus',
     '$33': '33$',
@@ -762,8 +814,17 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '1 seat': '1 puesto',
     '3 seats': '3 puestos',
     '5 seats': '5 puestos',
+    '250 credits': '250 creditos',
+    '1,200 credits': '1200 creditos',
+    '3,500 credits': '3500 creditos',
+    '+80 credits': '+80 creditos',
+    '+300 credits': '+300 creditos',
+    '+800 credits': '+800 creditos',
     '✓ (free)': '✓ (gratis)',
     None: 'Ninguno',
+    'No rollover': 'Sin rollover',
+    '25% of base credits (1 month)': '25% de los creditos base (1 mes)',
+    '✓ (1,000 cr only)': '✓ (solo 1000 creditos)',
     '✓ Basic': '✓ Basico',
     '✓ Expanded': '✓ Ampliado',
     '✓ Full': '✓ Completo',
@@ -789,6 +850,8 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '✓ (5,000 calls/mo)': '✓ (5000 llamadas/mes)',
     '✓ Internal only': '✓ Solo interno',
     '✓ Internal + exports (PDF/CSV)': '✓ Interno + exportaciones (PDF/CSV)',
+    'Full + @mentions': 'Completo + @mentions',
+    '2 views': '2 vistas',
     Weekly: 'Semanal',
     Daily: 'Diario',
     Monthly: 'Mensual',
@@ -812,6 +875,7 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '0.5-10km': '0,5-10 km',
     '1-10 locations': '1-10 locales',
     '✓ Available': '✓ Disponible',
+    '✓ (add-on)': '✓ (complemento)',
     '✓ Available as module (setup fee applies)': '✓ Disponible como modulo (se aplican costes de configuracion)',
     '✓ (contracted)': '✓ (contratado)',
     '✓ (where integrations exist)': '✓ (donde existen integraciones)',
@@ -840,11 +904,17 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     '3 years': '3 anos',
     '10': '10',
     '15': '15',
+    '50,000+': '50000+',
+    '+5,000 credits': '+5000 creditos',
+    'N/A (50,000+ base)': 'No aplica (base 50000+)',
     Unlimited: 'Ilimitado',
+    '$19/seat (max 3 additional)': '19$/puesto (max 3 adicionales)',
+    '$15/seat (max 5 additional)': '15$/puesto (max 5 adicionales)',
     '$12/seat/mo (unlimited)': '12$/puesto/mes (ilimitado)',
     '$10/seat/mo (unlimited)': '10$/puesto/mes (ilimitado)',
     'N/A (unlimited)': 'No aplica (ilimitado)',
     '✓ Custom': '✓ Personalizado',
+    'Custom geography': 'Geografia personalizada',
     'Multiple simultaneous': 'Multiple simultaneo',
     'Expanded filters': 'Filtros ampliados',
     'Expanded + custom': 'Ampliado + personalizado',
@@ -866,6 +936,11 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     'No limit (contracted)': 'Sin limite (segun contrato)',
     '✓ Advanced': '✓ Avanzado',
     'Archival options': 'Opciones de archivo',
+    'Base API calls': 'Llamadas API base',
+    '+10K calls': '+10K llamadas',
+    '+50K calls': '+50K llamadas',
+    'BI Connector': 'Conector BI',
+    'Additional POS': 'POS adicional',
     '10,000/mo': '10000/mes',
     '100,000/mo': '100000/mes',
     '+$39/mo': '+39$/mes',
@@ -876,6 +951,9 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
     Chat: 'Chat',
     Phone: 'Telefono',
     'Dedicated CSM': 'CSM dedicado',
+    'Priority (4hr SLA)': 'Prioridad (SLA 4h)',
+    'Premium 24/7 (2hr)': 'Premium 24/7 (2h)',
+    'Slack/Teams': 'Slack/Teams',
     '+$79/mo': '+79$/mes',
     Included: 'Incluido',
     '$33': '33$',
@@ -923,10 +1001,10 @@ export function getLocalizedFeatureComparisons(locale: PricingLocale = 'en') {
       {
         category: label('aiCreditsMonthly'),
         features: [
-          { name: feature('baseOrgCredits'), lite: '250 credits', plus: '1,200 credits', pro: '3,500 credits' },
-          { name: feature('creditsPerAdditionalLocation'), lite: '+80 credits', plus: '+300 credits', pro: '+800 credits' },
-          { name: feature('rolloverPolicy'), lite: 'No rollover', plus: '25% of base credits (1 month)', pro: '25% of base credits (1 month)' },
-          { name: feature('canPurchaseTopUps'), lite: '✓ (1,000 cr only)', plus: '✓', pro: '✓' },
+          { name: feature('baseOrgCredits'), lite: localizeValue(locale, '250 credits'), plus: localizeValue(locale, '1,200 credits'), pro: localizeValue(locale, '3,500 credits') },
+          { name: feature('creditsPerAdditionalLocation'), lite: localizeValue(locale, '+80 credits'), plus: localizeValue(locale, '+300 credits'), pro: localizeValue(locale, '+800 credits') },
+          { name: feature('rolloverPolicy'), lite: localizeValue(locale, 'No rollover'), plus: localizeValue(locale, '25% of base credits (1 month)'), pro: localizeValue(locale, '25% of base credits (1 month)') },
+          { name: feature('canPurchaseTopUps'), lite: localizeValue(locale, '✓ (1,000 cr only)'), plus: '✓', pro: '✓' },
         ],
       },
       {
@@ -934,7 +1012,7 @@ export function getLocalizedFeatureComparisons(locale: PricingLocale = 'en') {
         features: [
           { name: feature('includedSeats'), lite: localizeValue(locale, '1 seat'), plus: localizeValue(locale, '3 seats'), pro: localizeValue(locale, '5 seats') },
           { name: feature('unlimitedViewerSeats'), lite: localizeValue(locale, '✓ (free)'), plus: localizeValue(locale, '✓ (free)'), pro: localizeValue(locale, '✓ (free)') },
-          { name: feature('additionalSeats'), lite: localizeValue(locale, 'None'), plus: '$19/seat (max 3 additional)', pro: '$15/seat (max 5 additional)' },
+          { name: feature('additionalSeats'), lite: localizeValue(locale, 'None'), plus: localizeValue(locale, '$19/seat (max 3 additional)'), pro: localizeValue(locale, '$15/seat (max 5 additional)') },
         ],
       },
       {
@@ -1063,11 +1141,11 @@ export function getLocalizedFeatureComparisons(locale: PricingLocale = 'en') {
           { name: feature('benchmarkingIncluded'), lite: '✓', pro: '✓', enterprise: localizeValue(locale, '✓ Custom') },
           { name: feature('radiusControl'), lite: localizeValue(locale, '1-5km'), pro: localizeValue(locale, '0.5-10km'), enterprise: localizeValue(locale, 'Custom geography') },
           { name: feature('segmentFilters'), lite: localizeValue(locale, 'Multiple simultaneous'), pro: localizeValue(locale, 'Expanded filters'), enterprise: localizeValue(locale, 'Expanded + custom') },
-          { name: 'Near real-time updates', lite: '✓', pro: '✓', enterprise: '✓' },
-          { name: 'Custom peer groups', lite: '❌', pro: '✓', enterprise: '✓' },
-          { name: 'Portfolio comparison across markets', lite: '❌', pro: '✓', enterprise: '✓' },
-          { name: 'Private peer groups', lite: '❌', pro: '❌', enterprise: '✓' },
-          { name: 'Proprietary benchmarks', lite: '❌', pro: '❌', enterprise: '✓' },
+          { name: localizeValue(locale, 'Near real-time updates'), lite: '✓', pro: '✓', enterprise: '✓' },
+          { name: localizeValue(locale, 'Custom peer groups'), lite: '❌', pro: '✓', enterprise: '✓' },
+          { name: localizeValue(locale, 'Portfolio comparison across markets'), lite: '❌', pro: '✓', enterprise: '✓' },
+          { name: localizeValue(locale, 'Private peer groups'), lite: '❌', pro: '❌', enterprise: '✓' },
+          { name: localizeValue(locale, 'Proprietary benchmarks'), lite: '❌', pro: '❌', enterprise: '✓' },
         ],
       },
       {
@@ -1108,17 +1186,17 @@ export function getLocalizedFeatureComparisons(locale: PricingLocale = 'en') {
           { name: feature('includedAccess'), lite: localizeValue(locale, '2 years'), pro: localizeValue(locale, '3 years'), enterprise: localizeValue(locale, 'Custom') },
           { name: feature('upgradeToThreeYears'), lite: localizeValue(locale, '+$29/mo'), pro: localizeValue(locale, 'Included'), enterprise: localizeValue(locale, 'Custom') },
           { name: feature('upgradeToFiveYears'), lite: localizeValue(locale, '+$49/mo'), pro: localizeValue(locale, '+$49/mo'), enterprise: localizeValue(locale, 'Custom') },
-          { name: 'Archival options', lite: '❌', pro: '❌', enterprise: '✓' },
+          { name: localizeValue(locale, 'Archival options'), lite: '❌', pro: '❌', enterprise: '✓' },
         ],
       },
       {
         category: label('apiAccess'),
         features: [
-          { name: 'Base API calls', lite: localizeValue(locale, '10,000/mo'), pro: localizeValue(locale, '100,000/mo'), enterprise: localizeValue(locale, 'Custom') },
-          { name: '+10K calls', lite: localizeValue(locale, '+$39/mo'), pro: localizeValue(locale, '+$29/mo'), enterprise: localizeValue(locale, 'Custom') },
-          { name: '+50K calls', lite: localizeValue(locale, '+$149/mo'), pro: localizeValue(locale, '+$99/mo'), enterprise: localizeValue(locale, 'Custom') },
-          { name: 'BI Connector', lite: localizeValue(locale, '+$149/mo'), pro: localizeValue(locale, '+$99/mo'), enterprise: localizeValue(locale, '✓ Included') },
-          { name: 'Additional POS', lite: localizeValue(locale, '+$99/mo'), pro: localizeValue(locale, 'Included'), enterprise: localizeValue(locale, '✓ Included') },
+          { name: localizeValue(locale, 'Base API calls'), lite: localizeValue(locale, '10,000/mo'), pro: localizeValue(locale, '100,000/mo'), enterprise: localizeValue(locale, 'Custom') },
+          { name: localizeValue(locale, '+10K calls'), lite: localizeValue(locale, '+$39/mo'), pro: localizeValue(locale, '+$29/mo'), enterprise: localizeValue(locale, 'Custom') },
+          { name: localizeValue(locale, '+50K calls'), lite: localizeValue(locale, '+$149/mo'), pro: localizeValue(locale, '+$99/mo'), enterprise: localizeValue(locale, 'Custom') },
+          { name: localizeValue(locale, 'BI Connector'), lite: localizeValue(locale, '+$149/mo'), pro: localizeValue(locale, '+$99/mo'), enterprise: localizeValue(locale, '✓ Included') },
+          { name: localizeValue(locale, 'Additional POS'), lite: localizeValue(locale, '+$99/mo'), pro: localizeValue(locale, 'Included'), enterprise: localizeValue(locale, '✓ Included') },
         ],
       },
       {
@@ -1127,8 +1205,8 @@ export function getLocalizedFeatureComparisons(locale: PricingLocale = 'en') {
           { name: feature('baseSupport'), lite: localizeValue(locale, 'Chat'), pro: localizeValue(locale, 'Phone'), enterprise: localizeValue(locale, 'Dedicated CSM') },
           { name: feature('priorityUpgrade'), lite: localizeValue(locale, '+$79/mo'), pro: localizeValue(locale, 'Included'), enterprise: localizeValue(locale, 'Included') },
           { name: feature('premium247Upgrade'), lite: localizeValue(locale, '+$149/mo'), pro: localizeValue(locale, '+$99/mo'), enterprise: localizeValue(locale, 'Included') },
-          { name: 'Dedicated CSM', lite: localizeValue(locale, '+$499/mo'), pro: localizeValue(locale, '+$299/mo'), enterprise: localizeValue(locale, 'Included') },
-          { name: 'Slack/Teams', lite: localizeValue(locale, '+$149/mo'), pro: localizeValue(locale, '+$99/mo'), enterprise: localizeValue(locale, 'Included') },
+          { name: localizeValue(locale, 'Dedicated CSM'), lite: localizeValue(locale, '+$499/mo'), pro: localizeValue(locale, '+$299/mo'), enterprise: localizeValue(locale, 'Included') },
+          { name: localizeValue(locale, 'Slack/Teams'), lite: localizeValue(locale, '+$149/mo'), pro: localizeValue(locale, '+$99/mo'), enterprise: localizeValue(locale, 'Included') },
         ],
       },
       {
@@ -1144,272 +1222,6 @@ export function getLocalizedFeatureComparisons(locale: PricingLocale = 'en') {
   };
 }
 
-export const reportFeatureComparison = [
-  {
-    category: 'Data Input Method',
-    features: [
-      { name: 'Manual CSV upload', lite: '✓', plus: '✓', pro: '✓' },
-      { name: 'AI-parsed upload (PDF/Excel/Screenshot)', lite: '❌', plus: '✓', pro: '✓' },
-      { name: 'API integration (automated)', lite: '❌', plus: '❌', pro: '✓' },
-      { name: 'Data refresh', lite: 'Manual upload', plus: 'Daily EOD (AI-assisted)', pro: 'Daily EOD (automated API)' },
-    ]
-  },
-  {
-    category: 'Visuals & Analytics',
-    features: [
-      { name: 'Pre-built visuals', lite: '~20 core visuals', plus: '~30 visuals', pro: '~80 visuals' },
-      { name: 'Dashboard type', lite: 'Pre-built only', plus: 'Pre-built + custom', pro: 'Pre-built + custom' },
-      { name: 'Filtering', lite: 'Basic', plus: 'Advanced', pro: 'Advanced' },
-      { name: 'Custom date ranges', lite: '❌', plus: '✓', pro: '✓' },
-      { name: 'Correlation analysis', lite: '❌', plus: '❌', pro: '✓' },
-      { name: 'Multi-location comparison', lite: '❌', plus: '❌', pro: '✓' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 5: AI Credit System
-    category: 'AI Credits (Monthly)',
-    features: [
-      { name: 'Base org credits', lite: '250 credits', plus: '1,200 credits', pro: '3,500 credits' },
-      { name: 'Credits per additional location', lite: '+80 credits', plus: '+300 credits', pro: '+800 credits' },
-      { name: 'Rollover policy', lite: 'No rollover', plus: '25% of base credits (1 month)', pro: '25% of base credits (1 month)' },
-      { name: 'Can purchase top-ups?', lite: '✓ (1,000 cr only)', plus: '✓', pro: '✓' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 7: User Seats
-    category: 'Users',
-    features: [
-      { name: 'Included seats', lite: '1 seat', plus: '3 seats', pro: '5 seats' },
-      { name: 'Unlimited viewer seats', lite: '✓ (free)', plus: '✓ (free)', pro: '✓ (free)' },
-      { name: 'Additional seats', lite: 'None', plus: '$19/seat (max 3 additional)', pro: '$15/seat (max 5 additional)' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 1: Benchmarking included at all tiers (free)
-    category: 'Benchmarking',
-    features: [
-      { name: 'Benchmarking included', lite: '✓ Basic', plus: '✓ Expanded', pro: '✓ Full' },
-      { name: 'Radius control', lite: '1km (locked)', plus: '1-2km adjustable', pro: '1-3km adjustable' },
-      { name: 'Segment filters', lite: '"All restaurants" only', plus: '1 simultaneous filter', pro: '2 simultaneous filters' },
-      { name: 'Comparison type', lite: 'Anonymous only', plus: 'Percentile rankings', pro: 'Percentile + portfolio' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 7: Historical Access Upgrades
-    category: 'Historical Access',
-    features: [
-      { name: 'Included access', lite: '90 days', plus: '1 year', pro: '2 years' },
-      { name: 'Upgrade to 1 year', lite: '+$19/mo', plus: 'Included', pro: 'Included' },
-      { name: 'Upgrade to 2 years', lite: 'Not available', plus: '+$19/mo', pro: 'Included' },
-      { name: 'Upgrade to 3 years', lite: 'Not available', plus: '+$32/mo', pro: '+$29/mo' },
-      { name: 'Upgrade to 5 years', lite: 'Not available', plus: 'Not available', pro: '+$49/mo' },
-    ]
-  },
-  {
-    // Derived from v5.1: Sundae Intelligence + Pulse Access
-    category: 'Add-ons (Report Pro Only)',
-    features: [
-      { name: 'Sundae Intelligence', lite: '❌', plus: '❌', pro: '+$79/mo unlock' },
-      { name: 'Pulse access', lite: '❌', plus: '❌', pro: '+$99/mo unlock + $299/mo module (setup fee applies)' },
-      { name: 'API access', lite: '❌', plus: '❌', pro: '✓ (5,000 calls/mo)' },
-    ]
-  },
-  {
-    category: 'Collaboration',
-    features: [
-      { name: 'View dashboards', lite: '✓', plus: '✓', pro: '✓' },
-      { name: 'Share dashboard links', lite: '❌', plus: '✓ Internal only', pro: '✓ Internal + exports (PDF/CSV)' },
-      { name: 'Scheduled exports', lite: '❌', plus: 'Weekly', pro: 'Daily' },
-      { name: 'Commenting', lite: '❌', plus: 'Basic', pro: 'Full + @mentions' },
-      { name: 'Custom shared views', lite: '❌', plus: '❌', pro: '2 views' },
-    ]
-  },
-  {
-    category: 'Reports',
-    features: [
-      { name: 'AI summaries', lite: 'Monthly', plus: 'Weekly + monthly', pro: 'Weekly + monthly' },
-      { name: 'Report detail level', lite: 'Basic summary', plus: 'Standard report', pro: 'Expanded report' },
-      { name: 'Custom insights', lite: '❌', plus: '❌', pro: '✓ Per location' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 7: Support Upgrades
-    category: 'Support',
-    features: [
-      { name: 'Support channels', lite: 'Email only', plus: 'Email + Chat', pro: 'Priority Email + Chat' },
-      { name: 'Response time SLA', lite: '72 hours', plus: '24 hours', pro: '12 hours' },
-      { name: 'Priority upgrade', lite: '❌', plus: '+$99/mo (4hr SLA)', pro: '+$79/mo (4hr SLA)' },
-      { name: 'Premium 24/7 upgrade', lite: '❌', plus: '+$249/mo', pro: '+$199/mo' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 5: AI Credit Top-Up Bundles
-    category: 'AI Credit Top-Ups',
-    features: [
-      { name: '1,000 credits', lite: '$30', plus: '$20', pro: '$15' },
-      { name: '3,000 credits', lite: '—', plus: '$55', pro: '$40' },
-      { name: '5,000 credits', lite: '—', plus: '—', pro: '$60' },
-    ]
-  }
-];
+export const reportFeatureComparison = getLocalizedFeatureComparisons('en').reportFeatureComparison;
 
-export const coreFeatureComparison = [
-  {
-    category: 'POS Integration',
-    features: [
-      { name: 'Number of POS systems', lite: '1 system', pro: 'Multi-POS supported', enterprise: 'Multi-POS + custom' },
-      { name: 'Live API connection', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Historical data import', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Different POS per location', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Consolidated cross-platform analytics', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Custom integrations', lite: '❌', pro: 'Supported', enterprise: '✓ Included' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 1: Tier Feature Summary
-    category: 'Data Refresh',
-    features: [
-      { name: 'Refresh frequency', lite: '15-min', pro: '5-min', enterprise: 'Real-time (configurable)' },
-      { name: 'Historical data', lite: '2 years', pro: '3 years', enterprise: 'Custom' },
-    ]
-  },
-  {
-    category: 'Sales Analytics (Included)',
-    features: [
-      { name: 'Revenue trending', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Day part performance', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Menu item analysis', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Payment breakdown', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Customer patterns', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Sales per labor hour', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Advanced forecasting models', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Channel correlation / attribution', lite: '❌', pro: '✓ (where integrations exist)', enterprise: '✓ Advanced (custom)' },
-      { name: 'Cross-platform analytics', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Custom analytics modules', lite: '❌', pro: '❌', enterprise: '✓ (contracted)' },
-      { name: 'White-label reporting', lite: '❌', pro: '❌', enterprise: '✓ (contracted)' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 5: AI Credit System
-    category: 'AI Credits (Monthly)',
-    features: [
-      { name: 'Base org credits', lite: '8,000 credits', pro: '14,000 credits', enterprise: '50,000+' },
-      { name: 'Credits per additional location', lite: '+1,600 credits', pro: '+2,800 credits', enterprise: '+5,000 credits' },
-      { name: 'Rollover policy', lite: '25% of base credits (1 month)', pro: '25% of base credits (1 month)', enterprise: 'N/A (50,000+ base)' },
-      { name: 'Can purchase top-ups?', lite: '✓', pro: '✓', enterprise: 'Custom' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 1 + Section 6: AI Capabilities
-    category: 'AI Capabilities',
-    features: [
-      { name: 'Anomaly detection & alerts', lite: '✓ (15-min cadence)', pro: '✓ (5-min cadence)', enterprise: '✓ Real-time (configurable)' },
-      { name: 'Predictive forecasting', lite: '14-day', pro: '30-day', enterprise: 'Custom horizon' },
-      { name: 'What-if scenario modeling', lite: 'Basic (limited)', pro: '✓', enterprise: '✓ Advanced' },
-      { name: 'AI insights & recommendations', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Live performance alerts', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Sundae Intelligence', lite: '✓ Included', pro: '✓ Included', enterprise: '✓ Included' },
-      { name: 'AI Plus/Pro packages', lite: '✓ Available', pro: '✓ Available', enterprise: 'Custom cap' },
-      { name: 'Custom ML models', lite: '❌', pro: '❌', enterprise: '✓ (contracted)' },
-      { name: 'Priority AI capacity', lite: '❌', pro: '❌', enterprise: '✓ (contracted)' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 7: User Seats
-    category: 'Users',
-    features: [
-      { name: 'Included seats', lite: '10', pro: '15', enterprise: 'Unlimited' },
-      { name: 'Unlimited viewer seats', lite: '✓ (free)', pro: '✓ (free)', enterprise: '✓ (free)' },
-      { name: 'Additional seats', lite: '$12/seat/mo (unlimited)', pro: '$10/seat/mo (unlimited)', enterprise: 'N/A (unlimited)' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 1: Benchmarking included (free)
-    category: 'Benchmarking',
-    features: [
-      { name: 'Benchmarking included', lite: '✓', pro: '✓', enterprise: '✓ Custom' },
-      { name: 'Radius control', lite: '1-5km', pro: '0.5-10km', enterprise: 'Custom geography' },
-      { name: 'Segment filters', lite: 'Multiple simultaneous', pro: 'Expanded filters', enterprise: 'Expanded + custom' },
-      { name: 'Near real-time updates', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Custom peer groups', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Portfolio comparison across markets', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Private peer groups', lite: '❌', pro: '❌', enterprise: '✓' },
-      { name: 'Proprietary benchmarks', lite: '❌', pro: '❌', enterprise: '✓' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 2 + Section 4: Modules & Watchtower availability
-    category: 'Modules & Watchtower',
-    features: [
-      { name: 'Intelligence modules', lite: '✓ (10 available)', pro: '✓ (10 available)', enterprise: 'Included (contract-based)' },
-      { name: 'Watchtower', lite: '✓ (add-on)', pro: '✓ (add-on)', enterprise: 'Included (contract-based)' },
-      { name: 'Pulse', lite: '✓ Available as module (setup fee applies)', pro: '✓ Available as module (setup fee applies)', enterprise: 'Included (contract-based)' },
-      { name: 'Module setup fees', lite: 'Per module', pro: 'Per module', enterprise: 'Waived' },
-    ]
-  },
-  {
-    category: 'Portfolio Management',
-    features: [
-      { name: 'Multi-location overview', lite: '✓ (2+ locations)', pro: '✓ Premium dashboard', enterprise: '✓ Enterprise suite' },
-      { name: 'Location comparison & ranking', lite: '✓', pro: '✓ Advanced', enterprise: '✓ Advanced' },
-      { name: 'Cross-location alerts', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Performance distribution', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Brand/region grouping', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Best practice identification', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Multi-brand management', lite: 'Limited', pro: '✓', enterprise: '✓' },
-    ]
-  },
-  {
-    category: 'Custom Dashboards',
-    features: [
-      { name: 'Custom dashboards', lite: 'Standard quota', pro: 'Higher quota', enterprise: 'No limit (contracted)' },
-      { name: 'AI Chart Builder', lite: '✓', pro: '✓ Advanced', enterprise: '✓ Advanced' },
-      { name: 'Team sharing', lite: '✓', pro: '✓', enterprise: '✓' },
-      { name: 'Custom KPI builder', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'Dashboard scheduling', lite: '❌', pro: '✓', enterprise: '✓' },
-      { name: 'API-driven dashboards', lite: '❌', pro: '❌', enterprise: '✓' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 7: Historical Access Upgrades
-    category: 'Historical Access',
-    features: [
-      { name: 'Included access', lite: '2 years', pro: '3 years', enterprise: 'Custom' },
-      { name: 'Upgrade to 3 years', lite: '+$29/mo', pro: 'Included', enterprise: 'Custom' },
-      { name: 'Upgrade to 5 years', lite: '+$49/mo', pro: '+$49/mo', enterprise: 'Custom' },
-      { name: 'Archival options', lite: '❌', pro: '❌', enterprise: '✓' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 7: API Add-Ons
-    category: 'API Access',
-    features: [
-      { name: 'Base API calls', lite: '10,000/mo', pro: '100,000/mo', enterprise: 'Custom' },
-      { name: '+10K calls', lite: '+$39/mo', pro: '+$29/mo', enterprise: 'Custom' },
-      { name: '+50K calls', lite: '+$149/mo', pro: '+$99/mo', enterprise: 'Custom' },
-      { name: 'BI Connector', lite: '+$149/mo', pro: '+$99/mo', enterprise: '✓ Included' },
-      { name: 'Additional POS', lite: '+$99/mo', pro: 'Included', enterprise: '✓ Included' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 7: Support Upgrades
-    category: 'Support',
-    features: [
-      { name: 'Base support', lite: 'Chat', pro: 'Phone', enterprise: 'Dedicated CSM' },
-      { name: 'Priority (4hr SLA)', lite: '+$79/mo', pro: 'Included', enterprise: 'Included' },
-      { name: 'Premium 24/7 (2hr)', lite: '+$149/mo', pro: '+$99/mo', enterprise: 'Included' },
-      { name: 'Dedicated CSM', lite: '+$499/mo', pro: '+$299/mo', enterprise: 'Included' },
-      { name: 'Slack/Teams', lite: '+$149/mo', pro: '+$99/mo', enterprise: 'Included' },
-    ]
-  },
-  {
-    // Derived from v5.1 Section 5: AI Credit Top-Up Bundles
-    category: 'AI Credit Top-Ups',
-    features: [
-      { name: '1,000 credits', lite: '$12', pro: '$10', enterprise: 'Custom' },
-      { name: '3,000 credits', lite: '$33', pro: '$27', enterprise: 'Custom' },
-      { name: '5,000 credits', lite: '$50', pro: '$40', enterprise: 'Custom' },
-      { name: '10,000 credits', lite: '$90', pro: '$70', enterprise: 'Custom' },
-    ]
-  }
-];
+export const coreFeatureComparison = getLocalizedFeatureComparisons('en').coreFeatureComparison;

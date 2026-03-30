@@ -51,6 +51,13 @@ export function TierSelector() {
       template,
     );
 
+  const supportLabel = {
+    en: 'Support',
+    ar: 'الدعم',
+    fr: 'Support',
+    es: 'Soporte',
+  }[locale];
+
   const getTierCatalog = (tierId: string) => {
     const shortId = tierId.split('-').pop() as 'lite' | 'plus' | 'pro' | 'enterprise';
     return layer === 'report' ? localizedTiers.reportTiers[shortId as 'lite' | 'plus' | 'pro'] : localizedTiers.coreTiers[shortId as 'lite' | 'pro' | 'enterprise'];
@@ -261,7 +268,7 @@ export function TierSelector() {
                 ))}
               </tr>
               <tr>
-                <td className="py-3 px-4">Support</td>
+                <td className="py-3 px-4">{supportLabel}</td>
                 {tiers.map(tierData => (
                   'basePrice' in tierData && (
                     <td key={tierData.id} className="text-center py-3 px-4 text-xs">
@@ -277,7 +284,7 @@ export function TierSelector() {
 
       {/* Special note for Core Pro - DYNAMIC calculation */}
       {layer === 'core' && (() => {
-        const advantageMessage = getCoreProAdvantageMessage();
+        const advantageMessage = getCoreProAdvantageMessage(locale);
         return advantageMessage ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

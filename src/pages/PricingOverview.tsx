@@ -396,7 +396,7 @@ export function PricingOverview() {
 
           {/* Portfolio Pricing Advantage */}
           {(() => {
-            const advantageMessage = getCoreProAdvantageMessage();
+            const advantageMessage = getCoreProAdvantageMessage(locale);
             return advantageMessage ? (
               <div className="mb-8 p-4 bg-gradient-to-r from-purple-500/10 to-violet-500/10 rounded-lg border border-purple-500/30">
                 <p className="text-sm flex items-start gap-2 text-white">

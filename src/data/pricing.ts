@@ -435,8 +435,8 @@ export const coreTiers = {
       'Archival options'
     ],
     limitations: [],
-    bestFor: '100+ locations OR enterprise features required (Dedicated CSM, 24/7, SSO, SLAs, security/compliance), Multi-brand portfolios',
-    note: 'Enterprise pricing is scope-based and includes volume discounts. Typically starts at 100+ locations or when enterprise requirements apply (SSO, SLAs, security/compliance, dedicated CSM, custom ML, white-label, custom integrations).'
+    bestFor: '30+ locations OR enterprise features required (Dedicated CSM, 24/7, SSO, SLAs, security/compliance), Multi-brand portfolios',
+    note: 'Enterprise pricing is scope-based and includes volume discounts. Typically starts at 30+ locations or when enterprise requirements apply (SSO, SLAs, security/compliance, dedicated CSM, custom ML, white-label, custom integrations).'
   }
 };
 
@@ -937,13 +937,14 @@ export const watchtower = {
     savingsNote: 'approximately 18%',
     description: 'Complete market intelligence suite',
     includes: ['competitive', 'events', 'trends'],
+    // Internal feature keys. Localized user-facing copy lives in localizedAddOnDisplay.
     features: [
-      'All Competitive Intelligence features',
-      'All Event & Calendar features',
-      'All Market Trends features',
-      'Unified intelligence dashboard',
-      'Cross-module insights',
-      'Comprehensive monthly intelligence report'
+      'competitive_suite',
+      'events_suite',
+      'trends_suite',
+      'unified_dashboard',
+      'cross_module_insights',
+      'monthly_intelligence_report',
     ],
     valueProposition: 'Full market intelligence at ~18% discount'
   }
@@ -1268,27 +1269,28 @@ export const crossIntelligence = {
     availability: 'core_only',
     autoEnableThreshold: 3,
     description: 'Full correlation engine with advanced attribution, cannibalization detection, and real-time campaign monitoring',
+    // Internal feature keys. Localized user-facing copy lives in localizedAddOnDisplay.
     features: [
-      'Everything in Cross-Intelligence Base',
-      'Full Correlation Matrix',
-      'Revenue Attribution Waterfall',
-      'Spend Efficiency Radar',
-      'Campaign Pulse Monitor',
-      'Cannibalization Detector',
-      'Unlimited timeline lookback',
-      'Custom alert rules & thresholds',
-      'API access for correlation data',
-      'Priority processing',
+      'base_included',
+      'correlation_matrix',
+      'revenue_attribution_waterfall',
+      'spend_efficiency_radar',
+      'campaign_pulse_monitor',
+      'cannibalization_detector',
+      'unlimited_timeline_lookback',
+      'custom_alert_rules',
+      'correlation_api_access',
+      'priority_processing',
     ],
     components: [
-      { name: 'Marketing Impact Timeline', tier: 'base', description: 'Overlay marketing spend on revenue timeline to see delayed effects' },
-      { name: 'Cause & Effect Cards', tier: 'base', description: 'Auto-generated cards explaining why metrics changed' },
-      { name: 'Correlation Matrix', tier: 'pro', description: 'Full NxN matrix showing strength of connections between all data sources' },
-      { name: 'Revenue Attribution Waterfall', tier: 'pro', description: 'Attribute revenue changes to specific operational or marketing actions' },
-      { name: 'Spend Efficiency Radar', tier: 'pro', description: 'Multi-axis radar comparing ROI across marketing, labor, inventory spend' },
-      { name: 'Campaign Pulse Monitor', tier: 'pro', description: 'Real-time campaign performance with correlation to sales and operations' },
-      { name: 'Cannibalization Detector', tier: 'pro', description: 'Detect when promotions or new items steal sales from existing products' },
-      { name: 'What Changed Engine', tier: 'base', description: 'Automatic root cause analysis for metric movements' },
+      { name: 'marketing_impact_timeline', tier: 'base', description: 'Overlay marketing spend on revenue timeline to see delayed effects' },
+      { name: 'cause_effect_cards', tier: 'base', description: 'Auto-generated cards explaining why metrics changed' },
+      { name: 'correlation_matrix', tier: 'pro', description: 'Full NxN matrix showing strength of connections between all data sources' },
+      { name: 'revenue_attribution_waterfall', tier: 'pro', description: 'Attribute revenue changes to specific operational or marketing actions' },
+      { name: 'spend_efficiency_radar', tier: 'pro', description: 'Multi-axis radar comparing ROI across marketing, labor, inventory spend' },
+      { name: 'campaign_pulse_monitor', tier: 'pro', description: 'Real-time campaign performance with correlation to sales and operations' },
+      { name: 'cannibalization_detector', tier: 'pro', description: 'Detect when promotions or new items steal sales from existing products' },
+      { name: 'what_changed_engine', tier: 'base', description: 'Automatic root cause analysis for metric movements' },
     ],
   },
 };
@@ -1480,7 +1482,7 @@ const localizedTierDisplay: Record<PricingLocale, {
       enterprise: {
         name: 'Enterprise',
         tagline: 'Custom Solutions',
-        bestFor: '100+ locations OR enterprise features required (Dedicated CSM, 24/7, SSO, SLAs, security/compliance), Multi-brand portfolios',
+        bestFor: '30+ locations OR enterprise features required (Dedicated CSM, 24/7, SSO, SLAs, security/compliance), Multi-brand portfolios',
         features: [
           'Everything in Core Pro PLUS:',
           'Dedicated CSM',
@@ -1558,7 +1560,7 @@ const localizedTierDisplay: Record<PricingLocale, {
       enterprise: {
         name: 'Enterprise',
         tagline: 'حلول مخصصة',
-        bestFor: 'أكثر من 100 موقع أو متطلبات مؤسسية مطلوبة (مدير نجاح مخصص، دعم 24/7، SSO، اتفاقيات مستوى الخدمة، الأمن/الامتثال)، محافظ متعددة العلامات',
+        bestFor: '30+ موقعاً أو متطلبات مؤسسية مطلوبة (مدير نجاح مخصص، دعم 24/7، SSO، اتفاقيات مستوى الخدمة، الأمن/الامتثال)، محافظ متعددة العلامات',
         features: [
           'كل ما في Core Pro مع:',
           'مدير نجاح عملاء مخصص',
@@ -1636,7 +1638,7 @@ const localizedTierDisplay: Record<PricingLocale, {
       enterprise: {
         name: 'Enterprise',
         tagline: 'Solutions sur mesure',
-        bestFor: '100+ sites ou exigences enterprise requises (CSM dedie, 24/7, SSO, SLA, securite/conformite), portefeuilles multi-marques',
+        bestFor: '30+ sites ou exigences enterprise requises (CSM dedie, 24/7, SSO, SLA, securite/conformite), portefeuilles multi-marques',
         features: [
           'Tout ce qui est dans Core Pro PLUS :',
           'Customer Success Manager dedie',
@@ -1714,7 +1716,7 @@ const localizedTierDisplay: Record<PricingLocale, {
       enterprise: {
         name: 'Enterprise',
         tagline: 'Soluciones personalizadas',
-        bestFor: '100+ locales o requisitos enterprise necesarios (CSM dedicado, 24/7, SSO, SLA, seguridad/compliance), portafolios multimarcas',
+        bestFor: '30+ locales o requisitos enterprise necesarios (CSM dedicado, 24/7, SSO, SLA, seguridad/compliance), portafolios multimarcas',
         features: [
           'Todo lo de Core Pro MAS:',
           'Customer Success Manager dedicado',
@@ -1808,9 +1810,9 @@ const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
         'اتجاهات شعبية عناصر القائمة',
       ],
       bundle: [
-        'كل ميزات ذكاء المنافسين',
-        'كل ميزات الفعاليات والتقويم',
-        'كل ميزات اتجاهات السوق',
+        'جميع ميزات الذكاء التنافسي',
+        'جميع ميزات الفعاليات والتقويم',
+        'جميع ميزات اتجاهات السوق',
       ],
     },
     crossIntelligence: {
@@ -1821,7 +1823,7 @@ const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
         'ملخص أسبوعي لما تغيّر',
       ],
       pro: [
-        'كل ما في Cross-Intelligence Base',
+        'كل ما في Cross-Intelligence',
         'مصفوفة ترابط كاملة',
         'شلال إسناد الإيرادات',
         'رادار كفاءة الإنفاق',
@@ -1848,8 +1850,8 @@ const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
         'Tendances de popularite des plats',
       ],
       bundle: [
-        'Toutes les fonctionnalites Competitive Intelligence',
-        'Toutes les fonctionnalites Evenements & Calendrier',
+        'Toutes les fonctionnalites d intelligence concurrentielle',
+        'Toutes les fonctionnalites Evenements et calendrier',
         'Toutes les fonctionnalites Tendances de marche',
       ],
     },
@@ -1861,7 +1863,7 @@ const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
         'Resume hebdomadaire des changements',
       ],
       pro: [
-        'Tout ce qui est dans Cross-Intelligence Base',
+        'Tout ce qui est inclus dans Cross-Intelligence',
         'Matrice de correlation complete',
         'Cascade d attribution des revenus',
         'Radar d efficacite des depenses',
@@ -1888,8 +1890,8 @@ const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
         'Tendencias de popularidad de elementos del menu',
       ],
       bundle: [
-        'Todas las funciones de Competitive Intelligence',
-        'Todas las funciones de Eventos y Calendario',
+        'Todas las funciones de inteligencia competitiva',
+        'Todas las funciones de eventos y calendario',
         'Todas las funciones de Tendencias de mercado',
       ],
     },
@@ -1901,7 +1903,7 @@ const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
         'Resumen semanal de cambios',
       ],
       pro: [
-        'Todo lo de Cross-Intelligence Base',
+        'Todo lo incluido en Cross-Intelligence',
         'Matriz de correlacion completa',
         'Cascada de atribucion de ingresos',
         'Radar de eficiencia del gasto',

@@ -32,6 +32,7 @@ type LocaleCopy = {
     pageLabel: string;
     ofLabel: string;
     perYearLabel: string;
+    vsLabel: string;
   };
 };
 
@@ -96,6 +97,7 @@ const localizedCopy: Record<PricingLocale, LocaleCopy> = {
       pageLabel: 'Page',
       ofLabel: 'of',
       perYearLabel: 'year',
+      vsLabel: 'vs',
     },
   },
   ar: {
@@ -158,6 +160,7 @@ const localizedCopy: Record<PricingLocale, LocaleCopy> = {
       pageLabel: 'الصفحة',
       ofLabel: 'من',
       perYearLabel: 'سنة',
+      vsLabel: 'مقابل',
     },
   },
   fr: {
@@ -220,6 +223,7 @@ const localizedCopy: Record<PricingLocale, LocaleCopy> = {
       pageLabel: 'Page',
       ofLabel: 'sur',
       perYearLabel: 'an',
+      vsLabel: 'vs',
     },
   },
   es: {
@@ -282,6 +286,7 @@ const localizedCopy: Record<PricingLocale, LocaleCopy> = {
       pageLabel: 'Pagina',
       ofLabel: 'de',
       perYearLabel: 'ano',
+      vsLabel: 'vs',
     },
   },
 };

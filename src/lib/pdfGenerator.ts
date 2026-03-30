@@ -11,6 +11,13 @@ import {
   localizeWatchtowerName,
   type PricingLocale,
 } from './pricingI18n';
+import { getLocalizedCompetitorCategory } from './pricingUiCopy';
+
+const ARABIC_PDF_FONT_NAME = 'NotoSansArabic';
+const ARABIC_PDF_FONT_FILE = 'NotoSansArabic-Regular.ttf';
+const ARABIC_PDF_FONT_PATH = `/fonts/${ARABIC_PDF_FONT_FILE}`;
+
+let arabicFontBase64Promise: Promise<string> | null = null;
 
 interface PricingData {
   total: number;
@@ -18,6 +25,79 @@ interface PricingData {
   annualTotal: number;
   breakdown: Array<{ item: string; price: number }>;
   discounts: Array<{ name: string; percent: number; amount: number }>;
+}
+
+function isRtlLocale(locale: PricingLocale): boolean {
+  return locale === 'ar';
+}
+
+function toBase64(arrayBuffer: ArrayBuffer): string {
+  let binary = '';
+  const bytes = new Uint8Array(arrayBuffer);
+  const chunkSize = 0x8000;
+
+  for (let index = 0; index < bytes.length; index += chunkSize) {
+    const chunk = bytes.subarray(index, index + chunkSize);
+    binary += String.fromCharCode(...chunk);
+  }
+
+  return btoa(binary);
+}
+
+async function loadArabicFontBase64(): Promise<string> {
+  if (!arabicFontBase64Promise) {
+    arabicFontBase64Promise = fetch(ARABIC_PDF_FONT_PATH)
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to load Arabic PDF font: ${response.status}`);
+        }
+        return response.arrayBuffer();
+      })
+      .then(toBase64);
+  }
+
+  return arabicFontBase64Promise;
+}
+
+async function ensurePdfFont(doc: jsPDF, locale: PricingLocale): Promise<void> {
+  if (!isRtlLocale(locale)) return;
+
+  if ((doc.getFontList?.() as Record<string, string[]> | undefined)?.[ARABIC_PDF_FONT_NAME]) {
+    return;
+  }
+
+  const base64Font = await loadArabicFontBase64();
+  doc.addFileToVFS(ARABIC_PDF_FONT_FILE, base64Font);
+  doc.addFont(ARABIC_PDF_FONT_FILE, ARABIC_PDF_FONT_NAME, 'normal');
+}
+
+function setPdfFont(doc: jsPDF, locale: PricingLocale, style: 'normal' | 'bold' = 'normal'): void {
+  if (isRtlLocale(locale)) {
+    doc.setFont(ARABIC_PDF_FONT_NAME, 'normal');
+    return;
+  }
+
+  doc.setFont('helvetica', style);
+}
+
+function formatCurrencyAmount(value: number, locale: PricingLocale): string {
+  return `$${value.toLocaleString(locale)}`;
+}
+
+function formatPercent(value: number, locale: PricingLocale): string {
+  return value.toLocaleString(locale);
+}
+
+function renderPdfText(
+  doc: jsPDF,
+  text: string,
+  x: number,
+  y: number,
+  locale: PricingLocale,
+  options?: Parameters<jsPDF['text']>[3]
+): void {
+  const output = isRtlLocale(locale) ? doc.processArabic(text) : text;
+  doc.text(output, x, y, options);
 }
 
 function formatTierName(layer: string | null, tier: string | null, locale: PricingLocale): string {
@@ -53,8 +133,12 @@ export async function generateQuotePDF(
 ): Promise<Blob> {
   const doc = new jsPDF();
   const copy = getPricingPdfCopy(locale);
+  const isRtl = isRtlLocale(locale);
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
+
+  doc.setR2L(isRtl);
+  await ensurePdfFont(doc, locale);
 
   // Calculate competitor comparisons
   const allModules = [...selectedModules, `${layer}-${tier}`];
@@ -93,56 +177,56 @@ export async function generateQuotePDF(
 
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    doc.text(copy.headerSubtitle, 20, 33);
+    setPdfFont(doc, locale, 'normal');
+    renderPdfText(doc, copy.headerSubtitle, 20, 33, locale);
   } catch (error) {
     console.warn('Logo image failed to load, using text fallback:', error);
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(20);
-    doc.setFont('helvetica', 'bold');
+    setPdfFont(doc, locale, 'bold');
     doc.text('SUNDAE', 20, 25);
 
     doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    doc.text(copy.headerSubtitle, 20, 32);
+    setPdfFont(doc, locale, 'normal');
+    renderPdfText(doc, copy.headerSubtitle, 20, 32, locale);
   }
 
   // Quote details (right side)
   doc.setTextColor(148, 163, 184);
   doc.setFontSize(9);
-  doc.text(`${copy.quoteLabel}: ${quoteId}`, pageWidth - 20, 18, { align: 'right' });
-  doc.text(`${copy.generatedLabel}: ${today.toLocaleDateString(locale)}`, pageWidth - 20, 24, { align: 'right' });
-  doc.text(`${copy.validUntilLabel}: ${validUntil.toLocaleDateString(locale)}`, pageWidth - 20, 30, { align: 'right' });
+  renderPdfText(doc, `${copy.quoteLabel}: ${quoteId}`, pageWidth - 20, 18, locale, { align: 'right' });
+  renderPdfText(doc, `${copy.generatedLabel}: ${today.toLocaleDateString(locale)}`, pageWidth - 20, 24, locale, { align: 'right' });
+  renderPdfText(doc, `${copy.validUntilLabel}: ${validUntil.toLocaleDateString(locale)}`, pageWidth - 20, 30, locale, { align: 'right' });
 
   // Configuration Summary
   let yPos = 55;
 
   doc.setTextColor(30, 41, 59);
   doc.setFontSize(16);
-  doc.setFont('helvetica', 'bold');
-  doc.text(copy.configurationTitle, 20, yPos);
+  setPdfFont(doc, locale, 'bold');
+  renderPdfText(doc, copy.configurationTitle, 20, yPos, locale);
   yPos += 12;
 
   doc.setFontSize(11);
-  doc.setFont('helvetica', 'normal');
+  setPdfFont(doc, locale, 'normal');
   doc.setTextColor(71, 85, 105);
 
   const tierName = formatTierName(layer, tier, locale);
-  doc.text(`${copy.platformLabel}: ${tierName}`, 20, yPos);
+  renderPdfText(doc, `${copy.platformLabel}: ${tierName}`, 20, yPos, locale);
   yPos += 8;
 
-  doc.text(`${copy.locationsLabel}: ${locations}`, 20, yPos);
+  renderPdfText(doc, `${copy.locationsLabel}: ${locations.toLocaleString(locale)}`, 20, yPos, locale);
   yPos += 8;
 
   if (selectedModules.length > 0) {
     const moduleNames = formatModuleList(selectedModules, locale);
-    doc.text(`${copy.modulesLabel}: ${moduleNames}`, 20, yPos);
+    renderPdfText(doc, `${copy.modulesLabel}: ${moduleNames}`, 20, yPos, locale);
     yPos += 8;
   }
 
   if (watchtowerModules.length > 0) {
     const wtText = formatWatchtowerList(watchtowerModules, locale);
-    doc.text(`${copy.watchtowerLabel}: ${wtText}`, 20, yPos);
+    renderPdfText(doc, `${copy.watchtowerLabel}: ${wtText}`, 20, yPos, locale);
     yPos += 8;
   }
 
@@ -155,30 +239,30 @@ export async function generateQuotePDF(
   yPos += 15;
   doc.setTextColor(30, 41, 59);
   doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.text(copy.monthlyInvestmentLabel, 30, yPos);
+  setPdfFont(doc, locale, 'bold');
+  renderPdfText(doc, copy.monthlyInvestmentLabel, 30, yPos, locale);
 
   doc.setFontSize(28);
   doc.setTextColor(217, 119, 6);
-  doc.text(`$${pricing.total.toLocaleString()}`, 30, yPos + 20);
+  renderPdfText(doc, formatCurrencyAmount(pricing.total, locale), 30, yPos + 20, locale);
 
   doc.setFontSize(11);
   doc.setTextColor(100, 116, 139);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`$${pricing.perLocation.toLocaleString()} ${copy.perLocationLabel}`, 30, yPos + 32);
-  doc.text(`${copy.annualLabel}: $${pricing.annualTotal.toLocaleString()}`, pageWidth - 80, yPos + 10);
+  setPdfFont(doc, locale, 'normal');
+  renderPdfText(doc, `${formatCurrencyAmount(pricing.perLocation, locale)} ${copy.perLocationLabel}`, 30, yPos + 32, locale);
+  renderPdfText(doc, `${copy.annualLabel}: ${formatCurrencyAmount(pricing.annualTotal, locale)}`, pageWidth - 80, yPos + 10, locale);
 
   yPos += 60;
 
   // Price Breakdown
   doc.setTextColor(30, 41, 59);
   doc.setFontSize(14);
-  doc.setFont('helvetica', 'bold');
-  doc.text(copy.priceBreakdownTitle, 20, yPos);
+  setPdfFont(doc, locale, 'bold');
+  renderPdfText(doc, copy.priceBreakdownTitle, 20, yPos, locale);
   yPos += 10;
 
   doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
+  setPdfFont(doc, locale, 'normal');
   doc.setTextColor(71, 85, 105);
 
   pricing.breakdown.forEach((item) => {
@@ -186,8 +270,8 @@ export async function generateQuotePDF(
       doc.addPage();
       yPos = 25;
     }
-    doc.text(item.item, 25, yPos);
-    doc.text(`$${item.price.toLocaleString()}`, pageWidth - 50, yPos, { align: 'right' });
+    renderPdfText(doc, item.item, 25, yPos, locale);
+    renderPdfText(doc, formatCurrencyAmount(item.price, locale), pageWidth - 50, yPos, locale, { align: 'right' });
     yPos += 7;
   });
 
@@ -200,8 +284,8 @@ export async function generateQuotePDF(
         doc.addPage();
         yPos = 25;
       }
-      doc.text(`${discount.name} (${discount.percent}%)`, 25, yPos);
-      doc.text(`-$${Math.abs(discount.amount).toLocaleString()}`, pageWidth - 50, yPos, { align: 'right' });
+      renderPdfText(doc, `${discount.name} (${formatPercent(discount.percent, locale)}%)`, 25, yPos, locale);
+      renderPdfText(doc, `-${formatCurrencyAmount(Math.abs(discount.amount), locale)}`, pageWidth - 50, yPos, locale, { align: 'right' });
       yPos += 7;
     });
   }
@@ -217,18 +301,18 @@ export async function generateQuotePDF(
 
     doc.setTextColor(30, 41, 59);
     doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.text(copy.howYouCompareTitle, 20, yPos);
+    setPdfFont(doc, locale, 'bold');
+    renderPdfText(doc, copy.howYouCompareTitle, 20, yPos, locale);
     yPos += 10;
 
     doc.setFontSize(9);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(100, 116, 139);
 
-    doc.text(copy.competitorLabel, 25, yPos);
-    doc.text(copy.theirCostLabel, 90, yPos);
-    doc.text(copy.yourCostLabel, 130, yPos);
-    doc.text(copy.youSaveLabel, pageWidth - 30, yPos, { align: 'right' });
+    renderPdfText(doc, copy.competitorLabel, 25, yPos, locale);
+    renderPdfText(doc, copy.theirCostLabel, 90, yPos, locale);
+    renderPdfText(doc, copy.yourCostLabel, 130, yPos, locale);
+    renderPdfText(doc, copy.youSaveLabel, pageWidth - 30, yPos, locale, { align: 'right' });
     yPos += 2;
 
     doc.setDrawColor(203, 213, 225);
@@ -244,25 +328,31 @@ export async function generateQuotePDF(
         yPos = 25;
       }
 
-      doc.setFont('helvetica', 'bold');
+      setPdfFont(doc, locale, 'bold');
       doc.setFontSize(10);
       doc.setTextColor(30, 41, 59);
-      doc.text(comp.competitor.name, 25, yPos);
+      renderPdfText(doc, comp.competitor.name, 25, yPos, locale);
 
-      doc.text(`$${comp.competitorCost.firstYear.toLocaleString()}`, 90, yPos);
-      doc.text(`$${comp.sundaeCost.annual.toLocaleString()}`, 130, yPos);
+      renderPdfText(doc, formatCurrencyAmount(comp.competitorCost.firstYear, locale), 90, yPos, locale);
+      renderPdfText(doc, formatCurrencyAmount(comp.sundaeCost.annual, locale), 130, yPos, locale);
 
       doc.setTextColor(22, 163, 74);
-      doc.setFont('helvetica', 'bold');
-      doc.text(`$${comp.savings.firstYear.toLocaleString()}`, pageWidth - 30, yPos, { align: 'right' });
+      setPdfFont(doc, locale, 'bold');
+      renderPdfText(doc, formatCurrencyAmount(comp.savings.firstYear, locale), pageWidth - 30, yPos, locale, { align: 'right' });
 
       yPos += 6;
       doc.setFontSize(7);
       doc.setTextColor(100, 116, 139);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`${comp.competitor.category} • ${copy.verifiedLabel}`, 25, yPos);
+      setPdfFont(doc, locale, 'normal');
+      renderPdfText(
+        doc,
+        `${getLocalizedCompetitorCategory(locale, comp.competitor.category)} • ${copy.verifiedLabel}`,
+        25,
+        yPos,
+        locale
+      );
 
-      doc.setFont('helvetica', 'normal');
+      setPdfFont(doc, locale, 'normal');
       doc.setTextColor(30, 41, 59);
       yPos += 8;
     });
@@ -274,11 +364,13 @@ export async function generateQuotePDF(
 
       doc.setTextColor(22, 163, 74);
       doc.setFontSize(11);
-      doc.setFont('helvetica', 'bold');
-      doc.text(
-        `${copy.bestSavingsLabel}: $${savingsComparisons[0].savings.firstYear.toLocaleString()}/year vs ${savingsComparisons[0].competitor.name}`,
+      setPdfFont(doc, locale, 'bold');
+      renderPdfText(
+        doc,
+        `${copy.bestSavingsLabel}: $${savingsComparisons[0].savings.firstYear.toLocaleString(locale)}/${copy.perYearLabel} ${copy.vsLabel} ${savingsComparisons[0].competitor.name}`,
         pageWidth / 2,
         yPos + 7,
+        locale,
         { align: 'center' }
       );
       yPos += 18;
@@ -286,8 +378,8 @@ export async function generateQuotePDF(
 
     doc.setFontSize(7);
     doc.setTextColor(100, 116, 139);
-    doc.setFont('helvetica', 'normal');
-    doc.text(copy.competitorDisclaimer, 20, yPos);
+    setPdfFont(doc, locale, 'normal');
+    renderPdfText(doc, copy.competitorDisclaimer, 20, yPos, locale);
   }
 
   // Footer on all pages
@@ -300,17 +392,19 @@ export async function generateQuotePDF(
 
     doc.setFontSize(8);
     doc.setTextColor(100, 116, 139);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`${LEGAL.legalName} | sundae.io`, 20, pageHeight - 12);
-    doc.text(`${copy.quoteLabel} ${quoteId}`, pageWidth / 2, pageHeight - 12, { align: 'center' });
-    doc.text(`${copy.pageLabel} ${i} of ${totalPages}`, pageWidth - 20, pageHeight - 12, { align: 'right' });
+    setPdfFont(doc, locale, 'normal');
+    renderPdfText(doc, `${LEGAL.legalName} | sundae.io`, 20, pageHeight - 12, locale);
+    renderPdfText(doc, `${copy.quoteLabel} ${quoteId}`, pageWidth / 2, pageHeight - 12, locale, { align: 'center' });
+    renderPdfText(doc, `${copy.pageLabel} ${i.toLocaleString(locale)} ${copy.ofLabel} ${totalPages.toLocaleString(locale)}`, pageWidth - 20, pageHeight - 12, locale, { align: 'right' });
 
     doc.setFontSize(7);
     doc.setTextColor(148, 163, 184);
-    doc.text(
+    renderPdfText(
+      doc,
       `${copy.informationalOnlyLabel} ${LEGAL.legalName} — ${copy.formalProposalLabel}`,
       pageWidth / 2,
       pageHeight - 6,
+      locale,
       { align: 'center' }
     );
   }

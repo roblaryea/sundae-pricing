@@ -1,13 +1,15 @@
 import { LEGAL } from '../config/legal';
+import { useLocale } from '../contexts/LocaleContext';
 
 export function SiteFooter() {
+  const { messages } = useLocale();
   const currentYear = new Date().getFullYear();
 
   const footerLinks = [
-    { label: 'Privacy', href: LEGAL.privacyUrl },
-    { label: 'Terms', href: LEGAL.termsUrl },
-    { label: 'Contact', href: LEGAL.contactUrl },
-    { label: 'Demo', href: LEGAL.demoUrl },
+    { label: messages.footer.privacy, href: LEGAL.privacyUrl },
+    { label: messages.footer.terms, href: LEGAL.termsUrl },
+    { label: messages.footer.contact, href: LEGAL.contactUrl },
+    { label: messages.footer.demo, href: LEGAL.demoUrl },
   ];
 
   return (

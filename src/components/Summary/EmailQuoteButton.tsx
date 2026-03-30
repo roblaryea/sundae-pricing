@@ -5,10 +5,12 @@ import { useState } from 'react';
 import { Mail, Loader2, CheckCircle, Download } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { generateQuotePDF } from '../../lib/pdfGenerator';
 import { LEGAL } from '../../config/legal';
+import { useLocale } from '../../contexts/LocaleContext';
+import { localizeModuleName, localizeTierName, localizeWatchtowerName, type PricingLocale } from '../../lib/pricingI18n';
 
 export function EmailQuoteButton() {
+  const { locale, messages } = useLocale();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   
@@ -19,6 +21,8 @@ export function EmailQuoteButton() {
     setIsGenerating(true);
     
     try {
+      const { generateQuotePDF } = await import('../../lib/pdfGenerator');
+
       // Step 1: Generate and download PDF
       const pdfBlob = await generateQuotePDF(
         layer,
@@ -26,12 +30,13 @@ export function EmailQuoteButton() {
         locations,
         selectedModules,
         watchtowerModules,
-        pricing
+        pricing,
+        locale as PricingLocale
       );
       
       // Download PDF
       const today = new Date();
-      const dateStr = today.toLocaleDateString().replace(/\//g, '-');
+      const dateStr = new Intl.DateTimeFormat(locale).format(today).replace(/[\\/]/g, '-');
       const filename = `Sundae-Quote-${locations}loc-${dateStr}.pdf`;
       
       const url = URL.createObjectURL(pdfBlob);
@@ -42,37 +47,42 @@ export function EmailQuoteButton() {
       URL.revokeObjectURL(url);
       
       // Step 2: Prepare email content
-      const tierName = `${layer?.toUpperCase()} ${tier}`;
+      const tierName = layer && tier
+        ? localizeTierName(
+            `${layer === 'report' ? 'Report' : 'Core'} ${tier.charAt(0).toUpperCase()}${tier.slice(1)}`,
+            locale as PricingLocale
+          )
+        : messages.quote.none;
       const moduleList = selectedModules.length > 0 
-        ? selectedModules.map(m => m.charAt(0).toUpperCase() + m.slice(1)).join(', ')
-        : 'None';
+        ? selectedModules.map((moduleId) => localizeModuleName(moduleId, locale as PricingLocale)).join(', ')
+        : messages.quote.none;
       const watchtowerList = watchtowerModules.includes('bundle')
-        ? 'Full Watchtower Bundle'
+        ? localizeWatchtowerName('bundle', locale as PricingLocale)
         : watchtowerModules.length > 0
-          ? watchtowerModules.map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(', ')
-          : 'None';
+          ? watchtowerModules.map((moduleId) => localizeWatchtowerName(moduleId, locale as PricingLocale)).join(', ')
+          : messages.quote.none;
       
-      const subject = encodeURIComponent(`Sundae Quote Request - ${locations} Locations`);
-      const body = encodeURIComponent(`Hi Sundae Team,
+      const subject = encodeURIComponent(messages.quote.subject.replace('{locations}', String(locations)));
+      const body = encodeURIComponent(`${messages.quote.intro}
 
-I'm interested in Sundae for my restaurant(s). Please find my configuration details below:
+${messages.quote.bodyIntro}
 
-CONFIGURATION:
-• Platform: ${tierName}
-• Locations: ${locations}
-• Monthly Investment: $${pricing.total.toLocaleString()}
-• Annual Investment: $${pricing.annualTotal.toLocaleString()}
-• Modules: ${moduleList}
-• Watchtower: ${watchtowerList}
+${messages.quote.configuration}
+• ${messages.quote.platform}: ${tierName}
+• ${messages.quote.locations}: ${locations}
+• ${messages.quote.monthlyInvestment}: $${pricing.total.toLocaleString()}
+• ${messages.quote.annualInvestment}: $${pricing.annualTotal.toLocaleString()}
+• ${messages.quote.modules}: ${moduleList}
+• ${messages.quote.watchtower}: ${watchtowerList}
 
-I've attached the detailed PDF quote (${filename}) to this email.
+${messages.quote.attached.replace('{filename}', filename)}
 
-Please contact me to discuss next steps.
+${messages.quote.nextSteps}
 
-Best regards`);
+${messages.quote.bestRegards}`);
       
       // Step 3: Show instruction modal then open email
-      alert(`PDF Downloaded!\n\n"${filename}" has been downloaded to your computer.\n\nYour email will open next - please attach the downloaded PDF before sending.\n\nTip: The PDF is usually in your Downloads folder.`);
+      alert(`${messages.quote.downloadedTitle}\n\n${messages.quote.downloadedBody.replace('{filename}', filename)}\n\n${messages.quote.downloadedFollowUp}\n\n${messages.quote.downloadedTip}`);
       
       // Step 4: Open email client with mailto link
       window.location.href = `mailto:${LEGAL.supportEmail}?subject=${subject}&body=${body}`;
@@ -82,7 +92,7 @@ Best regards`);
       
     } catch (error) {
       console.error('Failed to prepare email:', error);
-      alert('Failed to prepare email. Please try downloading the PDF manually.');
+      alert(messages.quote.failedPrepare);
     } finally {
       setIsGenerating(false);
     }
@@ -93,23 +103,23 @@ Best regards`);
       onClick={handleEmailQuote}
       disabled={isGenerating}
       className="button-secondary flex items-center justify-center gap-2"
-      title="Downloads PDF and opens your email client"
+      title={messages.quote.buttonTitle}
     >
       {isGenerating ? (
         <>
           <Loader2 className="w-5 h-5 animate-spin" />
-          Preparing...
+          {messages.quote.preparing}
         </>
       ) : isComplete ? (
         <>
           <CheckCircle className="w-5 h-5 text-green-400" />
-          Email Ready!
+          {messages.quote.ready}
         </>
       ) : (
         <>
           <Mail className="w-5 h-5" />
           <Download className="w-4 h-4" />
-          Email Quote
+          {messages.quote.emailQuote}
         </>
       )}
     </button>

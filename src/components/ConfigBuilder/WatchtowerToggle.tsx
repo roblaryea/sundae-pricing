@@ -2,15 +2,21 @@
 // UPDATED: Uses new base + per-location pricing model
 
 import { motion } from 'framer-motion';
-import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft, Castle, Sparkles, Zap, GitBranch, BarChart3, Radar, Activity, AlertTriangle, Search } from 'lucide-react';
+import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft, Castle, Sparkles, Zap, GitBranch, BarChart3, Radar, Activity, AlertTriangle, Search, type LucideIcon } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { watchtower, crossIntelligence } from '../../data/pricing';
+import { watchtower, getLocalizedAddOnDisplay } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/watchtowerEngine';
 import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '../../lib/pricingEngine';
+import { useLocale } from '../../contexts/LocaleContext';
 
 export function WatchtowerToggle() {
   const { layer, tier, locations, modules, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep } = useConfiguration();
+  const { locale, messages } = useLocale();
+  const copy = messages.builder.watchtowerToggle;
+  const watchtowerCatalog = messages.catalog.watchtower;
+  const crossCatalog = messages.catalog.crossIntelligence;
+  const localizedAddOns = getLocalizedAddOnDisplay(locale);
 
   // Calculate pricing with current configuration
   const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules, undefined, crossIntelSelection);
@@ -29,7 +35,7 @@ export function WatchtowerToggle() {
   };
 
   const getModuleIcon = (moduleId: string) => {
-    const icons: Record<string, any> = {
+    const icons: Record<string, LucideIcon> = {
       competitive: Eye,
       events: Calendar,
       trends: TrendingUp,
@@ -49,6 +55,12 @@ export function WatchtowerToggle() {
   // Suggest bundle if individual modules cost more
   const shouldSuggestBundle = individualResult && individualResult.total > bundleResult.total && !watchtowerModules.includes('bundle');
 
+  const formatMessage = (template: string, values: Record<string, string | number>) =>
+    Object.entries(values).reduce(
+      (result, [key, value]) => result.replaceAll(`\${${key}}`, String(value)).replaceAll(`{${key}}`, String(value)),
+      template,
+    );
+
   return (
     <div className="max-w-5xl mx-auto">
       <motion.div
@@ -57,13 +69,13 @@ export function WatchtowerToggle() {
         className="text-center mb-12"
       >
         <h1 className="text-4xl font-bold mb-4">
-          Unlock Market Intelligence
+          {copy.title}
         </h1>
         <p className="text-xl text-sundae-muted">
-          See what your competitors can't with Watchtower competitive intel
+          {copy.subtitle}
         </p>
         <p className="text-sm text-sundae-muted mt-2">
-          Base price covers your first location, then ${watchtower.bundle.perLocationPrice}/location for additional markets
+          {formatMessage(copy.baseCoverage, { price: watchtower.bundle.perLocationPrice })}
         </p>
       </motion.div>
 
@@ -76,20 +88,20 @@ export function WatchtowerToggle() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-bold text-lg text-watchtower mb-1">Bundle & Save!</h3>
+              <h3 className="font-bold text-lg text-watchtower mb-1">{copy.bundleSaveTitle}</h3>
               <p className="text-sm text-sundae-muted">
-                Get all three Watchtower modules for ${bundleResult.total.toLocaleString()}/mo
+                {formatMessage(copy.bundleSaveDescription, { total: bundleResult.total.toLocaleString(locale) })}
               </p>
             </div>
             <div className="text-right">
               <div className="text-2xl font-bold text-green-400">
-                Save ${Math.round(individualResult.total - bundleResult.total)}
+                {formatMessage(copy.saveAmount, { amount: Math.round(individualResult.total - bundleResult.total) })}
               </div>
               <button
                 onClick={() => toggleWatchtowerModule('bundle')}
                 className="mt-2 px-4 py-2 bg-watchtower/20 hover:bg-watchtower/30 text-watchtower border border-watchtower/50 rounded-lg transition-all"
               >
-                Select Bundle
+                {copy.selectBundle}
               </button>
             </div>
           </div>
@@ -103,6 +115,7 @@ export function WatchtowerToggle() {
           const isSelected = watchtowerModules.includes(moduleId);
           const isDisabledByBundle = watchtowerModules.includes('bundle');
           const Icon = getModuleIcon(moduleId);
+          const localizedModule = watchtowerCatalog[moduleId as keyof typeof watchtowerCatalog];
 
           // Calculate price for this module
           const modulePrice = module.basePrice + ((locations - 1) * module.perLocationPrice);
@@ -132,7 +145,7 @@ export function WatchtowerToggle() {
               >
                 {isDisabledByBundle && (
                   <div className="absolute top-2 right-2 text-xs bg-watchtower/20 text-watchtower px-2 py-1 rounded">
-                    Included in bundle
+                    {copy.includedInBundle}
                   </div>
                 )}
 
@@ -140,21 +153,25 @@ export function WatchtowerToggle() {
                   <div className="flex items-start gap-4 mb-4">
                     <Icon className="w-8 h-8 text-watchtower" />
                     <div className="flex-1">
-                      <h3 className="font-bold text-lg mb-1">{module.name}</h3>
-                      <p className="text-sm text-sundae-muted">{module.description}</p>
+                      <h3 className="font-bold text-lg mb-1">{localizedModule?.name ?? module.name}</h3>
+                      <p className="text-sm text-sundae-muted">{localizedModule?.description ?? module.description}</p>
                     </div>
                   </div>
 
                   <div className="mb-4">
-                    <span className="text-2xl font-bold">${modulePrice.toLocaleString()}</span>
-                    <span className="text-sundae-muted">/mo</span>
+                    <span className="text-2xl font-bold">${modulePrice.toLocaleString(locale)}</span>
+                    <span className="text-sundae-muted">{copy.perMonth}</span>
                     <div className="text-xs text-sundae-muted mt-1">
-                      ${module.basePrice} base + ${module.perLocationPrice} × {locations - 1} locations
+                      {formatMessage(copy.basePlusLocations, {
+                        base: module.basePrice,
+                        perLocation: module.perLocationPrice,
+                        extra: locations - 1,
+                      })}
                     </div>
                   </div>
 
                   <ul className="space-y-2">
-                    {module.features.slice(0, 3).map((feature, idx) => (
+                    {localizedAddOns.watchtower[moduleId as keyof typeof localizedAddOns.watchtower].map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-sm">
                         <span className="text-sundae-accent">•</span>
                         <span>{feature}</span>
@@ -176,7 +193,7 @@ export function WatchtowerToggle() {
         >
           {/* Badge positioned above card with proper spacing */}
           <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-gradient-gold text-white text-sm font-bold rounded-full z-50 whitespace-nowrap shadow-lg">
-            BEST VALUE – SAVE ~18%
+            {copy.bestValue}
           </div>
           
           <button
@@ -193,8 +210,8 @@ export function WatchtowerToggle() {
                 <div className="flex items-center gap-4 mb-4">
                   <Castle className="w-12 h-12 text-watchtower" />
                   <div>
-                    <h3 className="font-bold text-2xl mb-1">{watchtower.bundle.name}</h3>
-                    <p className="text-sundae-muted">{watchtower.bundle.description}</p>
+                    <h3 className="font-bold text-2xl mb-1">{watchtowerCatalog.bundle.name}</h3>
+                    <p className="text-sundae-muted">{watchtowerCatalog.bundle.description}</p>
                   </div>
                 </div>
 
@@ -204,26 +221,31 @@ export function WatchtowerToggle() {
                     if (!included || 'includes' in included) return null;
                     const Icon = getModuleIcon(includedId);
                     const individualPrice = included.basePrice + ((locations - 1) * included.perLocationPrice);
+                    const localizedIncluded = watchtowerCatalog[includedId as keyof typeof watchtowerCatalog];
                     return (
                       <div key={includedId} className="flex items-center gap-2 text-sm">
                         <Icon className="w-4 h-4 text-watchtower" />
-                        <span>{included.name}</span>
-                        <span className="text-sundae-muted">(${individualPrice})</span>
+                        <span>{localizedIncluded?.name ?? included.name}</span>
+                        <span className="text-sundae-muted">(${individualPrice.toLocaleString(locale)})</span>
                       </div>
                     );
                   })}
                 </div>
               </div>
 
-              <div className="text-right">
-                <div className="text-3xl font-bold mb-1">${bundleResult.total.toLocaleString()}/mo</div>
+            <div className="text-right">
+                <div className="text-3xl font-bold mb-1">${bundleResult.total.toLocaleString(locale)}{copy.perMonth}</div>
                 <div className="text-xs text-sundae-muted mb-2">
-                  ${watchtower.bundle.basePrice} base + ${watchtower.bundle.perLocationPrice} × {locations - 1} locs
+                  {formatMessage(copy.basePlusLocations, {
+                    base: watchtower.bundle.basePrice,
+                    perLocation: watchtower.bundle.perLocationPrice,
+                    extra: locations - 1,
+                  })}
                 </div>
                 <div className="text-sm text-sundae-muted line-through">
-                  ${bundleResult.subtotal.toLocaleString()}/mo individual
+                  ${bundleResult.subtotal.toLocaleString(locale)}{copy.perMonth} {copy.individualSuffix}
                 </div>
-                <div className="text-green-400 font-semibold">~18% OFF</div>
+                <div className="text-green-400 font-semibold">{copy.bundleDiscount}</div>
               </div>
             </div>
           </button>
@@ -241,11 +263,13 @@ export function WatchtowerToggle() {
           <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 rounded-full mb-4">
               <Sparkles className="w-4 h-4 text-purple-400" />
-              <span className="text-sm font-semibold text-purple-300">Unlocked with {modules.length} modules</span>
+              <span className="text-sm font-semibold text-purple-300">
+                {formatMessage(copy.unlockedWithModules, { count: modules.length })}
+              </span>
             </div>
-            <h2 className="text-2xl font-bold mb-2">Cross-Intelligence Correlation Engine</h2>
+            <h2 className="text-2xl font-bold mb-2">{copy.crossTitle}</h2>
             <p className="text-sundae-muted">
-              Surfaces hidden connections between your data sources — automatically enabled with 3+ modules
+              {copy.crossSubtitle}
             </p>
           </div>
 
@@ -262,13 +286,13 @@ export function WatchtowerToggle() {
               <div className="flex items-center gap-3 mb-4">
                 <GitBranch className="w-8 h-8 text-purple-400" />
                 <div>
-                  <h3 className="font-bold text-lg">{crossIntelligence.base.name}</h3>
-                  <span className="text-green-400 text-sm font-semibold">Included Free</span>
+                  <h3 className="font-bold text-lg">{crossCatalog.base.name}</h3>
+                  <span className="text-green-400 text-sm font-semibold">{copy.includedFree}</span>
                 </div>
               </div>
-              <p className="text-sm text-sundae-muted mb-4">{crossIntelligence.base.description}</p>
+              <p className="text-sm text-sundae-muted mb-4">{crossCatalog.base.description}</p>
               <ul className="space-y-2">
-                {crossIntelligence.base.features.map((feature, idx) => (
+                {localizedAddOns.crossIntelligence.base.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-sm">
                     <span className="text-purple-400">•</span>
                     <span>{feature}</span>
@@ -293,38 +317,35 @@ export function WatchtowerToggle() {
                   <div className="flex items-center gap-3">
                     <Zap className="w-8 h-8 text-cyan-400" />
                     <div>
-                      <h3 className="font-bold text-lg">{crossIntelligence.pro.name}</h3>
+                      <h3 className="font-bold text-lg">{crossCatalog.pro.name}</h3>
                       <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold">${crossIntelProPrice.toLocaleString()}</span>
-                        <span className="text-sundae-muted">/mo</span>
+                        <span className="text-2xl font-bold">${crossIntelProPrice.toLocaleString(locale)}</span>
+                        <span className="text-sundae-muted">{copy.perMonth}</span>
                       </div>
                     </div>
                   </div>
                   {crossIntelSelection === 'pro' && (
                     <div className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-semibold rounded-full">
-                      Selected
+                      {copy.selected}
                     </div>
                   )}
                 </div>
                 <div className="text-xs text-sundae-muted mb-4">
-                  $199/mo + $19/loc from location #2 ({locations} locations)
+                  {formatMessage(copy.proPriceNote, { locations })}
                 </div>
-                <p className="text-sm text-sundae-muted mb-4">{crossIntelligence.pro.description}</p>
+                <p className="text-sm text-sundae-muted mb-4">{crossCatalog.pro.description}</p>
 
                 <div className="grid grid-cols-2 gap-2">
-                  {[
-                    { icon: BarChart3, name: 'Correlation Matrix' },
-                    { icon: Activity, name: 'Revenue Attribution' },
-                    { icon: Radar, name: 'Spend Efficiency Radar' },
-                    { icon: AlertTriangle, name: 'Cannibalization Detector' },
-                    { icon: Search, name: 'Campaign Pulse Monitor' },
-                    { icon: Sparkles, name: 'Custom Alert Rules' },
-                  ].map(({ icon: Icon, name }) => (
-                    <div key={name} className="flex items-center gap-2 text-xs text-sundae-muted">
+                  {localizedAddOns.crossIntelligence.pro.map((feature, idx) => {
+                    const icons: LucideIcon[] = [BarChart3, Activity, Radar, AlertTriangle, Search, Sparkles];
+                    const Icon = icons[idx] || Sparkles;
+                    return (
+                    <div key={feature} className="flex items-center gap-2 text-xs text-sundae-muted">
                       <Icon className="w-3 h-3 text-cyan-400 flex-shrink-0" />
-                      <span>{name}</span>
+                      <span>{feature}</span>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </button>
             </motion.div>
@@ -341,15 +362,15 @@ export function WatchtowerToggle() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm text-sundae-muted mb-1">Total with Add-ons</div>
+            <div className="text-sm text-sundae-muted mb-1">{copy.totalWithAddons}</div>
             <div className="text-3xl font-bold tabular-nums">
-              ${pricing.total.toLocaleString()}/mo
+              ${pricing.total.toLocaleString(locale)}{copy.perMonth}
             </div>
           </div>
           <div className="text-right">
-            <div className="text-sm text-sundae-muted mb-1">Per Location</div>
+            <div className="text-sm text-sundae-muted mb-1">{copy.perLocation}</div>
             <div className="text-2xl font-bold">
-              ${pricing.perLocation.toFixed(0)}/mo
+              ${pricing.perLocation.toFixed(0)}{copy.perMonth}
             </div>
           </div>
         </div>
@@ -367,7 +388,7 @@ export function WatchtowerToggle() {
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-sundae-surface hover:bg-sundae-surface-hover border border-white/10 hover:border-white/20 transition-colors font-semibold"
         >
           <ChevronLeft className="w-5 h-5" />
-          Back
+          {copy.back}
         </button>
         
         <div className="text-center">
@@ -376,13 +397,13 @@ export function WatchtowerToggle() {
             className="button-primary inline-flex items-center gap-2 relative z-50"
             data-testid="continue-button-watchtower"
           >
-            <span>Continue to ROI Calculator</span>
+            <span>{copy.continueToRoi}</span>
             <ChevronRight className="w-5 h-5" />
           </button>
           
           {watchtowerModules.length === 0 && (
             <p className="text-sm text-sundae-muted mt-2">
-              Watchtower is optional - you can skip this step
+              {copy.watchtowerOptional}
             </p>
           )}
         </div>

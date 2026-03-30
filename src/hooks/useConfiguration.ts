@@ -9,6 +9,10 @@ import type { Persona } from '../data/personas';
 import type { Achievement } from '../data/personas';
 import { achievements } from '../data/personas';
 
+type E2EStoreWindow = Window & {
+  __SUNDAE_STORE__?: typeof useConfiguration;
+};
+
 export interface JourneyStep {
   id: string;
   name: string;
@@ -419,5 +423,5 @@ export const useConfiguration = create<ConfigurationState>()(
 
 // Expose store for E2E testing in dev mode
 if (import.meta.env.DEV) {
-  (window as any).__SUNDAE_STORE__ = useConfiguration;
+  (window as E2EStoreWindow).__SUNDAE_STORE__ = useConfiguration;
 }

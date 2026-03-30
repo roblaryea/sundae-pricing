@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useConfiguration } from '../hooks/useConfiguration';
 import { PathwaySelector } from '../components/PathwaySelector/PathwaySelector';
 import { LayerStack } from '../components/ConfigBuilder/LayerStack';
@@ -23,28 +23,28 @@ export function Simulator() {
     };
   }, []);
 
-  const renderStep = () => {
-    switch (currentStep) {
-      case 0:
-        return <PathwaySelector />;
-      case 1:
-        return <LayerStack />;
-      case 2:
-        return <TierSelector />;
-      case 3:
-        return <LocationSlider />;
-      case 4:
-        return <ModulePicker />;
-      case 5:
-        return <WatchtowerToggle />;
-      case 6:
-        return <ROISimulator />;
-      case 7:
-        return <ConfigSummary />;
-      default:
-        return <PathwaySelector />;
-    }
-  };
+  const stepComponents = [
+    <PathwaySelector />,
+    <LayerStack />,
+    <TierSelector />,
+    <LocationSlider />,
+    <ModulePicker />,
+    <WatchtowerToggle />,
+    <ROISimulator />,
+    <ConfigSummary />,
+  ];
+
+  const renderStep = () => (
+    <motion.div
+      key={`step-${currentStep}`}
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -20 }}
+      transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+    >
+      {stepComponents[currentStep] ?? <PathwaySelector />}
+    </motion.div>
+  );
 
   return (
     <div className="min-h-screen">

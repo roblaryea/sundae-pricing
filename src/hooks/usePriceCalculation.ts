@@ -7,6 +7,9 @@ import type { PriceResult, ClientProfile } from '../lib/pricingEngine';
 import type { ModuleId, CrossIntelligenceTier } from '../data/pricing';
 import type { Configuration as EngineConfig } from '../lib/pricingEngine';
 import type { PriceBreakdown, PriceCalculation, CrossIntelligenceSelection } from '../types/configuration';
+import { useLivePricingCatalog } from '../data/livePricing';
+import { useLocale } from '../contexts/LocaleContext';
+import { localizeBreakdownLabel, localizeDiscountName, type PricingLocale } from '../lib/pricingI18n';
 
 // Re-export for backward compatibility
 export type { PriceBreakdown, PriceCalculation };
@@ -52,7 +55,12 @@ export function usePriceCalculation(
   clientProfile?: ClientProfile,
   crossIntelligence?: CrossIntelligenceSelection
 ): PriceCalculation {
+  const livePricing = useLivePricingCatalog();
+  const { locale } = useLocale();
+  const livePricingVersion = livePricing.version;
+
   return useMemo(() => {
+    void livePricingVersion;
     // Use centralized pricing engine
     const config = convertToEngineConfig(layer, tier, locations, modules, watchtowerModules, clientProfile, crossIntelligence);
     const result: PriceResult = calculateFullPrice(config);
@@ -70,13 +78,18 @@ export function usePriceCalculation(
       }
       
       return {
-        item: item.item,
+        item: localizeBreakdownLabel(item.item, locale as PricingLocale),
         price: item.price,
         perLocation: item.price / locations,
         category,
         note: item.note
       };
     });
+
+    const discounts = result.discountsApplied.map((discount) => ({
+      ...discount,
+      name: localizeDiscountName(discount.name, locale as PricingLocale),
+    }));
     
     // Calculate Tenzo comparison
     const tenzoComparison = calculateTenzoPrice(locations, modules.length || 1);
@@ -90,12 +103,12 @@ export function usePriceCalculation(
       aiCredits: result.aiCreditsTotal,
       aiSeats: result.aiSeatsTotal,
       subtotal: result.subtotal,
-      discounts: result.discountsApplied,
+      discounts,
       savings: {
         tenzo: tenzoComparison
       }
     };
-  }, [layer, tier, locations, modules, watchtowerModules, clientProfile, crossIntelligence]);
+  }, [layer, tier, locations, modules, watchtowerModules, clientProfile, crossIntelligence, livePricingVersion, locale]);
 }
 
 // Helper to check if a configuration includes specific module combinations

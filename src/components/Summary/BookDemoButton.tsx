@@ -4,8 +4,10 @@ import { Calendar } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { LEGAL } from '../../config/legal';
+import { useLocale } from '../../contexts/LocaleContext';
 
 export function BookDemoButton() {
+  const { messages } = useLocale();
   const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
   
@@ -31,7 +33,7 @@ export function BookDemoButton() {
       className="button-primary flex items-center justify-center gap-2"
     >
       <Calendar className="w-5 h-5" />
-      Book Demo
+      {messages.quote.bookDemo}
     </button>
   );
 }

@@ -13,17 +13,13 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('light');
-  
-  // Load saved preference
-  useEffect(() => {
-    const saved = localStorage.getItem('sundae-theme') as Theme;
-    if (saved) {
-      setThemeState(saved);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setThemeState('dark');
+  const [theme, setThemeState] = useState<Theme>(() => {
+    const saved = localStorage.getItem('sundae-theme') as Theme | null;
+    if (saved === 'dark' || saved === 'light') {
+      return saved;
     }
-  }, []);
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
   
   // Apply theme to document
   useEffect(() => {

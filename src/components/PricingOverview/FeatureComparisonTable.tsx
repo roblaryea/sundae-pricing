@@ -1,4 +1,6 @@
+import React from 'react';
 import { Check, X } from 'lucide-react';
+import { useLocale } from '../../contexts/LocaleContext';
 
 interface Feature {
   name: string;
@@ -18,6 +20,7 @@ interface FeatureComparisonTableProps {
 }
 
 export function FeatureComparisonTable({ data, tierKeys, tierLabels, tierColors }: FeatureComparisonTableProps) {
+  const { messages } = useLocale();
   const renderCell = (value: string) => {
     if (value === '✓') {
       return <Check className="w-5 h-5 text-green-500 mx-auto" />;
@@ -34,7 +37,7 @@ export function FeatureComparisonTable({ data, tierKeys, tierLabels, tierColors 
         <thead>
           <tr className="bg-white/5">
             <th className="text-left p-4 font-semibold text-white border-r border-white/10 min-w-[250px]">
-              Feature
+              {messages.table.feature}
             </th>
             {tierLabels.map((label, idx) => (
               <th
@@ -49,9 +52,9 @@ export function FeatureComparisonTable({ data, tierKeys, tierLabels, tierColors 
         </thead>
         <tbody>
           {data.map((categoryData, catIdx) => (
-            <>
+            <React.Fragment key={`cat-${catIdx}`}>
               {/* Category Header */}
-              <tr key={`cat-${catIdx}`} className="bg-white/10">
+              <tr className="bg-white/10">
                 <td
                   colSpan={tierKeys.length + 1}
                   className="p-3 font-bold text-white uppercase text-sm tracking-wide"
@@ -78,7 +81,7 @@ export function FeatureComparisonTable({ data, tierKeys, tierLabels, tierColors 
                   ))}
                 </tr>
               ))}
-            </>
+            </React.Fragment>
           ))}
         </tbody>
       </table>

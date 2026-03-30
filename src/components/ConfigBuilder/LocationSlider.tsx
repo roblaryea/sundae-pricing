@@ -76,6 +76,7 @@ export function LocationSlider() {
   
   const [inputValue, setInputValue] = useState(locations.toString());
   const [isDragging, setIsDragging] = useState(false);
+  const [isEditingInput, setIsEditingInput] = useState(false);
   
   // Ensure Enterprise tier starts at 101+ locations
   useEffect(() => {
@@ -84,15 +85,9 @@ export function LocationSlider() {
     }
   }, [isEnterprise, locations, minLocations, setLocations]);
   
-  // Sync input value with prop
-  useEffect(() => {
-    if (!isDragging) {
-      setInputValue(locations.toString());
-    }
-  }, [locations, isDragging]);
-  
   const percent = useMemo(() => locationToPercent(locations), [locations]);
   const scaleInfo = getScaleLabel(locations);
+  const displayedInputValue = isDragging || isEditingInput ? inputValue : locations.toString();
   
   const handleSliderChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setIsDragging(true);
@@ -118,6 +113,7 @@ export function LocationSlider() {
   }, []);
   
   const handleInputBlur = useCallback(() => {
+    setIsEditingInput(false);
     const num = parseInt(inputValue, 10);
     if (!isNaN(num) && num >= minLocations) {
       const clamped = Math.min(Math.max(num, minLocations), 9999);
@@ -246,8 +242,9 @@ export function LocationSlider() {
           <input
             id="location-input"
             type="text"
-            value={inputValue}
+            value={displayedInputValue}
             onChange={handleInputChange}
+            onFocus={() => setIsEditingInput(true)}
             onBlur={handleInputBlur}
             onKeyDown={handleInputKeyDown}
             min={minLocations}

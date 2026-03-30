@@ -6,6 +6,7 @@ import { useState } from 'react';
 import type { JourneyStep } from '../../hooks/useConfiguration';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { shouldShowStep } from '../../utils/tierAvailability';
+import { useLocale } from '../../contexts/LocaleContext';
 
 interface ProgressIndicatorProps {
   steps: JourneyStep[];
@@ -16,6 +17,10 @@ interface ProgressIndicatorProps {
 export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressIndicatorProps) {
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const { layer, tier } = useConfiguration();
+  const { messages } = useLocale();
+  const stepLabels = messages.simulator.journey;
+
+  const getStepLabel = (stepId: string) => stepLabels[stepId as keyof typeof stepLabels] || stepId;
 
   const handleStepClick = (index: number) => {
     // Check if step is available for current tier
@@ -79,8 +84,8 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
                       ? 'cursor-default' 
                       : 'cursor-not-allowed'
                 }`}
-                aria-label={`${step.name}${isCompleted ? ' (completed)' : isActive ? ' (current)' : ''}`}
-                title={step.name}
+                aria-label={`${getStepLabel(step.id)}${isCompleted ? ` (${messages.simulator.completed})` : isActive ? ` (${messages.simulator.current})` : ''}`}
+                title={getStepLabel(step.id)}
                 tabIndex={isClickable ? 0 : -1}
               >
                 {isCompleted ? (
@@ -104,20 +109,23 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
                         ? 'bg-sundae-surface border border-white/20 text-white'
                         : 'text-sundae-muted'
                   }`}>
-                    {step.name}
-                    {isClickable && <span className="ml-1 text-xs opacity-70">(click to go back)</span>}
+                    {getStepLabel(step.id)}
+                    {isClickable && <span className="ml-1 text-xs opacity-70">({messages.simulator.clickToGoBack})</span>}
                   </div>
                 </motion.div>
               )}
             </motion.div>
 
-            {/* Connector line */}
+            {/* Connector line with animated fill */}
             {index < steps.length - 1 && (
-              <div className={`w-12 h-0.5 mx-1 transition-all ${
-                isPast 
-                  ? 'bg-green-500'
-                  : 'bg-sundae-surface-hover'
-              }`} />
+              <div className="relative w-12 h-0.5 mx-1 bg-sundae-surface-hover overflow-hidden rounded-full">
+                <motion.div
+                  className="absolute inset-0 bg-green-500 origin-left"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: isPast ? 1 : 0 }}
+                  transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                />
+              </div>
             )}
           </div>
         );

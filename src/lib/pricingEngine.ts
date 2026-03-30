@@ -179,6 +179,12 @@ export interface SetupFeeResult {
   total: number;
 }
 
+interface PulseIntegrationCreditRules {
+  laborSameSystem: number;
+  inventorySameSystem: number;
+  maxCredit: number;
+}
+
 export function calculateSetupFees(
   selectedModules: ModuleId[],
   options: {
@@ -207,7 +213,7 @@ export function calculateSetupFees(
 
       // Pulse integration credit rule
       if (id === 'pulse' && options.pulseIntegrationOverlap) {
-        const creditRules = (m as any).integrationCreditRules;
+        const creditRules = (m as typeof m & { integrationCreditRules?: PulseIntegrationCreditRules }).integrationCreditRules;
         if (creditRules) {
           let credit = 0;
           if (options.pulseIntegrationOverlap.laborSameSystem && selectedModules.includes('labor')) {
@@ -270,11 +276,12 @@ export function validatePrerequisites(
         (prereq: string) => !selectedModules.includes(prereq as ModuleId)
       );
       if (missing.length > 0) {
+        const prerequisiteMessage = (m as typeof m & { prerequisiteMessage?: string }).prerequisiteMessage;
         errors.push({
           moduleId: id,
           moduleName: m.name,
           missingPrerequisites: missing,
-          message: (m as any).prerequisiteMessage || `Requires: ${missing.join(', ')}`
+          message: prerequisiteMessage || `Requires: ${missing.join(', ')}`
         });
       }
     }

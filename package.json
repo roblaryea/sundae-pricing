@@ -13,7 +13,7 @@
     "qa": "tsx scripts/qa-validate-pricing.ts",
     "test": "vitest run",
     "test:pricing": "vitest run __tests__/pricing.v4_3.spec.ts __tests__/pricing.test.ts",
-    "test:e2e:pricing": "npx playwright test e2e/pricing-simulator.spec.ts",
+    "test:e2e:pricing": "env -u NO_COLOR npx playwright test e2e/pricing-simulator.spec.ts",
     "pricing:audit": "tsx scripts/pricing_audit.ts",
     "pricing:audit:full": "tsx scripts/pricing_audit.ts --with-release-notes",
     "release:notes": "tsx scripts/release_notes.ts",
@@ -22,11 +22,13 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@sentry/react": "^10.42.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.26",
-    "jspdf": "^3.0.4",
+    "jspdf": "^4.2.1",
     "lucide-react": "^0.562.0",
+    "posthog-js": "^1.358.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.11.0",

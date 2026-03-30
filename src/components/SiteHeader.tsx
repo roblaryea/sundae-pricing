@@ -2,8 +2,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { Logo } from './Brand/Logo';
 import { ThemeToggle } from './shared/ThemeToggle';
 import { LEGAL } from '../config/legal';
+import { localeNames, supportedLocales, useLocale, type PricingLocale } from '../contexts/LocaleContext';
 
 export function SiteHeader() {
+  const { locale, setLocale, messages } = useLocale();
   const location = useLocation();
   const isSimulator = location.pathname === '/simulator';
 
@@ -16,7 +18,7 @@ export function SiteHeader() {
             <Logo size="lg" />
           </a>
           <p className="text-xs md:text-sm text-sundae-muted mt-1 hidden sm:block">
-            {isSimulator ? 'Pricing Simulator' : 'Decision Intelligence Platform'}
+            {isSimulator ? messages.header.simulator : messages.header.platform}
           </p>
         </div>
         
@@ -28,7 +30,7 @@ export function SiteHeader() {
               to="/"
               className="text-sm md:text-base text-sundae-muted hover:text-white transition-colors"
             >
-              Pricing
+              {messages.header.pricing}
             </Link>
           )}
           
@@ -38,7 +40,7 @@ export function SiteHeader() {
               to="/simulator"
               className="px-3 py-1.5 md:px-4 md:py-2 bg-gradient-primary text-white text-xs md:text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity"
             >
-              Get Instant Quote
+              {messages.header.instantQuote}
             </Link>
           )}
           
@@ -47,8 +49,24 @@ export function SiteHeader() {
             href={LEGAL.demoUrl}
             className="px-3 py-1.5 md:px-4 md:py-2 border border-white/20 text-white text-xs md:text-sm font-medium rounded-lg hover:bg-white/5 transition-colors"
           >
-            Book Demo
+            {messages.header.bookDemo}
           </a>
+
+          <label className="hidden sm:inline-flex items-center">
+            <span className="sr-only">Language</span>
+            <select
+              value={locale}
+              onChange={(event) => setLocale(event.target.value as PricingLocale)}
+              className="rounded-lg border border-white/15 bg-sundae-surface px-2 py-1.5 text-xs text-sundae-muted outline-none transition-colors hover:text-white"
+              aria-label="Language"
+            >
+              {supportedLocales.map((item) => (
+                <option key={item} value={item}>
+                  {localeNames[item]}
+                </option>
+              ))}
+            </select>
+          </label>
           
           {/* Theme toggle */}
           <ThemeToggle />

@@ -41,7 +41,7 @@ export interface CompetitorPricing {
   sourceUrl?: string | null;
   lastVerified?: string | null;
   showPricing?: boolean;
-  pricing: any;
+  pricing: Record<string, unknown>;
   calculate: (locations: number, modules: string[]) => {
     monthly: number | null;
     firstYear: number | null;

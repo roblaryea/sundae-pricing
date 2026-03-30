@@ -4,9 +4,10 @@ import { useState } from 'react';
 import { Download, Loader2, CheckCircle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { generateQuotePDF } from '../../lib/pdfGenerator';
+import { useLocale } from '../../contexts/LocaleContext';
 
 export function PDFExportButton() {
+  const { locale, messages } = useLocale();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   
@@ -17,6 +18,8 @@ export function PDFExportButton() {
     setIsGenerating(true);
     
     try {
+      const { generateQuotePDF } = await import('../../lib/pdfGenerator');
+
       // Generate PDF using shared utility
       const pdfBlob = await generateQuotePDF(
         layer,
@@ -24,12 +27,13 @@ export function PDFExportButton() {
         locations,
         selectedModules,
         watchtowerModules,
-        pricing
+        pricing,
+        locale
       );
       
       // Convert blob to file and download
       const today = new Date();
-      const dateStr = today.toLocaleDateString().replace(/\//g, '-');
+      const dateStr = new Intl.DateTimeFormat(locale).format(today).replace(/[\\/]/g, '-');
       const filename = `Sundae-Quote-${locations}loc-${dateStr}.pdf`;
       
       // Create download link
@@ -45,7 +49,7 @@ export function PDFExportButton() {
       
     } catch (error) {
       console.error('PDF generation failed:', error);
-      alert('Failed to generate PDF. Please try again.');
+      alert(messages.pdf.failed);
     } finally {
       setIsGenerating(false);
     }
@@ -60,17 +64,17 @@ export function PDFExportButton() {
       {isGenerating ? (
         <>
           <Loader2 className="w-5 h-5 animate-spin" />
-          Generating...
+          {messages.pdf.generating}
         </>
       ) : isComplete ? (
         <>
           <CheckCircle className="w-5 h-5 text-green-400" />
-          Downloaded!
+          {messages.pdf.downloaded}
         </>
       ) : (
         <>
           <Download className="w-5 h-5" />
-          Download PDF
+          {messages.pdf.download}
         </>
       )}
     </button>

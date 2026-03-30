@@ -3,12 +3,18 @@
 import { motion } from 'framer-motion';
 import { Check, Star, TrendingUp, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { reportTiers, coreTiers } from '../../data/pricing';
+import { getLocalizedTierCatalog } from '../../data/pricing';
 import { suggestOptimalTier } from '../../hooks/usePriceCalculation';
 import { getCoreProAdvantageMessage } from '../../utils/pricingCalculators';
+import { useLivePricingCatalog } from '../../data/livePricing';
+import { useLocale } from '../../contexts/LocaleContext';
 
 export function TierSelector() {
   const { layer, setTier, locations, setCurrentStep } = useConfiguration();
+  const { locale, messages } = useLocale();
+  useLivePricingCatalog();
+  const copy = messages.builder.tierSelector;
+  const localizedTiers = getLocalizedTierCatalog(locale);
 
   if (!layer) {
     // Shouldn't happen, but handle gracefully
@@ -17,8 +23,8 @@ export function TierSelector() {
   }
 
   const tiers = layer === 'report' 
-    ? Object.values(reportTiers)
-    : Object.values(coreTiers).filter(t => typeof t === 'object' && 'basePrice' in t);
+    ? Object.values(localizedTiers.reportTiers)
+    : Object.values(localizedTiers.coreTiers).filter(t => typeof t === 'object' && 'basePrice' in t);
 
   const optimalTier = suggestOptimalTier(locations, layer);
 
@@ -39,6 +45,17 @@ export function TierSelector() {
     return colors[tierId] || '#3B82F6';
   };
 
+  const formatMessage = (template: string, values: Record<string, string | number>) =>
+    Object.entries(values).reduce(
+      (result, [key, value]) => result.replaceAll(`\${${key}}`, String(value)).replaceAll(`{${key}}`, String(value)),
+      template,
+    );
+
+  const getTierCatalog = (tierId: string) => {
+    const shortId = tierId.split('-').pop() as 'lite' | 'plus' | 'pro' | 'enterprise';
+    return layer === 'report' ? localizedTiers.reportTiers[shortId as 'lite' | 'plus' | 'pro'] : localizedTiers.coreTiers[shortId as 'lite' | 'pro' | 'enterprise'];
+  };
+
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div
@@ -47,12 +64,12 @@ export function TierSelector() {
         className="text-center mb-12"
       >
         <h1 className="text-4xl font-bold mb-4">
-          Choose Your {layer === 'report' ? 'Report' : 'Core'} Tier
+          {layer === 'report' ? copy.chooseReportTier : copy.chooseCoreTier}
         </h1>
         <p className="text-xl text-sundae-muted">
           {layer === 'report' 
-            ? 'Start free or unlock more analytics power'
-            : 'Real-time intelligence tailored to your scale'}
+            ? copy.reportSubtitle
+            : copy.coreSubtitle}
         </p>
       </motion.div>
 
@@ -63,6 +80,7 @@ export function TierSelector() {
           
           const isOptimal = tierData.id.includes(optimalTier);
           const tierColor = getTierColor(tierData.id);
+          const tierCatalog = getTierCatalog(tierData.id);
 
           return (
             <motion.div
@@ -82,7 +100,7 @@ export function TierSelector() {
                 >
                   <div className="bg-gradient-primary text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1 shimmer">
                     <Star className="w-4 h-4" />
-                    RECOMMENDED
+                    {copy.recommended}
                   </div>
                 </motion.div>
               )}
@@ -106,9 +124,9 @@ export function TierSelector() {
                   {/* Header */}
                   <div className="mb-4">
                     <h3 className="text-2xl font-bold mb-1" style={{ color: tierColor }}>
-                      {tierData.name}
+                      {tierCatalog?.name ?? tierData.name}
                     </h3>
-                    <p className="text-sm text-sundae-muted">{tierData.tagline}</p>
+                    <p className="text-sm text-sundae-muted">{tierCatalog?.tagline ?? tierData.tagline}</p>
                   </div>
 
                   {/* Price */}
@@ -117,16 +135,16 @@ export function TierSelector() {
                       <span className="text-4xl font-bold tabular-nums">
                         {typeof tierData.basePrice === 'number' ? `$${tierData.basePrice}` : tierData.basePrice}
                       </span>
-                      {typeof tierData.basePrice === 'number' && <span className="text-sundae-muted">/mo</span>}
+                      {typeof tierData.basePrice === 'number' && <span className="text-sundae-muted">{copy.perMonth}</span>}
                     </div>
                     {typeof tierData.additionalLocationPrice === 'number' && tierData.additionalLocationPrice > 0 && (
                       <p className="text-sm text-sundae-muted mt-1">
-                        +${tierData.additionalLocationPrice} per additional location
+                        {formatMessage(copy.perAdditionalLocation, { price: tierData.additionalLocationPrice })}
                       </p>
                     )}
                     {typeof tierData.additionalLocationPrice === 'string' && (
                       <p className="text-sm text-sundae-muted mt-1">
-                        {tierData.additionalLocationPrice} pricing
+                        {formatMessage(copy.pricingSuffix, { label: tierData.additionalLocationPrice })}
                       </p>
                     )}
                   </div>
@@ -134,22 +152,22 @@ export function TierSelector() {
                   {/* Key metrics */}
                   <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
                     <div className="flex justify-between text-sm">
-                      <span className="text-sundae-muted">AI Credits</span>
+                      <span className="text-sundae-muted">{copy.aiCredits}</span>
                       <span className="font-semibold">
                         {tierData.aiCredits.base}+
                       </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-sundae-muted">Visuals</span>
+                      <span className="text-sundae-muted">{copy.visuals}</span>
                       <span className="font-semibold">{tierData.visuals}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-sundae-muted">Data Refresh</span>
+                      <span className="text-sundae-muted">{copy.dataRefresh}</span>
                       <span className="font-semibold">{tierData.refresh}</span>
                     </div>
                     <div className="flex justify-between text-sm">
-                      <span className="text-sundae-muted">Benchmark</span>
-                      <span className="font-semibold">{tierData.benchmarkMetrics} metrics</span>
+                      <span className="text-sundae-muted">{copy.benchmark}</span>
+                      <span className="font-semibold">{tierData.benchmarkMetrics} {copy.metrics}</span>
                     </div>
                   </div>
 
@@ -165,7 +183,7 @@ export function TierSelector() {
 
                   {/* CTA */}
                   <div className="mt-6 flex items-center justify-center gap-2 text-sm font-semibold" style={{ color: tierColor }}>
-                    Select {tierData.name}
+                    {formatMessage(copy.selectTier, { tier: tierCatalog?.name ?? tierData.name })}
                     <ChevronRight className="w-4 h-4" />
                   </div>
                 </div>
@@ -184,14 +202,14 @@ export function TierSelector() {
       >
         <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-sundae-accent" />
-          Detailed Feature Comparison
+          {copy.detailedFeatureComparison}
         </h3>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-white/10">
-                <th className="text-left py-2 px-4">Feature</th>
+                <th className="text-left py-2 px-4">{copy.feature}</th>
                 {tiers.map(tierData => (
                   'basePrice' in tierData && (
                     <th key={tierData.id} className="text-center py-2 px-4" style={{ color: getTierColor(tierData.id) }}>
@@ -203,7 +221,7 @@ export function TierSelector() {
             </thead>
             <tbody className="divide-y divide-white/5">
               <tr>
-                <td className="py-3 px-4">Monthly Price</td>
+                <td className="py-3 px-4">{copy.monthlyPrice}</td>
                 {tiers.map(tierData => (
                   'basePrice' in tierData && (
                     <td key={tierData.id} className="text-center py-3 px-4">
@@ -213,7 +231,7 @@ export function TierSelector() {
                 ))}
               </tr>
               <tr>
-                <td className="py-3 px-4">AI Credits</td>
+                <td className="py-3 px-4">{copy.aiCredits}</td>
                 {tiers.map(tierData => (
                   'basePrice' in tierData && (
                     <td key={tierData.id} className="text-center py-3 px-4">
@@ -223,7 +241,7 @@ export function TierSelector() {
                 ))}
               </tr>
               <tr>
-                <td className="py-3 px-4">Data Refresh</td>
+                <td className="py-3 px-4">{copy.dataRefresh}</td>
                 {tiers.map(tierData => (
                   'basePrice' in tierData && (
                     <td key={tierData.id} className="text-center py-3 px-4">
@@ -233,7 +251,7 @@ export function TierSelector() {
                 ))}
               </tr>
               <tr>
-                <td className="py-3 px-4">Benchmark Metrics</td>
+                <td className="py-3 px-4">{copy.benchmarkMetrics}</td>
                 {tiers.map(tierData => (
                   'basePrice' in tierData && (
                     <td key={tierData.id} className="text-center py-3 px-4">
@@ -270,7 +288,7 @@ export function TierSelector() {
             <p className="text-sm flex items-start gap-2">
               <Star className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
               <span>
-                <strong>Portfolio Pricing Advantage:</strong> {advantageMessage}
+                <strong>{messages.overview.portfolioPricingAdvantage}:</strong> {advantageMessage}
               </span>
             </p>
           </motion.div>

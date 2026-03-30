@@ -1,9 +1,9 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// SUNDAE PRICING DATA — SINGLE SOURCE OF TRUTH
+// SUNDAE PRICING DATA — PRICING SITE MIRROR
 // ═══════════════════════════════════════════════════════════════════════════
 // UPDATED: 2026-02-26 to match sundae_final_pricing_v5.1.md
-// All pricing values verified against canonical pricing sheet v5.1
-// Do NOT modify without updating tests in __tests__/pricing.test.ts
+// This file mirrors the active pricing catalog for the pricing site experience.
+// Do NOT modify without updating tests in __tests__/pricing.test.ts and reconciling against backend pricing.
 
 export type ReportTier = 'lite' | 'plus' | 'pro';
 export type CoreTier = 'lite' | 'pro';
@@ -1394,3 +1394,524 @@ export const pricingFooter = {
   locationPricingNote: 'Additional locations are billed from location #2 onward (location #1 is included in the base price)',
   bundleRoundingNote: 'Bundle prices rounded to nearest whole dollar'
 };
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LOCALIZED DISPLAY HELPERS
+// These keep canonical pricing math/data intact while exposing translated UI copy.
+// ═══════════════════════════════════════════════════════════════════════════
+
+export type PricingLocale = 'en' | 'ar' | 'fr' | 'es';
+
+type TierDisplayCopy = {
+  name: string;
+  tagline: string;
+  bestFor: string;
+  features: string[];
+};
+
+const localizedTierDisplay: Record<PricingLocale, {
+  report: Record<keyof typeof reportTiers, TierDisplayCopy>;
+  core: Record<keyof typeof coreTiers, TierDisplayCopy>;
+}> = {
+  en: {
+    report: {
+      lite: {
+        name: 'Report Lite',
+        tagline: 'FREE Forever',
+        bestFor: 'Testing Sundae, basic visibility, proof of concept',
+        features: [
+          '20 core visuals',
+          'Pre-built dashboard layouts',
+          'Basic filtering',
+          '5 core benchmark metrics',
+          'Anonymous peer comparison only',
+        ],
+      },
+      plus: {
+        name: 'Report Plus',
+        tagline: 'Automated Insights',
+        bestFor: 'Serious single-location, automated data input, regular AI insights',
+        features: [
+          '~30 comprehensive visuals',
+          'AI-parsed data ingestion (2-3 min process)',
+          '15 key benchmark metrics',
+          '1-2km adjustable radius',
+          'Percentile rankings',
+        ],
+      },
+      pro: {
+        name: 'Report Pro',
+        tagline: 'API-Powered Analytics',
+        bestFor: 'Multi-location operators, API automation, advanced analytics, portfolio prep',
+        features: [
+          '~80 comprehensive visuals',
+          'Full API integration',
+          'Zero manual effort data updates',
+          '30 full benchmark metrics',
+          '1-3km adjustable radius',
+        ],
+      },
+    },
+    core: {
+      lite: {
+        name: 'Core Lite',
+        tagline: 'Real-Time Operations',
+        bestFor: '1-10 locations, real-time operations, portfolio management, single POS system',
+        features: [
+          'Real-time POS integration (15-min refresh)',
+          'FULL sales analytics included',
+          '30+ benchmark metrics',
+          '1-5km adjustable radius',
+          '3+ simultaneous segment filters',
+        ],
+      },
+      pro: {
+        name: 'Core Pro',
+        tagline: 'Portfolio Intelligence',
+        bestFor: '10-50 locations, multi-POS environments, advanced forecasting, strategic planning',
+        features: [
+          'Everything in Core Lite PLUS:',
+          '5-min data refresh (vs 15-min)',
+          '30-day predictive forecasting',
+          'Multi-POS support (unlimited systems)',
+          'Consolidated cross-platform analytics',
+        ],
+      },
+      enterprise: {
+        name: 'Enterprise',
+        tagline: 'Custom Solutions',
+        bestFor: '100+ locations OR enterprise features required (Dedicated CSM, 24/7, SSO, SLAs, security/compliance), Multi-brand portfolios',
+        features: [
+          'Everything in Core Pro PLUS:',
+          'Dedicated CSM',
+          '24/7 support available',
+          '15-minute SLA (critical)',
+          'Unlimited AI credits & seats',
+        ],
+      },
+    },
+  },
+  ar: {
+    report: {
+      lite: {
+        name: 'Report Lite',
+        tagline: 'مجاني دائماً',
+        bestFor: 'اختبار Sundae، رؤية أساسية، وإثبات الفكرة',
+        features: [
+          '20 مرئيات أساسية',
+          'تخطيطات لوحات تحكم جاهزة',
+          'تصفية أساسية',
+          '5 مقاييس معيارية أساسية',
+          'مقارنة مجهولة مع الأقران فقط',
+        ],
+      },
+      plus: {
+        name: 'Report Plus',
+        tagline: 'رؤى مؤتمتة',
+        bestFor: 'موقع واحد جاد، إدخال بيانات مؤتمت، ورؤى ذكاء اصطناعي منتظمة',
+        features: [
+          'حوالي 30 مرئية شاملة',
+          'استيعاب بيانات محلل بالذكاء الاصطناعي (عملية 2-3 دقائق)',
+          '15 مقياساً معيارياً رئيسياً',
+          'نطاق قابل للتعديل 1-2 كم',
+          'ترتيب حسب النسبة المئوية',
+        ],
+      },
+      pro: {
+        name: 'Report Pro',
+        tagline: 'تحليلات مدعومة بـ API',
+        bestFor: 'مشغلو مواقع متعددة، أتمتة API، تحليلات متقدمة، وتحضير المحفظة',
+        features: [
+          'حوالي 80 مرئية شاملة',
+          'تكامل API كامل',
+          'تحديثات بيانات دون عمل يدوي',
+          '30 مقياساً معيارياً كاملاً',
+          'نطاق قابل للتعديل 1-3 كم',
+        ],
+      },
+    },
+    core: {
+      lite: {
+        name: 'Core Lite',
+        tagline: 'عمليات لحظية',
+        bestFor: 'من 1 إلى 10 مواقع، عمليات لحظية، إدارة محفظة، ونظام POS واحد',
+        features: [
+          'تكامل POS لحظي (تحديث كل 15 دقيقة)',
+          'تحليلات المبيعات مشمولة بالكامل',
+          'أكثر من 30 مقياساً معيارياً',
+          'نطاق قابل للتعديل 1-5 كم',
+          'أكثر من 3 فلاتر شرائح متزامنة',
+        ],
+      },
+      pro: {
+        name: 'Core Pro',
+        tagline: 'ذكاء المحفظة',
+        bestFor: 'من 10 إلى 50 موقعاً، بيئات متعددة POS، توقعات متقدمة، وتخطيط استراتيجي',
+        features: [
+          'كل ما في Core Lite مع:',
+          'تحديث بيانات كل 5 دقائق (مقابل 15)',
+          'تنبؤات استباقية لمدة 30 يوماً',
+          'دعم متعدد POS (أنظمة غير محدودة)',
+          'تحليلات موحدة عبر المنصات',
+        ],
+      },
+      enterprise: {
+        name: 'Enterprise',
+        tagline: 'حلول مخصصة',
+        bestFor: 'أكثر من 100 موقع أو متطلبات مؤسسية مطلوبة (مدير نجاح مخصص، دعم 24/7، SSO، اتفاقيات مستوى الخدمة، الأمن/الامتثال)، محافظ متعددة العلامات',
+        features: [
+          'كل ما في Core Pro مع:',
+          'مدير نجاح عملاء مخصص',
+          'دعم متاح 24/7',
+          'اتفاقية مستوى خدمة 15 دقيقة (حرج)',
+          'أرصدة ومقاعد ذكاء اصطناعي غير محدودة',
+        ],
+      },
+    },
+  },
+  fr: {
+    report: {
+      lite: {
+        name: 'Report Lite',
+        tagline: 'Gratuit a vie',
+        bestFor: 'Tester Sundae, visibilite de base, preuve de concept',
+        features: [
+          '20 visuels principaux',
+          'Tableaux de bord preconstruits',
+          'Filtrage de base',
+          '5 metriques de benchmark principales',
+          'Comparaison anonyme entre pairs uniquement',
+        ],
+      },
+      plus: {
+        name: 'Report Plus',
+        tagline: 'Insights automatises',
+        bestFor: 'Site unique serieux, saisie automatisee et insights IA reguliers',
+        features: [
+          'Environ 30 visuels complets',
+          'Ingestion de donnees analysee par IA (2-3 min)',
+          '15 metriques de benchmark cles',
+          'Rayon ajustable de 1 a 2 km',
+          'Classement par percentile',
+        ],
+      },
+      pro: {
+        name: 'Report Pro',
+        tagline: 'Analytique alimentee par API',
+        bestFor: 'Operateurs multi-sites, automatisation API, analytique avancee, preparation de portefeuille',
+        features: [
+          'Environ 80 visuels complets',
+          'Integration API complete',
+          'Mises a jour sans saisie manuelle',
+          '30 metriques de benchmark completes',
+          'Rayon ajustable de 1 a 3 km',
+        ],
+      },
+    },
+    core: {
+      lite: {
+        name: 'Core Lite',
+        tagline: 'Operations en temps reel',
+        bestFor: '1 a 10 sites, operations en temps reel, gestion de portefeuille, POS unique',
+        features: [
+          'Integration POS en temps reel (rafraichissement 15 min)',
+          'Analyses de ventes COMPLETES incluses',
+          'Plus de 30 metriques de benchmark',
+          'Rayon ajustable de 1 a 5 km',
+          'Plus de 3 filtres de segment simultanes',
+        ],
+      },
+      pro: {
+        name: 'Core Pro',
+        tagline: 'Intelligence portefeuille',
+        bestFor: '10 a 50 sites, environnements multi-POS, previsions avancees, planification strategique',
+        features: [
+          'Tout ce qui est dans Core Lite PLUS :',
+          'Rafraichissement des donnees toutes les 5 min (vs 15 min)',
+          'Previsions sur 30 jours',
+          'Support multi-POS (systemes illimites)',
+          'Analyses consolidees multi-plateformes',
+        ],
+      },
+      enterprise: {
+        name: 'Enterprise',
+        tagline: 'Solutions sur mesure',
+        bestFor: '100+ sites ou exigences enterprise requises (CSM dedie, 24/7, SSO, SLA, securite/conformite), portefeuilles multi-marques',
+        features: [
+          'Tout ce qui est dans Core Pro PLUS :',
+          'Customer Success Manager dedie',
+          'Support disponible 24/7',
+          'SLA 15 minutes (critique)',
+          'Credits et sieges IA illimites',
+        ],
+      },
+    },
+  },
+  es: {
+    report: {
+      lite: {
+        name: 'Report Lite',
+        tagline: 'Gratis para siempre',
+        bestFor: 'Probar Sundae, visibilidad basica y prueba de concepto',
+        features: [
+          '20 visuales principales',
+          'Paneles preconstruidos',
+          'Filtrado basico',
+          '5 metricas de benchmark principales',
+          'Solo comparacion anonima con pares',
+        ],
+      },
+      plus: {
+        name: 'Report Plus',
+        tagline: 'Insights automatizados',
+        bestFor: 'Local unico serio, carga automatizada e insights de IA regulares',
+        features: [
+          'Aproximadamente 30 visuales completos',
+          'Ingestion de datos analizada por IA (proceso de 2-3 min)',
+          '15 metricas de benchmark clave',
+          'Radio ajustable de 1 a 2 km',
+          'Ranking por percentil',
+        ],
+      },
+      pro: {
+        name: 'Report Pro',
+        tagline: 'Analitica impulsada por API',
+        bestFor: 'Operadores multi-local, automatizacion API, analitica avanzada y preparacion de portafolio',
+        features: [
+          'Aproximadamente 80 visuales completos',
+          'Integracion total con API',
+          'Actualizaciones de datos sin trabajo manual',
+          '30 metricas de benchmark completas',
+          'Radio ajustable de 1 a 3 km',
+        ],
+      },
+    },
+    core: {
+      lite: {
+        name: 'Core Lite',
+        tagline: 'Operaciones en tiempo real',
+        bestFor: 'De 1 a 10 locales, operaciones en tiempo real, gestion de portafolio y un solo POS',
+        features: [
+          'Integracion POS en tiempo real (actualizacion cada 15 min)',
+          'Analitica de ventas COMPLETA incluida',
+          'Mas de 30 metricas de benchmark',
+          'Radio ajustable de 1 a 5 km',
+          'Mas de 3 filtros de segmento simultaneos',
+        ],
+      },
+      pro: {
+        name: 'Core Pro',
+        tagline: 'Inteligencia de portafolio',
+        bestFor: 'De 10 a 50 locales, entornos multi-POS, pronosticos avanzados y planificacion estrategica',
+        features: [
+          'Todo lo de Core Lite MAS:',
+          'Actualizacion de datos cada 5 min (vs 15 min)',
+          'Pronostico de 30 dias',
+          'Soporte multi-POS (sistemas ilimitados)',
+          'Analitica consolidada multiplataforma',
+        ],
+      },
+      enterprise: {
+        name: 'Enterprise',
+        tagline: 'Soluciones personalizadas',
+        bestFor: '100+ locales o requisitos enterprise necesarios (CSM dedicado, 24/7, SSO, SLA, seguridad/compliance), portafolios multimarcas',
+        features: [
+          'Todo lo de Core Pro MAS:',
+          'Customer Success Manager dedicado',
+          'Soporte disponible 24/7',
+          'SLA de 15 minutos (critico)',
+          'Creditos y asientos de IA ilimitados',
+        ],
+      },
+    },
+  },
+};
+
+export function getLocalizedTierCatalog(locale: PricingLocale = 'en') {
+  const copy = localizedTierDisplay[locale] ?? localizedTierDisplay.en;
+
+  return {
+    reportTiers: {
+      lite: { ...reportTiers.lite, ...copy.report.lite, features: [...copy.report.lite.features] },
+      plus: { ...reportTiers.plus, ...copy.report.plus, features: [...copy.report.plus.features] },
+      pro: { ...reportTiers.pro, ...copy.report.pro, features: [...copy.report.pro.features] },
+    },
+    coreTiers: {
+      lite: { ...coreTiers.lite, ...copy.core.lite, features: [...copy.core.lite.features] },
+      pro: { ...coreTiers.pro, ...copy.core.pro, features: [...copy.core.pro.features] },
+      enterprise: { ...coreTiers.enterprise, ...copy.core.enterprise, features: [...copy.core.enterprise.features] },
+    },
+  };
+}
+
+type AddOnDisplayCopy = {
+  watchtower: Record<keyof typeof watchtower, string[]>;
+  crossIntelligence: Record<keyof typeof crossIntelligence, string[]>;
+};
+
+const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
+  en: {
+    watchtower: {
+      competitive: [
+        'Track 10 competitors per location',
+        'Daily menu/pricing monitoring per location',
+        'Pricing change alerts (location-specific)',
+      ],
+      events: [
+        'Local event calendar (per location)',
+        'Concert & entertainment tracking',
+        'Conference & convention schedules',
+      ],
+      trends: [
+        'Google Trends integration (national + local)',
+        'Cuisine search demand tracking',
+        'Menu item popularity trends',
+      ],
+      bundle: [
+        'All Competitive Intelligence features',
+        'All Event & Calendar features',
+        'All Market Trends features',
+      ],
+    },
+    crossIntelligence: {
+      base: [
+        'Basic correlation alerts',
+        'Marketing Impact Timeline (30-day lookback)',
+        'Cause & Effect Cards',
+        'What Changed weekly digest',
+      ],
+      pro: [
+        'Everything in Cross-Intelligence Base',
+        'Full Correlation Matrix',
+        'Revenue Attribution Waterfall',
+        'Spend Efficiency Radar',
+        'Campaign Pulse Monitor',
+        'Cannibalization Detector',
+      ],
+    },
+  },
+  ar: {
+    watchtower: {
+      competitive: [
+        'تتبع 10 منافسين لكل موقع',
+        'مراقبة يومية للقوائم/الأسعار لكل موقع',
+        'تنبيهات تغيّر الأسعار (حسب الموقع)',
+      ],
+      events: [
+        'تقويم الفعاليات المحلية (لكل موقع)',
+        'تتبع الحفلات والترفيه',
+        'جداول المؤتمرات والاتفاقيات',
+      ],
+      trends: [
+        'تكامل Google Trends (وطني ومحلي)',
+        'تتبع طلب البحث على الأطباق',
+        'اتجاهات شعبية عناصر القائمة',
+      ],
+      bundle: [
+        'كل ميزات ذكاء المنافسين',
+        'كل ميزات الفعاليات والتقويم',
+        'كل ميزات اتجاهات السوق',
+      ],
+    },
+    crossIntelligence: {
+      base: [
+        'تنبيهات ترابط أساسية',
+        'الخط الزمني لتأثير التسويق (نظرة 30 يوماً)',
+        'بطاقات السبب والنتيجة',
+        'ملخص أسبوعي لما تغيّر',
+      ],
+      pro: [
+        'كل ما في Cross-Intelligence Base',
+        'مصفوفة ترابط كاملة',
+        'شلال إسناد الإيرادات',
+        'رادار كفاءة الإنفاق',
+        'مراقبة نبض الحملات',
+        'كاشف الإزاحة',
+      ],
+    },
+  },
+  fr: {
+    watchtower: {
+      competitive: [
+        'Suivre 10 concurrents par site',
+        'Surveillance quotidienne des menus/prix par site',
+        'Alertes de changement de prix (specifiques au site)',
+      ],
+      events: [
+        'Calendrier des evenements locaux (par site)',
+        'Suivi des concerts et loisirs',
+        'Calendriers conferences et conventions',
+      ],
+      trends: [
+        'Integration Google Trends (nationale + locale)',
+        'Suivi de la demande de recherche cuisine',
+        'Tendances de popularite des plats',
+      ],
+      bundle: [
+        'Toutes les fonctionnalites Competitive Intelligence',
+        'Toutes les fonctionnalites Evenements & Calendrier',
+        'Toutes les fonctionnalites Tendances de marche',
+      ],
+    },
+    crossIntelligence: {
+      base: [
+        'Alertes de correlation de base',
+        'Chronologie de l impact marketing (historique 30 jours)',
+        'Cartes cause et effet',
+        'Resume hebdomadaire des changements',
+      ],
+      pro: [
+        'Tout ce qui est dans Cross-Intelligence Base',
+        'Matrice de correlation complete',
+        'Cascade d attribution des revenus',
+        'Radar d efficacite des depenses',
+        'Suivi en direct des campagnes',
+        'Detecteur de cannibalisation',
+      ],
+    },
+  },
+  es: {
+    watchtower: {
+      competitive: [
+        'Seguir 10 competidores por local',
+        'Monitoreo diario de menus/precios por local',
+        'Alertas de cambios de precio (por local)',
+      ],
+      events: [
+        'Calendario de eventos local (por local)',
+        'Seguimiento de conciertos y espectaculos',
+        'Calendarios de conferencias y convenciones',
+      ],
+      trends: [
+        'Integracion con Google Trends (nacional + local)',
+        'Seguimiento de demanda de busqueda de cocina',
+        'Tendencias de popularidad de elementos del menu',
+      ],
+      bundle: [
+        'Todas las funciones de Competitive Intelligence',
+        'Todas las funciones de Eventos y Calendario',
+        'Todas las funciones de Tendencias de mercado',
+      ],
+    },
+    crossIntelligence: {
+      base: [
+        'Alertas basicas de correlacion',
+        'Linea de tiempo del impacto de marketing (historial de 30 dias)',
+        'Tarjetas de causa y efecto',
+        'Resumen semanal de cambios',
+      ],
+      pro: [
+        'Todo lo de Cross-Intelligence Base',
+        'Matriz de correlacion completa',
+        'Cascada de atribucion de ingresos',
+        'Radar de eficiencia del gasto',
+        'Monitor de pulso de campanas',
+        'Detector de canibalizacion',
+      ],
+    },
+  },
+};
+
+export function getLocalizedAddOnDisplay(locale: PricingLocale = 'en') {
+  return localizedAddOnDisplay[locale] ?? localizedAddOnDisplay.en;
+}

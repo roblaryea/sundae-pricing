@@ -8,9 +8,12 @@ import { quizQuestions, calculatePersonaMatch } from '../../data/personas';
 import { calculateModuleRecommendations, getRecommendedModuleIds } from '../../lib/moduleRecommendationEngine';
 import { getIconByEmoji } from '../../lib/iconMap';
 import { cn } from '../../utils/cn';
+import { useLocale } from '../../contexts/LocaleContext';
 import confetti from 'canvas-confetti';
 
 export function PathwaySelector() {
+  const { messages } = useLocale();
+  const sim = messages.simulator;
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showPersona, setShowPersona] = useState(false);
   const [multiSelections, setMultiSelections] = useState<Record<string, string[]>>({});
@@ -23,65 +26,6 @@ export function PathwaySelector() {
 
   // Get current selections for multi-select questions
   const currentSelections = multiSelections[question?.id] || [];
-
-  const handleOptionClick = useCallback((optionId: string) => {
-    if (isMultiSelect) {
-      // Multi-select behavior
-      const currentSel = multiSelections[question.id] || [];
-      
-      if (currentSel.includes(optionId)) {
-        // Deselect
-        setMultiSelections({
-          ...multiSelections,
-          [question.id]: currentSel.filter(id => id !== optionId)
-        });
-      } else {
-        // Check max selections
-        if (maxSelections && currentSel.length >= maxSelections) {
-          setShowMaxToast(true);
-          setTimeout(() => setShowMaxToast(false), 2500);
-          return;
-        }
-        // Select
-        setMultiSelections({
-          ...multiSelections,
-          [question.id]: [...currentSel, optionId]
-        });
-      }
-    } else {
-      // Single-select behavior (original)
-      setQuizAnswer(question.id, optionId);
-
-      if (currentQuestion < quizQuestions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-      } else {
-        completeQuiz({ ...quizAnswers, [question.id]: optionId });
-      }
-    }
-  }, [currentQuestion, isMultiSelect, maxSelections, multiSelections, question, quizAnswers, setQuizAnswer]);
-
-  const handleContinue = useCallback(() => {
-    if (isMultiSelect) {
-      // Store multi-select answers as comma-separated for persona calculation
-      // But also store as array for module engine
-      const selections = multiSelections[question.id] || [];
-      if (selections.length > 0) {
-        setQuizAnswer(question.id, selections[0]); // Store first for persona calc
-      }
-
-      if (currentQuestion < quizQuestions.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-      } else {
-        completeQuiz({ ...quizAnswers, [question.id]: selections[0] || '' });
-      }
-    }
-  }, [currentQuestion, isMultiSelect, multiSelections, question, quizAnswers, setQuizAnswer]);
-
-  const handleBack = useCallback(() => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
-  }, [currentQuestion]);
 
   const completeQuiz = useCallback((allAnswers: Record<string, string>) => {
     // Calculate persona match
@@ -120,6 +64,65 @@ export function PathwaySelector() {
     });
   }, [multiSelections, setModules, setLocations, setPersona]);
 
+  const handleOptionClick = useCallback((optionId: string) => {
+    if (isMultiSelect) {
+      // Multi-select behavior
+      const currentSel = multiSelections[question.id] || [];
+      
+      if (currentSel.includes(optionId)) {
+        // Deselect
+        setMultiSelections({
+          ...multiSelections,
+          [question.id]: currentSel.filter(id => id !== optionId)
+        });
+      } else {
+        // Check max selections
+        if (maxSelections && currentSel.length >= maxSelections) {
+          setShowMaxToast(true);
+          setTimeout(() => setShowMaxToast(false), 2500);
+          return;
+        }
+        // Select
+        setMultiSelections({
+          ...multiSelections,
+          [question.id]: [...currentSel, optionId]
+        });
+      }
+    } else {
+      // Single-select behavior (original)
+      setQuizAnswer(question.id, optionId);
+
+      if (currentQuestion < quizQuestions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        completeQuiz({ ...quizAnswers, [question.id]: optionId });
+      }
+    }
+  }, [completeQuiz, currentQuestion, isMultiSelect, maxSelections, multiSelections, question, quizAnswers, setQuizAnswer]);
+
+  const handleContinue = useCallback(() => {
+    if (isMultiSelect) {
+      // Store multi-select answers as comma-separated for persona calculation
+      // But also store as array for module engine
+      const selections = multiSelections[question.id] || [];
+      if (selections.length > 0) {
+        setQuizAnswer(question.id, selections[0]); // Store first for persona calc
+      }
+
+      if (currentQuestion < quizQuestions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        completeQuiz({ ...quizAnswers, [question.id]: selections[0] || '' });
+      }
+    }
+  }, [completeQuiz, currentQuestion, isMultiSelect, multiSelections, question, quizAnswers, setQuizAnswer]);
+
+  const handleBack = useCallback(() => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  }, [currentQuestion]);
+
   const handleShowConfig = useCallback(() => {
     if (showPersona) {
       const result = calculatePersonaMatch(quizAnswers);
@@ -132,6 +135,7 @@ export function PathwaySelector() {
   if (showPersona) {
     const result = calculatePersonaMatch(quizAnswers);
     const persona = result.persona;
+    const PersonaIcon = getIconByEmoji(persona.emoji);
     
     // Get recommended modules from engine
     const locationAnswer = quizAnswers.locations || 'small';
@@ -152,10 +156,8 @@ export function PathwaySelector() {
           className="mb-8"
         >
           <div className="mb-4">
-            {(() => {
-              const IconComponent = getIconByEmoji(persona.emoji);
-              return <IconComponent className="w-20 h-20 mx-auto" style={{ color: persona.color }} />;
-            })()}
+            {/* eslint-disable-next-line react-hooks/static-components */}
+            <PersonaIcon className="w-20 h-20 mx-auto" style={{ color: persona.color }} />
           </div>
           <motion.h1
             initial={{ y: 20, opacity: 0 }}
@@ -185,34 +187,34 @@ export function PathwaySelector() {
         >
           <h3 className="text-lg font-semibold mb-4 flex items-center justify-center gap-2">
             <Sparkles className="w-5 h-5" style={{ color: persona.color }} />
-            Your Recommended Path
+            {sim.recommendedForYourPriorities}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
             <div>
-              <div className="text-sm text-sundae-muted mb-1">Ideal Layer</div>
+              <div className="text-sm text-sundae-muted mb-1">{sim.idealLayer}</div>
               <div className="font-semibold">
-                {persona.recommendedPath.includes('report') ? 'Report' : 'Core'}
+                {persona.recommendedPath.includes('report') ? sim.resultLayerReport : sim.resultLayerCore}
               </div>
             </div>
             <div>
-              <div className="text-sm text-sundae-muted mb-1">Location Range</div>
+              <div className="text-sm text-sundae-muted mb-1">{sim.locationRange}</div>
               <div className="font-semibold">
-                {persona.locationRange.min}-{persona.locationRange.max} locations
+                {persona.locationRange.min}-{persona.locationRange.max} {messages.summary.locationLabel.toLowerCase()}
               </div>
             </div>
             <div>
-              <div className="text-sm text-sundae-muted mb-1">Modules Pre-selected</div>
+              <div className="text-sm text-sundae-muted mb-1">{sim.modulesPreselected}</div>
               <div className="font-semibold">
                 {moduleRec.recommended.length > 0 
-                  ? `${moduleRec.recommended.length} based on your priorities`
-                  : 'Start with basics'}
+                  ? sim.basedOnYourPriorities.replace('{count}', String(moduleRec.recommended.length))
+                  : sim.startWithBasics}
               </div>
             </div>
           </div>
           {moduleRec.recommended.length > 0 && (
             <div className="mt-4 pt-4 border-t border-white/10">
               <div className="text-xs text-sundae-accent font-medium">
-                Recommended for your priorities — you can edit selections.
+                {sim.recommendedForYourPriorities}
               </div>
             </div>
           )}
@@ -225,7 +227,7 @@ export function PathwaySelector() {
           onClick={handleShowConfig}
           className="button-primary inline-flex items-center gap-2"
         >
-          See Your Custom Stack
+          {sim.seeCustomStack}
           <ChevronRight className="w-5 h-5" />
         </motion.button>
       </motion.div>
@@ -250,11 +252,11 @@ export function PathwaySelector() {
           className="text-center mb-12"
         >
           <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
-            Welcome to Sundae
+            {sim.welcomeTitle}
             <Sparkles className="w-10 md:w-12 h-10 md:h-12 text-sundae-accent" />
           </h1>
           <p className="text-lg md:text-xl text-sundae-muted">
-            Let's find your perfect intelligence stack
+            {sim.welcomeSubtitle}
           </p>
         </motion.div>
       )}
@@ -267,7 +269,7 @@ export function PathwaySelector() {
               key={index}
               onClick={() => index < currentQuestion && setCurrentQuestion(index)}
               disabled={index > currentQuestion}
-              aria-label={`Step ${index + 1} of ${quizQuestions.length}`}
+              aria-label={sim.stepOf.replace('{current}', String(index + 1)).replace('{total}', String(quizQuestions.length))}
               animate={{
                 scale: index === currentQuestion ? 1.3 : 1,
                 opacity: index <= currentQuestion ? 1 : 0.3
@@ -284,7 +286,7 @@ export function PathwaySelector() {
           ))}
         </div>
         <span className="text-xs text-sundae-muted">
-          {currentQuestion + 1} / {quizQuestions.length}
+          {sim.currentStepCount.replace('{current}', String(currentQuestion + 1)).replace('{total}', String(quizQuestions.length))}
         </span>
       </div>
 
@@ -311,7 +313,7 @@ export function PathwaySelector() {
       </motion.div>
 
       {/* Selection counter for multi-select */}
-      {isMultiSelect && maxSelections && (
+        {isMultiSelect && maxSelections && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -323,7 +325,7 @@ export function PathwaySelector() {
               ? 'bg-amber-500/20 text-amber-300'
               : 'bg-sundae-surface text-sundae-muted'
           )}>
-            {currentSelections.length}/{maxSelections} selected
+            {sim.selectedCount.replace('{count}', String(currentSelections.length)).replace('{max}', String(maxSelections))}
           </span>
         </motion.div>
       )}
@@ -338,7 +340,7 @@ export function PathwaySelector() {
             className="fixed top-4 left-1/2 -translate-x-1/2 z-50 px-4 py-2 bg-amber-500/90 text-white rounded-lg flex items-center gap-2 shadow-lg"
           >
             <AlertCircle className="w-4 h-4" />
-            <span className="text-sm font-medium">You can choose up to {maxSelections}</span>
+            <span className="text-sm font-medium">{sim.maxSelections.replace('{max}', String(maxSelections))}</span>
           </motion.div>
         )}
       </AnimatePresence>
@@ -433,7 +435,7 @@ export function PathwaySelector() {
           )}
         >
           <ChevronLeft className="w-4 h-4" />
-          Back
+          {sim.back}
         </button>
 
         {/* Continue button for multi-select */}
@@ -446,7 +448,7 @@ export function PathwaySelector() {
               currentSelections.length === 0 && question.id === 'pain' && 'opacity-50 cursor-not-allowed'
             )}
           >
-            Continue
+            {sim.continue}
             <ChevronRight className="w-4 h-4" />
           </button>
         )}
@@ -457,7 +459,7 @@ export function PathwaySelector() {
             onClick={handleContinue}
             className="text-sm text-sundae-muted hover:text-white transition-colors"
           >
-            Skip
+            {sim.skip}
           </button>
         )}
       </motion.div>

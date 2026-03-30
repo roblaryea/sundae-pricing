@@ -1,11 +1,10 @@
 // Final configuration summary component - Optimized with collapsibles
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Rocket, ChevronDown, Sparkles, Castle, GitBranch, Zap } from 'lucide-react';
-import { getIconByEmoji } from '../../lib/iconMap';
+import { Check, Rocket, ChevronDown, Sparkles, Castle, GitBranch, Zap, Calendar, Search, TrendingUp } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { reportTiers, coreTiers, watchtower } from '../../data/pricing';
+import { watchtower, getLocalizedTierCatalog } from '../../data/pricing';
 import confetti from 'canvas-confetti';
 import { useEffect, useState } from 'react';
 import { PDFExportButton } from './PDFExport';
@@ -14,16 +13,26 @@ import { BookDemoButton } from './BookDemoButton';
 import { CompactCompetitorCompare } from './CompactCompetitorCompare';
 import { WatchtowerValue } from './WatchtowerValue';
 import { PricingFAQ } from './PricingFAQ';
-import { pricingFooter } from '../../data/pricing';
 import { LEGAL } from '../../config/legal';
+import { useLocale } from '../../contexts/LocaleContext';
+import { useLivePricingCatalog } from '../../data/livePricing';
+
+const WATCHTOWER_ICON_MAP = {
+  competitive: Search,
+  events: Calendar,
+  trends: TrendingUp,
+} as const;
 
 export function ConfigSummary() {
+  const { locale, messages } = useLocale();
+  useLivePricingCatalog();
   const {
     layer, tier, locations, modules: selectedModules, watchtowerModules,
     crossIntelligence: crossIntelSelection, markStepCompleted
   } = useConfiguration();
 
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules, undefined, crossIntelSelection);
+  const localizedTiers = getLocalizedTierCatalog(locale);
   
   // Collapsible states
   const [whatsIncludedOpen, setWhatsIncludedOpen] = useState(true);
@@ -41,22 +50,16 @@ export function ConfigSummary() {
       origin: { y: 0.6 },
       colors: ['#667eea', '#764ba2', '#38BDF8', '#22C55E']
     });
-
-    // Collapse "What's Included" on mobile by default
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) {
-      setWhatsIncludedOpen(false);
-    }
-  }, []);
+  }, [markStepCompleted]);
 
   // Get tier details
   const getTierDetails = () => {
     if (layer === 'report' && tier !== 'enterprise') {
       const reportTier = tier as 'lite' | 'plus' | 'pro';
-      return reportTiers[reportTier];
+      return localizedTiers.reportTiers[reportTier];
     } else if (layer === 'core' && (tier === 'lite' || tier === 'pro')) {
       const coreTier = tier as 'lite' | 'pro';
-      return coreTiers[coreTier];
+      return localizedTiers.coreTiers[coreTier];
     }
     return null;
   };
@@ -76,11 +79,11 @@ export function ConfigSummary() {
           transition={{ type: "spring", stiffness: 200 }}
           className="text-4xl md:text-5xl font-bold mb-3 flex items-center justify-center gap-3"
         >
-          Your Sundae Stack
+          {messages.summary.stackTitle}
           <Sparkles className="w-10 h-10 text-sundae-accent" />
         </motion.h1>
         <p className="text-lg md:text-xl text-sundae-muted">
-          Ready to transform your restaurant intelligence
+          {messages.summary.stackSubtitle}
         </p>
       </motion.div>
 
@@ -94,7 +97,7 @@ export function ConfigSummary() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {/* Left side - Configuration */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Your Configuration</h3>
+            <h3 className="text-lg font-bold mb-4">{messages.summary.configurationTitle}</h3>
             
             <div className="space-y-3">
               {/* Layer & Tier */}
@@ -114,13 +117,13 @@ export function ConfigSummary() {
               <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                 <div>
-                  <div className="font-semibold">{locations} Location{locations !== 1 ? 's' : ''}</div>
+                  <div className="font-semibold">{locations} {messages.summary.locationLabel}{locations !== 1 ? messages.summary.locationPluralSuffix : ''}</div>
                   <div className="text-sm text-sundae-muted">
                     {tier === 'enterprise'
-                      ? 'Volume-based pricing'
+                      ? messages.summary.volumePricing
                       : isNaN(pricing.perLocation) || !isFinite(pricing.perLocation)
-                        ? 'Custom pricing'
-                        : `$${pricing.perLocation.toFixed(0)} per location`}
+                        ? messages.summary.customPricing
+                        : `$${pricing.perLocation.toFixed(0)} ${messages.summary.perLocation}`}
                   </div>
                 </div>
               </div>
@@ -131,13 +134,13 @@ export function ConfigSummary() {
                   <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="font-semibold">
-                      {selectedModules.length} Intelligence Module{selectedModules.length !== 1 ? 's' : ''}
+                      {selectedModules.length} {messages.summary.intelligenceModule}{selectedModules.length !== 1 ? messages.summary.locationPluralSuffix : ''}
                     </div>
                     <div className="text-sm text-sundae-muted">
-                      Enhanced analytics & operations
+                      {messages.summary.enhancedAnalytics}
                     </div>
-                  </div>
                 </div>
+              </div>
               )}
 
               {/* Watchtower */}
@@ -145,19 +148,25 @@ export function ConfigSummary() {
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <div className="font-semibold">Watchtower Intelligence</div>
+                    <div className="font-semibold">{messages.summary.watchtowerTitle}</div>
                     <div className="text-sm text-sundae-muted flex items-center gap-1">
                       {watchtowerModules.includes('bundle') ? (
                         <>
                           <Castle className="w-4 h-4 inline" />
-                          <span>Full Bundle (All modules)</span>
+                          <span>{messages.summary.fullBundle}</span>
                         </>
                       ) : (
                         watchtowerModules.map((id, idx) => {
                           const module = watchtower[id as keyof typeof watchtower];
                           if (!module || 'includes' in module) return null;
-                          const IconComponent = getIconByEmoji(module.icon);
-                          return <IconComponent key={idx} className="w-4 h-4" />;
+                          const IconComponent = WATCHTOWER_ICON_MAP[id as keyof typeof WATCHTOWER_ICON_MAP];
+                          const localizedWatchtower = messages.catalog.watchtower[id as keyof typeof messages.catalog.watchtower];
+                          return (
+                            <span key={idx} className="inline-flex items-center gap-1">
+                              {IconComponent && <IconComponent className="w-4 h-4" />}
+                              <span>{localizedWatchtower?.name ?? module.name}</span>
+                            </span>
+                          );
                         })
                       )}
                     </div>
@@ -172,15 +181,15 @@ export function ConfigSummary() {
                   <div>
                     <div className="font-semibold flex items-center gap-2">
                       {crossIntelSelection === 'pro' ? (
-                        <><Zap className="w-4 h-4 text-cyan-400" /> Cross-Intelligence Pro</>
+                        <><Zap className="w-4 h-4 text-cyan-400" /> {messages.summary.crossIntelligencePro}</>
                       ) : (
-                        <><GitBranch className="w-4 h-4 text-purple-400" /> Cross-Intelligence</>
+                        <><GitBranch className="w-4 h-4 text-purple-400" /> {messages.summary.crossIntelligence}</>
                       )}
                     </div>
                     <div className="text-sm text-sundae-muted">
                       {crossIntelSelection === 'pro'
-                        ? 'Full correlation engine with attribution & cannibalization detection'
-                        : 'Auto-enabled correlation insights (included with 3+ modules)'}
+                        ? messages.summary.crossIntelligenceProDesc
+                        : messages.summary.crossIntelligenceDesc}
                     </div>
                   </div>
                 </div>
@@ -191,9 +200,9 @@ export function ConfigSummary() {
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <div className="font-semibold">{pricing.aiCredits} AI Credits/month</div>
+                    <div className="font-semibold">{pricing.aiCredits} {messages.summary.aiCreditsPerMonth}</div>
                     <div className="text-sm text-sundae-muted">
-                      For insights and automation
+                      {messages.summary.aiCreditsDescription}
                     </div>
                   </div>
                 </div>
@@ -203,24 +212,24 @@ export function ConfigSummary() {
 
           {/* Right side - Investment Summary */}
           <div>
-            <h3 className="text-lg font-bold mb-4">Investment Summary</h3>
+            <h3 className="text-lg font-bold mb-4">{messages.summary.investmentTitle}</h3>
             
             <div className="space-y-4">
               {/* Monthly total */}
               <div className="text-center p-6 bg-sundae-dark/50 rounded-lg">
-                <div className="text-sm text-sundae-muted mb-1">Monthly Investment</div>
+                <div className="text-sm text-sundae-muted mb-1">{messages.summary.monthlyInvestment}</div>
                 <div className="text-4xl md:text-5xl font-bold mb-1">
                   {tier === 'enterprise' 
-                    ? 'Custom Pricing'
+                    ? messages.summary.customPricing
                     : isNaN(pricing.total) || !isFinite(pricing.total)
-                      ? 'Custom Pricing'
+                      ? messages.summary.customPricing
                       : `$${pricing.total.toLocaleString()}`}
                 </div>
                 <div className="text-sm text-sundae-muted">
                   {tier === 'enterprise'
-                    ? `Contact ${LEGAL.supportEmail} for enterprise quote`
+                    ? messages.summary.enterpriseQuote.replace('{email}', LEGAL.supportEmail)
                     : isNaN(pricing.total) || !isFinite(pricing.total)
-                      ? 'Contact sales for quote'
+                      ? messages.summary.contactSales
                       : `$${(pricing.total * 12).toLocaleString()} annually`}
                 </div>
               </div>
@@ -253,7 +262,7 @@ export function ConfigSummary() {
             aria-expanded={whatsIncludedOpen}
             aria-controls="whats-included-content"
           >
-            <h3 className="text-lg font-bold">What's Included</h3>
+            <h3 className="text-lg font-bold">{messages.summary.whatsIncluded}</h3>
             <motion.div
               animate={{ rotate: whatsIncludedOpen ? 180 : 0 }}
               transition={{ duration: 0.2 }}
@@ -300,7 +309,7 @@ export function ConfigSummary() {
           aria-expanded={comparisonOpen}
           aria-controls="comparison-content"
         >
-          <h3 className="text-lg font-bold">View Full Competitor Comparison</h3>
+          <h3 className="text-lg font-bold">{messages.summary.competitorComparison}</h3>
           <motion.div
             animate={{ rotate: comparisonOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}
@@ -341,7 +350,7 @@ export function ConfigSummary() {
             aria-expanded={watchtowerOpen}
             aria-controls="watchtower-content"
           >
-            <h3 className="text-lg font-bold">Watchtower Strategic Value</h3>
+            <h3 className="text-lg font-bold">{messages.summary.watchtowerValueTitle}</h3>
             <motion.div
               animate={{ rotate: watchtowerOpen ? 180 : 0 }}
               transition={{ duration: 0.2 }}
@@ -382,7 +391,7 @@ export function ConfigSummary() {
           aria-expanded={faqOpen}
           aria-controls="faq-content"
         >
-          <h3 className="text-lg font-bold">Frequently Asked Questions</h3>
+          <h3 className="text-lg font-bold">{messages.summary.faqTitle}</h3>
           <motion.div
             animate={{ rotate: faqOpen ? 180 : 0 }}
             transition={{ duration: 0.2 }}
@@ -428,9 +437,9 @@ export function ConfigSummary() {
         transition={{ delay: 0.45 }}
         className="text-center p-6 md:p-8 bg-gradient-to-r from-violet-500/10 to-purple-500/10 rounded-xl border border-violet-500/30 mb-8"
       >
-        <h3 className="text-2xl font-bold mb-3">Ready to Get Started?</h3>
+        <h3 className="text-2xl font-bold mb-3">{messages.summary.readyTitle}</h3>
         <p className="text-base md:text-lg text-sundae-muted mb-5">
-          Join hundreds of restaurants already using Sundae to make smarter decisions
+          {messages.summary.readyDescription}
         </p>
         <a
           href={LEGAL.signUpUrl}
@@ -439,10 +448,10 @@ export function ConfigSummary() {
           className="bg-gradient-primary text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-glow transition-all inline-flex items-center gap-2"
         >
           <Rocket className="w-6 h-6" />
-          Start Free Trial
+          {messages.summary.startTrial}
         </a>
         <p className="text-sm text-sundae-muted mt-4">
-          No credit card required • 14-day free trial • Cancel anytime
+          {messages.summary.noCard}
         </p>
       </motion.div>
 
@@ -454,17 +463,17 @@ export function ConfigSummary() {
         className="text-center text-sm text-sundae-muted mb-6"
       >
         <p>
-          Questions?{' '}
+          {messages.summary.questions}{' '}
           <a 
             href={LEGAL.contactUrl}
             target="_blank" 
             rel="noopener noreferrer"
             className="text-sundae-accent hover:underline font-medium"
           >
-            Click here to contact us
+            {messages.summary.contactUs}
           </a>
         </p>
-        <p className="mt-2">Your dedicated Customer Success Manager will help you get started</p>
+        <p className="mt-2">{messages.summary.successManager}</p>
       </motion.div>
 
       {/* Pricing footer */}
@@ -475,10 +484,10 @@ export function ConfigSummary() {
         className="pt-6 border-t border-white/10 text-center text-xs text-sundae-muted space-y-2"
       >
         <p>
-          <strong>Pricing effective {pricingFooter.effectiveDate}</strong> • All prices in {pricingFooter.currency}
+          {messages.summary.pricingFooterNote.replace('{date}', new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date('2026-02-26T00:00:00Z')))}
         </p>
-        <p>{pricingFooter.taxNote} • {pricingFooter.changeNotice}</p>
-        <p className="text-[10px] opacity-70">{pricingFooter.locationPricingNote}</p>
+        <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
+        <p className="text-[10px] opacity-70">{messages.summary.locationPricingNote}</p>
       </motion.div>
     </div>
   );

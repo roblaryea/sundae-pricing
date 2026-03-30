@@ -1,5 +1,6 @@
 import React from 'react';
 import { Check, X } from 'lucide-react';
+import { useLocale } from '../../contexts/LocaleContext';
 
 interface Feature {
   name: string;
@@ -19,6 +20,7 @@ interface FeatureComparisonTableProps {
 }
 
 export function FeatureComparisonTable({ data, tierKeys, tierLabels, tierColors }: FeatureComparisonTableProps) {
+  const { messages } = useLocale();
   const renderCell = (value: string) => {
     if (value === '✓') {
       return <Check className="w-5 h-5 text-green-500 mx-auto" />;
@@ -35,7 +37,7 @@ export function FeatureComparisonTable({ data, tierKeys, tierLabels, tierColors 
         <thead>
           <tr className="bg-white/5">
             <th className="text-left p-4 font-semibold text-white border-r border-white/10 min-w-[250px]">
-              Feature
+              {messages.table.feature}
             </th>
             {tierLabels.map((label, idx) => (
               <th

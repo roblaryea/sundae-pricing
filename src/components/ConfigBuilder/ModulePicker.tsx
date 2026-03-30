@@ -6,9 +6,20 @@ import { useConfiguration } from '../../hooks/useConfiguration';
 import { modules } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { MODULE_ICONS } from '../../constants/icons';
+import { useLocale } from '../../contexts/LocaleContext';
+
+type ModuleDisplayConfig = {
+  powerLevel?: number;
+  tagline?: string;
+  unlocks?: string[];
+  note?: string;
+};
 
 export function ModulePicker() {
   const { layer, tier, locations, modules: selectedModules, toggleModule, setCurrentStep } = useConfiguration();
+  const { messages } = useLocale();
+  const copy = messages.builder.modulePicker;
+  const moduleCatalog = messages.catalog.modules;
   
   // Calculate pricing with current modules
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, []);
@@ -37,6 +48,12 @@ export function ModulePicker() {
   // Check for combo bonuses
   const hasLaborInventoryCombo = selectedModules.includes('labor') && selectedModules.includes('inventory');
 
+  const formatMessage = (template: string, values: Record<string, string | number>) =>
+    Object.entries(values).reduce(
+      (result, [key, value]) => result.replaceAll(`\${${key}}`, String(value)).replaceAll(`{${key}}`, String(value)),
+      template,
+    );
+
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div
@@ -45,10 +62,10 @@ export function ModulePicker() {
         className="text-center mb-12"
       >
         <h1 className="text-4xl font-bold mb-4">
-          Power Up Your Stack
+          {copy.title}
         </h1>
         <p className="text-xl text-sundae-muted">
-          Add intelligence modules to unlock deeper insights and automation
+          {copy.subtitle}
         </p>
       </motion.div>
 
@@ -62,9 +79,9 @@ export function ModulePicker() {
           <div className="flex items-center gap-3">
             <Zap className="w-6 h-6 text-green-400" />
             <div>
-              <span className="font-semibold text-green-400">Efficiency Combo Unlocked!</span>
+              <span className="font-semibold text-green-400">{copy.comboUnlocked}</span>
               <span className="ml-2 text-sm text-sundae-muted">
-                Labor + Inventory modules work together for maximum operational efficiency
+                {copy.comboDescription}
               </span>
             </div>
           </div>
@@ -76,8 +93,9 @@ export function ModulePicker() {
         {Object.entries(modules).map(([moduleId, module]) => {
           const isSelected = selectedModules.includes(moduleId);
           const modulePrice = calculateModulePrice(module);
-          const moduleAny = module as any;
+          const moduleAny = module as typeof module & ModuleDisplayConfig;
           const isRecommended = moduleAny.powerLevel && moduleAny.powerLevel >= 4;
+          const localizedModule = moduleCatalog[moduleId as keyof typeof moduleCatalog];
 
           return (
             <motion.div
@@ -109,7 +127,7 @@ export function ModulePicker() {
                 {/* Recommended badge */}
                 {isRecommended && !isSelected && (
                   <div className="absolute -top-2 left-4 px-3 py-1 bg-gradient-primary text-white text-xs font-bold rounded-full">
-                    RECOMMENDED
+                    {copy.recommended}
                   </div>
                 )}
 
@@ -121,8 +139,8 @@ export function ModulePicker() {
                       return <IconComponent className="w-10 h-10 flex-shrink-0" />;
                     })()}
                     <div className="flex-1">
-                      <h3 className="font-bold text-lg mb-1">{module.name}</h3>
-                      <p className="text-xs text-sundae-muted">{moduleAny.tagline || module.description}</p>
+                      <h3 className="font-bold text-lg mb-1">{localizedModule?.name ?? module.name}</h3>
+                      <p className="text-xs text-sundae-muted">{moduleAny.tagline || localizedModule?.description || module.description}</p>
                     </div>
                   </div>
 
@@ -146,11 +164,14 @@ export function ModulePicker() {
                   <div className="mb-4">
                     <div className="flex items-baseline gap-2">
                       <span className="text-2xl font-bold tabular-nums">${modulePrice}</span>
-                      <span className="text-sm text-sundae-muted">/mo</span>
+                      <span className="text-sm text-sundae-muted">{copy.perMonth}</span>
                     </div>
                     {locations > module.baseIncludesLocations && (
                       <p className="text-xs text-sundae-muted mt-1">
-                        Includes {module.baseIncludesLocations} locations + {locations - module.baseIncludesLocations} extra
+                        {formatMessage(copy.includesExtra, {
+                          included: module.baseIncludesLocations,
+                          extra: locations - module.baseIncludesLocations,
+                        })}
                       </p>
                     )}
                   </div>
@@ -159,7 +180,7 @@ export function ModulePicker() {
                   <div className="mb-4 p-3 bg-sundae-dark/50 rounded-lg">
                     <div className="flex items-center gap-2 text-sm">
                       <TrendingUp className="w-4 h-4 text-green-400" />
-                      <span className="text-green-400 font-semibold">{module.roiPotential}</span>
+                      <span className="text-green-400 font-semibold">{localizedModule?.roi ?? module.roiPotential}</span>
                     </div>
                   </div>
 
@@ -198,9 +219,9 @@ export function ModulePicker() {
           <div className="flex items-center gap-3">
             <Sparkles className="w-6 h-6 text-purple-400" />
             <div>
-              <span className="font-semibold text-purple-300">Cross-Intelligence Unlocked!</span>
+              <span className="font-semibold text-purple-300">{copy.crossUnlocked}</span>
               <span className="ml-2 text-sm text-sundae-muted">
-                Free correlation engine enabled with {selectedModules.length} modules — upgrade to Pro in the next step
+                {formatMessage(copy.crossUnlockedDescription, { count: selectedModules.length })}
               </span>
             </div>
           </div>
@@ -214,7 +235,11 @@ export function ModulePicker() {
           <div className="flex items-center gap-3">
             <GitBranch className="w-5 h-5 text-sundae-muted" />
             <p className="text-sm text-sundae-muted">
-              Select {3 - selectedModules.length} more module{3 - selectedModules.length !== 1 ? 's' : ''} to unlock <span className="text-purple-400 font-semibold">Cross-Intelligence</span> — free correlation engine across your data sources
+              {formatMessage(copy.crossNeedsMore, {
+                count: 3 - selectedModules.length,
+                moduleWord: 3 - selectedModules.length === 1 ? copy.moduleSingular : copy.modulePlural,
+              })}{' '}
+              <span className="text-purple-400 font-semibold">{copy.crossFreeSuffix}</span>
             </p>
           </div>
         </motion.div>
@@ -229,12 +254,12 @@ export function ModulePicker() {
       >
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm text-sundae-muted mb-1">Total with Modules</div>
+            <div className="text-sm text-sundae-muted mb-1">{copy.totalWithModules}</div>
             <div className="text-3xl font-bold tabular-nums">
-              ${pricing.total.toLocaleString()}/mo
+              ${pricing.total.toLocaleString()}{copy.perMonth}
             </div>
             <div className="text-sm text-sundae-muted mt-1">
-              {selectedModules.length} module{selectedModules.length !== 1 ? 's' : ''} selected
+              {formatMessage(copy.modulesSelected, { count: selectedModules.length })}
             </div>
           </div>
           
@@ -247,12 +272,12 @@ export function ModulePicker() {
             
             return monthlySavings > 0 ? (
               <div className="text-right">
-                <div className="text-sm text-sundae-muted mb-1">vs Tenzo</div>
+                <div className="text-sm text-sundae-muted mb-1">{copy.vsTenzo}</div>
                 <div className="text-2xl font-bold text-green-400">
-                  Save ${Math.round(monthlySavings)}/mo
+                  {formatMessage(copy.savePerMonth, { amount: Math.round(monthlySavings) })}
                 </div>
                 <div className="text-sm text-green-400">
-                  {Math.round(savingsPercent)}% less
+                  {formatMessage(copy.percentLess, { percent: Math.round(savingsPercent) })}
                 </div>
               </div>
             ) : null;
@@ -272,7 +297,7 @@ export function ModulePicker() {
           className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-sundae-surface hover:bg-sundae-surface-hover border border-white/10 hover:border-white/20 transition-colors font-semibold"
         >
           <ChevronLeft className="w-5 h-5" />
-          Back
+          {copy.back}
         </button>
         
         <div className="text-center">
@@ -281,15 +306,15 @@ export function ModulePicker() {
             className="button-primary inline-flex items-center gap-2 relative z-50"
             data-testid="continue-button-modules"
           >
-            <span>Continue to Watchtower</span>
+            <span>{copy.continueToWatchtower}</span>
             {selectedModules.length === 0 && (
-              <span className="text-sm opacity-75">(optional)</span>
+              <span className="text-sm opacity-75">{copy.optional}</span>
             )}
           </button>
           
           {selectedModules.length === 0 && (
             <p className="text-sm text-sundae-muted mt-2">
-              You can skip modules and add them later
+              {copy.skipModules}
             </p>
           )}
         </div>

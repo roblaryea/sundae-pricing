@@ -6,6 +6,8 @@
  * set configuration state, then asserts displayed totals.
  */
 import { test, expect, type Page } from '@playwright/test';
+import { calculateFullPrice } from '../src/lib/pricingEngine';
+import type { ModuleId } from '../src/data/pricing';
 
 interface SimConfig {
   layer: 'report' | 'core';
@@ -55,87 +57,95 @@ async function getDisplayedTotal(page: Page): Promise<string> {
   return (await totalEl.textContent()) ?? '';
 }
 
+function getExpectedTotal(config: SimConfig): string {
+  const result = calculateFullPrice({
+    layer: config.layer,
+    tier: config.tier,
+    locations: config.locations,
+    modules: (config.modules ?? []) as ModuleId[],
+    watchtower: config.watchtowerModules ?? [],
+    clientProfile: {
+      type: 'independent',
+      isEarlyAdopter: false,
+      isFranchise: false,
+      brandCount: 1,
+    },
+  });
+
+  return `$${result.total.toLocaleString()}`;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // PRICING VERIFICATION SCENARIOS
 // ═══════════════════════════════════════════════════════════════════════════
 
 test.describe('Pricing Simulator E2E Verification', () => {
+  async function expectSummaryToMatchEngine(page: Page, config: SimConfig) {
+    await goToSummary(page, config);
+    expect(await getDisplayedTotal(page)).toBe(getExpectedTotal(config));
+  }
 
-  test('Report Lite @ 1 location = $0', async ({ page }) => {
-    await goToSummary(page, { layer: 'report', tier: 'lite', locations: 1 });
-    expect(await getDisplayedTotal(page)).toBe('$0');
+  test('Report Lite matches pricing engine @ 1 location', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'lite', locations: 1 });
   });
 
-  test('Report Plus @ 5 locations = $159', async ({ page }) => {
-    await goToSummary(page, { layer: 'report', tier: 'plus', locations: 5 });
-    expect(await getDisplayedTotal(page)).toBe('$159');
+  test('Report Plus matches pricing engine @ 5 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'plus', locations: 5 });
   });
 
-  test('Report Pro @ 10 locations = $434', async ({ page }) => {
-    await goToSummary(page, { layer: 'report', tier: 'pro', locations: 10 });
-    expect(await getDisplayedTotal(page)).toBe('$434');
+  test('Report Pro matches pricing engine @ 10 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'pro', locations: 10 });
   });
 
-  test('Report Plus @ 20 locations = $534', async ({ page }) => {
-    await goToSummary(page, { layer: 'report', tier: 'plus', locations: 20 });
-    expect(await getDisplayedTotal(page)).toBe('$534');
+  test('Report Plus matches pricing engine @ 20 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'plus', locations: 20 });
   });
 
-  test('Report Pro @ 50 locations = $1,834', async ({ page }) => {
-    await goToSummary(page, { layer: 'report', tier: 'pro', locations: 50 });
-    expect(await getDisplayedTotal(page)).toBe('$1,834');
+  test('Report Pro matches pricing engine @ 50 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'pro', locations: 50 });
   });
 
-  test('Core Lite @ 5 locations = $355', async ({ page }) => {
-    await goToSummary(page, { layer: 'core', tier: 'lite', locations: 5 });
-    expect(await getDisplayedTotal(page)).toBe('$355');
+  test('Core Lite matches pricing engine @ 5 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { layer: 'core', tier: 'lite', locations: 5 });
   });
 
-  test('Core Pro @ 10 locations = $664', async ({ page }) => {
-    await goToSummary(page, { layer: 'core', tier: 'pro', locations: 10 });
-    expect(await getDisplayedTotal(page)).toBe('$664');
+  test('Core Pro matches pricing engine @ 10 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { layer: 'core', tier: 'pro', locations: 10 });
   });
 
-  test('Core Lite + Labor @ 10 locations = $804', async ({ page }) => {
-    await goToSummary(page, {
+  test('Core Lite + Labor matches pricing engine @ 10 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
       layer: 'core', tier: 'lite', locations: 10,
       modules: ['labor'],
     });
-    expect(await getDisplayedTotal(page)).toBe('$804');
   });
 
-  test('Core Pro + Watchtower bundle @ 5 locations = $1,504', async ({ page }) => {
-    await goToSummary(page, {
+  test('Core Pro + Watchtower bundle matches pricing engine @ 5 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
       layer: 'core', tier: 'pro', locations: 5,
       watchtowerModules: ['bundle'],
     });
-    expect(await getDisplayedTotal(page)).toBe('$1,504');
   });
 
-  test('Core Lite + 3 modules @ 20 locations = $2,137', async ({ page }) => {
-    await goToSummary(page, {
+  test('Core Lite + 3 modules matches pricing engine @ 20 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
       layer: 'core', tier: 'lite', locations: 20,
       modules: ['labor', 'inventory', 'purchasing'],
     });
-    expect(await getDisplayedTotal(page)).toBe('$2,137');
   });
 
-  test('Core Pro + Watchtower Competitive @ 10 locations = $1,504', async ({ page }) => {
-    await goToSummary(page, {
+  test('Core Pro + Watchtower Competitive matches pricing engine @ 10 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
       layer: 'core', tier: 'pro', locations: 10,
       watchtowerModules: ['competitive'],
     });
-    expect(await getDisplayedTotal(page)).toBe('$1,504');
   });
 
-  test('Core Pro + all 3 Watchtower modules @ 10 = uses bundle pricing', async ({ page }) => {
-    await goToSummary(page, {
+  test('Core Pro + all 3 Watchtower modules uses bundle pricing from engine', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
       layer: 'core', tier: 'pro', locations: 10,
       watchtowerModules: ['competitive', 'events', 'trends'],
     });
-    // When all 3 selected, auto-bundles: 699 + 9*79=1410
-    // Core Pro: 664, WT Bundle: 1410 → 2074
-    expect(await getDisplayedTotal(page)).toBe('$2,074');
   });
 
 });

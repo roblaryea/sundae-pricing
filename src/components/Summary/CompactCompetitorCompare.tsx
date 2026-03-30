@@ -10,6 +10,11 @@ import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateAllComparisons, COMPETITOR_ASSUMPTIONS, COMPETITOR_PRICING, type ComparisonResult } from '../../data/competitorPricing';
 import { cn } from '../../utils/cn';
 
+function EmojiIcon({ emoji, className }: { emoji: string; className?: string }) {
+  const Icon = getIconByEmoji(emoji);
+  return <Icon className={className} />;
+}
+
 export function CompactCompetitorCompare() {
   const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
@@ -166,7 +171,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest }: Comparison
         className="w-full p-4 flex items-center justify-between text-left"
       >
         <div className="flex items-center gap-3 min-w-0 flex-1">
-          {(() => { const CompIcon = getIconByEmoji(comparison.competitor.icon); return <CompIcon className="w-5 h-5 flex-shrink-0" />; })()}
+          <EmojiIcon emoji={comparison.competitor.icon} className="w-5 h-5 flex-shrink-0" />
           <div className="min-w-0 flex-1">
             <div className="font-medium text-white flex items-start gap-2 flex-wrap">
               <span className="break-words">vs {comparison.competitor.name}</span>

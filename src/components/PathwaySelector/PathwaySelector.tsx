@@ -49,7 +49,7 @@ export function PathwaySelector() {
     
     // Set location count from quiz
     const locationOption = quizQuestions[0].options.find(o => o.id === locationAnswer);
-    if (locationOption?.value) {
+    if (typeof locationOption?.value === 'number') {
       setLocations(locationOption.value);
     }
     

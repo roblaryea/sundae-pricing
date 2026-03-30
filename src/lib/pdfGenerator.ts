@@ -291,7 +291,7 @@ export async function generateQuotePDF(
   }
 
   // Footer on all pages
-  const totalPages = (doc as any).internal.getNumberOfPages();
+  const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
 

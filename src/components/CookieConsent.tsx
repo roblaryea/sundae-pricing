@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 
 const CONSENT_KEY = "sundae_cookie_consent";
 
@@ -15,13 +15,7 @@ export function hasConsent(): boolean {
 }
 
 export function CookieConsent() {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (getConsentStatus() === null) {
-      setVisible(true);
-    }
-  }, []);
+  const [visible, setVisible] = useState(() => getConsentStatus() === null);
 
   const handleAccept = useCallback(() => {
     localStorage.setItem(CONSENT_KEY, "accepted");

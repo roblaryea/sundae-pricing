@@ -28,7 +28,7 @@ export interface QuizOption {
   id: string;
   label: string;
   emoji?: string;
-  value: any;
+  value: string | number | boolean;
   weight: Record<string, number>; // Persona weights
   moduleMapping?: string; // Maps to pain point ID for module engine
 }

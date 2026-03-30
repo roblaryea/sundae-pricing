@@ -10,6 +10,11 @@ interface AchievementNotificationProps {
   achievement: Achievement;
 }
 
+function EmojiIcon({ emoji, className }: { emoji: string; className?: string }) {
+  const Icon = getIconByEmoji(emoji);
+  return <Icon className={className} />;
+}
+
 export function AchievementNotification({ achievement }: AchievementNotificationProps) {
   const { dismissAchievement } = useConfiguration();
 
@@ -61,7 +66,7 @@ export function AchievementNotification({ achievement }: AchievementNotification
                   {achievement.description}
                 </p>
                 <div className="flex items-center gap-2">
-                  {(() => { const AchIcon = getIconByEmoji(achievement.icon); return <AchIcon className="w-6 h-6 text-sundae-accent" />; })()}
+                  <EmojiIcon emoji={achievement.icon} className="w-6 h-6 text-sundae-accent" />
                   <span className="text-sm font-bold text-sundae-accent">
                     +{achievement.points} points
                   </span>

@@ -36,6 +36,19 @@ export interface SavingsLineItem {
   missingInputMessage?: string;
 }
 
+interface SavingsAssumption {
+  minPct: number;
+  maxPct: number;
+  midPct: number;
+  tooltip: string;
+  label: string;
+  icon: string;
+  marginOnLift?: number;
+  requiresInput?: string;
+  missingInputMessage?: string;
+  isSoftBenefit?: boolean;
+}
+
 export interface ROICalculation {
   monthlySavings: number;
   annualSavings: number;
@@ -51,7 +64,7 @@ export interface ROICalculation {
 // CONSERVATIVE ASSUMPTION RANGES (Single Source of Truth)
 // ═══════════════════════════════════════════════════════════════════
 
-export const SAVINGS_ASSUMPTIONS = {
+export const SAVINGS_ASSUMPTIONS: Record<string, SavingsAssumption> = {
   // Labor Intelligence: 0.5% to 1.5% of revenue
   labor: {
     minPct: 0.005,  // 0.5%
@@ -193,7 +206,7 @@ export function useROICalculation(
     const addSavingsLine = (
       moduleId: string,
       baseAmount: number,
-      assumption: typeof SAVINGS_ASSUMPTIONS.labor,
+      assumption: SavingsAssumption,
       isCountedInTotal: boolean = true,
       missingInput: boolean = false
     ) => {
@@ -215,8 +228,8 @@ export function useROICalculation(
         rangeMax: Math.round(Math.min(maxAmount, maxCap * config.locations)),
         tooltip: assumption.tooltip,
         isCountedInTotal: isCountedInTotal && !missingInput,
-        requiresInput: (assumption as any).requiresInput,
-        missingInputMessage: missingInput ? (assumption as any).missingInputMessage : undefined
+        requiresInput: assumption.requiresInput,
+        missingInputMessage: missingInput ? assumption.missingInputMessage : undefined
       };
       
       savingsLines.push(line);

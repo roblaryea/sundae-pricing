@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
+  type LucideIcon,
   TrendingUp, Clock, ChevronRight, Users, Package, Megaphone, 
   ShoppingCart, CalendarDays, DollarSign, Shield, Bike, Star,
   Info, AlertCircle
@@ -14,7 +15,7 @@ import type { SavingsLineItem } from '../../hooks/useROICalculation';
 import { cn } from '../../utils/cn';
 
 // Icon mapping for savings lines
-const ICON_MAP: Record<string, any> = {
+const ICON_MAP: Record<string, LucideIcon> = {
   Users,
   Package,
   Megaphone,

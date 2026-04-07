@@ -51,6 +51,32 @@ async function goToSummary(page: Page, config: SimConfig) {
   await page.waitForSelector('text=Monthly Investment', { timeout: 10000 });
 }
 
+async function goToModules(page: Page, config: SimConfig) {
+  await page.goto('/simulator');
+  await page.waitForFunction(() => (window as any).__SUNDAE_STORE__, { timeout: 10000 });
+
+  await page.evaluate((cfg) => {
+    const store = (window as any).__SUNDAE_STORE__;
+    store.setState({
+      layer: cfg.layer,
+      tier: cfg.tier,
+      locations: cfg.locations,
+      modules: cfg.modules || [],
+      watchtowerModules: cfg.watchtowerModules || [],
+      currentStep: 4,
+      journeySteps: [
+        { id: 'persona', name: 'Discover Your Persona', completed: true },
+        { id: 'layer', name: 'Choose Your Layer', completed: true },
+        { id: 'tier', name: 'Select Your Tier', completed: true },
+        { id: 'locations', name: 'Configure Locations', completed: true },
+        { id: 'modules', name: 'Add Modules', completed: false },
+      ],
+    });
+  }, config);
+
+  await page.waitForSelector('[data-testid="module-price-labor"]', { timeout: 10000 });
+}
+
 // Helper: extract displayed monthly total
 async function getDisplayedTotal(page: Page): Promise<string> {
   const totalEl = page.locator('text=/^\\$[\\d,]+$/').first();
@@ -118,6 +144,11 @@ test.describe('Pricing Simulator E2E Verification', () => {
       layer: 'core', tier: 'lite', locations: 10,
       modules: ['labor'],
     });
+  });
+
+  test('Core Lite module cards use tier-aware module pricing', async ({ page }) => {
+    await goToModules(page, { layer: 'core', tier: 'lite', locations: 5 });
+    await expect(page.getByTestId('module-price-labor')).toHaveText('$299');
   });
 
   test('Core Pro + Watchtower bundle matches pricing engine @ 5 locations', async ({ page }) => {

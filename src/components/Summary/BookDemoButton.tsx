@@ -3,11 +3,11 @@
 import { Calendar } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { LEGAL } from '../../config/legal';
+import { getMarketingUrl } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
 
 export function BookDemoButton() {
-  const { messages } = useLocale();
+  const { messages, locale } = useLocale();
   const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
   
@@ -21,7 +21,7 @@ export function BookDemoButton() {
       source: 'pricing-configurator'
     });
     
-    const demoUrl = `${LEGAL.demoUrl}?${params.toString()}`;
+    const demoUrl = `${getMarketingUrl('/demo', locale)}?${params.toString()}`;
     
     // Open in new tab
     window.open(demoUrl, '_blank', 'noopener,noreferrer');

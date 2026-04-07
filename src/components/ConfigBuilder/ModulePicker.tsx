@@ -4,9 +4,11 @@ import { motion } from 'framer-motion';
 import { Plus, Check, Zap, TrendingUp, ChevronLeft, Sparkles, GitBranch } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { modules } from '../../data/pricing';
+import type { ModuleId } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { MODULE_ICONS } from '../../constants/icons';
 import { useLocale } from '../../contexts/LocaleContext';
+import { calculateModulePrice as calculateEngineModulePrice } from '../../lib/pricingEngine';
 
 type ModuleDisplayConfig = {
   powerLevel?: number;
@@ -37,7 +39,12 @@ export function ModulePicker() {
     return MODULE_ICONS[moduleId as keyof typeof MODULE_ICONS] || MODULE_ICONS.labor;
   };
 
-  const calculateModulePrice = (module: typeof modules[keyof typeof modules]) => {
+  const calculateModuleCardPrice = (moduleId: string, module: typeof modules[keyof typeof modules]) => {
+    if (layer === 'core') {
+      const tierKey = tier === 'lite' ? 'core_lite' : 'core_pro';
+      return calculateEngineModulePrice(moduleId as ModuleId, locations, tierKey);
+    }
+
     let price = module.orgLicensePrice;
     if (locations > module.baseIncludesLocations) {
       price += (locations - module.baseIncludesLocations) * module.perLocationPrice;
@@ -92,7 +99,7 @@ export function ModulePicker() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
         {Object.entries(modules).map(([moduleId, module]) => {
           const isSelected = selectedModules.includes(moduleId);
-          const modulePrice = calculateModulePrice(module);
+          const modulePrice = calculateModuleCardPrice(moduleId, module);
           const moduleAny = module as typeof module & ModuleDisplayConfig;
           const isRecommended = moduleAny.powerLevel && moduleAny.powerLevel >= 4;
           const localizedModule = moduleCatalog[moduleId as keyof typeof moduleCatalog];
@@ -163,7 +170,7 @@ export function ModulePicker() {
                   {/* Price */}
                   <div className="mb-4">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold tabular-nums">${modulePrice}</span>
+                      <span className="text-2xl font-bold tabular-nums" data-testid={`module-price-${moduleId}`}>${modulePrice}</span>
                       <span className="text-sm text-sundae-muted">{copy.perMonth}</span>
                     </div>
                     {locations > module.baseIncludesLocations && (

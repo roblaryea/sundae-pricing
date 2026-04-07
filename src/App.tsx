@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { CookieConsent } from './components/CookieConsent';
+import { useLocale } from './contexts/LocaleContext';
 
 const PricingOverview = lazy(() =>
   import('./pages/PricingOverview').then((module) => ({ default: module.PricingOverview })),
@@ -12,9 +13,18 @@ const Simulator = lazy(() =>
 );
 
 function RouteFallback() {
+  const { locale } = useLocale();
+  const copy =
+    locale === 'ar'
+      ? 'جارٍ تحميل تجربة التسعير...'
+      : locale === 'fr'
+        ? 'Chargement de l’experience tarifaire...'
+        : locale === 'es'
+          ? 'Cargando la experiencia de precios...'
+          : 'Loading pricing experience...';
   return (
     <div className="mx-auto flex min-h-[40vh] max-w-7xl items-center justify-center px-4 text-sm text-sundae-muted">
-      Loading pricing experience...
+      {copy}
     </div>
   );
 }

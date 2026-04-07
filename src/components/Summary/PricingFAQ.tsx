@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { HelpCircle, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
-import { LEGAL } from '../../config/legal';
+import { LEGAL, getMarketingUrl } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
 
 interface FAQItem {
@@ -611,12 +611,12 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
           </a>
           {' '}{messages.faq.visit}{' '}
           <a
-            href={LEGAL.demoUrl}
+            href={getMarketingUrl('/demo', locale)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sundae-accent hover:underline font-semibold"
           >
-            {LEGAL.primaryDomain}/demo
+            {new URL(getMarketingUrl('/demo', locale)).host}{new URL(getMarketingUrl('/demo', locale)).pathname}
           </a>
         </p>
       </div>

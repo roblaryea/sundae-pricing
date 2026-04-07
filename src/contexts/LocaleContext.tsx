@@ -13,6 +13,44 @@ export type PricingLocale = (typeof supportedLocales)[number]
 
 const LOCALE_COOKIE = 'sundae_locale'
 
+function getSharedLocaleCookieDomain(): string | undefined {
+  if (typeof window === 'undefined') return undefined
+
+  const hostname = window.location.hostname.toLowerCase()
+  const isLocalhost =
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname.endsWith('.localhost')
+
+  if (isLocalhost) return undefined
+
+  if (hostname === 'sundae.io' || hostname.endsWith('.sundae.io')) {
+    return '.sundae.io'
+  }
+
+  if (hostname === 'sundaetech.ai' || hostname.endsWith('.sundaetech.ai')) {
+    return '.sundaetech.ai'
+  }
+
+  return undefined
+}
+
+function persistLocalePreference(locale: PricingLocale) {
+  if (typeof window === 'undefined') return
+
+  const attrs = ['path=/', 'max-age=31536000', 'samesite=lax']
+  const domain = getSharedLocaleCookieDomain()
+  if (domain) {
+    attrs.push(`domain=${domain}`)
+  }
+  if (window.location.protocol === 'https:') {
+    attrs.push('secure')
+  }
+
+  document.cookie = `${LOCALE_COOKIE}=${locale}; ${attrs.join('; ')}`
+  window.localStorage.setItem(LOCALE_COOKIE, locale)
+}
+
 export const localeNames: Record<PricingLocale, string> = {
   en: 'English',
   ar: 'العربية',
@@ -1211,14 +1249,17 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = locale
     document.documentElement.setAttribute('dir', localeDirection[locale])
-    document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`
-    window.localStorage.setItem(LOCALE_COOKIE, locale)
+    persistLocalePreference(locale)
   }, [locale])
 
   const value = useMemo<LocaleContextValue>(
     () => ({
       locale,
-      setLocale: (nextLocale) => setLocaleState(normalizeLocale(nextLocale)),
+      setLocale: (nextLocale) => {
+        const normalized = normalizeLocale(nextLocale)
+        persistLocalePreference(normalized)
+        setLocaleState(normalized)
+      },
       dir: localeDirection[locale],
       messages: messages[locale],
     }),

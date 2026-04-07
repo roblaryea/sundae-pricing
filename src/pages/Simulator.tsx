@@ -11,9 +11,12 @@ import { ROISimulator } from '../components/PricingDisplay/ROISimulator';
 import { ConfigSummary } from '../components/Summary/ConfigSummary';
 import { ProgressIndicator } from '../components/shared/ProgressIndicator';
 import { AchievementNotification } from '../components/shared/AchievementNotification';
+import { useLivePricingCatalog } from '../data/livePricing';
+import { LivePricingGate } from '../components/shared/LivePricingGate';
 
 export function Simulator() {
   const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement } = useConfiguration();
+  const livePricing = useLivePricingCatalog();
 
   useEffect(() => {
     // Add dark background to body
@@ -47,6 +50,7 @@ export function Simulator() {
   );
 
   return (
+    <LivePricingGate state={livePricing}>
     <div className="min-h-screen">
       {/* Progress indicator bar below header */}
       {currentStep > 0 && (
@@ -75,5 +79,6 @@ export function Simulator() {
         )}
       </AnimatePresence>
     </div>
+    </LivePricingGate>
   );
 }

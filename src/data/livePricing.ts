@@ -44,15 +44,16 @@ type LiveCatalogResponse = {
   tiers?: LiveCatalogTier[];
   modules?: LiveCatalogModule[];
   watchtower?: LiveCatalogWatchtower[];
-  bundles?: LiveCatalogBundle[];
+  bundles?: LiveCatalogBundle[] | { modules?: LiveCatalogBundle[] | null } | null;
 };
 
 type LivePricingStatus = 'idle' | 'loading' | 'ready' | 'error' | 'disabled';
 
-interface LivePricingState {
+export interface LivePricingState {
   status: LivePricingStatus;
   version: number;
   error: string | null;
+  required: boolean;
 }
 
 type MutableTier = {
@@ -65,15 +66,116 @@ type MutableTier = {
   aiSeats: number | string;
 };
 
-const DEFAULT_BASE_URL =
+const ENV_BASE_URL =
   import.meta.env.VITE_PRICING_CATALOG_URL ||
   import.meta.env.VITE_APP_URL ||
   '';
+const ENV_REQUIRE_LIVE_PRICING = import.meta.env.VITE_REQUIRE_LIVE_PRICING;
+
+function trimTrailingSlash(value: string) {
+  return value.replace(/\/+$/, '');
+}
+
+function isLocalHostname(hostname: string) {
+  return (
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname === '0.0.0.0' ||
+    hostname.endsWith('.local')
+  );
+}
+
+function supportsSameOriginCatalog(hostname: string) {
+  return (
+    hostname === 'sundae.io' ||
+    hostname.endsWith('.sundae.io') ||
+    hostname.endsWith('.vercel.app')
+  );
+}
+
+function resolveBooleanEnv(value: string | undefined): boolean | null {
+  if (value === 'true') return true;
+  if (value === 'false') return false;
+  return null;
+}
+
+export function isLivePricingRequired(options?: {
+  envRequireLivePricing?: string;
+  hostname?: string;
+}) {
+  const envRequirement = resolveBooleanEnv(options?.envRequireLivePricing ?? ENV_REQUIRE_LIVE_PRICING);
+  if (envRequirement !== null) {
+    return envRequirement;
+  }
+
+  const runtimeHostname = options?.hostname ?? (typeof window !== 'undefined' ? window.location.hostname : '');
+  if (!runtimeHostname || isLocalHostname(runtimeHostname)) {
+    return false;
+  }
+
+  return supportsSameOriginCatalog(runtimeHostname);
+}
+
+export function resolvePricingCatalogBaseUrl(options?: {
+  envBaseUrl?: string;
+  hostname?: string;
+  origin?: string;
+}) {
+  const envBaseUrl = options?.envBaseUrl ?? ENV_BASE_URL;
+  if (envBaseUrl) {
+    return trimTrailingSlash(envBaseUrl);
+  }
+
+  const runtimeHostname = options?.hostname ?? (typeof window !== 'undefined' ? window.location.hostname : '');
+  const runtimeOrigin = options?.origin ?? (typeof window !== 'undefined' ? window.location.origin : '');
+  if (!runtimeHostname || !runtimeOrigin || isLocalHostname(runtimeHostname)) {
+    return '';
+  }
+
+  if (!supportsSameOriginCatalog(runtimeHostname)) {
+    return '';
+  }
+
+  return trimTrailingSlash(runtimeOrigin);
+}
+
+export function resolvePricingCatalogUrl(options?: {
+  envBaseUrl?: string;
+  hostname?: string;
+  origin?: string;
+}) {
+  const baseUrl = resolvePricingCatalogBaseUrl(options);
+  return baseUrl ? `${baseUrl}/api/pricing/catalog/active` : null;
+}
+
+export function normalizeLiveCatalogResponse(data: LiveCatalogResponse): {
+  tiers?: LiveCatalogTier[];
+  modules?: LiveCatalogModule[];
+  watchtower?: LiveCatalogWatchtower[];
+  bundles?: LiveCatalogBundle[];
+} {
+  const bundles = Array.isArray(data.bundles)
+    ? data.bundles
+    : data.bundles?.modules ?? [];
+
+  return {
+    tiers: data.tiers,
+    modules: data.modules,
+    watchtower: data.watchtower,
+    bundles,
+  };
+}
+
+const initialCatalogUrl = resolvePricingCatalogUrl();
+const initialLivePricingRequired = isLivePricingRequired();
 
 let livePricingState: LivePricingState = {
-  status: DEFAULT_BASE_URL ? 'idle' : 'disabled',
+  status: initialCatalogUrl ? 'idle' : initialLivePricingRequired ? 'error' : 'disabled',
   version: 0,
-  error: null,
+  error: initialCatalogUrl || !initialLivePricingRequired
+    ? null
+    : 'Published pricing catalog is required for hosted pricing environments.',
+  required: initialLivePricingRequired,
 };
 
 let hydrationPromise: Promise<void> | null = null;
@@ -88,11 +190,6 @@ function emit() {
 function setState(patch: Partial<LivePricingState>) {
   livePricingState = { ...livePricingState, ...patch };
   emit();
-}
-
-function resolveCatalogUrl() {
-  if (!DEFAULT_BASE_URL) return null;
-  return `${DEFAULT_BASE_URL.replace(/\/+$/, '')}/api/pricing/catalog/active`;
 }
 
 function applyLiveTierValues(tiers: LiveCatalogTier[] | undefined) {
@@ -241,32 +338,43 @@ function applyLiveWatchtowerValues(liveWatchtower: LiveCatalogWatchtower[] | und
 }
 
 function applyLiveCatalogValues(data: LiveCatalogResponse) {
-  applyLiveTierValues(data.tiers);
-  applyLiveModuleValues(data.modules);
-  recalculateModuleBundleValues(data.bundles);
-  applyLiveWatchtowerValues(data.watchtower);
+  const normalized = normalizeLiveCatalogResponse(data);
+  applyLiveTierValues(normalized.tiers);
+  applyLiveModuleValues(normalized.modules);
+  recalculateModuleBundleValues(normalized.bundles);
+  applyLiveWatchtowerValues(normalized.watchtower);
 
   livePricingState = {
     status: 'ready',
     version: livePricingState.version + 1,
     error: null,
+    required: livePricingState.required,
   };
   emit();
 }
 
 export async function hydrateLivePricingCatalog(force = false): Promise<void> {
-  if (livePricingState.status === 'disabled') return;
+  const url = resolvePricingCatalogUrl();
+  const required = isLivePricingRequired();
+  if (!url) {
+    const nextStatus = required ? 'error' : 'disabled';
+    const nextError = required
+      ? 'Published pricing catalog is required for hosted pricing environments.'
+      : null;
+    if (
+      livePricingState.status !== nextStatus ||
+      livePricingState.error !== nextError ||
+      livePricingState.required !== required
+    ) {
+      setState({ status: nextStatus, error: nextError, required });
+    }
+    return;
+  }
   if (!force && livePricingState.status === 'ready') return;
   if (hydrationPromise && !force) return hydrationPromise;
 
-  const url = resolveCatalogUrl();
-  if (!url) {
-    setState({ status: 'disabled', error: null });
-    return;
-  }
-
   hydrationPromise = (async () => {
-    setState({ status: 'loading', error: null });
+    setState({ status: 'loading', error: null, required });
 
     try {
       const response = await fetch(url, {
@@ -280,6 +388,7 @@ export async function hydrateLivePricingCatalog(force = false): Promise<void> {
         setState({
           status: 'error',
           error: `Live catalog request failed with ${response.status}`,
+          required,
         });
         return;
       }
@@ -290,6 +399,7 @@ export async function hydrateLivePricingCatalog(force = false): Promise<void> {
       setState({
         status: 'error',
         error: error instanceof Error ? error.message : 'Failed to load live catalog',
+        required,
       });
     } finally {
       hydrationPromise = null;

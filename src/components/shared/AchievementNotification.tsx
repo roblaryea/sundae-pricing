@@ -4,7 +4,9 @@ import { motion } from 'framer-motion';
 import { Trophy, X } from 'lucide-react';
 import { getIconByEmoji } from '../../lib/iconMap';
 import type { Achievement } from '../../data/personas';
+import { getLocalizedAchievement } from '../../data/personas';
 import { useConfiguration } from '../../hooks/useConfiguration';
+import { useLocale } from '../../contexts/LocaleContext';
 
 interface AchievementNotificationProps {
   achievement: Achievement;
@@ -17,6 +19,9 @@ function EmojiIcon({ emoji, className }: { emoji: string; className?: string }) 
 
 export function AchievementNotification({ achievement }: AchievementNotificationProps) {
   const { dismissAchievement } = useConfiguration();
+  const { locale } = useLocale();
+  const localizedAchievement = getLocalizedAchievement(locale, achievement);
+  const pointsLabel = locale === 'ar' ? 'نقطة' : locale === 'es' ? 'puntos' : 'points';
 
   return (
     <motion.div
@@ -60,15 +65,15 @@ export function AchievementNotification({ achievement }: AchievementNotification
                 transition={{ delay: 0.3 }}
               >
                 <h4 className="font-bold text-lg mb-1">
-                  {achievement.name}
+                  {localizedAchievement.name}
                 </h4>
                 <p className="text-sm text-sundae-muted mb-2">
-                  {achievement.description}
+                  {localizedAchievement.description}
                 </p>
                 <div className="flex items-center gap-2">
-                  <EmojiIcon emoji={achievement.icon} className="w-6 h-6 text-sundae-accent" />
+                  <EmojiIcon emoji={localizedAchievement.icon} className="w-6 h-6 text-sundae-accent" />
                   <span className="text-sm font-bold text-sundae-accent">
-                    +{achievement.points} points
+                    +{localizedAchievement.points} {pointsLabel}
                   </span>
                 </div>
               </motion.div>

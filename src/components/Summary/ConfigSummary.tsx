@@ -13,7 +13,7 @@ import { BookDemoButton } from './BookDemoButton';
 import { CompactCompetitorCompare } from './CompactCompetitorCompare';
 import { WatchtowerValue } from './WatchtowerValue';
 import { PricingFAQ } from './PricingFAQ';
-import { LEGAL } from '../../config/legal';
+import { LEGAL, getMarketingUrl } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
 import { useLivePricingCatalog } from '../../data/livePricing';
 import { formatAnnualAmount, getLocalizedLayerName } from '../../lib/pricingUiCopy';
@@ -467,7 +467,7 @@ export function ConfigSummary() {
         <p>
           {messages.summary.questions}{' '}
           <a 
-            href={LEGAL.contactUrl}
+            href={getMarketingUrl('/contact', locale)}
             target="_blank" 
             rel="noopener noreferrer"
             className="text-sundae-accent hover:underline font-medium"

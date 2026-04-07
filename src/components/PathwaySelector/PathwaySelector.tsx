@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Sparkles, Check, AlertCircle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { quizQuestions, calculatePersonaMatch } from '../../data/personas';
+import { calculatePersonaMatch, getLocalizedQuizQuestions } from '../../data/personas';
 import { calculateModuleRecommendations, getRecommendedModuleIds } from '../../lib/moduleRecommendationEngine';
 import { getIconByEmoji } from '../../lib/iconMap';
 import { cn } from '../../utils/cn';
@@ -12,8 +12,9 @@ import { useLocale } from '../../contexts/LocaleContext';
 import confetti from 'canvas-confetti';
 
 export function PathwaySelector() {
-  const { messages } = useLocale();
+  const { messages, locale } = useLocale();
   const sim = messages.simulator;
+  const quizQuestions = getLocalizedQuizQuestions(locale);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showPersona, setShowPersona] = useState(false);
   const [multiSelections, setMultiSelections] = useState<Record<string, string[]>>({});
@@ -29,7 +30,7 @@ export function PathwaySelector() {
 
   const completeQuiz = useCallback((allAnswers: Record<string, string>) => {
     // Calculate persona match
-    const result = calculatePersonaMatch(allAnswers);
+    const result = calculatePersonaMatch(allAnswers, locale);
     setPersona(result.persona, result.confidence);
     
     // Calculate module recommendations using the engine
@@ -62,7 +63,7 @@ export function PathwaySelector() {
       origin: { y: 0.6 },
       colors: [result.persona.color, '#ffffff', '#38BDF8']
     });
-  }, [multiSelections, setModules, setLocations, setPersona]);
+  }, [locale, multiSelections, setModules, setLocations, setPersona, quizQuestions]);
 
   const handleOptionClick = useCallback((optionId: string) => {
     if (isMultiSelect) {
@@ -125,15 +126,15 @@ export function PathwaySelector() {
 
   const handleShowConfig = useCallback(() => {
     if (showPersona) {
-      const result = calculatePersonaMatch(quizAnswers);
+      const result = calculatePersonaMatch(quizAnswers, locale);
       loadFromPersona(result.persona);
       setCurrentStep(1);
     }
-  }, [loadFromPersona, quizAnswers, setCurrentStep, showPersona]);
+  }, [locale, loadFromPersona, quizAnswers, setCurrentStep, showPersona]);
 
   // Persona reveal screen
   if (showPersona) {
-    const result = calculatePersonaMatch(quizAnswers);
+    const result = calculatePersonaMatch(quizAnswers, locale);
     const persona = result.persona;
     const PersonaIcon = getIconByEmoji(persona.emoji);
     

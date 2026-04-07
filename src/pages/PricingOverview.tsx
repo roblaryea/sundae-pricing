@@ -10,11 +10,12 @@ const { report: FileText, core: Zap, watchtower: Castle } = PRODUCT_ICONS;
 import { getCoreProAdvantageMessage } from '../utils/pricingCalculators';
 import { cn } from '../utils/cn';
 import { getLocalizedFeatureComparisons } from '../data/featureComparisons';
-import { LEGAL } from '../config/legal';
+import { getMarketingUrl } from '../config/legal';
 import { FeatureComparisonTable } from '../components/PricingOverview/FeatureComparisonTable';
 import { PricingFAQ } from '../components/Summary/PricingFAQ';
 import { useLivePricingCatalog } from '../data/livePricing';
 import { useLocale } from '../contexts/LocaleContext';
+import { LivePricingGate } from '../components/shared/LivePricingGate';
 
 type ProductTab = 'report' | 'core' | 'watchtower';
 
@@ -23,7 +24,7 @@ export function PricingOverview() {
   const { locale, messages } = useLocale();
   const [activeTab, setActiveTab] = useState<ProductTab>('report');
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
-  useLivePricingCatalog();
+  const livePricing = useLivePricingCatalog();
   const overview = messages.overview;
   const catalog = messages.catalog;
   const localizedTiers = getLocalizedTierCatalog(locale);
@@ -60,6 +61,7 @@ export function PricingOverview() {
   const getCoreTierCatalog = (tierKey: 'lite' | 'pro' | 'enterprise') => localizedTiers.coreTiers[tierKey];
 
   return (
+    <LivePricingGate state={livePricing}>
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
       {/* HERO */}
       <section className="text-center mb-12">
@@ -366,7 +368,7 @@ export function PricingOverview() {
                     {/* CTA */}
                     {tierKey === 'enterprise' ? (
                       <a
-                        href={LEGAL.demoUrl}
+                        href={getMarketingUrl('/demo', locale)}
                         className="block w-full text-center py-2 text-sm font-semibold"
                         style={{ color: tierColor }}
                       >
@@ -701,6 +703,7 @@ export function PricingOverview() {
         </p>
       </div>
     </div>
+    </LivePricingGate>
   );
 }
 

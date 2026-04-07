@@ -12,7 +12,7 @@
     "validate:pricing": "tsx scripts/validate-pricing.ts",
     "qa": "tsx scripts/qa-validate-pricing.ts",
     "test": "vitest run",
-    "test:pricing": "vitest run __tests__/pricing.v4_3.spec.ts __tests__/pricing.test.ts",
+    "test:pricing": "vitest run __tests__/pricing.v5_1.spec.ts __tests__/pricing.test.ts __tests__/livePricing.test.ts",
     "test:e2e:pricing": "env -u NO_COLOR npx playwright test e2e/pricing-simulator.spec.ts",
     "pricing:audit": "tsx scripts/pricing_audit.ts",
     "pricing:audit:full": "tsx scripts/pricing_audit.ts --with-release-notes",

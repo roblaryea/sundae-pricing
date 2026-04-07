@@ -30,3 +30,19 @@ export const LEGAL = {
   termsUrl: 'https://sundae.io/terms',
   signUpUrl: 'https://sundae.io/sign-in',
 } as const;
+
+export type MarketingLocale = 'en' | 'ar' | 'fr' | 'es';
+
+function localizeMarketingPath(pathname: string, locale: MarketingLocale): string {
+  const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`;
+  if (locale === 'en') return normalizedPath;
+  return normalizedPath === '/' ? `/${locale}` : `/${locale}${normalizedPath}`;
+}
+
+export function getMarketingUrl(pathname: string, locale: MarketingLocale = 'en'): string {
+  const base = new URL(LEGAL.website);
+  base.pathname = localizeMarketingPath(pathname, locale);
+  base.search = '';
+  base.hash = '';
+  return base.toString();
+}

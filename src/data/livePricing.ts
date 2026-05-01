@@ -148,6 +148,12 @@ export function resolvePricingCatalogUrl(options?: {
   return baseUrl ? `${baseUrl}/api/pricing/catalog/active` : null;
 }
 
+function buildLiveCatalogRequestUrl(url: string) {
+  const requestUrl = new URL(url, typeof window !== 'undefined' ? window.location.origin : 'http://localhost');
+  requestUrl.searchParams.set('_ts', Date.now().toString());
+  return requestUrl.toString();
+}
+
 export function normalizeLiveCatalogResponse(data: LiveCatalogResponse): {
   tiers?: LiveCatalogTier[];
   modules?: LiveCatalogModule[];
@@ -377,7 +383,7 @@ export async function hydrateLivePricingCatalog(force = false): Promise<void> {
     setState({ status: 'loading', error: null, required });
 
     try {
-      const response = await fetch(url, {
+      const response = await fetch(buildLiveCatalogRequestUrl(url), {
         cache: 'no-store',
         headers: {
           'Content-Type': 'application/json',

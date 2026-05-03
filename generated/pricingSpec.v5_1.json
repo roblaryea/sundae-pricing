@@ -228,6 +228,17 @@
         "inventory_same_system": 499,
         "max_credit": 399
       }
+    },
+    "foresight": {
+      "id": "foresight",
+      "name": "Foresight Intelligence",
+      "pricing": { "base": 249, "per_location": 24, "base_includes": 3 },
+      "pricing_by_tier": {
+        "core_pro": { "base": 249, "per_location": 24 },
+        "core_lite": { "base": 279, "per_location": 27 }
+      },
+      "setup_fee": 599,
+      "prerequisites": []
     }
   },
 
@@ -242,6 +253,7 @@
     "delivery":     { "5": 263, "10": 373, "20": 593, "50": 1253 },
     "guest":        { "5": 177, "10": 247, "20": 387, "50": 807 },
     "pulse":        { "5": 327, "10": 472, "20": 762, "50": 1632 },
+    "foresight":    { "5": 297, "10": 417, "20": 657, "50": 1377 },
     "all_10":       { "5": 2540, "10": 3590, "20": 5690, "50": 11990 }
   },
 

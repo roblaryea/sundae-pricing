@@ -18,7 +18,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     if (saved === 'dark' || saved === 'light') {
       return saved;
     }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    // Default to dark — pricing site is designed dark-first; visitors can
+    // still toggle, and their choice persists in localStorage.
+    return 'dark';
   });
   
   // Apply theme to document

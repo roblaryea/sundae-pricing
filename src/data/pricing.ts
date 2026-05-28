@@ -1,13 +1,31 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // SUNDAE PRICING DATA — PRICING SITE MIRROR
 // ═══════════════════════════════════════════════════════════════════════════
-// UPDATED: 2026-02-26 to match sundae_final_pricing_v5.1.md
+// UPDATED: 2026-05-28 to add Foresight Intelligence module and align names with
+//          backend pricing master (sundae-backend/config/pricing_master.ts).
+// PREVIOUS: 2026-02-26 to match sundae_final_pricing_v5.1.md
+//
 // This file mirrors the active pricing catalog for the pricing site experience.
-// Do NOT modify without updating tests in __tests__/pricing.test.ts and reconciling against backend pricing.
+// Do NOT modify without updating tests in __tests__/pricing.test.ts and
+// reconciling against backend pricing via `npm run sync:backend-pricing` (which
+// reads `../../../sundae-backend/config/pricing_master.ts` and reports drift).
+//
+// **Source of truth**: `sundae-backend/config/pricing_master.ts` MODULE_PRICING.
+// Pricing-site internal ModuleId keys are LEGACY — they map to the canonical
+// backend keys via the `backendId` field on each module. Renaming the internal
+// keys (e.g. `revenue` → `revenue_assurance`) would ripple through the entire
+// pricing engine, so we preserve them and reconcile via the backendId mapping.
 
 export type ReportTier = 'lite' | 'plus' | 'pro';
 export type CoreTier = 'lite' | 'pro';
-export type ModuleId = 'labor' | 'inventory' | 'purchasing' | 'marketing' | 'reservations' | 'profit' | 'revenue' | 'delivery' | 'guest' | 'pulse';
+// 11 paid SKUs matching backend MODULE_PRICING:
+//   labor, inventory, purchasing, marketing, reservations, profit,
+//   revenue (=> revenue_assurance), delivery, guest (=> guest_experience),
+//   pulse, foresight (added 2026-05-28).
+// guest_crm_intelligence and item_profitability ship as Insights UI surfaces
+// but are not currently sold as standalone paid modules — see MSOT for the
+// 12-Insights-module product surface taxonomy vs the 11-paid-SKU pricing.
+export type ModuleId = 'labor' | 'inventory' | 'purchasing' | 'marketing' | 'reservations' | 'profit' | 'revenue' | 'delivery' | 'guest' | 'pulse' | 'foresight';
 export type BundleId = 'ops_suite' | 'growth_suite' | 'finance_addon' | 'channel_suite' | 'realtime_suite' | 'complete_intelligence';
 export type CrossIntelligenceTier = 'base' | 'pro';
 export type WatchtowerId = 'competitive' | 'events' | 'trends' | 'bundle';
@@ -450,6 +468,7 @@ export const modules = {
     id: 'labor',
     name: 'Labor Intelligence',
     icon: 'users',
+    backendId: 'labor',
     orgLicensePrice: 219,
     perLocationPrice: 22,
     baseIncludesLocations: 3,
@@ -479,8 +498,13 @@ export const modules = {
 
   inventory: {
     id: 'inventory',
+    // Display name kept as "Inventory Intelligence" for the pricing-site product
+    // catalogue. Backend canonical name is "Inventory Connect" — see
+    // `backendId` for the mapping; sync script reconciles pricing values, not
+    // display labels.
     name: 'Inventory Intelligence',
     icon: 'package',
+    backendId: 'inventory',
     orgLicensePrice: 229,
     perLocationPrice: 24,
     baseIncludesLocations: 3,
@@ -510,8 +534,10 @@ export const modules = {
 
   purchasing: {
     id: 'purchasing',
+    // Backend canonical name is "Purchasing Analytics" — see `backendId`.
     name: 'Purchasing Intelligence',
     icon: 'cart',
+    backendId: 'purchasing',
     orgLicensePrice: 169,
     perLocationPrice: 16,
     baseIncludesLocations: 3,
@@ -542,6 +568,7 @@ export const modules = {
     id: 'marketing',
     name: 'Marketing Performance',
     icon: 'megaphone',
+    backendId: 'marketing',
     orgLicensePrice: 249,
     perLocationPrice: 25,
     baseIncludesLocations: 3,
@@ -572,6 +599,7 @@ export const modules = {
     id: 'reservations',
     name: 'Reservations Intelligence',
     icon: 'calendar',
+    backendId: 'reservations',
     orgLicensePrice: 169,
     perLocationPrice: 16,
     baseIncludesLocations: 3,
@@ -601,6 +629,7 @@ export const modules = {
     id: 'profit',
     name: 'Profit Intelligence',
     icon: 'profit',
+    backendId: 'profit',
     orgLicensePrice: 299,
     perLocationPrice: 28,
     baseIncludesLocations: 3,
@@ -629,9 +658,12 @@ export const modules = {
   },
 
   revenue: {
+    // Internal key kept as `revenue` for backward-compat with pricing engine
+    // call sites; backend canonical key is `revenue_assurance`.
     id: 'revenue',
     name: 'Revenue Assurance',
     icon: 'revenue',
+    backendId: 'revenue_assurance',
     orgLicensePrice: 149,
     perLocationPrice: 14,
     baseIncludesLocations: 3,
@@ -660,8 +692,10 @@ export const modules = {
 
   delivery: {
     id: 'delivery',
+    // Backend canonical name is "Delivery Economics" — see `backendId`.
     name: 'Delivery Intelligence',
     icon: 'delivery',
+    backendId: 'delivery',
     orgLicensePrice: 219,
     perLocationPrice: 22,
     baseIncludesLocations: 3,
@@ -689,9 +723,13 @@ export const modules = {
   },
 
   guest: {
+    // Internal key kept as `guest` for backward-compat with pricing engine
+    // call sites (e.g. ROISimulator hasGuestModule check); backend canonical
+    // key is `guest_experience`.
     id: 'guest',
     name: 'Guest Experience',
     icon: 'guest',
+    backendId: 'guest_experience',
     orgLicensePrice: 149,
     perLocationPrice: 14,
     baseIncludesLocations: 3,
@@ -722,6 +760,7 @@ export const modules = {
     id: 'pulse',
     name: 'Pulse',
     icon: 'pulse',
+    backendId: 'pulse',
     orgLicensePrice: 269,
     perLocationPrice: 29,
     baseIncludesLocations: 3,
@@ -753,6 +792,46 @@ export const modules = {
       inventorySameSystem: 499,
       maxCredit: 399
     }
+  },
+
+  // ── Foresight Intelligence (added 2026-05-28 to match backend MODULE_PRICING) ──
+  // Backend canonical mapping: foresight → "Foresight Intelligence". See the
+  // entry fields below for the price values; sortOrder is 11 per backend
+  // pricing master. Sells the predictive-planning layer (Forecast Table, P&L
+  // Forecast, Modeler, Scenarios, Sandbox, Sensitivity, Briefing, Coach,
+  // Assumptions, Accuracy, Decision Replay, Budget, Planning Intake).
+  foresight: {
+    id: 'foresight',
+    name: 'Foresight Intelligence',
+    icon: 'telescope',
+    backendId: 'foresight',
+    orgLicensePrice: 249,
+    perLocationPrice: 24,
+    baseIncludesLocations: 3,
+    setupFee: 599,
+    setupIncludes: 'Forecast model warmup + planning intake configuration',
+    prerequisites: [] as string[],
+    pricingByTier: {
+      core_pro: { orgLicensePrice: 249, perLocationPrice: 24 },
+      core_lite: { orgLicensePrice: 279, perLocationPrice: 27 }
+    },
+    description: 'Predictive planning layer: revenue/demand forecasting, scenario modeling, sensitivity analysis, decision replay, and cross-module cascade effects.',
+    features: [
+      'Demand and revenue forecasting with confidence bands',
+      'Scenario modeler + sandbox',
+      'Sensitivity analysis across assumptions',
+      'P&L Forecast (revenue / labor / COGS / prime cost / margin / EBIT)',
+      'Budget intake and planning integration',
+      'Decision Replay (operator actions vs outcomes)',
+      'Cross-module cascade effects (labor ↔ inventory ↔ purchasing)',
+      'AI-generated Morning Brief + Briefing Coach',
+      'Country-aware statutory planning',
+      'Forecast accuracy tracking and correction loop',
+      'Monthly Foresight Analytics Report'
+    ],
+    roiPotential: 'Stop reacting to last week — prepare for next week',
+    tier: 'Intelligence',
+    isNew: true
   }
 };
 

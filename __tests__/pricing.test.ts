@@ -198,12 +198,17 @@ describe('No Duplicated Pricing Sources', () => {
     expect(keys).toEqual(['lite', 'pro', 'enterprise']);
   });
 
-  it('modules has exactly 10 modules (including pulse)', () => {
+  it('modules has exactly 11 paid SKUs matching backend MODULE_PRICING (pulse + foresight + 9 analytics)', () => {
+    // Source of truth: sundae-backend/config/pricing_master.ts MODULE_PRICING.
+    // Updated 2026-05-28 to add `foresight` (Foresight Intelligence) as the
+    // 11th paid SKU — see scripts/sync-backend-pricing.ts for the canonical
+    // reconciliation. Crew SKUs are intentionally excluded from this dict
+    // because Crew is sold as a separate product family.
     const keys = Object.keys(modules);
-    expect(keys).toHaveLength(10);
+    expect(keys).toHaveLength(11);
     expect(keys).toEqual([
       'labor', 'inventory', 'purchasing', 'marketing', 'reservations',
-      'profit', 'revenue', 'delivery', 'guest', 'pulse'
+      'profit', 'revenue', 'delivery', 'guest', 'pulse', 'foresight'
     ]);
   });
 

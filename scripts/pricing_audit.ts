@@ -261,20 +261,36 @@ if (enterprisePricing.minLocations === CLIENT_TYPE_RULES['enterprise'].locationR
     `enterprisePricing.minLocations=${enterprisePricing.minLocations}, CLIENT_TYPE_RULES=${CLIENT_TYPE_RULES['enterprise'].locationRange[0]}`);
 }
 
-// Module count (v4.3: 10 modules including Pulse)
+// Module count. Source of truth is `sundae-backend/config/pricing_master.ts`
+// MODULE_PRICING which currently defines 11 paid SKUs:
+//   labor, inventory, purchasing, marketing, reservations, profit,
+//   revenue_assurance (mapped to pricing-site key `revenue`), delivery,
+//   guest_experience (mapped to `guest`), pulse, foresight.
+// (Updated 2026-05-28: previously asserted 10 modules including Pulse — the
+// v4.3 baseline that pre-dated Foresight as a paid SKU. The marketing-facing
+// "12 intelligence modules" framing counts the Insights UI surfaces, which
+// includes guest_crm_intelligence and item_profitability that ship as UI but
+// are not yet sold as standalone paid modules.)
+const EXPECTED_PAID_MODULES = 11;
 const moduleKeys = Object.keys(modules);
-if (moduleKeys.length === 10) {
-  pass('Entitlements', 'All 10 modules present (including Pulse)');
+if (moduleKeys.length === EXPECTED_PAID_MODULES) {
+  pass('Entitlements', `All ${EXPECTED_PAID_MODULES} paid modules present (matches backend MODULE_PRICING)`);
 } else {
-  fail('Entitlements', `Expected 10 modules, found ${moduleKeys.length}`);
+  fail('Entitlements', `Expected ${EXPECTED_PAID_MODULES} paid modules, found ${moduleKeys.length}. Reconcile against backend MODULE_PRICING and run \`npm run sync:backend-pricing\` (drift check).`);
 }
 
-// All modules have 5 included locations
-const allInclude5 = moduleKeys.every(k => modules[k as keyof typeof modules].includedLocations === 5);
-if (allInclude5) {
-  pass('Entitlements', 'All modules include 5 locations');
+// All modules include the expected base location count.
+// v5.1 pricing reduced `baseIncludesLocations` from 5 → 3 (per changelog line 81 of src/data/pricing.ts).
+// Audit script was previously checking the v4.x property name `includedLocations === 5`, which always
+// failed because the v5.1 schema uses `baseIncludesLocations`. Updated 2026-05-28.
+const EXPECTED_BASE_LOCATIONS = 3;
+const allIncludeBase = moduleKeys.every(
+  (k) => (modules[k as keyof typeof modules] as { baseIncludesLocations?: number }).baseIncludesLocations === EXPECTED_BASE_LOCATIONS
+);
+if (allIncludeBase) {
+  pass('Entitlements', `All modules include ${EXPECTED_BASE_LOCATIONS} base locations (v5.1)`);
 } else {
-  fail('Entitlements', 'Not all modules include 5 locations');
+  fail('Entitlements', `Not all modules include ${EXPECTED_BASE_LOCATIONS} base locations (v5.1 baseIncludesLocations)`);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

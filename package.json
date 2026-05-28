@@ -16,6 +16,8 @@
     "test:e2e:pricing": "env -u NO_COLOR npx playwright test e2e/pricing-simulator.spec.ts",
     "pricing:audit": "tsx scripts/pricing_audit.ts",
     "pricing:audit:full": "tsx scripts/pricing_audit.ts --with-release-notes",
+    "sync:backend-pricing": "tsx scripts/sync-backend-pricing.ts",
+    "sync:backend-pricing:json": "tsx scripts/sync-backend-pricing.ts --json",
     "release:notes": "tsx scripts/release_notes.ts",
     "prebuild": "npm run validate:pricing",
     "predeploy": "npm run build:github",

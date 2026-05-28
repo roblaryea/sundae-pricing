@@ -1,18 +1,20 @@
 # Pricing Audit Report
 
-> Generated: 2026-02-17
+> Generated: 2026-05-28
 
 ## Overall Status: PASS
 
 | Metric | Count |
 |--------|-------|
-| Passed | 17 |
+| Passed | 16 |
 | Failed | 0 |
-| Warnings | 3 |
+| Warnings | 4 |
 | Total Checks | 20 |
 
 ## Warnings
 
+- **[Hard-coded Prices]** Unexpected $ amounts found in files
+  - src/contexts/LocaleContext.tsx, src/lib/pricingEngine.ts, src/lib/pricingUiCopy.ts
 - **[Hard-coded Prices]** src/components/ConfigBuilder/LayerStack.tsx contains hard-coded prices
   - Verify these match src/data/pricing.ts
 - **[Hard-coded Prices]** src/data/featureComparisons.ts contains hard-coded prices
@@ -31,8 +33,8 @@
 | PASS | Bundle Math | baseSavings = individualTotal - bundlePrice |
 | PASS | Bundle Math | individualPerLocTotal matches sum |
 | PASS | Bundle Math | perLocSavings = individualPerLocTotal - bundlePerLoc |
-| PASS | Bundle Math | Savings percent is 15% |
-| PASS | Hard-coded Prices | No unexpected hard-coded dollar amounts in UI |
+| PASS | Bundle Math | Savings percent is 18% (~18%) |
+| WARN | Hard-coded Prices | Unexpected $ amounts found in files |
 | WARN | Hard-coded Prices | src/components/ConfigBuilder/LayerStack.tsx contains hard-coded prices |
 | WARN | Hard-coded Prices | src/data/featureComparisons.ts contains hard-coded prices |
 | WARN | Hard-coded Prices | src/components/Summary/PricingFAQ.tsx contains hard-coded prices |
@@ -40,10 +42,10 @@
 | PASS | Entitlements | Core Lite < Core Pro base price |
 | PASS | Entitlements | Report AI credits increase with tier |
 | PASS | Entitlements | Report AI seats increase with tier |
-| PASS | Entitlements | Client type detection boundaries correct |
+| PASS | Entitlements | Client type detection boundaries correct (v4.3) |
 | PASS | Entitlements | Enterprise min locations aligned across data sources |
-| PASS | Entitlements | All 9 modules present |
-| PASS | Entitlements | All modules include 5 locations |
+| PASS | Entitlements | All 11 paid modules present (matches backend MODULE_PRICING) |
+| PASS | Entitlements | All modules include 3 base locations (v5.1) |
 
 ## How to Run
 

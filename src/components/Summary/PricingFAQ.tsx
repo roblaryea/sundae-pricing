@@ -16,7 +16,7 @@ interface FAQItem {
   answer: string;
 }
 
-type FAQCategory = 'report' | 'core' | 'watchtower' | 'general';
+type FAQCategory = 'report' | 'core' | 'watchtower' | 'crew' | 'general';
 
 const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<FAQCategory, FAQItem[]>>>> = {
   ar: {
@@ -515,6 +515,11 @@ const faqByCategory: Record<FAQCategory, FAQItem[]> = {
   report: reportFAQ,
   core: coreFAQ,
   watchtower: watchtowerFAQ,
+  // Crew-specific FAQ content not yet authored; falling back to the
+  // general entries (which already cover billing / location count /
+  // BYO-HR-style adjacent questions). When Crew-specific entries land
+  // they can be added inline without touching the consumer.
+  crew: generalFAQ,
   general: generalFAQ,
 };
 
@@ -525,13 +530,18 @@ interface PricingFAQProps {
 export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
   const { locale, messages } = useLocale();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  // 'crew' has no dedicated FAQ pack yet; fall back to the general pool for
+  // both generated + localized lookups. Local faqByCategory map already
+  // points crew → generalFAQ, so the EN path is covered separately.
+  const lookupCategory: 'report' | 'core' | 'watchtower' | 'general' =
+    category === 'crew' ? 'general' : category;
   const generatedFaqItems =
-    generatedAuxiliaryLocalePacks.pricingFaqs[locale as keyof typeof generatedAuxiliaryLocalePacks.pricingFaqs]?.[category];
+    generatedAuxiliaryLocalePacks.pricingFaqs[locale as keyof typeof generatedAuxiliaryLocalePacks.pricingFaqs]?.[lookupCategory];
   const generatedGeneralFaqItems =
     generatedAuxiliaryLocalePacks.pricingFaqs[locale as keyof typeof generatedAuxiliaryLocalePacks.pricingFaqs]?.general;
 
   const localizedFaqItems =
-    localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.[category];
+    localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.[lookupCategory];
   const localizedGeneralFaqItems =
     localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.general;
   const faqItems =

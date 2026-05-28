@@ -736,11 +736,11 @@ export function PricingOverview() {
                   )}
                 </div>
 
-                {sku.prerequisiteMessage && (
+                {'prerequisiteMessage' in sku && sku.prerequisiteMessage ? (
                   <p className="text-[11px] font-medium text-amber-300/80 mb-3">
                     {sku.prerequisiteMessage}
                   </p>
-                )}
+                ) : null}
 
                 <ul className="space-y-1.5 text-sm">
                   {sku.features.slice(0, 6).map((feature, i) => (

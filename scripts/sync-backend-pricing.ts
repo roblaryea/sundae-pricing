@@ -32,7 +32,7 @@ import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
-import { modules as localModules } from '../src/data/pricing';
+import { modules as localModules, crewSkus as localCrewSkus } from '../src/data/pricing';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -162,13 +162,22 @@ async function main(): Promise<void> {
   }
 
   const findings: DriftFinding[] = [];
-  const localKeys = Object.keys(localModules);
   const backendKeys = Object.keys(backendModules);
   const matchedBackendKeys = new Set<string>();
 
-  // Walk local modules; find canonical backend entry via backendId.
-  for (const localKey of localKeys) {
-    const local = (localModules as Record<string, LocalModule>)[localKey];
+  // Walk both local catalogues — analytics modules + Crew workforce SKUs —
+  // and check each against the backend MODULE_PRICING entry pointed at by
+  // `backendId`. Drift detection treats both catalogues identically.
+  const allLocal: Array<[string, LocalModule, 'module' | 'crew_sku']> = [
+    ...Object.entries(localModules as Record<string, LocalModule>).map(
+      ([k, v]) => [k, v, 'module'] as [string, LocalModule, 'module' | 'crew_sku']
+    ),
+    ...Object.entries(localCrewSkus as Record<string, LocalModule>).map(
+      ([k, v]) => [k, v, 'crew_sku'] as [string, LocalModule, 'module' | 'crew_sku']
+    ),
+  ];
+
+  for (const [localKey, local, kind] of allLocal) {
     const backendId = local.backendId;
     if (!backendId) {
       findings.push({
@@ -176,7 +185,7 @@ async function main(): Promise<void> {
         category: 'missing_backend',
         localId: localKey,
         backendId: null,
-        message: `Local module ${localKey} has no \`backendId\` field. Add backendId to map this entry to a backend MODULE_PRICING key.`,
+        message: `Local ${kind} ${localKey} has no \`backendId\` field. Add backendId to map this entry to a backend MODULE_PRICING key.`,
       });
       continue;
     }
@@ -187,7 +196,7 @@ async function main(): Promise<void> {
         category: 'missing_backend',
         localId: localKey,
         backendId,
-        message: `Local module ${localKey} maps to backendId "${backendId}" but no such entry exists in backend MODULE_PRICING. Either backend has dropped the module or the backendId is wrong.`,
+        message: `Local ${kind} ${localKey} maps to backendId "${backendId}" but no such entry exists in backend MODULE_PRICING. Either backend has dropped the module or the backendId is wrong.`,
       });
       continue;
     }
@@ -195,30 +204,25 @@ async function main(): Promise<void> {
     compareModule(local, backend, findings);
   }
 
-  // Backend modules with no pricing-site representation.
-  // Crew SKUs are downgraded to P1 — the pricing-site's `modules` dict is
-  // scoped to analytics paid SKUs; Crew is sold as a separate product family
-  // and may be intentionally absent from this catalogue. Flag for awareness
-  // but do not fail the audit.
-  const CREW_SKU_PREFIX = 'crew_';
+  // Backend modules with no pricing-site representation. Any unmatched
+  // backend key after walking both `modules` and `crewSkus` is genuine drift
+  // — the pricing-site is missing a SKU that backend sells.
   for (const backendKey of backendKeys) {
     if (matchedBackendKeys.has(backendKey)) continue;
-    const isCrew = backendKey.startsWith(CREW_SKU_PREFIX);
     findings.push({
-      severity: isCrew ? 'P1' : 'P0',
+      severity: 'P0',
       category: 'missing_local',
       localId: null,
       backendId: backendKey,
-      message: isCrew
-        ? `Backend Crew SKU "${backendKey}" is not in the pricing-site analytics modules dict. (P1: informational — Crew SKUs are sold separately. If commercial wants Crew on this site, add an entry with backendId: "${backendKey}".)`
-        : `Backend module "${backendKey}" has no pricing-site entry. Add a module to src/data/pricing.ts with backendId: "${backendKey}".`,
+      message: `Backend module "${backendKey}" has no pricing-site entry. Add a module to src/data/pricing.ts (analytics) or crewSkus (workforce) with backendId: "${backendKey}".`,
     });
   }
 
   const counts = {
     p0: findings.filter((f) => f.severity === 'P0').length,
     p1: findings.filter((f) => f.severity === 'P1').length,
-    local: localKeys.length,
+    local_modules: Object.keys(localModules).length,
+    local_crew_skus: Object.keys(localCrewSkus).length,
     backend: backendKeys.length,
   };
 
@@ -226,7 +230,8 @@ async function main(): Promise<void> {
     console.log(JSON.stringify({ counts, findings }, null, 2));
   } else {
     console.log(`\n── Backend Pricing Drift Audit ──`);
-    console.log(`  Local pricing-site modules:    ${counts.local}`);
+    console.log(`  Local analytics modules:       ${counts.local_modules}`);
+    console.log(`  Local Crew SKUs:               ${counts.local_crew_skus}`);
     console.log(`  Backend MODULE_PRICING SKUs:   ${counts.backend}`);
     console.log(`  P0 findings (price mismatch):  ${counts.p0}`);
     console.log(`  P1 findings (name/display):    ${counts.p1}`);

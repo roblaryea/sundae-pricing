@@ -18,7 +18,7 @@
 
 export type ReportTier = 'lite' | 'plus' | 'pro';
 export type CoreTier = 'lite' | 'pro';
-// 11 paid SKUs matching backend MODULE_PRICING:
+// 11 paid analytics SKUs matching backend MODULE_PRICING:
 //   labor, inventory, purchasing, marketing, reservations, profit,
 //   revenue (=> revenue_assurance), delivery, guest (=> guest_experience),
 //   pulse, foresight (added 2026-05-28).
@@ -27,6 +27,11 @@ export type CoreTier = 'lite' | 'pro';
 // 12-Insights-module product surface taxonomy vs the 11-paid-SKU pricing.
 export type ModuleId = 'labor' | 'inventory' | 'purchasing' | 'marketing' | 'reservations' | 'profit' | 'revenue' | 'delivery' | 'guest' | 'pulse' | 'foresight';
 export type BundleId = 'ops_suite' | 'growth_suite' | 'finance_addon' | 'channel_suite' | 'realtime_suite' | 'complete_intelligence';
+// 6 Crew workforce SKUs matching backend MODULE_PRICING (Crew portion). Kept
+// separate from `modules` because Crew SKUs carry per-employee caps,
+// dependencies on other Crew SKUs, and a hard location cap on `crew_lite`.
+export type CrewSkuId = 'crew_lite' | 'crew_scheduling' | 'crew_operations' | 'crew_tna' | 'crew_payroll' | 'crew_people_intelligence';
+export type CrewBundleId = 'crew_suite_bundle' | 'crew_complete_bundle';
 export type CrossIntelligenceTier = 'base' | 'pro';
 export type WatchtowerId = 'competitive' | 'events' | 'trends' | 'bundle';
 export type ClientType = 'independent' | 'growth' | 'multi-site' | 'enterprise' | 'franchise';
@@ -919,6 +924,276 @@ export const moduleBundles = {
     setupFee: 999,
     prerequisites: [] as string[],
   }
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CREW WORKFORCE SKUs (added 2026-05-28)
+// ═══════════════════════════════════════════════════════════════════════════
+// Six SKUs matching `sundae-backend/config/pricing_master.ts` MODULE_PRICING
+// (the Crew portion, sortOrder 11–16). Crew is sold as a separate product
+// family from the analytics modules — it can be bought standalone or attached
+// alongside analytics. Crew SKUs carry per-employee caps, dependencies on
+// other Crew SKUs, and a hard location cap on `crew_lite`.
+//
+// Source of truth: backend pricing master (reviewed). To detect drift run
+// `npm run sync:backend-pricing`.
+//
+// SKUs and their dependencies:
+//   • crew_lite (sortOrder 11)              — entry, hard-cap 5 locations, mutually exclusive with full Crew SKUs
+//   • crew_scheduling (12)                  — standalone, no deps
+//   • crew_operations (13)                  — no deps
+//   • crew_tna (14)                         — depends on crew_scheduling
+//   • crew_payroll (15)                     — depends on crew_scheduling
+//   • crew_people_intelligence (16)         — depends on crew_operations
+
+export const crewSkus = {
+  crew_lite: {
+    id: 'crew_lite',
+    name: 'Crew — Lite',
+    icon: 'sparkles',
+    backendId: 'crew_lite',
+    orgLicensePrice: 99,
+    perLocationPrice: 19,
+    baseIncludesLocations: 1,
+    setupFee: 0,
+    setupIncludes: 'Self-serve onboarding; no setup fee',
+    sortOrder: 11,
+    prerequisites: [] as CrewSkuId[],
+    mutuallyExclusiveWith: ['crew_scheduling', 'crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'] as CrewSkuId[],
+    caps: {
+      maxLocations: 5,
+      maxEmployeesPerLocation: 15,
+      perEmployeeOverageUsd: 1,
+      hardLocationCap: true,
+    },
+    description: 'SMB entry. Basic scheduling, employee self-service, manual document upload, and time-off requests. Hard-capped at 5 locations and mutually exclusive with the full Crew SKUs.',
+    features: [
+      'Basic scheduling (single view mode)',
+      'People / Teams / Departments / Restaurants management',
+      'Manual document upload (no OCR)',
+      'Basic time-off (request + approve, no accrual engine)',
+      'Employee self-service /me/*',
+      'Org settings + RBAC basics',
+      'Hard cap: 5 locations max',
+      'Soft cap: 15 employees per location ($1/employee overage above)',
+    ],
+    roiPotential: 'Lowest-friction Crew entry for 1–5 location operators',
+    tier: 'Entry',
+    isNew: true,
+  },
+  crew_scheduling: {
+    id: 'crew_scheduling',
+    name: 'Crew — Scheduling',
+    icon: 'calendar-days',
+    backendId: 'crew_scheduling',
+    orgLicensePrice: 179,
+    perLocationPrice: 39,
+    baseIncludesLocations: 3,
+    setupFee: 399,
+    setupIncludes: 'Initial schedule template setup',
+    sortOrder: 12,
+    prerequisites: [] as CrewSkuId[],
+    caps: {
+      maxLocations: null,
+      maxEmployeesPerLocation: 15,
+      perEmployeeOverageUsd: 1,
+      hardLocationCap: false,
+    },
+    description: 'Schedule the workforce. View modes, AddEditShift drawer, eligibility-checked AssignToShift, AI Builder Sheet, headcount chart, swaps, offers, availability, marketplace, and staff mobile schedule views.',
+    features: [
+      'Four view modes (Overview / By Person / By Shift / By Role)',
+      'Four-tab AddEditShift drawer with eligibility checks',
+      'AssignToShift with eligibility validation',
+      'AI Builder Sheet (auto-generate schedules)',
+      'Headcount chart and Insights footer',
+      'Shift swaps, offers, marketplace',
+      'Availability management',
+      'Mobile staff schedule view',
+      'Soft cap: 15 employees per location ($1/employee overage)',
+    ],
+    roiPotential: 'Depth-5 scheduling reference (4,307 LOC across 10 components)',
+    tier: 'Workforce',
+    isNew: true,
+  },
+  crew_operations: {
+    id: 'crew_operations',
+    name: 'Crew — Operations',
+    icon: 'users',
+    backendId: 'crew_operations',
+    orgLicensePrice: 399,
+    perLocationPrice: 79,
+    baseIncludesLocations: 3,
+    setupFee: 499,
+    setupIncludes: 'HR operations + credentials + assets setup',
+    sortOrder: 13,
+    prerequisites: [] as CrewSkuId[],
+    caps: {
+      maxLocations: null,
+      maxEmployeesPerLocation: 15,
+      perEmployeeOverageUsd: 2,
+      hardLocationCap: false,
+    },
+    description: 'Deep workforce operations. Includes Scheduling and adds HR operations, credentials, assets, attestations, helpdesk, disciplinary, e-sign, onboarding/offboarding, workflows, and partner sync imports.',
+    features: [
+      'Scheduling entitlement included',
+      'HR operations + employee records',
+      'Credentials and certifications tracking',
+      'Assets and inventory assignment',
+      'Attestations and acknowledgements',
+      'Ask-HR helpdesk',
+      'Disciplinary tracking + e-sign',
+      'Onboarding / offboarding workflows',
+      'OCR document inbox + partner sync imports',
+      'Soft cap: 15 employees per location ($2/employee overage)',
+    ],
+    roiPotential: 'Workforce operations + Ask-HR',
+    tier: 'Workforce',
+    isNew: true,
+  },
+  crew_tna: {
+    id: 'crew_tna',
+    name: 'Crew — Time & Attendance',
+    icon: 'clock',
+    backendId: 'crew_tna',
+    orgLicensePrice: 99,
+    perLocationPrice: 19,
+    baseIncludesLocations: 3,
+    setupFee: 199,
+    setupIncludes: 'T&A clock-in configuration + geofencing setup',
+    sortOrder: 14,
+    prerequisites: ['crew_scheduling'] as CrewSkuId[],
+    prerequisiteMessage: 'Requires Crew Scheduling',
+    caps: {
+      maxLocations: null,
+      maxEmployeesPerLocation: 15,
+      perEmployeeOverageUsd: 1,
+      hardLocationCap: false,
+    },
+    description: 'PWA clock-in, geofencing, WebAuthn, break attestation, anomaly detection, attendance review, and payroll readiness.',
+    features: [
+      'PWA clock-in / clock-out (no native app required)',
+      'Geofencing with location-aware enforcement',
+      'WebAuthn-secured punches',
+      'Break attestation and exception detection',
+      'Anomaly review queue',
+      'Attendance approval workflow',
+      'Payroll readiness pre-check',
+      'Open punches dashboard',
+      'Soft cap: 15 employees per location ($1/employee overage)',
+    ],
+    roiPotential: 'Eliminate buddy-punching, capture true labor hours',
+    tier: 'Workforce',
+    isNew: true,
+  },
+  crew_payroll: {
+    id: 'crew_payroll',
+    name: 'Crew — Payroll',
+    icon: 'wallet',
+    backendId: 'crew_payroll',
+    orgLicensePrice: 129,
+    perLocationPrice: 29,
+    baseIncludesLocations: 3,
+    setupFee: 399,
+    setupIncludes: 'Country pack activation + statutory export configuration',
+    sortOrder: 15,
+    prerequisites: ['crew_scheduling'] as CrewSkuId[],
+    prerequisiteMessage: 'Requires Crew Scheduling',
+    caps: {
+      maxLocations: null,
+      maxEmployeesPerLocation: 15,
+      perEmployeeOverageUsd: 2,
+      hardLocationCap: false,
+    },
+    description: 'Provider-neutral payroll engine with country packs covering GCC, US, Canada, UK, and EU 27. Statutory exports (WPS / NACHA / EFT / RTI / SEPA), year-end forms, payslips, and employee self-service.',
+    features: [
+      'Provider-neutral payroll calculation engine',
+      'GCC country packs (UAE WPS, KSA, Qatar, Bahrain, Oman, Kuwait)',
+      'US country pack (federal + 50 states + DC + PR + 19 major cities)',
+      'Canada country pack (federal + 13 provinces/territories)',
+      'UK country pack (England/Wales/NI + Scotland, HMRC RTI FPS)',
+      'EU country pack (all 27 member states, SEPA ISO 20022)',
+      'Year-end forms (W-2/W-3/1099-NEC, T4/T4A/RL-1, P60/P11D, etc.)',
+      'Provider integrations (Bayzat / Personio / Pento / Gusto)',
+      'Premium document imports + statutory ID validation',
+      'Employee payroll self-service portal',
+      'Soft cap: 15 employees per location ($2/employee overage)',
+    ],
+    roiPotential: 'Readiness + statutory exports + multi-region coverage',
+    tier: 'Workforce',
+    isNew: true,
+  },
+  crew_people_intelligence: {
+    id: 'crew_people_intelligence',
+    name: 'Crew — People Intelligence',
+    icon: 'brain',
+    backendId: 'crew_people_intelligence',
+    orgLicensePrice: 249,
+    perLocationPrice: 39,
+    baseIncludesLocations: 3,
+    setupFee: 299,
+    setupIncludes: 'Performance / talent / comp data ingestion',
+    sortOrder: 16,
+    prerequisites: ['crew_operations'] as CrewSkuId[],
+    prerequisiteMessage: 'Requires Crew Operations',
+    caps: {
+      maxLocations: null,
+      maxEmployeesPerLocation: 15,
+      perEmployeeOverageUsd: 1.5,
+      hardLocationCap: false,
+    },
+    description: 'Workforce intelligence layer: performance, talent, benefits, comp, recruiting, skills, surveys, and training analytics.',
+    features: [
+      'Performance review cycles + 360 feedback',
+      'Talent and succession planning',
+      'Benefits administration + enrollment',
+      'Compensation analytics and band review',
+      'Recruiting pipeline and ATS integrations',
+      'Skills matrix and gap analysis',
+      'Engagement surveys + sentiment trends',
+      'Training plans + completion tracking',
+      'Soft cap: 15 employees per location ($1.50/employee overage)',
+    ],
+    roiPotential: 'Workforce decisioning with operational signal',
+    tier: 'Intelligence',
+    isNew: true,
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CREW BUNDLES (added 2026-05-28)
+// ═══════════════════════════════════════════════════════════════════════════
+// Two auto-applied bundles matching backend MODULE_BUNDLES.crew_suite_bundle
+// and MODULE_BUNDLES.crew_complete_bundle. Both carry a 20% discount.
+
+export const crewBundles = {
+  crew_suite_bundle: {
+    id: 'crew_suite_bundle',
+    name: 'Crew Operating Suite',
+    skus: ['crew_operations', 'crew_tna', 'crew_payroll'] as CrewSkuId[],
+    discountPercent: 20,
+    basePrice: 502,
+    perLocationPrice: 102,
+    setupFee: 799,
+    description: 'Operations + T&A + Payroll bundled at a 20% discount. Acquisition-friendly bundle for operators replacing or augmenting an existing HR/payroll stack.',
+    individualBaseTotal: 627, // $399 + $99 + $129
+    individualPerLocTotal: 127, // $79 + $19 + $29
+    baseSavings: 125, // $627 − $502 (rounded)
+    perLocSavings: 25, // $127 − $102 (rounded)
+  },
+  crew_complete_bundle: {
+    id: 'crew_complete_bundle',
+    name: 'Crew Complete Suite',
+    skus: ['crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'] as CrewSkuId[],
+    discountPercent: 20,
+    basePrice: 701,
+    perLocationPrice: 133,
+    setupFee: 999,
+    description: 'Operations + T&A + Payroll + People Intelligence bundled at a 20% discount. Full workforce stack with the intelligence layer on top.',
+    individualBaseTotal: 876, // $399 + $99 + $129 + $249
+    individualPerLocTotal: 166, // $79 + $19 + $29 + $39
+    baseSavings: 175, // $876 − $701 (rounded)
+    perLocSavings: 33, // $166 − $133 (rounded)
+  },
 };
 
 // ═══════════════════════════════════════════════════════════════════════════

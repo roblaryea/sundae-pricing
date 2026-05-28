@@ -9,13 +9,14 @@ import { ModulePicker } from '../components/ConfigBuilder/ModulePicker';
 import { WatchtowerToggle } from '../components/ConfigBuilder/WatchtowerToggle';
 import { ROISimulator } from '../components/PricingDisplay/ROISimulator';
 import { ConfigSummary } from '../components/Summary/ConfigSummary';
+import { CrewBuilder } from '../components/ConfigBuilder/CrewBuilder';
 import { ProgressIndicator } from '../components/shared/ProgressIndicator';
 import { AchievementNotification } from '../components/shared/AchievementNotification';
 import { useLivePricingCatalog } from '../data/livePricing';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
 
 export function Simulator() {
-  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement } = useConfiguration();
+  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer } = useConfiguration();
   const livePricing = useLivePricingCatalog();
 
   useEffect(() => {
@@ -37,17 +38,29 @@ export function Simulator() {
     <ConfigSummary />,
   ];
 
-  const renderStep = () => (
-    <motion.div
-      key={`step-${currentStep}`}
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -20 }}
-      transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
-    >
-      {stepComponents[currentStep] ?? <PathwaySelector />}
-    </motion.div>
-  );
+  // Crew is the parallel operational substrate path. It bypasses the
+  // Report/Core-specific tier → modules → watchtower → ROI flow because
+  // none of those map to Crew. CrewBuilder consolidates SKU pick +
+  // locations + price preview into one step and routes directly to the
+  // shared ConfigSummary on submit.
+  const isCrewPath = layer === 'crew';
+  const renderStep = () => {
+    const node =
+      isCrewPath && currentStep >= 2 && currentStep < 7
+        ? <CrewBuilder />
+        : (stepComponents[currentStep] ?? <PathwaySelector />);
+    return (
+      <motion.div
+        key={`step-${isCrewPath && currentStep >= 2 && currentStep < 7 ? 'crew-builder' : currentStep}`}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -20 }}
+        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+      >
+        {node}
+      </motion.div>
+    );
+  };
 
   return (
     <LivePricingGate state={livePricing}>

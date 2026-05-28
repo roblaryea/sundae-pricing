@@ -26,7 +26,10 @@ export function TierSelector() {
     ? Object.values(localizedTiers.reportTiers)
     : Object.values(localizedTiers.coreTiers).filter(t => typeof t === 'object' && 'basePrice' in t);
 
-  const optimalTier = suggestOptimalTier(locations, layer);
+  // Crew never reaches TierSelector (CrewBuilder handles it upstream); the
+  // coercion here just satisfies the narrower suggestOptimalTier signature
+  // without widening every helper.
+  const optimalTier = suggestOptimalTier(locations, layer === 'crew' ? 'report' : layer);
 
   const handleTierSelect = (tierId: string) => {
     setTier(tierId as 'lite' | 'plus' | 'pro' | 'enterprise');

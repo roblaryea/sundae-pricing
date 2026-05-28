@@ -20,7 +20,7 @@ const watchtowerCheapestPrice = Math.min(
 ); // 249 (events) currently
 
 // Get product icons from centralized mapping
-const { report: FileText, core: Zap, watchtower: Castle } = PRODUCT_ICONS;
+const { report: FileText, core: Zap, watchtower: Castle, crew: UsersIcon } = PRODUCT_ICONS;
 
 type PricingCopy = {
   title: string;
@@ -38,6 +38,12 @@ type PricingCopy = {
     features: string[];
   };
   watchtower: {
+    name: string;
+    tagline: string;
+    startingPrice: string;
+    features: string[];
+  };
+  crew: {
     name: string;
     tagline: string;
     startingPrice: string;
@@ -71,6 +77,12 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
       startingPrice: `Add-on: From $${watchtowerCheapestPrice}/mo + per-location`,
       features: ['Competitor tracking', 'Market trends', 'Event signals', 'Strategic insights'],
     },
+    crew: {
+      name: 'CREW',
+      tagline: 'Operational substrate: people, schedule, payroll',
+      startingPrice: 'Starting at $99/month',
+      features: ['Scheduling + T&A', 'Multi-region payroll readiness', 'HR casework + Ask-HR', 'Free employee portal'],
+    },
     recommended: 'RECOMMENDED',
     select: 'Select',
     proTip: 'Pro tip:',
@@ -96,6 +108,12 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
       tagline: 'ذكاء تنافسي',
       startingPrice: `إضافة: من ${watchtowerCheapestPrice} دولار/شهرياً + حسب الموقع`,
       features: ['تتبع المنافسين', 'اتجاهات السوق', 'إشارات الفعاليات', 'رؤى استراتيجية'],
+    },
+    crew: {
+      name: 'CREW',
+      tagline: 'الركيزة التشغيلية: الأشخاص، الجدولة، الرواتب',
+      startingPrice: 'يبدأ من 99 دولار/شهرياً',
+      features: ['الجدولة + الوقت والحضور', 'جاهزية رواتب متعددة المناطق', 'حالات HR + Ask-HR', 'بوابة موظفين مجانية'],
     },
     recommended: 'موصى به',
     select: 'اختر',
@@ -123,6 +141,12 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
       startingPrice: `Option : a partir de ${watchtowerCheapestPrice} $/mois + par site`,
       features: ['Suivi des concurrents', 'Tendances du marche', 'Signaux d evenements', 'Insights strategiques'],
     },
+    crew: {
+      name: 'CREW',
+      tagline: 'Substrat operationnel : equipes, planning, paie',
+      startingPrice: 'A partir de 99 $/mois',
+      features: ['Planning + T&A', 'Readiness paie multi-regions', 'Casework RH + Ask-HR', 'Portail employe gratuit'],
+    },
     recommended: 'RECOMMANDE',
     select: 'Selectionner',
     proTip: 'Astuce :',
@@ -149,6 +173,12 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
       startingPrice: `Addon: desde ${watchtowerCheapestPrice} $/mes + por local`,
       features: ['Seguimiento de competidores', 'Tendencias del mercado', 'Señales de eventos', 'Insights estrategicos'],
     },
+    crew: {
+      name: 'CREW',
+      tagline: 'Sustrato operativo: personas, horarios, nomina',
+      startingPrice: 'Desde 99 $/mes',
+      features: ['Horarios + T&A', 'Readiness de nomina multi-region', 'Casework RR.HH. + Ask-HR', 'Portal de empleados gratis'],
+    },
     recommended: 'RECOMENDADO',
     select: 'Seleccionar',
     proTip: 'Consejo:',
@@ -167,7 +197,7 @@ export function LayerStack() {
     generatedAuxiliaryLocalePacks.layerStackCopy[locale as GeneratedLayerStackLocale] ??
     localizedLayerStackCopy.en;
 
-  const handleLayerSelect = (layerId: 'report' | 'core') => {
+  const handleLayerSelect = (layerId: 'report' | 'core' | 'crew') => {
     setLayer(layerId);
     markStepCompleted('layer');
     setCurrentStep(2);
@@ -189,6 +219,16 @@ export function LayerStack() {
       borderColor: 'green',
       copy: copy.report,
       recommended: persona?.recommendedPath === 'report-lite',
+    },
+    {
+      id: 'crew' as const,
+      icon: UsersIcon,
+      color: '#06B6D4', // cyan — differentiates from Report's emerald in the stack
+      borderColor: 'cyan',
+      copy: copy.crew,
+      // No persona quiz recommends Crew yet — it's the parallel operational
+      // path. Default to no recommended badge.
+      recommended: false as boolean,
     },
   ];
 
@@ -224,34 +264,52 @@ export function LayerStack() {
           </motion.div>
 
           {cards.map((layerItem, index) => {
-            const isCore = layerItem.id === 'core';
-            const iconColorClass = isCore ? 'text-violet-400' : 'text-green-400';
-            const cardClass = isCore
-              ? 'from-violet-500/20 to-purple-600/20 border-violet-500/30 hover:border-violet-500/60'
-              : 'from-green-500/20 to-emerald-600/20 border-green-500/30 hover:border-green-500/60';
+            const styling = (() => {
+              switch (layerItem.id) {
+                case 'core':
+                  return {
+                    icon: 'text-violet-400',
+                    card: 'from-violet-500/20 to-purple-600/20 border-violet-500/30 hover:border-violet-500/60',
+                    badge: 'bg-violet-500/30 text-violet-300',
+                  };
+                case 'crew':
+                  return {
+                    icon: 'text-cyan-400',
+                    card: 'from-cyan-500/20 to-teal-600/20 border-cyan-500/30 hover:border-cyan-500/60',
+                    badge: 'bg-cyan-500/30 text-cyan-300',
+                  };
+                default: // 'report'
+                  return {
+                    icon: 'text-green-400',
+                    card: 'from-green-500/20 to-emerald-600/20 border-green-500/30 hover:border-green-500/60',
+                    badge: 'bg-green-500/30 text-green-300',
+                  };
+              }
+            })();
 
             return (
               <motion.div
                 key={layerItem.id}
                 initial={{ opacity: 0, y: index === 0 ? -10 : 0 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index === 0 ? 0.2 : 0 }}
-                className={`w-full relative ${isCore ? 'z-20' : 'z-30'}`}
+                transition={{ delay: index === 0 ? 0.2 : index * 0.06 }}
+                className="w-full relative"
+                style={{ zIndex: 30 - index }}
               >
                 <motion.button
                   whileHover={{ scale: 1.02, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleLayerSelect(layerItem.id)}
-                  className={`w-full p-6 bg-gradient-to-br rounded-xl border-2 backdrop-blur transition-all group text-left ${cardClass}`}
+                  className={`w-full p-6 bg-gradient-to-br rounded-xl border-2 backdrop-blur transition-all group text-left ${styling.card}`}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <layerItem.icon className={`w-8 h-8 ${iconColorClass} flex-shrink-0`} />
+                      <layerItem.icon className={`w-8 h-8 ${styling.icon} flex-shrink-0`} />
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
                           <h3 className="font-bold text-lg leading-tight">{layerItem.copy.name}</h3>
                           {layerItem.recommended && (
-                            <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${isCore ? 'bg-violet-500/30 text-violet-300' : 'bg-green-500/30 text-green-300'}`}>
+                            <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${styling.badge}`}>
                               {copy.recommended}
                             </span>
                           )}
@@ -273,7 +331,7 @@ export function LayerStack() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {cards.map((layerItem) => (
           <motion.div

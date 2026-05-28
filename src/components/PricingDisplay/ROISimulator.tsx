@@ -64,8 +64,10 @@ export function ROISimulator() {
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
   const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules);
+  // Crew never reaches ROISimulator; coerce the layer for the
+  // useROICalculation hook (which still uses the narrower union).
   const roi = useROICalculation(
-    { layer, tier, locations, modules, watchtowerModules },
+    { layer: layer === 'crew' ? null : layer, tier, locations, modules, watchtowerModules },
     roiInputs,
     pricing.total
   );

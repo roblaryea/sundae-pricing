@@ -16,7 +16,10 @@ export type { PriceBreakdown, PriceCalculation };
 
 // Convert old configuration format to new engine format
 function convertToEngineConfig(
-  layer: 'report' | 'core' | null,
+  // 'crew' is accepted on the type level for caller compatibility but the
+  // engine treats it as `null` (no-op): Crew pricing is computed in
+  // CrewBuilder + CrewSummaryBody, not by this Report/Core engine.
+  layer: 'report' | 'core' | 'crew' | null,
   tier: string,
   locations: number,
   modules: string[],
@@ -31,7 +34,9 @@ function convertToEngineConfig(
     undefined;
 
   return {
-    layer: layer || 'report',
+    // Crew bypasses this engine — coerce to 'report' so downstream calc
+    // doesn't crash; the Crew path renders its own summary upstream.
+    layer: layer && layer !== 'crew' ? layer : 'report',
     tier,
     locations: Math.max(1, locations),
     modules: modules as ModuleId[],
@@ -47,7 +52,10 @@ function convertToEngineConfig(
 }
 
 export function usePriceCalculation(
-  layer: 'report' | 'core' | null,
+  // 'crew' is accepted on the type level for caller compatibility but the
+  // engine treats it as `null` (no-op): Crew pricing is computed in
+  // CrewBuilder + CrewSummaryBody, not by this Report/Core engine.
+  layer: 'report' | 'core' | 'crew' | null,
   tier: string,
   locations: number,
   modules: string[] = [],

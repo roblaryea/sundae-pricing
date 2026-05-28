@@ -29,12 +29,14 @@ export function ConfigSummary() {
   useLivePricingCatalog();
   const {
     layer, tier, locations, modules: selectedModules, watchtowerModules,
-    crossIntelligence: crossIntelSelection, markStepCompleted
+    crossIntelligence: crossIntelSelection, markStepCompleted, crewSku
   } = useConfiguration();
 
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules, undefined, crossIntelSelection);
   const localizedTiers = getLocalizedTierCatalog(locale);
-  const layerLabel = getLocalizedLayerName(locale, layer);
+  // Layer label is rendered in the Report/Core branch only; coerce Crew to
+  // null for the helper signature (Crew branch returns early below).
+  const layerLabel = getLocalizedLayerName(locale, layer === 'crew' ? null : layer);
   
   // Collapsible states
   const [whatsIncludedOpen, setWhatsIncludedOpen] = useState(true);
@@ -67,6 +69,16 @@ export function ConfigSummary() {
   };
 
   const tierDetails = getTierDetails();
+
+  // Crew is the parallel operational substrate path — it doesn't use
+  // tiers, modules, watchtower, AI credits, or the cross-intelligence
+  // engine. Render a dedicated Crew-specific summary that shows the
+  // SKU/bundle they picked, the location-driven price, and the BYO-HR
+  // strategic note. This branch runs after all hooks so React's rules
+  // of hooks are honored.
+  if (layer === 'crew') {
+    return <CrewSummaryBody crewSku={crewSku} locations={locations} />;
+  }
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -476,6 +488,182 @@ export function ConfigSummary() {
           </a>
         </p>
         <p className="mt-2">{messages.summary.successManager}</p>
+      </motion.div>
+
+      {/* Pricing footer */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.55 }}
+        className="pt-6 border-t border-white/10 text-center text-xs text-sundae-muted space-y-2"
+      >
+        <p>
+          {messages.summary.pricingFooterNote.replace('{date}', new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date('2026-02-26T00:00:00Z')))}
+        </p>
+        <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
+        <p className="text-[10px] opacity-70">{messages.summary.locationPricingNote}</p>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── Crew-path summary ────────────────────────────────────────────────────
+// Self-contained renderer for the Crew operational substrate path. Mirrors
+// the headline + investment + actions structure of the main ConfigSummary
+// but with Crew-specific math (single SKU/bundle license + per-location
+// multiplier + setup fee), no AI credits / modules / Watchtower.
+
+import { crewSkus, crewBundles } from '../../data/pricing';
+import type { CrewSkuSelection } from '../../types/configuration';
+
+interface CrewSummaryBodyProps {
+  crewSku: CrewSkuSelection | null;
+  locations: number;
+}
+
+function CrewSummaryBody({ crewSku, locations }: CrewSummaryBodyProps) {
+  const { locale, messages } = useLocale();
+  const selectedId: CrewSkuSelection = crewSku ?? 'crew_suite_bundle';
+  const isBundle = selectedId in crewBundles;
+  const selected = isBundle
+    ? crewBundles[selectedId as keyof typeof crewBundles]
+    : crewSkus[selectedId as keyof typeof crewSkus];
+
+  const orgLicense = 'orgLicensePrice' in selected ? selected.orgLicensePrice : selected.basePrice;
+  const perLoc = selected.perLocationPrice;
+  const includedLocations = 'baseIncludesLocations' in selected ? selected.baseIncludesLocations : 3;
+  const billableExtras = Math.max(0, locations - includedLocations);
+  const monthly = orgLicense + perLoc * billableExtras;
+  const annual = monthly * 12;
+  const setupFee = selected.setupFee ?? 0;
+  const tier = 'tier' in selected ? selected.tier : 'Bundle';
+
+  useEffect(() => {
+    confetti({
+      particleCount: 200,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#06B6D4', '#0E7490', '#22D3EE', '#10B981'],
+    });
+  }, []);
+
+  return (
+    <div className="max-w-5xl mx-auto">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-8"
+      >
+        <motion.h1
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: 'spring', stiffness: 200 }}
+          className="text-4xl md:text-5xl font-bold mb-3 flex items-center justify-center gap-3"
+        >
+          Your Crew stack is ready
+          <Sparkles className="w-10 h-10 text-cyan-400" />
+        </motion.h1>
+        <p className="text-lg md:text-xl text-sundae-muted">
+          Multi-region payroll readiness, scheduling, and HR ops on one operational substrate.
+        </p>
+      </motion.div>
+
+      {/* Investment summary */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.1 }}
+        className="bg-gradient-to-br from-sundae-surface to-sundae-surface/50 rounded-xl p-6 md:p-8 mb-6"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <div>
+            <h3 className="text-lg font-bold mb-4">Your configuration</h3>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <div className="font-semibold">{selected.name}</div>
+                  <div className="text-sm text-sundae-muted">{tier} tier · {isBundle ? 'Auto-applied 20% bundle discount' : 'Single SKU'}</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <div className="font-semibold">{locations} {locations === 1 ? 'location' : 'locations'}</div>
+                  <div className="text-sm text-sundae-muted">
+                    {includedLocations} included · {billableExtras} billable extra @ ${perLoc}/loc
+                  </div>
+                </div>
+              </div>
+              {setupFee > 0 && (
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold">One-time setup: ${setupFee}</div>
+                    <div className="text-sm text-sundae-muted">
+                      {('setupIncludes' in selected ? selected.setupIncludes : 'Onboarding + activation') ?? 'Onboarding + activation'}
+                    </div>
+                  </div>
+                </div>
+              )}
+              {isBundle && 'baseSavings' in selected && (
+                <div className="flex items-start gap-3">
+                  <Check className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <div className="font-semibold text-emerald-300">Save ${selected.baseSavings}/mo · ${selected.perLocSavings}/loc</div>
+                    <div className="text-sm text-sundae-muted">vs buying the SKUs separately</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Pricing column */}
+          <div className="bg-gradient-to-br from-cyan-500/10 to-teal-600/5 border-2 border-cyan-500/30 rounded-xl p-6">
+            <p className="text-xs uppercase tracking-wider text-cyan-300 font-semibold mb-2">Monthly investment</p>
+            <div className="flex items-baseline gap-1 mb-4">
+              <span className="text-5xl font-bold text-white tabular-nums">${monthly}</span>
+              <span className="text-lg text-sundae-muted">/mo</span>
+            </div>
+            <div className="space-y-2 pt-4 border-t border-cyan-500/20">
+              <div className="flex justify-between text-sm">
+                <span className="text-sundae-muted">Annual</span>
+                <span className="text-white tabular-nums">${annual.toLocaleString()}/yr</span>
+              </div>
+              {setupFee > 0 && (
+                <div className="flex justify-between text-sm">
+                  <span className="text-sundae-muted">One-time setup</span>
+                  <span className="text-white tabular-nums">${setupFee}</span>
+                </div>
+              )}
+              <div className="flex justify-between text-sm pt-2 mt-2 border-t border-cyan-500/10">
+                <span className="text-sundae-muted">First-year total</span>
+                <span className="text-white font-semibold tabular-nums">${(annual + setupFee).toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* BYO-HR + Continue actions */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl"
+      >
+        <p className="text-sm text-sundae-muted leading-relaxed">
+          <strong className="text-white">BYO-HR supported.</strong> Bring your own HR (Bayzat, Personio, Pento, Gusto, BambooHR) and Sundae still consolidates the workforce signal into Labor Intelligence. Crew is optional — the intelligence loop isn't.
+        </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+        className="flex flex-col sm:flex-row gap-3 justify-center mb-6"
+      >
+        <BookDemoButton />
       </motion.div>
 
       {/* Pricing footer */}

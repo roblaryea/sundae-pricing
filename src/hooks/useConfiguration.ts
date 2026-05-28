@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import type { Configuration } from '../types/configuration';
+import type { Configuration, CrewSkuSelection } from '../types/configuration';
 import type { CompetitorId } from '../data/competitors';
 import type { ROIInputs } from './useROICalculation';
 import type { Persona } from '../data/personas';
@@ -42,8 +42,9 @@ export interface ConfigurationState extends Configuration {
   isAnimating: boolean;
   
   // Actions
-  setLayer: (layer: 'report' | 'core' | null) => void;
+  setLayer: (layer: 'report' | 'core' | 'crew' | null) => void;
   setTier: (tier: 'lite' | 'plus' | 'pro' | 'enterprise') => void;
+  setCrewSku: (sku: CrewSkuSelection | null) => void;
   setLocations: (locations: number) => void;
   toggleModule: (moduleId: string) => void;
   setModules: (modules: string[]) => void;
@@ -74,12 +75,13 @@ export interface ConfigurationState extends Configuration {
 
 const initialState = {
   // Configuration
-  layer: null as 'report' | 'core' | null,
+  layer: null as 'report' | 'core' | 'crew' | null,
   tier: 'lite' as 'lite' | 'plus' | 'pro' | 'enterprise',
   locations: 1,
   modules: [] as string[],
   watchtowerModules: [] as string[],
   crossIntelligence: 'none' as 'none' | 'base' | 'pro',
+  crewSku: null as CrewSkuSelection | null,
   competitors: {
     current: [] as CompetitorId[],
     evaluating: [] as CompetitorId[],
@@ -129,7 +131,27 @@ export const useConfiguration = create<ConfigurationState>()(
         
         // Configuration actions
         setLayer: (layer) => {
-          set({ layer });
+          // Switching to Crew clears Report/Core configuration that doesn't
+          // apply, and defaults the SKU to the Operating Suite bundle so the
+          // visitor sees a populated price card right away.
+          if (layer === 'crew') {
+            set({
+              layer,
+              modules: [],
+              watchtowerModules: [],
+              crossIntelligence: 'none' as const,
+              crewSku: get().crewSku ?? 'crew_suite_bundle',
+            });
+          } else {
+            // Leaving Crew or switching away — clear the Crew SKU pick.
+            set({ layer, crewSku: null });
+          }
+          get().checkAchievements();
+        },
+
+        setCrewSku: (sku) => {
+          set({ crewSku: sku });
+          get().markStepCompleted('tier');
           get().checkAchievements();
         },
         

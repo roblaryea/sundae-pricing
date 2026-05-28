@@ -16,13 +16,13 @@ import {
 
   // Module Icons (EXCLUSIVE)
   Users,       // Labor Intelligence
-  Layers,      // Inventory Intelligence
-  Truck,       // Purchasing Intelligence
+  Layers,      // Inventory Connect
+  Truck,       // Purchasing Analytics
   Target,      // Marketing Intelligence
   Calendar,    // Reservations Intelligence
   DollarSign,  // Profit Intelligence (NEW)
   Shield,      // Revenue Assurance (NEW)
-  Bike,        // Delivery Intelligence (NEW)
+  Bike,        // Delivery Economics (NEW)
   Star,        // Guest Experience (NEW)
 
   // Generic Concept Icons
@@ -61,13 +61,13 @@ export const PRODUCT_ICONS = {
 
 export const MODULE_ICONS = {
   labor: Users,          // Labor Intelligence
-  inventory: Layers,     // Inventory Intelligence
-  purchasing: Truck,     // Purchasing Intelligence
+  inventory: Layers,     // Inventory Connect
+  purchasing: Truck,     // Purchasing Analytics
   marketing: Target,     // Marketing Intelligence
   reservations: Calendar, // Reservations Intelligence
   profit: DollarSign,    // Profit Intelligence (NEW)
   revenue: Shield,       // Revenue Assurance (NEW)
-  delivery: Bike,        // Delivery Intelligence (NEW)
+  delivery: Bike,        // Delivery Economics (NEW)
   guest: Star,           // Guest Experience (NEW)
 } as const;
 
@@ -87,8 +87,8 @@ export const EMOJI_TO_ICON_MAP = {
   
   // Module emojis (map to official icons)
   '👥': Users,           // People → Labor Intelligence
-  '📚': Layers,          // Stacked → Inventory Intelligence
-  '🚚': Truck,           // Delivery → Purchasing Intelligence
+  '📚': Layers,          // Stacked → Inventory Connect
+  '🚚': Truck,           // Delivery → Purchasing Analytics
   '🎯': Target,          // Target → Marketing Intelligence
   '📅': Calendar,        // Calendar → Reservations Intelligence
   

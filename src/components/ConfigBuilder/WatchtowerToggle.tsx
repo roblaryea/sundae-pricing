@@ -4,7 +4,7 @@
 import { motion } from 'framer-motion';
 import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft, Castle, Sparkles, Zap, GitBranch, BarChart3, Radar, Activity, AlertTriangle, Search, type LucideIcon } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { watchtower, getLocalizedAddOnDisplay } from '../../data/pricing';
+import { watchtower, crossIntelligence, getLocalizedAddOnDisplay } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/watchtowerEngine';
 import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '../../lib/pricingEngine';
@@ -331,7 +331,11 @@ export function WatchtowerToggle() {
                   )}
                 </div>
                 <div className="text-xs text-sundae-muted mb-4">
-                  {formatMessage(copy.proPriceNote, { locations })}
+                  {formatMessage(copy.proPriceNote, {
+                    locations,
+                    monthlyFee: crossIntelligence.pro.monthlyFee,
+                    perLocation: crossIntelligence.pro.perLocationPrice,
+                  })}
                 </div>
                 <p className="text-sm text-sundae-muted mb-4">{crossCatalog.pro.description}</p>
 

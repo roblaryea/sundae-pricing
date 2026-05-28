@@ -16,8 +16,8 @@ import {
 
   // Module Icons (EXCLUSIVE - only use when module is named)
   Users,       // Labor Intelligence
-  Layers,      // Inventory Intelligence
-  Truck,       // Purchasing Intelligence
+  Layers,      // Inventory Connect
+  Truck,       // Purchasing Analytics
   Target,      // Marketing Intelligence
   Calendar,    // Reservations Intelligence
 
@@ -93,8 +93,8 @@ export const PRODUCT_ICONS = {
 
 export const MODULE_ICONS = {
   labor: Users,          // Labor Intelligence → Users 👥
-  inventory: Layers,     // Inventory Intelligence → Layers 📚
-  purchasing: Truck,     // Purchasing Intelligence → Truck 🚚
+  inventory: Layers,     // Inventory Connect → Layers 📚
+  purchasing: Truck,     // Purchasing Analytics → Truck 🚚
   marketing: Target,     // Marketing Intelligence → Target 🎯
   reservations: Calendar, // Reservations Intelligence → Calendar 📅
 } as const;
@@ -310,10 +310,10 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   '⚙️': Cpu,
   '🏗️': Building,
   
-  // Stacked layers (Inventory Intelligence)
+  // Stacked layers (Inventory Connect)
   '📚': Layers,
   
-  // Delivery truck (Purchasing Intelligence)
+  // Delivery truck (Purchasing Analytics)
   '🚚': Truck,
 };
 

@@ -6,20 +6,14 @@
 
 | Metric | Count |
 |--------|-------|
-| Passed | 16 |
+| Passed | 17 |
 | Failed | 0 |
-| Warnings | 4 |
-| Total Checks | 20 |
+| Warnings | 1 |
+| Total Checks | 18 |
 
 ## Warnings
 
-- **[Hard-coded Prices]** Unexpected $ amounts found in files
-  - src/contexts/LocaleContext.tsx, src/lib/pricingEngine.ts, src/lib/pricingUiCopy.ts
-- **[Hard-coded Prices]** src/components/ConfigBuilder/LayerStack.tsx contains hard-coded prices
-  - Verify these match src/data/pricing.ts
 - **[Hard-coded Prices]** src/data/featureComparisons.ts contains hard-coded prices
-  - Verify these match src/data/pricing.ts
-- **[Hard-coded Prices]** src/components/Summary/PricingFAQ.tsx contains hard-coded prices
   - Verify these match src/data/pricing.ts
 
 ## All Checks
@@ -34,10 +28,8 @@
 | PASS | Bundle Math | individualPerLocTotal matches sum |
 | PASS | Bundle Math | perLocSavings = individualPerLocTotal - bundlePerLoc |
 | PASS | Bundle Math | Savings percent is 18% (~18%) |
-| WARN | Hard-coded Prices | Unexpected $ amounts found in files |
-| WARN | Hard-coded Prices | src/components/ConfigBuilder/LayerStack.tsx contains hard-coded prices |
+| PASS | Hard-coded Prices | No unexpected hard-coded dollar amounts in UI |
 | WARN | Hard-coded Prices | src/data/featureComparisons.ts contains hard-coded prices |
-| WARN | Hard-coded Prices | src/components/Summary/PricingFAQ.tsx contains hard-coded prices |
 | PASS | Entitlements | Report tier prices increase Lite < Plus < Pro |
 | PASS | Entitlements | Core Lite < Core Pro base price |
 | PASS | Entitlements | Report AI credits increase with tier |

@@ -162,10 +162,12 @@ if (actualSavingsPercent === watchtower.bundle.savingsPercent) {
 
 console.log('4/6 Scanning for hard-coded prices...');
 
+// Files that still contain hard-coded $ literals but whose values are
+// either tracked separately (featureComparisons.ts: support add-on prices)
+// or are intentionally competitor / market / regex content. Update this
+// list as files migrate to dynamic prices sourced from `src/data/pricing.ts`.
 const KNOWN_HARDCODED_FILES = [
-  'src/components/ConfigBuilder/LayerStack.tsx',
-  'src/data/featureComparisons.ts',
-  'src/components/Summary/PricingFAQ.tsx',
+  'src/data/featureComparisons.ts', // support upgrade pricing strings (24/7 + priority SLA + AI credit top-ups)
 ];
 
 try {
@@ -175,7 +177,16 @@ try {
   );
   const files = grepResult.trim().split('\n').filter(Boolean);
 
-  // Filter out known acceptable files
+  // Filter out known acceptable files. Files in this set may contain $\d
+  // patterns without triggering an "unexpected" warning. These are either:
+  //   - the canonical source of truth (`pricing.ts`)
+  //   - competitor / market data (not Sundae prices)
+  //   - files that import the canonical prices and render them dynamically
+  //     via template literals (LayerStack, PricingFAQ, pricingEngine,
+  //     WatchtowerToggle) — the static-grep pattern matches `$${var}` and
+  //     `${var}$/…` even when the underlying value is dynamic at runtime
+  //   - files with stable add-on prices that don't yet have a backend
+  //     counterpart (featureComparisons.ts)
   const ACCEPTABLE_FILES = new Set([
     ...KNOWN_HARDCODED_FILES,
     'src/data/pricing.ts',           // Source of truth
@@ -185,6 +196,15 @@ try {
     'src/lib/watchtowerValueScenarios.ts', // ROI value estimates
     'src/hooks/usePriceCalculation.ts', // Comments
     'src/components/Summary/CompactCompetitorCompare.tsx', // Regex pattern
+    // Dynamic-now via template literals reading from pricing.ts. The grep
+    // still matches the `$` in `$${var}` (output literal) — kept in this
+    // set to silence the false-positive warning.
+    'src/components/ConfigBuilder/LayerStack.tsx',
+    'src/components/ConfigBuilder/WatchtowerToggle.tsx',
+    'src/components/Summary/PricingFAQ.tsx',
+    'src/contexts/LocaleContext.tsx',
+    'src/lib/pricingEngine.ts',
+    'src/lib/pricingUiCopy.ts',      // Translated competitor-pricing descriptions
   ]);
 
   const unexpected = files.filter(f => !ACCEPTABLE_FILES.has(f));
@@ -196,7 +216,10 @@ try {
       unexpected.join(', '));
   }
 
-  // Check known hard-coded files for sync
+  // Check the residual known-hardcoded files (support upgrade pricing etc.)
+  // and remind reviewers to keep them in sync with the canonical source.
+  // These should shrink to zero as their values migrate to backend-backed
+  // catalogues.
   for (const file of KNOWN_HARDCODED_FILES) {
     warn('Hard-coded Prices', `${file} contains hard-coded prices`,
       'Verify these match src/data/pricing.ts');

@@ -5,6 +5,10 @@ import { HelpCircle, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 import { LEGAL, getMarketingUrl } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
+import { crossIntelligence } from '../../data/pricing';
+
+const CI_PRO_MONTHLY = crossIntelligence.pro.monthlyFee; // 199
+const CI_PRO_PER_LOC = crossIntelligence.pro.perLocationPrice; // 19
 
 interface FAQItem {
   question: string;
@@ -428,7 +432,7 @@ const coreFAQ: FAQItem[] = [
   },
   {
     question: 'What is the Cross-Intelligence Engine?',
-    answer: 'When you activate 3+ modules, the Cross-Intelligence Engine automatically surfaces hidden correlations between your data sources — e.g., how weather impacts both labor scheduling and inventory waste. The base tier is included free; Cross-Intelligence Pro ($199/mo + $19/location) adds full correlation matrix, revenue attribution, spend efficiency radar, campaign pulse monitoring, and cannibalization detection.'
+    answer: `When you activate 3+ modules, the Cross-Intelligence Engine automatically surfaces hidden correlations between your data sources — e.g., how weather impacts both labor scheduling and inventory waste. The base tier is included free; Cross-Intelligence Pro ($${CI_PRO_MONTHLY}/mo + $${CI_PRO_PER_LOC}/location) adds full correlation matrix, revenue attribution, spend efficiency radar, campaign pulse monitoring, and cannibalization detection.`
   },
   {
     question: 'What\'s included in Core Lite vs Core Pro?',

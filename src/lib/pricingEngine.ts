@@ -611,7 +611,7 @@ export function calculateFullPrice(config: Configuration): PriceResult {
       breakdown.push({
         item: 'Cross-Intelligence Pro',
         price: ciPrice,
-        note: `$199/mo + $19/loc from #2 (${config.locations} loc)`
+        note: `$${crossIntelligence.pro.monthlyFee}/mo + $${crossIntelligence.pro.perLocationPrice}/loc from #2 (${config.locations} loc)`
       });
     } else if (eligible) {
       breakdown.push({

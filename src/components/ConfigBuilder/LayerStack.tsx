@@ -5,6 +5,18 @@ import { ChevronRight, Check, Layers } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { PRODUCT_ICONS } from '../../constants/icons';
 import { useLocale } from '../../contexts/LocaleContext';
+// Pull canonical prices from the pricing-site data layer (which is itself
+// reconciled against the backend pricing master via `npm run sync:backend-pricing`).
+// This eliminates the hard-coded "Starting at $XXX/month" strings that the
+// pricing audit previously flagged as drift risks.
+import { coreTiers, watchtower } from '../../data/pricing';
+
+const corePrice = coreTiers.lite.basePrice; // 279
+const watchtowerCheapestPrice = Math.min(
+  watchtower.competitive.basePrice,
+  watchtower.events.basePrice,
+  watchtower.trends.basePrice
+); // 249 (events) currently
 
 // Get product icons from centralized mapping
 const { report: FileText, core: Zap, watchtower: Castle } = PRODUCT_ICONS;
@@ -49,13 +61,13 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
     core: {
       name: 'CORE',
       tagline: 'Real-time operations & AI',
-      startingPrice: 'Starting at $279/month',
+      startingPrice: `Starting at $${corePrice}/month`,
       features: ['Real-time POS integration', 'Predictive analytics', 'AI-powered insights', 'Portfolio management'],
     },
     watchtower: {
       name: 'WATCHTOWER',
       tagline: 'Competitive intelligence',
-      startingPrice: 'Add-on: From $249/mo + per-location',
+      startingPrice: `Add-on: From $${watchtowerCheapestPrice}/mo + per-location`,
       features: ['Competitor tracking', 'Market trends', 'Event signals', 'Strategic insights'],
     },
     recommended: 'RECOMMENDED',
@@ -75,13 +87,13 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
     core: {
       name: 'Core',
       tagline: 'عمليات لحظية وذكاء اصطناعي',
-      startingPrice: 'يبدأ من 279 دولار/شهرياً',
+      startingPrice: `يبدأ من ${corePrice} دولار/شهرياً`,
       features: ['تكامل POS لحظي', 'تحليلات تنبؤية', 'رؤى مدعومة بالذكاء الاصطناعي', 'إدارة المحافظ'],
     },
     watchtower: {
       name: 'WATCHTOWER',
       tagline: 'ذكاء تنافسي',
-      startingPrice: 'إضافة: من 249 دولار/شهرياً + حسب الموقع',
+      startingPrice: `إضافة: من ${watchtowerCheapestPrice} دولار/شهرياً + حسب الموقع`,
       features: ['تتبع المنافسين', 'اتجاهات السوق', 'إشارات الفعاليات', 'رؤى استراتيجية'],
     },
     recommended: 'موصى به',
@@ -101,13 +113,13 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
     core: {
       name: 'CORE',
       tagline: 'Operations en temps reel et IA',
-      startingPrice: 'A partir de 279 $/mois',
+      startingPrice: `A partir de ${corePrice} $/mois`,
       features: ['Integration POS en temps reel', 'Analytique predictive', 'Insights IA', 'Gestion de portefeuille'],
     },
     watchtower: {
       name: 'WATCHTOWER',
       tagline: 'Intelligence concurrentielle',
-      startingPrice: 'Option : a partir de 249 $/mois + par site',
+      startingPrice: `Option : a partir de ${watchtowerCheapestPrice} $/mois + par site`,
       features: ['Suivi des concurrents', 'Tendances du marche', 'Signaux d evenements', 'Insights strategiques'],
     },
     recommended: 'RECOMMANDE',
@@ -127,13 +139,13 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
     core: {
       name: 'CORE',
       tagline: 'Operaciones en tiempo real e IA',
-      startingPrice: 'Desde 279 $/mes',
+      startingPrice: `Desde ${corePrice} $/mes`,
       features: ['Integracion POS en tiempo real', 'Analitica predictiva', 'Insights con IA', 'Gestion de portafolio'],
     },
     watchtower: {
       name: 'WATCHTOWER',
       tagline: 'Inteligencia competitiva',
-      startingPrice: 'Addon: desde 249 $/mes + por local',
+      startingPrice: `Addon: desde ${watchtowerCheapestPrice} $/mes + por local`,
       features: ['Seguimiento de competidores', 'Tendencias del mercado', 'Señales de eventos', 'Insights estrategicos'],
     },
     recommended: 'RECOMENDADO',

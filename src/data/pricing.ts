@@ -503,11 +503,11 @@ export const modules = {
 
   inventory: {
     id: 'inventory',
-    // Display name kept as "Inventory Intelligence" for the pricing-site product
+    // Display name kept as "Inventory Connect" for the pricing-site product
     // catalogue. Backend canonical name is "Inventory Connect" — see
     // `backendId` for the mapping; sync script reconciles pricing values, not
     // display labels.
-    name: 'Inventory Intelligence',
+    name: 'Inventory Connect',
     icon: 'package',
     backendId: 'inventory',
     orgLicensePrice: 229,
@@ -540,7 +540,7 @@ export const modules = {
   purchasing: {
     id: 'purchasing',
     // Backend canonical name is "Purchasing Analytics" — see `backendId`.
-    name: 'Purchasing Intelligence',
+    name: 'Purchasing Analytics',
     icon: 'cart',
     backendId: 'purchasing',
     orgLicensePrice: 169,
@@ -564,7 +564,7 @@ export const modules = {
       'Order frequency optimization',
       'Delivery cost analysis',
       'Contract renewal alerts',
-      'Monthly Purchasing Intelligence Report'
+      'Monthly Purchasing Analytics Report'
     ],
     roiPotential: '2-5% purchasing savings'
   },
@@ -641,7 +641,7 @@ export const modules = {
     setupFee: 0,
     setupIncludes: 'Uses Labor + Inventory data (no new integration)',
     prerequisites: ['labor', 'inventory'],
-    prerequisiteMessage: 'Requires Labor Intelligence and Inventory Intelligence',
+    prerequisiteMessage: 'Requires Labor Intelligence and Inventory Connect',
     pricingByTier: {
       core_pro: { orgLicensePrice: 299, perLocationPrice: 28 },
       core_lite: { orgLicensePrice: 339, perLocationPrice: 32 }
@@ -698,7 +698,7 @@ export const modules = {
   delivery: {
     id: 'delivery',
     // Backend canonical name is "Delivery Economics" — see `backendId`.
-    name: 'Delivery Intelligence',
+    name: 'Delivery Economics',
     icon: 'delivery',
     backendId: 'delivery',
     orgLicensePrice: 219,
@@ -720,7 +720,7 @@ export const modules = {
       'Driver efficiency metrics',
       'Peak delivery time optimization',
       'Channel mix optimization',
-      'Monthly Delivery Intelligence Report'
+      'Monthly Delivery Economics Report'
     ],
     roiPotential: 'True delivery profitability',
     tier: 'Channel',

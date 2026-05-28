@@ -53,6 +53,7 @@ export const PRODUCT_ICONS = {
   core: Zap,             // Sundae Core
   watchtower: Castle,    // Watchtower
   modules: Boxes,        // Modules
+  crew: Users,           // Sundae Crew (operational substrate)
 } as const;
 
 // ============================================================================

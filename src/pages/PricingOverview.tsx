@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Check, Star, ChevronRight, AlertCircle } from 'lucide-react';
-import { modules, watchtower, crossIntelligence, getLocalizedTierCatalog, getLocalizedAddOnDisplay } from '../data/pricing';
+import { modules, watchtower, crossIntelligence, crewSkus, crewBundles, getLocalizedTierCatalog, getLocalizedAddOnDisplay } from '../data/pricing';
 import { PRODUCT_ICONS } from '../constants/icons';
 
 // Get product icons from centralized mapping (per SUNDAE_ICON_MAPPING.md)
-const { report: FileText, core: Zap, watchtower: Castle } = PRODUCT_ICONS;
+const { report: FileText, core: Zap, watchtower: Castle, crew: Users } = PRODUCT_ICONS;
 import { getCoreProAdvantageMessage } from '../utils/pricingCalculators';
 import { cn } from '../utils/cn';
 import { getLocalizedFeatureComparisons } from '../data/featureComparisons';
@@ -17,7 +17,7 @@ import { useLivePricingCatalog } from '../data/livePricing';
 import { useLocale } from '../contexts/LocaleContext';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
 
-type ProductTab = 'report' | 'core' | 'watchtower';
+type ProductTab = 'report' | 'core' | 'watchtower' | 'crew';
 
 export function PricingOverview() {
   const navigate = useNavigate();
@@ -108,6 +108,17 @@ export function PricingOverview() {
             )}
           >
             {overview.watchtowerTab}
+          </button>
+          <button
+            onClick={() => setActiveTab('crew')}
+            className={cn(
+              'px-6 py-2 rounded-md text-sm font-semibold transition-all',
+              activeTab === 'crew'
+                ? 'bg-gradient-primary text-white'
+                : 'text-sundae-muted hover:text-white'
+            )}
+          >
+            {overview.crewTab}
           </button>
         </div>
       </div>
@@ -677,6 +688,128 @@ export function PricingOverview() {
             <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
             <div className="text-sm text-sundae-muted">
               <strong className="text-white">{overview.strategicValueTitle}</strong> {overview.strategicValueDisclaimer}
+            </div>
+          </div>
+        </motion.div>
+      )}
+
+      {activeTab === 'crew' && (
+        <motion.div
+          key="crew"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-3 mb-2">
+              <Users className="w-8 h-8 text-emerald-400" />
+              <h2 className="text-3xl md:text-4xl font-bold text-white">{overview.crewTitle}</h2>
+            </div>
+            <p className="text-sundae-muted max-w-2xl mx-auto">{overview.crewSubtitle}</p>
+          </div>
+
+          {/* Crew SKU cards */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {Object.values(crewSkus).map((sku) => (
+              <div key={sku.id} className="h-full p-6 rounded-xl border-2 bg-sundae-surface border-white/10 hover:border-emerald-500/40 transition-colors">
+                <div className="mb-3">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="text-lg font-bold text-emerald-400">{sku.name}</h3>
+                    <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-300">{sku.tier}</span>
+                  </div>
+                  <p className="text-sm text-sundae-muted leading-snug">{sku.description}</p>
+                </div>
+
+                <div className="mb-4">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-bold text-white tabular-nums">${sku.orgLicensePrice}</span>
+                    <span className="text-sundae-muted text-sm">{overview.perMonth}</span>
+                  </div>
+                  <p className="text-xs text-sundae-muted mt-1">
+                    {formatMessage(overview.perAdditionalLocation, { price: sku.perLocationPrice })}
+                  </p>
+                  {sku.setupFee > 0 && (
+                    <p className="text-xs text-sundae-muted mt-0.5">
+                      Setup ${sku.setupFee}{sku.setupIncludes ? ` · ${sku.setupIncludes}` : ''}
+                    </p>
+                  )}
+                </div>
+
+                {sku.prerequisiteMessage && (
+                  <p className="text-[11px] font-medium text-amber-300/80 mb-3">
+                    {sku.prerequisiteMessage}
+                  </p>
+                )}
+
+                <ul className="space-y-1.5 text-sm">
+                  {sku.features.slice(0, 6).map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sundae-muted">
+                      <Check className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                      <span className="leading-snug">{feature}</span>
+                    </li>
+                  ))}
+                  {sku.features.length > 6 && (
+                    <li className="text-xs text-sundae-muted/60 italic pt-1">
+                      +{sku.features.length - 6} more
+                    </li>
+                  )}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Bundle cards */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            {Object.values(crewBundles).map((bundle) => (
+              <div
+                key={bundle.id}
+                className="relative h-full p-6 rounded-xl border-2 bg-gradient-to-br from-emerald-500/15 to-emerald-600/5 border-emerald-500/40"
+                style={{ boxShadow: '0 0 30px rgba(16,185,129,0.15)' }}
+              >
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="bg-gradient-primary text-white px-4 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                    <Star className="w-3 h-3" />
+                    {overview.bestValue}
+                  </div>
+                </div>
+
+                <div className="mt-2 mb-3">
+                  <h3 className="text-xl font-bold text-emerald-300 mb-1">{bundle.name}</h3>
+                  <p className="text-sm text-sundae-muted leading-snug">{bundle.description}</p>
+                </div>
+
+                <div className="mb-4">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-bold text-white tabular-nums">${bundle.basePrice}</span>
+                    <span className="text-sundae-muted text-sm">{overview.perMonth}</span>
+                  </div>
+                  <p className="text-xs text-sundae-muted mt-1">
+                    {formatMessage(overview.perAdditionalLocation, { price: bundle.perLocationPrice })}
+                  </p>
+                  <p className="text-xs text-sundae-muted mt-0.5">
+                    Setup ${bundle.setupFee} · {bundle.discountPercent}% bundle discount applied
+                  </p>
+                </div>
+
+                <div className="p-3 bg-emerald-500/15 rounded-lg border border-emerald-500/30 mb-2">
+                  <p className="text-xs font-semibold text-emerald-200 text-center">
+                    Save ${bundle.baseSavings}/mo · ${bundle.perLocSavings}/loc vs buying separately
+                  </p>
+                </div>
+
+                <p className="text-[11px] uppercase tracking-wider text-sundae-muted/70 font-semibold text-center pt-1">
+                  Includes: {bundle.skus.map((s) => s.replace('crew_', '').replace('_', ' ')).join(' · ')}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Strategic note */}
+          <div className="mb-8 p-4 bg-emerald-500/10 rounded-lg border border-emerald-500/30 flex gap-3">
+            <AlertCircle className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+            <div className="text-sm text-sundae-muted">
+              <strong className="text-white">BYO-HR supported.</strong> Bring your own HR (Bayzat, Personio, Pento, Gusto, BambooHR) and Sundae still consolidates the workforce signal. Crew is optional — the intelligence loop isn't.
             </div>
           </div>
         </motion.div>

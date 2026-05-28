@@ -4,15 +4,18 @@ import type { CompetitorId } from '../data/competitors';
 
 export type CrossIntelligenceSelection = 'none' | 'base' | 'pro';
 
-export type CrewSkuSelection =
+// Individual Crew SKU ids (no bundle ids — bundles are auto-detected from
+// the selected SKU set).
+export type CrewSkuId =
   | 'crew_lite'
   | 'crew_scheduling'
   | 'crew_operations'
   | 'crew_tna'
   | 'crew_payroll'
-  | 'crew_people_intelligence'
-  | 'crew_suite_bundle'
-  | 'crew_complete_bundle';
+  | 'crew_people_intelligence';
+
+// Canonical bundle ids, auto-applied when the selected SKU set matches.
+export type CrewBundleId = 'crew_suite_bundle' | 'crew_complete_bundle';
 
 export interface Configuration {
   layer: 'report' | 'core' | 'crew' | null;
@@ -22,12 +25,20 @@ export interface Configuration {
   watchtowerModules: string[];
   crossIntelligence: CrossIntelligenceSelection;
   /**
-   * Which Crew SKU or bundle the visitor selected, when `layer === 'crew'`.
-   * Null for the Report / Core paths. Defaults to the Operating Suite
-   * bundle since it's the canonical "I want the full operational substrate"
-   * landing choice.
+   * Multi-select set of Crew SKUs the visitor picked when `layer === 'crew'`.
+   * Empty array on Report / Core paths. Bundles aren't stored separately —
+   * the matching bundle (Operating Suite / Complete Suite) is auto-detected
+   * from this set and its 20% discount is applied to the math.
+   *
+   * Invariants:
+   *   • `crew_lite` is mutually exclusive with every other Crew SKU.
+   *   • `crew_tna` requires `crew_scheduling` OR `crew_operations`
+   *     (Operations entitlement includes Scheduling).
+   *   • `crew_payroll` requires `crew_operations`.
+   *   • `crew_people_intelligence` requires `crew_operations`.
+   * Enforcement lives in `useConfiguration.toggleCrewSku`.
    */
-  crewSku: CrewSkuSelection | null;
+  crewSkus: CrewSkuId[];
   competitors: {
     current: CompetitorId[];      // What they use today (from quiz)
     evaluating: CompetitorId[];   // What they're considering (from quiz)

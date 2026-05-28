@@ -946,7 +946,7 @@ export const moduleBundles = {
 //   • crew_scheduling (12)                  — standalone, no deps
 //   • crew_operations (13)                  — no deps
 //   • crew_tna (14)                         — depends on crew_scheduling
-//   • crew_payroll (15)                     — depends on crew_scheduling
+//   • crew_payroll (15)                     — depends on crew_operations (employee records + pay rates)
 //   • crew_people_intelligence (16)         — depends on crew_operations
 
 export const crewSkus = {
@@ -1099,8 +1099,8 @@ export const crewSkus = {
     setupFee: 399,
     setupIncludes: 'Country pack activation + statutory export configuration',
     sortOrder: 15,
-    prerequisites: ['crew_scheduling'] as CrewSkuId[],
-    prerequisiteMessage: 'Requires Crew Scheduling',
+    prerequisites: ['crew_operations'] as CrewSkuId[],
+    prerequisiteMessage: 'Requires Crew Operations',
     caps: {
       maxLocations: null,
       maxEmployeesPerLocation: 15,

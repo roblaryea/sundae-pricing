@@ -2,7 +2,8 @@
 
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import type { Configuration, CrewSkuSelection } from '../types/configuration';
+import type { Configuration, CrewSkuId } from '../types/configuration';
+import { crewSkus } from '../data/pricing';
 import type { CompetitorId } from '../data/competitors';
 import type { ROIInputs } from './useROICalculation';
 import type { Persona } from '../data/personas';
@@ -44,7 +45,11 @@ export interface ConfigurationState extends Configuration {
   // Actions
   setLayer: (layer: 'report' | 'core' | 'crew' | null) => void;
   setTier: (tier: 'lite' | 'plus' | 'pro' | 'enterprise') => void;
-  setCrewSku: (sku: CrewSkuSelection | null) => void;
+  // Crew multi-select API. `toggle` flips a single SKU and auto-resolves
+  // prerequisites + mutual exclusions. `set` replaces the entire set (used
+  // when picking a one-click preset like Operating Suite / Complete Suite).
+  toggleCrewSku: (sku: CrewSkuId) => void;
+  setCrewSkus: (skus: CrewSkuId[]) => void;
   setLocations: (locations: number) => void;
   toggleModule: (moduleId: string) => void;
   setModules: (modules: string[]) => void;
@@ -81,7 +86,7 @@ const initialState = {
   modules: [] as string[],
   watchtowerModules: [] as string[],
   crossIntelligence: 'none' as 'none' | 'base' | 'pro',
-  crewSku: null as CrewSkuSelection | null,
+  crewSkus: [] as CrewSkuId[],
   competitors: {
     current: [] as CompetitorId[],
     evaluating: [] as CompetitorId[],
@@ -132,25 +137,93 @@ export const useConfiguration = create<ConfigurationState>()(
         // Configuration actions
         setLayer: (layer) => {
           // Switching to Crew clears Report/Core configuration that doesn't
-          // apply, and defaults the SKU to the Operating Suite bundle so the
-          // visitor sees a populated price card right away.
+          // apply, and defaults the SKU set to the Operating Suite preset
+          // (Operations + T&A + Payroll) so the visitor sees a populated
+          // price card right away. Existing picks are preserved across
+          // re-entries to the Crew step.
           if (layer === 'crew') {
+            const existing = get().crewSkus;
+            const seed: CrewSkuId[] = existing.length > 0
+              ? existing
+              : ['crew_operations', 'crew_tna', 'crew_payroll'];
             set({
               layer,
               modules: [],
               watchtowerModules: [],
               crossIntelligence: 'none' as const,
-              crewSku: get().crewSku ?? 'crew_suite_bundle',
+              crewSkus: seed,
             });
+            // If the Lite cap (5) is exceeded by the persisted location
+            // count, clamp it. `seed` is never Lite here, so no clamp.
           } else {
             // Leaving Crew or switching away — clear the Crew SKU pick.
-            set({ layer, crewSku: null });
+            set({ layer, crewSkus: [] });
           }
           get().checkAchievements();
         },
 
-        setCrewSku: (sku) => {
-          set({ crewSku: sku });
+        toggleCrewSku: (sku) => {
+          const current = get().crewSkus;
+          const isAdding = !current.includes(sku);
+
+          // Crew Lite is mutually exclusive with every full Crew SKU
+          // (per crewSkus[crew_lite].mutuallyExclusiveWith). Picking Lite
+          // wipes the rest; picking anything else wipes Lite.
+          if (sku === 'crew_lite') {
+            const next: CrewSkuId[] = isAdding ? ['crew_lite'] : [];
+            set({ crewSkus: next, locations: isAdding ? Math.min(get().locations, 5) : get().locations });
+            get().markStepCompleted('tier');
+            get().checkAchievements();
+            return;
+          }
+
+          let next: CrewSkuId[] = current.filter((id) => id !== 'crew_lite');
+          if (isAdding) {
+            next = Array.from(new Set([...next, sku]));
+            // Auto-attach prerequisites declared on the SKU. We expand
+            // transitively (one hop is enough for the current graph).
+            const prereqs = (crewSkus[sku]?.prerequisites ?? []) as CrewSkuId[];
+            for (const p of prereqs) {
+              if (!next.includes(p)) next.push(p);
+            }
+            // crew_operations supersedes crew_scheduling (Scheduling
+            // entitlement is included). If both end up in the set, drop
+            // the standalone Scheduling charge.
+            if (next.includes('crew_operations') && next.includes('crew_scheduling')) {
+              next = next.filter((id) => id !== 'crew_scheduling');
+            }
+          } else {
+            next = next.filter((id) => id !== sku);
+            // Cascade: if removing a SKU breaks a downstream dep, also
+            // remove the dependent. e.g. unchecking Operations removes
+            // Payroll + People Intelligence too.
+            const dependentsOf: Record<CrewSkuId, CrewSkuId[]> = {
+              crew_lite: [],
+              crew_scheduling: ['crew_tna'],
+              crew_operations: ['crew_payroll', 'crew_people_intelligence'],
+              crew_tna: [],
+              crew_payroll: [],
+              crew_people_intelligence: [],
+            };
+            const dependents = dependentsOf[sku] ?? [];
+            for (const d of dependents) {
+              // T&A is OK if either Scheduling OR Operations remain.
+              if (d === 'crew_tna' && next.includes('crew_operations')) continue;
+              next = next.filter((id) => id !== d);
+            }
+          }
+
+          set({ crewSkus: next });
+          get().markStepCompleted('tier');
+          get().checkAchievements();
+        },
+
+        setCrewSkus: (skus) => {
+          set({ crewSkus: skus });
+          // If preset is Lite, clamp locations to the hard cap of 5.
+          if (skus.length === 1 && skus[0] === 'crew_lite') {
+            set({ locations: Math.min(get().locations, 5) });
+          }
           get().markStepCompleted('tier');
           get().checkAchievements();
         },
@@ -190,7 +263,13 @@ export const useConfiguration = create<ConfigurationState>()(
         },
         
         setLocations: (locations) => {
-          set({ locations });
+          // Crew Lite has a hard location cap of 5 (`crewSkus.crew_lite.caps.maxLocations`).
+          // Clamp any caller that requests more so the slider, persisted
+          // state, and pricing math never disagree.
+          const skus = get().crewSkus;
+          const liteOnly = skus.length === 1 && skus[0] === 'crew_lite';
+          const clamped = liteOnly ? Math.min(locations, 5) : locations;
+          set({ locations: clamped });
           get().markStepCompleted('locations');
           get().checkAchievements();
         },
@@ -431,6 +510,7 @@ export const useConfiguration = create<ConfigurationState>()(
           modules: state.modules,
           watchtowerModules: state.watchtowerModules,
           crossIntelligence: state.crossIntelligence,
+          crewSkus: state.crewSkus,
           competitors: state.competitors,
           quizAnswers: state.quizAnswers,
           persona: state.persona,

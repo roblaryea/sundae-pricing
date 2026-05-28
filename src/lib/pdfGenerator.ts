@@ -411,3 +411,208 @@ export async function generateQuotePDF(
 
   return doc.output('blob');
 }
+
+// ───────────────────────────────────────────────────────────────────────────
+// Crew quote PDF — separate generator because Crew uses a different pricing
+// model (multi-SKU set / bundle / locations, no AI credits / modules /
+// Watchtower). Shares the header, footer, font handling, and styling
+// with `generateQuotePDF` above so both quote PDFs look like one product.
+
+import type { CrewQuote } from './crewPricing';
+
+export async function generateCrewQuotePDF(
+  quote: CrewQuote,
+  locale: PricingLocale = 'en',
+): Promise<Blob> {
+  const doc = new jsPDF();
+  const copy = getPricingPdfCopy(locale);
+  const isRtl = isRtlLocale(locale);
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  doc.setR2L(isRtl);
+  await ensurePdfFont(doc, locale);
+
+  const quoteId = `SUN-CREW-${Date.now().toString(36).toUpperCase()}`;
+  const today = new Date();
+  const validUntil = new Date(today);
+  validUntil.setDate(validUntil.getDate() + 30);
+
+  // Header (same chrome as the analytics quote)
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark-white.png` : '/logos/sundae-wordmark-white.png';
+
+  doc.setFillColor(15, 23, 42);
+  doc.rect(0, 0, pageWidth, 40, 'F');
+
+  try {
+    await new Promise<void>((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        try {
+          doc.addImage(img, 'PNG', 20, 16, 0, 11);
+          resolve();
+        } catch (err) {
+          reject(err);
+        }
+      };
+      img.onerror = () => reject(new Error('Failed to load logo'));
+      img.src = logoUrl;
+    });
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(10);
+    setPdfFont(doc, locale, 'normal');
+    renderPdfText(doc, copy.headerSubtitle, 20, 33, locale);
+  } catch {
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(20);
+    setPdfFont(doc, locale, 'bold');
+    doc.text('SUNDAE', 20, 25);
+    doc.setFontSize(10);
+    setPdfFont(doc, locale, 'normal');
+    renderPdfText(doc, copy.headerSubtitle, 20, 32, locale);
+  }
+
+  doc.setTextColor(148, 163, 184);
+  doc.setFontSize(9);
+  renderPdfText(doc, `${copy.quoteLabel}: ${quoteId}`, pageWidth - 20, 18, locale, { align: 'right' });
+  renderPdfText(doc, `${copy.generatedLabel}: ${today.toLocaleDateString(locale)}`, pageWidth - 20, 24, locale, { align: 'right' });
+  renderPdfText(doc, `${copy.validUntilLabel}: ${validUntil.toLocaleDateString(locale)}`, pageWidth - 20, 30, locale, { align: 'right' });
+
+  // Configuration block
+  let yPos = 55;
+  doc.setTextColor(30, 41, 59);
+  doc.setFontSize(16);
+  setPdfFont(doc, locale, 'bold');
+  renderPdfText(doc, 'Crew configuration', 20, yPos, locale);
+  yPos += 12;
+
+  doc.setFontSize(11);
+  setPdfFont(doc, locale, 'normal');
+  doc.setTextColor(71, 85, 105);
+
+  const headlineLabel = quote.detectedBundleId
+    ? quote.lines[0].label
+    : quote.selectedSkus.length === 1
+      ? quote.lines[0].label
+      : `${quote.selectedSkus.length}-SKU Crew stack`;
+  renderPdfText(doc, `Stack: ${headlineLabel}`, 20, yPos, locale);
+  yPos += 8;
+  renderPdfText(doc, `${copy.locationsLabel}: ${quote.locations.toLocaleString(locale)}`, 20, yPos, locale);
+  yPos += 8;
+  if (quote.detectedBundleId) {
+    doc.setTextColor(22, 163, 74);
+    renderPdfText(doc, 'Bundle auto-detected · 20% discount applied', 20, yPos, locale);
+    doc.setTextColor(71, 85, 105);
+    yPos += 8;
+  }
+  yPos += 6;
+
+  // Monthly investment box
+  doc.setFillColor(241, 245, 249);
+  doc.roundedRect(20, yPos, pageWidth - 40, 50, 3, 3, 'F');
+  yPos += 15;
+  doc.setTextColor(30, 41, 59);
+  doc.setFontSize(14);
+  setPdfFont(doc, locale, 'bold');
+  renderPdfText(doc, copy.monthlyInvestmentLabel, 30, yPos, locale);
+
+  doc.setFontSize(28);
+  doc.setTextColor(8, 145, 178); // cyan-600 — matches Crew accent
+  renderPdfText(doc, formatCurrencyAmount(quote.monthly, locale), 30, yPos + 20, locale);
+
+  doc.setFontSize(11);
+  doc.setTextColor(100, 116, 139);
+  setPdfFont(doc, locale, 'normal');
+  renderPdfText(doc, `${copy.annualLabel}: ${formatCurrencyAmount(quote.annual, locale)}`, pageWidth - 80, yPos + 10, locale);
+  if (quote.setupFee > 0) {
+    renderPdfText(doc, `Setup: ${formatCurrencyAmount(quote.setupFee, locale)}`, pageWidth - 80, yPos + 20, locale);
+  }
+  yPos += 60;
+
+  // Line items
+  doc.setTextColor(30, 41, 59);
+  doc.setFontSize(14);
+  setPdfFont(doc, locale, 'bold');
+  renderPdfText(doc, copy.priceBreakdownTitle, 20, yPos, locale);
+  yPos += 10;
+
+  doc.setFontSize(10);
+  setPdfFont(doc, locale, 'normal');
+  doc.setTextColor(71, 85, 105);
+
+  quote.lines.forEach((line) => {
+    if (yPos > pageHeight - 40) {
+      doc.addPage();
+      yPos = 25;
+    }
+    const extras = line.billableExtras > 0 ? ` (+${line.billableExtras} × $${line.perLoc})` : '';
+    renderPdfText(doc, `${line.label}${extras}`, 25, yPos, locale);
+    renderPdfText(doc, formatCurrencyAmount(line.monthly, locale), pageWidth - 50, yPos, locale, { align: 'right' });
+    yPos += 7;
+  });
+
+  if (quote.setupFee > 0) {
+    yPos += 4;
+    renderPdfText(doc, 'One-time setup', 25, yPos, locale);
+    renderPdfText(doc, formatCurrencyAmount(quote.setupFee, locale), pageWidth - 50, yPos, locale, { align: 'right' });
+    yPos += 7;
+  }
+
+  if (quote.bundleSavingsMonthly > 0) {
+    yPos += 4;
+    doc.setTextColor(22, 163, 74);
+    setPdfFont(doc, locale, 'bold');
+    renderPdfText(doc, 'Bundle savings', 25, yPos, locale);
+    renderPdfText(doc, `−${formatCurrencyAmount(quote.bundleSavingsMonthly, locale)}/mo`, pageWidth - 50, yPos, locale, { align: 'right' });
+    setPdfFont(doc, locale, 'normal');
+    doc.setTextColor(71, 85, 105);
+    yPos += 8;
+  }
+
+  // First-year total
+  yPos += 6;
+  doc.setDrawColor(203, 213, 225);
+  doc.line(20, yPos, pageWidth - 20, yPos);
+  yPos += 8;
+  doc.setTextColor(30, 41, 59);
+  setPdfFont(doc, locale, 'bold');
+  doc.setFontSize(12);
+  renderPdfText(doc, 'First-year total', 25, yPos, locale);
+  renderPdfText(
+    doc,
+    formatCurrencyAmount(quote.annual + quote.setupFee, locale),
+    pageWidth - 50,
+    yPos,
+    locale,
+    { align: 'right' },
+  );
+
+  // Footer on all pages (same chrome)
+  const totalPages = doc.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    doc.setDrawColor(203, 213, 225);
+    doc.line(20, pageHeight - 20, pageWidth - 20, pageHeight - 20);
+    doc.setFontSize(8);
+    doc.setTextColor(100, 116, 139);
+    setPdfFont(doc, locale, 'normal');
+    renderPdfText(doc, `${LEGAL.legalName} | sundae.io`, 20, pageHeight - 12, locale);
+    renderPdfText(doc, `${copy.quoteLabel} ${quoteId}`, pageWidth / 2, pageHeight - 12, locale, { align: 'center' });
+    renderPdfText(doc, `${copy.pageLabel} ${i.toLocaleString(locale)} ${copy.ofLabel} ${totalPages.toLocaleString(locale)}`, pageWidth - 20, pageHeight - 12, locale, { align: 'right' });
+    doc.setFontSize(7);
+    doc.setTextColor(148, 163, 184);
+    renderPdfText(
+      doc,
+      `${copy.informationalOnlyLabel} ${LEGAL.legalName} — ${copy.formalProposalLabel}`,
+      pageWidth / 2,
+      pageHeight - 6,
+      locale,
+      { align: 'center' },
+    );
+  }
+
+  return doc.output('blob');
+}

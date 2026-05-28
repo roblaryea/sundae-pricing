@@ -29,7 +29,7 @@ export function ConfigSummary() {
   useLivePricingCatalog();
   const {
     layer, tier, locations, modules: selectedModules, watchtowerModules,
-    crossIntelligence: crossIntelSelection, markStepCompleted, crewSku
+    crossIntelligence: crossIntelSelection, markStepCompleted, crewSkus: selectedCrewSkus
   } = useConfiguration();
 
   const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules, undefined, crossIntelSelection);
@@ -77,7 +77,7 @@ export function ConfigSummary() {
   // strategic note. This branch runs after all hooks so React's rules
   // of hooks are honored.
   if (layer === 'crew') {
-    return <CrewSummaryBody crewSku={crewSku} locations={locations} />;
+    return <CrewSummaryBody selectedSkus={selectedCrewSkus} locations={locations} />;
   }
 
   return (
@@ -510,33 +510,29 @@ export function ConfigSummary() {
 // ─── Crew-path summary ────────────────────────────────────────────────────
 // Self-contained renderer for the Crew operational substrate path. Mirrors
 // the headline + investment + actions structure of the main ConfigSummary
-// but with Crew-specific math (single SKU/bundle license + per-location
-// multiplier + setup fee), no AI credits / modules / Watchtower.
+// but with Crew-specific math (multi-SKU set, bundle auto-detection),
+// no AI credits / modules / Watchtower. Includes PDF + Email quote +
+// Book Demo CTAs in the same row Core/Report use, so the Crew path
+// reaches feature-parity with the analytics path.
 
-import { crewSkus, crewBundles } from '../../data/pricing';
-import type { CrewSkuSelection } from '../../types/configuration';
+import { computeCrewQuote } from '../../lib/crewPricing';
+import { CrewQuoteButtons } from './CrewQuoteButtons';
+import type { CrewSkuId } from '../../types/configuration';
 
 interface CrewSummaryBodyProps {
-  crewSku: CrewSkuSelection | null;
+  selectedSkus: CrewSkuId[];
   locations: number;
 }
 
-function CrewSummaryBody({ crewSku, locations }: CrewSummaryBodyProps) {
+function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
   const { locale, messages } = useLocale();
-  const selectedId: CrewSkuSelection = crewSku ?? 'crew_suite_bundle';
-  const isBundle = selectedId in crewBundles;
-  const selected = isBundle
-    ? crewBundles[selectedId as keyof typeof crewBundles]
-    : crewSkus[selectedId as keyof typeof crewSkus];
-
-  const orgLicense = 'orgLicensePrice' in selected ? selected.orgLicensePrice : selected.basePrice;
-  const perLoc = selected.perLocationPrice;
-  const includedLocations = 'baseIncludesLocations' in selected ? selected.baseIncludesLocations : 3;
-  const billableExtras = Math.max(0, locations - includedLocations);
-  const monthly = orgLicense + perLoc * billableExtras;
-  const annual = monthly * 12;
-  const setupFee = selected.setupFee ?? 0;
-  const tier = 'tier' in selected ? selected.tier : 'Bundle';
+  const quote = computeCrewQuote(selectedSkus, locations);
+  const { monthly, annual, setupFee, lines, detectedBundleId, bundleSavingsMonthly } = quote;
+  const headline = detectedBundleId
+    ? lines[0].label
+    : selectedSkus.length === 1
+      ? lines[0].label
+      : `${selectedSkus.length}-SKU Crew stack`;
 
   useEffect(() => {
     confetti({
@@ -582,16 +578,22 @@ function CrewSummaryBody({ crewSku, locations }: CrewSummaryBodyProps) {
               <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
                 <div>
-                  <div className="font-semibold">{selected.name}</div>
-                  <div className="text-sm text-sundae-muted">{tier} tier · {isBundle ? 'Auto-applied 20% bundle discount' : 'Single SKU'}</div>
+                  <div className="font-semibold">{headline}</div>
+                  <div className="text-sm text-sundae-muted">
+                    {detectedBundleId
+                      ? 'Bundle auto-detected · 20% discount applied'
+                      : `${selectedSkus.length} SKU${selectedSkus.length === 1 ? '' : 's'} selected`}
+                  </div>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
                 <div>
-                  <div className="font-semibold">{locations} {locations === 1 ? 'location' : 'locations'}</div>
+                  <div className="font-semibold">{quote.locations} {quote.locations === 1 ? 'location' : 'locations'}</div>
                   <div className="text-sm text-sundae-muted">
-                    {includedLocations} included · {billableExtras} billable extra @ ${perLoc}/loc
+                    {detectedBundleId
+                      ? `Bundle includes 3 · ${Math.max(0, quote.locations - 3)} billable extra`
+                      : `${lines.length === 1 ? lines[0].includedLocations : 'Per-SKU'} included · scales by SKU`}
                   </div>
                 </div>
               </div>
@@ -601,16 +603,18 @@ function CrewSummaryBody({ crewSku, locations }: CrewSummaryBodyProps) {
                   <div>
                     <div className="font-semibold">One-time setup: ${setupFee}</div>
                     <div className="text-sm text-sundae-muted">
-                      {('setupIncludes' in selected ? selected.setupIncludes : 'Onboarding + activation') ?? 'Onboarding + activation'}
+                      {detectedBundleId
+                        ? 'Bundle setup · country pack activation + statutory exports'
+                        : 'Onboarding + activation across selected SKUs'}
                     </div>
                   </div>
                 </div>
               )}
-              {isBundle && 'baseSavings' in selected && (
+              {bundleSavingsMonthly > 0 && (
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <div className="font-semibold text-emerald-300">Save ${selected.baseSavings}/mo · ${selected.perLocSavings}/loc</div>
+                    <div className="font-semibold text-emerald-300">Bundle savings · ${bundleSavingsMonthly}/mo</div>
                     <div className="text-sm text-sundae-muted">vs buying the SKUs separately</div>
                   </div>
                 </div>
@@ -626,6 +630,12 @@ function CrewSummaryBody({ crewSku, locations }: CrewSummaryBodyProps) {
               <span className="text-lg text-sundae-muted">/mo</span>
             </div>
             <div className="space-y-2 pt-4 border-t border-cyan-500/20">
+              {lines.length > 1 && lines.map((line) => (
+                <div key={line.id} className="flex justify-between text-xs">
+                  <span className="text-sundae-muted truncate pr-2">{line.label}</span>
+                  <span className="text-white tabular-nums flex-shrink-0">${line.monthly}</span>
+                </div>
+              ))}
               <div className="flex justify-between text-sm">
                 <span className="text-sundae-muted">Annual</span>
                 <span className="text-white tabular-nums">${annual.toLocaleString()}/yr</span>
@@ -645,24 +655,14 @@ function CrewSummaryBody({ crewSku, locations }: CrewSummaryBodyProps) {
         </div>
       </motion.div>
 
-      {/* BYO-HR + Continue actions */}
+      {/* CTAs — Email Quote, PDF, Book Demo (mirrors Report/Core summary) */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="mb-6 p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-xl"
+        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
       >
-        <p className="text-sm text-sundae-muted leading-relaxed">
-          <strong className="text-white">BYO-HR supported.</strong> Bring your own HR (Bayzat, Personio, Pento, Gusto, BambooHR) and Sundae still consolidates the workforce signal into Labor Intelligence. Crew is optional — the intelligence loop isn't.
-        </p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25 }}
-        className="flex flex-col sm:flex-row gap-3 justify-center mb-6"
-      >
+        <CrewQuoteButtons quote={quote} />
         <BookDemoButton />
       </motion.div>
 

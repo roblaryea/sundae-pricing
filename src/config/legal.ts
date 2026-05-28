@@ -1,6 +1,8 @@
 // Centralized legal entity constants — single source of truth
 // All customer-facing legal references should import from here.
 
+import type { PricingLocale } from '../lib/locales';
+
 export const LEGAL = {
   legalName: 'Sundae Technologies Inc.',
   brandName: 'Sundae',
@@ -31,7 +33,7 @@ export const LEGAL = {
   signUpUrl: 'https://sundae.io/sign-in',
 } as const;
 
-export type MarketingLocale = 'en' | 'ar' | 'fr' | 'es';
+export type MarketingLocale = PricingLocale;
 
 function localizeMarketingPath(pathname: string, locale: MarketingLocale): string {
   const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`;

@@ -7,9 +7,14 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import {
+  localeDirection,
+  normalizePricingLocale,
+  type PricingLocale,
+} from '../lib/locales'
+import { generatedPricingMessages } from '../lib/generatedPricingLocalePacks'
 
-export const supportedLocales = ['en', 'ar', 'fr', 'es'] as const
-export type PricingLocale = (typeof supportedLocales)[number]
+export { localeNames, supportedLocales, type PricingLocale } from '../lib/locales'
 
 const LOCALE_COOKIE = 'sundae_locale'
 
@@ -51,34 +56,11 @@ function persistLocalePreference(locale: PricingLocale) {
   window.localStorage.setItem(LOCALE_COOKIE, locale)
 }
 
-export const localeNames: Record<PricingLocale, string> = {
-  en: 'English',
-  ar: 'العربية',
-  fr: 'Français',
-  es: 'Español',
-}
-
-const localeDirection: Record<PricingLocale, 'ltr' | 'rtl'> = {
-  en: 'ltr',
-  ar: 'rtl',
-  fr: 'ltr',
-  es: 'ltr',
-}
-
 function normalizeLocale(locale?: string | null): PricingLocale {
-  if (!locale) return 'en'
-  const normalized = locale.trim().toLowerCase()
-  if ((supportedLocales as readonly string[]).includes(normalized)) {
-    return normalized as PricingLocale
-  }
-  const prefix = normalized.split('-')[0]
-  if ((supportedLocales as readonly string[]).includes(prefix)) {
-    return prefix as PricingLocale
-  }
-  return 'en'
+  return normalizePricingLocale(locale)
 }
 
-const messages: Record<PricingLocale, any> = {
+const messages = {
   en: {
     header: {
       simulator: 'Pricing Simulator',
@@ -1261,7 +1243,10 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
         setLocaleState(normalized)
       },
       dir: localeDirection[locale],
-      messages: messages[locale],
+      messages:
+        messages[locale as keyof typeof messages] ??
+        generatedPricingMessages[locale as keyof typeof generatedPricingMessages] ??
+        messages.en,
     }),
     [locale]
   )

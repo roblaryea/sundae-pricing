@@ -5,6 +5,7 @@ import { ChevronRight, Check, Layers } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { PRODUCT_ICONS } from '../../constants/icons';
 import { useLocale } from '../../contexts/LocaleContext';
+import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocalePacks';
 // Pull canonical prices from the pricing-site data layer (which is itself
 // reconciled against the backend pricing master via `npm run sync:backend-pricing`).
 // This eliminates the hard-coded "Starting at $XXX/month" strings that the
@@ -155,10 +156,16 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
   },
 };
 
+type LocalizedLayerStackLocale = keyof typeof localizedLayerStackCopy;
+type GeneratedLayerStackLocale = keyof typeof generatedAuxiliaryLocalePacks.layerStackCopy;
+
 export function LayerStack() {
   const { setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
   const { locale } = useLocale();
-  const copy = localizedLayerStackCopy[locale] ?? localizedLayerStackCopy.en;
+  const copy =
+    localizedLayerStackCopy[locale as LocalizedLayerStackLocale] ??
+    generatedAuxiliaryLocalePacks.layerStackCopy[locale as GeneratedLayerStackLocale] ??
+    localizedLayerStackCopy.en;
 
   const handleLayerSelect = (layerId: 'report' | 'core') => {
     setLayer(layerId);

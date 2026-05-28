@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { LEGAL, getMarketingUrl } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
 import { crossIntelligence } from '../../data/pricing';
+import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocalePacks';
 
 const CI_PRO_MONTHLY = crossIntelligence.pro.monthlyFee; // 199
 const CI_PRO_PER_LOC = crossIntelligence.pro.perLocationPrice; // 19
@@ -524,6 +525,10 @@ interface PricingFAQProps {
 export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
   const { locale, messages } = useLocale();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const generatedFaqItems =
+    generatedAuxiliaryLocalePacks.pricingFaqs[locale as keyof typeof generatedAuxiliaryLocalePacks.pricingFaqs]?.[category];
+  const generatedGeneralFaqItems =
+    generatedAuxiliaryLocalePacks.pricingFaqs[locale as keyof typeof generatedAuxiliaryLocalePacks.pricingFaqs]?.general;
 
   const localizedFaqItems =
     localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.[category];
@@ -531,9 +536,10 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
     localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.general;
   const faqItems =
     localizedFaqItems ??
+    generatedFaqItems ??
     (locale === 'en'
       ? faqByCategory[category] || generalFAQ
-      : localizedGeneralFaqItems || []);
+      : localizedGeneralFaqItems || generatedGeneralFaqItems || []);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);

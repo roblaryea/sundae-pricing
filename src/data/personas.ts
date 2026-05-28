@@ -1,5 +1,8 @@
 // User personas and pathways for the gamified journey
 
+import type { PricingLocale } from '../lib/locales';
+import { generatedAuxiliaryLocalePacks } from '../lib/generatedAuxiliaryLocalePacks';
+
 export interface Persona {
   id: string;
   name: string;
@@ -422,7 +425,7 @@ export const achievements: Achievement[] = [
   }
 ];
 
-export type PersonasLocale = 'en' | 'ar' | 'fr' | 'es';
+export type PersonasLocale = PricingLocale;
 
 type LocalizedPersonaText = Pick<Persona, 'name' | 'description'>;
 type LocalizedQuestionText = {
@@ -690,7 +693,11 @@ function getLocalizedText<T>(locale: PersonasLocale, map: Partial<Record<Persona
 }
 
 export function getLocalizedPersonas(locale: PersonasLocale): Record<string, Persona> {
-  const copy = localizedPersonaText[locale];
+  const copy =
+    localizedPersonaText[locale] ??
+    (generatedAuxiliaryLocalePacks.personaText[
+      locale as keyof typeof generatedAuxiliaryLocalePacks.personaText
+    ] as Record<string, LocalizedPersonaText> | undefined);
   if (!copy) return personas;
 
   return Object.fromEntries(
@@ -709,7 +716,11 @@ export function getLocalizedPersona(locale: PersonasLocale, personaId: string): 
 }
 
 export function getLocalizedQuizQuestions(locale: PersonasLocale): QuizQuestion[] {
-  const copy = localizedQuestionText[locale];
+  const copy =
+    localizedQuestionText[locale] ??
+    (generatedAuxiliaryLocalePacks.questionText[
+      locale as keyof typeof generatedAuxiliaryLocalePacks.questionText
+    ] as Record<string, LocalizedQuestionText> | undefined);
   if (!copy) return quizQuestions;
 
   return quizQuestions.map((question) => {
@@ -730,7 +741,11 @@ export function getLocalizedQuizQuestions(locale: PersonasLocale): QuizQuestion[
 }
 
 export function getLocalizedAchievement(locale: PersonasLocale, achievement: Achievement): Achievement {
-  const copy = getLocalizedText(locale, localizedAchievementText, achievement.id);
+  const copy =
+    getLocalizedText(locale, localizedAchievementText, achievement.id) ??
+    (generatedAuxiliaryLocalePacks.achievementText[
+      locale as keyof typeof generatedAuxiliaryLocalePacks.achievementText
+    ] as Record<string, LocalizedAchievementText> | undefined)?.[achievement.id];
   if (!copy) return achievement;
 
   return {

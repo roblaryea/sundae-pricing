@@ -3,13 +3,18 @@ import { Logo } from './Brand/Logo';
 import { ThemeToggle } from './shared/ThemeToggle';
 import { getMarketingUrl } from '../config/legal';
 import { localeNames, supportedLocales, useLocale, type PricingLocale } from '../contexts/LocaleContext';
+import { generatedAuxiliaryLocalePacks } from '../lib/generatedAuxiliaryLocalePacks';
 
 export function SiteHeader() {
   const { locale, setLocale, messages } = useLocale();
   const location = useLocation();
   const isSimulator = location.pathname === '/simulator';
   const languageLabel =
-    locale === 'ar' ? 'اللغة' : locale === 'fr' ? 'Langue' : locale === 'es' ? 'Idioma' : 'Language';
+    locale === 'ar' ? 'اللغة' :
+    locale === 'fr' ? 'Langue' :
+    locale === 'es' ? 'Idioma' :
+    generatedAuxiliaryLocalePacks.supportCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.supportCopy]?.languageLabel ??
+    'Language';
 
   return (
     <header className="sticky top-0 z-50 py-4 md:py-6 px-4 md:px-8 border-b border-white/10 bg-sundae-dark/95 backdrop-blur-sm">

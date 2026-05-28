@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { getMarketingUrl } from "../config/legal";
 import { useLocale } from "../contexts/LocaleContext";
+import { generatedAuxiliaryLocalePacks } from "../lib/generatedAuxiliaryLocalePacks";
 
 const CONSENT_KEY = "sundae_cookie_consent";
 
@@ -37,6 +38,8 @@ const cookieConsentCopy = {
   },
 } as const;
 
+type CookieConsentCopyLocale = keyof typeof cookieConsentCopy;
+
 export function getConsentStatus(): ConsentStatus {
   const value = localStorage.getItem(CONSENT_KEY);
   if (value === "accepted" || value === "declined") return value;
@@ -49,7 +52,10 @@ export function hasConsent(): boolean {
 
 export function CookieConsent() {
   const { locale } = useLocale();
-  const copy = cookieConsentCopy[locale] ?? cookieConsentCopy.en;
+  const copy =
+    cookieConsentCopy[locale as CookieConsentCopyLocale] ??
+    generatedAuxiliaryLocalePacks.supportCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.supportCopy]?.cookieConsentCopy ??
+    cookieConsentCopy.en;
   const [visible, setVisible] = useState(() => getConsentStatus() === null);
 
   const handleAccept = useCallback(() => {

@@ -56,7 +56,7 @@ export function TierSelector() {
     ar: 'الدعم',
     fr: 'Support',
     es: 'Soporte',
-  }[locale];
+  }[locale as 'en' | 'ar' | 'fr' | 'es'] ?? 'Support';
 
   const getTierCatalog = (tierId: string) => {
     const shortId = tierId.split('-').pop() as 'lite' | 'plus' | 'pro' | 'enterprise';

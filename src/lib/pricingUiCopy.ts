@@ -1,4 +1,7 @@
-export type PricingUiLocale = 'en' | 'ar' | 'fr' | 'es'
+import type { FullyLocalizedPricingLocale, PricingLocale } from './locales'
+import { generatedPricingUiCopy } from './generatedPricingLocalePacks'
+
+export type PricingUiLocale = PricingLocale
 
 export function formatMessage(template: string, values: Record<string, string | number>) {
   return Object.entries(values).reduce(
@@ -6,6 +9,18 @@ export function formatMessage(template: string, values: Record<string, string | 
       result.replaceAll(`\${${key}}`, String(value)).replaceAll(`{${key}}`, String(value)),
     template
   )
+}
+
+function resolvePricingUiCopy<T extends Record<FullyLocalizedPricingLocale, unknown>>(
+  copyByLocale: T,
+  locale: PricingUiLocale,
+  generatedCopyByLocale?: Partial<Record<PricingLocale, unknown>>,
+): T[FullyLocalizedPricingLocale] {
+  return (
+    copyByLocale[locale as FullyLocalizedPricingLocale] ??
+    generatedCopyByLocale?.[locale] ??
+    copyByLocale.en
+  ) as T[FullyLocalizedPricingLocale]
 }
 
 const locationSliderCopy = {
@@ -145,7 +160,7 @@ const locationSliderCopy = {
       nationalScale: 'Escala nacional',
     },
   },
-} as const satisfies Record<PricingUiLocale, object>
+} as const satisfies Record<FullyLocalizedPricingLocale, object>
 
 const liveCalculatorCopy = {
   en: {
@@ -180,7 +195,7 @@ const liveCalculatorCopy = {
     minimizeAria: 'Minimizar calculadora de precios',
     perMonthShort: '/mes',
   },
-} as const satisfies Record<PricingUiLocale, object>
+} as const satisfies Record<FullyLocalizedPricingLocale, object>
 
 const roiCopy = {
   en: {
@@ -506,7 +521,7 @@ const roiCopy = {
       longTerm: 'Inversion a largo plazo en inteligencia operativa.',
     },
   },
-} as const satisfies Record<PricingUiLocale, object>
+} as const satisfies Record<FullyLocalizedPricingLocale, object>
 
 const competitorCompareCopy = {
   en: {
@@ -665,7 +680,7 @@ const competitorCompareCopy = {
       spreadsheets: 'Hojas de calculo',
     },
   },
-} as const satisfies Record<PricingUiLocale, object>
+} as const satisfies Record<FullyLocalizedPricingLocale, object>
 
 const coreProAdvantageCopy = {
   en:
@@ -1005,23 +1020,23 @@ const competitorLimitations = {
 } as const
 
 export function getLocationSliderCopy(locale: PricingUiLocale) {
-  return locationSliderCopy[locale]
+  return resolvePricingUiCopy(locationSliderCopy, locale, generatedPricingUiCopy.locationSliderCopy)
 }
 
 export function getLiveCalculatorCopy(locale: PricingUiLocale) {
-  return liveCalculatorCopy[locale]
+  return resolvePricingUiCopy(liveCalculatorCopy, locale, generatedPricingUiCopy.liveCalculatorCopy)
 }
 
 export function getRoiCopy(locale: PricingUiLocale) {
-  return roiCopy[locale]
+  return resolvePricingUiCopy(roiCopy, locale, generatedPricingUiCopy.roiCopy)
 }
 
 export function getCompetitorCompareCopy(locale: PricingUiLocale) {
-  return competitorCompareCopy[locale]
+  return resolvePricingUiCopy(competitorCompareCopy, locale, generatedPricingUiCopy.competitorCompareCopy)
 }
 
 export function getLocalizedCompetitorCategory(locale: PricingUiLocale, category: string) {
-  const copy = competitorCompareCopy[locale]
+  const copy = resolvePricingUiCopy(competitorCompareCopy, locale, generatedPricingUiCopy.competitorCompareCopy)
   return copy.categoryLabels[category as keyof typeof copy.categoryLabels] ?? category
 }
 
@@ -1031,12 +1046,16 @@ export function getLocalizedCompetitorBreakdownLabel(locale: PricingUiLocale, la
     if (locale === 'fr') return label.replace('Labor', 'Travail')
     if (locale === 'es') return label.replace('Labor', 'Mano de obra')
   }
-  const copy = competitorBreakdownLabels[locale]
+  const copy = resolvePricingUiCopy(
+    competitorBreakdownLabels,
+    locale,
+    generatedPricingUiCopy.competitorBreakdownLabels,
+  )
   return copy[label as keyof typeof copy] ?? label
 }
 
 export function getLocalizedCompetitorSource(locale: PricingUiLocale, source: string) {
-  const copy = competitorSourceLabels[locale]
+  const copy = resolvePricingUiCopy(competitorSourceLabels, locale, generatedPricingUiCopy.competitorSourceLabels)
   return copy[source as keyof typeof copy] ?? source
 }
 
@@ -1065,23 +1084,23 @@ export function getLocalizedCompetitorNote(locale: PricingUiLocale, note: string
           revenue: object
           delivery: object
           guest: object
-        }]?.[locale] ?? item
+        }]?.[locale as FullyLocalizedPricingLocale] ?? item
       )
       .join(', ')
 
-    return {
+    return ({
       en: `Tenzo doesn't offer: ${translatedList}`,
       ar: `Tenzo لا يقدّم: ${translatedList}`,
       fr: `Tenzo ne propose pas : ${translatedList}`,
       es: `Tenzo no ofrece: ${translatedList}`,
-    }[locale]
+    } as const)[locale as FullyLocalizedPricingLocale] ?? `Tenzo doesn't offer: ${translatedList}`
   }
-  const copy = competitorNotes[locale]
+  const copy = resolvePricingUiCopy(competitorNotes, locale, generatedPricingUiCopy.competitorNotes)
   return copy[note as keyof typeof copy] ?? note
 }
 
 export function getLocalizedCompetitorLimitation(locale: PricingUiLocale, limitation: string) {
-  const copy = competitorLimitations[locale]
+  const copy = resolvePricingUiCopy(competitorLimitations, locale, generatedPricingUiCopy.competitorLimitations)
   return copy[limitation as keyof typeof copy] ?? limitation
 }
 
@@ -1094,14 +1113,14 @@ export function getCoreProAdvantageText(
     litePrice: number
   }
 ) {
-  return formatMessage(coreProAdvantageCopy[locale], values)
+  return formatMessage(resolvePricingUiCopy(coreProAdvantageCopy, locale, generatedPricingUiCopy.coreProAdvantageCopy), values)
 }
 
 export function formatAnnualAmount(locale: PricingUiLocale, amount: string) {
-  return formatMessage(annualAmountTemplates[locale], { amount })
+  return formatMessage(resolvePricingUiCopy(annualAmountTemplates, locale, generatedPricingUiCopy.annualAmountTemplates), { amount })
 }
 
 export function getLocalizedLayerName(locale: PricingUiLocale, layer: 'report' | 'core' | null) {
   if (!layer) return ''
-  return layerLabels[locale][layer]
+  return resolvePricingUiCopy(layerLabels, locale, generatedPricingUiCopy.layerLabels)[layer]
 }

@@ -1,6 +1,14 @@
 // Detailed feature comparison tables — v5.1 (Derived from sundae_final_pricing_v5.1.md)
 
-export type PricingLocale = 'en' | 'ar' | 'fr' | 'es';
+import type { FullyLocalizedPricingLocale, PricingLocale } from '../lib/locales';
+import {
+  generatedComparisonFeatureNames,
+  generatedComparisonLabels,
+  generatedComparisonValues,
+} from '../lib/generatedPricingLocalePacks';
+import { generatedAuxiliaryLocalePacks } from '../lib/generatedAuxiliaryLocalePacks';
+
+export type { PricingLocale } from '../lib/locales';
 
 const localizedComparisonLabels = {
   en: {
@@ -476,7 +484,7 @@ const localizedComparisonFeatureNames = {
   },
 } as const;
 
-const localizedComparisonValues: Record<PricingLocale, Record<string, string>> = {
+const localizedComparisonValues: Record<FullyLocalizedPricingLocale, Record<string, string>> = {
   en: {},
   ar: {
     'Manual upload': 'رفع يدوي',
@@ -963,14 +971,30 @@ const localizedComparisonValues: Record<PricingLocale, Record<string, string>> =
   },
 } as const;
 
-const localizeLabel = (locale: PricingLocale, key: keyof typeof localizedComparisonLabels.en) =>
-  localizedComparisonLabels[locale][key] ?? localizedComparisonLabels.en[key];
+const localizeLabel = (locale: PricingLocale, key: keyof typeof localizedComparisonLabels.en) => {
+  const copy =
+    localizedComparisonLabels[locale as FullyLocalizedPricingLocale] ??
+    generatedComparisonLabels[locale as keyof typeof generatedComparisonLabels] ??
+    localizedComparisonLabels.en;
+  return copy[key as keyof typeof copy] ?? localizedComparisonLabels.en[key];
+};
 
-const localizeFeature = (locale: PricingLocale, key: keyof typeof localizedComparisonFeatureNames.en) =>
-  localizedComparisonFeatureNames[locale][key] ?? localizedComparisonFeatureNames.en[key];
+const localizeFeature = (locale: PricingLocale, key: keyof typeof localizedComparisonFeatureNames.en) => {
+  const copy =
+    localizedComparisonFeatureNames[locale as FullyLocalizedPricingLocale] ??
+    generatedComparisonFeatureNames[locale as keyof typeof generatedComparisonFeatureNames] ??
+    localizedComparisonFeatureNames.en;
+  return copy[key as keyof typeof copy] ?? localizedComparisonFeatureNames.en[key];
+};
 
-const localizeValue = (locale: PricingLocale, value: string) =>
-  localizedComparisonValues[locale][value] ?? value;
+const localizeValue = (locale: PricingLocale, value: string) => {
+  const copy =
+    localizedComparisonValues[locale as FullyLocalizedPricingLocale] ??
+    generatedAuxiliaryLocalePacks.comparisonValues[locale as keyof typeof generatedAuxiliaryLocalePacks.comparisonValues] ??
+    generatedComparisonValues[locale as keyof typeof generatedComparisonValues] ??
+    localizedComparisonValues.en;
+  return copy[value] ?? value;
+};
 
 export function getLocalizedFeatureComparisons(locale: PricingLocale = 'en') {
   const label = (key: keyof typeof localizedComparisonLabels.en) => localizeLabel(locale, key);

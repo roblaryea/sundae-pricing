@@ -2,6 +2,7 @@ import { AlertCircle, LoaderCircle } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { LivePricingState } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
+import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocalePacks';
 
 const LIVE_PRICING_COPY = {
   en: {
@@ -34,6 +35,8 @@ const LIVE_PRICING_COPY = {
   },
 } as const;
 
+type LivePricingCopyLocale = keyof typeof LIVE_PRICING_COPY;
+
 interface LivePricingGateProps {
   state: LivePricingState;
   children: ReactNode;
@@ -41,7 +44,10 @@ interface LivePricingGateProps {
 
 export function LivePricingGate({ state, children }: LivePricingGateProps) {
   const { locale } = useLocale();
-  const copy = LIVE_PRICING_COPY[locale] ?? LIVE_PRICING_COPY.en;
+  const copy =
+    LIVE_PRICING_COPY[locale as LivePricingCopyLocale] ??
+    generatedAuxiliaryLocalePacks.supportCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.supportCopy]?.livePricingCopy ??
+    LIVE_PRICING_COPY.en;
 
   if (!state.required || state.status === 'ready') {
     return <>{children}</>;

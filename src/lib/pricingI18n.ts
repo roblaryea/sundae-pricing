@@ -1,4 +1,7 @@
-export type PricingLocale = 'en' | 'ar' | 'fr' | 'es';
+import type { FullyLocalizedPricingLocale, PricingLocale } from './locales';
+import { generatedPricingI18nCopy } from './generatedPricingLocalePacks';
+
+export type { PricingLocale } from './locales';
 
 type LocaleCopy = {
   tiers: Record<string, string>;
@@ -36,7 +39,7 @@ type LocaleCopy = {
   };
 };
 
-const localizedCopy: Record<PricingLocale, LocaleCopy> = {
+const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
   en: {
     tiers: {
       'Report Lite': 'Report Lite',
@@ -292,22 +295,34 @@ const localizedCopy: Record<PricingLocale, LocaleCopy> = {
 };
 
 export function localizeTierName(name: string, locale: PricingLocale): string {
-  const copy = localizedCopy[locale] ?? localizedCopy.en;
+  const copy =
+    localizedCopy[locale as FullyLocalizedPricingLocale] ??
+    generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
+    localizedCopy.en;
   return copy.tiers[name] ?? name;
 }
 
 export function localizeModuleName(moduleId: string, locale: PricingLocale): string {
-  const copy = localizedCopy[locale] ?? localizedCopy.en;
+  const copy =
+    localizedCopy[locale as FullyLocalizedPricingLocale] ??
+    generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
+    localizedCopy.en;
   return copy.modules[moduleId] ?? moduleId;
 }
 
 export function localizeWatchtowerName(moduleId: string, locale: PricingLocale): string {
-  const copy = localizedCopy[locale] ?? localizedCopy.en;
+  const copy =
+    localizedCopy[locale as FullyLocalizedPricingLocale] ??
+    generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
+    localizedCopy.en;
   return copy.watchtower[moduleId] ?? moduleId;
 }
 
 export function localizeDiscountName(name: string, locale: PricingLocale): string {
-  const copy = localizedCopy[locale] ?? localizedCopy.en;
+  const copy =
+    localizedCopy[locale as FullyLocalizedPricingLocale] ??
+    generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
+    localizedCopy.en;
   const lowered = name.toLowerCase();
 
   if (lowered.includes('volume discount')) return copy.discounts.volume;
@@ -319,7 +334,10 @@ export function localizeDiscountName(name: string, locale: PricingLocale): strin
 }
 
 export function localizeBreakdownLabel(name: string, locale: PricingLocale): string {
-  const copy = localizedCopy[locale] ?? localizedCopy.en;
+  const copy =
+    localizedCopy[locale as FullyLocalizedPricingLocale] ??
+    generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
+    localizedCopy.en;
   const tierPrefix = Object.keys(copy.tiers).find((tierName) => name.startsWith(tierName));
   if (tierPrefix) {
     return name.replace(tierPrefix, copy.tiers[tierPrefix]);
@@ -346,5 +364,9 @@ export function localizeBreakdownLabel(name: string, locale: PricingLocale): str
 }
 
 export function getPricingPdfCopy(locale: PricingLocale) {
-  return (localizedCopy[locale] ?? localizedCopy.en).pdf;
+  return (
+    localizedCopy[locale as FullyLocalizedPricingLocale] ??
+    generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
+    localizedCopy.en
+  ).pdf;
 }

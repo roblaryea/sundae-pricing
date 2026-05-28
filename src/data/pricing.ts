@@ -25,6 +25,9 @@ export type CoreTier = 'lite' | 'pro';
 // guest_crm_intelligence and item_profitability ship as Insights UI surfaces
 // but are not currently sold as standalone paid modules — see MSOT for the
 // 12-Insights-module product surface taxonomy vs the 11-paid-SKU pricing.
+import type { FullyLocalizedPricingLocale, PricingLocale } from '../lib/locales';
+import { generatedAddOnDisplay, generatedTierDisplay } from '../lib/generatedPricingLocalePacks';
+
 export type ModuleId = 'labor' | 'inventory' | 'purchasing' | 'marketing' | 'reservations' | 'profit' | 'revenue' | 'delivery' | 'guest' | 'pulse' | 'foresight';
 export type BundleId = 'ops_suite' | 'growth_suite' | 'finance_addon' | 'channel_suite' | 'realtime_suite' | 'complete_intelligence';
 // 6 Crew workforce SKUs matching backend MODULE_PRICING (Crew portion). Kept
@@ -1756,7 +1759,7 @@ export const pricingFooter = {
 // These keep canonical pricing math/data intact while exposing translated UI copy.
 // ═══════════════════════════════════════════════════════════════════════════
 
-export type PricingLocale = 'en' | 'ar' | 'fr' | 'es';
+export type { PricingLocale } from '../lib/locales';
 
 type TierDisplayCopy = {
   name: string;
@@ -1765,7 +1768,7 @@ type TierDisplayCopy = {
   features: string[];
 };
 
-const localizedTierDisplay: Record<PricingLocale, {
+const localizedTierDisplay: Record<FullyLocalizedPricingLocale, {
   report: Record<keyof typeof reportTiers, TierDisplayCopy>;
   core: Record<keyof typeof coreTiers, TierDisplayCopy>;
 }> = {
@@ -2084,7 +2087,10 @@ const localizedTierDisplay: Record<PricingLocale, {
 };
 
 export function getLocalizedTierCatalog(locale: PricingLocale = 'en') {
-  const copy = localizedTierDisplay[locale] ?? localizedTierDisplay.en;
+  const copy =
+    localizedTierDisplay[locale as FullyLocalizedPricingLocale] ??
+    generatedTierDisplay[locale as keyof typeof generatedTierDisplay] ??
+    localizedTierDisplay.en;
 
   return {
     reportTiers: {
@@ -2105,7 +2111,7 @@ type AddOnDisplayCopy = {
   crossIntelligence: Record<keyof typeof crossIntelligence, string[]>;
 };
 
-const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
+const localizedAddOnDisplay: Record<FullyLocalizedPricingLocale, AddOnDisplayCopy> = {
   en: {
     watchtower: {
       competitive: [
@@ -2269,5 +2275,9 @@ const localizedAddOnDisplay: Record<PricingLocale, AddOnDisplayCopy> = {
 };
 
 export function getLocalizedAddOnDisplay(locale: PricingLocale = 'en') {
-  return localizedAddOnDisplay[locale] ?? localizedAddOnDisplay.en;
+  return (
+    localizedAddOnDisplay[locale as FullyLocalizedPricingLocale] ??
+    generatedAddOnDisplay[locale as keyof typeof generatedAddOnDisplay] ??
+    localizedAddOnDisplay.en
+  );
 }

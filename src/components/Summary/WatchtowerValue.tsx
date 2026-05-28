@@ -8,6 +8,7 @@ import { calculateWatchtowerValue } from '../../lib/watchtowerValueScenarios';
 import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/watchtowerEngine';
 import { cn } from '../../utils/cn';
 import { useLocale } from '../../contexts/LocaleContext';
+import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocalePacks';
 
 const localizedWatchtowerCopy = {
   en: {
@@ -305,7 +306,17 @@ const localizedWatchtowerScenarios = {
   },
 } as const;
 
-function localizeBreakevenScenario(locale: keyof typeof localizedWatchtowerScenarios, scenario: string): string {
+type LocalizedWatchtowerLocale = keyof typeof localizedWatchtowerScenarios;
+type GeneratedWatchtowerLocale = keyof typeof generatedAuxiliaryLocalePacks.watchtowerScenarios;
+
+function localizeBreakevenScenario(locale: string, scenario: string): string {
+  const generatedMatch = generatedAuxiliaryLocalePacks.watchtowerScenarios[locale as GeneratedWatchtowerLocale];
+  const generatedScenarioGroups = Object.values(generatedMatch ?? {}) as Array<Array<{ oneWin: string }>>;
+  for (const moduleScenarios of generatedScenarioGroups) {
+    const found = moduleScenarios.find((item) => item.oneWin === scenario);
+    if (found) return found.oneWin;
+  }
+
   const match = {
     en: {
       'Following one competitor price increase': 'Following one competitor price increase',
@@ -355,18 +366,22 @@ function localizeBreakevenScenario(locale: keyof typeof localizedWatchtowerScena
       'Staying ahead of one neighborhood shift': 'Ir por delante de un cambio de barrio',
       'Combined wins across modules': 'Ganancias combinadas entre modulos',
     },
-  }[locale] ?? {};
+  }[locale as LocalizedWatchtowerLocale] ?? {};
 
   return match[scenario as keyof typeof match] ?? scenario;
 }
 
 function getLocalizedScenarioCopy(
-  locale: keyof typeof localizedWatchtowerScenarios,
+  locale: string,
   moduleId: string,
   index: number,
   fallback: { title: string; description: string; oneWin: string }
 ) {
-  const moduleCopy = localizedWatchtowerScenarios[locale][moduleId as keyof typeof localizedWatchtowerScenarios.en];
+  const localeCopy =
+    localizedWatchtowerScenarios[locale as LocalizedWatchtowerLocale] ??
+    generatedAuxiliaryLocalePacks.watchtowerScenarios[locale as GeneratedWatchtowerLocale] ??
+    localizedWatchtowerScenarios.en;
+  const moduleCopy = localeCopy[moduleId as keyof typeof localizedWatchtowerScenarios.en];
   const scenarioCopy = moduleCopy?.[index];
 
   return {
@@ -380,7 +395,10 @@ export function WatchtowerValue() {
   const { locations, watchtowerModules } = useConfiguration();
   const { locale, messages } = useLocale();
   const [expandedModule, setExpandedModule] = useState<string | null>(null);
-  const copy = localizedWatchtowerCopy[locale] ?? localizedWatchtowerCopy.en;
+  const copy =
+    localizedWatchtowerCopy[locale as keyof typeof localizedWatchtowerCopy] ??
+    generatedAuxiliaryLocalePacks.watchtowerCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.watchtowerCopy] ??
+    localizedWatchtowerCopy.en;
   const hasSelection = Boolean(watchtowerModules?.length);
 
   // Default revenue assumption (can be made configurable later)
@@ -512,9 +530,17 @@ interface ModuleValueCardProps {
 
 function ModuleValueCard({ module, isExpanded, onToggle }: ModuleValueCardProps) {
   const { locale } = useLocale();
-  const copy = localizedWatchtowerCopy[locale] ?? localizedWatchtowerCopy.en;
+  const copy =
+    localizedWatchtowerCopy[locale as keyof typeof localizedWatchtowerCopy] ??
+    generatedAuxiliaryLocalePacks.watchtowerCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.watchtowerCopy] ??
+    localizedWatchtowerCopy.en;
   const IconComponent = WATCHTOWER_ICON_MAP[module.icon as keyof typeof WATCHTOWER_ICON_MAP] ?? Castle;
-  const scenarioCopy = localizedWatchtowerScenarios[locale][module.id as keyof typeof localizedWatchtowerScenarios.en];
+  const scenarioCopy =
+    (localizedWatchtowerScenarios[locale as LocalizedWatchtowerLocale] ??
+      generatedAuxiliaryLocalePacks.watchtowerScenarios[locale as GeneratedWatchtowerLocale] ??
+      localizedWatchtowerScenarios.en)[
+      module.id as keyof typeof localizedWatchtowerScenarios.en
+    ];
 
   return (
     <div className="bg-sundae-surface rounded-lg overflow-hidden border border-white/10">
@@ -613,7 +639,10 @@ function ModuleValueCard({ module, isExpanded, onToggle }: ModuleValueCardProps)
 
 function ConfidenceBadge({ confidence }: { confidence: string }) {
   const { locale } = useLocale();
-  const copy = localizedWatchtowerCopy[locale] ?? localizedWatchtowerCopy.en;
+  const copy =
+    localizedWatchtowerCopy[locale as keyof typeof localizedWatchtowerCopy] ??
+    generatedAuxiliaryLocalePacks.watchtowerCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.watchtowerCopy] ??
+    localizedWatchtowerCopy.en;
   const config = {
     high: { label: copy.confidence.high, color: 'text-green-400 bg-green-500/20' },
     medium: { label: copy.confidence.medium, color: 'text-amber-400 bg-amber-500/20' },

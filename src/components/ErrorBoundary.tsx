@@ -1,11 +1,12 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
 import * as Sentry from "@sentry/react";
-import { supportedLocales, type PricingLocale } from "../contexts/LocaleContext";
+import { normalizePricingLocale, type FullyLocalizedPricingLocale, type PricingLocale } from "../lib/locales";
+import { generatedAuxiliaryLocalePacks } from "../lib/generatedAuxiliaryLocalePacks";
 
 interface Props { children: ReactNode; fallback?: ReactNode; }
 interface State { hasError: boolean; }
 
-const errorCopy: Record<PricingLocale, { title: string; description: string; retry: string }> = {
+const errorCopy: Record<FullyLocalizedPricingLocale, { title: string; description: string; retry: string }> = {
   en: {
     title: "Something went wrong",
     description: "Please try refreshing the page.",
@@ -30,11 +31,7 @@ const errorCopy: Record<PricingLocale, { title: string; description: string; ret
 
 function resolveLocale(): PricingLocale {
   if (typeof document === "undefined") return "en";
-  const lang = document.documentElement.lang?.toLowerCase().split("-")[0];
-  if ((supportedLocales as readonly string[]).includes(lang)) {
-    return lang as PricingLocale;
-  }
-  return "en";
+  return normalizePricingLocale(document.documentElement.lang);
 }
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -48,7 +45,11 @@ export class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      const copy = errorCopy[resolveLocale()] ?? errorCopy.en;
+      const locale = resolveLocale();
+      const copy =
+        errorCopy[locale as FullyLocalizedPricingLocale] ??
+        generatedAuxiliaryLocalePacks.supportCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.supportCopy]?.errorCopy ??
+        errorCopy.en;
       return this.props.fallback || (
         <div style={{ padding: "40px", textAlign: "center", fontFamily: "system-ui" }}>
           <h2>{copy.title}</h2>

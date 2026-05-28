@@ -45,11 +45,12 @@ export function CrewBuilder() {
   const isLite = quote.isLiteOnly;
   const sliderMax = isLite ? LITE_LOCATION_CAP : 100;
 
-  // Whether a given individual SKU should be presented as "locked off"
-  // (Lite selected) or "auto-included by Operations" (Scheduling).
+  // Per-SKU UI state: selected/disabled/note, plus whether the line
+  // should render its price as "$0 — Included".
   const skuState = (id: CrewSkuId): {
     isSelected: boolean;
     isDisabled: boolean;
+    isIncludedFree: boolean;
     note: string | null;
   } => {
     const isSelected = selectedSkus.includes(id);
@@ -57,17 +58,23 @@ export function CrewBuilder() {
       return {
         isSelected: false,
         isDisabled: true,
+        isIncludedFree: false,
         note: 'Disabled while Crew Lite is selected (mutually exclusive)',
       };
     }
+    // Operations entitlement includes Scheduling capabilities — the
+    // Scheduling tile auto-selects + locks at $0 while Operations is
+    // in the set. Unticking Operations reverts Scheduling to its
+    // standalone $179 price (the store keeps it in the set).
     if (id === 'crew_scheduling' && selectedSkus.includes('crew_operations')) {
       return {
         isSelected: true,
         isDisabled: true,
-        note: 'Included with Operations — no separate charge',
+        isIncludedFree: true,
+        note: 'Included with Operations · $0/mo',
       };
     }
-    return { isSelected, isDisabled: false, note: null };
+    return { isSelected, isDisabled: false, isIncludedFree: false, note: null };
   };
 
   const handlePresetClick = (skus: CrewSkuId[]) => {
@@ -194,14 +201,23 @@ export function CrewBuilder() {
                 <p className="text-[11px] text-sundae-muted leading-snug mb-2 line-clamp-2">
                   {sku.description}
                 </p>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-base font-bold text-white tabular-nums">
-                    ${sku.orgLicensePrice}
-                  </span>
-                  <span className="text-[11px] text-sundae-muted">
-                    /mo + ${sku.perLocationPrice}/loc
-                  </span>
-                </div>
+                {state.isIncludedFree ? (
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-base font-bold text-emerald-300 tabular-nums">$0</span>
+                    <span className="text-[11px] text-sundae-muted line-through tabular-nums">
+                      ${sku.orgLicensePrice}/mo
+                    </span>
+                  </div>
+                ) : (
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-base font-bold text-white tabular-nums">
+                      ${sku.orgLicensePrice}
+                    </span>
+                    <span className="text-[11px] text-sundae-muted">
+                      /mo + ${sku.perLocationPrice}/loc
+                    </span>
+                  </div>
+                )}
                 {'prerequisiteMessage' in sku && sku.prerequisiteMessage && (
                   <p className="text-[10px] font-medium text-amber-300/80 mt-1.5 flex items-center gap-1">
                     <Info className="w-3 h-3" />
@@ -209,7 +225,9 @@ export function CrewBuilder() {
                   </p>
                 )}
                 {state.note && (
-                  <p className="text-[10px] font-medium text-cyan-300/80 mt-1.5 flex items-center gap-1">
+                  <p className={`text-[10px] font-medium mt-1.5 flex items-center gap-1 ${
+                    state.isIncludedFree ? 'text-emerald-300' : 'text-cyan-300/80'
+                  }`}>
                     <Info className="w-3 h-3" />
                     {state.note}
                   </p>
@@ -293,19 +311,31 @@ export function CrewBuilder() {
             </div>
           </div>
           <div className="space-y-1 pt-3 border-t border-cyan-500/20">
-            {quote.lines.map((line) => (
-              <div key={line.id} className="flex justify-between text-xs">
-                <span className="text-sundae-muted truncate pr-2">
-                  {line.label}
-                  {line.billableExtras > 0 && (
-                    <span className="text-[10px] opacity-70">
-                      {' '}· {line.billableExtras} extra × ${line.perLoc}
-                    </span>
-                  )}
-                </span>
-                <span className="text-white tabular-nums flex-shrink-0">${line.monthly}</span>
-              </div>
-            ))}
+            {quote.lines.map((line) => {
+              const isFreeIncluded = line.monthly === 0 && line.id === 'crew_scheduling';
+              return (
+                <div key={line.id} className="flex justify-between text-xs">
+                  <span className="text-sundae-muted truncate pr-2">
+                    {line.label}
+                    {isFreeIncluded && (
+                      <span className="text-[10px] text-emerald-300 ml-1">· included</span>
+                    )}
+                    {line.billableExtras > 0 && (
+                      <span className="text-[10px] opacity-70">
+                        {' '}· {line.billableExtras} extra × ${line.perLoc}
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    className={`tabular-nums flex-shrink-0 ${
+                      isFreeIncluded ? 'text-emerald-300' : 'text-white'
+                    }`}
+                  >
+                    ${line.monthly}
+                  </span>
+                </div>
+              );
+            })}
             {quote.setupFee > 0 && (
               <div className="flex justify-between text-xs pt-2 mt-2 border-t border-cyan-500/10">
                 <span className="text-sundae-muted">One-time setup</span>

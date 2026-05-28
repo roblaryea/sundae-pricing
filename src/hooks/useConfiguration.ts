@@ -143,9 +143,12 @@ export const useConfiguration = create<ConfigurationState>()(
           // re-entries to the Crew step.
           if (layer === 'crew') {
             const existing = get().crewSkus;
+            // Operating Suite default seed. Scheduling rides along
+            // because Operations is in it (Operations entitlement
+            // includes Scheduling — pricing engine zeros its line).
             const seed: CrewSkuId[] = existing.length > 0
               ? existing
-              : ['crew_operations', 'crew_tna', 'crew_payroll'];
+              : ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'];
             set({
               layer,
               modules: [],
@@ -178,37 +181,58 @@ export const useConfiguration = create<ConfigurationState>()(
           }
 
           let next: CrewSkuId[] = current.filter((id) => id !== 'crew_lite');
+
+          // Guard: Scheduling can't be unticked while Operations is in
+          // the set — Operations entitlement includes Scheduling, so
+          // Scheduling is auto-locked-on. (The UI also disables the
+          // tile; this is the defensive layer.)
+          if (sku === 'crew_scheduling' && !isAdding && next.includes('crew_operations')) {
+            return;
+          }
+
           if (isAdding) {
             next = Array.from(new Set([...next, sku]));
-            // Auto-attach prerequisites declared on the SKU. We expand
-            // transitively (one hop is enough for the current graph).
+            // Auto-attach declared prerequisites (one-hop is enough for
+            // the current graph). T&A's prereq is Scheduling, but if
+            // Operations is already in the set, T&A is satisfied — skip
+            // attaching Scheduling for T&A specifically. For everything
+            // else, attach the declared prereq.
             const prereqs = (crewSkus[sku]?.prerequisites ?? []) as CrewSkuId[];
             for (const p of prereqs) {
+              if (sku === 'crew_tna' && p === 'crew_scheduling' && next.includes('crew_operations')) {
+                continue;
+              }
               if (!next.includes(p)) next.push(p);
             }
-            // crew_operations supersedes crew_scheduling (Scheduling
-            // entitlement is included). If both end up in the set, drop
-            // the standalone Scheduling charge.
-            if (next.includes('crew_operations') && next.includes('crew_scheduling')) {
-              next = next.filter((id) => id !== 'crew_scheduling');
+            // Operations auto-attaches Scheduling so the Scheduling tile
+            // renders as "selected" with a $0 line (visual confirmation
+            // that Operations includes it). Removing Operations later
+            // leaves Scheduling in the set and reinstates its price.
+            if (sku === 'crew_operations' && !next.includes('crew_scheduling')) {
+              next.push('crew_scheduling');
             }
           } else {
             next = next.filter((id) => id !== sku);
-            // Cascade: if removing a SKU breaks a downstream dep, also
-            // remove the dependent. e.g. unchecking Operations removes
-            // Payroll + People Intelligence too.
+            // Cascade: removing a SKU may break a downstream dep.
             const dependentsOf: Record<CrewSkuId, CrewSkuId[]> = {
               crew_lite: [],
+              // Removing Scheduling only breaks T&A if Operations isn't
+              // present — Operations satisfies T&A's OR dep.
               crew_scheduling: ['crew_tna'],
-              crew_operations: ['crew_payroll', 'crew_people_intelligence'],
+              crew_operations: ['crew_payroll', 'crew_people_intelligence', 'crew_tna'],
               crew_tna: [],
               crew_payroll: [],
               crew_people_intelligence: [],
             };
             const dependents = dependentsOf[sku] ?? [];
             for (const d of dependents) {
-              // T&A is OK if either Scheduling OR Operations remain.
-              if (d === 'crew_tna' && next.includes('crew_operations')) continue;
+              // T&A is OK if EITHER Scheduling OR Operations still
+              // remains in the set (the OR rule for T&A's prereq).
+              if (d === 'crew_tna') {
+                if (next.includes('crew_scheduling') || next.includes('crew_operations')) {
+                  continue;
+                }
+              }
               next = next.filter((id) => id !== d);
             }
           }

@@ -548,8 +548,10 @@ export async function generateCrewQuotePDF(
       doc.addPage();
       yPos = 25;
     }
+    const isFreeIncluded = line.monthly === 0 && line.id === 'crew_scheduling';
     const extras = line.billableExtras > 0 ? ` (+${line.billableExtras} × $${line.perLoc})` : '';
-    renderPdfText(doc, `${line.label}${extras}`, 25, yPos, locale);
+    const suffix = isFreeIncluded ? ' (Included with Operations)' : extras;
+    renderPdfText(doc, `${line.label}${suffix}`, 25, yPos, locale);
     renderPdfText(doc, formatCurrencyAmount(line.monthly, locale), pageWidth - 50, yPos, locale, { align: 'right' });
     yPos += 7;
   });

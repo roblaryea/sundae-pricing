@@ -630,12 +630,26 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
               <span className="text-lg text-sundae-muted">/mo</span>
             </div>
             <div className="space-y-2 pt-4 border-t border-cyan-500/20">
-              {lines.length > 1 && lines.map((line) => (
-                <div key={line.id} className="flex justify-between text-xs">
-                  <span className="text-sundae-muted truncate pr-2">{line.label}</span>
-                  <span className="text-white tabular-nums flex-shrink-0">${line.monthly}</span>
-                </div>
-              ))}
+              {lines.length > 1 && lines.map((line) => {
+                const isFreeIncluded = line.monthly === 0 && line.id === 'crew_scheduling';
+                return (
+                  <div key={line.id} className="flex justify-between text-xs">
+                    <span className="text-sundae-muted truncate pr-2">
+                      {line.label}
+                      {isFreeIncluded && (
+                        <span className="text-[10px] text-emerald-300 ml-1">· included</span>
+                      )}
+                    </span>
+                    <span
+                      className={`tabular-nums flex-shrink-0 ${
+                        isFreeIncluded ? 'text-emerald-300' : 'text-white'
+                      }`}
+                    >
+                      ${line.monthly}
+                    </span>
+                  </div>
+                );
+              })}
               <div className="flex justify-between text-sm">
                 <span className="text-sundae-muted">Annual</span>
                 <span className="text-white tabular-nums">${annual.toLocaleString()}/yr</span>

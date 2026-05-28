@@ -39,19 +39,48 @@ function sameSet(a: CrewSkuId[], b: CrewSkuId[]): boolean {
   return a.every((id) => setB.has(id));
 }
 
+// Bundle definitions don't list `crew_scheduling` because Operations
+// already includes it. The UI keeps Scheduling visible in the selection
+// set when Operations is present (so the tile reads as "auto-included
+// at $0"), so detection normalizes by stripping Scheduling when
+// Operations is in the set before matching.
 function detectBundle(skus: CrewSkuId[]): CrewBundleId | null {
+  const normalized = skus.includes('crew_operations')
+    ? skus.filter((s) => s !== 'crew_scheduling')
+    : skus;
   for (const [bundleId, bundle] of Object.entries(crewBundles)) {
-    if (sameSet(skus, bundle.skus as CrewSkuId[])) {
+    if (sameSet(normalized, bundle.skus as CrewSkuId[])) {
       return bundleId as CrewBundleId;
     }
   }
   return null;
 }
 
-function lineForSku(id: CrewSkuId, locations: number): CrewQuoteLine {
+interface LineOptions {
+  /** Force the SKU to render at $0 (e.g. Scheduling alongside Operations). */
+  includedFree?: boolean;
+}
+
+function lineForSku(id: CrewSkuId, locations: number, opts: LineOptions = {}): CrewQuoteLine {
   const sku = crewSkus[id];
   const includedLocations = sku.baseIncludesLocations;
   const billableExtras = Math.max(0, locations - includedLocations);
+
+  if (opts.includedFree) {
+    return {
+      id,
+      label: sku.name,
+      orgLicense: 0,
+      perLoc: 0,
+      includedLocations,
+      billableExtras: 0,
+      monthly: 0,
+      // Setup is also $0 when Scheduling rides along — Operations covers
+      // the scheduling setup as part of its own activation.
+      setupFee: 0,
+    };
+  }
+
   const monthly = sku.orgLicensePrice + sku.perLocationPrice * billableExtras;
   return {
     id,
@@ -76,8 +105,13 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
     const includedLocations = 3;
     const billableExtras = Math.max(0, effectiveLocations - includedLocations);
     const bundleMonthly = bundle.basePrice + bundle.perLocationPrice * billableExtras;
-    // Savings vs sum of standalone SKUs at this location count.
+    // Savings vs sum of standalone SKUs at this location count. Strip
+    // Scheduling from the standalone calc when Operations is present
+    // so the savings comparison isn't inflated by a line that's
+    // already $0.
+    const hasOps = selectedSkus.includes('crew_operations');
     const standaloneMonthly = selectedSkus
+      .filter((id) => !(id === 'crew_scheduling' && hasOps))
       .map((id) => lineForSku(id, effectiveLocations).monthly)
       .reduce((sum, m) => sum + m, 0);
     return {
@@ -104,8 +138,16 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
     };
   }
 
-  // No bundle — sum the individual SKUs.
-  const lines = selectedSkus.map((id) => lineForSku(id, effectiveLocations));
+  // No bundle — sum the individual SKUs. Scheduling is rendered at $0
+  // when Operations is in the set (Operations entitlement includes
+  // Scheduling), but stays visible as a line so the UI matches the
+  // Scheduling tile's "selected at $0" state.
+  const hasOperations = selectedSkus.includes('crew_operations');
+  const lines = selectedSkus.map((id) =>
+    lineForSku(id, effectiveLocations, {
+      includedFree: id === 'crew_scheduling' && hasOperations,
+    }),
+  );
   const monthly = lines.reduce((sum, line) => sum + line.monthly, 0);
   const setupFee = lines.reduce((sum, line) => sum + line.setupFee, 0);
 
@@ -139,13 +181,16 @@ export const CREW_PRESETS: Array<{
     id: 'operating_suite',
     label: 'Operating Suite',
     description: 'Operations + T&A + Payroll · 20% bundle discount',
-    skus: ['crew_operations', 'crew_tna', 'crew_payroll'],
+    // Scheduling is included with Operations entitlement (priced at $0
+    // in the UI / line items). Bundle detection normalizes this away
+    // so the canonical bundle definition still matches.
+    skus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'],
   },
   {
     id: 'complete_suite',
     label: 'Complete Suite',
     description: 'Operating Suite + People Intelligence · 20% bundle discount',
-    skus: ['crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
+    skus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
   },
 ];
 

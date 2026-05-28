@@ -945,7 +945,7 @@ export const moduleBundles = {
 //   • crew_lite (sortOrder 11)              — entry, hard-cap 5 locations, mutually exclusive with full Crew SKUs
 //   • crew_scheduling (12)                  — standalone, no deps
 //   • crew_operations (13)                  — no deps
-//   • crew_tna (14)                         — depends on crew_scheduling
+//   • crew_tna (14)                         — depends on crew_scheduling OR crew_operations (Operations entitlement includes Scheduling)
 //   • crew_payroll (15)                     — depends on crew_operations (employee records + pay rates)
 //   • crew_people_intelligence (16)         — depends on crew_operations
 
@@ -1064,8 +1064,13 @@ export const crewSkus = {
     setupFee: 199,
     setupIncludes: 'T&A clock-in configuration + geofencing setup',
     sortOrder: 14,
+    // Scheduling is the cheaper recommended dep ($179 entry), but
+    // Operations ($399) also satisfies — Operations entitlement includes
+    // Scheduling capabilities. Cascade + auto-attach logic in
+    // useConfiguration.toggleCrewSku honors the OR semantics.
     prerequisites: ['crew_scheduling'] as CrewSkuId[],
-    prerequisiteMessage: 'Requires Crew Scheduling',
+    prerequisiteAlternatives: ['crew_operations'] as CrewSkuId[],
+    prerequisiteMessage: 'Requires Scheduling or Operations',
     caps: {
       maxLocations: null,
       maxEmployeesPerLocation: 15,

@@ -20,7 +20,7 @@
     "sync:backend-pricing": "tsx scripts/sync-backend-pricing.ts",
     "sync:backend-pricing:json": "tsx scripts/sync-backend-pricing.ts --json",
     "release:notes": "tsx scripts/release_notes.ts",
-    "prebuild": "npm run validate:pricing",
+    "prebuild": "npm run qa:i18n && npm run validate:pricing",
     "predeploy": "npm run build:github",
     "deploy": "gh-pages -d dist"
   },

@@ -1,4 +1,5 @@
-// Generated auxiliary locale packs. Do not edit by hand; regenerate from /tmp/generate_aux_i18n.mjs.
+// Generated auxiliary locale packs from repository source catalogs.
+// Regeneration must preserve glossary and structural-field guardrails in scripts/qa-translation-quality.mjs.
 export const generatedAuxiliaryLocalePacks = {
   "layerStackCopy": {
     "de": {

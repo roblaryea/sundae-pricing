@@ -12,7 +12,9 @@ const filesToAudit = [
 ]
 
 const bannedPatterns = [
+  ['temporary /tmp translation generator provenance', /\/tmp\/generate/i],
   ['fallback generator marker', /Google Translate fallback|fallback filled remaining quota-limited chunks/i],
+  ['quota-driven partial generation provenance', /OpenAI generated completed chunks/i],
   ['Dutch product name Pulse translated as Puls', /\bPuls(?!e)\b/],
   ['German tier Report Lite translated', /\bBericht Lite\b/],
   ['Dutch tier Report Lite translated', /\bRapport Lite\b/],

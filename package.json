@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "validate:pricing": "tsx scripts/validate-pricing.ts",
+    "qa:i18n": "node scripts/qa-translation-quality.mjs",
     "qa": "tsx scripts/qa-validate-pricing.ts",
     "test": "vitest run",
     "test:pricing": "vitest run __tests__/pricing.v5_1.spec.ts __tests__/pricing.test.ts __tests__/livePricing.test.ts",

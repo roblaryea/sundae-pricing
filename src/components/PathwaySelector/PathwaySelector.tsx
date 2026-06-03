@@ -22,6 +22,7 @@ export function PathwaySelector() {
   const { quizAnswers, setQuizAnswer, setPersona, loadFromPersona, setCurrentStep, setModules, setLocations } = useConfiguration();
 
   const question = quizQuestions[currentQuestion];
+  const totalQuestions = quizQuestions.length;
   const isMultiSelect = question?.multiSelect;
   const maxSelections = question?.maxSelections;
 
@@ -93,13 +94,13 @@ export function PathwaySelector() {
       // Single-select behavior (original)
       setQuizAnswer(question.id, optionId);
 
-      if (currentQuestion < quizQuestions.length - 1) {
+      if (currentQuestion < totalQuestions - 1) {
         setCurrentQuestion(currentQuestion + 1);
       } else {
         completeQuiz({ ...quizAnswers, [question.id]: optionId });
       }
     }
-  }, [completeQuiz, currentQuestion, isMultiSelect, maxSelections, multiSelections, question, quizAnswers, setQuizAnswer]);
+  }, [completeQuiz, currentQuestion, isMultiSelect, maxSelections, multiSelections, question, quizAnswers, setQuizAnswer, totalQuestions]);
 
   const handleContinue = useCallback(() => {
     if (isMultiSelect) {
@@ -110,13 +111,13 @@ export function PathwaySelector() {
         setQuizAnswer(question.id, selections[0]); // Store first for persona calc
       }
 
-      if (currentQuestion < quizQuestions.length - 1) {
+      if (currentQuestion < totalQuestions - 1) {
         setCurrentQuestion(currentQuestion + 1);
       } else {
         completeQuiz({ ...quizAnswers, [question.id]: selections[0] || '' });
       }
     }
-  }, [completeQuiz, currentQuestion, isMultiSelect, multiSelections, question, quizAnswers, setQuizAnswer]);
+  }, [completeQuiz, currentQuestion, isMultiSelect, multiSelections, question, quizAnswers, setQuizAnswer, totalQuestions]);
 
   const handleBack = useCallback(() => {
     if (currentQuestion > 0) {

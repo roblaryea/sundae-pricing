@@ -68,7 +68,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "WACHTTOREN",
+        "name": "WATCHTOWER",
         "tagline": "Competitieve intelligentie",
         "startingPrice": "Add-on: vanaf $ 249/maand + per locatie",
         "features": [
@@ -102,14 +102,14 @@ export const generatedAuxiliaryLocalePacks = {
         "tagline": "Operações em tempo real e IA",
         "startingPrice": "A partir de $ 279/mês",
         "features": [
-          "Integração de PDV em tempo real",
+          "Integração de POS em tempo real",
           "Análise preditiva",
           "Insights baseados em IA",
           "Gestão de portfólio"
         ]
       },
       "watchtower": {
-        "name": "TORRE DE VIGIA",
+        "name": "WATCHTOWER",
         "tagline": "Inteligência competitiva",
         "startingPrice": "Complemento: a partir de $ 249/mês + por local",
         "features": [
@@ -150,7 +150,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "प्रहरीदुर्ग",
+        "name": "Watchtower",
         "tagline": "प्रतिस्पर्धी बुद्धि",
         "startingPrice": "ऐड-ऑन: $249/महीना + प्रति-स्थान से",
         "features": [
@@ -191,7 +191,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "واچ ٹاور",
+        "name": "Watchtower",
         "tagline": "مسابقتی ذہانت",
         "startingPrice": "اضافہ: $249/mo + فی مقام سے",
         "features": [
@@ -642,7 +642,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "ওয়াচটাওয়ার",
+        "name": "Watchtower",
         "tagline": "প্রতিযোগিতামূলক বুদ্ধিমত্তা",
         "startingPrice": "অ্যাড-অন: $249/মাস + প্রতি-অবস্থান থেকে",
         "features": [
@@ -683,7 +683,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "หอสังเกตการณ์",
+        "name": "Watchtower",
         "tagline": "สติปัญญาในการแข่งขัน",
         "startingPrice": "ส่วนเสริม: จาก $249/เดือน + ต่อสถานที่",
         "features": [
@@ -926,7 +926,7 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Wat is Sundae Wachttoren?",
+          "question": "Wat is Sundae Watchtower?",
           "answer": "Watchtower is Sundae's marktinformatiepakket dat uw concurrentielandschap, lokale evenementen en trends in de sector in de gaten houdt. Het biedt bruikbare waarschuwingen om prijzen, personeelsbezetting en marketing proactief aan te passen."
         },
         {
@@ -988,8 +988,8 @@ export const generatedAuxiliaryLocalePacks = {
     "pt": {
       "report": [
         {
-          "question": "O que é o Relatório Sundae?",
-          "answer": "O Sundae Report é nossa camada analítica conectada às suas fontes de dados existentes (PDV, entrega, avaliações) para gerar insights acionáveis, sem necessidade de integração de PDV. Comece gratuitamente com o Report Lite ou habilite análises mais avançadas com Plus ou Pro."
+          "question": "O que é o Sundae Report?",
+          "answer": "O Sundae Report é nossa camada analítica conectada às suas fontes de dados existentes (POS, entrega, avaliações) para gerar insights acionáveis, sem necessidade de integração de POS. Comece gratuitamente com o Report Lite ou habilite análises mais avançadas com Plus ou Pro."
         },
         {
           "question": "Qual é a diferença entre Report Lite, Plus e Pro?",
@@ -1000,8 +1000,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Os créditos de IA potencializam os recursos inteligentes do Sundae. Cada consulta de IA, geração de insights ou análise automatizada consome créditos. Cada nível inclui uma base mais créditos por site. Os créditos não utilizados representam mais de 25% de sua base por um mês. Você também pode comprar pacotes adicionais sem expiração."
         },
         {
-          "question": "Preciso de uma integração de PDV para o Report?",
-          "answer": "Não. O Report funciona com dados importados: CSV, exportações de plataformas de delivery e entrada manual. A integração POS é opcional e ativa a atualização em tempo real. Core é recomendado se você deseja um PDV direto."
+          "question": "Preciso de uma integração de POS para o Report?",
+          "answer": "Não. O Report funciona com dados importados: CSV, exportações de plataformas de delivery e entrada manual. A integração POS é opcional e ativa a atualização em tempo real. Core é recomendado se você deseja um POS direto."
         },
         {
           "question": "Qual é a diferença entre assentos de espectadores e assentos de IA?",
@@ -1048,31 +1048,31 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "O que é a Torre de Vigia Sundae?",
+          "question": "O que é a Watchtower Sundae?",
           "answer": "Watchtower é o pacote de inteligência de mercado da Sundae que monitora seu cenário competitivo, eventos locais e tendências do setor. Ele fornece alertas acionáveis ​​para ajustar proativamente preços, pessoal e marketing."
         },
         {
-          "question": "Quais são os três módulos da Torre de Vigia?",
+          "question": "Quais são os três módulos da Watchtower?",
           "answer": "A Inteligência Competitiva rastreia preços, cardápios e avaliações dos concorrentes. O Events Intelligence monitora eventos locais que influenciam a demanda. Trends Intelligence destaca mudanças no mercado e na demanda do consumidor. Cada módulo segue o modelo de preços publicado no configurador."
         },
         {
-          "question": "O que é o pacote Torre de Vigia?",
+          "question": "O que é o pacote Watchtower?",
           "answer": "O Pacote Watchtower reúne os três módulos Watchtower em um pacote com desconto para operadoras que desejam uma visão completa do mercado. O preço do pacote no configurador reflete o modelo publicado atualmente."
         },
         {
-          "question": "A Torre de Vigia exige o plano Básico?",
+          "question": "A Watchtower exige o plano Básico?",
           "answer": "Sim. Watchtower está disponível apenas para assinantes Core (Core Lite, Core Pro ou Enterprise). Não está disponível com a fórmula Relatório."
         },
         {
-          "question": "Como o preço da Torre de Vigia muda dependendo do site?",
-          "answer": "Cada módulo da Torre de Vigia tem um preço base que cobre um perímetro inicial de sites e, em seguida, um preço por site adicional. O configurador exibe o preço publicado ao vivo para a combinação Watchtower escolhida."
+          "question": "Como o preço da Watchtower muda dependendo do site?",
+          "answer": "Cada módulo da Watchtower tem um preço base que cobre um perímetro inicial de sites e, em seguida, um preço por site adicional. O configurador exibe o preço publicado ao vivo para a combinação Watchtower escolhida."
         },
         {
-          "question": "O preço empresarial está disponível para a Torre de Vigia?",
+          "question": "O preço empresarial está disponível para a Watchtower?",
           "answer": "Sim. Os clientes corporativos (mais de 30 sites ou gastos projetados acima de US$ 10.000/mês) se beneficiam dos preços personalizados da Watchtower, incluindo opções de taxa fixa. Entre em contato com o departamento de vendas para um orçamento personalizado."
         },
         {
-          "question": "Posso adicionar módulos individuais da Torre de Vigia posteriormente?",
+          "question": "Posso adicionar módulos individuais da Watchtower posteriormente?",
           "answer": "Sim. Você pode começar com um módulo e adicionar mais a qualquer momento. Se você ativar todos os três, poderá atualizar para o preço do pacote para aproveitar o desconto. As alterações aplicam-se imediatamente."
         }
       ],
@@ -1111,11 +1111,11 @@ export const generatedAuxiliaryLocalePacks = {
       "report": [
         {
           "question": "संडे रिपोर्ट क्या है?",
-          "answer": "संडे रिपोर्ट हमारी एनालिटिक्स परत है जो आपके मौजूदा डेटा स्रोतों (पीओएस, डिलीवरी, समीक्षा) से जुड़ी है ताकि कार्रवाई योग्य अंतर्दृष्टि उत्पन्न की जा सके, जिसमें किसी पीओएस एकीकरण की आवश्यकता नहीं है। रिपोर्ट लाइट के साथ निःशुल्क शुरुआत करें या प्लस या प्रो के साथ अधिक उन्नत विश्लेषण सक्षम करें।"
+          "answer": "संडे रिपोर्ट हमारी एनालिटिक्स परत है जो आपके मौजूदा डेटा स्रोतों (पीओएस, डिलीवरी, समीक्षा) से जुड़ी है ताकि कार्रवाई योग्य अंतर्दृष्टि उत्पन्न की जा सके, जिसमें किसी पीओएस एकीकरण की आवश्यकता नहीं है। Report Lite के साथ निःशुल्क शुरुआत करें या प्लस या प्रो के साथ अधिक उन्नत विश्लेषण सक्षम करें।"
         },
         {
-          "question": "रिपोर्ट लाइट, प्लस और प्रो में क्या अंतर है?",
-          "answer": "रिपोर्ट लाइट प्रवेश बिंदु है। रिपोर्ट प्लस बेंचमार्क, अधिक एआई क्षमता और एक व्यापक दृश्य पैलेट जोड़ता है। रिपोर्ट प्रो गहनतम एनालिटिक्स सूट, अधिक एआई क्षमता और अधिक उन्नत पूर्वानुमान वर्कफ़्लो लाता है। कैटलॉग हमेशा वर्तमान कीमतों और क्षमताओं को प्रदर्शित करता है।"
+          "question": "Report Lite, प्लस और प्रो में क्या अंतर है?",
+          "answer": "Report Lite प्रवेश बिंदु है। Report Plus बेंचमार्क, अधिक एआई क्षमता और एक व्यापक दृश्य पैलेट जोड़ता है। Report Pro गहनतम एनालिटिक्स सूट, अधिक एआई क्षमता और अधिक उन्नत पूर्वानुमान वर्कफ़्लो लाता है। कैटलॉग हमेशा वर्तमान कीमतों और क्षमताओं को प्रदर्शित करता है।"
         },
         {
           "question": "एआई क्रेडिट कैसे काम करते हैं?",
@@ -1131,17 +1131,17 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "क्या मैं बाद में रिपोर्ट से कोर में अपग्रेड कर सकता हूँ?",
-          "answer": "हाँ. आप किसी भी समय रिपोर्ट से कोर पर स्विच कर सकते हैं। अपग्रेड तत्काल है और आपके डेटा, डैशबोर्ड और सेटिंग्स को सुरक्षित रखता है। कोर वास्तविक समय पीओएस, मॉड्यूल और वॉचटावर एक्सेस जोड़ता है।"
+          "answer": "हाँ. आप किसी भी समय रिपोर्ट से कोर पर स्विच कर सकते हैं। अपग्रेड तत्काल है और आपके डेटा, डैशबोर्ड और सेटिंग्स को सुरक्षित रखता है। कोर वास्तविक समय पीओएस, मॉड्यूल और Watchtower एक्सेस जोड़ता है।"
         },
         {
           "question": "क्या कोई निःशुल्क परीक्षण है?",
-          "answer": "रिपोर्ट लाइट बिना क्रेडिट कार्ड के आजीवन निःशुल्क है। रिपोर्ट प्लस और प्रो में प्रतिबद्ध होने से पहले हर चीज का परीक्षण करने के लिए 14 दिन का निःशुल्क परीक्षण शामिल है।"
+          "answer": "Report Lite बिना क्रेडिट कार्ड के आजीवन निःशुल्क है। Report Plus और प्रो में प्रतिबद्ध होने से पहले हर चीज का परीक्षण करने के लिए 14 दिन का निःशुल्क परीक्षण शामिल है।"
         }
       ],
       "core": [
         {
           "question": "रिपोर्ट और कोर में क्या अंतर है?",
-          "answer": "कोर वास्तविक समय पीओएस, खुफिया मॉड्यूल, वॉचटावर एक्सेस और कई एआई क्रेडिट और सीटें जोड़ता है। आयातित डेटा का विश्लेषण करने के लिए रिपोर्ट आदर्श है; कोर लाइव ऑपरेशनल इंटेलिजेंस के लिए बनाया गया है।"
+          "answer": "कोर वास्तविक समय पीओएस, खुफिया मॉड्यूल, Watchtower एक्सेस और कई एआई क्रेडिट और सीटें जोड़ता है। आयातित डेटा का विश्लेषण करने के लिए रिपोर्ट आदर्श है; कोर लाइव ऑपरेशनल इंटेलिजेंस के लिए बनाया गया है।"
         },
         {
           "question": "खुफिया मॉड्यूल क्या हैं?",
@@ -1156,8 +1156,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "जब 3 या अधिक मॉड्यूल सक्रिय होते हैं, तो क्रॉस-इंटेलिजेंस स्वचालित रूप से आपके डेटा स्रोतों के बीच छिपे सहसंबंधों को प्रकट करता है। मूल संस्करण मुफ़्त है; क्रॉस-इंटेलिजेंस प्रो एक व्यापक सहसंबंध मैट्रिक्स, राजस्व एट्रिब्यूशन, प्रभावशीलता रडार और अभियान ट्रैकिंग जोड़ता है।"
         },
         {
-          "question": "कोर लाइट बनाम कोर प्रो में क्या शामिल है?",
-          "answer": "कोर लाइट उन टीमों के लिए उपयुक्त है जिन्हें अच्छे एआई फाउंडेशन के साथ वास्तविक समय परिचालन खुफिया जानकारी की आवश्यकता होती है। कोर प्रो अधिक क्षमता, गहन भविष्यवाणियाँ और बड़े पैमाने पर बेहतर अर्थशास्त्र जोड़ता है। वर्तमान कैटलॉग सटीक कोटा दिखाता है।"
+          "question": "Core Lite बनाम Core Pro में क्या शामिल है?",
+          "answer": "Core Lite उन टीमों के लिए उपयुक्त है जिन्हें अच्छे एआई फाउंडेशन के साथ वास्तविक समय परिचालन खुफिया जानकारी की आवश्यकता होती है। Core Pro अधिक क्षमता, गहन भविष्यवाणियाँ और बड़े पैमाने पर बेहतर अर्थशास्त्र जोड़ता है। वर्तमान कैटलॉग सटीक कोटा दिखाता है।"
         },
         {
           "question": "वॉल्यूम छूट कैसे काम करती है?",
@@ -1170,31 +1170,31 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "संडे वॉचटावर क्या है?",
-          "answer": "वॉचटावर संडे का मार्केट इंटेलिजेंस सुइट है जो आपके प्रतिस्पर्धी परिदृश्य, स्थानीय घटनाओं और उद्योग के रुझानों पर नज़र रखता है। यह मूल्य निर्धारण, स्टाफिंग और मार्केटिंग को सक्रिय रूप से समायोजित करने के लिए कार्रवाई योग्य अलर्ट प्रदान करता है।"
+          "question": "संडे Watchtower क्या है?",
+          "answer": "Watchtower संडे का मार्केट इंटेलिजेंस सुइट है जो आपके प्रतिस्पर्धी परिदृश्य, स्थानीय घटनाओं और उद्योग के रुझानों पर नज़र रखता है। यह मूल्य निर्धारण, स्टाफिंग और मार्केटिंग को सक्रिय रूप से समायोजित करने के लिए कार्रवाई योग्य अलर्ट प्रदान करता है।"
         },
         {
-          "question": "तीन वॉचटावर मॉड्यूल क्या हैं?",
+          "question": "तीन Watchtower मॉड्यूल क्या हैं?",
           "answer": "कॉम्पिटिटिव इंटेलिजेंस प्रतिस्पर्धी कीमतों, मेनू और समीक्षाओं को ट्रैक करता है। इवेंट इंटेलिजेंस मांग को प्रभावित करने वाली स्थानीय घटनाओं पर नज़र रखता है। ट्रेंड्स इंटेलिजेंस बाजार और उपभोक्ता मांग में बदलाव पर प्रकाश डालता है। प्रत्येक मॉड्यूल विन्यासकर्ता में प्रकाशित मूल्य मॉडल का पालन करता है।"
         },
         {
-          "question": "वॉचटावर बंडल क्या है?",
-          "answer": "वॉचटावर बंडल उन ऑपरेटरों के लिए रियायती पैकेज में तीन वॉचटावर मॉड्यूल को एक साथ लाता है जो बाजार का संपूर्ण दृश्य चाहते हैं। विन्यासकर्ता में बंडल मूल्य वर्तमान प्रकाशित मॉडल को दर्शाता है।"
+          "question": "Watchtower बंडल क्या है?",
+          "answer": "Watchtower बंडल उन ऑपरेटरों के लिए रियायती पैकेज में तीन Watchtower मॉड्यूल को एक साथ लाता है जो बाजार का संपूर्ण दृश्य चाहते हैं। विन्यासकर्ता में बंडल मूल्य वर्तमान प्रकाशित मॉडल को दर्शाता है।"
         },
         {
-          "question": "क्या वॉचटावर को मुख्य योजना की आवश्यकता है?",
-          "answer": "हाँ. वॉचटावर केवल कोर ग्राहकों (कोर लाइट, कोर प्रो या एंटरप्राइज़) के लिए उपलब्ध है। यह रिपोर्ट फ़ॉर्मूले के साथ उपलब्ध नहीं है."
+          "question": "क्या Watchtower को मुख्य योजना की आवश्यकता है?",
+          "answer": "हाँ. Watchtower केवल कोर ग्राहकों (Core Lite, Core Pro या एंटरप्राइज़) के लिए उपलब्ध है। यह रिपोर्ट फ़ॉर्मूले के साथ उपलब्ध नहीं है."
         },
         {
-          "question": "साइट के आधार पर वॉचटावर की कीमत कैसे बदलती है?",
-          "answer": "प्रत्येक वॉचटावर मॉड्यूल में साइटों की प्रारंभिक परिधि को कवर करने वाला एक आधार मूल्य होता है, फिर प्रति अतिरिक्त साइट के लिए एक मूल्य होता है। विन्यासकर्ता चुने गए वॉचटावर संयोजन के लिए लाइव प्रकाशित मूल्य प्रदर्शित करता है।"
+          "question": "साइट के आधार पर Watchtower की कीमत कैसे बदलती है?",
+          "answer": "प्रत्येक Watchtower मॉड्यूल में साइटों की प्रारंभिक परिधि को कवर करने वाला एक आधार मूल्य होता है, फिर प्रति अतिरिक्त साइट के लिए एक मूल्य होता है। विन्यासकर्ता चुने गए Watchtower संयोजन के लिए लाइव प्रकाशित मूल्य प्रदर्शित करता है।"
         },
         {
-          "question": "क्या वॉचटावर के लिए एंटरप्राइज़ मूल्य निर्धारण उपलब्ध है?",
-          "answer": "हाँ. एंटरप्राइज़ ग्राहक (30+ साइटें या $10,000/माह से अधिक अनुमानित खर्च) निश्चित-दर विकल्पों सहित वैयक्तिकृत वॉचटावर मूल्य निर्धारण से लाभान्वित होते हैं। कस्टम कोटेशन के लिए बिक्री से संपर्क करें."
+          "question": "क्या Watchtower के लिए एंटरप्राइज़ मूल्य निर्धारण उपलब्ध है?",
+          "answer": "हाँ. एंटरप्राइज़ ग्राहक (30+ साइटें या $10,000/माह से अधिक अनुमानित खर्च) निश्चित-दर विकल्पों सहित वैयक्तिकृत Watchtower मूल्य निर्धारण से लाभान्वित होते हैं। कस्टम कोटेशन के लिए बिक्री से संपर्क करें."
         },
         {
-          "question": "क्या मैं बाद में अलग-अलग वॉचटावर मॉड्यूल जोड़ सकता हूँ?",
+          "question": "क्या मैं बाद में अलग-अलग Watchtower मॉड्यूल जोड़ सकता हूँ?",
           "answer": "हाँ. आप एक मॉड्यूल से शुरुआत कर सकते हैं और किसी भी समय अधिक जोड़ सकते हैं। यदि आप फिर तीनों को सक्रिय करते हैं, तो आप छूट का लाभ उठाने के लिए बंडल मूल्य निर्धारण में अपग्रेड कर सकते हैं। परिवर्तन तुरंत लागू होते हैं."
         }
       ],
@@ -1232,12 +1232,12 @@ export const generatedAuxiliaryLocalePacks = {
     "ur": {
       "report": [
         {
-          "question": "Sundae رپورٹ کیا ہے؟",
-          "answer": "Sundae رپورٹ ہماری تجزیاتی پرت ہے جو آپ کے موجودہ ڈیٹا ذرائع (POS، ترسیل، جائزے) سے منسلک ہے تاکہ قابل عمل بصیرت پیدا کی جا سکے، جس میں POS انضمام کی ضرورت نہیں ہے۔ رپورٹ لائٹ کے ساتھ مفت شروع کریں یا پلس یا پرو کے ساتھ مزید جدید تجزیات کو فعال کریں۔"
+          "question": "Sundae Report کیا ہے؟",
+          "answer": "Sundae Report ہماری تجزیاتی پرت ہے جو آپ کے موجودہ ڈیٹا ذرائع (POS، ترسیل، جائزے) سے منسلک ہے تاکہ قابل عمل بصیرت پیدا کی جا سکے، جس میں POS انضمام کی ضرورت نہیں ہے۔ Report Lite کے ساتھ مفت شروع کریں یا پلس یا پرو کے ساتھ مزید جدید تجزیات کو فعال کریں۔"
         },
         {
-          "question": "رپورٹ لائٹ، پلس اور پرو میں کیا فرق ہے؟",
-          "answer": "رپورٹ لائٹ انٹری پوائنٹ ہے۔ رپورٹ پلس بینچ مارکس، زیادہ AI صلاحیت اور ایک وسیع بصری پیلیٹ شامل کرتا ہے۔ رپورٹ پرو گہرا تجزیاتی سوٹ، زیادہ AI صلاحیت، اور زیادہ جدید پیشن گوئی ورک فلو لاتا ہے۔ کیٹلاگ ہمیشہ موجودہ قیمتوں اور صلاحیتوں کو ظاہر کرتا ہے۔"
+          "question": "Report Lite، پلس اور پرو میں کیا فرق ہے؟",
+          "answer": "Report Lite انٹری پوائنٹ ہے۔ Report Plus بینچ مارکس، زیادہ AI صلاحیت اور ایک وسیع بصری پیلیٹ شامل کرتا ہے۔ Report Pro گہرا تجزیاتی سوٹ، زیادہ AI صلاحیت، اور زیادہ جدید پیشن گوئی ورک فلو لاتا ہے۔ کیٹلاگ ہمیشہ موجودہ قیمتوں اور صلاحیتوں کو ظاہر کرتا ہے۔"
         },
         {
           "question": "AI کریڈٹ کیسے کام کرتے ہیں؟",
@@ -1253,17 +1253,17 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "کیا میں بعد میں رپورٹ سے کور میں اپ گریڈ کر سکتا ہوں؟",
-          "answer": "جی ہاں آپ کسی بھی وقت رپورٹ سے کور میں سوئچ کر سکتے ہیں۔ اپ گریڈ فوری ہے اور آپ کے ڈیٹا، ڈیش بورڈز اور ترتیبات کو محفوظ رکھتا ہے۔ کور ریئل ٹائم پی او ایس، ماڈیولز اور واچ ٹاور تک رسائی کا اضافہ کرتا ہے۔"
+          "answer": "جی ہاں آپ کسی بھی وقت رپورٹ سے کور میں سوئچ کر سکتے ہیں۔ اپ گریڈ فوری ہے اور آپ کے ڈیٹا، ڈیش بورڈز اور ترتیبات کو محفوظ رکھتا ہے۔ کور ریئل ٹائم پی او ایس، ماڈیولز اور Watchtower تک رسائی کا اضافہ کرتا ہے۔"
         },
         {
           "question": "کیا کوئی مفت آزمائش ہے؟",
-          "answer": "رپورٹ لائٹ زندگی بھر کے لیے مفت ہے، بغیر کریڈٹ کارڈ کے۔ رپورٹ پلس اور پرو میں 14 دن کا مفت ٹرائل شامل ہے تاکہ ارتکاب کرنے سے پہلے ہر چیز کی جانچ کی جاسکے۔"
+          "answer": "Report Lite زندگی بھر کے لیے مفت ہے، بغیر کریڈٹ کارڈ کے۔ Report Plus اور پرو میں 14 دن کا مفت ٹرائل شامل ہے تاکہ ارتکاب کرنے سے پہلے ہر چیز کی جانچ کی جاسکے۔"
         }
       ],
       "core": [
         {
           "question": "رپورٹ اور کور میں کیا فرق ہے؟",
-          "answer": "کور ریئل ٹائم پی او ایس، انٹیلی جنس ماڈیولز، واچ ٹاور تک رسائی اور بہت سے AI کریڈٹ اور سیٹیں شامل کرتا ہے۔ رپورٹ درآمد شدہ ڈیٹا کا تجزیہ کرنے کے لیے مثالی ہے۔ کور لائیو آپریشنل انٹیلی جنس کے لیے بنایا گیا ہے۔"
+          "answer": "کور ریئل ٹائم پی او ایس، انٹیلی جنس ماڈیولز، Watchtower تک رسائی اور بہت سے AI کریڈٹ اور سیٹیں شامل کرتا ہے۔ رپورٹ درآمد شدہ ڈیٹا کا تجزیہ کرنے کے لیے مثالی ہے۔ کور لائیو آپریشنل انٹیلی جنس کے لیے بنایا گیا ہے۔"
         },
         {
           "question": "انٹیلی جنس ماڈیولز کیا ہیں؟",
@@ -1278,8 +1278,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "جب 3 یا زیادہ ماڈیولز فعال ہوتے ہیں، تو کراس انٹیلی جنس خود بخود آپ کے ڈیٹا کے ذرائع کے درمیان چھپے ہوئے ارتباط کو ظاہر کر دیتی ہے۔ بنیادی ورژن مفت ہے؛ کراس انٹیلی جنس پرو ایک جامع ارتباطی میٹرکس، ریونیو انتساب، تاثیر ریڈار اور مہم سے باخبر رہنے کا اضافہ کرتا ہے۔"
         },
         {
-          "question": "کور لائٹ بمقابلہ کور پرو میں کیا شامل ہے؟",
-          "answer": "کور لائٹ ان ٹیموں کے لیے موزوں ہے جنہیں ایک اچھی AI فاؤنڈیشن کے ساتھ ریئل ٹائم آپریشنل انٹیلی جنس کی ضرورت ہوتی ہے۔ کور پرو پیمانے پر زیادہ صلاحیت، گہری پیشین گوئیاں، اور بہتر معاشیات کا اضافہ کرتا ہے۔ موجودہ کیٹلاگ بالکل درست کوٹے دکھاتا ہے۔"
+          "question": "Core Lite بمقابلہ Core Pro میں کیا شامل ہے؟",
+          "answer": "Core Lite ان ٹیموں کے لیے موزوں ہے جنہیں ایک اچھی AI فاؤنڈیشن کے ساتھ ریئل ٹائم آپریشنل انٹیلی جنس کی ضرورت ہوتی ہے۔ Core Pro پیمانے پر زیادہ صلاحیت، گہری پیشین گوئیاں، اور بہتر معاشیات کا اضافہ کرتا ہے۔ موجودہ کیٹلاگ بالکل درست کوٹے دکھاتا ہے۔"
         },
         {
           "question": "حجم کی چھوٹ کیسے کام کرتی ہے؟",
@@ -1292,31 +1292,31 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Sundae واچ ٹاور کیا ہے؟",
-          "answer": "واچ ٹاور Sundae کا مارکیٹ انٹیلی جنس سوٹ ہے جو آپ کے مسابقتی منظر نامے، مقامی واقعات اور صنعت کے رجحانات پر نظر رکھتا ہے۔ یہ قیمتوں کا تعین، عملہ اور مارکیٹنگ کو فعال طور پر ایڈجسٹ کرنے کے لیے قابل عمل انتباہات فراہم کرتا ہے۔"
+          "question": "Sundae Watchtower کیا ہے؟",
+          "answer": "Watchtower Sundae کا مارکیٹ انٹیلی جنس سوٹ ہے جو آپ کے مسابقتی منظر نامے، مقامی واقعات اور صنعت کے رجحانات پر نظر رکھتا ہے۔ یہ قیمتوں کا تعین، عملہ اور مارکیٹنگ کو فعال طور پر ایڈجسٹ کرنے کے لیے قابل عمل انتباہات فراہم کرتا ہے۔"
         },
         {
-          "question": "واچ ٹاور کے تین ماڈیول کیا ہیں؟",
+          "question": "Watchtower کے تین ماڈیول کیا ہیں؟",
           "answer": "مسابقتی انٹیلی جنس مسابقتی قیمتوں، مینوز اور جائزوں کو ٹریک کرتی ہے۔ ایونٹس انٹیلی جنس مقامی واقعات پر نظر رکھتی ہے جو طلب کو متاثر کرتی ہے۔ رجحانات انٹیلی جنس مارکیٹ اور صارفین کی طلب میں تبدیلیوں کو نمایاں کرتی ہے۔ ہر ماڈیول کنفیگریٹر میں شائع قیمت کے ماڈل کی پیروی کرتا ہے۔"
         },
         {
-          "question": "واچ ٹاور بنڈل کیا ہے؟",
-          "answer": "واچ ٹاور بنڈل تین واچ ٹاور ماڈیولز کو ایک رعایتی پیکج میں آپریٹرز کے لیے اکٹھا کرتا ہے جو مارکیٹ کا مکمل نظارہ چاہتے ہیں۔ کنفیگریٹر میں بنڈل کی قیمت موجودہ شائع شدہ ماڈل کی عکاسی کرتی ہے۔"
+          "question": "Watchtower بنڈل کیا ہے؟",
+          "answer": "Watchtower بنڈل تین Watchtower ماڈیولز کو ایک رعایتی پیکج میں آپریٹرز کے لیے اکٹھا کرتا ہے جو مارکیٹ کا مکمل نظارہ چاہتے ہیں۔ کنفیگریٹر میں بنڈل کی قیمت موجودہ شائع شدہ ماڈل کی عکاسی کرتی ہے۔"
         },
         {
-          "question": "کیا واچ ٹاور کو بنیادی منصوبہ کی ضرورت ہے؟",
-          "answer": "جی ہاں واچ ٹاور صرف کور سبسکرائبرز (کور لائٹ، کور پرو یا انٹرپرائز) کے لیے دستیاب ہے۔ یہ رپورٹ فارمولے کے ساتھ دستیاب نہیں ہے۔"
+          "question": "کیا Watchtower کو بنیادی منصوبہ کی ضرورت ہے؟",
+          "answer": "جی ہاں Watchtower صرف کور سبسکرائبرز (Core Lite، Core Pro یا انٹرپرائز) کے لیے دستیاب ہے۔ یہ رپورٹ فارمولے کے ساتھ دستیاب نہیں ہے۔"
         },
         {
-          "question": "سائٹ کے لحاظ سے واچ ٹاور کی قیمت کیسے بدلتی ہے؟",
-          "answer": "ہر واچ ٹاور ماڈیول کی بنیادی قیمت ہوتی ہے جس میں سائٹس کے ابتدائی دائرے کا احاطہ کیا جاتا ہے، پھر فی اضافی سائٹ کی قیمت۔ کنفیگریٹر واچ ٹاور کے منتخب کردہ مجموعہ کے لیے لائیو شائع شدہ قیمت دکھاتا ہے۔"
+          "question": "سائٹ کے لحاظ سے Watchtower کی قیمت کیسے بدلتی ہے؟",
+          "answer": "ہر Watchtower ماڈیول کی بنیادی قیمت ہوتی ہے جس میں سائٹس کے ابتدائی دائرے کا احاطہ کیا جاتا ہے، پھر فی اضافی سائٹ کی قیمت۔ کنفیگریٹر Watchtower کے منتخب کردہ مجموعہ کے لیے لائیو شائع شدہ قیمت دکھاتا ہے۔"
         },
         {
-          "question": "کیا انٹرپرائز کی قیمتوں کا تعین واچ ٹاور کے لیے دستیاب ہے؟",
-          "answer": "جی ہاں انٹرپرائز کے صارفین (30+ سائٹس یا $10,000/ماہ متوقع اخراجات) ذاتی واچ ٹاور کی قیمتوں سے فائدہ اٹھاتے ہیں، بشمول مقررہ شرح کے اختیارات۔ اپنی مرضی کے مطابق قیمت کے لیے سیلز سے رابطہ کریں۔"
+          "question": "کیا انٹرپرائز کی قیمتوں کا تعین Watchtower کے لیے دستیاب ہے؟",
+          "answer": "جی ہاں انٹرپرائز کے صارفین (30+ سائٹس یا $10,000/ماہ متوقع اخراجات) ذاتی Watchtower کی قیمتوں سے فائدہ اٹھاتے ہیں، بشمول مقررہ شرح کے اختیارات۔ اپنی مرضی کے مطابق قیمت کے لیے سیلز سے رابطہ کریں۔"
         },
         {
-          "question": "کیا میں بعد میں انفرادی واچ ٹاور ماڈیولز شامل کر سکتا ہوں؟",
+          "question": "کیا میں بعد میں انفرادی Watchtower ماڈیولز شامل کر سکتا ہوں؟",
           "answer": "جی ہاں آپ ایک ماڈیول کے ساتھ شروع کر سکتے ہیں اور کسی بھی وقت مزید شامل کر سکتے ہیں۔ اگر آپ پھر تینوں کو چالو کرتے ہیں، تو آپ رعایت کا فائدہ اٹھانے کے لیے بنڈل کی قیمتوں میں اپ گریڈ کر سکتے ہیں۔ تبدیلیاں فوری طور پر لاگو ہوتی ہیں۔"
         }
       ],
@@ -1414,7 +1414,7 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Cos'è la Torre di Guardia del Sundae?",
+          "question": "Cos'è la Watchtower del Sundae?",
           "answer": "Watchtower è la suite di market intelligence di Sundae che monitora il panorama competitivo, gli eventi locali e le tendenze del settore. Fornisce avvisi utili per adeguare in modo proattivo prezzi, personale e marketing."
         },
         {
@@ -1598,8 +1598,8 @@ export const generatedAuxiliaryLocalePacks = {
     "tr": {
       "report": [
         {
-          "question": "Sundae Raporu nedir?",
-          "answer": "Sundae Raporu, POS entegrasyonu gerektirmeden eyleme geçirilebilir bilgiler oluşturmak için mevcut veri kaynaklarınıza (POS, teslimat, incelemeler) bağlı analiz katmanımızdır. Report Lite ile ücretsiz başlayın veya Plus veya Pro ile daha gelişmiş analizleri etkinleştirin."
+          "question": "Sundae Report nedir?",
+          "answer": "Sundae Report, POS entegrasyonu gerektirmeden eyleme geçirilebilir bilgiler oluşturmak için mevcut veri kaynaklarınıza (POS, teslimat, incelemeler) bağlı analiz katmanımızdır. Report Lite ile ücretsiz başlayın veya Plus veya Pro ile daha gelişmiş analizleri etkinleştirin."
         },
         {
           "question": "Report Lite, Plus ve Pro arasındaki fark nedir?",
@@ -1619,7 +1619,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Daha sonra Rapor'dan Çekirdeğe yükseltme yapabilir miyim?",
-          "answer": "Evet. Rapordan Çekirdek'e istediğiniz zaman geçiş yapabilirsiniz. Yükseltme anında gerçekleşir ve verilerinizi, kontrol panellerinizi ve ayarlarınızı korur. Core, gerçek zamanlı POS, modüller ve Gözetleme Kulesi erişimi ekler."
+          "answer": "Evet. Rapordan Çekirdek'e istediğiniz zaman geçiş yapabilirsiniz. Yükseltme anında gerçekleşir ve verilerinizi, kontrol panellerinizi ve ayarlarınızı korur. Core, gerçek zamanlı POS, modüller ve Watchtower erişimi ekler."
         },
         {
           "question": "Ücretsiz deneme var mı?",
@@ -1629,7 +1629,7 @@ export const generatedAuxiliaryLocalePacks = {
       "core": [
         {
           "question": "Rapor ve Çekirdek arasındaki fark nedir?",
-          "answer": "Core, gerçek zamanlı POS, istihbarat modülleri, Gözetleme Kulesi erişimi ve daha birçok AI kredisi ve koltuğu ekler. Rapor, içe aktarılan verileri analiz etmek için idealdir; Core canlı operasyonel istihbarat için yapılmıştır."
+          "answer": "Core, gerçek zamanlı POS, istihbarat modülleri, Watchtower erişimi ve daha birçok AI kredisi ve koltuğu ekler. Rapor, içe aktarılan verileri analiz etmek için idealdir; Core canlı operasyonel istihbarat için yapılmıştır."
         },
         {
           "question": "İstihbarat modülleri nelerdir?",
@@ -1658,7 +1658,7 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Sundae Gözetleme Kulesi nedir?",
+          "question": "Sundae Watchtower nedir?",
           "answer": "Watchtower, Sundae'nin rekabet ortamınızı, yerel etkinliklerinizi ve sektör trendlerini izleyen pazar istihbarat paketidir. Fiyatlandırmayı, personeli ve pazarlamayı proaktif olarak ayarlamak için eyleme dönüştürülebilir uyarılar sağlar."
         },
         {
@@ -1667,15 +1667,15 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "What is the Watchtower Bundle?",
-          "answer": "Gözetleme Kulesi Paketi, piyasanın tam bir görünümünü isteyen operatörler için üç Gözetleme Kulesi modülünü indirimli bir pakette bir araya getiriyor. Yapılandırıcıdaki paket fiyatı mevcut yayınlanan modeli yansıtır."
+          "answer": "Watchtower Paketi, piyasanın tam bir görünümünü isteyen operatörler için üç Watchtower modülünü indirimli bir pakette bir araya getiriyor. Yapılandırıcıdaki paket fiyatı mevcut yayınlanan modeli yansıtır."
         },
         {
           "question": "Does Watchtower require the Core plan?",
-          "answer": "Evet. Gözetleme Kulesi yalnızca Core aboneleri (Core Lite, Core Pro veya Enterprise) tarafından kullanılabilir. It is not available with the Report formula."
+          "answer": "Evet. Watchtower yalnızca Core aboneleri (Core Lite, Core Pro veya Enterprise) tarafından kullanılabilir. It is not available with the Report formula."
         },
         {
-          "question": "Gözetleme Kulesi fiyatı siteye göre nasıl değişiyor?",
-          "answer": "Her Gözetleme Kulesi modülünün, sahaların başlangıç çevresini kapsayan bir taban fiyatı, ardından ek saha başına bir fiyatı vardır. Yapılandırıcı, seçilen Gözetleme Kulesi kombinasyonu için canlı yayınlanan fiyatı görüntüler."
+          "question": "Watchtower fiyatı siteye göre nasıl değişiyor?",
+          "answer": "Her Watchtower modülünün, sahaların başlangıç çevresini kapsayan bir taban fiyatı, ardından ek saha başına bir fiyatı vardır. Yapılandırıcı, seçilen Watchtower kombinasyonu için canlı yayınlanan fiyatı görüntüler."
         },
         {
           "question": "Is Enterprise pricing available for Watchtower?",
@@ -1720,8 +1720,8 @@ export const generatedAuxiliaryLocalePacks = {
     "zh-Hans": {
       "report": [
         {
-          "question": "什么是圣代报告？",
-          "answer": "圣代报告是我们的分析层，连接到您现有的数据源（POS、交付、评论），以生成可操作的见解，无需 POS 集成。免费开始使用 Report Lite，或者使用 Plus 或 Pro 启用更高级的分析。"
+          "question": "什么是Sundae Report？",
+          "answer": "Sundae Report是我们的分析层，连接到您现有的数据源（POS、交付、评论），以生成可操作的见解，无需 POS 集成。免费开始使用 Report Lite，或者使用 Plus 或 Pro 启用更高级的分析。"
         },
         {
           "question": "Report Lite、Plus 和 Pro 之间有什么区别？",
@@ -1729,7 +1729,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "AI积分如何运作？",
-          "answer": "AI Credits 为圣代的智能功能提供支持。每个人工智能查询、洞察生成或自动分析都会消耗积分。每个级别都包含一个基础加上每个站点的学分。未使用的积分可在 1 个月内保留基础金额的 25% 以上。您还可以购买额外的套餐，且不会过期。"
+          "answer": "AI Credits 为Sundae的智能功能提供支持。每个人工智能查询、洞察生成或自动分析都会消耗积分。每个级别都包含一个基础加上每个站点的学分。未使用的积分可在 1 个月内保留基础金额的 25% 以上。您还可以购买额外的套餐，且不会过期。"
         },
         {
           "question": "我需要为报告集成 POS 吗？",
@@ -1780,15 +1780,15 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "什么是圣代瞭望塔？",
-          "answer": "Watchtower 是圣代的市场情报套件，可监控您的竞争格局、当地事件和行业趋势。它提供可操作的警报，以主动调整定价、人员配置和营销。"
+          "question": "什么是SundaeWatchtower？",
+          "answer": "Watchtower 是Sundae的市场情报套件，可监控您的竞争格局、当地事件和行业趋势。它提供可操作的警报，以主动调整定价、人员配置和营销。"
         },
         {
           "question": "了望塔的三个模块是什么？",
           "answer": "竞争情报跟踪竞争对手的价格、菜单和评论。事件情报监控影响需求的本地事件。趋势情报重点关注市场和消费者需求的变化。每个模块都遵循配置器中发布的价格模型。"
         },
         {
-          "question": "什么是瞭望塔捆绑包？",
+          "question": "什么是Watchtower捆绑包？",
           "answer": "Watchtower Bundle 将三个 Watchtower 模块整合到一个折扣套餐中，供想要全面了解市场的运营商使用。配置器中的捆绑价格反映了当前发布的型号。"
         },
         {
@@ -1797,7 +1797,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "了望塔的价格如何根据地点而变化？",
-          "answer": "每个瞭望塔模块都有一个覆盖初始站点周边的基本价格，然后是每个附加站点的价格。配置器显示所选 Watchtower 组合的实时发布价格。"
+          "answer": "每个Watchtower模块都有一个覆盖初始站点周边的基本价格，然后是每个附加站点的价格。配置器显示所选 Watchtower 组合的实时发布价格。"
         },
         {
           "question": "Watchtower 是否提供企业定价？",
@@ -1902,7 +1902,7 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "サンデーウォッチタワーとは何ですか?",
+          "question": "サンデーWatchtowerとは何ですか?",
           "answer": "Watchtower は、競争状況、地域のイベント、業界の傾向を監視する Sundae の市場インテリジェンス スイートです。価格設定、人員配置、マーケティングを積極的に調整するための実用的なアラートを提供します。"
         },
         {
@@ -2086,7 +2086,7 @@ export const generatedAuxiliaryLocalePacks = {
     "id": {
       "report": [
         {
-          "question": "Apa itu Laporan Sundae?",
+          "question": "Apa itu Sundae Report?",
           "answer": "Sundae Report adalah lapisan analitik kami yang terhubung ke sumber data Anda yang ada (POS, pengiriman, ulasan) untuk menghasilkan wawasan yang dapat ditindaklanjuti, tanpa memerlukan integrasi POS. Mulai secara gratis dengan Report Lite atau aktifkan analisis lebih lanjut dengan Plus atau Pro."
         },
         {
@@ -2208,8 +2208,8 @@ export const generatedAuxiliaryLocalePacks = {
     "vi": {
       "report": [
         {
-          "question": "Báo cáo Sundae là gì?",
-          "answer": "Báo cáo Sundae là lớp phân tích của chúng tôi được kết nối với các nguồn dữ liệu hiện có của bạn (POS, giao hàng, đánh giá) để tạo ra thông tin chi tiết hữu ích mà không cần tích hợp POS. Bắt đầu miễn phí với Report Lite hoặc bật phân tích nâng cao hơn với Plus hoặc Pro."
+          "question": "Sundae Report là gì?",
+          "answer": "Sundae Report là lớp phân tích của chúng tôi được kết nối với các nguồn dữ liệu hiện có của bạn (POS, giao hàng, đánh giá) để tạo ra thông tin chi tiết hữu ích mà không cần tích hợp POS. Bắt đầu miễn phí với Report Lite hoặc bật phân tích nâng cao hơn với Plus hoặc Pro."
         },
         {
           "question": "Sự khác biệt giữa Report Lite, Plus và Pro là gì?",
@@ -2268,7 +2268,7 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Tháp canh Sundae là gì?",
+          "question": "Watchtower Sundae là gì?",
           "answer": "Tháp Canh là bộ thông tin thị trường của Sundae giúp theo dõi bối cảnh cạnh tranh, các sự kiện địa phương và xu hướng ngành của bạn. Nó cung cấp các cảnh báo hữu ích để chủ động điều chỉnh giá cả, nhân sự và tiếp thị."
         },
         {
@@ -2516,7 +2516,7 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Watchtower är Sundaes marknadsinformationssvit som övervakar ditt tävlingslandskap, lokala evenemang och branschtrender. Det ger handlingsbara varningar för att proaktivt justera prissättning, bemanning och marknadsföring."
         },
         {
-          "question": "Vilka är de tre Vakttornets moduler?",
+          "question": "Vilka är de tre Watchtowerets moduler?",
           "answer": "Competitive Intelligence spårar konkurrenters priser, menyer och recensioner. Events Intelligence övervakar lokala händelser som påverkar efterfrågan. Trender Intelligence belyser förändringar i marknadens och konsumenternas efterfrågan. Varje modul följer prismodellen som publiceras i konfiguratorn."
         },
         {
@@ -2524,19 +2524,19 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Watchtower Bundle samlar de tre Watchtower-modulerna i ett rabatterat paket för operatörer som vill ha en komplett överblick över marknaden. Paketpriset i konfiguratorn återspeglar den aktuella publicerade modellen."
         },
         {
-          "question": "Kräver Vakttornet Core-planen?",
+          "question": "Kräver Watchtoweret Core-planen?",
           "answer": "Ja. Watchtower är endast tillgängligt för Core-prenumeranter (Core Lite, Core Pro eller Enterprise). Den är inte tillgänglig med rapportformeln."
         },
         {
-          "question": "Hur förändras Vakttornets pris beroende på webbplatsen?",
-          "answer": "Varje Vakttornsmodul har ett baspris som täcker en första omkrets av webbplatser, sedan ett pris per ytterligare webbplats. Konfiguratorn visar det publicerade priset för den valda Watchtower-kombinationen."
+          "question": "Hur förändras Watchtowerets pris beroende på webbplatsen?",
+          "answer": "Varje Watchtowersmodul har ett baspris som täcker en första omkrets av webbplatser, sedan ett pris per ytterligare webbplats. Konfiguratorn visar det publicerade priset för den valda Watchtower-kombinationen."
         },
         {
           "question": "Är Enterprise-priser tillgängliga för Watchtower?",
           "answer": "Ja. Företagskunder (30+ sajter eller över 10 000 USD/månad beräknade utgifter) drar nytta av personliga Watchtower-priser, inklusive fastprisalternativ. Kontakta försäljningen för en skräddarsydd offert."
         },
         {
-          "question": "Kan jag lägga till individuella Vakttornsmoduler senare?",
+          "question": "Kan jag lägga till individuella Watchtowersmoduler senare?",
           "answer": "Ja. Du kan börja med en modul och lägga till fler när som helst. Om du sedan aktiverar alla tre kan du uppgradera till Bundle-prissättning för att ta del av rabatten. Ändringar gäller omedelbart."
         }
       ],
@@ -2575,11 +2575,11 @@ export const generatedAuxiliaryLocalePacks = {
       "report": [
         {
           "question": "Sundae রিপোর্ট কি?",
-          "answer": "সানডে রিপোর্ট হল আমাদের অ্যানালিটিক্স লেয়ার যা আপনার বিদ্যমান ডেটা সোর্সের (পিওএস, ডেলিভারি, রিভিউ) সাথে যুক্ত করা আছে যাতে কোনও পিওএস ইন্টিগ্রেশনের প্রয়োজন নেই। রিপোর্ট লাইটের সাথে বিনামূল্যে শুরু করুন বা প্লাস বা প্রো সহ আরও উন্নত বিশ্লেষণ সক্ষম করুন৷"
+          "answer": "সানডে রিপোর্ট হল আমাদের অ্যানালিটিক্স লেয়ার যা আপনার বিদ্যমান ডেটা সোর্সের (পিওএস, ডেলিভারি, রিভিউ) সাথে যুক্ত করা আছে যাতে কোনও পিওএস ইন্টিগ্রেশনের প্রয়োজন নেই। Report Liteের সাথে বিনামূল্যে শুরু করুন বা প্লাস বা প্রো সহ আরও উন্নত বিশ্লেষণ সক্ষম করুন৷"
         },
         {
-          "question": "রিপোর্ট লাইট, প্লাস এবং প্রো এর মধ্যে পার্থক্য কি?",
-          "answer": "রিপোর্ট লাইট হল এন্ট্রি পয়েন্ট। রিপোর্ট প্লাস বেঞ্চমার্ক, আরও এআই ক্ষমতা এবং একটি বিস্তৃত ভিজ্যুয়াল প্যালেট যোগ করে। রিপোর্ট প্রো গভীরতম অ্যানালিটিক্স স্যুট, আরও AI ক্ষমতা এবং আরও উন্নত পূর্বাভাস কর্মপ্রবাহ নিয়ে আসে। ক্যাটালগ সর্বদা বর্তমান মূল্য এবং ক্ষমতা প্রদর্শন করে।"
+          "question": "Report Lite, প্লাস এবং প্রো এর মধ্যে পার্থক্য কি?",
+          "answer": "Report Lite হল এন্ট্রি পয়েন্ট। Report Plus বেঞ্চমার্ক, আরও এআই ক্ষমতা এবং একটি বিস্তৃত ভিজ্যুয়াল প্যালেট যোগ করে। Report Pro গভীরতম অ্যানালিটিক্স স্যুট, আরও AI ক্ষমতা এবং আরও উন্নত পূর্বাভাস কর্মপ্রবাহ নিয়ে আসে। ক্যাটালগ সর্বদা বর্তমান মূল্য এবং ক্ষমতা প্রদর্শন করে।"
         },
         {
           "question": "এআই ক্রেডিট কিভাবে কাজ করে?",
@@ -2595,17 +2595,17 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "আমি কি পরে রিপোর্ট থেকে কোরে আপগ্রেড করতে পারি?",
-          "answer": "হ্যাঁ। আপনি যে কোনো সময় রিপোর্ট থেকে কোরে স্যুইচ করতে পারেন। আপগ্রেড অবিলম্বে এবং আপনার ডেটা, ড্যাশবোর্ড এবং সেটিংস সংরক্ষণ করে৷ কোর রিয়েল-টাইম POS, মডিউল এবং ওয়াচটাওয়ার অ্যাক্সেস যোগ করে।"
+          "answer": "হ্যাঁ। আপনি যে কোনো সময় রিপোর্ট থেকে কোরে স্যুইচ করতে পারেন। আপগ্রেড অবিলম্বে এবং আপনার ডেটা, ড্যাশবোর্ড এবং সেটিংস সংরক্ষণ করে৷ কোর রিয়েল-টাইম POS, মডিউল এবং Watchtower অ্যাক্সেস যোগ করে।"
         },
         {
           "question": "একটি বিনামূল্যে ট্রায়াল আছে?",
-          "answer": "রিপোর্ট লাইট আজীবন বিনামূল্যে, ক্রেডিট কার্ড ছাড়াই। রিপোর্ট প্লাস এবং প্রো কমিট করার আগে সবকিছু পরীক্ষা করার জন্য 14-দিনের বিনামূল্যের ট্রায়াল অন্তর্ভুক্ত করে।"
+          "answer": "Report Lite আজীবন বিনামূল্যে, ক্রেডিট কার্ড ছাড়াই। Report Plus এবং প্রো কমিট করার আগে সবকিছু পরীক্ষা করার জন্য 14-দিনের বিনামূল্যের ট্রায়াল অন্তর্ভুক্ত করে।"
         }
       ],
       "core": [
         {
           "question": "রিপোর্ট এবং কোর মধ্যে পার্থক্য কি?",
-          "answer": "কোর রিয়েল-টাইম POS, ইন্টেলিজেন্স মডিউল, ওয়াচটাওয়ার অ্যাক্সেস এবং আরও অনেক AI ক্রেডিট এবং আসন যোগ করে। রিপোর্ট আমদানি করা তথ্য বিশ্লেষণের জন্য আদর্শ; কোর লাইভ অপারেশনাল বুদ্ধিমত্তা জন্য তৈরি করা হয়."
+          "answer": "কোর রিয়েল-টাইম POS, ইন্টেলিজেন্স মডিউল, Watchtower অ্যাক্সেস এবং আরও অনেক AI ক্রেডিট এবং আসন যোগ করে। রিপোর্ট আমদানি করা তথ্য বিশ্লেষণের জন্য আদর্শ; কোর লাইভ অপারেশনাল বুদ্ধিমত্তা জন্য তৈরি করা হয়."
         },
         {
           "question": "বুদ্ধিমত্তা মডিউল কি?",
@@ -2620,8 +2620,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "যখন 3 বা তার বেশি মডিউল সক্রিয় থাকে, তখন ক্রস-ইন্টেলিজেন্স স্বয়ংক্রিয়ভাবে আপনার ডেটা উত্সগুলির মধ্যে লুকানো পারস্পরিক সম্পর্ক প্রকাশ করে। মৌলিক সংস্করণ বিনামূল্যে; ক্রস-ইনটেলিজেন্স প্রো একটি ব্যাপক পারস্পরিক সম্পর্ক ম্যাট্রিক্স, রাজস্ব অ্যাট্রিবিউশন, কার্যকারিতা রাডার এবং প্রচারাভিযান ট্র্যাকিং যোগ করে।"
         },
         {
-          "question": "কোর লাইট বনাম কোর প্রো কি অন্তর্ভুক্ত করে?",
-          "answer": "কোর লাইট সেই দলগুলির জন্য উপযুক্ত যাদের একটি ভাল AI ফাউন্ডেশন সহ রিয়েল-টাইম অপারেশনাল বুদ্ধিমত্তা প্রয়োজন। কোর প্রো স্কেলে আরও ক্ষমতা, গভীর ভবিষ্যদ্বাণী এবং আরও ভাল অর্থনীতি যোগ করে। বর্তমান ক্যাটালগ সঠিক কোটা দেখায়।"
+          "question": "Core Lite বনাম Core Pro কি অন্তর্ভুক্ত করে?",
+          "answer": "Core Lite সেই দলগুলির জন্য উপযুক্ত যাদের একটি ভাল AI ফাউন্ডেশন সহ রিয়েল-টাইম অপারেশনাল বুদ্ধিমত্তা প্রয়োজন। Core Pro স্কেলে আরও ক্ষমতা, গভীর ভবিষ্যদ্বাণী এবং আরও ভাল অর্থনীতি যোগ করে। বর্তমান ক্যাটালগ সঠিক কোটা দেখায়।"
         },
         {
           "question": "ভলিউম ডিসকাউন্ট কিভাবে কাজ করে?",
@@ -2634,31 +2634,31 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Sundae ওয়াচটাওয়ার কি?",
-          "answer": "ওয়াচটাওয়ার হল Sundae এর মার্কেট ইন্টেলিজেন্স স্যুট যা আপনার প্রতিযোগিতামূলক ল্যান্ডস্কেপ, স্থানীয় ইভেন্ট এবং শিল্প প্রবণতা নিরীক্ষণ করে। এটি সক্রিয়ভাবে মূল্য নির্ধারণ, স্টাফিং এবং বিপণন সামঞ্জস্য করার জন্য কার্যকরী সতর্কতা প্রদান করে।"
+          "question": "Sundae Watchtower কি?",
+          "answer": "Watchtower হল Sundae এর মার্কেট ইন্টেলিজেন্স স্যুট যা আপনার প্রতিযোগিতামূলক ল্যান্ডস্কেপ, স্থানীয় ইভেন্ট এবং শিল্প প্রবণতা নিরীক্ষণ করে। এটি সক্রিয়ভাবে মূল্য নির্ধারণ, স্টাফিং এবং বিপণন সামঞ্জস্য করার জন্য কার্যকরী সতর্কতা প্রদান করে।"
         },
         {
-          "question": "তিনটি ওয়াচটাওয়ার মডিউল কি কি?",
+          "question": "তিনটি Watchtower মডিউল কি কি?",
           "answer": "প্রতিযোগিতামূলক বুদ্ধিমত্তা প্রতিযোগীদের মূল্য, মেনু এবং পর্যালোচনাগুলি ট্র্যাক করে। ইভেন্ট ইন্টেলিজেন্স স্থানীয় ইভেন্টগুলি পর্যবেক্ষণ করে যা চাহিদাকে প্রভাবিত করে। ট্রেন্ডস ইন্টেলিজেন্স বাজার এবং ভোক্তাদের চাহিদার পরিবর্তনকে হাইলাইট করে। প্রতিটি মডিউল কনফিগারে প্রকাশিত মূল্য মডেল অনুসরণ করে।"
         },
         {
-          "question": "ওয়াচটাওয়ার বান্ডিল কি?",
-          "answer": "ওয়াচটাওয়ার বান্ডেল তিনটি ওয়াচটাওয়ার মডিউলকে একত্রিত করে একটি ডিসকাউন্ট প্যাকেজে অপারেটরদের জন্য যারা বাজারের সম্পূর্ণ দৃশ্য দেখতে চান। কনফিগারে বান্ডেলের মূল্য বর্তমান প্রকাশিত মডেলকে প্রতিফলিত করে।"
+          "question": "Watchtower বান্ডিল কি?",
+          "answer": "Watchtower বান্ডেল তিনটি Watchtower মডিউলকে একত্রিত করে একটি ডিসকাউন্ট প্যাকেজে অপারেটরদের জন্য যারা বাজারের সম্পূর্ণ দৃশ্য দেখতে চান। কনফিগারে বান্ডেলের মূল্য বর্তমান প্রকাশিত মডেলকে প্রতিফলিত করে।"
         },
         {
-          "question": "ওয়াচটাওয়ারের কি মূল পরিকল্পনা প্রয়োজন?",
-          "answer": "হ্যাঁ। ওয়াচটাওয়ার শুধুমাত্র মূল গ্রাহকদের জন্য উপলব্ধ (কোর লাইট, কোর প্রো বা এন্টারপ্রাইজ)। এটি রিপোর্ট সূত্রের সাথে উপলব্ধ নয়।"
+          "question": "Watchtowerের কি মূল পরিকল্পনা প্রয়োজন?",
+          "answer": "হ্যাঁ। Watchtower শুধুমাত্র মূল গ্রাহকদের জন্য উপলব্ধ (Core Lite, Core Pro বা এন্টারপ্রাইজ)। এটি রিপোর্ট সূত্রের সাথে উপলব্ধ নয়।"
         },
         {
-          "question": "সাইটের উপর নির্ভর করে ওয়াচটাওয়ারের দাম কীভাবে পরিবর্তিত হয়?",
-          "answer": "প্রতিটি ওয়াচটাওয়ার মডিউলের একটি প্রাথমিক মূল্য রয়েছে যা সাইটের একটি প্রাথমিক পরিধি কভার করে, তারপর অতিরিক্ত সাইট প্রতি একটি মূল্য। কনফিগারার নির্বাচিত ওয়াচটাওয়ার সংমিশ্রণের জন্য লাইভ প্রকাশিত মূল্য প্রদর্শন করে।"
+          "question": "সাইটের উপর নির্ভর করে Watchtowerের দাম কীভাবে পরিবর্তিত হয়?",
+          "answer": "প্রতিটি Watchtower মডিউলের একটি প্রাথমিক মূল্য রয়েছে যা সাইটের একটি প্রাথমিক পরিধি কভার করে, তারপর অতিরিক্ত সাইট প্রতি একটি মূল্য। কনফিগারার নির্বাচিত Watchtower সংমিশ্রণের জন্য লাইভ প্রকাশিত মূল্য প্রদর্শন করে।"
         },
         {
-          "question": "এন্টারপ্রাইজ মূল্য কি ওয়াচটাওয়ারের জন্য উপলব্ধ?",
-          "answer": "হ্যাঁ। এন্টারপ্রাইজ গ্রাহকরা (30+ সাইট বা $10,000/মাসে অনুমানিত খরচ) ফিক্সড-রেট বিকল্পগুলি সহ ব্যক্তিগতকৃত ওয়াচটাওয়ার মূল্য থেকে উপকৃত হয়। একটি কাস্টম উদ্ধৃতি জন্য যোগাযোগ বিক্রয়."
+          "question": "এন্টারপ্রাইজ মূল্য কি Watchtowerের জন্য উপলব্ধ?",
+          "answer": "হ্যাঁ। এন্টারপ্রাইজ গ্রাহকরা (30+ সাইট বা $10,000/মাসে অনুমানিত খরচ) ফিক্সড-রেট বিকল্পগুলি সহ ব্যক্তিগতকৃত Watchtower মূল্য থেকে উপকৃত হয়। একটি কাস্টম উদ্ধৃতি জন্য যোগাযোগ বিক্রয়."
         },
         {
-          "question": "আমি কি পরে পৃথক ওয়াচটাওয়ার মডিউল যোগ করতে পারি?",
+          "question": "আমি কি পরে পৃথক Watchtower মডিউল যোগ করতে পারি?",
           "answer": "হ্যাঁ। আপনি একটি মডিউল দিয়ে শুরু করতে পারেন এবং যেকোনো সময় আরও যোগ করতে পারেন। আপনি যদি তিনটিই সক্রিয় করেন, তাহলে ডিসকাউন্টের সুবিধা নিতে আপনি বান্ডেল মূল্যে আপগ্রেড করতে পারেন। পরিবর্তন অবিলম্বে প্রযোজ্য."
         }
       ],
@@ -2727,7 +2727,7 @@ export const generatedAuxiliaryLocalePacks = {
       "core": [
         {
           "question": "ความแตกต่างระหว่างรายงานและคอร์คืออะไร?",
-          "answer": "Core เพิ่ม POS แบบเรียลไทม์ โมดูลอัจฉริยะ การเข้าถึงหอสังเกตการณ์ และเครดิต AI และที่นั่งอื่นๆ อีกมากมาย รายงานเหมาะสำหรับการวิเคราะห์ข้อมูลที่นำเข้า Core ถูกสร้างขึ้นมาเพื่อความชาญฉลาดในการปฏิบัติงาน"
+          "answer": "Core เพิ่ม POS แบบเรียลไทม์ โมดูลอัจฉริยะ การเข้าถึงWatchtower และเครดิต AI และที่นั่งอื่นๆ อีกมากมาย รายงานเหมาะสำหรับการวิเคราะห์ข้อมูลที่นำเข้า Core ถูกสร้างขึ้นมาเพื่อความชาญฉลาดในการปฏิบัติงาน"
         },
         {
           "question": "โมดูลอัจฉริยะคืออะไร?",
@@ -2756,31 +2756,31 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "หอสังเกตการณ์ซุนแดคืออะไร?",
+          "question": "Watchtowerซุนแดคืออะไร?",
           "answer": "Watchtower คือชุดข้อมูลการตลาดของ Sundae ที่คอยติดตามภาพรวมการแข่งขัน กิจกรรมในท้องถิ่น และแนวโน้มของอุตสาหกรรม โดยมีการแจ้งเตือนที่สามารถดำเนินการได้เพื่อปรับราคา พนักงาน และการตลาดในเชิงรุก"
         },
         {
-          "question": "หอสังเกตการณ์ สามโมดูลคืออะไร?",
+          "question": "Watchtower สามโมดูลคืออะไร?",
           "answer": "Competitive Intelligence ติดตามราคา เมนู และบทวิจารณ์ของคู่แข่ง Events Intelligence ติดตามเหตุการณ์ในท้องถิ่นที่มีอิทธิพลต่อความต้องการ Trends Intelligence เน้นถึงการเปลี่ยนแปลงของตลาดและความต้องการของผู้บริโภค แต่ละโมดูลเป็นไปตามโมเดลราคาที่เผยแพร่ในตัวกำหนดค่า"
         },
         {
-          "question": "ชุดหอสังเกตการณ์คืออะไร?",
+          "question": "ชุดWatchtowerคืออะไร?",
           "answer": "ชุด Watchtower รวบรวมโมดูล Watchtower ทั้งสามโมดูลไว้ในแพ็คเกจลดราคาสำหรับผู้ให้บริการที่ต้องการภาพรวมของตลาด ราคารวมในตัวกำหนดค่าสะท้อนถึงโมเดลที่เผยแพร่ในปัจจุบัน"
         },
         {
-          "question": "หอสังเกตการณ์จำเป็นต้องมีแผนหลักหรือไม่?",
-          "answer": "ใช่ หอสังเกตการณ์มีให้เฉพาะสมาชิก Core เท่านั้น (Core Lite, Core Pro หรือ Enterprise) ไม่สามารถใช้ได้กับสูตรรายงาน"
+          "question": "Watchtowerจำเป็นต้องมีแผนหลักหรือไม่?",
+          "answer": "ใช่ Watchtowerมีให้เฉพาะสมาชิก Core เท่านั้น (Core Lite, Core Pro หรือ Enterprise) ไม่สามารถใช้ได้กับสูตรรายงาน"
         },
         {
-          "question": "ราคาของหอสังเกตการณ์เปลี่ยนแปลงอย่างไรขึ้นอยู่กับเว็บไซต์?",
-          "answer": "หอสังเกตการณ์ แต่ละโมดูลมีราคาพื้นฐานซึ่งครอบคลุมขอบเขตเริ่มต้นของไซต์ จากนั้นจึงเป็นราคาต่อไซต์เพิ่มเติม เครื่องมือกำหนดค่าจะแสดงราคาที่เผยแพร่สดสำหรับชุดค่าผสมของหอสังเกตการณ์ที่เลือก"
+          "question": "ราคาของWatchtowerเปลี่ยนแปลงอย่างไรขึ้นอยู่กับเว็บไซต์?",
+          "answer": "Watchtower แต่ละโมดูลมีราคาพื้นฐานซึ่งครอบคลุมขอบเขตเริ่มต้นของไซต์ จากนั้นจึงเป็นราคาต่อไซต์เพิ่มเติม เครื่องมือกำหนดค่าจะแสดงราคาที่เผยแพร่สดสำหรับชุดค่าผสมของWatchtowerที่เลือก"
         },
         {
           "question": "มีการกำหนดราคา Enterprise สำหรับ Watchtower หรือไม่",
           "answer": "ใช่ ลูกค้าองค์กร (ไซต์มากกว่า 30 แห่งหรือการใช้จ่ายที่คาดการณ์ไว้มากกว่า $10,000/เดือน) ได้รับประโยชน์จากการกำหนดราคา Watchtower ส่วนบุคคล รวมถึงตัวเลือกอัตราคงที่ ติดต่อฝ่ายขายเพื่อขอใบเสนอราคาที่กำหนดเอง"
         },
         {
-          "question": "ฉันสามารถเพิ่มโมดูลหอสังเกตการณ์ทีละโมดูลในภายหลังได้หรือไม่?",
+          "question": "ฉันสามารถเพิ่มโมดูลWatchtowerทีละโมดูลในภายหลังได้หรือไม่?",
           "answer": "ใช่ คุณสามารถเริ่มต้นด้วยหนึ่งโมดูลและเพิ่มอีกเมื่อใดก็ได้ หากคุณเปิดใช้งานทั้งสามรายการ คุณสามารถอัปเกรดเป็นราคาแบบรวมกลุ่มเพื่อใช้ประโยชน์จากส่วนลดได้ การเปลี่ยนแปลงมีผลทันที"
         }
       ],
@@ -2818,8 +2818,8 @@ export const generatedAuxiliaryLocalePacks = {
     "ms": {
       "report": [
         {
-          "question": "Apakah Laporan Sundae?",
-          "answer": "Laporan Sundae ialah lapisan analitis kami yang disambungkan kepada sumber data sedia ada anda (POS, penghantaran, ulasan) untuk menjana cerapan yang boleh diambil tindakan, tanpa penyepaduan POS diperlukan. Mulakan secara percuma dengan Report Lite atau dayakan analitis yang lebih maju dengan Plus atau Pro."
+          "question": "Apakah Sundae Report?",
+          "answer": "Sundae Report ialah lapisan analitis kami yang disambungkan kepada sumber data sedia ada anda (POS, penghantaran, ulasan) untuk menjana cerapan yang boleh diambil tindakan, tanpa penyepaduan POS diperlukan. Mulakan secara percuma dengan Report Lite atau dayakan analitis yang lebih maju dengan Plus atau Pro."
         },
         {
           "question": "Apakah perbezaan antara Report Lite, Plus dan Pro?",
@@ -2974,11 +2974,11 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "pt": {
-      "title": "Valor Estratégico da Torre de Vigia",
+      "title": "Valor Estratégico da Watchtower",
       "badge": "Vantagem de Inteligência",
       "oneWin": "Uma vitória compensa o ano",
       "oneWinLabel": "One win",
-      "investment": "Seu investimento na Torre de Vigia:",
+      "investment": "Seu investimento na Watchtower:",
       "scenariosCover": "Apenas um desses cenários cobre isso:",
       "annualValue": "Valor Anual Potencial",
       "annualPotential": "potencial anual",
@@ -2991,11 +2991,11 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "hi": {
-      "title": "वॉचटावर रणनीतिक मूल्य",
+      "title": "Watchtower रणनीतिक मूल्य",
       "badge": "खुफिया लाभ",
       "oneWin": "एक जीत साल भर का फल देती है",
       "oneWinLabel": "One win",
-      "investment": "आपका वॉचटावर निवेश:",
+      "investment": "आपका Watchtower निवेश:",
       "scenariosCover": "इनमें से केवल एक परिदृश्य इसे कवर करता है:",
       "annualValue": "संभावित वार्षिक मूल्य",
       "annualPotential": "वार्षिक क्षमता",
@@ -3008,11 +3008,11 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "ur": {
-      "title": "واچ ٹاور اسٹریٹجک ویلیو",
+      "title": "Watchtower اسٹریٹجک ویلیو",
       "badge": "ذہانت کا فائدہ",
       "oneWin": "ایک جیت سال کے لیے ادا کرتی ہے۔",
       "oneWinLabel": "One win",
-      "investment": "آپ کی واچ ٹاور کی سرمایہ کاری:",
+      "investment": "آپ کی Watchtower کی سرمایہ کاری:",
       "scenariosCover": "ان منظرناموں میں سے صرف ایک اس کا احاطہ کرتا ہے:",
       "annualValue": "ممکنہ سالانہ قدر",
       "annualPotential": "سالانہ صلاحیت",
@@ -3059,11 +3059,11 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "tr": {
-      "title": "Gözetleme Kulesi Stratejik Değeri",
+      "title": "Watchtower Stratejik Değeri",
       "badge": "İstihbarat Avantajı",
       "oneWin": "Bir Galibiyet Yılın Bedelini Amorti Ediyor",
       "oneWinLabel": "One win",
-      "investment": "Gözetleme Kulesi yatırımınız:",
+      "investment": "Watchtower yatırımınız:",
       "scenariosCover": "Bu senaryolardan yalnızca biri bunu kapsar:",
       "annualValue": "Potansiyel Yıllık Değer",
       "annualPotential": "yıllık potansiyel",
@@ -3114,7 +3114,7 @@ export const generatedAuxiliaryLocalePacks = {
       "badge": "지능 우위",
       "oneWin": "한 번의 승리로 일년 내내 보상을 받습니다",
       "oneWinLabel": "One win",
-      "investment": "귀하의 워치타워 투자:",
+      "investment": "귀하의 Watchtower 투자:",
       "scenariosCover": "다음 시나리오 중 하나만 다룹니다.",
       "annualValue": "잠재적인 연간 가치",
       "annualPotential": "연간 잠재력",
@@ -3178,11 +3178,11 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "sv": {
-      "title": "Vakttornets strategiska värde",
+      "title": "Watchtowerets strategiska värde",
       "badge": "Intelligensfördel",
       "oneWin": "En vinst betalar för året",
       "oneWinLabel": "One win",
-      "investment": "Din investering i Vakttornet:",
+      "investment": "Din investering i Watchtoweret:",
       "scenariosCover": "Bara ett av dessa scenarier täcker det:",
       "annualValue": "Potentiellt årligt värde",
       "annualPotential": "årlig potential",
@@ -3195,11 +3195,11 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "bn": {
-      "title": "ওয়াচটাওয়ার কৌশলগত মান",
+      "title": "Watchtower কৌশলগত মান",
       "badge": "বুদ্ধিমত্তার সুবিধা",
       "oneWin": "এক জয় বছরের জন্য অর্থ প্রদান করে",
       "oneWinLabel": "One win",
-      "investment": "আপনার ওয়াচটাওয়ার বিনিয়োগ:",
+      "investment": "আপনার Watchtower বিনিয়োগ:",
       "scenariosCover": "এই পরিস্থিতিগুলির মধ্যে একটি এটি কভার করে:",
       "annualValue": "সম্ভাব্য বার্ষিক মূল্য",
       "annualPotential": "বার্ষিক সম্ভাবনা",
@@ -3212,11 +3212,11 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "th": {
-      "title": "คุณค่าทางยุทธศาสตร์ของหอสังเกตการณ์",
+      "title": "คุณค่าทางยุทธศาสตร์ของWatchtower",
       "badge": "ความได้เปรียบทางปัญญา",
       "oneWin": "ชนะครั้งเดียวจ่ายทั้งปี",
       "oneWinLabel": "One win",
-      "investment": "การลงทุนในหอสังเกตการณ์ของคุณ:",
+      "investment": "การลงทุนในWatchtowerของคุณ:",
       "scenariosCover": "เพียงหนึ่งในสถานการณ์เหล่านี้ครอบคลุม:",
       "annualValue": "มูลค่ารายปีที่เป็นไปได้",
       "annualPotential": "ศักยภาพประจำปี",
@@ -4665,7 +4665,7 @@ export const generatedAuxiliaryLocalePacks = {
       "+10K calls": "+10 mil chamadas",
       "+50K calls": "+50 mil chamadas",
       "BI Connector": "Conector BI",
-      "Additional POS": "PDV adicional",
+      "Additional POS": "POS adicional",
       "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/mês",
@@ -7565,7 +7565,7 @@ export const generatedAuxiliaryLocalePacks = {
         "helperText": "Selecione todas as opções aplicáveis",
         "options": {
           "gut": "Sensação/experiência",
-          "pos": "Somente relatórios de PDV",
+          "pos": "Somente relatórios de POS",
           "spreadsheets": "Planilhas e rastreamento manual",
           "fragmented": "Várias ferramentas que não conversam entre si",
           "bi": "Já usamos dashboards de BI",
@@ -8364,7 +8364,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "intelligence-commander": {
         "name": "Geheimdienstkommandant",
-        "description": "Wachturm freigeschaltet"
+        "description": "Watchtower freigeschaltet"
       },
       "roi-believer": {
         "name": "ROI-Gläubiger",
@@ -8448,7 +8448,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "intelligence-commander": {
         "name": "Comandante de Inteligência",
-        "description": "Torre de Vigia Desbloqueada"
+        "description": "Watchtower Desbloqueada"
       },
       "roi-believer": {
         "name": "Crente no ROI",
@@ -8490,7 +8490,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "intelligence-commander": {
         "name": "ख़ुफ़िया कमांडर",
-        "description": "खुला प्रहरीदुर्ग"
+        "description": "खुला Watchtower"
       },
       "roi-believer": {
         "name": "ROI आस्तिक",
@@ -8532,7 +8532,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "intelligence-commander": {
         "name": "انٹیلی جنس کمانڈر",
-        "description": "غیر مقفل واچ ٹاور"
+        "description": "غیر مقفل Watchtower"
       },
       "roi-believer": {
         "name": "ROI مومن",
@@ -8707,7 +8707,7 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "计算您的预计回报"
       },
       "sundae-ready": {
-        "name": "圣代准备好了",
+        "name": "Sundae准备好了",
         "description": "完成您的完整配置"
       },
       "savings-hero": {
@@ -8994,7 +8994,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "intelligence-commander": {
         "name": "গোয়েন্দা কমান্ডার",
-        "description": "খোলা ওয়াচটাওয়ার"
+        "description": "খোলা Watchtower"
       },
       "roi-believer": {
         "name": "ROI বিশ্বাসী",
@@ -9036,7 +9036,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "intelligence-commander": {
         "name": "ผู้บัญชาการหน่วยสืบราชการลับ",
-        "description": "ปลดล็อคหอสังเกตการณ์"
+        "description": "ปลดล็อคWatchtower"
       },
       "roi-believer": {
         "name": "ผู้ศรัทธา ROI",
@@ -9301,7 +9301,7 @@ export const generatedAuxiliaryLocalePacks = {
         "loadingTitle": "加载已公布的定价",
         "loadingBody": "我们正在从 Sundae Admin 获取最新定价，因此此页面反映了当前发布的目录。",
         "errorTitle": "公布的价格不可用",
-        "errorBody": "此定价体验需要圣代管理员当前发布的目录，并且不会回退到静态值。",
+        "errorBody": "此定价体验需要Sundae管理员当前发布的目录，并且不会回退到静态值。",
         "retry": "重试"
       }
     },

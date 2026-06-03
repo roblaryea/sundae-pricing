@@ -7,9 +7,18 @@ export default defineConfig(({ mode }) => {
     plugins: [react()],
     base: isGitHubPages ? "/sundae-pricing/" : "/",
     build: {
+      chunkSizeWarningLimit: 800,
       rollupOptions: {
         output: {
           manualChunks(id) {
+            if (id.includes('/src/lib/generatedPricingLocalePacks')) {
+              return 'pricing-locales';
+            }
+
+            if (id.includes('/src/lib/generatedAuxiliaryLocalePacks')) {
+              return 'auxiliary-locales';
+            }
+
             if (!id.includes('node_modules')) {
               return;
             }

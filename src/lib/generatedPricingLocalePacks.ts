@@ -135,9 +135,9 @@ export const generatedPricingMessages = {
       "reportTab": "Bericht",
       "coreTab": "Kern",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundae Bericht",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Analysen und Einblicke für Restaurantdaten",
-      "coreTitle": "Sundae Kern",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "Echtzeit-Betrieb mit POS-Integration",
       "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "Verfolgen Sie Wettbewerber, Ereignisse und Markttrends",
@@ -252,29 +252,29 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Bericht Lite",
+            "name": "Report Lite",
             "tagline": "FREI für immer",
             "bestFor": "Testen von Sundae, grundlegende Sichtbarkeit, Machbarkeitsnachweis"
           },
           "plus": {
-            "name": "Bericht Plus",
+            "name": "Report Plus",
             "tagline": "Automatisierte Einblicke",
             "bestFor": "Ernsthafte Einzelstandorte, automatisierte Dateneingabe, regelmäßige AI-Einblicke"
           },
           "pro": {
-            "name": "Bericht Pro",
+            "name": "Report Pro",
             "tagline": "API-gesteuerte Analysen",
             "bestFor": "Betriebe mit mehreren Standorten, API-Automatisierung, erweiterte Analysen, Portfolio-Vorbereitung"
           }
         },
         "core": {
           "lite": {
-            "name": "Kern Lite",
+            "name": "Core Lite",
             "tagline": "Echtzeit-Betrieb",
             "bestFor": "1-10 Standorte, Echtzeit-Betrieb, Portfoliomanagement, einzelnes POS-System"
           },
           "pro": {
-            "name": "Kern Pro",
+            "name": "Core Pro",
             "tagline": "Portfolio-Intelligenz",
             "bestFor": "10-50 Standorte, Multi-POS-Umgebungen, erweiterte Prognosen, strategische Planung"
           },
@@ -624,17 +624,17 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Rapport Lite",
+            "name": "Report Lite",
             "tagline": "GRATIS Voor Altijd",
             "bestFor": "Testen van Sundae, basiszichtbaarheid, bewijs van concept"
           },
           "plus": {
-            "name": "Rapport Plus",
+            "name": "Report Plus",
             "tagline": "Geautomatiseerde Inzichten",
             "bestFor": "Serieuze single-locatie, geautomatiseerde gegevensinvoer, regelmatige AI-inzichten"
           },
           "pro": {
-            "name": "Rapport Pro",
+            "name": "Report Pro",
             "tagline": "API-Aangedreven Analyses",
             "bestFor": "Multi-locatie operators, API-automatisering, geavanceerde analyses, portfolio voorbereiding"
           }
@@ -879,7 +879,7 @@ export const generatedPricingMessages = {
       "reportTab": "Relatório",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Relatório Sundae",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Análises e insights para dados de restaurantes",
       "coreTitle": "Sundae Core",
       "coreSubtitle": "Operações em tempo real com integração de POS",
@@ -996,17 +996,17 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Relatório Lite",
+            "name": "Report Lite",
             "tagline": "GRATUITO Para Sempre",
             "bestFor": "Testando o Sundae, visibilidade básica, prova de conceito"
           },
           "plus": {
-            "name": "Relatório Plus",
+            "name": "Report Plus",
             "tagline": "Insights Automatizados",
             "bestFor": "Operadores sérios de uma única localização, entrada de dados automatizada, insights regulares de IA"
           },
           "pro": {
-            "name": "Relatório Pro",
+            "name": "Report Pro",
             "tagline": "Análises com API",
             "bestFor": "Operadores multi-localização, automação de API, análises avançadas, preparação de portfólio"
           }
@@ -1251,9 +1251,9 @@ export const generatedPricingMessages = {
       "reportTab": "रिपोर्ट",
       "coreTab": "कोर",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundae रिपोर्ट",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "रेस्तरां डेटा के लिए विश्लेषण और अंतर्दृष्टि",
-      "coreTitle": "Sundae कोर",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "POS एकीकरण के साथ वास्तविक समय के संचालन",
       "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "प्रतियोगियों, घटनाओं और बाजार के रुझानों पर नज़र रखें",
@@ -1368,29 +1368,29 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "रिपोर्ट लाइट",
+            "name": "Report Lite",
             "tagline": "हमेशा के लिए मुफ्त",
             "bestFor": "Sundae का परीक्षण करना, बुनियादी दृश्यता, अवधारणा का प्रमाण"
           },
           "plus": {
-            "name": "रिपोर्ट प्लस",
+            "name": "Report Plus",
             "tagline": "स्वचालित अंतर्दृष्टि",
             "bestFor": "गंभीर एकल-स्थान, स्वचालित डेटा इनपुट, नियमित AI अंतर्दृष्टि"
           },
           "pro": {
-            "name": "रिपोर्ट प्रो",
+            "name": "Report Pro",
             "tagline": "API-संचालित विश्लेषण",
             "bestFor": "मल्टी-स्थान ऑपरेटर, API स्वचालन, उन्नत विश्लेषण, पोर्टफोलियो तैयारी"
           }
         },
         "core": {
           "lite": {
-            "name": "कोर लाइट",
+            "name": "Core Lite",
             "tagline": "वास्तविक समय के संचालन",
             "bestFor": "1-10 स्थान, वास्तविक समय के संचालन, पोर्टफोलियो प्रबंधन, एकल POS प्रणाली"
           },
           "pro": {
-            "name": "कोर प्रो",
+            "name": "Core Pro",
             "tagline": "पोर्टफोलियो बुद्धिमत्ता",
             "bestFor": "10-50 स्थान, मल्टी-POS वातावरण, उन्नत पूर्वानुमान, रणनीतिक योजना"
           },
@@ -1623,9 +1623,9 @@ export const generatedPricingMessages = {
       "reportTab": "رپورٹ",
       "coreTab": "کور",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundae رپورٹ",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "ریستوران کے ڈیٹا کے لیے تجزیات اور بصیرت",
-      "coreTitle": "Sundae کور",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "POS انضمام کے ساتھ حقیقی وقت کی کارروائیاں",
       "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "حریفوں، واقعات، اور مارکیٹ کے رجحانات کی نگرانی کریں",
@@ -1740,29 +1740,29 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "رپورٹ لائٹ",
+            "name": "Report Lite",
             "tagline": "ہمیشہ کے لیے مفت",
             "bestFor": "Sundae کی جانچ، بنیادی بصیرت، تصور کا ثبوت"
           },
           "plus": {
-            "name": "رپورٹ پلس",
+            "name": "Report Plus",
             "tagline": "خودکار بصیرت",
             "bestFor": "سنجیدہ سنگل مقام، خودکار ڈیٹا ان پٹ، باقاعدہ AI بصیرت"
           },
           "pro": {
-            "name": "رپورٹ پرو",
+            "name": "Report Pro",
             "tagline": "API سے چلنے والا تجزیات",
             "bestFor": "کئی مقامات کے آپریٹرز، API خودکاری، جدید تجزیات، پورٹ فولیو کی تیاری"
           }
         },
         "core": {
           "lite": {
-            "name": "کور لائٹ",
+            "name": "Core Lite",
             "tagline": "حقیقی وقت کی کارروائیاں",
             "bestFor": "1-10 مقامات، حقیقی وقت کی کارروائیاں، پورٹ فولیو کا انتظام، سنگل POS سسٹم"
           },
           "pro": {
-            "name": "کور پرو",
+            "name": "Core Pro",
             "tagline": "پورٹ فولیو کی ذہانت",
             "bestFor": "10-50 مقامات، کثیر POS ماحول، جدید پیش گوئی، اسٹریٹجک منصوبہ بندی"
           },
@@ -2739,7 +2739,7 @@ export const generatedPricingMessages = {
       "reportTab": "Rapor",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundae Raporu",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Restoran verileri için analizler ve içgörüler",
       "coreTitle": "Sundae Core",
       "coreSubtitle": "POS entegrasyonu ile gerçek zamanlı operasyonlar",
@@ -3485,7 +3485,7 @@ export const generatedPricingMessages = {
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundaeレポート",
       "reportSubtitle": "レストランデータの分析とインサイト",
-      "coreTitle": "Sundaeコア",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "POS統合によるリアルタイム運用",
       "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "競合、イベント、市場動向を追跡",
@@ -3600,29 +3600,29 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "レポートライト",
+            "name": "Report Lite",
             "tagline": "永遠に無料",
             "bestFor": "Sundaeのテスト、基本的な可視性、概念実証"
           },
           "plus": {
-            "name": "レポートプラス",
+            "name": "Report Plus",
             "tagline": "自動インサイト",
             "bestFor": "真剣な単一ロケーション、自動データ入力、定期的なAIインサイト"
           },
           "pro": {
-            "name": "レポートプロ",
+            "name": "Report Pro",
             "tagline": "API駆動の分析",
             "bestFor": "複数ロケーションオペレーター、API自動化、高度な分析、ポートフォリオ準備"
           }
         },
         "core": {
           "lite": {
-            "name": "コアライト",
+            "name": "Core Lite",
             "tagline": "リアルタイムオペレーション",
             "bestFor": "1-10ロケーション、リアルタイムオペレーション、ポートフォリオ管理、単一POSシステム"
           },
           "pro": {
-            "name": "コアプロ",
+            "name": "Core Pro",
             "tagline": "ポートフォリオインテリジェンス",
             "bestFor": "10-50ロケーション、複数POS環境、高度な予測、戦略的計画"
           },
@@ -4227,7 +4227,7 @@ export const generatedPricingMessages = {
       "reportTab": "Laporan",
       "coreTab": "Inti",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Laporan Sundae",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Analitik dan wawasan untuk data restoran",
       "coreTitle": "Inti Sundae",
       "coreSubtitle": "Operasi waktu nyata dengan integrasi POS",
@@ -4599,7 +4599,7 @@ export const generatedPricingMessages = {
       "reportTab": "Báo cáo",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Báo cáo Sundae",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Phân tích và thông tin cho dữ liệu nhà hàng",
       "coreTitle": "Core Sundae",
       "coreSubtitle": "Hoạt động thời gian thực với tích hợp POS",
@@ -5460,17 +5460,17 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Rapport Lite",
+            "name": "Report Lite",
             "tagline": "GRATIS För alltid",
             "bestFor": "Testa Sundae, grundläggande synlighet, bevis på koncept"
           },
           "plus": {
-            "name": "Rapport Plus",
+            "name": "Report Plus",
             "tagline": "Automatiserade insikter",
             "bestFor": "Seriösa enstaka platser, automatiserad datainmatning, regelbundna AI-insikter"
           },
           "pro": {
-            "name": "Rapport Pro",
+            "name": "Report Pro",
             "tagline": "API-drivna analyser",
             "bestFor": "Flera platser, API-automatisering, avancerad analys, portföljförberedelse"
           }
@@ -5540,7 +5540,7 @@ export const generatedPricingMessages = {
           "roi": "Varför kunder lämnar"
         },
         "pulse": {
-          "name": "Puls",
+          "name": "Pulse",
           "description": "Övervakning i realtid, varningar, korrelation och proaktiv anomalidetektion över verksamheten",
           "roi": "Medvetenhet om operationer i realtid"
         }
@@ -5832,29 +5832,29 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "রিপোর্ট লাইট",
+            "name": "Report Lite",
             "tagline": "চিরকাল ফ্রি",
             "bestFor": "Sundae পরীক্ষা করা, মৌলিক দৃশ্যমানতা, ধারণার প্রমাণ"
           },
           "plus": {
-            "name": "রিপোর্ট প্লাস",
+            "name": "Report Plus",
             "tagline": "স্বয়ংক্রিয় অন্তর্দৃষ্টি",
             "bestFor": "গম্ভীর একক-স্থান, স্বয়ংক্রিয় ডেটা ইনপুট, নিয়মিত এআই অন্তর্দৃষ্টি"
           },
           "pro": {
-            "name": "রিপোর্ট প্রো",
+            "name": "Report Pro",
             "tagline": "এপিআই-চালিত বিশ্লেষণ",
             "bestFor": "মাল্টি-স্থান অপারেটর, এপিআই স্বয়ংক্রিয়তা, উন্নত বিশ্লেষণ, পোর্টফোলিও প্রস্তুতি"
           }
         },
         "core": {
           "lite": {
-            "name": "কোর লাইট",
+            "name": "Core Lite",
             "tagline": "রিয়েল-টাইম অপারেশন",
             "bestFor": "১-১০ স্থান, রিয়েল-টাইম অপারেশন, পোর্টফোলিও ব্যবস্থাপনা, একক পিওএস সিস্টেম"
           },
           "pro": {
-            "name": "কোর প্রো",
+            "name": "Core Pro",
             "tagline": "পোর্টফোলিও বুদ্ধিমত্তা",
             "bestFor": "১০-৫০ স্থান, মাল্টি-পিওএস পরিবেশ, উন্নত পূর্বাভাস, কৌশলগত পরিকল্পনা"
           },
@@ -6204,17 +6204,17 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "รายงาน Lite",
+            "name": "Report Lite",
             "tagline": "ฟรีตลอดไป",
             "bestFor": "ทดสอบ Sundae, การมองเห็นพื้นฐาน, หลักฐานของแนวคิด"
           },
           "plus": {
-            "name": "รายงาน Plus",
+            "name": "Report Plus",
             "tagline": "ข้อมูลเชิงลึกอัตโนมัติ",
             "bestFor": "ผู้ดำเนินการสถานที่เดียวที่จริงจัง, การป้อนข้อมูลอัตโนมัติ, ข้อมูลเชิงลึก AI ปกติ"
           },
           "pro": {
-            "name": "รายงาน Pro",
+            "name": "Report Pro",
             "tagline": "การวิเคราะห์ที่ขับเคลื่อนด้วย API",
             "bestFor": "ผู้ดำเนินการหลายสถานที่, การทำงานอัตโนมัติด้วย API, การวิเคราะห์ขั้นสูง, การเตรียมพอร์ตโฟลิโอ"
           }
@@ -6459,7 +6459,7 @@ export const generatedPricingMessages = {
       "reportTab": "Laporan",
       "coreTab": "Inti",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Laporan Sundae",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Analitik dan wawasan untuk data restoran",
       "coreTitle": "Inti Sundae",
       "coreSubtitle": "Operasi masa nyata dengan integrasi POS",
@@ -6860,7 +6860,7 @@ export const generatedTierDisplay = {
   "pt": {
     "report": {
       "lite": {
-        "name": "Relatório Lite",
+        "name": "Report Lite",
         "tagline": "GRATUITO Para Sempre",
         "bestFor": "Testando Sundae, visibilidade básica, prova de conceito",
         "features": [
@@ -6872,7 +6872,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "Relatório Plus",
+        "name": "Report Plus",
         "tagline": "Insights Automatizados",
         "bestFor": "Operadores sérios de uma única localização, entrada de dados automatizada, insights regulares de IA",
         "features": [
@@ -6884,7 +6884,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Relatório Pro",
+        "name": "Report Pro",
         "tagline": "Análises Potencializadas por API",
         "bestFor": "Operadores de múltiplas localizações, automação de API, análises avançadas, preparação de portfólio",
         "features": [
@@ -6938,7 +6938,7 @@ export const generatedTierDisplay = {
   "hi": {
     "report": {
       "lite": {
-        "name": "रिपोर्ट लाइट",
+        "name": "Report Lite",
         "tagline": "हमेशा के लिए मुफ्त",
         "bestFor": "संडे का परीक्षण, बुनियादी दृश्यता, अवधारणा का प्रमाण",
         "features": [
@@ -6950,7 +6950,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "रिपोर्ट प्लस",
+        "name": "Report Plus",
         "tagline": "स्वचालित अंतर्दृष्टि",
         "bestFor": "गंभीर एकल-स्थान, स्वचालित डेटा इनपुट, नियमित एआई अंतर्दृष्टि",
         "features": [
@@ -6962,7 +6962,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "रिपोर्ट प्रो",
+        "name": "Report Pro",
         "tagline": "एपीआई-संचालित विश्लेषण",
         "bestFor": "बहु-स्थान ऑपरेटर, एपीआई स्वचालन, उन्नत विश्लेषण, पोर्टफोलियो तैयारी",
         "features": [
@@ -6976,7 +6976,7 @@ export const generatedTierDisplay = {
     },
     "core": {
       "lite": {
-        "name": "कोर लाइट",
+        "name": "Core Lite",
         "tagline": "वास्तविक समय संचालन",
         "bestFor": "1-10 स्थान, वास्तविक समय संचालन, पोर्टफोलियो प्रबंधन, एकल पीओएस प्रणाली",
         "features": [
@@ -6988,11 +6988,11 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "कोर प्रो",
+        "name": "Core Pro",
         "tagline": "पोर्टफोलियो इंटेलिजेंस",
         "bestFor": "10-50 स्थान, बहु-पीओएस वातावरण, उन्नत पूर्वानुमान, रणनीतिक योजना",
         "features": [
-          "कोर लाइट में सब कुछ PLUS:",
+          "Core Lite में सब कुछ PLUS:",
           "5-मिनट डेटा रिफ्रेश (15-मिनट बनाम)",
           "30-दिन का पूर्वानुमान",
           "बहु-पीओएस समर्थन (असीमित सिस्टम)",
@@ -7004,7 +7004,7 @@ export const generatedTierDisplay = {
         "tagline": "कस्टम समाधान",
         "bestFor": "30+ स्थान या एंटरप्राइज सुविधाएँ आवश्यक (समर्पित CSM, 24/7, SSO, SLA, सुरक्षा/अनुपालन), बहु-ब्रांड पोर्टफोलियो",
         "features": [
-          "कोर प्रो में सब कुछ PLUS:",
+          "Core Pro में सब कुछ PLUS:",
           "समर्पित CSM",
           "24/7 समर्थन उपलब्ध",
           "15-मिनट का SLA (महत्वपूर्ण)",
@@ -7016,7 +7016,7 @@ export const generatedTierDisplay = {
   "ur": {
     "report": {
       "lite": {
-        "name": "رپورٹ لائٹ",
+        "name": "Report Lite",
         "tagline": "ہمیشہ کے لئے مفت",
         "bestFor": "Sundae کی جانچ، بنیادی بصیرت، تصور کا ثبوت",
         "features": [
@@ -7028,7 +7028,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "رپورٹ پلس",
+        "name": "Report Plus",
         "tagline": "خودکار بصیرتیں",
         "bestFor": "سنجیدہ ایک مقام، خودکار ڈیٹا ان پٹ، باقاعدہ AI بصیرتیں",
         "features": [
@@ -7040,7 +7040,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "رپورٹ پرو",
+        "name": "Report Pro",
         "tagline": "API سے چلنے والی تجزیات",
         "bestFor": "کئی مقامات کے آپریٹرز، API خودکار، جدید تجزیات، پورٹ فولیو کی تیاری",
         "features": [
@@ -7054,7 +7054,7 @@ export const generatedTierDisplay = {
     },
     "core": {
       "lite": {
-        "name": "کور لائٹ",
+        "name": "Core Lite",
         "tagline": "حقیقی وقت کی کارروائیاں",
         "bestFor": "1-10 مقامات، حقیقی وقت کی کارروائیاں، پورٹ فولیو کا انتظام، ایک POS نظام",
         "features": [
@@ -7066,11 +7066,11 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "کور پرو",
+        "name": "Core Pro",
         "tagline": "پورٹ فولیو کی ذہانت",
         "bestFor": "10-50 مقامات، ملٹی-POS ماحول، جدید پیش گوئی، اسٹریٹجک منصوبہ بندی",
         "features": [
-          "کور لائٹ میں سب کچھ PLUS:",
+          "Core Lite میں سب کچھ PLUS:",
           "5 منٹ کی ڈیٹا کی تازہ کاری (15 منٹ کے مقابلے)",
           "30 دن کی پیش گوئی کی پیش گوئی",
           "ملٹی-POS سپورٹ (لامحدود نظام)",
@@ -7082,7 +7082,7 @@ export const generatedTierDisplay = {
         "tagline": "حسب ضرورت حل",
         "bestFor": "30+ مقامات یا انٹرپرائز کی خصوصیات کی ضرورت (مخصوص CSM، 24/7، SSO، SLAs، سیکیورٹی/تعمیل)، ملٹی برانڈ پورٹ فولیو",
         "features": [
-          "کور پرو میں سب کچھ PLUS:",
+          "Core Pro میں سب کچھ PLUS:",
           "مخصوص CSM",
           "24/7 سپورٹ دستیاب",
           "15 منٹ کا SLA (اہم)",
@@ -7406,7 +7406,7 @@ export const generatedTierDisplay = {
   "ja": {
     "report": {
       "lite": {
-        "name": "レポートライト",
+        "name": "Report Lite",
         "tagline": "永遠に無料",
         "bestFor": "Sundaeのテスト、基本的な可視性、概念実証",
         "features": [
@@ -7418,7 +7418,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "レポートプラス",
+        "name": "Report Plus",
         "tagline": "自動化されたインサイト",
         "bestFor": "真剣な単一ロケーション、自動データ入力、定期的なAIインサイト",
         "features": [
@@ -7430,7 +7430,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "レポートプロ",
+        "name": "Report Pro",
         "tagline": "API駆動の分析",
         "bestFor": "複数ロケーションのオペレーター、API自動化、高度な分析、ポートフォリオ準備",
         "features": [
@@ -7444,7 +7444,7 @@ export const generatedTierDisplay = {
     },
     "core": {
       "lite": {
-        "name": "コアライト",
+        "name": "Core Lite",
         "tagline": "リアルタイムオペレーション",
         "bestFor": "1-10のロケーション、リアルタイムオペレーション、ポートフォリオ管理、単一POSシステム",
         "features": [
@@ -7456,11 +7456,11 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "コアプロ",
+        "name": "Core Pro",
         "tagline": "ポートフォリオインテリジェンス",
         "bestFor": "10-50のロケーション、複数POS環境、高度な予測、戦略的計画",
         "features": [
-          "コアライトのすべてに加えて:",
+          "Core Liteのすべてに加えて:",
           "5分ごとのデータ更新（15分と比較）",
           "30日間の予測",
           "複数POSサポート（無制限のシステム）",
@@ -7472,7 +7472,7 @@ export const generatedTierDisplay = {
         "tagline": "カスタムソリューション",
         "bestFor": "30以上のロケーションまたはエンタープライズ機能が必要（専任CSM、24/7、SSO、SLA、セキュリティ/コンプライアンス）、マルチブランドポートフォリオ",
         "features": [
-          "コアプロのすべてに加えて:",
+          "Core Proのすべてに加えて:",
           "専任CSM",
           "24/7サポートが利用可能",
           "15分のSLA（重要）",
@@ -7484,7 +7484,7 @@ export const generatedTierDisplay = {
   "ko": {
     "report": {
       "lite": {
-        "name": "리포트 라이트",
+        "name": "Report Lite",
         "tagline": "영원히 무료",
         "bestFor": "Sundae 테스트, 기본 가시성, 개념 증명",
         "features": [
@@ -7496,7 +7496,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "리포트 플러스",
+        "name": "Report Plus",
         "tagline": "자동화된 인사이트",
         "bestFor": "진지한 단일 위치, 자동 데이터 입력, 정기적인 AI 인사이트",
         "features": [
@@ -7508,7 +7508,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "리포트 프로",
+        "name": "Report Pro",
         "tagline": "API 기반 분석",
         "bestFor": "다중 위치 운영자, API 자동화, 고급 분석, 포트폴리오 준비",
         "features": [
@@ -7522,7 +7522,7 @@ export const generatedTierDisplay = {
     },
     "core": {
       "lite": {
-        "name": "코어 라이트",
+        "name": "Core Lite",
         "tagline": "실시간 운영",
         "bestFor": "1-10개 위치, 실시간 운영, 포트폴리오 관리, 단일 POS 시스템",
         "features": [
@@ -7534,11 +7534,11 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "코어 프로",
+        "name": "Core Pro",
         "tagline": "포트폴리오 인텔리전스",
         "bestFor": "10-50개 위치, 다중 POS 환경, 고급 예측, 전략적 계획",
         "features": [
-          "코어 라이트의 모든 기능 PLUS:",
+          "Core Lite의 모든 기능 PLUS:",
           "5분 데이터 새로 고침 (15분 대비)",
           "30일 예측 예측",
           "다중 POS 지원 (무제한 시스템)",
@@ -7550,7 +7550,7 @@ export const generatedTierDisplay = {
         "tagline": "맞춤형 솔루션",
         "bestFor": "30개 이상의 위치 또는 엔터프라이즈 기능 필요 (전담 CSM, 24/7, SSO, SLA, 보안/규정 준수), 다중 브랜드 포트폴리오",
         "features": [
-          "코어 프로의 모든 기능 PLUS:",
+          "Core Pro의 모든 기능 PLUS:",
           "전담 CSM",
           "24/7 지원 가능",
           "15분 SLA (중요)",
@@ -7796,7 +7796,7 @@ export const generatedTierDisplay = {
   "sv": {
     "report": {
       "lite": {
-        "name": "Rapport Lite",
+        "name": "Report Lite",
         "tagline": "GRATIS För Alltid",
         "bestFor": "Testa Sundae, grundläggande synlighet, bevis på koncept",
         "features": [
@@ -7808,7 +7808,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "Rapport Plus",
+        "name": "Report Plus",
         "tagline": "Automatiserade Insikter",
         "bestFor": "Seriösa enstaka platser, automatiserad datainmatning, regelbundna AI-insikter",
         "features": [
@@ -7820,7 +7820,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Rapport Pro",
+        "name": "Report Pro",
         "tagline": "API-Drevna Analyser",
         "bestFor": "Flera platser, API-automatisering, avancerad analys, portföljförberedelse",
         "features": [
@@ -7874,7 +7874,7 @@ export const generatedTierDisplay = {
   "bn": {
     "report": {
       "lite": {
-        "name": "রিপোর্ট লাইট",
+        "name": "Report Lite",
         "tagline": "চিরকাল ফ্রি",
         "bestFor": "সুন্ডে পরীক্ষা, মৌলিক দৃশ্যমানতা, ধারণার প্রমাণ",
         "features": [
@@ -7886,7 +7886,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "রিপোর্ট প্লাস",
+        "name": "Report Plus",
         "tagline": "স্বয়ংক্রিয় অন্তর্দৃষ্টি",
         "bestFor": "গম্ভীর একক-অবস্থান, স্বয়ংক্রিয় ডেটা ইনপুট, নিয়মিত AI অন্তর্দৃষ্টি",
         "features": [
@@ -7898,7 +7898,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "রিপোর্ট প্রো",
+        "name": "Report Pro",
         "tagline": "এপিআই-চালিত বিশ্লেষণ",
         "bestFor": "মাল্টি-অবস্থান অপারেটর, এপিআই স্বয়ংক্রিয়করণ, উন্নত বিশ্লেষণ, পোর্টফোলিও প্রস্তুতি",
         "features": [
@@ -7912,7 +7912,7 @@ export const generatedTierDisplay = {
     },
     "core": {
       "lite": {
-        "name": "কোর লাইট",
+        "name": "Core Lite",
         "tagline": "রিয়েল-টাইম অপারেশন",
         "bestFor": "১-১০টি অবস্থান, রিয়েল-টাইম অপারেশন, পোর্টফোলিও ব্যবস্থাপনা, একক POS সিস্টেম",
         "features": [
@@ -7924,11 +7924,11 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "কোর প্রো",
+        "name": "Core Pro",
         "tagline": "পোর্টফোলিও ইনটেলিজেন্স",
         "bestFor": "১০-৫০টি অবস্থান, মাল্টি-POS পরিবেশ, উন্নত পূর্বাভাস, কৌশলগত পরিকল্পনা",
         "features": [
-          "কোর লাইটের সবকিছু প্লাস:",
+          "Core Liteের সবকিছু প্লাস:",
           "৫-মিনিট ডেটা রিফ্রেশ (১৫-মিনিটের বিপরীতে)",
           "৩০-দিনের পূর্বাভাস",
           "মাল্টি-POS সমর্থন (অসীম সিস্টেম)",
@@ -7940,7 +7940,7 @@ export const generatedTierDisplay = {
         "tagline": "কাস্টম সমাধান",
         "bestFor": "৩০+ অবস্থান অথবা এন্টারপ্রাইজ বৈশিষ্ট্য প্রয়োজন (নির্দিষ্ট CSM, ২৪/৭, SSO, SLA, নিরাপত্তা/অনুগত), মাল্টি-ব্র্যান্ড পোর্টফোলিও",
         "features": [
-          "কোর প্রোর সবকিছু প্লাস:",
+          "Core Proর সবকিছু প্লাস:",
           "নির্দিষ্ট CSM",
           "২৪/৭ সমর্থন উপলব্ধ",
           "১৫-মিনিট SLA (গুরুতর)",
@@ -7952,7 +7952,7 @@ export const generatedTierDisplay = {
   "th": {
     "report": {
       "lite": {
-        "name": "รายงาน Lite",
+        "name": "Report Lite",
         "tagline": "ฟรีตลอดไป",
         "bestFor": "ทดสอบ Sundae, การมองเห็นพื้นฐาน, หลักฐานของแนวคิด",
         "features": [
@@ -7964,7 +7964,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "รายงาน Plus",
+        "name": "Report Plus",
         "tagline": "ข้อมูลเชิงลึกอัตโนมัติ",
         "bestFor": "ผู้ที่มีสถานที่เดียวอย่างจริงจัง, การป้อนข้อมูลอัตโนมัติ, ข้อมูลเชิงลึก AI เป็นประจำ",
         "features": [
@@ -7976,7 +7976,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "รายงาน Pro",
+        "name": "Report Pro",
         "tagline": "การวิเคราะห์ที่ขับเคลื่อนด้วย API",
         "bestFor": "ผู้ดำเนินการหลายสถานที่, การทำงานอัตโนมัติด้วย API, การวิเคราะห์ขั้นสูง, การเตรียมพอร์ตโฟลิโอ",
         "features": [
@@ -8223,7 +8223,7 @@ export const generatedAddOnDisplay = {
         "Matriz de Correlação Completa",
         "Cascata de Atribuição de Receita",
         "Radar de Eficiência de Gastos",
-        "Monitor de Pulso de Campanha",
+        "Campaign Pulse Monitor",
         "Detector de Canibalização"
       ]
     }
@@ -8343,7 +8343,7 @@ export const generatedAddOnDisplay = {
         "Matrice di Correlazione Completa",
         "Waterfall di Attribuzione dei Ricavi",
         "Radar di Efficienza della Spesa",
-        "Monitor di Pulsazione delle Campagne",
+        "Campaign Pulse Monitor",
         "Rilevatore di Cannibalizzazione"
       ]
     }
@@ -8907,7 +8907,7 @@ export const generatedComparisonLabels = {
     "users": "उपयोगकर्ता",
     "benchmarking": "बेंचमार्किंग",
     "historicalAccess": "ऐतिहासिक पहुंच",
-    "addonsReportProOnly": "ऐड-ऑन (रिपोर्ट प्रो केवल)",
+    "addonsReportProOnly": "ऐड-ऑन (Report Pro केवल)",
     "collaboration": "सहयोग",
     "reports": "रिपोर्ट्स",
     "support": "समर्थन",
@@ -8916,7 +8916,7 @@ export const generatedComparisonLabels = {
     "dataRefresh": "डेटा रिफ्रेश",
     "salesAnalyticsIncluded": "सेल्स एनालिटिक्स (शामिल)",
     "aiCapabilities": "एआई क्षमताएँ",
-    "modulesWatchtower": "मॉड्यूल और वॉचटावर",
+    "modulesWatchtower": "मॉड्यूल और Watchtower",
     "portfolioManagement": "पोर्टफोलियो प्रबंधन",
     "customDashboards": "कस्टम डैशबोर्ड",
     "apiAccess": "एपीआई एक्सेस",
@@ -8930,7 +8930,7 @@ export const generatedComparisonLabels = {
     "users": "صارفین",
     "benchmarking": "بینچ مارکنگ",
     "historicalAccess": "تاریخی رسائی",
-    "addonsReportProOnly": "ایڈ آنز (صرف رپورٹ پرو)",
+    "addonsReportProOnly": "ایڈ آنز (صرف Report Pro)",
     "collaboration": "تعاون",
     "reports": "رپورٹس",
     "support": "سپورٹ",
@@ -8939,7 +8939,7 @@ export const generatedComparisonLabels = {
     "dataRefresh": "ڈیٹا کی تازہ کاری",
     "salesAnalyticsIncluded": "سیلز تجزیات (شامل)",
     "aiCapabilities": "AI کی صلاحیتیں",
-    "modulesWatchtower": "ماڈیولز اور واچ ٹاور",
+    "modulesWatchtower": "ماڈیولز اور Watchtower",
     "portfolioManagement": "پورٹ فولیو مینجمنٹ",
     "customDashboards": "حسب ضرورت ڈیش بورڈز",
     "apiAccess": "API تک رسائی",
@@ -9022,7 +9022,7 @@ export const generatedComparisonLabels = {
     "users": "用户",
     "benchmarking": "基准测试",
     "historicalAccess": "历史访问",
-    "addonsReportProOnly": "附加功能（仅限报告专业版）",
+    "addonsReportProOnly": "附加功能（仅限Report Pro）",
     "collaboration": "协作",
     "reports": "报告",
     "support": "支持",
@@ -9068,7 +9068,7 @@ export const generatedComparisonLabels = {
     "users": "사용자",
     "benchmarking": "벤치마킹",
     "historicalAccess": "과거 접근",
-    "addonsReportProOnly": "추가 기능 (리포트 프로 전용)",
+    "addonsReportProOnly": "추가 기능 (Report Pro 전용)",
     "collaboration": "협업",
     "reports": "리포트",
     "support": "지원",
@@ -9077,7 +9077,7 @@ export const generatedComparisonLabels = {
     "dataRefresh": "데이터 새로 고침",
     "salesAnalyticsIncluded": "판매 분석 (포함)",
     "aiCapabilities": "AI 기능",
-    "modulesWatchtower": "모듈 및 워치타워",
+    "modulesWatchtower": "모듈 및 Watchtower",
     "portfolioManagement": "포트폴리오 관리",
     "customDashboards": "맞춤형 대시보드",
     "apiAccess": "API 접근",
@@ -9183,7 +9183,7 @@ export const generatedComparisonLabels = {
     "users": "ব্যবহারকারীরা",
     "benchmarking": "বেন্চমার্কিং",
     "historicalAccess": "ঐতিহাসিক অ্যাক্সেস",
-    "addonsReportProOnly": "অ্যাড-অন (রিপোর্ট প্রো শুধুমাত্র)",
+    "addonsReportProOnly": "অ্যাড-অন (Report Pro শুধুমাত্র)",
     "collaboration": "সহযোগিতা",
     "reports": "রিপোর্ট",
     "support": "সমর্থন",
@@ -9192,7 +9192,7 @@ export const generatedComparisonLabels = {
     "dataRefresh": "ডেটা রিফ্রেশ",
     "salesAnalyticsIncluded": "বিক্রয় অ্যানালিটিক্স (শামিল)",
     "aiCapabilities": "এআই সক্ষমতা",
-    "modulesWatchtower": "মডিউল ও ওয়াচটাওয়ার",
+    "modulesWatchtower": "মডিউল ও Watchtower",
     "portfolioManagement": "পোর্টফোলিও ব্যবস্থাপনা",
     "customDashboards": "কাস্টম ড্যাশবোর্ড",
     "apiAccess": "এপিআই অ্যাক্সেস",
@@ -11155,11 +11155,11 @@ export const generatedPricingI18nCopy = {
   },
   "hi": {
     "tiers": {
-      "Report Lite": "रिपोर्ट लाइट",
-      "Report Plus": "रिपोर्ट प्लस",
-      "Report Pro": "रिपोर्ट प्रो",
-      "Core Lite": "कोर लाइट",
-      "Core Pro": "कोर प्रो",
+      "Report Lite": "Report Lite",
+      "Report Plus": "Report Plus",
+      "Report Pro": "Report Pro",
+      "Core Lite": "Core Lite",
+      "Core Pro": "Core Pro",
       "Enterprise": "एंटरप्राइज"
     },
     "modules": {
@@ -11218,11 +11218,11 @@ export const generatedPricingI18nCopy = {
   },
   "ur": {
     "tiers": {
-      "Report Lite": "رپورٹ لائٹ",
-      "Report Plus": "رپورٹ پلس",
-      "Report Pro": "رپورٹ پرو",
-      "Core Lite": "کور لائٹ",
-      "Core Pro": "کور پرو",
+      "Report Lite": "Report Lite",
+      "Report Plus": "Report Plus",
+      "Report Pro": "Report Pro",
+      "Core Lite": "Core Lite",
+      "Core Pro": "Core Pro",
       "Enterprise": "انٹرپرائز"
     },
     "modules": {
@@ -11241,7 +11241,7 @@ export const generatedPricingI18nCopy = {
       "competitive": "مقابلتی ذہانت",
       "events": "ایونٹ اور کیلنڈر کے اشارے",
       "trends": "مارکیٹ کے رجحانات",
-      "bundle": "واچ ٹاور بنڈل"
+      "bundle": "Watchtower بنڈل"
     },
     "discounts": {
       "volume": "حجم کی چھوٹ",
@@ -11259,7 +11259,7 @@ export const generatedPricingI18nCopy = {
       "locationsLabel": "مقامات",
       "perLocationLabel": "فی مقام",
       "modulesLabel": "ماڈیولز",
-      "watchtowerLabel": "واچ ٹاور",
+      "watchtowerLabel": "Watchtower",
       "monthlyInvestmentLabel": "ماہانہ سرمایہ کاری",
       "annualLabel": "سالانہ",
       "priceBreakdownTitle": "قیمت کی تفصیل",
@@ -11470,11 +11470,11 @@ export const generatedPricingI18nCopy = {
   },
   "zh-Hans": {
     "tiers": {
-      "Report Lite": "报告基础版",
-      "Report Plus": "报告增强版",
-      "Report Pro": "报告专业版",
-      "Core Lite": "核心基础版",
-      "Core Pro": "核心专业版",
+      "Report Lite": "Report Lite",
+      "Report Plus": "Report Plus",
+      "Report Pro": "Report Pro",
+      "Core Lite": "Core Lite",
+      "Core Pro": "Core Pro",
       "Enterprise": "企业版"
     },
     "modules": {
@@ -11533,11 +11533,11 @@ export const generatedPricingI18nCopy = {
   },
   "ja": {
     "tiers": {
-      "Report Lite": "レポートライト",
-      "Report Plus": "レポートプラス",
-      "Report Pro": "レポートプロ",
-      "Core Lite": "コアライト",
-      "Core Pro": "コアプロ",
+      "Report Lite": "Report Lite",
+      "Report Plus": "Report Plus",
+      "Report Pro": "Report Pro",
+      "Core Lite": "Core Lite",
+      "Core Pro": "Core Pro",
       "Enterprise": "エンタープライズ"
     },
     "modules": {
@@ -11556,7 +11556,7 @@ export const generatedPricingI18nCopy = {
       "competitive": "競争インテリジェンス",
       "events": "イベント＆カレンダーシグナル",
       "trends": "市場トレンド",
-      "bundle": "ウォッチタワーバンドル"
+      "bundle": "Watchtowerバンドル"
     },
     "discounts": {
       "volume": "ボリュームディスカウント",
@@ -11574,7 +11574,7 @@ export const generatedPricingI18nCopy = {
       "locationsLabel": "ロケーション",
       "perLocationLabel": "ロケーションごと",
       "modulesLabel": "モジュール",
-      "watchtowerLabel": "ウォッチタワー",
+      "watchtowerLabel": "Watchtower",
       "monthlyInvestmentLabel": "月額投資",
       "annualLabel": "年次",
       "priceBreakdownTitle": "価格内訳",
@@ -11596,11 +11596,11 @@ export const generatedPricingI18nCopy = {
   },
   "ko": {
     "tiers": {
-      "Report Lite": "리포트 라이트",
-      "Report Plus": "리포트 플러스",
-      "Report Pro": "리포트 프로",
-      "Core Lite": "코어 라이트",
-      "Core Pro": "코어 프로",
+      "Report Lite": "Report Lite",
+      "Report Plus": "Report Plus",
+      "Report Pro": "Report Pro",
+      "Core Lite": "Core Lite",
+      "Core Pro": "Core Pro",
       "Enterprise": "엔터프라이즈"
     },
     "modules": {
@@ -11865,7 +11865,7 @@ export const generatedPricingI18nCopy = {
       "revenue": "Intäktsgaranti",
       "delivery": "Leverans ekonomi",
       "guest": "Gästupplevelse",
-      "pulse": "Puls"
+      "pulse": "Pulse"
     },
     "watchtower": {
       "competitive": "Konkurrensintelligens",
@@ -11911,11 +11911,11 @@ export const generatedPricingI18nCopy = {
   },
   "bn": {
     "tiers": {
-      "Report Lite": "রিপোর্ট লাইট",
-      "Report Plus": "রিপোর্ট প্লাস",
-      "Report Pro": "রিপোর্ট প্রো",
-      "Core Lite": "কোর লাইট",
-      "Core Pro": "কোর প্রো",
+      "Report Lite": "Report Lite",
+      "Report Plus": "Report Plus",
+      "Report Pro": "Report Pro",
+      "Core Lite": "Core Lite",
+      "Core Pro": "Core Pro",
       "Enterprise": "এন্টারপ্রাইজ"
     },
     "modules": {
@@ -11934,7 +11934,7 @@ export const generatedPricingI18nCopy = {
       "competitive": "প্রতিযোগিতামূলক বুদ্ধিমত্তা",
       "events": "ইভেন্ট ও ক্যালেন্ডার সংকেত",
       "trends": "বাজারের প্রবণতা",
-      "bundle": "ওয়াচটাওয়ার বান্ডেল"
+      "bundle": "Watchtower বান্ডেল"
     },
     "discounts": {
       "volume": "ভলিউম ডিসকাউন্ট",
@@ -11952,7 +11952,7 @@ export const generatedPricingI18nCopy = {
       "locationsLabel": "অবস্থান",
       "perLocationLabel": "প্রতি অবস্থান",
       "modulesLabel": "মডিউল",
-      "watchtowerLabel": "ওয়াচটাওয়ার",
+      "watchtowerLabel": "Watchtower",
       "monthlyInvestmentLabel": "মাসিক বিনিয়োগ",
       "annualLabel": "বার্ষিক",
       "priceBreakdownTitle": "মূল্য বিশ্লেষণ",

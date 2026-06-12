@@ -68,18 +68,18 @@ export const generatedPricingMessages = {
       "completed": "abgeschlossen",
       "current": "aktuell",
       "clickToGoBack": "klicken Sie, um zurückzugehen",
-      "idealLayer": "Ideale Schicht",
+      "idealLayer": "Ideale Ebene",
       "locationRange": "Standortbereich",
       "modulesPreselected": "Module vorab ausgewählt",
       "basedOnYourPriorities": "{count} basierend auf Ihren Prioritäten",
       "startWithBasics": "Mit den Grundlagen beginnen",
       "recommendedForYourPriorities": "Empfohlen für Ihre Prioritäten - Sie können die Auswahl bearbeiten.",
       "seeCustomStack": "Sehen Sie Ihren benutzerdefinierten Stack",
-      "resultLayerReport": "Bericht",
-      "resultLayerCore": "Kern",
+      "resultLayerReport": "Report",
+      "resultLayerCore": "Core",
       "journey": {
         "persona": "Entdecken Sie Ihre Persona",
-        "layer": "Wählen Sie Ihre Schicht",
+        "layer": "Wählen Sie Ihre Ebene",
         "tier": "Wählen Sie Ihre Stufe",
         "locations": "Standorte konfigurieren",
         "modules": "Module hinzufügen",
@@ -116,7 +116,7 @@ export const generatedPricingMessages = {
       "competitorComparison": "Vollständigen Wettbewerbsvergleich anzeigen",
       "watchtowerValueTitle": "Strategischer Wert von Watchtower",
       "readyTitle": "Bereit, loszulegen?",
-      "readyDescription": "Schließen Sie sich Hunderte von Restaurants an, die bereits Sundae nutzen, um smartere Entscheidungen zu treffen",
+      "readyDescription": "Schließen Sie sich Hunderten von Restaurants an, die bereits mit Sundae klügere Entscheidungen treffen",
       "startTrial": "Kostenlose Testversion starten",
       "noCard": "Keine Kreditkarte erforderlich • 14 Tage kostenlose Testversion • Jederzeit kündbar",
       "questions": "Fragen?",
@@ -132,8 +132,8 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Einfache, transparente Preise",
       "heroSubtitle": "Kostenlos starten, skalieren, während Sie wachsen. Keine versteckten Gebühren, keine Überraschungen.",
-      "reportTab": "Bericht",
-      "coreTab": "Kern",
+      "reportTab": "Report",
+      "coreTab": "Core",
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundae Report",
       "reportSubtitle": "Analysen und Einblicke für Restaurantdaten",
@@ -198,7 +198,7 @@ export const generatedPricingMessages = {
         "benchmarkMetrics": "Benchmark-Kennzahlen"
       },
       "modulePicker": {
-        "title": "Power Up Your Stack",
+        "title": "Bauen Sie Ihren Stack aus",
         "subtitle": "Fügen Sie Intelligenzmodule hinzu, um tiefere Einblicke und Automatisierung freizuschalten",
         "comboUnlocked": "Effizienz-Kombination freigeschaltet!",
         "comboDescription": "Arbeits- + Inventarmodule arbeiten zusammen für maximale Betriebseffizienz",
@@ -279,9 +279,9 @@ export const generatedPricingMessages = {
             "bestFor": "10-50 Standorte, Multi-POS-Umgebungen, erweiterte Prognosen, strategische Planung"
           },
           "enterprise": {
-            "name": "Unternehmen",
+            "name": "Enterprise",
             "tagline": "Benutzerdefinierte Lösungen",
-            "bestFor": "30+ Standorte oder Unternehmensanforderungen, Multi-Brand-Portfolios"
+            "bestFor": "30+ Standorte oder Enterprise-Anforderungen, Multi-Brand-Portfolios"
           }
         }
       },
@@ -327,7 +327,7 @@ export const generatedPricingMessages = {
           "roi": "Echte Rentabilität bei der Lieferung"
         },
         "guest": {
-          "name": "Gästenerlebnis",
+          "name": "Gästeerlebnis",
           "description": "Bewertungsstimmung, Bewertungstrends, Gästefeedbackmuster und Zufriedenheitsfaktoren",
           "roi": "Warum Kunden gehen"
         },
@@ -447,7 +447,7 @@ export const generatedPricingMessages = {
       "startWithBasics": "Begin met de basis",
       "recommendedForYourPriorities": "Aanbevolen voor jouw prioriteiten - je kunt de selecties bewerken.",
       "seeCustomStack": "Bekijk Jouw Aangepaste Stack",
-      "resultLayerReport": "Rapport",
+      "resultLayerReport": "Report",
       "resultLayerCore": "Core",
       "journey": {
         "persona": "Ontdek Jouw Persona",
@@ -504,10 +504,10 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Eenvoudige, Transparante Prijzen",
       "heroSubtitle": "Begin gratis, schaal terwijl je groeit. Geen verborgen kosten, geen verrassingen.",
-      "reportTab": "Rapport",
+      "reportTab": "Report",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundae Rapport",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Analyses en inzichten voor restaurantdata",
       "coreTitle": "Sundae Core",
       "coreSubtitle": "Realtime operaties met POS-integratie",
@@ -525,7 +525,7 @@ export const generatedPricingMessages = {
       "selectTier": "Selecteer {tier}",
       "contactSales": "Neem contact op met Verkoop",
       "bestFor": "Het beste voor:",
-      "reportFeaturesComparison": "Rapport Kenmerken Vergelijking",
+      "reportFeaturesComparison": "Report Functievergelijking",
       "coreFeaturesComparison": "Core Kenmerken Vergelijking",
       "portfolioPricingAdvantage": "Portfolio Prijsvoordeel",
       "addOnModulesEyebrow": "AANVULLENDE MODULES",
@@ -550,7 +550,7 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Kies Jouw Rapport Niveau",
+        "chooseReportTier": "Kies Jouw Report-niveau",
         "chooseCoreTier": "Kies Jouw Core Niveau",
         "reportSubtitle": "Begin gratis of ontgrendel meer analytische kracht",
         "coreSubtitle": "Realtime intelligentie afgestemd op jouw schaal",
@@ -819,7 +819,7 @@ export const generatedPricingMessages = {
       "startWithBasics": "Comece com o básico",
       "recommendedForYourPriorities": "Recomendado para suas prioridades - você pode editar as seleções.",
       "seeCustomStack": "Veja Sua Pilha Personalizada",
-      "resultLayerReport": "Relatório",
+      "resultLayerReport": "Report",
       "resultLayerCore": "Core",
       "journey": {
         "persona": "Descubra Seu Persona",
@@ -876,7 +876,7 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Preços Simples e Transparentes",
       "heroSubtitle": "Comece grátis, escale conforme cresce. Sem taxas ocultas, sem surpresas.",
-      "reportTab": "Relatório",
+      "reportTab": "Report",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundae Report",
@@ -897,7 +897,7 @@ export const generatedPricingMessages = {
       "selectTier": "Selecione {tier}",
       "contactSales": "Contato Vendas",
       "bestFor": "Melhor para:",
-      "reportFeaturesComparison": "Comparação de Recursos do Relatório",
+      "reportFeaturesComparison": "Comparação de Recursos do Report",
       "coreFeaturesComparison": "Comparação de Recursos do Core",
       "portfolioPricingAdvantage": "Vantagem de Preços de Portfólio",
       "addOnModulesEyebrow": "MÓDULOS ADICIONAIS",
@@ -922,7 +922,7 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Escolha Seu Nível de Relatório",
+        "chooseReportTier": "Escolha Seu Nível Report",
         "chooseCoreTier": "Escolha Seu Nível Core",
         "reportSubtitle": "Comece grátis ou desbloqueie mais poder analítico",
         "coreSubtitle": "Inteligência em tempo real adaptada à sua escala",
@@ -933,13 +933,13 @@ export const generatedPricingMessages = {
         "aiCredits": "Créditos de IA",
         "visuals": "Visuais",
         "dataRefresh": "Atualização de Dados",
-        "benchmark": "Referência",
+        "benchmark": "Benchmark",
         "metrics": "métricas",
         "selectTier": "Selecione {tier}",
         "detailedFeatureComparison": "Comparação Detalhada de Recursos",
         "feature": "Recurso",
         "monthlyPrice": "Preço Mensal",
-        "benchmarkMetrics": "Métricas de Referência"
+        "benchmarkMetrics": "Métricas de Benchmark"
       },
       "modulePicker": {
         "title": "Potencialize Sua Pilha",
@@ -1062,7 +1062,7 @@ export const generatedPricingMessages = {
         },
         "revenue": {
           "name": "Garantia de Receita",
-          "description": "Detectar vazamentos de anulações, compensa, descontos, padrões de roubo e anomalias de transação",
+          "description": "Detectar vazamentos por anulações, cortesias, descontos, padrões de roubo e anomalias de transação",
           "roi": "Capture 1-2% de vazamento"
         },
         "delivery": {
@@ -1179,7 +1179,7 @@ export const generatedPricingMessages = {
       "back": "वापस",
       "continue": "जारी रखें",
       "skip": "छोड़ें",
-      "stepOf": "चरण {current} में {total}",
+      "stepOf": "{total} में से चरण {current}",
       "currentStepCount": "{current} / {total}",
       "completed": "पूर्ण",
       "current": "वर्तमान",
@@ -1187,12 +1187,12 @@ export const generatedPricingMessages = {
       "idealLayer": "आदर्श परत",
       "locationRange": "स्थान रेंज",
       "modulesPreselected": "मॉड्यूल पूर्व-चयनित",
-      "basedOnYourPriorities": "{count} आपके प्राथमिकताओं के आधार पर",
+      "basedOnYourPriorities": "{count} आपकी प्राथमिकताओं के आधार पर",
       "startWithBasics": "बुनियादी चीजों से शुरू करें",
       "recommendedForYourPriorities": "आपकी प्राथमिकताओं के लिए अनुशंसित - आप चयन संपादित कर सकते हैं।",
       "seeCustomStack": "अपने कस्टम स्टैक को देखें",
-      "resultLayerReport": "रिपोर्ट",
-      "resultLayerCore": "कोर",
+      "resultLayerReport": "Report",
+      "resultLayerCore": "Core",
       "journey": {
         "persona": "अपने व्यक्तित्व की खोज करें",
         "layer": "अपनी परत चुनें",
@@ -1226,7 +1226,7 @@ export const generatedPricingMessages = {
       "aiCreditsDescription": "अंतर्दृष्टि और स्वचालन के लिए",
       "investmentTitle": "निवेश सारांश",
       "monthlyInvestment": "मासिक निवेश",
-      "enterpriseQuote": "संस्थानिक उद्धरण के लिए {email} पर संपर्क करें",
+      "enterpriseQuote": "एंटरप्राइज उद्धरण के लिए {email} पर संपर्क करें",
       "contactSales": "उद्धरण के लिए बिक्री से संपर्क करें",
       "whatsIncluded": "क्या शामिल है",
       "competitorComparison": "पूर्ण प्रतियोगी तुलना देखें",
@@ -1248,8 +1248,8 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "सरल, पारदर्शी मूल्य निर्धारण",
       "heroSubtitle": "मुफ्त शुरू करें, जैसे-जैसे आप बढ़ते हैं, स्केल करें। कोई छिपी हुई फीस नहीं, कोई आश्चर्य नहीं।",
-      "reportTab": "रिपोर्ट",
-      "coreTab": "कोर",
+      "reportTab": "Report",
+      "coreTab": "Core",
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundae Report",
       "reportSubtitle": "रेस्तरां डेटा के लिए विश्लेषण और अंतर्दृष्टि",
@@ -1269,23 +1269,23 @@ export const generatedPricingMessages = {
       "selectTier": "चुनें {tier}",
       "contactSales": "संपर्क बिक्री",
       "bestFor": "के लिए सर्वश्रेष्ठ:",
-      "reportFeaturesComparison": "रिपोर्ट सुविधाओं की तुलना",
-      "coreFeaturesComparison": "कोर सुविधाओं की तुलना",
+      "reportFeaturesComparison": "Report सुविधाओं की तुलना",
+      "coreFeaturesComparison": "Core सुविधाओं की तुलना",
       "portfolioPricingAdvantage": "पोर्टफोलियो मूल्य निर्धारण लाभ",
       "addOnModulesEyebrow": "ऐड-ऑन मॉड्यूल",
-      "moduleAddonsTitle": "कोर के लिए मॉड्यूल ऐड-ऑन",
-      "moduleAddonsSubtitle": "कोर श्रेणी में विशेष बुद्धिमत्ता जोड़ें। संगठन लाइसेंस स्थान 1-3 को कवर करता है, फिर स्थान #4+ से प्रति स्थान।",
+      "moduleAddonsTitle": "Core के लिए मॉड्यूल ऐड-ऑन",
+      "moduleAddonsSubtitle": "Core श्रेणी में विशेष बुद्धिमत्ता जोड़ें। संगठन लाइसेंस स्थान 1-3 को कवर करता है, फिर स्थान #4+ से प्रति स्थान।",
       "module": "मॉड्यूल",
       "orgLicense": "संगठन लाइसेंस",
       "perLocationFrom4": "प्रति स्थान (#4+)",
       "locations5": "5 स्थान",
       "locations10": "10 स्थान",
-      "crossIntelligenceEyebrow": "क्रॉस-बुद्धिमत्ता इंजन",
-      "crossIntelligenceTitle": "क्रॉस-बुद्धिमत्ता सहसंबंध इंजन",
+      "crossIntelligenceEyebrow": "Cross-Intelligence इंजन",
+      "crossIntelligenceTitle": "Cross-Intelligence सहसंबंध इंजन",
       "crossIntelligenceSubtitle": "आपके डेटा स्रोतों के बीच छिपे हुए सहसंबंधों को सतह पर लाता है - जब आप 3+ मॉड्यूल सक्रिय करते हैं तो स्वचालित रूप से सक्षम होता है",
       "free": "मुफ्त",
       "autoEnabledWithThreeModules": "3+ मॉड्यूल के साथ स्वचालित रूप से सक्षम - कोई अतिरिक्त लागत नहीं",
-      "pro": "प्रो",
+      "pro": "Pro",
       "perLocationFrom2": "+${price}/स्थान स्थान #2 से",
       "locationOne": "1 स्थान",
       "savePerMonth": "${amount}/माह बचाएं ({percent}%)",
@@ -1294,8 +1294,8 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "अपने रिपोर्ट श्रेणी का चयन करें",
-        "chooseCoreTier": "अपने कोर श्रेणी का चयन करें",
+        "chooseReportTier": "अपनी Report श्रेणी का चयन करें",
+        "chooseCoreTier": "अपनी Core श्रेणी का चयन करें",
         "reportSubtitle": "मुफ्त शुरू करें या अधिक विश्लेषणात्मक शक्ति अनलॉक करें",
         "coreSubtitle": "आपके पैमाने के लिए अनुकूलित वास्तविक समय की बुद्धिमत्ता",
         "recommended": "अनुशंसित",
@@ -1305,13 +1305,13 @@ export const generatedPricingMessages = {
         "aiCredits": "AI क्रेडिट",
         "visuals": "दृश्य",
         "dataRefresh": "डेटा ताज़ा करें",
-        "benchmark": "बेंचमार्क",
+        "benchmark": "Benchmark",
         "metrics": "मेट्रिक्स",
         "selectTier": "चुनें {tier}",
         "detailedFeatureComparison": "विस्तृत फीचर तुलना",
         "feature": "विशेषता",
         "monthlyPrice": "मासिक मूल्य",
-        "benchmarkMetrics": "बेंचमार्क मेट्रिक्स"
+        "benchmarkMetrics": "Benchmark मेट्रिक्स"
       },
       "modulePicker": {
         "title": "अपने स्टैक को पावर अप करें",
@@ -1321,10 +1321,10 @@ export const generatedPricingMessages = {
         "recommended": "अनुशंसित",
         "perMonth": "/माह",
         "includesExtra": "शामिल {included} स्थान + {extra} अतिरिक्त",
-        "crossUnlocked": "क्रॉस-बुद्धिमत्ता अनलॉक की गई!",
+        "crossUnlocked": "Cross-Intelligence अनलॉक की गई!",
         "crossUnlockedDescription": "मुफ्त सहसंबंध इंजन {count} मॉड्यूल के साथ सक्षम - अगले चरण में प्रो में अपग्रेड करें",
         "crossNeedsMore": "अनलॉक करने के लिए {count} और {moduleWord} चुनें",
-        "crossFreeSuffix": "क्रॉस-बुद्धिमत्ता - आपके डेटा स्रोतों के बीच मुफ्त सहसंबंध इंजन",
+        "crossFreeSuffix": "Cross-Intelligence - आपके डेटा स्रोतों के बीच मुफ्त सहसंबंध इंजन",
         "moduleSingular": "मॉड्यूल",
         "modulePlural": "मॉड्यूल",
         "totalWithModules": "मॉड्यूल के साथ कुल",
@@ -1353,7 +1353,7 @@ export const generatedPricingMessages = {
         "individualSuffix": "व्यक्तिगत",
         "proPriceNote": "${monthlyFee}/माह + ${perLocation}/स्थान स्थान #2 से ({locations} स्थान)",
         "unlockedWithModules": "{count} मॉड्यूल के साथ अनलॉक किया गया",
-        "crossTitle": "क्रॉस-बुद्धिमत्ता सहसंबंध इंजन",
+        "crossTitle": "Cross-Intelligence सहसंबंध इंजन",
         "crossSubtitle": "आपके डेटा स्रोतों के बीच छिपे हुए संबंधों को सतह पर लाता है - 3+ मॉड्यूल के साथ स्वचालित रूप से सक्षम होता है",
         "includedFree": "मुफ्त में शामिल",
         "selected": "चयनित",
@@ -1395,9 +1395,9 @@ export const generatedPricingMessages = {
             "bestFor": "10-50 स्थान, मल्टी-POS वातावरण, उन्नत पूर्वानुमान, रणनीतिक योजना"
           },
           "enterprise": {
-            "name": "संस्थान",
+            "name": "Enterprise",
             "tagline": "कस्टम समाधान",
-            "bestFor": "30+ स्थान या संस्थान आवश्यकताएँ, मल्टी-ब्रांड पोर्टफोलियो"
+            "bestFor": "30+ स्थान या एंटरप्राइज़ आवश्यकताएँ, मल्टी-ब्रांड पोर्टफोलियो"
           }
         }
       },
@@ -1448,7 +1448,7 @@ export const generatedPricingMessages = {
           "roi": "ग्राहक क्यों छोड़ते हैं"
         },
         "pulse": {
-          "name": "पल्स",
+          "name": "Pulse",
           "description": "वास्तविक समय की निगरानी, अलर्ट, सहसंबंध, और संचालन में सक्रिय विसंगति पहचान",
           "roi": "वास्तविक समय परिचालन जागरूकता"
         }
@@ -1477,11 +1477,11 @@ export const generatedPricingMessages = {
       },
       "crossIntelligence": {
         "base": {
-          "name": "क्रॉस-बुद्धिमत्ता",
+          "name": "Cross-Intelligence",
           "description": "स्वचालित क्रॉस-मॉड्यूल सहसंबंध अंतर्दृष्टि जो डेटा स्रोतों के बीच छिपे हुए संबंधों को सतह पर लाती है"
         },
         "pro": {
-          "name": "क्रॉस-बुद्धिमत्ता प्रो",
+          "name": "Cross-Intelligence Pro",
           "description": "पूर्ण सहसंबंध इंजन जिसमें श्रेय, कैनिबलाइजेशन पहचान, और वास्तविक समय अभियान निगरानी शामिल है"
         }
       }
@@ -1551,7 +1551,7 @@ export const generatedPricingMessages = {
       "back": "پیچھے",
       "continue": "جاری رکھیں",
       "skip": "نظر انداز کریں",
-      "stepOf": "مرحلہ {current} میں {total}",
+      "stepOf": "{total} میں سے مرحلہ {current}",
       "currentStepCount": "{current} / {total}",
       "completed": "مکمل",
       "current": "موجودہ",
@@ -1563,8 +1563,8 @@ export const generatedPricingMessages = {
       "startWithBasics": "بنیادیات سے شروع کریں",
       "recommendedForYourPriorities": "آپ کی ترجیحات کے لیے تجویز کردہ - آپ انتخاب میں ترمیم کر سکتے ہیں۔",
       "seeCustomStack": "اپنا حسب ضرورت اسٹیک دیکھیں",
-      "resultLayerReport": "رپورٹ",
-      "resultLayerCore": "کور",
+      "resultLayerReport": "Report",
+      "resultLayerCore": "Core",
       "journey": {
         "persona": "اپنی شخصیت دریافت کریں",
         "layer": "اپنی تہہ منتخب کریں",
@@ -1604,7 +1604,7 @@ export const generatedPricingMessages = {
       "competitorComparison": "مکمل حریف موازنہ دیکھیں",
       "watchtowerValueTitle": "Watchtower اسٹریٹجک قیمت",
       "readyTitle": "شروع کرنے کے لیے تیار؟",
-      "readyDescription": "سندے کا استعمال کرنے والے سینکڑوں ریستورانوں میں شامل ہوں تاکہ زیادہ ذہین فیصلے کیے جا سکیں",
+      "readyDescription": "Sundae کا استعمال کرنے والے سینکڑوں ریستورانوں میں شامل ہوں تاکہ زیادہ ذہین فیصلے کیے جا سکیں",
       "startTrial": "مفت ٹرائل شروع کریں",
       "noCard": "کریڈٹ کارڈ کی ضرورت نہیں • 14 دن کا مفت ٹرائل • کبھی بھی منسوخ کریں",
       "questions": "سوالات؟",
@@ -1620,8 +1620,8 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "سادہ، شفاف قیمتیں",
       "heroSubtitle": "مفت شروع کریں، جیسے جیسے آپ بڑھیں۔ کوئی پوشیدہ فیس نہیں، کوئی حیرت نہیں۔",
-      "reportTab": "رپورٹ",
-      "coreTab": "کور",
+      "reportTab": "Report",
+      "coreTab": "Core",
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundae Report",
       "reportSubtitle": "ریستوران کے ڈیٹا کے لیے تجزیات اور بصیرت",
@@ -1641,12 +1641,12 @@ export const generatedPricingMessages = {
       "selectTier": "{tier} منتخب کریں",
       "contactSales": "سیلز سے رابطہ کریں",
       "bestFor": "بہترین کے لیے:",
-      "reportFeaturesComparison": "رپورٹ کی خصوصیات کا موازنہ",
-      "coreFeaturesComparison": "کور کی خصوصیات کا موازنہ",
+      "reportFeaturesComparison": "Report کی خصوصیات کا موازنہ",
+      "coreFeaturesComparison": "Core کی خصوصیات کا موازنہ",
       "portfolioPricingAdvantage": "پورٹ فولیو قیمتوں کا فائدہ",
       "addOnModulesEyebrow": "ایڈ-آن ماڈیولز",
-      "moduleAddonsTitle": "کور کے لیے ماڈیول ایڈ-آن",
-      "moduleAddonsSubtitle": "کور کی سطح میں خصوصی ذہانت شامل کریں۔ تنظیمی لائسنس مقامات 1-3 کا احاطہ کرتا ہے، پھر #4+ سے فی مقام",
+      "moduleAddonsTitle": "Core کے لیے ماڈیول ایڈ-آن",
+      "moduleAddonsSubtitle": "Core کی سطح میں خصوصی ذہانت شامل کریں۔ تنظیمی لائسنس مقامات 1-3 کا احاطہ کرتا ہے، پھر #4+ سے فی مقام",
       "module": "ماڈیول",
       "orgLicense": "تنظیمی لائسنس",
       "perLocationFrom4": "فی مقام (#4+)",
@@ -1657,8 +1657,8 @@ export const generatedPricingMessages = {
       "crossIntelligenceSubtitle": "آپ کے ڈیٹا کے ذرائع کے درمیان پوشیدہ تعلقات کو ظاہر کرتا ہے - جب آپ 3+ ماڈیولز کو فعال کرتے ہیں تو خودکار طور پر فعال ہوتا ہے",
       "free": "مفت",
       "autoEnabledWithThreeModules": "3+ ماڈیولز کے ساتھ خودکار طور پر فعال - کوئی اضافی لاگت نہیں",
-      "pro": "پیشہ ور",
-      "perLocationFrom2": "+${price}/مقام مقام #2 سے",
+      "pro": "Pro",
+      "perLocationFrom2": "+${price}/مقام، مقام #2 سے",
       "locationOne": "1 مقام",
       "savePerMonth": "${amount}/ماہ کی بچت کریں ({percent}%)",
       "strategicValueTitle": "اسٹریٹجک قیمت کے تخمینے",
@@ -1666,8 +1666,8 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "اپنی رپورٹ کی سطح منتخب کریں",
-        "chooseCoreTier": "اپنی کور کی سطح منتخب کریں",
+        "chooseReportTier": "اپنی Report کی سطح منتخب کریں",
+        "chooseCoreTier": "اپنی Core کی سطح منتخب کریں",
         "reportSubtitle": "مفت شروع کریں یا مزید تجزیاتی طاقت کو انلاک کریں",
         "coreSubtitle": "آپ کے پیمانے کے مطابق حقیقی وقت کی ذہانت",
         "recommended": "تجویز کردہ",
@@ -1677,13 +1677,13 @@ export const generatedPricingMessages = {
         "aiCredits": "AI کریڈٹس",
         "visuals": "بصریات",
         "dataRefresh": "ڈیٹا کی تازہ کاری",
-        "benchmark": "بینچ مارک",
+        "benchmark": "Benchmark",
         "metrics": "میٹرکس",
         "selectTier": "{tier} منتخب کریں",
         "detailedFeatureComparison": "تفصیلی خصوصیات کا موازنہ",
         "feature": "خصوصیت",
         "monthlyPrice": "ماہانہ قیمت",
-        "benchmarkMetrics": "بینچ مارک میٹرکس"
+        "benchmarkMetrics": "Benchmark میٹرکس"
       },
       "modulePicker": {
         "title": "اپنے اسٹیک کو طاقتور بنائیں",
@@ -1723,7 +1723,7 @@ export const generatedPricingMessages = {
         "bestValue": "بہترین قیمت - ~18% کی بچت کریں",
         "bundleDiscount": "~18% کی چھوٹ",
         "individualSuffix": "انفرادی",
-        "proPriceNote": "${monthlyFee}/ماہ + ${perLocation}/مقام مقام #2 سے ({locations} مقامات)",
+        "proPriceNote": "${monthlyFee}/ماہ + ${perLocation}/مقام، مقام #2 سے ({locations} مقامات)",
         "unlockedWithModules": "{count} ماڈیولز کے ساتھ انلاک کیا گیا",
         "crossTitle": "Cross-Intelligence تعلقات کا انجن",
         "crossSubtitle": "آپ کے ڈیٹا کے ذرائع کے درمیان پوشیدہ تعلقات کو ظاہر کرتا ہے - 3+ ماڈیولز کے ساتھ خودکار طور پر فعال ہوتا ہے",
@@ -1806,7 +1806,7 @@ export const generatedPricingMessages = {
         },
         "revenue": {
           "name": "ریونیو کی یقین دہانی",
-          "description": "خسارے کا پتہ لگائیں، voids، comps، چھوٹ، چوری کے نمونے، اور لین دین کی بے قاعدگیوں",
+          "description": "ردِ فروخت، مفت پیشکش، چھوٹ، چوری کے نمونوں، اور لین دین کی بے قاعدگیوں سے ہونے والے خسارے کا پتہ لگائیں",
           "roi": "1-2% خسارے کو پکڑیں"
         },
         "delivery": {
@@ -1820,7 +1820,7 @@ export const generatedPricingMessages = {
           "roi": "کیوں صارفین چھوڑتے ہیں"
         },
         "pulse": {
-          "name": "پلس",
+          "name": "Pulse",
           "description": "حقیقی وقت کی نگرانی، اطلاعات، تعلقات، اور کارروائیوں میں پیشگی بے قاعدگیوں کا پتہ لگانا",
           "roi": "حقیقی وقت کی آپریشنل آگاہی"
         }
@@ -1902,7 +1902,7 @@ export const generatedPricingMessages = {
       "nextSteps": "Per favore contattami per discutere i prossimi passi.",
       "bestRegards": "Cordiali saluti",
       "downloadedTitle": "PDF Scaricato!",
-      "downloadedBody": "\"{filename}\" è stato scaricato sul tuo computer.",
+      "downloadedBody": "\"{filename}\" è stato scaricato sul tuo dispositivo.",
       "downloadedFollowUp": "La tua email si aprirà successivamente - per favore allega il PDF scaricato prima di inviare.",
       "downloadedTip": "Suggerimento: Il PDF si trova solitamente nella tua cartella Download.",
       "failedPrepare": "Impossibile preparare l'email. Riprova a scaricare il PDF manualmente.",
@@ -1976,7 +1976,7 @@ export const generatedPricingMessages = {
       "competitorComparison": "Visualizza il Confronto Completo dei Competitori",
       "watchtowerValueTitle": "Valore Strategico di Watchtower",
       "readyTitle": "Pronto a Iniziare?",
-      "readyDescription": "Unisciti a centinaia di ristoranti già utilizzando Sundae per prendere decisioni più intelligenti",
+      "readyDescription": "Unisciti a centinaia di ristoranti che già usano Sundae per prendere decisioni più intelligenti",
       "startTrial": "Inizia Prova Gratuita",
       "noCard": "Nessuna carta di credito richiesta • Prova gratuita di 14 giorni • Annulla in qualsiasi momento",
       "questions": "Domande?",
@@ -2026,7 +2026,7 @@ export const generatedPricingMessages = {
       "locations10": "10 Località",
       "crossIntelligenceEyebrow": "MOTORE DI CROSS-INTELLIGENCE",
       "crossIntelligenceTitle": "Motore di Correlazione Cross-Intelligence",
-      "crossIntelligenceSubtitle": "Superfici di correlazione nascoste tra le tue fonti di dati - attivato automaticamente quando attivi 3+ moduli",
+      "crossIntelligenceSubtitle": "Fa emergere correlazioni nascoste tra le tue fonti di dati - attivato automaticamente quando attivi 3+ moduli",
       "free": "Gratuito",
       "autoEnabledWithThreeModules": "Attivato automaticamente con 3+ moduli - senza costi aggiuntivi",
       "pro": "Pro",
@@ -2098,7 +2098,7 @@ export const generatedPricingMessages = {
         "proPriceNote": "${monthlyFee}/mese + ${perLocation}/loc dalla località #2 ({locations} località)",
         "unlockedWithModules": "Sbloccato con {count} moduli",
         "crossTitle": "Motore di Correlazione Cross-Intelligence",
-        "crossSubtitle": "Superfici di connessioni nascoste tra le tue fonti di dati - attivato automaticamente con 3+ moduli",
+        "crossSubtitle": "Fa emergere connessioni nascoste tra le tue fonti di dati - attivato automaticamente con 3+ moduli",
         "includedFree": "Incluso Gratis",
         "selected": "Selezionato",
         "totalWithAddons": "Totale con Aggiunte",
@@ -2255,14 +2255,14 @@ export const generatedPricingMessages = {
       "failed": "Nie udało się wygenerować PDF. Proszę spróbować ponownie."
     },
     "quote": {
-      "emailQuote": "Wyślij Wycena",
+      "emailQuote": "Wyślij Wycenę",
       "preparing": "Przygotowywanie...",
       "ready": "E-mail Gotowy!",
       "buttonTitle": "Pobiera PDF i otwiera klienta e-mail",
       "none": "Brak",
-      "subject": "Prośba o Wycena Sundae - {locations} Lokalizacje",
+      "subject": "Prośba o Wycenę Sundae - {locations} lokalizacji",
       "intro": "Cześć Zespole Sundae,",
-      "bodyIntro": "Interesuję się Sundae dla mojej restauracji/restauracji. Proszę znaleźć szczegóły mojej konfiguracji poniżej:",
+      "bodyIntro": "Interesuję się Sundae dla mojej restauracji. Poniżej znajdują się szczegóły mojej konfiguracji:",
       "configuration": "KONFIGURACJA:",
       "platform": "Platforma",
       "locations": "Lokalizacje",
@@ -2274,7 +2274,7 @@ export const generatedPricingMessages = {
       "nextSteps": "Proszę skontaktować się ze mną, aby omówić następne kroki.",
       "bestRegards": "Z poważaniem",
       "downloadedTitle": "PDF Pobrany!",
-      "downloadedBody": "\"{filename}\" został pobrany na Twój komputer.",
+      "downloadedBody": "\"{filename}\" został pobrany na Twoje urządzenie.",
       "downloadedFollowUp": "Twój e-mail otworzy się następnie - proszę załączyć pobrany PDF przed wysłaniem.",
       "downloadedTip": "Wskazówka: PDF zazwyczaj znajduje się w folderze Pobrane.",
       "failedPrepare": "Nie udało się przygotować e-maila. Proszę spróbować pobrać PDF ręcznie.",
@@ -2307,12 +2307,12 @@ export const generatedPricingMessages = {
       "startWithBasics": "Zacznij od podstaw",
       "recommendedForYourPriorities": "Zalecane dla Twoich priorytetów - możesz edytować wybory.",
       "seeCustomStack": "Zobacz Swój Spersonalizowany Zestaw",
-      "resultLayerReport": "Raport",
+      "resultLayerReport": "Report",
       "resultLayerCore": "Core",
       "journey": {
         "persona": "Odkryj Swoją Personę",
         "layer": "Wybierz Swoją Warstwę",
-        "tier": "Wybierz Swoją Klasę",
+        "tier": "Wybierz Swój Poziom",
         "locations": "Skonfiguruj Lokalizacje",
         "modules": "Dodaj Moduły",
         "watchtower": "Inteligencja Watchtower",
@@ -2364,10 +2364,10 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Proste, Przejrzyste Ceny",
       "heroSubtitle": "Rozpocznij za darmo, rozwijaj się w miarę wzrostu. Brak ukrytych opłat, brak niespodzianek.",
-      "reportTab": "Raport",
+      "reportTab": "Report",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Raport Sundae",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Analityka i spostrzeżenia dotyczące danych restauracyjnych",
       "coreTitle": "Sundae Core",
       "coreSubtitle": "Operacje w czasie rzeczywistym z integracją POS",
@@ -2385,12 +2385,12 @@ export const generatedPricingMessages = {
       "selectTier": "Wybierz {tier}",
       "contactSales": "Skontaktuj się z Działem Sprzedaży",
       "bestFor": "Najlepsze dla:",
-      "reportFeaturesComparison": "Porównanie Funkcji Raportu",
+      "reportFeaturesComparison": "Porównanie Funkcji Report",
       "coreFeaturesComparison": "Porównanie Funkcji Core",
       "portfolioPricingAdvantage": "Zaleta Cennika Portfela",
       "addOnModulesEyebrow": "MODUŁY DODATKOWE",
       "moduleAddonsTitle": "Moduły Dodatkowe dla Core",
-      "moduleAddonsSubtitle": "Dodaj specjalistyczną inteligencję do klasy Core. Licencja organizacyjna obejmuje lokalizacje 1-3, a następnie za lokalizację od #4 wzwyż",
+      "moduleAddonsSubtitle": "Dodaj specjalistyczną inteligencję do poziomu Core. Licencja organizacyjna obejmuje lokalizacje 1-3, a następnie naliczana jest opłata za lokalizację od #4 wzwyż",
       "module": "Moduł",
       "orgLicense": "Licencja Organizacyjna",
       "perLocationFrom4": "Za lokalizację (#4+)",
@@ -2410,8 +2410,8 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Wybierz Swoją Klasę Raportu",
-        "chooseCoreTier": "Wybierz Swoją Klasę Core",
+        "chooseReportTier": "Wybierz Swój Poziom Report",
+        "chooseCoreTier": "Wybierz Swój Poziom Core",
         "reportSubtitle": "Rozpocznij za darmo lub odblokuj więcej mocy analitycznej",
         "coreSubtitle": "Inteligencja w czasie rzeczywistym dostosowana do Twojej skali",
         "recommended": "ZALECANE",
@@ -2433,7 +2433,7 @@ export const generatedPricingMessages = {
         "title": "Wzmocnij Swój Zestaw",
         "subtitle": "Dodaj moduły inteligencji, aby odblokować głębsze spostrzeżenia i automatyzację",
         "comboUnlocked": "Odblokowano Kombinację Efektywności!",
-        "comboDescription": "Moduły Pracy + Magazynu współpracują ze sobą dla maksymalnej efektywności operacyjnej",
+        "comboDescription": "Moduły Pracy i Magazynu współpracują ze sobą dla maksymalnej efektywności operacyjnej",
         "recommended": "ZALECANE",
         "perMonth": "/miesiąc",
         "includesExtra": "Zawiera {included} lokalizacje + {extra} dodatkowe",
@@ -2484,17 +2484,17 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Raport Lite",
+            "name": "Report Lite",
             "tagline": "DARMOWY Na Zawsze",
             "bestFor": "Testowanie Sundae, podstawowa widoczność, dowód koncepcji"
           },
           "plus": {
-            "name": "Raport Plus",
+            "name": "Report Plus",
             "tagline": "Zautomatyzowane Spostrzeżenia",
             "bestFor": "Poważne operacje w jednej lokalizacji, zautomatyzowane wprowadzanie danych, regularne spostrzeżenia AI"
           },
           "pro": {
-            "name": "Raport Pro",
+            "name": "Report Pro",
             "tagline": "Analityka Zasilana API",
             "bestFor": "Operatorzy wielolokalacyjni, automatyzacja API, zaawansowana analityka, przygotowanie portfela"
           }
@@ -2525,7 +2525,7 @@ export const generatedPricingMessages = {
         },
         "inventory": {
           "name": "Połączenie Magazynowe",
-          "description": "Śledzenie COGS, kosztów przepisu, zmienności, marnotrawstwa, rentowności i wydajności dostawców",
+          "description": "Śledzenie COGS, kosztów receptur, zmienności, marnotrawstwa, rentowności i wydajności dostawców",
           "roi": "Redukcja kosztów żywności o 0,5-2%"
         },
         "purchasing": {
@@ -2679,7 +2679,7 @@ export const generatedPricingMessages = {
       "startWithBasics": "Temellerle başlayın",
       "recommendedForYourPriorities": "Önceliklerinize önerilen - seçimlerinizi düzenleyebilirsiniz.",
       "seeCustomStack": "Özel Yığınızı Görün",
-      "resultLayerReport": "Rapor",
+      "resultLayerReport": "Report",
       "resultLayerCore": "Core",
       "journey": {
         "persona": "Kişiliğinizi Keşfedin",
@@ -2736,7 +2736,7 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Basit, Şeffaf Fiyatlandırma",
       "heroSubtitle": "Ücretsiz başlayın, büyüdükçe ölçeklenin. Gizli ücret yok, sürpriz yok.",
-      "reportTab": "Rapor",
+      "reportTab": "Report",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundae Report",
@@ -2757,7 +2757,7 @@ export const generatedPricingMessages = {
       "selectTier": "{tier} Seçin",
       "contactSales": "Satışla İletişime Geçin",
       "bestFor": "En iyi:",
-      "reportFeaturesComparison": "Rapor Özellikleri Karşılaştırması",
+      "reportFeaturesComparison": "Report Özellikleri Karşılaştırması",
       "coreFeaturesComparison": "Core Özellikleri Karşılaştırması",
       "portfolioPricingAdvantage": "Portföy Fiyatlandırma Avantajı",
       "addOnModulesEyebrow": "EK MODÜLLER",
@@ -2782,7 +2782,7 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Rapor Katmanınızı Seçin",
+        "chooseReportTier": "Report Katmanınızı Seçin",
         "chooseCoreTier": "Core Katmanınızı Seçin",
         "reportSubtitle": "Ücretsiz başlayın veya daha fazla analiz gücünü açın",
         "coreSubtitle": "Ölçeğinize göre özelleştirilmiş gerçek zamanlı zeka",
@@ -2793,13 +2793,13 @@ export const generatedPricingMessages = {
         "aiCredits": "AI Kredileri",
         "visuals": "Görseller",
         "dataRefresh": "Veri Yenileme",
-        "benchmark": "Karşılaştırma",
+        "benchmark": "Benchmark",
         "metrics": "metrikler",
         "selectTier": "{tier} Seçin",
         "detailedFeatureComparison": "Detaylı Özellik Karşılaştırması",
         "feature": "Özellik",
         "monthlyPrice": "Aylık Fiyat",
-        "benchmarkMetrics": "Karşılaştırma Metrikleri"
+        "benchmarkMetrics": "Benchmark Metrikleri"
       },
       "modulePicker": {
         "title": "Yığınızı Güçlendirin",
@@ -2856,17 +2856,17 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Rapor Lite",
+            "name": "Report Lite",
             "tagline": "Sonsuza Dek Ücretsiz",
             "bestFor": "Sundae'yi test etmek, temel görünürlük, kavram kanıtı"
           },
           "plus": {
-            "name": "Rapor Plus",
+            "name": "Report Plus",
             "tagline": "Otomatik İçgörüler",
             "bestFor": "Ciddi tek lokasyon, otomatik veri girişi, düzenli AI içgörüleri"
           },
           "pro": {
-            "name": "Rapor Pro",
+            "name": "Report Pro",
             "tagline": "API Destekli Analitik",
             "bestFor": "Çok lokasyonlu operatörler, API otomasyonu, gelişmiş analizler, portföy hazırlığı"
           }
@@ -3378,7 +3378,7 @@ export const generatedPricingMessages = {
       "none": "なし",
       "subject": "Sundae 見積もりリクエスト - {locations} ロケーション",
       "intro": "こんにちは、Sundaeチーム、",
-      "bodyIntro": "私のレストランにSundaeに興味があります。以下に私の設定詳細を記載します：",
+      "bodyIntro": "私のレストラン向けにSundaeに関心があります。以下に設定の詳細を記載します：",
       "configuration": "設定：",
       "platform": "プラットフォーム",
       "locations": "ロケーション",
@@ -3423,8 +3423,8 @@ export const generatedPricingMessages = {
       "startWithBasics": "基本から始める",
       "recommendedForYourPriorities": "あなたの優先事項に推奨 - 選択を編集できます。",
       "seeCustomStack": "あなたのカスタムスタックを見る",
-      "resultLayerReport": "レポート",
-      "resultLayerCore": "コア",
+      "resultLayerReport": "Report",
+      "resultLayerCore": "Core",
       "journey": {
         "persona": "あなたのペルソナを発見",
         "layer": "レイヤーを選択",
@@ -3480,10 +3480,10 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "シンプルで透明な価格設定",
       "heroSubtitle": "無料で始め、成長に応じてスケールアップ。隠れた料金なし、驚きなし。",
-      "reportTab": "レポート",
-      "coreTab": "コア",
+      "reportTab": "Report",
+      "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundaeレポート",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "レストランデータの分析とインサイト",
       "coreTitle": "Sundae Core",
       "coreSubtitle": "POS統合によるリアルタイム運用",
@@ -3501,23 +3501,23 @@ export const generatedPricingMessages = {
       "selectTier": "{tier}を選択",
       "contactSales": "営業にお問い合わせ",
       "bestFor": "最適：",
-      "reportFeaturesComparison": "レポート機能比較",
-      "coreFeaturesComparison": "コア機能比較",
+      "reportFeaturesComparison": "Report 機能比較",
+      "coreFeaturesComparison": "Core 機能比較",
       "portfolioPricingAdvantage": "ポートフォリオ価格設定の利点",
       "addOnModulesEyebrow": "アドオンモジュール",
-      "moduleAddonsTitle": "コア用モジュールアドオン",
-      "moduleAddonsSubtitle": "コアティアに特化したインテリジェンスを追加します。組織ライセンスはロケーション1-3をカバーし、4以上からはロケーションごとに請求されます",
+      "moduleAddonsTitle": "Core 用モジュールアドオン",
+      "moduleAddonsSubtitle": "Core ティアに特化したインテリジェンスを追加します。組織ライセンスはロケーション1-3をカバーし、4以上からはロケーションごとに請求されます",
       "module": "モジュール",
       "orgLicense": "組織ライセンス",
       "perLocationFrom4": "ロケーションごと（#4以上）",
       "locations5": "5ロケーション",
       "locations10": "10ロケーション",
-      "crossIntelligenceEyebrow": "クロスインテリジェンスエンジン",
-      "crossIntelligenceTitle": "クロスインテリジェンス相関エンジン",
+      "crossIntelligenceEyebrow": "Cross-Intelligence エンジン",
+      "crossIntelligenceTitle": "Cross-Intelligence 相関エンジン",
       "crossIntelligenceSubtitle": "データソース間の隠れた相関を明らかにします - 3つ以上のモジュールを有効にすると自動的に有効化されます",
       "free": "無料",
       "autoEnabledWithThreeModules": "3つ以上のモジュールで自動的に有効化 - 追加費用なし",
-      "pro": "プロ",
+      "pro": "Pro",
       "perLocationFrom2": "+${price}/ロケーション（ロケーション #2 から）",
       "locationOne": "1ロケーション",
       "savePerMonth": "${amount}/月節約（{percent}％）",
@@ -3526,8 +3526,8 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "レポートティアを選択",
-        "chooseCoreTier": "コアティアを選択",
+        "chooseReportTier": "Report ティアを選択",
+        "chooseCoreTier": "Core ティアを選択",
         "reportSubtitle": "無料で始めるか、より多くの分析力を解放",
         "coreSubtitle": "スケールに合わせたリアルタイムインテリジェンス",
         "recommended": "推奨",
@@ -3537,13 +3537,13 @@ export const generatedPricingMessages = {
         "aiCredits": "AIクレジット",
         "visuals": "ビジュアル",
         "dataRefresh": "データ更新",
-        "benchmark": "ベンチマーク",
+        "benchmark": "Benchmark",
         "metrics": "メトリクス",
         "selectTier": "{tier}を選択",
         "detailedFeatureComparison": "詳細な機能比較",
         "feature": "機能",
         "monthlyPrice": "月額料金",
-        "benchmarkMetrics": "ベンチマークメトリクス"
+        "benchmarkMetrics": "Benchmark メトリクス"
       },
       "modulePicker": {
         "title": "スタックを強化",
@@ -3553,10 +3553,10 @@ export const generatedPricingMessages = {
         "recommended": "推奨",
         "perMonth": "/月",
         "includesExtra": "{included} ロケーション + {extra} 追加",
-        "crossUnlocked": "クロスインテリジェンスが解除されました！",
+        "crossUnlocked": "Cross-Intelligence が解除されました！",
         "crossUnlockedDescription": "{count} モジュールで有効化された無料の相関エンジン - 次のステップでProにアップグレード",
         "crossNeedsMore": "{moduleWord} を {count} 追加して解除",
-        "crossFreeSuffix": "クロスインテリジェンス - データソース間の無料相関エンジン",
+        "crossFreeSuffix": "Cross-Intelligence - データソース間の無料相関エンジン",
         "moduleSingular": "モジュール",
         "modulePlural": "モジュール",
         "totalWithModules": "モジュールを含む合計",
@@ -3585,7 +3585,7 @@ export const generatedPricingMessages = {
         "individualSuffix": "個別",
         "proPriceNote": "${monthlyFee}/月 + ${perLocation}/ロケーション（ロケーション #2 から） ({locations} ロケーション)",
         "unlockedWithModules": "{count} モジュールで解除",
-        "crossTitle": "クロスインテリジェンス相関エンジン",
+        "crossTitle": "Cross-Intelligence 相関エンジン",
         "crossSubtitle": "データソース間の隠れた接続を明らかにします - 3つ以上のモジュールで自動的に有効化されます",
         "includedFree": "無料で含まれています",
         "selected": "選択済み",
@@ -3680,7 +3680,7 @@ export const generatedPricingMessages = {
           "roi": "顧客が離れる理由"
         },
         "pulse": {
-          "name": "パルス",
+          "name": "Pulse",
           "description": "リアルタイムモニタリング、アラート、相関、運用全体のプロアクティブな異常検出",
           "roi": "リアルタイムの運用意識"
         }
@@ -3709,11 +3709,11 @@ export const generatedPricingMessages = {
       },
       "crossIntelligence": {
         "base": {
-          "name": "クロスインテリジェンス",
+          "name": "Cross-Intelligence",
           "description": "データソース間の隠れた接続を明らかにする自動クロスモジュール相関インサイト"
         },
         "pro": {
-          "name": "クロスインテリジェンスプロ",
+          "name": "Cross-Intelligence Pro",
           "description": "帰属、カニバリゼーション検出、リアルタイムキャンペーンモニタリングを備えた完全な相関エンジン"
         }
       }
@@ -3750,7 +3750,7 @@ export const generatedPricingMessages = {
       "none": "없음",
       "subject": "Sundae 견적 요청 - {locations} 위치",
       "intro": "안녕하세요 Sundae 팀,",
-      "bodyIntro": "저는 제 레스토랑에 Sundae에 관심이 있습니다. 아래에 제 구성 세부정보를 확인해 주세요:",
+      "bodyIntro": "저는 제 레스토랑에 Sundae를 도입하는 데 관심이 있습니다. 아래에서 제 구성 세부정보를 확인해 주세요:",
       "configuration": "구성:",
       "platform": "플랫폼",
       "locations": "위치",
@@ -3795,7 +3795,7 @@ export const generatedPricingMessages = {
       "startWithBasics": "기본부터 시작하기",
       "recommendedForYourPriorities": "귀하의 우선 순위에 추천 - 선택을 수정할 수 있습니다.",
       "seeCustomStack": "귀하의 맞춤형 스택 보기",
-      "resultLayerReport": "보고서",
+      "resultLayerReport": "Report",
       "resultLayerCore": "Core",
       "journey": {
         "persona": "귀하의 페르소나 발견하기",
@@ -3824,7 +3824,7 @@ export const generatedPricingMessages = {
       "fullBundle": "전체 번들 (모든 모듈)",
       "crossIntelligencePro": "Cross-Intelligence Pro",
       "crossIntelligence": "Cross-Intelligence",
-      "crossIntelligenceProDesc": "귀하의 데이터 소스 간의 상관관계를 완전하게 감지하는 엔진",
+      "crossIntelligenceProDesc": "귀속 및 카니발리제이션 감지를 갖춘 완전한 상관관계 엔진",
       "crossIntelligenceDesc": "자동으로 활성화된 상관관계 통찰력 (3개 이상의 모듈 포함)",
       "aiCreditsPerMonth": "AI 크레딧/월",
       "aiCreditsDescription": "통찰력 및 자동화를 위한",
@@ -3852,10 +3852,10 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "간단하고 투명한 가격",
       "heroSubtitle": "무료로 시작하고 성장에 따라 확장하세요. 숨겨진 수수료 없음, 놀라움 없음.",
-      "reportTab": "보고서",
+      "reportTab": "Report",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundae 보고서",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "레스토랑 데이터에 대한 분석 및 통찰력",
       "coreTitle": "Sundae Core",
       "coreSubtitle": "POS 통합을 통한 실시간 운영",
@@ -3873,7 +3873,7 @@ export const generatedPricingMessages = {
       "selectTier": "{tier} 선택하기",
       "contactSales": "영업팀에 문의하기",
       "bestFor": "최고의 용도:",
-      "reportFeaturesComparison": "보고서 기능 비교",
+      "reportFeaturesComparison": "Report 기능 비교",
       "coreFeaturesComparison": "Core 기능 비교",
       "portfolioPricingAdvantage": "포트폴리오 가격 이점",
       "addOnModulesEyebrow": "추가 모듈",
@@ -3898,7 +3898,7 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "보고서 티어 선택하기",
+        "chooseReportTier": "Report 티어 선택하기",
         "chooseCoreTier": "Core 티어 선택하기",
         "reportSubtitle": "무료로 시작하거나 더 많은 분석 기능을 잠금 해제하세요",
         "coreSubtitle": "귀하의 규모에 맞춘 실시간 인텔리전스",
@@ -3909,13 +3909,13 @@ export const generatedPricingMessages = {
         "aiCredits": "AI 크레딧",
         "visuals": "비주얼",
         "dataRefresh": "데이터 새로 고침",
-        "benchmark": "벤치마크",
+        "benchmark": "Benchmark",
         "metrics": "지표",
         "selectTier": "{tier} 선택하기",
         "detailedFeatureComparison": "상세 기능 비교",
         "feature": "기능",
         "monthlyPrice": "월간 가격",
-        "benchmarkMetrics": "벤치마크 지표"
+        "benchmarkMetrics": "Benchmark 지표"
       },
       "modulePicker": {
         "title": "스택 강화하기",
@@ -3943,7 +3943,7 @@ export const generatedPricingMessages = {
       },
       "watchtowerToggle": {
         "title": "시장 인텔리전스 잠금 해제",
-        "subtitle": "Watchtower 경쟁 인텔리전트로 경쟁사가 알지 못하는 것을 확인하세요",
+        "subtitle": "Watchtower 경쟁 인텔리전스로 경쟁사가 알지 못하는 것을 확인하세요",
         "baseCoverage": "기본 가격은 첫 번째 위치를 포함하며, 추가 시장에 대해 ${price}/위치가 부과됩니다",
         "bundleSaveTitle": "번들로 절약하세요!",
         "bundleSaveDescription": "세 개의 Watchtower 모듈을 ${total}/월에 모두 받으세요",
@@ -3972,29 +3972,29 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "보고서 라이트",
+            "name": "Report Lite",
             "tagline": "영원히 무료",
             "bestFor": "Sundae 테스트, 기본 가시성, 개념 증명"
           },
           "plus": {
-            "name": "보고서 플러스",
+            "name": "Report Plus",
             "tagline": "자동화된 통찰력",
             "bestFor": "진지한 단일 위치, 자동 데이터 입력, 정기적인 AI 통찰력"
           },
           "pro": {
-            "name": "보고서 프로",
+            "name": "Report Pro",
             "tagline": "API 기반 분석",
             "bestFor": "다중 위치 운영자, API 자동화, 고급 분석, 포트폴리오 준비"
           }
         },
         "core": {
           "lite": {
-            "name": "Core 라이트",
+            "name": "Core Lite",
             "tagline": "실시간 운영",
             "bestFor": "1-10 위치, 실시간 운영, 포트폴리오 관리, 단일 POS 시스템"
           },
           "pro": {
-            "name": "Core 프로",
+            "name": "Core Pro",
             "tagline": "포트폴리오 인텔리전스",
             "bestFor": "10-50 위치, 다중 POS 환경, 고급 예측, 전략적 계획"
           },
@@ -4167,8 +4167,8 @@ export const generatedPricingMessages = {
       "startWithBasics": "Mulai dengan dasar-dasar",
       "recommendedForYourPriorities": "Direkomendasikan untuk prioritas Anda - Anda dapat mengedit pilihan.",
       "seeCustomStack": "Lihat Tumpukan Kustom Anda",
-      "resultLayerReport": "Laporan",
-      "resultLayerCore": "Inti",
+      "resultLayerReport": "Report",
+      "resultLayerCore": "Core",
       "journey": {
         "persona": "Temukan Persona Anda",
         "layer": "Pilih Lapisan Anda",
@@ -4224,14 +4224,14 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Harga Sederhana dan Transparan",
       "heroSubtitle": "Mulai gratis, berkembang seiring pertumbuhan Anda. Tidak ada biaya tersembunyi, tidak ada kejutan.",
-      "reportTab": "Laporan",
-      "coreTab": "Inti",
+      "reportTab": "Report",
+      "coreTab": "Core",
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundae Report",
       "reportSubtitle": "Analitik dan wawasan untuk data restoran",
-      "coreTitle": "Inti Sundae",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "Operasi waktu nyata dengan integrasi POS",
-      "watchtowerTitle": "Watchtower Sundae",
+      "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "Lacak pesaing, acara, dan tren pasar",
       "recommended": "DIREKOMENDASIKAN",
       "popular": "POPULER",
@@ -4245,12 +4245,12 @@ export const generatedPricingMessages = {
       "selectTier": "Pilih {tier}",
       "contactSales": "Hubungi Penjualan",
       "bestFor": "Terbaik untuk:",
-      "reportFeaturesComparison": "Perbandingan Fitur Laporan",
-      "coreFeaturesComparison": "Perbandingan Fitur Inti",
+      "reportFeaturesComparison": "Perbandingan Fitur Report",
+      "coreFeaturesComparison": "Perbandingan Fitur Core",
       "portfolioPricingAdvantage": "Keuntungan Harga Portofolio",
       "addOnModulesEyebrow": "MODUL TAMBAHAN",
-      "moduleAddonsTitle": "Modul Tambahan untuk Inti",
-      "moduleAddonsSubtitle": "Tambahkan kecerdasan khusus ke tingkatan Inti. Lisensi org mencakup lokasi 1-3, kemudian per lokasi dari #4+",
+      "moduleAddonsTitle": "Modul Tambahan untuk Core",
+      "moduleAddonsSubtitle": "Tambahkan kecerdasan khusus ke tingkatan Core. Lisensi org mencakup lokasi 1-3, kemudian per lokasi dari #4+",
       "module": "Modul",
       "orgLicense": "Lisensi Org",
       "perLocationFrom4": "Per Lokasi (#4+)",
@@ -4270,8 +4270,8 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Pilih Tingkatan Laporan Anda",
-        "chooseCoreTier": "Pilih Tingkatan Inti Anda",
+        "chooseReportTier": "Pilih Tingkatan Report Anda",
+        "chooseCoreTier": "Pilih Tingkatan Core Anda",
         "reportSubtitle": "Mulai gratis atau buka lebih banyak kekuatan analitik",
         "coreSubtitle": "Kecerdasan waktu nyata yang disesuaikan dengan skala Anda",
         "recommended": "DIREKOMENDASIKAN",
@@ -4281,13 +4281,13 @@ export const generatedPricingMessages = {
         "aiCredits": "Kredit AI",
         "visuals": "Visual",
         "dataRefresh": "Penyegaran Data",
-        "benchmark": "Tolok Ukur",
+        "benchmark": "Benchmark",
         "metrics": "metrik",
         "selectTier": "Pilih {tier}",
         "detailedFeatureComparison": "Perbandingan Fitur Terperinci",
         "feature": "Fitur",
         "monthlyPrice": "Harga Bulanan",
-        "benchmarkMetrics": "Metrik Tolok Ukur"
+        "benchmarkMetrics": "Metrik Benchmark"
       },
       "modulePicker": {
         "title": "Tingkatkan Tumpukan Anda",
@@ -4344,29 +4344,29 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Laporan Lite",
+            "name": "Report Lite",
             "tagline": "GRATIS Selamanya",
             "bestFor": "Menguji Sundae, visibilitas dasar, bukti konsep"
           },
           "plus": {
-            "name": "Laporan Plus",
+            "name": "Report Plus",
             "tagline": "Wawasan Otomatis",
             "bestFor": "Pengguna serius satu lokasi, input data otomatis, wawasan AI reguler"
           },
           "pro": {
-            "name": "Laporan Pro",
+            "name": "Report Pro",
             "tagline": "Analitik Berbasis API",
             "bestFor": "Operator multi-lokasi, otomatisasi API, analitik lanjutan, persiapan portofolio"
           }
         },
         "core": {
           "lite": {
-            "name": "Inti Lite",
+            "name": "Core Lite",
             "tagline": "Operasi Waktu Nyata",
             "bestFor": "1-10 lokasi, operasi waktu nyata, manajemen portofolio, satu sistem POS"
           },
           "pro": {
-            "name": "Inti Pro",
+            "name": "Core Pro",
             "tagline": "Kecerdasan Portofolio",
             "bestFor": "10-50 lokasi, lingkungan multi-POS, peramalan lanjutan, perencanaan strategis"
           },
@@ -4410,7 +4410,7 @@ export const generatedPricingMessages = {
         },
         "revenue": {
           "name": "Jaminan Pendapatan",
-          "description": "Deteksi kebocoran dari voids, comps, diskon, pola pencurian, dan anomali transaksi",
+          "description": "Deteksi kebocoran dari pembatalan, item gratis, diskon, pola pencurian, dan anomali transaksi",
           "roi": "Tangkap kebocoran 1-2%"
         },
         "delivery": {
@@ -4472,13 +4472,13 @@ export const generatedPricingMessages = {
       "platform": "Nền tảng Trí tuệ Quyết định",
       "pricing": "Giá cả",
       "instantQuote": "Nhận Báo giá Ngay",
-      "bookDemo": "Đặt Lịch Demos"
+      "bookDemo": "Đặt Lịch Demo"
     },
     "footer": {
       "privacy": "Quyền riêng tư",
       "terms": "Điều khoản",
       "contact": "Liên hệ",
-      "demo": "Demos"
+      "demo": "Demo"
     },
     "pdf": {
       "generating": "Đang tạo...",
@@ -4506,11 +4506,11 @@ export const generatedPricingMessages = {
       "nextSteps": "Vui lòng liên hệ với tôi để thảo luận về các bước tiếp theo.",
       "bestRegards": "Trân trọng",
       "downloadedTitle": "PDF đã tải xuống!",
-      "downloadedBody": "\"{filename}\" đã được tải xuống máy tính của bạn.",
+      "downloadedBody": "\"{filename}\" đã được tải xuống về máy tính của bạn.",
       "downloadedFollowUp": "Email của bạn sẽ mở tiếp theo - vui lòng đính kèm PDF đã tải xuống trước khi gửi.",
       "downloadedTip": "Mẹo: PDF thường nằm trong thư mục Tải xuống của bạn.",
       "failedPrepare": "Không thể chuẩn bị email. Vui lòng thử tải PDF xuống thủ công.",
-      "bookDemo": "Đặt Lịch Demos"
+      "bookDemo": "Đặt Lịch Demo"
     },
     "faq": {
       "title": "Câu hỏi Thường gặp",
@@ -4539,7 +4539,7 @@ export const generatedPricingMessages = {
       "startWithBasics": "Bắt đầu với những điều cơ bản",
       "recommendedForYourPriorities": "Được khuyến nghị cho các ưu tiên của bạn - bạn có thể chỉnh sửa lựa chọn.",
       "seeCustomStack": "Xem Bộ Tùy Chỉnh của Bạn",
-      "resultLayerReport": "Báo cáo",
+      "resultLayerReport": "Report",
       "resultLayerCore": "Core",
       "journey": {
         "persona": "Khám Phá Persona của Bạn",
@@ -4568,7 +4568,7 @@ export const generatedPricingMessages = {
       "fullBundle": "Gói đầy đủ (Tất cả mô-đun)",
       "crossIntelligencePro": "Cross-Intelligence Pro",
       "crossIntelligence": "Cross-Intelligence",
-      "crossIntelligenceProDesc": "Công cụ tương quan đầy đủ với phát hiện phân bổ & ăn thịt",
+      "crossIntelligenceProDesc": "Công cụ tương quan đầy đủ với phát hiện phân bổ & tự cạnh tranh",
       "crossIntelligenceDesc": "Thông tin tương quan tự động (bao gồm với 3+ mô-đun)",
       "aiCreditsPerMonth": "Tín dụng AI/tháng",
       "aiCreditsDescription": "Để có thông tin và tự động hóa",
@@ -4596,14 +4596,14 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Giá cả Đơn giản, Minh bạch",
       "heroSubtitle": "Bắt đầu miễn phí, mở rộng khi bạn phát triển. Không có phí ẩn, không có bất ngờ.",
-      "reportTab": "Báo cáo",
+      "reportTab": "Report",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundae Report",
       "reportSubtitle": "Phân tích và thông tin cho dữ liệu nhà hàng",
-      "coreTitle": "Core Sundae",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "Hoạt động thời gian thực với tích hợp POS",
-      "watchtowerTitle": "Watchtower Sundae",
+      "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "Theo dõi đối thủ, sự kiện và xu hướng thị trường",
       "recommended": "ĐƯỢC KHUYẾN NGHỊ",
       "popular": "PHỔ BIẾN",
@@ -4617,7 +4617,7 @@ export const generatedPricingMessages = {
       "selectTier": "Chọn {tier}",
       "contactSales": "Liên hệ Bán hàng",
       "bestFor": "Tốt nhất cho:",
-      "reportFeaturesComparison": "So sánh Tính năng Báo cáo",
+      "reportFeaturesComparison": "So sánh Tính năng Report",
       "coreFeaturesComparison": "So sánh Tính năng Core",
       "portfolioPricingAdvantage": "Lợi thế Giá cả Danh mục",
       "addOnModulesEyebrow": "MÔ-ĐUN BỔ SUNG",
@@ -4628,9 +4628,9 @@ export const generatedPricingMessages = {
       "perLocationFrom4": "Theo Địa điểm (#4+)",
       "locations5": "5 Địa điểm",
       "locations10": "10 Địa điểm",
-      "crossIntelligenceEyebrow": "MÁY TÍNH TƯƠNG QUAN CROSS-INTELLIGENCE",
+      "crossIntelligenceEyebrow": "CÔNG CỤ TƯƠNG QUAN CROSS-INTELLIGENCE",
       "crossIntelligenceTitle": "Công cụ Tương quan Cross-Intelligence",
-      "crossIntelligenceSubtitle": "Bề mặt các mối tương quan ẩn giữa các nguồn dữ liệu của bạn - tự động được kích hoạt khi bạn kích hoạt 3+ mô-đun",
+      "crossIntelligenceSubtitle": "Làm nổi bật các mối tương quan ẩn giữa các nguồn dữ liệu của bạn - tự động được kích hoạt khi bạn kích hoạt 3+ mô-đun",
       "free": "Miễn phí",
       "autoEnabledWithThreeModules": "Tự động kích hoạt với 3+ mô-đun - không tốn thêm chi phí",
       "pro": "Pro",
@@ -4642,7 +4642,7 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Chọn Cấp Báo cáo của Bạn",
+        "chooseReportTier": "Chọn Cấp Report của Bạn",
         "chooseCoreTier": "Chọn Cấp Core của Bạn",
         "reportSubtitle": "Bắt đầu miễn phí hoặc mở khóa sức mạnh phân tích nhiều hơn",
         "coreSubtitle": "Trí tuệ thời gian thực phù hợp với quy mô của bạn",
@@ -4653,13 +4653,13 @@ export const generatedPricingMessages = {
         "aiCredits": "Tín dụng AI",
         "visuals": "Hình ảnh",
         "dataRefresh": "Làm mới Dữ liệu",
-        "benchmark": "Tiêu chuẩn",
+        "benchmark": "Benchmark",
         "metrics": "các chỉ số",
         "selectTier": "Chọn {tier}",
         "detailedFeatureComparison": "So sánh Tính năng Chi tiết",
         "feature": "Tính năng",
         "monthlyPrice": "Giá hàng tháng",
-        "benchmarkMetrics": "Chỉ số Tiêu chuẩn"
+        "benchmarkMetrics": "Chỉ số Benchmark"
       },
       "modulePicker": {
         "title": "Nâng cao Bộ của Bạn",
@@ -4702,7 +4702,7 @@ export const generatedPricingMessages = {
         "proPriceNote": "${monthlyFee}/tháng + ${perLocation}/địa điểm từ địa điểm #2 ({locations} địa điểm)",
         "unlockedWithModules": "Được mở khóa với {count} mô-đun",
         "crossTitle": "Công cụ Tương quan Cross-Intelligence",
-        "crossSubtitle": "Bề mặt các kết nối ẩn giữa các nguồn dữ liệu của bạn - tự động được kích hoạt với 3+ mô-đun",
+        "crossSubtitle": "Làm nổi bật các kết nối ẩn giữa các nguồn dữ liệu của bạn - tự động được kích hoạt với 3+ mô-đun",
         "includedFree": "Bao gồm miễn phí",
         "selected": "Đã chọn",
         "totalWithAddons": "Tổng cộng với Bổ sung",
@@ -4716,17 +4716,17 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Báo cáo Lite",
+            "name": "Report Lite",
             "tagline": "MIỄN PHÍ Mãi mãi",
             "bestFor": "Kiểm tra Sundae, khả năng hiển thị cơ bản, chứng minh khái niệm"
           },
           "plus": {
-            "name": "Báo cáo Plus",
+            "name": "Report Plus",
             "tagline": "Thông tin Tự động",
             "bestFor": "Nhà hàng đơn lẻ nghiêm túc, nhập dữ liệu tự động, thông tin AI thường xuyên"
           },
           "pro": {
-            "name": "Báo cáo Pro",
+            "name": "Report Pro",
             "tagline": "Phân tích Tích hợp API",
             "bestFor": "Nhà điều hành đa địa điểm, tự động hóa API, phân tích nâng cao, chuẩn bị danh mục"
           }
@@ -4826,11 +4826,11 @@ export const generatedPricingMessages = {
       "crossIntelligence": {
         "base": {
           "name": "Cross-Intelligence",
-          "description": "Thông tin tương quan tự động giữa các mô-đun giúp bề mặt các kết nối ẩn giữa các nguồn dữ liệu"
+          "description": "Thông tin tương quan tự động giữa các mô-đun giúp làm nổi bật các kết nối ẩn giữa các nguồn dữ liệu"
         },
         "pro": {
           "name": "Cross-Intelligence Pro",
-          "description": "Công cụ tương quan đầy đủ với phát hiện phân bổ, phát hiện ăn thịt và giám sát chiến dịch thời gian thực"
+          "description": "Công cụ tương quan đầy đủ với phân bổ, phát hiện tự cạnh tranh và giám sát chiến dịch thời gian thực"
         }
       }
     },
@@ -4878,7 +4878,7 @@ export const generatedPricingMessages = {
       "nextSteps": "Vă rog să mă contactați pentru a discuta pașii următori.",
       "bestRegards": "Cele mai bune gânduri",
       "downloadedTitle": "PDF Descărcat!",
-      "downloadedBody": "\"{filename}\" a fost descărcat pe computerul tău.",
+      "downloadedBody": "\"{filename}\" a fost descărcat pe calculatorul tău.",
       "downloadedFollowUp": "Emailul tău se va deschide acum - te rugăm să atașezi PDF-ul descărcat înainte de a trimite.",
       "downloadedTip": "Sfat: PDF-ul se află de obicei în folderul Descărcări.",
       "failedPrepare": "Eșec la pregătirea emailului. Vă rugăm să încercați să descărcați PDF-ul manual.",
@@ -4911,7 +4911,7 @@ export const generatedPricingMessages = {
       "startWithBasics": "Începe cu elementele de bază",
       "recommendedForYourPriorities": "Recomandat pentru prioritățile tale - poți edita selecțiile.",
       "seeCustomStack": "Vezi Stiva Ta Personalizată",
-      "resultLayerReport": "Raport",
+      "resultLayerReport": "Report",
       "resultLayerCore": "Core",
       "journey": {
         "persona": "Descoperă-ți Persona",
@@ -4946,7 +4946,7 @@ export const generatedPricingMessages = {
       "aiCreditsDescription": "Pentru informații și automatizare",
       "investmentTitle": "Rezumatul Investiției",
       "monthlyInvestment": "Investiție Lunară",
-      "enterpriseQuote": "Contactați {email} pentru ofertă de întreprindere",
+      "enterpriseQuote": "Contactați {email} pentru o ofertă Enterprise",
       "contactSales": "Contactați vânzările pentru ofertă",
       "whatsIncluded": "Ce este Inclus",
       "competitorComparison": "Vezi Compararea Completă a Competitorilor",
@@ -4961,17 +4961,17 @@ export const generatedPricingMessages = {
       "pricingEffective": "Prețurile sunt efective",
       "allPricesIn": "Toate prețurile în",
       "pricingFooterNote": "Prețurile sunt efective din {date}",
-      "taxNote": "Impozitele (VAT/GST) nu sunt incluse decât dacă se specifică",
-      "changeNotice": "Subiect la modificare cu un preaviz de 30 de zile",
+      "taxNote": "Taxele (TVA/GST) nu sunt incluse, cu excepția cazului în care se specifică altfel",
+      "changeNotice": "Poate fi modificat cu un preaviz de 30 de zile",
       "locationPricingNote": "Locațiile suplimentare sunt facturate de la locația #2 încolo (locația #1 este inclusă în prețul de bază)"
     },
     "overview": {
-      "heroTitle": "Prețuri Simple și Transparent",
+      "heroTitle": "Prețuri Simple și Transparente",
       "heroSubtitle": "Începe gratuit, scalează pe măsură ce crești. Fără taxe ascunse, fără surprize.",
-      "reportTab": "Raport",
+      "reportTab": "Report",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Raport Sundae",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Analize și informații pentru datele restaurantului",
       "coreTitle": "Sundae Core",
       "coreSubtitle": "Operațiuni în timp real cu integrare POS",
@@ -4989,7 +4989,7 @@ export const generatedPricingMessages = {
       "selectTier": "Selectează {tier}",
       "contactSales": "Contactează Vânzările",
       "bestFor": "Cel mai bun pentru:",
-      "reportFeaturesComparison": "Compararea Caracteristicilor Raportului",
+      "reportFeaturesComparison": "Compararea Caracteristicilor Report",
       "coreFeaturesComparison": "Compararea Caracteristicilor Core",
       "portfolioPricingAdvantage": "Avantajul Prețurilor pe Portofoliu",
       "addOnModulesEyebrow": "MODULE SUPLIMENTARE",
@@ -5014,7 +5014,7 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Alege Nivelul Tău de Raport",
+        "chooseReportTier": "Alege Nivelul Tău Report",
         "chooseCoreTier": "Alege Nivelul Tău Core",
         "reportSubtitle": "Începe gratuit sau deblochează mai multă putere analitică",
         "coreSubtitle": "Inteligență în timp real adaptată la scala ta",
@@ -5025,13 +5025,13 @@ export const generatedPricingMessages = {
         "aiCredits": "Credite AI",
         "visuals": "Vizualuri",
         "dataRefresh": "Actualizare Date",
-        "benchmark": "Referință",
+        "benchmark": "Benchmark",
         "metrics": "metrice",
         "selectTier": "Selectează {tier}",
         "detailedFeatureComparison": "Compararea Detaliată a Caracteristicilor",
         "feature": "Caracteristică",
         "monthlyPrice": "Preț Lunar",
-        "benchmarkMetrics": "Metrice de Referință"
+        "benchmarkMetrics": "Metrice Benchmark"
       },
       "modulePicker": {
         "title": "Îmbunătățește-ți Stiva",
@@ -5088,17 +5088,17 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Raport Lite",
+            "name": "Report Lite",
             "tagline": "GRATUIT pentru Totdeauna",
             "bestFor": "Testarea Sundae, vizibilitate de bază, dovada conceptului"
           },
           "plus": {
-            "name": "Raport Plus",
+            "name": "Report Plus",
             "tagline": "Informații Automatizate",
             "bestFor": "Operatori serioși de locație unică, input de date automatizat, informații AI regulate"
           },
           "pro": {
-            "name": "Raport Pro",
+            "name": "Report Pro",
             "tagline": "Analitică Alimentată de API",
             "bestFor": "Operatori multi-locație, automatizare API, analize avansate, pregătirea portofoliului"
           }
@@ -5115,9 +5115,9 @@ export const generatedPricingMessages = {
             "bestFor": "10-50 locații, medii multi-POS, prognozare avansată, planificare strategică"
           },
           "enterprise": {
-            "name": "Întreprindere",
+            "name": "Enterprise",
             "tagline": "Soluții Personalizate",
-            "bestFor": "30+ locații sau cerințe de întreprindere, portofolii multi-brand"
+            "bestFor": "30+ locații sau cerințe enterprise, portofolii multi-brand"
           }
         }
       },
@@ -5154,7 +5154,7 @@ export const generatedPricingMessages = {
         },
         "revenue": {
           "name": "Asigurarea Veniturilor",
-          "description": "Detectarea scurgerilor din anulari, compensații, reduceri, tipare de furt și anomalii de tranzacție",
+          "description": "Detectarea scurgerilor din anulări, produse oferite gratuit, reduceri, tipare de furt și anomalii de tranzacție",
           "roi": "Prinde 1-2% scurgeri"
         },
         "delivery": {
@@ -5164,7 +5164,7 @@ export const generatedPricingMessages = {
         },
         "guest": {
           "name": "Experiența Oaspeților",
-          "description": "Sentimentul recenzilor, tendințele evaluărilor, tiparele feedback-ului oaspeților și factorii de satisfacție",
+          "description": "Sentimentul recenziilor, tendințele evaluărilor, tiparele feedbackului oaspeților și factorii de satisfacție",
           "roi": "De ce pleacă clienții"
         },
         "pulse": {
@@ -5283,8 +5283,8 @@ export const generatedPricingMessages = {
       "startWithBasics": "Börja med grunderna",
       "recommendedForYourPriorities": "Rekommenderat för dina prioriteringar - du kan redigera val.",
       "seeCustomStack": "Se din anpassade stack",
-      "resultLayerReport": "Rapport",
-      "resultLayerCore": "Kärna",
+      "resultLayerReport": "Report",
+      "resultLayerCore": "Core",
       "journey": {
         "persona": "Upptäck din persona",
         "layer": "Välj ditt lager",
@@ -5326,7 +5326,7 @@ export const generatedPricingMessages = {
       "readyTitle": "Redo att komma igång?",
       "readyDescription": "Gå med i hundratals restauranger som redan använder Sundae för att fatta smartare beslut",
       "startTrial": "Börja gratis provperiod",
-      "noCard": "Ingen kreditkort krävs • 14-dagars gratis provperiod • Avbryt när som helst",
+      "noCard": "Inget kreditkort krävs • 14 dagars gratis provperiod • Avbryt när som helst",
       "questions": "Frågor?",
       "contactUs": "Klicka här för att kontakta oss",
       "successManager": "Din dedikerade kundframgångschef hjälper dig att komma igång",
@@ -5340,12 +5340,12 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Enkel, transparent prissättning",
       "heroSubtitle": "Börja gratis, skala när du växer. Inga dolda avgifter, inga överraskningar.",
-      "reportTab": "Rapport",
-      "coreTab": "Kärna",
+      "reportTab": "Report",
+      "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundae Rapport",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "Analys och insikter för restaurangdata",
-      "coreTitle": "Sundae Kärna",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "Verksamhet i realtid med POS-integration",
       "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "Följ konkurrenter, evenemang och marknadstrender",
@@ -5361,12 +5361,12 @@ export const generatedPricingMessages = {
       "selectTier": "Välj {tier}",
       "contactSales": "Kontakta försäljning",
       "bestFor": "Bäst för:",
-      "reportFeaturesComparison": "Rapportfunktioner Jämförelse",
-      "coreFeaturesComparison": "Kärnfunktioner Jämförelse",
+      "reportFeaturesComparison": "Jämförelse av Report-funktioner",
+      "coreFeaturesComparison": "Jämförelse av Core-funktioner",
       "portfolioPricingAdvantage": "Portföljprissättningsfördel",
       "addOnModulesEyebrow": "TILLÄGGSMODULER",
-      "moduleAddonsTitle": "Modul-tillägg för Kärna",
-      "moduleAddonsSubtitle": "Lägg till specialiserad intelligens till Kärnans nivå. Org-licens täcker platser 1-3, sedan per plats från #4+",
+      "moduleAddonsTitle": "Modul-tillägg för Core",
+      "moduleAddonsSubtitle": "Lägg till specialiserad intelligens till Core-nivån. Org-licens täcker platser 1-3, sedan per plats från #4+",
       "module": "Modul",
       "orgLicense": "Org-licens",
       "perLocationFrom4": "Per plats (#4+)",
@@ -5386,8 +5386,8 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Välj din rapportnivå",
-        "chooseCoreTier": "Välj din kärnnivå",
+        "chooseReportTier": "Välj din Report-nivå",
+        "chooseCoreTier": "Välj din Core-nivå",
         "reportSubtitle": "Börja gratis eller lås upp mer analyskraft",
         "coreSubtitle": "Intelligens i realtid anpassad till din skala",
         "recommended": "REKOMMENDERAD",
@@ -5397,13 +5397,13 @@ export const generatedPricingMessages = {
         "aiCredits": "AI-krediter",
         "visuals": "Visualer",
         "dataRefresh": "Datauppdatering",
-        "benchmark": "Jämförelse",
+        "benchmark": "Benchmark",
         "metrics": "mått",
         "selectTier": "Välj {tier}",
         "detailedFeatureComparison": "Detaljerad funktionsjämförelse",
         "feature": "Funktion",
         "monthlyPrice": "Månatligt pris",
-        "benchmarkMetrics": "Jämförelsemått"
+        "benchmarkMetrics": "Benchmark-mått"
       },
       "modulePicker": {
         "title": "Stärk din stack",
@@ -5477,12 +5477,12 @@ export const generatedPricingMessages = {
         },
         "core": {
           "lite": {
-            "name": "Kärna Lite",
+            "name": "Core Lite",
             "tagline": "Verksamhet i realtid",
             "bestFor": "1-10 platser, verksamhet i realtid, portföljhantering, enstaka POS-system"
           },
           "pro": {
-            "name": "Kärna Pro",
+            "name": "Core Pro",
             "tagline": "Portföljintelligens",
             "bestFor": "10-50 platser, flera POS-miljöer, avancerad prognostisering, strategisk planering"
           },
@@ -5495,7 +5495,7 @@ export const generatedPricingMessages = {
       },
       "modules": {
         "labor": {
-          "name": "Arbetskraftintelligens",
+          "name": "Arbetskraftsintelligens",
           "description": "Arbetskostnad, produktivitet, schemavariation, övertid, raster, benchmarking och bemanningsrekommendationer",
           "roi": "1-3% minskning av arbetskostnader"
         },
@@ -5526,12 +5526,12 @@ export const generatedPricingMessages = {
         },
         "revenue": {
           "name": "Intäktsgaranti",
-          "description": "Upptäck läckage från voids, comps, rabatter, stöldmönster och transaktionsanomalier",
+          "description": "Upptäck läckage från makuleringar, gratisartiklar, rabatter, stöldmönster och transaktionsanomalier",
           "roi": "Fånga 1-2% läckage"
         },
         "delivery": {
-          "name": "Leverans ekonomi",
-          "description": "Plattforms lönsamhet, leverans vs mat på plats, kommissionseffekt och kanaloptimering",
+          "name": "Leveransekonomi",
+          "description": "Plattformslönsamhet, leverans vs mat på plats, kommissionseffekt och kanaloptimering",
           "roi": "Verklig leveranslönsamhet"
         },
         "guest": {
@@ -5620,7 +5620,7 @@ export const generatedPricingMessages = {
       "watchtower": "Watchtower",
       "attached": "আমি এই ইমেইলে বিস্তারিত পিডিএফ উদ্ধৃতি ({filename}) সংযুক্ত করেছি।",
       "nextSteps": "পরবর্তী পদক্ষেপ নিয়ে আলোচনা করতে দয়া করে আমার সাথে যোগাযোগ করুন।",
-      "bestRegards": "শ্রেষ্ঠ শুভেচ্ছা",
+      "bestRegards": "শুভেচ্ছান্তে",
       "downloadedTitle": "পিডিএফ ডাউনলোড হয়েছে!",
       "downloadedBody": "\"{filename}\" আপনার কম্পিউটারে ডাউনলোড হয়েছে।",
       "downloadedFollowUp": "আপনার ইমেইল পরবর্তী খোলা হবে - দয়া করে পাঠানোর আগে ডাউনলোড করা পিডিএফ সংযুক্ত করুন।",
@@ -5643,7 +5643,7 @@ export const generatedPricingMessages = {
       "back": "পিছনে",
       "continue": "অগ্রসর হন",
       "skip": "এড়িয়ে যান",
-      "stepOf": "ধাপ {current} এর {total}",
+      "stepOf": "{total} এর মধ্যে ধাপ {current}",
       "currentStepCount": "{current} / {total}",
       "completed": "সম্পন্ন",
       "current": "বর্তমান",
@@ -5655,12 +5655,12 @@ export const generatedPricingMessages = {
       "startWithBasics": "মৌলিক বিষয়গুলি দিয়ে শুরু করুন",
       "recommendedForYourPriorities": "আপনার অগ্রাধিকার অনুযায়ী সুপারিশ করা হয়েছে - আপনি নির্বাচনগুলি সম্পাদনা করতে পারেন।",
       "seeCustomStack": "আপনার কাস্টম স্ট্যাক দেখুন",
-      "resultLayerReport": "রিপোর্ট",
-      "resultLayerCore": "কোর",
+      "resultLayerReport": "Report",
+      "resultLayerCore": "Core",
       "journey": {
         "persona": "আপনার ব্যক্তিত্ব আবিষ্কার করুন",
         "layer": "আপনার স্তর নির্বাচন করুন",
-        "tier": "আপনার স্তর নির্বাচন করুন",
+        "tier": "আপনার টিয়ার নির্বাচন করুন",
         "locations": "স্থান কনফিগার করুন",
         "modules": "মডিউল যোগ করুন",
         "watchtower": "Watchtower Intel",
@@ -5682,8 +5682,8 @@ export const generatedPricingMessages = {
       "enhancedAnalytics": "বর্ধিত বিশ্লেষণ ও অপারেশন",
       "watchtowerTitle": "Watchtower বুদ্ধিমত্তা",
       "fullBundle": "পূর্ণ বান্ডেল (সমস্ত মডিউল)",
-      "crossIntelligencePro": "ক্রস-বুদ্ধিমত্তা প্রো",
-      "crossIntelligence": "ক্রস-বুদ্ধিমত্তা",
+      "crossIntelligencePro": "Cross-Intelligence Pro",
+      "crossIntelligence": "Cross-Intelligence",
       "crossIntelligenceProDesc": "সম্পূর্ণ সম্পর্ক ইঞ্জিন সহ অ্যাট্রিবিউশন ও ক্যানিবালাইজেশন সনাক্তকরণ",
       "crossIntelligenceDesc": "স্বয়ংক্রিয়ভাবে সক্ষম সম্পর্ক অন্তর্দৃষ্টি (৩+ মডিউল সহ অন্তর্ভুক্ত)",
       "aiCreditsPerMonth": "এআই ক্রেডিট/মাস",
@@ -5706,18 +5706,18 @@ export const generatedPricingMessages = {
       "allPricesIn": "সমস্ত মূল্য",
       "pricingFooterNote": "মূল্য কার্যকর {date}",
       "taxNote": "কর (ভ্যাট/জিএসটি) উল্লেখ না করা হলে অন্তর্ভুক্ত নয়",
-      "changeNotice": "৩০ দিনের নোটিশ সহ পরিবর্তনের subject",
+      "changeNotice": "৩০ দিনের নোটিশসহ পরিবর্তন সাপেক্ষে",
       "locationPricingNote": "অতিরিক্ত স্থানগুলি স্থান #২ থেকে বিল করা হয় (স্থান #১ মৌলিক মূল্যে অন্তর্ভুক্ত)"
     },
     "overview": {
       "heroTitle": "সরল, স্বচ্ছ মূল্য নির্ধারণ",
       "heroSubtitle": "ফ্রি শুরু করুন, আপনার বৃদ্ধি অনুযায়ী স্কেল করুন। কোন গোপন ফি নেই, কোন অপ্রত্যাশিত বিষয় নেই।",
-      "reportTab": "রিপোর্ট",
-      "coreTab": "কোর",
+      "reportTab": "Report",
+      "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "Sundae রিপোর্ট",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "রেস্তোরাঁর ডেটার জন্য বিশ্লেষণ এবং অন্তর্দৃষ্টি",
-      "coreTitle": "Sundae কোর",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "পিওএস ইন্টিগ্রেশন সহ রিয়েল-টাইম অপারেশন",
       "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "প্রতিযোগীদের, ইভেন্ট এবং বাজারের প্রবণতা ট্র্যাক করুন",
@@ -5733,24 +5733,24 @@ export const generatedPricingMessages = {
       "selectTier": "নির্বাচন করুন {tier}",
       "contactSales": "বিক্রয় যোগাযোগ করুন",
       "bestFor": "সেরা জন্য:",
-      "reportFeaturesComparison": "রিপোর্ট বৈশিষ্ট্য তুলনা",
-      "coreFeaturesComparison": "কোর বৈশিষ্ট্য তুলনা",
+      "reportFeaturesComparison": "Report বৈশিষ্ট্য তুলনা",
+      "coreFeaturesComparison": "Core বৈশিষ্ট্য তুলনা",
       "portfolioPricingAdvantage": "পোর্টফোলিও মূল্য নির্ধারণ সুবিধা",
       "addOnModulesEyebrow": "অ্যাড-অন মডিউল",
-      "moduleAddonsTitle": "কোরের জন্য মডিউল অ্যাড-অন",
-      "moduleAddonsSubtitle": "কোর স্তরে বিশেষায়িত বুদ্ধিমত্তা যোগ করুন। অর্গ লাইসেন্স স্থান ১-৩ কভার করে, তারপর #৪+ থেকে প্রতি স্থানে।",
+      "moduleAddonsTitle": "Core-এর জন্য মডিউল অ্যাড-অন",
+      "moduleAddonsSubtitle": "Core স্তরে বিশেষায়িত বুদ্ধিমত্তা যোগ করুন। অর্গ লাইসেন্স স্থান ১-৩ কভার করে, তারপর #৪+ থেকে প্রতি স্থানে।",
       "module": "মডিউল",
       "orgLicense": "অর্গ লাইসেন্স",
       "perLocationFrom4": "প্রতি স্থান (#৪+)",
       "locations5": "৫ স্থান",
       "locations10": "১০ স্থান",
-      "crossIntelligenceEyebrow": "ক্রস-বুদ্ধিমত্তা ইঞ্জিন",
-      "crossIntelligenceTitle": "ক্রস-বুদ্ধিমত্তা সম্পর্ক ইঞ্জিন",
+      "crossIntelligenceEyebrow": "Cross-Intelligence ইঞ্জিন",
+      "crossIntelligenceTitle": "Cross-Intelligence সম্পর্ক ইঞ্জিন",
       "crossIntelligenceSubtitle": "আপনার ডেটা উৎসগুলির মধ্যে লুকানো সম্পর্কগুলি প্রকাশ করে - ৩+ মডিউল সক্রিয় করার সময় স্বয়ংক্রিয়ভাবে সক্ষম",
       "free": "ফ্রি",
       "autoEnabledWithThreeModules": "৩+ মডিউল সহ স্বয়ংক্রিয়ভাবে সক্ষম - কোন অতিরিক্ত খরচ নেই",
-      "pro": "প্রো",
-      "perLocationFrom2": "+${price}/স্থান স্থান #২ থেকে",
+      "pro": "Pro",
+      "perLocationFrom2": "+${price}/স্থান, স্থান #২ থেকে",
       "locationOne": "১ স্থান",
       "savePerMonth": "${amount}/মাস সঞ্চয় করুন ({percent}%)",
       "strategicValueTitle": "কৌশলগত মূল্য অনুমান",
@@ -5758,8 +5758,8 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "আপনার রিপোর্ট স্তর নির্বাচন করুন",
-        "chooseCoreTier": "আপনার কোর স্তর নির্বাচন করুন",
+        "chooseReportTier": "আপনার Report স্তর নির্বাচন করুন",
+        "chooseCoreTier": "আপনার Core স্তর নির্বাচন করুন",
         "reportSubtitle": "ফ্রি শুরু করুন অথবা আরও বিশ্লেষণাত্মক শক্তি আনলক করুন",
         "coreSubtitle": "আপনার স্কেলের জন্য উপযোগী রিয়েল-টাইম বুদ্ধিমত্তা",
         "recommended": "সুপারিশকৃত",
@@ -5769,13 +5769,13 @@ export const generatedPricingMessages = {
         "aiCredits": "এআই ক্রেডিট",
         "visuals": "ভিজ্যুয়ালস",
         "dataRefresh": "ডেটা রিফ্রেশ",
-        "benchmark": "বেঞ্চমার্ক",
+        "benchmark": "Benchmark",
         "metrics": "মেট্রিক্স",
         "selectTier": "নির্বাচন করুন {tier}",
         "detailedFeatureComparison": "বিস্তারিত বৈশিষ্ট্য তুলনা",
         "feature": "বৈশিষ্ট্য",
         "monthlyPrice": "মাসিক মূল্য",
-        "benchmarkMetrics": "বেঞ্চমার্ক মেট্রিক্স"
+        "benchmarkMetrics": "Benchmark মেট্রিক্স"
       },
       "modulePicker": {
         "title": "আপনার স্ট্যাককে শক্তিশালী করুন",
@@ -5785,10 +5785,10 @@ export const generatedPricingMessages = {
         "recommended": "সুপারিশকৃত",
         "perMonth": "/মাস",
         "includesExtra": "অন্তর্ভুক্ত {included} স্থান + {extra} অতিরিক্ত",
-        "crossUnlocked": "ক্রস-বুদ্ধিমত্তা আনলক হয়েছে!",
+        "crossUnlocked": "Cross-Intelligence আনলক হয়েছে!",
         "crossUnlockedDescription": "মুক্ত সম্পর্ক ইঞ্জিন {count} মডিউল সহ সক্ষম - পরবর্তী পদক্ষেপে প্রোতে আপগ্রেড করুন",
         "crossNeedsMore": "আনলক করতে {count} আরও {moduleWord} নির্বাচন করুন",
-        "crossFreeSuffix": "ক্রস-বুদ্ধিমত্তা - আপনার ডেটা উৎসগুলির মধ্যে মুক্ত সম্পর্ক ইঞ্জিন",
+        "crossFreeSuffix": "Cross-Intelligence - আপনার ডেটা উৎসগুলির মধ্যে মুক্ত সম্পর্ক ইঞ্জিন",
         "moduleSingular": "মডিউল",
         "modulePlural": "মডিউলগুলি",
         "totalWithModules": "মডিউল সহ মোট",
@@ -5815,9 +5815,9 @@ export const generatedPricingMessages = {
         "bestValue": "সেরা মূল্য - ~১৮% সঞ্চয় করুন",
         "bundleDiscount": "~১৮% ছাড়",
         "individualSuffix": "ব্যক্তিগত",
-        "proPriceNote": "${monthlyFee}/মাস + ${perLocation}/স্থান স্থান #২ থেকে ({locations} স্থান)",
+        "proPriceNote": "${monthlyFee}/মাস + ${perLocation}/স্থান, স্থান #২ থেকে ({locations} স্থান)",
         "unlockedWithModules": "{count} মডিউল সহ আনলক হয়েছে",
-        "crossTitle": "ক্রস-বুদ্ধিমত্তা সম্পর্ক ইঞ্জিন",
+        "crossTitle": "Cross-Intelligence সম্পর্ক ইঞ্জিন",
         "crossSubtitle": "আপনার ডেটা উৎসগুলির মধ্যে লুকানো সংযোগগুলি প্রকাশ করে - ৩+ মডিউল সহ স্বয়ংক্রিয়ভাবে সক্ষম",
         "includedFree": "মুক্ত অন্তর্ভুক্ত",
         "selected": "নির্বাচিত",
@@ -5898,7 +5898,7 @@ export const generatedPricingMessages = {
         },
         "revenue": {
           "name": "রাজস্ব নিশ্চয়তা",
-          "description": "ভয়েস, কম্পস, ডিসকাউন্ট, চুরি প্রবণতা, এবং লেনদেনের অস্বাভাবিকতা থেকে লিকেজ সনাক্ত করুন",
+          "description": "বাতিল অর্ডার, ফ্রি আইটেম, ডিসকাউন্ট, চুরির প্রবণতা, এবং লেনদেনের অস্বাভাবিকতা থেকে লিকেজ সনাক্ত করুন",
           "roi": "১-২% লিকেজ ধরুন"
         },
         "delivery": {
@@ -5912,7 +5912,7 @@ export const generatedPricingMessages = {
           "roi": "কেন গ্রাহকরা চলে যায়"
         },
         "pulse": {
-          "name": "পালস",
+          "name": "Pulse",
           "description": "রিয়েল-টাইম মনিটরিং, সতর্কতা, সম্পর্ক, এবং অপারেশন জুড়ে সক্রিয় অস্বাভাবিকতা সনাক্তকরণ",
           "roi": "রিয়েল-টাইম অপারেশনাল সচেতনতা"
         }
@@ -5941,11 +5941,11 @@ export const generatedPricingMessages = {
       },
       "crossIntelligence": {
         "base": {
-          "name": "ক্রস-বুদ্ধিমত্তা",
+          "name": "Cross-Intelligence",
           "description": "স্বয়ংক্রিয় ক্রস-মডিউল সম্পর্ক অন্তর্দৃষ্টি যা ডেটা উৎসগুলির মধ্যে লুকানো সংযোগগুলি প্রকাশ করে"
         },
         "pro": {
-          "name": "ক্রস-বুদ্ধিমত্তা প্রো",
+          "name": "Cross-Intelligence Pro",
           "description": "সম্পূর্ণ সম্পর্ক ইঞ্জিন সহ অ্যাট্রিবিউশন, ক্যানিবালাইজেশন সনাক্তকরণ, এবং রিয়েল-টাইম প্রচার মনিটরিং"
         }
       }
@@ -6027,7 +6027,7 @@ export const generatedPricingMessages = {
       "startWithBasics": "เริ่มต้นด้วยพื้นฐาน",
       "recommendedForYourPriorities": "แนะนำสำหรับความสำคัญของคุณ - คุณสามารถแก้ไขการเลือกได้.",
       "seeCustomStack": "ดูสแต็คที่กำหนดเองของคุณ",
-      "resultLayerReport": "รายงาน",
+      "resultLayerReport": "Report",
       "resultLayerCore": "Core",
       "journey": {
         "persona": "ค้นพบบุคลิกภาพของคุณ",
@@ -6056,7 +6056,7 @@ export const generatedPricingMessages = {
       "fullBundle": "แพ็คเกจทั้งหมด (โมดูลทั้งหมด)",
       "crossIntelligencePro": "Cross-Intelligence Pro",
       "crossIntelligence": "Cross-Intelligence",
-      "crossIntelligenceProDesc": "เครื่องมือการวิเคราะห์ความสัมพันธ์เต็มรูปแบบพร้อมการตรวจจับการแบ่งปันและการกินเนื้อกัน",
+      "crossIntelligenceProDesc": "เครื่องมือวิเคราะห์ความสัมพันธ์เต็มรูปแบบพร้อมการระบุแหล่งที่มาและการตรวจจับการแย่งยอดขายกันเอง",
       "crossIntelligenceDesc": "ข้อมูลเชิงลึกการวิเคราะห์ความสัมพันธ์ที่เปิดใช้งานโดยอัตโนมัติ (รวมอยู่ใน 3+ โมดูล)",
       "aiCreditsPerMonth": "เครดิต AI/เดือน",
       "aiCreditsDescription": "สำหรับข้อมูลเชิงลึกและการทำงานอัตโนมัติ",
@@ -6084,10 +6084,10 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "ราคาที่เรียบง่ายและโปร่งใส",
       "heroSubtitle": "เริ่มฟรี ขยายเมื่อคุณเติบโต ไม่มีค่าธรรมเนียมแอบแฝง ไม่มีความประหลาดใจ.",
-      "reportTab": "รายงาน",
+      "reportTab": "Report",
       "coreTab": "Core",
       "watchtowerTab": "Watchtower",
-      "reportTitle": "รายงาน Sundae",
+      "reportTitle": "Sundae Report",
       "reportSubtitle": "การวิเคราะห์และข้อมูลเชิงลึกสำหรับข้อมูลร้านอาหาร",
       "coreTitle": "Sundae Core",
       "coreSubtitle": "การดำเนินงานแบบเรียลไทม์พร้อมการรวม POS",
@@ -6105,7 +6105,7 @@ export const generatedPricingMessages = {
       "selectTier": "เลือก {tier}",
       "contactSales": "ติดต่อฝ่ายขาย",
       "bestFor": "ดีที่สุดสำหรับ:",
-      "reportFeaturesComparison": "การเปรียบเทียบฟีเจอร์รายงาน",
+      "reportFeaturesComparison": "การเปรียบเทียบฟีเจอร์ Report",
       "coreFeaturesComparison": "การเปรียบเทียบฟีเจอร์ Core",
       "portfolioPricingAdvantage": "ข้อได้เปรียบด้านราคาพอร์ตโฟลิโอ",
       "addOnModulesEyebrow": "โมดูลเสริม",
@@ -6130,7 +6130,7 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "เลือกระดับรายงานของคุณ",
+        "chooseReportTier": "เลือกระดับ Report ของคุณ",
         "chooseCoreTier": "เลือกระดับ Core ของคุณ",
         "reportSubtitle": "เริ่มฟรีหรือปลดล็อกพลังการวิเคราะห์เพิ่มเติม",
         "coreSubtitle": "ข้อมูลเชิงลึกแบบเรียลไทม์ที่ปรับให้เหมาะกับขนาดของคุณ",
@@ -6141,13 +6141,13 @@ export const generatedPricingMessages = {
         "aiCredits": "เครดิต AI",
         "visuals": "ภาพ",
         "dataRefresh": "การรีเฟรชข้อมูล",
-        "benchmark": "เกณฑ์มาตรฐาน",
+        "benchmark": "Benchmark",
         "metrics": "เมตริก",
         "selectTier": "เลือก {tier}",
         "detailedFeatureComparison": "การเปรียบเทียบฟีเจอร์อย่างละเอียด",
         "feature": "ฟีเจอร์",
         "monthlyPrice": "ราคาเดือนละ",
-        "benchmarkMetrics": "เมตริกเกณฑ์มาตรฐาน"
+        "benchmarkMetrics": "เมตริก Benchmark"
       },
       "modulePicker": {
         "title": "เพิ่มพลังให้กับสแต็คของคุณ",
@@ -6318,7 +6318,7 @@ export const generatedPricingMessages = {
         },
         "pro": {
           "name": "Cross-Intelligence Pro",
-          "description": "เครื่องมือการวิเคราะห์ความสัมพันธ์เต็มรูปแบบพร้อมการระบุแหล่งที่มา, การตรวจจับการกินเนื้อกัน, และการตรวจสอบแคมเปญแบบเรียลไทม์"
+          "description": "เครื่องมือวิเคราะห์ความสัมพันธ์เต็มรูปแบบพร้อมการระบุแหล่งที่มา, การตรวจจับการแย่งยอดขายกันเอง, และการตรวจสอบแคมเปญแบบเรียลไทม์"
         }
       }
     },
@@ -6399,8 +6399,8 @@ export const generatedPricingMessages = {
       "startWithBasics": "Mulakan dengan asas",
       "recommendedForYourPriorities": "Disyorkan untuk keutamaan anda - anda boleh mengedit pilihan.",
       "seeCustomStack": "Lihat Tumpukan Kustom Anda",
-      "resultLayerReport": "Laporan",
-      "resultLayerCore": "Inti",
+      "resultLayerReport": "Report",
+      "resultLayerCore": "Core",
       "journey": {
         "persona": "Temui Persona Anda",
         "layer": "Pilih Lapisan Anda",
@@ -6456,14 +6456,14 @@ export const generatedPricingMessages = {
     "overview": {
       "heroTitle": "Harga yang Mudah dan Telus",
       "heroSubtitle": "Mula percuma, berkembang seiring dengan pertumbuhan anda. Tiada yuran tersembunyi, tiada kejutan.",
-      "reportTab": "Laporan",
-      "coreTab": "Inti",
+      "reportTab": "Report",
+      "coreTab": "Core",
       "watchtowerTab": "Watchtower",
       "reportTitle": "Sundae Report",
       "reportSubtitle": "Analitik dan wawasan untuk data restoran",
-      "coreTitle": "Inti Sundae",
+      "coreTitle": "Sundae Core",
       "coreSubtitle": "Operasi masa nyata dengan integrasi POS",
-      "watchtowerTitle": "Watchtower Sundae",
+      "watchtowerTitle": "Sundae Watchtower",
       "watchtowerSubtitle": "Jejaki pesaing, acara, dan tren pasaran",
       "recommended": "DISYARANKAN",
       "popular": "POPULER",
@@ -6477,12 +6477,12 @@ export const generatedPricingMessages = {
       "selectTier": "Pilih {tier}",
       "contactSales": "Hubungi Jualan",
       "bestFor": "Terbaik untuk:",
-      "reportFeaturesComparison": "Perbandingan Ciri Laporan",
-      "coreFeaturesComparison": "Perbandingan Ciri Inti",
+      "reportFeaturesComparison": "Perbandingan Ciri Report",
+      "coreFeaturesComparison": "Perbandingan Ciri Core",
       "portfolioPricingAdvantage": "Kelebihan Harga Portfolio",
       "addOnModulesEyebrow": "MODUL TAMBAHAN",
-      "moduleAddonsTitle": "Modul Tambahan untuk Inti",
-      "moduleAddonsSubtitle": "Tambah kecerdasan khusus kepada tahap Inti. Lesen organisasi merangkumi lokasi 1-3, kemudian setiap lokasi dari #4+",
+      "moduleAddonsTitle": "Modul Tambahan untuk Core",
+      "moduleAddonsSubtitle": "Tambah kecerdasan khusus kepada tahap Core. Lesen organisasi merangkumi lokasi 1-3, kemudian setiap lokasi dari #4+",
       "module": "Modul",
       "orgLicense": "Lesen Organisasi",
       "perLocationFrom4": "Setiap Lokasi (#4+)",
@@ -6502,8 +6502,8 @@ export const generatedPricingMessages = {
     },
     "builder": {
       "tierSelector": {
-        "chooseReportTier": "Pilih Tahap Laporan Anda",
-        "chooseCoreTier": "Pilih Tahap Inti Anda",
+        "chooseReportTier": "Pilih Tahap Report Anda",
+        "chooseCoreTier": "Pilih Tahap Core Anda",
         "reportSubtitle": "Mula percuma atau buka lebih banyak kuasa analitik",
         "coreSubtitle": "Kecerdasan masa nyata yang disesuaikan dengan skala anda",
         "recommended": "DISYARANKAN",
@@ -6513,13 +6513,13 @@ export const generatedPricingMessages = {
         "aiCredits": "Kredit AI",
         "visuals": "Visual",
         "dataRefresh": "Penyegaran Data",
-        "benchmark": "Penanda aras",
+        "benchmark": "Benchmark",
         "metrics": "metrik",
         "selectTier": "Pilih {tier}",
         "detailedFeatureComparison": "Perbandingan Ciri Terperinci",
         "feature": "Ciri",
         "monthlyPrice": "Harga Bulanan",
-        "benchmarkMetrics": "Metrik Penanda Aras"
+        "benchmarkMetrics": "Metrik Benchmark"
       },
       "modulePicker": {
         "title": "Tingkatkan Tumpukan Anda",
@@ -6576,29 +6576,29 @@ export const generatedPricingMessages = {
       "tiers": {
         "report": {
           "lite": {
-            "name": "Laporan Lite",
+            "name": "Report Lite",
             "tagline": "PERCUMA Selamanya",
             "bestFor": "Uji Sundae, keterlihatan asas, bukti konsep"
           },
           "plus": {
-            "name": "Laporan Plus",
+            "name": "Report Plus",
             "tagline": "Wawasan Automatik",
             "bestFor": "Pengendali lokasi tunggal yang serius, input data automatik, wawasan AI biasa"
           },
           "pro": {
-            "name": "Laporan Pro",
+            "name": "Report Pro",
             "tagline": "Analitik Berkuasa API",
             "bestFor": "Pengendali pelbagai lokasi, automasi API, analitik lanjutan, penyediaan portfolio"
           }
         },
         "core": {
           "lite": {
-            "name": "Inti Lite",
+            "name": "Core Lite",
             "tagline": "Operasi Masa Nyata",
             "bestFor": "1-10 lokasi, operasi masa nyata, pengurusan portfolio, sistem POS tunggal"
           },
           "pro": {
-            "name": "Inti Pro",
+            "name": "Core Pro",
             "tagline": "Kecerdasan Portfolio",
             "bestFor": "10-50 lokasi, persekitaran pelbagai POS, ramalan lanjutan, perancangan strategik"
           },
@@ -6642,7 +6642,7 @@ export const generatedPricingMessages = {
         },
         "revenue": {
           "name": "Jaminan Pendapatan",
-          "description": "Mengesan kebocoran dari voids, comps, diskaun, pola kecurian, dan anomali transaksi",
+          "description": "Mengesan kebocoran dari pembatalan, item percuma, diskaun, pola kecurian, dan anomali transaksi",
           "roi": "Tangkap 1-2% kebocoran"
         },
         "delivery": {
@@ -6718,10 +6718,10 @@ export const generatedTierDisplay = {
       "plus": {
         "name": "Report Plus",
         "tagline": "Automatisierte Einblicke",
-        "bestFor": "Ernsthafte Einzelstandorte, automatisierte Dateneingabe, regelmäßige KI-Einblicke",
+        "bestFor": "Ernsthafte Einzelstandorte, automatisierte Dateneingabe, regelmäßige AI-Einblicke",
         "features": [
           "~30 umfassende Visualisierungen",
-          "KI-gestützte Datenerfassung (2-3 Minuten Prozess)",
+          "AI-gestützte Datenerfassung (2-3 Minuten Prozess)",
           "15 wichtige Benchmark-Metriken",
           "1-2 km anpassbarer Radius",
           "Perzentil-Rankings"
@@ -6774,7 +6774,7 @@ export const generatedTierDisplay = {
           "Dedizierter CSM",
           "24/7 Unterstützung verfügbar",
           "15-Minuten-SLA (kritisch)",
-          "Unbegrenzte KI-Guthaben & Plätze"
+          "Unbegrenzte AI-Guthaben & Plätze"
         ]
       }
     }
@@ -6783,7 +6783,7 @@ export const generatedTierDisplay = {
     "report": {
       "lite": {
         "name": "Report Lite",
-        "tagline": "VRIJ Voor Altijd",
+        "tagline": "GRATIS Voor Altijd",
         "bestFor": "Testen van Sundae, basiszichtbaarheid, bewijs van concept",
         "features": [
           "20 kernvisuals",
@@ -6930,7 +6930,7 @@ export const generatedTierDisplay = {
           "CSM Dedicado",
           "Suporte disponível 24/7",
           "SLA de 15 minutos (crítico)",
-          "Créditos e assentos de IA ilimitados"
+          "Créditos e lugares de IA ilimitados"
         ]
       }
     }
@@ -6940,7 +6940,7 @@ export const generatedTierDisplay = {
       "lite": {
         "name": "Report Lite",
         "tagline": "हमेशा के लिए मुफ्त",
-        "bestFor": "संडे का परीक्षण, बुनियादी दृश्यता, अवधारणा का प्रमाण",
+        "bestFor": "Sundae का परीक्षण, बुनियादी दृश्यता, अवधारणा का प्रमाण",
         "features": [
           "20 मुख्य दृश्य",
           "पूर्व-निर्मित डैशबोर्ड लेआउट",
@@ -6996,7 +6996,7 @@ export const generatedTierDisplay = {
           "5-मिनट डेटा रिफ्रेश (15-मिनट बनाम)",
           "30-दिन का पूर्वानुमान",
           "बहु-पीओएस समर्थन (असीमित सिस्टम)",
-          "संविलीन क्रॉस-प्लेटफ़ॉर्म विश्लेषण"
+          "समेकित क्रॉस-प्लेटफ़ॉर्म विश्लेषण"
         ]
       },
       "enterprise": {
@@ -7172,7 +7172,7 @@ export const generatedTierDisplay = {
   "pl": {
     "report": {
       "lite": {
-        "name": "Raport Lite",
+        "name": "Report Lite",
         "tagline": "ZA DARMO Na Zawsze",
         "bestFor": "Testowanie Sundae, podstawowa widoczność, dowód koncepcji",
         "features": [
@@ -7184,7 +7184,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "Raport Plus",
+        "name": "Report Plus",
         "tagline": "Zautomatyzowane Wnioski",
         "bestFor": "Poważne jedno-lokalizacyjne, zautomatyzowane wprowadzanie danych, regularne wnioski AI",
         "features": [
@@ -7196,7 +7196,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Raport Pro",
+        "name": "Report Pro",
         "tagline": "Analizy Zasilane API",
         "bestFor": "Operatorzy wielolokalizacyjni, automatyzacja API, zaawansowane analizy, przygotowanie portfela",
         "features": [
@@ -7250,7 +7250,7 @@ export const generatedTierDisplay = {
   "tr": {
     "report": {
       "lite": {
-        "name": "Rapor Lite",
+        "name": "Report Lite",
         "tagline": "Sonsuza Dek Ücretsiz",
         "bestFor": "Sundae'yi test etme, temel görünürlük, kavramsal kanıt",
         "features": [
@@ -7262,7 +7262,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "Rapor Plus",
+        "name": "Report Plus",
         "tagline": "Otomatik İçgörüler",
         "bestFor": "Ciddi tek lokasyon, otomatik veri girişi, düzenli AI içgörüleri",
         "features": [
@@ -7274,7 +7274,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Rapor Pro",
+        "name": "Report Pro",
         "tagline": "API Destekli Analitik",
         "bestFor": "Çoklu lokasyon operatörleri, API otomasyonu, gelişmiş analitik, portföy hazırlığı",
         "features": [
@@ -7304,7 +7304,7 @@ export const generatedTierDisplay = {
         "tagline": "Portföy Zekası",
         "bestFor": "10-50 lokasyon, çoklu POS ortamları, gelişmiş tahmin, stratejik planlama",
         "features": [
-          "Core Lite'taki her şey ARTIK:",
+          "Core Lite'taki her şey ARTI:",
           "5 dk veri yenileme (15 dk yerine)",
           "30 günlük öngörücü tahmin",
           "Çoklu POS desteği (sınırsız sistem)",
@@ -7316,7 +7316,7 @@ export const generatedTierDisplay = {
         "tagline": "Özel Çözümler",
         "bestFor": "30+ lokasyon veya kurumsal özellikler gereksinimi (Özel CSM, 7/24, SSO, SLA'lar, güvenlik/uyumluluk), Çok markalı portföyler",
         "features": [
-          "Core Pro'daki her şey ARTIK:",
+          "Core Pro'daki her şey ARTI:",
           "Özel CSM",
           "7/24 destek mevcut",
           "15 dakikalık SLA (kritik)",
@@ -7562,7 +7562,7 @@ export const generatedTierDisplay = {
   "id": {
     "report": {
       "lite": {
-        "name": "Laporan Lite",
+        "name": "Report Lite",
         "tagline": "GRATIS Selamanya",
         "bestFor": "Pengujian Sundae, visibilitas dasar, bukti konsep",
         "features": [
@@ -7574,7 +7574,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "Laporan Plus",
+        "name": "Report Plus",
         "tagline": "Wawasan Otomatis",
         "bestFor": "Operator lokasi tunggal yang serius, input data otomatis, wawasan AI reguler",
         "features": [
@@ -7586,7 +7586,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Laporan Pro",
+        "name": "Report Pro",
         "tagline": "Analitik Berbasis API",
         "bestFor": "Operator multi-lokasi, otomatisasi API, analitik lanjutan, persiapan portofolio",
         "features": [
@@ -7613,7 +7613,7 @@ export const generatedTierDisplay = {
       },
       "pro": {
         "name": "Core Pro",
-        "tagline": "Inteligensi Portofolio",
+        "tagline": "Kecerdasan Portofolio",
         "bestFor": "10-50 lokasi, lingkungan multi-POS, peramalan lanjutan, perencanaan strategis",
         "features": [
           "Segala sesuatu dalam Core Lite PLUS:",
@@ -7640,7 +7640,7 @@ export const generatedTierDisplay = {
   "vi": {
     "report": {
       "lite": {
-        "name": "Báo cáo Lite",
+        "name": "Report Lite",
         "tagline": "MIỄN PHÍ Mãi Mãi",
         "bestFor": "Kiểm tra Sundae, khả năng hiển thị cơ bản, bằng chứng về khái niệm",
         "features": [
@@ -7648,11 +7648,11 @@ export const generatedTierDisplay = {
           "Bảng điều khiển được xây dựng sẵn",
           "Lọc cơ bản",
           "5 chỉ số chuẩn cốt lõi",
-          "So sánh đồng nghiệp ẩn danh chỉ"
+          "Chỉ so sánh ẩn danh với các nhà hàng tương đương"
         ]
       },
       "plus": {
-        "name": "Báo cáo Plus",
+        "name": "Report Plus",
         "tagline": "Thông tin Tự động",
         "bestFor": "Người dùng nghiêm túc tại một địa điểm, nhập dữ liệu tự động, thông tin AI thường xuyên",
         "features": [
@@ -7664,7 +7664,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Báo cáo Pro",
+        "name": "Report Pro",
         "tagline": "Phân tích Từ API",
         "bestFor": "Nhà điều hành đa địa điểm, tự động hóa API, phân tích nâng cao, chuẩn bị danh mục",
         "features": [
@@ -7718,7 +7718,7 @@ export const generatedTierDisplay = {
   "ro": {
     "report": {
       "lite": {
-        "name": "Raport Lite",
+        "name": "Report Lite",
         "tagline": "GRATUIT pentru totdeauna",
         "bestFor": "Testarea Sundae, vizibilitate de bază, dovadă de concept",
         "features": [
@@ -7730,7 +7730,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "Raport Plus",
+        "name": "Report Plus",
         "tagline": "Informații automate",
         "bestFor": "Operatori serioși de locație unică, introducere automată a datelor, informații regulate AI",
         "features": [
@@ -7742,7 +7742,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Raport Pro",
+        "name": "Report Pro",
         "tagline": "Analitică alimentată de API",
         "bestFor": "Operatori multi-locație, automatizare API, analitică avansată, pregătirea portofoliului",
         "features": [
@@ -7821,7 +7821,7 @@ export const generatedTierDisplay = {
       },
       "pro": {
         "name": "Report Pro",
-        "tagline": "API-Drevna Analyser",
+        "tagline": "API-drivna analyser",
         "bestFor": "Flera platser, API-automatisering, avancerad analys, portföljförberedelse",
         "features": [
           "~80 omfattande visualer",
@@ -7834,7 +7834,7 @@ export const generatedTierDisplay = {
     },
     "core": {
       "lite": {
-        "name": "Kärna Lite",
+        "name": "Core Lite",
         "tagline": "Verksamhet i Realtid",
         "bestFor": "1-10 platser, verksamhet i realtid, portföljhantering, enstaka POS-system",
         "features": [
@@ -7846,11 +7846,11 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Kärna Pro",
+        "name": "Core Pro",
         "tagline": "Portföljintelligens",
         "bestFor": "10-50 platser, multi-POS-miljöer, avancerad prognostisering, strategisk planering",
         "features": [
-          "Allt i Kärna Lite PLUS:",
+          "Allt i Core Lite PLUS:",
           "5-minuters datauppdatering (jämfört med 15-minuter)",
           "30-dagars prognostisering",
           "Multi-POS-stöd (obegränsade system)",
@@ -7862,7 +7862,7 @@ export const generatedTierDisplay = {
         "tagline": "Anpassade Lösningar",
         "bestFor": "30+ platser ELLER företagsfunktioner krävs (Dedikerad CSM, 24/7, SSO, SLA, säkerhet/efterlevnad), Multi-märkesportföljer",
         "features": [
-          "Allt i Kärna Pro PLUS:",
+          "Allt i Core Pro PLUS:",
           "Dedikerad CSM",
           "24/7 support tillgänglig",
           "15-minuters SLA (kritisk)",
@@ -7876,7 +7876,7 @@ export const generatedTierDisplay = {
       "lite": {
         "name": "Report Lite",
         "tagline": "চিরকাল ফ্রি",
-        "bestFor": "সুন্ডে পরীক্ষা, মৌলিক দৃশ্যমানতা, ধারণার প্রমাণ",
+        "bestFor": "Sundae পরীক্ষা করা, মৌলিক দৃশ্যমানতা, ধারণার প্রমাণ",
         "features": [
           "২০টি মূল ভিজ্যুয়াল",
           "পূর্বনির্মিত ড্যাশবোর্ড লেআউট",
@@ -7925,10 +7925,10 @@ export const generatedTierDisplay = {
       },
       "pro": {
         "name": "Core Pro",
-        "tagline": "পোর্টফোলিও ইনটেলিজেন্স",
+        "tagline": "পোর্টফোলিও ইন্টেলিজেন্স",
         "bestFor": "১০-৫০টি অবস্থান, মাল্টি-POS পরিবেশ, উন্নত পূর্বাভাস, কৌশলগত পরিকল্পনা",
         "features": [
-          "Core Liteের সবকিছু প্লাস:",
+          "Core Lite-এর সবকিছু, প্লাস:",
           "৫-মিনিট ডেটা রিফ্রেশ (১৫-মিনিটের বিপরীতে)",
           "৩০-দিনের পূর্বাভাস",
           "মাল্টি-POS সমর্থন (অসীম সিস্টেম)",
@@ -7940,7 +7940,7 @@ export const generatedTierDisplay = {
         "tagline": "কাস্টম সমাধান",
         "bestFor": "৩০+ অবস্থান অথবা এন্টারপ্রাইজ বৈশিষ্ট্য প্রয়োজন (নির্দিষ্ট CSM, ২৪/৭, SSO, SLA, নিরাপত্তা/অনুগত), মাল্টি-ব্র্যান্ড পোর্টফোলিও",
         "features": [
-          "Core Proর সবকিছু প্লাস:",
+          "Core Pro-র সবকিছু, প্লাস:",
           "নির্দিষ্ট CSM",
           "২৪/৭ সমর্থন উপলব্ধ",
           "১৫-মিনিট SLA (গুরুতর)",
@@ -8030,7 +8030,7 @@ export const generatedTierDisplay = {
   "ms": {
     "report": {
       "lite": {
-        "name": "Laporan Lite",
+        "name": "Report Lite",
         "tagline": "PERCUMA Selamanya",
         "bestFor": "Ujian Sundae, keterlihatan asas, bukti konsep",
         "features": [
@@ -8042,7 +8042,7 @@ export const generatedTierDisplay = {
         ]
       },
       "plus": {
-        "name": "Laporan Plus",
+        "name": "Report Plus",
         "tagline": "Wawasan Automatik",
         "bestFor": "Pengendali lokasi tunggal yang serius, input data automatik, wawasan AI berkala",
         "features": [
@@ -8054,7 +8054,7 @@ export const generatedTierDisplay = {
         ]
       },
       "pro": {
-        "name": "Laporan Pro",
+        "name": "Report Pro",
         "tagline": "Analitik Berkuasa API",
         "bestFor": "Pengendali pelbagai lokasi, automasi API, analitik lanjutan, penyediaan portfolio",
         "features": [
@@ -8072,7 +8072,7 @@ export const generatedTierDisplay = {
         "tagline": "Operasi Masa Nyata",
         "bestFor": "1-10 lokasi, operasi masa nyata, pengurusan portfolio, sistem POS tunggal",
         "features": [
-          "Integrasi POS masa nyata (segresh 15 minit)",
+          "Integrasi POS masa nyata (penyegaran 15 minit)",
           "Analitik jualan PENUH termasuk",
           "30+ metrik penanda aras",
           "Radius boleh laras 1-5km",
@@ -8081,11 +8081,11 @@ export const generatedTierDisplay = {
       },
       "pro": {
         "name": "Core Pro",
-        "tagline": "Inteligens Portfolio",
+        "tagline": "Kecerdasan Portfolio",
         "bestFor": "10-50 lokasi, persekitaran multi-POS, ramalan lanjutan, perancangan strategik",
         "features": [
           "Segala-galanya dalam Core Lite PLUS:",
-          "Segresh data 5 minit (berbanding 15 minit)",
+          "Penyegaran data 5 minit (berbanding 15 minit)",
           "Ramalan prediktif 30 hari",
           "Sokongan Multi-POS (sistem tanpa had)",
           "Analitik merentasi platform yang disatukan"
@@ -8238,7 +8238,7 @@ export const generatedAddOnDisplay = {
       "events": [
         "स्थानीय कार्यक्रम कैलेंडर (प्रत्येक स्थान पर)",
         "संगीत कार्यक्रम और मनोरंजन ट्रैकिंग",
-        "सम्मेलन और सम्मेलन कार्यक्रम"
+        "कॉन्फ्रेंस और कन्वेंशन कार्यक्रम"
       ],
       "trends": [
         "गूगल ट्रेंड्स एकीकरण (राष्ट्रीय + स्थानीय)",
@@ -8259,7 +8259,7 @@ export const generatedAddOnDisplay = {
         "क्या बदला साप्ताहिक डाइजेस्ट"
       ],
       "pro": [
-        "क्रॉस-इंटेलिजेंस बेस में सब कुछ",
+        "Cross-Intelligence बेस में सब कुछ",
         "पूर्ण सहसंबंध मैट्रिक्स",
         "राजस्व आवंटन जलप्रपात",
         "खर्च दक्षता रडार",
@@ -8566,7 +8566,7 @@ export const generatedAddOnDisplay = {
         "Tren popularitas item menu"
       ],
       "bundle": [
-        "Semua fitur Intelijen Kompetitif",
+        "Semua fitur Kecerdasan Kompetitif",
         "Semua fitur Acara & Kalender",
         "Semua fitur Tren Pasar"
       ]
@@ -8739,7 +8739,7 @@ export const generatedAddOnDisplay = {
         "প্রতি সপ্তাহে পরিবর্তন হয়েছে সংক্ষিপ্তসার"
       ],
       "pro": [
-        "ক্রস-ইন্টেলিজেন্স বেসের সবকিছু",
+        "Cross-Intelligence বেসের সবকিছু",
         "পূর্ণ সম্পর্ক ম্যাট্রিক্স",
         "রাজস্ব অ্যাট্রিবিউশন ওয়াটারফল",
         "ব্যয় দক্ষতা রাডার",
@@ -8781,10 +8781,10 @@ export const generatedAddOnDisplay = {
       "pro": [
         "ทุกอย่างใน Cross-Intelligence Base",
         "แมทริกซ์ความสัมพันธ์เต็มรูปแบบ",
-        "การวิเคราะห์รายได้",
+        "น้ำตกการระบุที่มาของรายได้",
         "เรดาร์ประสิทธิภาพการใช้จ่าย",
         "การตรวจสอบพัลส์แคมเปญ",
-        "ตัวตรวจจับการแย่งชิง"
+        "ตัวตรวจจับการแย่งยอดขายกันเอง"
       ]
     }
   },
@@ -8999,7 +8999,7 @@ export const generatedComparisonLabels = {
     "users": "Kullanıcılar",
     "benchmarking": "Karşılaştırma",
     "historicalAccess": "Geçmiş Erişimi",
-    "addonsReportProOnly": "Eklentiler (Sadece Rapor Pro)",
+    "addonsReportProOnly": "Eklentiler (Sadece Report Pro)",
     "collaboration": "İşbirliği",
     "reports": "Raporlar",
     "support": "Destek",
@@ -9250,7 +9250,7 @@ export const generatedComparisonLabels = {
 export const generatedComparisonFeatureNames = {
   "de": {
     "manualCsvUpload": "Manueller CSV-Upload",
-    "aiParsedUpload": "KI-analysierter Upload (PDF/Excel/Screenshot)",
+    "aiParsedUpload": "AI-analysierter Upload (PDF/Excel/Screenshot)",
     "apiIntegration": "API-Integration (automatisiert)",
     "dataRefresh": "Datenaktualisierung",
     "preBuiltVisuals": "Fertige Visualisierungen",
@@ -9283,7 +9283,7 @@ export const generatedComparisonFeatureNames = {
     "scheduledExports": "Geplante Exporte",
     "commenting": "Kommentieren",
     "customSharedViews": "Benutzerdefinierte freigegebene Ansichten",
-    "aiSummaries": "KI-Zusammenfassungen",
+    "aiSummaries": "AI-Zusammenfassungen",
     "reportDetailLevel": "Berichtsdetaillierungsgrad",
     "customInsights": "Benutzerdefinierte Einblicke",
     "supportChannels": "Support-Kanäle",
@@ -9315,11 +9315,11 @@ export const generatedComparisonFeatureNames = {
     "anomalyDetection": "Anomalieerkennung & Warnungen",
     "predictiveForecasting": "Prädiktive Prognosen",
     "whatIfScenarioModeling": "Was-wäre-wenn-Szenarien-Modellierung",
-    "aiInsightsRecommendations": "KI-Einblicke & Empfehlungen",
+    "aiInsightsRecommendations": "AI-Einblicke & Empfehlungen",
     "livePerformanceAlerts": "Live-Leistungswarnungen",
-    "aiPlusProPackages": "KI Plus/Pro-Pakete",
+    "aiPlusProPackages": "AI Plus/Pro-Pakete",
     "customMLModels": "Benutzerdefinierte ML-Modelle",
-    "priorityAiCapacity": "Priorisierte KI-Kapazität",
+    "priorityAiCapacity": "Priorisierte AI-Kapazität",
     "intelligenceModules": "Intelligenzmodule",
     "watchtower": "Watchtower",
     "pulse": "Pulse",
@@ -9332,7 +9332,7 @@ export const generatedComparisonFeatureNames = {
     "bestPracticeIdentification": "Identifizierung von Best Practices",
     "multiBrandManagement": "Multi-Brand-Management",
     "customDashboards": "Benutzerdefinierte Dashboards",
-    "aiChartBuilder": "KI-Diagramm-Builder",
+    "aiChartBuilder": "AI-Diagramm-Builder",
     "teamSharing": "Teamfreigabe",
     "customKpiBuilder": "Benutzerdefinierter KPI-Builder",
     "dashboardScheduling": "Dashboard-Planung",
@@ -9340,11 +9340,11 @@ export const generatedComparisonFeatureNames = {
     "includedSupport": "Inklusive Unterstützung",
     "baseSupport": "Basisunterstützung",
     "supportSla": "Reaktionszeit-SLA",
-    "topUps": "KI-Credit-Top-Ups"
+    "topUps": "AI-Credit-Top-Ups"
   },
   "nl": {
     "manualCsvUpload": "Handmatige CSV-upload",
-    "aiParsedUpload": "AI-geparsed upload (PDF/Excel/Screenshot)",
+    "aiParsedUpload": "AI-geanalyseerde upload (PDF/Excel/screenshot)",
     "apiIntegration": "API-integratie (geautomatiseerd)",
     "dataRefresh": "Gegevensvernieuwing",
     "preBuiltVisuals": "Vooraf gebouwde visuals",
@@ -9417,7 +9417,7 @@ export const generatedComparisonFeatureNames = {
     "intelligenceModules": "Intelligencemodules",
     "watchtower": "Watchtower",
     "pulse": "Pulse",
-    "moduleSetupFees": "Instapkosten voor modules",
+    "moduleSetupFees": "Instelkosten voor modules",
     "multiLocationOverview": "Overzicht van meerdere locaties",
     "locationComparisonRanking": "Locatievergelijking & ranking",
     "crossLocationAlerts": "Cross-locatie waarschuwingen",
@@ -9451,9 +9451,9 @@ export const generatedComparisonFeatureNames = {
     "creditsPerAdditionalLocation": "Créditos por localização adicional",
     "rolloverPolicy": "Política de rollover",
     "canPurchaseTopUps": "Pode comprar recargas?",
-    "includedSeats": "Assentos incluídos",
-    "unlimitedViewerSeats": "Assentos de visualização ilimitados",
-    "additionalSeats": "Assentos adicionais",
+    "includedSeats": "Lugares incluídos",
+    "unlimitedViewerSeats": "Lugares de visualização ilimitados",
+    "additionalSeats": "Lugares adicionais",
     "benchmarkingIncluded": "Benchmarking incluído",
     "radiusControl": "Controle de raio",
     "segmentFilters": "Filtros de segmento",
@@ -9579,7 +9579,7 @@ export const generatedComparisonFeatureNames = {
     "liveApiConnection": "लाइव API कनेक्शन",
     "historicalDataImport": "ऐतिहासिक डेटा आयात",
     "differentPosPerLocation": "प्रत्येक स्थान के लिए विभिन्न POS",
-    "consolidatedAnalytics": "संविधानिक क्रॉस-प्लेटफ़ॉर्म एनालिटिक्स",
+    "consolidatedAnalytics": "समेकित क्रॉस-प्लेटफ़ॉर्म एनालिटिक्स",
     "customIntegrations": "कस्टम एकीकरण",
     "refreshFrequency": "ताज़ा करने की आवृत्ति",
     "historicalData": "ऐतिहासिक डेटा",
@@ -9875,7 +9875,7 @@ export const generatedComparisonFeatureNames = {
     "channelCorrelation": "Korelacja kanałów / atrybucja",
     "crossPlatformAnalytics": "Analiza międzyplatformowa",
     "customAnalyticsModules": "Niestandardowe moduły analityczne",
-    "whiteLabelReporting": "Raportowanie w białej etykiecie",
+    "whiteLabelReporting": "Raportowanie white-label",
     "anomalyDetection": "Wykrywanie anomalii i powiadomienia",
     "predictiveForecasting": "Prognozowanie predykcyjne",
     "whatIfScenarioModeling": "Modelowanie scenariuszy co jeśli",
@@ -9972,7 +9972,7 @@ export const generatedComparisonFeatureNames = {
     "whiteLabelReporting": "Beyaz etiketli raporlama",
     "anomalyDetection": "Anomali tespiti ve uyarılar",
     "predictiveForecasting": "Öngörücü tahmin",
-    "whatIfScenarioModeling": "Ne olursa olsun senaryo modelleme",
+    "whatIfScenarioModeling": "Olasılık senaryosu modelleme",
     "aiInsightsRecommendations": "AI içgörüleri ve önerileri",
     "livePerformanceAlerts": "Canlı performans uyarıları",
     "aiPlusProPackages": "AI Plus/Pro paketleri",
@@ -10159,7 +10159,7 @@ export const generatedComparisonFeatureNames = {
     "customAnalyticsModules": "カスタム分析モジュール",
     "whiteLabelReporting": "ホワイトラベルレポーティング",
     "anomalyDetection": "異常検知とアラート",
-    "predictiveForecasting": "予測予測",
+    "predictiveForecasting": "予測フォーキャスト",
     "whatIfScenarioModeling": "もしもシナリオモデリング",
     "aiInsightsRecommendations": "AIインサイトと推奨事項",
     "livePerformanceAlerts": "ライブパフォーマンスアラート",
@@ -10410,7 +10410,7 @@ export const generatedComparisonFeatureNames = {
     "shareDashboardLinks": "Chia sẻ liên kết bảng điều khiển",
     "scheduledExports": "Xuất định kỳ",
     "commenting": "Bình luận",
-    "customSharedViews": "Cảnh quan chia sẻ tùy chỉnh",
+    "customSharedViews": "Chế độ xem chia sẻ tùy chỉnh",
     "aiSummaries": "Tóm tắt AI",
     "reportDetailLevel": "Mức độ chi tiết báo cáo",
     "customInsights": "Thông tin tùy chỉnh",
@@ -10424,7 +10424,7 @@ export const generatedComparisonFeatureNames = {
     "numberOfPosSystems": "Số lượng hệ thống POS",
     "liveApiConnection": "Kết nối API trực tiếp",
     "historicalDataImport": "Nhập dữ liệu lịch sử",
-    "differentPosPerLocation": "Khác nhau POS cho mỗi địa điểm",
+    "differentPosPerLocation": "POS khác nhau cho mỗi địa điểm",
     "consolidatedAnalytics": "Phân tích hợp nhất đa nền tảng",
     "customIntegrations": "Tích hợp tùy chỉnh",
     "refreshFrequency": "Tần suất làm mới",
@@ -10686,7 +10686,7 @@ export const generatedComparisonFeatureNames = {
     "upgradeToThreeYears": "3 বছরে আপগ্রেড করুন",
     "upgradeToFiveYears": "5 বছরে আপগ্রেড করুন",
     "sundaeIntelligence": "Sundae Intelligence",
-    "pulseAccess": "পালস অ্যাক্সেস",
+    "pulseAccess": "Pulse অ্যাক্সেস",
     "apiAccess": "API অ্যাক্সেস",
     "viewDashboards": "ড্যাশবোর্ড দেখুন",
     "shareDashboardLinks": "ড্যাশবোর্ড লিঙ্ক শেয়ার করুন",
@@ -10861,9 +10861,9 @@ export const generatedComparisonFeatureNames = {
     "creditsPerAdditionalLocation": "Kredit bagi lokasi tambahan",
     "rolloverPolicy": "Dasar rollover",
     "canPurchaseTopUps": "Boleh beli tambah nilai?",
-    "includedSeats": "Tempat duduk yang termasuk",
-    "unlimitedViewerSeats": "Tempat duduk penonton tanpa had",
-    "additionalSeats": "Tempat duduk tambahan",
+    "includedSeats": "Tempat pengguna yang disertakan",
+    "unlimitedViewerSeats": "Tempat pengguna pemerhati tanpa had",
+    "additionalSeats": "Tempat pengguna tambahan",
     "benchmarkingIncluded": "Penanda aras termasuk",
     "radiusControl": "Kawalan radius",
     "segmentFilters": "Penapis segmen",
@@ -10904,7 +10904,7 @@ export const generatedComparisonFeatureNames = {
     "menuItemAnalysis": "Analisis item menu",
     "paymentBreakdown": "Pecahan pembayaran",
     "customerPatterns": "Corak pelanggan",
-    "salesPerLaborHour": "Jualan per jam buruh",
+    "salesPerLaborHour": "Jualan setiap jam pekerja",
     "advancedForecastingModels": "Model ramalan lanjutan",
     "channelCorrelation": "Korelasi saluran / atribusi",
     "crossPlatformAnalytics": "Analitik merentas platform",
@@ -10982,7 +10982,7 @@ export const generatedPricingI18nCopy = {
       "profit": "Gewinnintelligenz",
       "revenue": "Umsatzsicherung",
       "delivery": "Lieferwirtschaft",
-      "guest": "Gästeserfahrung",
+      "guest": "Gästeerfahrung",
       "pulse": "Pulse"
     },
     "watchtower": {
@@ -11013,7 +11013,7 @@ export const generatedPricingI18nCopy = {
       "priceBreakdownTitle": "Preisübersicht",
       "howYouCompareTitle": "Wie Sie abschneiden",
       "competitorLabel": "Wettbewerber",
-      "theirCostLabel": "Ihre Kosten",
+      "theirCostLabel": "Deren Kosten",
       "yourCostLabel": "Ihre Kosten",
       "youSaveLabel": "Sie sparen",
       "verifiedLabel": "Verifiziert",
@@ -11044,7 +11044,7 @@ export const generatedPricingI18nCopy = {
       "reservations": "Reserveringsintelligentie",
       "profit": "Winstintelligentie",
       "revenue": "Omzetgarantie",
-      "delivery": "Leveringseconomics",
+      "delivery": "Leveringseconomie",
       "guest": "Gastenervaring",
       "pulse": "Pulse"
     },
@@ -11120,7 +11120,7 @@ export const generatedPricingI18nCopy = {
     "discounts": {
       "volume": "Desconto por Volume",
       "billing": "Desconto de Faturamento",
-      "early": "Desconto de Adotante Precoce",
+      "early": "Desconto de Adesão Antecipada",
       "negotiated": "Desconto Negociado"
     },
     "pdf": {
@@ -11172,13 +11172,13 @@ export const generatedPricingI18nCopy = {
       "revenue": "राजस्व आश्वासन",
       "delivery": "डिलीवरी अर्थशास्त्र",
       "guest": "अतिथि अनुभव",
-      "pulse": "पल्स"
+      "pulse": "Pulse"
     },
     "watchtower": {
       "competitive": "प्रतिस्पर्धात्मक बुद्धिमत्ता",
       "events": "इवेंट और कैलेंडर संकेत",
       "trends": "बाजार के रुझान",
-      "bundle": "वॉचटॉवर बंडल"
+      "bundle": "Watchtower बंडल"
     },
     "discounts": {
       "volume": "वॉल्यूम छूट",
@@ -11196,7 +11196,7 @@ export const generatedPricingI18nCopy = {
       "locationsLabel": "स्थान",
       "perLocationLabel": "प्रति स्थान",
       "modulesLabel": "मॉड्यूल",
-      "watchtowerLabel": "वॉचटॉवर",
+      "watchtowerLabel": "Watchtower",
       "monthlyInvestmentLabel": "मासिक निवेश",
       "annualLabel": "वार्षिक",
       "priceBreakdownTitle": "कीमत का विवरण",
@@ -11227,7 +11227,7 @@ export const generatedPricingI18nCopy = {
     },
     "modules": {
       "labor": "محنت کی ذہانت",
-      "inventory": "انونٹری کنیکٹ",
+      "inventory": "انوینٹری کنیکٹ",
       "purchasing": "خریداری کے تجزیات",
       "marketing": "مارکیٹنگ کی کارکردگی",
       "reservations": "ریزرویشن کی ذہانت",
@@ -11235,7 +11235,7 @@ export const generatedPricingI18nCopy = {
       "revenue": "آمدنی کی یقین دہانی",
       "delivery": "ترسیل کی معیشت",
       "guest": "مہمان کا تجربہ",
-      "pulse": "پلس"
+      "pulse": "Pulse"
     },
     "watchtower": {
       "competitive": "مقابلتی ذہانت",
@@ -11353,7 +11353,7 @@ export const generatedPricingI18nCopy = {
     },
     "modules": {
       "labor": "Inteligencja Pracy",
-      "inventory": "Łącze Zapasów",
+      "inventory": "Połączenie Magazynowe",
       "purchasing": "Analiza Zakupów",
       "marketing": "Wydajność Marketingu",
       "reservations": "Inteligencja Rezerwacji",
@@ -11365,13 +11365,13 @@ export const generatedPricingI18nCopy = {
     },
     "watchtower": {
       "competitive": "Inteligencja Konkurencyjna",
-      "events": "Sygnaly Wydarzeń i Kalendarza",
+      "events": "Sygnały Wydarzeń i Kalendarza",
       "trends": "Trendy Rynkowe",
       "bundle": "Pakiet Watchtower"
     },
     "discounts": {
       "volume": "Zniżka za Wolumen",
-      "billing": "Zniżka za Fakturę",
+      "billing": "Zniżka za Cykl Rozliczeniowy",
       "early": "Zniżka dla Wczesnych Użytkowników",
       "negotiated": "Zniżka Negocjowana"
     },
@@ -11455,7 +11455,7 @@ export const generatedPricingI18nCopy = {
       "howYouCompareTitle": "Nasıl Karşılaştırıyorsunuz",
       "competitorLabel": "Rakip",
       "theirCostLabel": "Onların Maliyeti",
-      "yourCostLabel": "Sizin Maliyetin",
+      "yourCostLabel": "Sizin Maliyetiniz",
       "youSaveLabel": "Tasarrufunuz",
       "verifiedLabel": "Doğrulanmış",
       "bestSavingsLabel": "En İyi Tasarruf",
@@ -11463,7 +11463,7 @@ export const generatedPricingI18nCopy = {
       "informationalOnlyLabel": "Bu teklif yalnızca bilgilendirme amaçlıdır.",
       "formalProposalLabel": "resmi bir teklif için bizimle iletişime geçin.",
       "pageLabel": "Sayfa",
-      "ofLabel": "ün",
+      "ofLabel": "/",
       "perYearLabel": "yıl",
       "vsLabel": "vs"
     }
@@ -11548,12 +11548,12 @@ export const generatedPricingI18nCopy = {
       "reservations": "予約インテリジェンス",
       "profit": "利益インテリジェンス",
       "revenue": "収益保証",
-      "delivery": "配達経済",
+      "delivery": "デリバリー経済",
       "guest": "ゲスト体験",
-      "pulse": "パルス"
+      "pulse": "Pulse"
     },
     "watchtower": {
-      "competitive": "競争インテリジェンス",
+      "competitive": "競合インテリジェンス",
       "events": "イベント＆カレンダーシグナル",
       "trends": "市場トレンド",
       "bundle": "Watchtowerバンドル"
@@ -11613,13 +11613,13 @@ export const generatedPricingI18nCopy = {
       "revenue": "수익 보장",
       "delivery": "배달 경제학",
       "guest": "고객 경험",
-      "pulse": "펄스"
+      "pulse": "Pulse"
     },
     "watchtower": {
       "competitive": "경쟁 인텔리전스",
       "events": "이벤트 및 캘린더 신호",
       "trends": "시장 동향",
-      "bundle": "와치타워 번들"
+      "bundle": "Watchtower 번들"
     },
     "discounts": {
       "volume": "대량 할인",
@@ -11637,7 +11637,7 @@ export const generatedPricingI18nCopy = {
       "locationsLabel": "위치",
       "perLocationLabel": "위치당",
       "modulesLabel": "모듈",
-      "watchtowerLabel": "와치타워",
+      "watchtowerLabel": "Watchtower",
       "monthlyInvestmentLabel": "월간 투자",
       "annualLabel": "연간",
       "priceBreakdownTitle": "가격 세부 내역",
@@ -11667,19 +11667,19 @@ export const generatedPricingI18nCopy = {
       "Enterprise": "Enterprise"
     },
     "modules": {
-      "labor": "Inteligensi Tenaga Kerja",
+      "labor": "Kecerdasan Tenaga Kerja",
       "inventory": "Koneksi Inventaris",
       "purchasing": "Analitik Pembelian",
       "marketing": "Kinerja Pemasaran",
-      "reservations": "Inteligensi Reservasi",
-      "profit": "Inteligensi Keuntungan",
+      "reservations": "Kecerdasan Reservasi",
+      "profit": "Kecerdasan Profit",
       "revenue": "Jaminan Pendapatan",
       "delivery": "Ekonomi Pengiriman",
       "guest": "Pengalaman Tamu",
       "pulse": "Pulse"
     },
     "watchtower": {
-      "competitive": "Inteligensi Kompetitif",
+      "competitive": "Kecerdasan Kompetitif",
       "events": "Sinyal Acara & Kalender",
       "trends": "Tren Pasar",
       "bundle": "Paket Watchtower"
@@ -11691,8 +11691,8 @@ export const generatedPricingI18nCopy = {
       "negotiated": "Diskon Negosiasi"
     },
     "pdf": {
-      "headerSubtitle": "Inteligensi Keputusan untuk Restoran",
-      "quoteLabel": "Kutipan",
+      "headerSubtitle": "Kecerdasan Keputusan untuk Restoran",
+      "quoteLabel": "Penawaran",
       "generatedLabel": "Dihasilkan",
       "validUntilLabel": "Berlaku hingga",
       "configurationTitle": "Konfigurasi Anda",
@@ -11711,8 +11711,8 @@ export const generatedPricingI18nCopy = {
       "youSaveLabel": "Anda Hemat",
       "verifiedLabel": "Terverifikasi",
       "bestSavingsLabel": "Hemat Terbaik",
-      "competitorDisclaimer": "* Harga pesaing berdasarkan informasi publik dan estimasi industri. Hubungi vendor untuk kutipan yang tepat.",
-      "informationalOnlyLabel": "Kutipan ini hanya untuk tujuan informasi.",
+      "competitorDisclaimer": "* Harga pesaing berdasarkan informasi publik dan estimasi industri. Hubungi vendor untuk penawaran yang tepat.",
+      "informationalOnlyLabel": "Penawaran ini hanya untuk tujuan informasi.",
       "formalProposalLabel": "hubungi kami untuk proposal formal.",
       "pageLabel": "Halaman",
       "ofLabel": "dari",
@@ -11739,7 +11739,7 @@ export const generatedPricingI18nCopy = {
       "revenue": "Đảm bảo doanh thu",
       "delivery": "Kinh tế giao hàng",
       "guest": "Trải nghiệm khách hàng",
-      "pulse": "Nhịp đập"
+      "pulse": "Pulse"
     },
     "watchtower": {
       "competitive": "Thông tin cạnh tranh",
@@ -11818,7 +11818,7 @@ export const generatedPricingI18nCopy = {
     },
     "pdf": {
       "headerSubtitle": "Inteligența Decizională pentru Restaurante",
-      "quoteLabel": "Cotație",
+      "quoteLabel": "Ofertă",
       "generatedLabel": "Generat",
       "validUntilLabel": "Valabil până la",
       "configurationTitle": "Configurarea Ta",
@@ -11838,7 +11838,7 @@ export const generatedPricingI18nCopy = {
       "verifiedLabel": "Verificat",
       "bestSavingsLabel": "Cele Mai Bune Economii",
       "competitorDisclaimer": "* Prețurile competitorilor se bazează pe informații publice și estimări din industrie. Contactați furnizorii pentru cotații exacte.",
-      "informationalOnlyLabel": "Această cotație este doar pentru scopuri informative.",
+      "informationalOnlyLabel": "Această ofertă are doar scop informativ.",
       "formalProposalLabel": "contactați-ne pentru o propunere formală.",
       "pageLabel": "Pagina",
       "ofLabel": "din",
@@ -11856,14 +11856,14 @@ export const generatedPricingI18nCopy = {
       "Enterprise": "Enterprise"
     },
     "modules": {
-      "labor": "Arbetsintelligens",
+      "labor": "Arbetskraftsintelligens",
       "inventory": "Inventarieanslutning",
       "purchasing": "Inköpsanalys",
       "marketing": "Marknadsföringsprestanda",
       "reservations": "Reservationsintelligens",
       "profit": "Vinstintelligens",
       "revenue": "Intäktsgaranti",
-      "delivery": "Leverans ekonomi",
+      "delivery": "Leveransekonomi",
       "guest": "Gästupplevelse",
       "pulse": "Pulse"
     },
@@ -11928,7 +11928,7 @@ export const generatedPricingI18nCopy = {
       "revenue": "রাজস্ব নিশ্চয়তা",
       "delivery": "ডেলিভারি অর্থনীতি",
       "guest": "অতিথি অভিজ্ঞতা",
-      "pulse": "পালস"
+      "pulse": "Pulse"
     },
     "watchtower": {
       "competitive": "প্রতিযোগিতামূলক বুদ্ধিমত্তা",
@@ -12045,31 +12045,31 @@ export const generatedPricingI18nCopy = {
       "Enterprise": "Enterprise"
     },
     "modules": {
-      "labor": "Intelligence Tenaga Kerja",
+      "labor": "Kecerdasan Tenaga Kerja",
       "inventory": "Sambungan Inventori",
       "purchasing": "Analitik Pembelian",
       "marketing": "Prestasi Pemasaran",
-      "reservations": "Intelligence Tempahan",
-      "profit": "Intelligence Keuntungan",
+      "reservations": "Kecerdasan Tempahan",
+      "profit": "Kecerdasan Keuntungan",
       "revenue": "Jaminan Pendapatan",
       "delivery": "Ekonomi Penghantaran",
       "guest": "Pengalaman Tetamu",
       "pulse": "Pulse"
     },
     "watchtower": {
-      "competitive": "Intelligence Persaingan",
+      "competitive": "Kecerdasan Kompetitif",
       "events": "Isyarat Acara & Kalendar",
       "trends": "Tren Pasaran",
       "bundle": "Pakej Watchtower"
     },
     "discounts": {
       "volume": "Diskaun Jumlah",
-      "billing": "Diskaun Penagihan",
+      "billing": "Diskaun Pengebilan",
       "early": "Diskaun Pengguna Awal",
       "negotiated": "Diskaun Rundingan"
     },
     "pdf": {
-      "headerSubtitle": "Intelligence Keputusan untuk Restoran",
+      "headerSubtitle": "Kecerdasan Keputusan untuk Restoran",
       "quoteLabel": "Sebutharga",
       "generatedLabel": "Dihasilkan",
       "validUntilLabel": "Sah sehingga",
@@ -12328,7 +12328,7 @@ export const generatedPricingUiCopy = {
       "totalMonthly": "Toplam Aylık",
       "annualSuffix": "/yıl",
       "perLocation": "Lokasyon Başına",
-      "saveVsSingle": "Tekil ile karşılaştırıldığında % {percent} tasarruf edin",
+      "saveVsSingle": "Tekil ile karşılaştırıldığında %{percent} tasarruf edin",
       "bestValueAtScale": "Ölçeklendirme ile en iyi değer",
       "enterpriseQualified": "{locations} lokasyon ile Kurumsal fiyatlandırma ve özel destek için uygun olursunuz.",
       "volumeDiscountTitle": "Hacim İndirimi Aktif",
@@ -12570,7 +12570,7 @@ export const generatedPricingUiCopy = {
     "bn": {
       "title": "কতটি অবস্থান?",
       "subtitle": "আপনার পোর্টফোলিও আকার কনফিগার করতে স্লাইড করুন। মূল্য নির্ধারণ কার্যকরভাবে স্কেল করে।",
-      "preciseCount": "正確 সংখ্যা জানার জন্য, উপরে সংখ্যায় ক্লিক করুন অথবা এখানে টাইপ করুন:",
+      "preciseCount": "সঠিক সংখ্যা জানার জন্য, উপরে সংখ্যায় ক্লিক করুন অথবা এখানে টাইপ করুন:",
       "preciseCountEnterprise": "এন্টারপ্রাইজ স্তরের জন্য {min}+ অবস্থান প্রয়োজন। এখানে সঠিক সংখ্যা টাইপ করুন:",
       "minimum": "ন্যূনতম: এন্টারপ্রাইজ স্তরের জন্য {min} অবস্থান",
       "totalMonthly": "মোট মাসিক",
@@ -12671,7 +12671,7 @@ export const generatedPricingUiCopy = {
       "perMonthShort": "/Monat"
     },
     "nl": {
-      "monthlyTotal": "Maandelijkse Totaal",
+      "monthlyTotal": "Maandelijks Totaal",
       "perLocation": "Per Locatie",
       "saveVs": "Bespaar {percent}% ten opzichte van {competitor}",
       "expandAria": "Breid prijs calculator uit",
@@ -12708,7 +12708,7 @@ export const generatedPricingUiCopy = {
       "saveVs": "Risparmia {percent}% rispetto a {competitor}",
       "expandAria": "Espandi calcolatore prezzi",
       "minimizeAria": "Riduci calcolatore prezzi",
-      "perMonthShort": "/mo"
+      "perMonthShort": "/mese"
     },
     "pl": {
       "monthlyTotal": "Całkowity miesięczny",
@@ -12721,7 +12721,7 @@ export const generatedPricingUiCopy = {
     "tr": {
       "monthlyTotal": "Aylık Toplam",
       "perLocation": "Lokasyon Başına",
-      "saveVs": "{competitor} ile karşılaştırıldığında % {percent} tasarruf edin",
+      "saveVs": "{competitor} ile karşılaştırıldığında %{percent} tasarruf edin",
       "expandAria": "Fiyat hesaplayıcısını genişlet",
       "minimizeAria": "Fiyat hesaplayıcısını küçült",
       "perMonthShort": "/ay"
@@ -12831,7 +12831,7 @@ export const generatedPricingUiCopy = {
       "savingsBreakdown": "Einsparungsübersicht",
       "savingsNote": "Schätzungen verwenden konservative Mittelwertannahmen. Fahren Sie mit der Maus über jede Zeile für Details zum Bereich. Tatsächliche Ergebnisse hängen von der Ausführung und den Basiskennzahlen ab.",
       "noModulesSelected": "Keine Module ausgewählt",
-      "noModulesBody": "Fügen Sie Module zu Ihrem Stapel hinzu, um die prognostizierten ROI-Einsparungen zu sehen.",
+      "noModulesBody": "Fügen Sie Module zu Ihrem Stack hinzu, um die prognostizierten ROI-Einsparungen zu sehen.",
       "biggestWins": "Ihre größten Erfolge",
       "biggestWinsBody": "Konzentrieren Sie sich auf {categories} für maximale Wirkung",
       "monthlyPlatformCost": "Monatliche Plattformkosten",
@@ -12860,7 +12860,7 @@ export const generatedPricingUiCopy = {
         "marketing": "Verbessert die Marketingeffizienz um 5-15% der Marketingausgaben durch bessere Zuordnung und Zielgruppenansprache",
         "profit": "Entdeckt 0,2-0,8% des Umsatzes in Margenverlusten und Menü-/Mixoptimierung. Geht von der Ausführung der Erkenntnisse aus.",
         "revenue": "Stellt 0,05-0,25% des Umsatzes aus Stornierungen, Rabatten und Verlusten wieder her. Hängt von der Basislinie ab.",
-        "delivery": "Spart 0,2-0,8% des Lieferumsatzes durch Kommissionierungsoptimierung und Preisparität",
+        "delivery": "Spart 0,2-0,8% des Lieferumsatzes durch Provisionsoptimierung und Preisparität",
         "guest": "Qualitativer Nutzen aus verbesserten Bewertungen und Kundenzufriedenheit. Konservative Schätzung, es sei denn, Bewertungsdaten sind verbunden."
       },
       "missingInput": {
@@ -12893,7 +12893,7 @@ export const generatedPricingUiCopy = {
       "projectedReturns": "Je Geprojecteerde Opbrengsten",
       "monthlySavings": "Maandelijkse Besparingen",
       "annualSavings": "Jaarlijkse Besparingen",
-      "roiMultiple": "ROI Meervoud",
+      "roiMultiple": "ROI-factor",
       "paybackPeriod": "Terugverdientijd",
       "days": "{count} dagen",
       "savingsBreakdown": "Besparingen Overzicht",
@@ -12946,7 +12946,7 @@ export const generatedPricingUiCopy = {
     },
     "pt": {
       "title": "Calcule Seu ROI",
-      "subtitle": "Veja como rapidamente o Sundae se paga através de economias operacionais",
+      "subtitle": "Veja com que rapidez o Sundae se paga com economias operacionais",
       "businessTitle": "Conte-nos sobre seu negócio",
       "monthlyRevenuePerLocation": "Receita Mensal por Localização",
       "currentLaborCost": "Custo Atual de Mão de Obra %",
@@ -13101,7 +13101,7 @@ export const generatedPricingUiCopy = {
       "paybackPeriod": "ادائیگی کی مدت",
       "days": "{count} دن",
       "savingsBreakdown": "بچت کی تفصیل",
-      "savingsNote": "اندازے محتاط وسطی مفروضات کا استعمال کرتے ہیں۔ ہر لائن پر ہور کریں تاکہ رینج کی تفصیلات دیکھ سکیں۔ حقیقی نتائج عمل درآمد اور بنیادی میٹرکس پر منحصر ہیں۔",
+      "savingsNote": "تخمینے محتاط، اوسط مفروضات پر مبنی ہیں۔ رینج کی تفصیلات دیکھنے کے لیے ہر سطر پر ہوور کریں۔ حقیقی نتائج عمل درآمد اور آپ کے بنیادی میٹرکس پر منحصر ہیں۔",
       "noModulesSelected": "کوئی ماڈیول منتخب نہیں کیا گیا",
       "noModulesBody": "متوقع ROI کی بچت دیکھنے کے لیے اپنے اسٹیک میں ماڈیول شامل کریں۔",
       "biggestWins": "آپ کی سب سے بڑی کامیابیاں",
@@ -13179,7 +13179,7 @@ export const generatedPricingUiCopy = {
       "netMonthlyBenefit": "Beneficio Mensile Netto",
       "viewSummary": "Visualizza Riepilogo",
       "rangeLabel": "Intervallo",
-      "perMonthShort": "/mo",
+      "perMonthShort": "/mese",
       "potentialUpside": "Potenziale guadagno (non conteggiato nei totali)",
       "assumptionLabels": {
         "labor": "Ottimizzazione Lavoro",
@@ -13444,11 +13444,11 @@ export const generatedPricingUiCopy = {
       "savingsNote": "推定値は保守的な中央値の仮定を使用しています。各行にカーソルを合わせて範囲の詳細を確認してください。実際の結果は実行とベースラインメトリクスに依存します。",
       "noModulesSelected": "モジュールが選択されていません",
       "noModulesBody": "スタックにモジュールを追加して予測されるROIの節約を確認してください。",
-      "biggestWins": "あなたの最大の勝利",
+      "biggestWins": "最大の効果が見込める領域",
       "biggestWinsBody": "最大の影響を与えるために{categories}に焦点を当ててください",
       "monthlyPlatformCost": "月間プラットフォームコスト",
       "paysForItselfIn": "元を取るまでの期間",
-      "netMonthlyBenefit": "ネット月間利益",
+      "netMonthlyBenefit": "月間の純利益",
       "viewSummary": "サマリーを表示",
       "rangeLabel": "範囲",
       "perMonthShort": "/月",
@@ -13595,7 +13595,7 @@ export const generatedPricingUiCopy = {
         "purchasing": "Penghematan Pembelian",
         "reservations": "Pemanfaatan Meja",
         "marketing": "Efisiensi Pemasaran",
-        "profit": "Peningkatan Intelijen Keuntungan",
+        "profit": "Peningkatan Kecerdasan Profit",
         "revenue": "Pemulihan Kebocoran Pendapatan",
         "delivery": "Perlindungan Margin Pengiriman",
         "guest": "Peningkatan Reputasi & Retensi"
@@ -13607,7 +13607,7 @@ export const generatedPricingUiCopy = {
         "reservations": "Peningkatan pendapatan sebesar 0,5-2,0% melalui pemanfaatan meja yang lebih baik. Mengasumsikan permintaan ada.",
         "marketing": "Meningkatkan efisiensi pemasaran sebesar 5-15% dari pengeluaran pemasaran melalui atribusi dan penargetan yang lebih baik",
         "profit": "Mengungkap 0,2-0,8% dari pendapatan dalam kebocoran margin dan optimisasi menu/campuran. Mengasumsikan pelaksanaan wawasan.",
-        "revenue": "Memulihkan 0,05-0,25% dari pendapatan dari voids, comps, dan kebocoran diskon. Tergantung pada kebocoran dasar.",
+        "revenue": "Memulihkan 0,05-0,25% dari pendapatan dari pembatalan, item gratis, dan kebocoran diskon. Tergantung pada kebocoran dasar.",
         "delivery": "Menghemat 0,2-0,8% dari pendapatan pengiriman melalui optimisasi komisi dan paritas harga",
         "guest": "Manfaat kualitatif dari ulasan yang lebih baik dan kepuasan tamu. Estimasi konservatif kecuali data ulasan terhubung."
       },
@@ -13621,7 +13621,7 @@ export const generatedPricingUiCopy = {
         "solid": "Pengembalian solid dengan ROI {roi}x dan periode pengembalian {weeks} minggu.",
         "positive": "ROI positif dengan dampak terukur pada operasi Anda.",
         "value": "Nilai meningkat seiring Anda mengoptimalkan operasi dari waktu ke waktu.",
-        "longTerm": "Investasi jangka panjang dalam intelijen operasional."
+        "longTerm": "Investasi jangka panjang dalam kecerdasan operasional."
       }
     },
     "vi": {
@@ -13724,7 +13724,7 @@ export const generatedPricingUiCopy = {
       "viewSummary": "Vizualizați Rezumatul",
       "rangeLabel": "Interval",
       "perMonthShort": "/lună",
-      "potentialUpside": "Potencial de câștig (neinclus în totaluri)",
+      "potentialUpside": "Potențial de câștig (neinclus în totaluri)",
       "assumptionLabels": {
         "labor": "Optimizarea Muncii",
         "inventory": "Reducerea Costului Alimentelor",
@@ -13743,18 +13743,18 @@ export const generatedPricingUiCopy = {
         "reservations": "Creștere a veniturilor de 0.5-2.0% prin utilizarea îmbunătățită a meselor. Se presupune că există cerere.",
         "marketing": "Îmbunătățește eficiența marketingului cu 5-15% din cheltuielile de marketing prin atribuție și targetare mai bune",
         "profit": "Descoperă 0.2-0.8% din venituri în pierderi de marjă și optimizarea meniului/mixului. Se presupune execuția pe baza informațiilor.",
-        "revenue": "Recuperează 0.05-0.25% din venituri din anulari, compensații și pierderi de discounturi. Depinde de pierderile de bază.",
+        "revenue": "Recuperează 0.05-0.25% din venituri din anulări, compensații și pierderi din reduceri. Depinde de pierderile de bază.",
         "delivery": "Economisește 0.2-0.8% din veniturile de livrare prin optimizarea comisioanelor și paritatea prețurilor",
         "guest": "Beneficiu calitativ din recenzii îmbunătățite și satisfacția clienților. Estimare conservatoare, cu excepția cazului în care sunt conectate datele de recenzie."
       },
       "missingInput": {
         "marketing": "Adăugați cheltuieli de marketing pentru a estima economiile",
         "delivery": "Adăugați procentul de livrare pentru a estima economiile",
-        "guest": "Potencial de câștig (neinclus în totaluri)"
+        "guest": "Potențial de câștig (neinclus în totaluri)"
       },
       "roiDescriptions": {
-        "strong": "Potencial puternic de ROI: {roi}x returnare cu o perioadă de amortizare de {weeks} săptămâni.",
-        "solid": "Returnări solide cu {roi}x ROI și o perioadă de amortizare de {weeks} săptămâni.",
+        "strong": "Potențial puternic de ROI: {roi}x randament cu o perioadă de amortizare de {weeks} săptămâni.",
+        "solid": "Randament solid cu {roi}x ROI și o perioadă de amortizare de {weeks} săptămâni.",
         "positive": "ROI pozitiv cu impact măsurabil asupra operațiunilor dvs.",
         "value": "Valoarea crește pe măsură ce optimizați operațiunile în timp.",
         "longTerm": "Investiție pe termen lung în inteligența operațională."
@@ -13811,8 +13811,8 @@ export const generatedPricingUiCopy = {
         "reservations": "Intäktslyft på 0.5-2.0% genom förbättrat bordutnyttjande. Förutsätter att efterfrågan finns.",
         "marketing": "Förbättrar marknadseffektiviteten med 5-15% av marknadsföringskostnaden genom bättre attribuering och målgruppsanpassning",
         "profit": "Avslöjar 0.2-0.8% av intäkterna i marginalläckage och meny/mixoptimering. Förutsätter genomförande av insikter.",
-        "revenue": "Återvinner 0.05-0.25% av intäkterna från voids, comps och rabattläckage. Beror på baslinjeläckage.",
-        "delivery": "Sparar 0.2-0.8% av leveransintäkterna genom kommissionsoptimering och prissättningparitet",
+        "revenue": "Återvinner 0.05-0.25% av intäkterna från makuleringar, gratisartiklar och rabattläckage. Beror på baslinjeläckage.",
+        "delivery": "Sparar 0.2-0.8% av leveransintäkterna genom kommissionsoptimering och prissättningsparitet",
         "guest": "Kvalitativ fördel från förbättrade recensioner och gästnöjdhet. Konservativ uppskattning om inte recensionsdata kopplas."
       },
       "missingInput": {
@@ -13830,7 +13830,7 @@ export const generatedPricingUiCopy = {
     },
     "bn": {
       "title": "আপনার ROI গণনা করুন",
-      "subtitle": "কিভাবে দ্রুত Sundae নিজেকে অপারেশনাল সঞ্চয়ের মাধ্যমে পরিশোধ করে তা দেখুন",
+      "subtitle": "অপারেশনাল সঞ্চয়ের মাধ্যমে Sundae কত দ্রুত নিজের খরচ তুলে নেয় তা দেখুন",
       "businessTitle": "আপনার ব্যবসা সম্পর্কে আমাদের জানান",
       "monthlyRevenuePerLocation": "প্রতি অবস্থানে মাসিক রাজস্ব",
       "currentLaborCost": "বর্তমান শ্রম খরচ %",
@@ -13855,7 +13855,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "আপনার সবচেয়ে বড় জয়",
       "biggestWinsBody": "সর্বাধিক প্রভাবের জন্য {categories} এ মনোযোগ দিন",
       "monthlyPlatformCost": "মাসিক প্ল্যাটফর্ম খরচ",
-      "paysForItselfIn": "এতে পরিশোধ করে",
+      "paysForItselfIn": "নিজের খরচ তুলে নেয়",
       "netMonthlyBenefit": "নেট মাসিক সুবিধা",
       "viewSummary": "সারসংক্ষেপ দেখুন",
       "rangeLabel": "পরিসীমা",
@@ -13870,7 +13870,7 @@ export const generatedPricingUiCopy = {
         "profit": "লাভ বুদ্ধিমত্তা বৃদ্ধি",
         "revenue": "রাজস্ব লিকেজ পুনরুদ্ধার",
         "delivery": "ডেলিভারি মার্জিন সুরক্ষা",
-        "guest": "প্রতিষ্ঠান ও ধরে রাখার উন্নতি"
+        "guest": "সুনাম ও গ্রাহক ধরে রাখার উন্নতি"
       },
       "tooltips": {
         "labor": "ভাল সময়সূচী এবং উৎপাদনশীলতা অন্তর্দৃষ্টি দ্বারা রাজস্বের 0.5-1.5% শ্রম খরচ হ্রাস করে",
@@ -13879,7 +13879,7 @@ export const generatedPricingUiCopy = {
         "reservations": "উন্নত টেবিল ব্যবহার দ্বারা 0.5-2.0% রাজস্ব বৃদ্ধি। চাহিদা বিদ্যমান বলে ধরে নেওয়া হয়েছে।",
         "marketing": "ভাল অ্যাট্রিবিউশন এবং লক্ষ্যকরণের মাধ্যমে বিপণন ব্যয়ের 5-15% বিপণন দক্ষতা উন্নত করে",
         "profit": "অন্তর্দৃষ্টির উপর কার্যকরী হলে মার্জিন লিকেজ এবং মেনু/মিশ্রণ অপ্টিমাইজেশনে রাজস্বের 0.2-0.8% উন্মোচন করে।",
-        "revenue": "শূন্যতা, কম্পস, এবং ডিসকাউন্ট লিকেজ থেকে রাজস্বের 0.05-0.25% পুনরুদ্ধার করে। বেসলাইন লিকেজের উপর নির্ভর করে।",
+        "revenue": "ভয়েড, কম্প, এবং ডিসকাউন্ট লিকেজ থেকে রাজস্বের 0.05-0.25% পুনরুদ্ধার করে। বেসলাইন লিকেজের উপর নির্ভর করে।",
         "delivery": "কমিশন অপ্টিমাইজেশন এবং মূল্য সমতা দ্বারা ডেলিভারি রাজস্বের 0.2-0.8% সঞ্চয় করে",
         "guest": "উন্নত পর্যালোচনা এবং অতিথি সন্তুষ্টি থেকে গুণগত সুবিধা। পর্যালোচনা ডেটা সংযুক্ত না হলে সংরক্ষণশীল অনুমান।"
       },
@@ -13945,7 +13945,7 @@ export const generatedPricingUiCopy = {
         "inventory": "ลดต้นทุนอาหารลง 0.3-1.0% ของรายได้ผ่านการลดของเสียและการเพิ่มประสิทธิภาพสูตร",
         "purchasing": "ประหยัด 0.2-0.8% ของรายได้ผ่านการตั้งราคาและการจัดการสัญญาที่ดีกว่า",
         "reservations": "การเพิ่มขึ้นของรายได้ 0.5-2.0% ผ่านการใช้โต๊ะที่ดีขึ้น สมมติว่ามีความต้องการ",
-        "marketing": "ปรับปรุงประสิทธิภาพการตลาดลง 5-15% ของค่าใช้จ่ายการตลาดผ่านการระบุและการกำหนดเป้าหมายที่ดีขึ้น",
+        "marketing": "เพิ่มประสิทธิภาพการตลาดขึ้น 5-15% ของค่าใช้จ่ายการตลาดผ่านการระบุที่มาและการกำหนดเป้าหมายที่ดีขึ้น",
         "profit": "ค้นพบ 0.2-0.8% ของรายได้ในมาร์จิ้นที่รั่วไหลและการเพิ่มประสิทธิภาพเมนู/ส่วนผสม สมมติว่ามีการดำเนินการตามข้อมูลเชิงลึก",
         "revenue": "ฟื้นฟู 0.05-0.25% ของรายได้จากการยกเลิก คอมพ์ และการรั่วไหลของส่วนลด ขึ้นอยู่กับการรั่วไหลพื้นฐาน",
         "delivery": "ประหยัด 0.2-0.8% ของรายได้จากการจัดส่งผ่านการเพิ่มประสิทธิภาพค่าคอมมิชชั่นและความเท่าเทียมด้านราคา",
@@ -13981,7 +13981,7 @@ export const generatedPricingUiCopy = {
       "projectedReturns": "Pulangan Anda yang Dijangkakan",
       "monthlySavings": "Penjimatan Bulanan",
       "annualSavings": "Penjimatan Tahunan",
-      "roiMultiple": "Banyak ROI",
+      "roiMultiple": "Gandaan ROI",
       "paybackPeriod": "Tempoh Bayaran Balik",
       "days": "{count} hari",
       "savingsBreakdown": "Pecahan Penjimatan",
@@ -14003,7 +14003,7 @@ export const generatedPricingUiCopy = {
         "purchasing": "Penjimatan Pembelian",
         "reservations": "Penggunaan Meja",
         "marketing": "Kecekapan Pemasaran",
-        "profit": "Peningkatan Kepintaran Keuntungan",
+        "profit": "Peningkatan Kecerdasan Keuntungan",
         "revenue": "Pemulihan Kebocoran Pendapatan",
         "delivery": "Perlindungan Margin Penghantaran",
         "guest": "Peningkatan Reputasi & Pengekalan"
@@ -14038,7 +14038,7 @@ export const generatedPricingUiCopy = {
       "title": "Wie Sie sich vergleichen",
       "hideAssumptions": "Annahmen ausblenden",
       "viewAssumptions": "Annahmen anzeigen",
-      "assumptionsTitle": "Preisk Quellen & Annahmen:",
+      "assumptionsTitle": "Preisquellen & Annahmen:",
       "competitorPricingMayVary": "Die Preise der Wettbewerber können variieren. Kontaktieren Sie die Anbieter für genaue Angebote.",
       "bestSavingsOpportunity": "Beste Einsparmöglichkeit",
       "firstYear": "erstes Jahr",
@@ -14057,7 +14057,7 @@ export const generatedPricingUiCopy = {
       "estimated": "Geschätzt",
       "unverified": "Unverifiziert",
       "categoryLabels": {
-        "AI restaurant operations": "KI-Restaurantbetriebe",
+        "AI restaurant operations": "AI-Restaurantbetriebe",
         "Build-your-own with Microsoft BI": "Eigenbau mit Microsoft BI",
         "Excel / Google Sheets": "Excel / Google Sheets",
         "Inventory & purchasing": "Inventar & Einkauf",
@@ -14092,7 +14092,7 @@ export const generatedPricingUiCopy = {
       "plusMore": "+{count} meer",
       "verified": "Geverifieerd",
       "estimated": "Geschat",
-      "unverified": "Ongemerkt",
+      "unverified": "Niet geverifieerd",
       "categoryLabels": {
         "AI restaurant operations": "AI restaurant operaties",
         "Build-your-own with Microsoft BI": "Bouw-je-eigen met Microsoft BI",
@@ -14232,7 +14232,7 @@ export const generatedPricingUiCopy = {
       "saveVsCompetitor": "Risparmia ${amount}",
       "competitorFirstYear": "{name} Primo Anno",
       "sundaeFirstYear": "Primo Anno Sundae",
-      "noSetupFees": "Nessuna tassa di configurazione",
+      "noSetupFees": "Nessun costo di configurazione",
       "missingOffer": "Cosa non offre {name}:",
       "viewPricing": "Visualizza i prezzi di {name} ->",
       "ongoingAnnualSavings": "Risparmi annuali continuativi",
@@ -14316,7 +14316,7 @@ export const generatedPricingUiCopy = {
       "estimated": "Tahmini",
       "unverified": "Doğrulanmamış",
       "categoryLabels": {
-        "AI restaurant operations": "Yapay Zeka restoran operasyonları",
+        "AI restaurant operations": "AI restoran operasyonları",
         "Build-your-own with Microsoft BI": "Microsoft BI ile kendin yap",
         "Excel / Google Sheets": "Excel / Google Sheets",
         "Inventory & purchasing": "Envanter & satın alma",
@@ -14446,7 +14446,7 @@ export const generatedPricingUiCopy = {
       "hideAssumptions": "Sembunyikan asumsi",
       "viewAssumptions": "Lihat asumsi",
       "assumptionsTitle": "Sumber Harga & Asumsi:",
-      "competitorPricingMayVary": "Harga pesaing dapat bervariasi. Hubungi vendor untuk kutipan yang tepat.",
+      "competitorPricingMayVary": "Harga pesaing dapat bervariasi. Hubungi vendor untuk penawaran yang tepat.",
       "bestSavingsOpportunity": "Kesempatan Penghematan Terbaik",
       "firstYear": "tahun pertama",
       "notePointSolutions": "Catatan: Beberapa solusi titik mungkin lebih murah jika Anda hanya membutuhkan fitur tertentu",
@@ -14535,7 +14535,7 @@ export const generatedPricingUiCopy = {
       "vsName": "vs {name}",
       "plusMore": "+{count} mai mult",
       "verified": "Verificat",
-      "estimated": "Estimativ",
+      "estimated": "Estimat",
       "unverified": "Neverificat",
       "categoryLabels": {
         "AI restaurant operations": "Operațiuni de restaurant AI",
@@ -14546,7 +14546,7 @@ export const generatedPricingUiCopy = {
         "Restaurant ERP & accounting": "ERP de restaurant & contabilitate",
         "Restaurant analytics platform": "Platformă de analiză a restaurantelor",
         "generic-bi": "BI generic",
-        "nothing": "Niciun meci direct",
+        "nothing": "Nicio potrivire directă",
         "pos-native": "Analize native POS",
         "restaurant-bi": "BI de restaurant",
         "spreadsheets": "Foi de calcul"
@@ -14711,14 +14711,14 @@ export const generatedPricingUiCopy = {
     "pl": "Core Pro staje się tańszy niż Core Lite przy {cheaperAt}+ lokalizacjach (punkt równowagi przy {breakEven}) z powodu niższej ceny za lokalizację (${proPrice} vs ${litePrice}).",
     "tr": "Core Pro, lokasyon başına daha düşük fiyatlandırma nedeniyle {cheaperAt}+ lokasyonda Core Lite'dan daha ucuz hale gelir (eşit maliyet {breakEven} lokasyonda).",
     "zh-Hans": "在 {cheaperAt}+ 个地点时，Core Pro 的价格低于 Core Lite（在 {breakEven} 时持平），因为每个地点的定价较低（${proPrice} 对比 ${litePrice}）。",
-    "ja": "Core Proは{cheaperAt}+ロケーションでCore Liteよりも安くなります（{breakEven}でブレークイーブン）",
-    "ko": "Core Pro는 {cheaperAt}+ 위치에서 Core Lite보다 저렴해집니다 (break-even at {breakEven}) 낮은 위치당 가격 덕분입니다 (${proPrice} vs ${litePrice}).",
+    "ja": "Core Proは1ロケーションあたりの料金が低いため、{cheaperAt}+ロケーションでCore Liteよりも割安になります（{breakEven}で損益分岐、${proPrice}対${litePrice}）。",
+    "ko": "Core Pro는 지점당 가격이 더 낮기 때문에 {cheaperAt}+ 지점부터 Core Lite보다 저렴해집니다 (손익분기 {breakEven}, ${proPrice} 대 ${litePrice}).",
     "id": "Core Pro menjadi lebih murah daripada Core Lite di {cheaperAt}+ lokasi (break-even di {breakEven}) karena harga per lokasi yang lebih rendah (${proPrice} vs ${litePrice}).",
     "vi": "Core Pro trở nên rẻ hơn Core Lite tại {cheaperAt}+ địa điểm (điểm hòa vốn tại {breakEven}) do giá mỗi địa điểm thấp hơn (${proPrice} so với ${litePrice}).",
     "ro": "Core Pro devine mai ieftin decât Core Lite la {cheaperAt}+ locații (punct de echilibru la {breakEven}) datorită prețului mai mic pe locație (${proPrice} față de ${litePrice}).",
     "sv": "Core Pro blir billigare än Core Lite vid {cheaperAt}+ platser (break-even vid {breakEven}) på grund av lägre pris per plats (${proPrice} vs ${litePrice}).",
     "bn": "Core Pro {cheaperAt}+ অবস্থানে Core Lite এর চেয়ে সস্তা হয়ে যায় (ব্রেক-ইভেন {breakEven} এ) প্রতি অবস্থানের মূল্য হ্রাসের কারণে (${proPrice} বনাম ${litePrice})।",
-    "th": "Core Pro จะถูกกว่าที่ Core Lite ที่ {cheaperAt}+ สถานที่ (จุดคุ้มทุนที่ {breakEven}) เนื่องจากราคาต่อสถานที่ที่ต่ำกว่า (${proPrice} เทียบกับ ${litePrice}).",
+    "th": "Core Pro จะถูกกว่า Core Lite เมื่อมี {cheaperAt}+ สาขา (จุดคุ้มทุนที่ {breakEven}) เนื่องจากราคาต่อสาขาที่ต่ำกว่า (${proPrice} เทียบกับ ${litePrice}).",
     "ms": "Core Pro menjadi lebih murah daripada Core Lite pada {cheaperAt}+ lokasi (titik pulang modal pada {breakEven}) disebabkan harga per lokasi yang lebih rendah (${proPrice} berbanding ${litePrice})."
   },
   "annualAmountTemplates": {
@@ -14732,7 +14732,7 @@ export const generatedPricingUiCopy = {
     "tr": "${amount} yıllık",
     "zh-Hans": "每年 ${amount}",
     "ja": "${amount} 年間",
-    "ko": "${amount} 연간",
+    "ko": "연간 ${amount}",
     "id": "${amount} per tahun",
     "vi": "${amount} hàng năm",
     "ro": "${amount} anual",
@@ -14743,23 +14743,23 @@ export const generatedPricingUiCopy = {
   },
   "layerLabels": {
     "de": {
-      "report": "Bericht",
-      "core": "Kern"
+      "report": "Report",
+      "core": "Core"
     },
     "nl": {
-      "report": "Rapport",
+      "report": "Report",
       "core": "Core"
     },
     "pt": {
-      "report": "Relatório",
+      "report": "Report",
       "core": "Core"
     },
     "hi": {
-      "report": "रिपोर्ट",
-      "core": "कोर"
+      "report": "Report",
+      "core": "Core"
     },
     "ur": {
-      "report": "رپورٹ",
+      "report": "Report",
       "core": "Core"
     },
     "it": {
@@ -14767,11 +14767,11 @@ export const generatedPricingUiCopy = {
       "core": "Core"
     },
     "pl": {
-      "report": "Raport",
+      "report": "Report",
       "core": "Core"
     },
     "tr": {
-      "report": "Rapor",
+      "report": "Report",
       "core": "Core"
     },
     "zh-Hans": {
@@ -14779,39 +14779,39 @@ export const generatedPricingUiCopy = {
       "core": "核心"
     },
     "ja": {
-      "report": "レポート",
-      "core": "コア"
+      "report": "Report",
+      "core": "Core"
     },
     "ko": {
-      "report": "보고서",
+      "report": "Report",
       "core": "Core"
     },
     "id": {
-      "report": "Laporan",
+      "report": "Report",
       "core": "Core"
     },
     "vi": {
-      "report": "Báo cáo",
+      "report": "Report",
       "core": "Core"
     },
     "ro": {
-      "report": "Raport",
+      "report": "Report",
       "core": "Core"
     },
     "sv": {
-      "report": "Rapport",
-      "core": "Kärna"
+      "report": "Report",
+      "core": "Core"
     },
     "bn": {
-      "report": "রিপোর্ট",
-      "core": "কোর"
+      "report": "Report",
+      "core": "Core"
     },
     "th": {
-      "report": "รายงาน",
+      "report": "Report",
       "core": "Core"
     },
     "ms": {
-      "report": "Laporan",
+      "report": "Report",
       "core": "Core"
     }
   },
@@ -14856,7 +14856,7 @@ export const generatedPricingUiCopy = {
       "Software": "Software",
       "Error/rework cost (0.2% revenue)": "Custo de erro/retrabalho (0,2% da receita)",
       "Monthly licenses (Professional)": "Licenças Mensais (Profissional)",
-      "Monthly licenses (The Works tier)": "Licenças Mensais (O nível Works)"
+      "Monthly licenses (The Works tier)": "Licenças Mensais (nível The Works)"
     },
     "hi": {
       "Monthly licenses": "मासिक लाइसेंस",
@@ -14888,7 +14888,7 @@ export const generatedPricingUiCopy = {
     },
     "it": {
       "Monthly licenses": "Licenze Mensili",
-      "Setup fees": "Tasse di Configurazione",
+      "Setup fees": "Costi di Configurazione",
       "Monthly subscription": "Abbonamento Mensile",
       "Implementation": "Implementazione",
       "Licenses (verified)": "Licenze (verificate)",
@@ -15004,9 +15004,9 @@ export const generatedPricingUiCopy = {
       "Monthly subscription": "Abonament Lunar",
       "Implementation": "Implementare",
       "Licenses (verified)": "Licențe (verificate)",
-      "Implementation (estimated)": "Implementare (estimativ)",
-      "Maintenance (estimated)": "Întreținere (estimativ)",
-      "Analyst 0.5 FTE (estimated)": "Analist 0.5 FTE (estimativ)",
+      "Implementation (estimated)": "Implementare (estimată)",
+      "Maintenance (estimated)": "Întreținere (estimată)",
+      "Analyst 0.5 FTE (estimated)": "Analist 0.5 FTE (estimat)",
       "Software": "Software",
       "Error/rework cost (0.2% revenue)": "Cost de eroare/refacere (0.2% venit)",
       "Monthly licenses (Professional)": "Licențe Lunare (Profesional)",
@@ -15071,12 +15071,12 @@ export const generatedPricingUiCopy = {
   },
   "competitorSourceLabels": {
     "de": {
-      "tenzo.io/pricing (verified)": "tenzo.io/preise (verifiziert)",
+      "tenzo.io/pricing (verified)": "tenzo.io/pricing (verifiziert)",
       "Industry estimates (pricing not public)": "Branchenschätzungen (Preise nicht öffentlich)",
       "Microsoft pricing + industry estimates": "Microsoft-Preise + Branchenschätzungen",
       "Industry labor cost estimates": "Branchenschätzungen der Arbeitskosten",
       "Industry estimates": "Branchenschätzungen",
-      "marketman.com/pricing (verified)": "marketman.com/preise (verifiziert)"
+      "marketman.com/pricing (verified)": "marketman.com/pricing (verifiziert)"
     },
     "nl": {
       "tenzo.io/pricing (verified)": "tenzo.io/pricing (geverifieerd)",
@@ -15235,9 +15235,9 @@ export const generatedPricingUiCopy = {
       "Hidden costs in manual labor and decision-making errors. Based on industry research.": "Verborgen kosten in handarbeid en beslissingsfouten. Gebaseerd op industrieel onderzoek.",
       "Inventory & purchasing focused only. Professional tier used for comparison.": "Alleen gericht op voorraad & inkoop. Professionele laag gebruikt voor vergelijking.",
       "Labor & scheduling only. The Works tier used for comparison.": "Alleen gericht op arbeid & planning. The Works-laag gebruikt voor vergelijking.",
-      "$75/location/module/month + $350 setup per module per location": "$75/location/module/maand + $350 opstart per module per locatie",
-      "~$1,000/location/month + $2K setup per location": "~$1,000/location/maand + $2K opstart per locatie",
-      "$20/user Premium licenses + implementation + maintenance + 0.5 FTE analyst": "$20/user Premium licenties + implementatie + onderhoud + 0.5 FTE analist",
+      "$75/location/module/month + $350 setup per module per location": "$75/locatie/module/maand + $350 opstart per module per locatie",
+      "~$1,000/location/month + $2K setup per location": "~$1,000/locatie/maand + $2K opstart per locatie",
+      "$20/user Premium licenses + implementation + maintenance + 0.5 FTE analyst": "$20/gebruiker Premium licenties + implementatie + onderhoud + 0.5 FTE analist",
       "${'{locations * 2}'} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr + 0.2% revenue impact from errors": "${'{locations * 2}'} uren/week analist @ $${SPREADSHEETS_LABOR_RATE_USD}/uur + 0.2% omzetimpact door fouten"
     },
     "pt": {
@@ -15246,7 +15246,7 @@ export const generatedPricingUiCopy = {
       "Requires technical expertise. License costs verified from Microsoft; implementation and maintenance are industry estimates.": "Requer expertise técnica. Custos de licença verificados da Microsoft; implementação e manutenção são estimativas da indústria.",
       "Hidden costs in manual labor and decision-making errors. Based on industry research.": "Custos ocultos em mão de obra manual e erros de tomada de decisão. Baseado em pesquisa da indústria.",
       "Inventory & purchasing focused only. Professional tier used for comparison.": "Focado apenas em inventário e compras. Nível Profissional usado para comparação.",
-      "Labor & scheduling only. The Works tier used for comparison.": "Apenas mão de obra e agendamento. O nível Works usado para comparação.",
+      "Labor & scheduling only. The Works tier used for comparison.": "Apenas mão de obra e agendamento. Nível The Works usado para comparação.",
       "$75/location/module/month + $350 setup per module per location": "$75/localização/módulo/mês + $350 de configuração por módulo por localização",
       "~$1,000/location/month + $2K setup per location": "~$1,000/localização/mês + $2K de configuração por localização",
       "$20/user Premium licenses + implementation + maintenance + 0.5 FTE analyst": "Licenças Premium de $20/usuário + implementação + manutenção + 0.5 FTE analista",
@@ -15290,7 +15290,7 @@ export const generatedPricingUiCopy = {
     },
     "pl": {
       "Pricing not publicly available. Contact Nory directly for custom quotes based on your restaurant size and needs.": "Ceny nie są publicznie dostępne. Skontaktuj się bezpośrednio z Nory, aby uzyskać indywidualne wyceny w zależności od rozmiaru i potrzeb Twojej restauracji.",
-      "Includes accounting; different focus than pure analytics. Industry estimate.": "Zawiera księgowość; inny fokus niż czysta analityka. Szacunek branżowy.",
+      "Includes accounting; different focus than pure analytics. Industry estimate.": "Zawiera księgowość; inne ukierunkowanie niż czysta analityka. Szacunek branżowy.",
       "Requires technical expertise. License costs verified from Microsoft; implementation and maintenance are industry estimates.": "Wymaga wiedzy technicznej. Koszty licencji zweryfikowane przez Microsoft; wdrożenie i utrzymanie są szacunkami branżowymi.",
       "Hidden costs in manual labor and decision-making errors. Based on industry research.": "Ukryte koszty w pracy ręcznej i błędach decyzyjnych. Na podstawie badań branżowych.",
       "Inventory & purchasing focused only. Professional tier used for comparison.": "Skupione tylko na zarządzaniu zapasami i zakupami. Poziom profesjonalny użyty do porównania.",
@@ -15349,7 +15349,7 @@ export const generatedPricingUiCopy = {
       "${'{locations * 2}'} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr + 0.2% revenue impact from errors": "${'{locations * 2}'} 시간/주 분석가 @ $${SPREADSHEETS_LABOR_RATE_USD}/시간 + 오류로 인한 0.2% 수익 영향"
     },
     "id": {
-      "Pricing not publicly available. Contact Nory directly for custom quotes based on your restaurant size and needs.": "Harga tidak tersedia untuk umum. Hubungi Nory langsung untuk kutipan khusus berdasarkan ukuran dan kebutuhan restoran Anda.",
+      "Pricing not publicly available. Contact Nory directly for custom quotes based on your restaurant size and needs.": "Harga tidak tersedia untuk umum. Hubungi Nory langsung untuk penawaran khusus berdasarkan ukuran dan kebutuhan restoran Anda.",
       "Includes accounting; different focus than pure analytics. Industry estimate.": "Termasuk akuntansi; fokus berbeda dari analitik murni. Estimasi industri.",
       "Requires technical expertise. License costs verified from Microsoft; implementation and maintenance are industry estimates.": "Memerlukan keahlian teknis. Biaya lisensi terverifikasi dari Microsoft; implementasi dan pemeliharaan adalah estimasi industri.",
       "Hidden costs in manual labor and decision-making errors. Based on industry research.": "Biaya tersembunyi dalam tenaga kerja manual dan kesalahan pengambilan keputusan. Berdasarkan penelitian industri.",
@@ -15357,7 +15357,7 @@ export const generatedPricingUiCopy = {
       "Labor & scheduling only. The Works tier used for comparison.": "Hanya tenaga kerja & penjadwalan. Tingkat The Works digunakan untuk perbandingan.",
       "$75/location/module/month + $350 setup per module per location": "$75/lokasi/modul/bulan + $350 biaya pengaturan per modul per lokasi",
       "~$1,000/location/month + $2K setup per location": "~$1,000/lokasi/bulan + $2K biaya pengaturan per lokasi",
-      "$20/user Premium licenses + implementation + maintenance + 0.5 FTE analyst": "$20/user Lisensi Premium + implementasi + pemeliharaan + 0.5 FTE analis",
+      "$20/user Premium licenses + implementation + maintenance + 0.5 FTE analyst": "Lisensi Premium $20/pengguna + implementasi + pemeliharaan + analis 0.5 FTE",
       "${'{locations * 2}'} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr + 0.2% revenue impact from errors": "${'{locations * 2}'} jam/minggu analis @ $${SPREADSHEETS_LABOR_RATE_USD}/jam + 0.2% dampak pendapatan dari kesalahan"
     },
     "vi": {
@@ -15369,7 +15369,7 @@ export const generatedPricingUiCopy = {
       "Labor & scheduling only. The Works tier used for comparison.": "Chỉ tập trung vào lao động & lập lịch. Cấp độ The Works được sử dụng để so sánh.",
       "$75/location/module/month + $350 setup per module per location": "$75/địa điểm/mô-đun/tháng + $350 phí thiết lập cho mỗi mô-đun mỗi địa điểm",
       "~$1,000/location/month + $2K setup per location": "~$1,000/địa điểm/tháng + $2K phí thiết lập cho mỗi địa điểm",
-      "$20/user Premium licenses + implementation + maintenance + 0.5 FTE analyst": "$20/nhà sử dụng giấy phép Premium + triển khai + bảo trì + 0.5 FTE nhà phân tích",
+      "$20/user Premium licenses + implementation + maintenance + 0.5 FTE analyst": "$20/người dùng giấy phép Premium + triển khai + bảo trì + 0.5 FTE nhà phân tích",
       "${'{locations * 2}'} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr + 0.2% revenue impact from errors": "${'{locations * 2}'} giờ/tuần nhà phân tích @ $${SPREADSHEETS_LABOR_RATE_USD}/giờ + 0.2% tác động doanh thu từ lỗi"
     },
     "ro": {
@@ -15388,13 +15388,13 @@ export const generatedPricingUiCopy = {
       "Pricing not publicly available. Contact Nory directly for custom quotes based on your restaurant size and needs.": "Priser är inte offentligt tillgängliga. Kontakta Nory direkt för anpassade offerter baserat på din restaurangstorlek och behov.",
       "Includes accounting; different focus than pure analytics. Industry estimate.": "Inkluderar redovisning; annat fokus än ren analys. Branschuppskattning.",
       "Requires technical expertise. License costs verified from Microsoft; implementation and maintenance are industry estimates.": "Kräver teknisk expertis. Licenskostnader verifierade från Microsoft; implementering och underhåll är branschuppskattningar.",
-      "Hidden costs in manual labor and decision-making errors. Based on industry research.": "Dolda kostnader i manuellt arbete och beslutsfattande fel. Baserat på branschen forskning.",
+      "Hidden costs in manual labor and decision-making errors. Based on industry research.": "Dolda kostnader i manuellt arbete och beslutsfattandefel. Baserat på branschforskning.",
       "Inventory & purchasing focused only. Professional tier used for comparison.": "Endast fokuserad på inventering och inköp. Professionell nivå använd för jämförelse.",
       "Labor & scheduling only. The Works tier used for comparison.": "Endast arbete och schemaläggning. The Works-nivå använd för jämförelse.",
       "$75/location/module/month + $350 setup per module per location": "$75/plats/modul/månad + $350 installation per modul per plats",
       "~$1,000/location/month + $2K setup per location": "~$1,000/plats/månad + $2K installation per plats",
       "$20/user Premium licenses + implementation + maintenance + 0.5 FTE analyst": "$20/användare Premium-licenser + implementering + underhåll + 0.5 FTE analytiker",
-      "${'{locations * 2}'} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr + 0.2% revenue impact from errors": "${'{locations * 2}'} timmar/vecka analytiker @ $${SPREADSHEETS_LABOR_RATE_USD}/timme + 0.2% intäkts påverkan från fel"
+      "${'{locations * 2}'} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr + 0.2% revenue impact from errors": "${'{locations * 2}'} timmar/vecka analytiker @ $${SPREADSHEETS_LABOR_RATE_USD}/timme + 0.2% intäktspåverkan från fel"
     },
     "bn": {
       "Pricing not publicly available. Contact Nory directly for custom quotes based on your restaurant size and needs.": "মূল্য প্রকাশ্যে উপলব্ধ নয়। আপনার রেস্তোরাঁর আকার এবং প্রয়োজনের ভিত্তিতে কাস্টম উদ্ধৃতির জন্য সরাসরি Nory এর সাথে যোগাযোগ করুন।",
@@ -15444,16 +15444,16 @@ export const generatedPricingUiCopy = {
       "Less granular module selection": "Weniger granulare Modulauswahl",
       "Newer platform, less proven at scale": "Neuere Plattform, weniger bewährt in der Skalierung",
       "Accounting-focused, less analytics depth": "Buchhaltungsfokussiert, weniger analytische Tiefe",
-      "No AI-powered insights": "Keine KI-gestützten Erkenntnisse",
+      "No AI-powered insights": "Keine AI-gestützten Erkenntnisse",
       "No benchmark data": "Keine Benchmark-Daten",
       "Requires technical expertise to build": "Erfordert technische Expertise zum Aufbau",
       "No pre-built restaurant analytics": "Keine vorgefertigten Restaurantanalysen",
-      "No AI insights included": "Keine KI-Einsichten enthalten",
+      "No AI insights included": "Keine AI-Einsichten enthalten",
       "Ongoing development required": "Laufende Entwicklung erforderlich",
       "Highly manual and time-consuming": "Sehr manuell und zeitaufwendig",
       "Error-prone (88% of spreadsheets contain errors)": "Fehleranfällig (88% der Tabellenkalkulationen enthalten Fehler)",
       "No real-time data": "Keine Echtzeitdaten",
-      "No AI insights": "Keine KI-Einsichten",
+      "No AI insights": "Keine AI-Einsichten",
       "Doesn't scale well": "Skaliert nicht gut",
       "Inventory-focused only": "Nur auf Inventar fokussiert",
       "No labor analytics": "Keine Arbeitsanalytik",
@@ -15470,7 +15470,7 @@ export const generatedPricingUiCopy = {
       "Setup fees per module per location": "Opstartkosten per module per locatie",
       "Higher price point": "Hogere prijsstelling",
       "Less granular module selection": "Minder gedetailleerde modulekeuze",
-      "Newer platform, less proven at scale": "Nieuwere platform, minder bewezen op schaal",
+      "Newer platform, less proven at scale": "Nieuwer platform, minder bewezen op schaal",
       "Accounting-focused, less analytics depth": "Boekhouding gericht, minder diepte in analytics",
       "No AI-powered insights": "Geen AI-gestuurde inzichten",
       "No benchmark data": "Geen benchmarkgegevens",
@@ -15579,7 +15579,7 @@ export const generatedPricingUiCopy = {
       "No purchasing module": "Nessun modulo di acquisto",
       "No reservation intelligence": "Nessuna intelligenza di prenotazione",
       "No competitive intelligence": "Nessuna intelligenza competitiva",
-      "Setup fees per module per location": "Tasse di configurazione per modulo per sede",
+      "Setup fees per module per location": "Costi di configurazione per modulo per sede",
       "Higher price point": "Punto di prezzo più alto",
       "Less granular module selection": "Selezione di moduli meno granulare",
       "Newer platform, less proven at scale": "Piattaforma più recente, meno collaudata su larga scala",
@@ -15640,16 +15640,16 @@ export const generatedPricingUiCopy = {
       "Less granular module selection": "Daha az ayrıntılı modül seçimi",
       "Newer platform, less proven at scale": "Daha yeni platform, ölçeklendirmede daha az kanıtlanmış",
       "Accounting-focused, less analytics depth": "Muhasebe odaklı, daha az analitik derinlik",
-      "No AI-powered insights": "Yapay zeka destekli içgörüler yok",
+      "No AI-powered insights": "AI destekli içgörüler yok",
       "No benchmark data": "Karşılaştırma verisi yok",
       "Requires technical expertise to build": "Kurmak için teknik uzmanlık gerektirir",
       "No pre-built restaurant analytics": "Önceden oluşturulmuş restoran analitiği yok",
-      "No AI insights included": "Yapay zeka içgörüleri dahil değil",
+      "No AI insights included": "AI içgörüleri dahil değil",
       "Ongoing development required": "Sürekli geliştirme gereklidir",
       "Highly manual and time-consuming": "Son derece manuel ve zaman alıcı",
       "Error-prone (88% of spreadsheets contain errors)": "Hata yapmaya meyilli (hesap tablolarının %88'i hatalar içerir)",
       "No real-time data": "Gerçek zamanlı veri yok",
-      "No AI insights": "Yapay zeka içgörüleri yok",
+      "No AI insights": "AI içgörüleri yok",
       "Doesn't scale well": "İyi ölçeklenmiyor",
       "Inventory-focused only": "Sadece envanter odaklı",
       "No labor analytics": "İş gücü analitiği yok",
@@ -15745,8 +15745,8 @@ export const generatedPricingUiCopy = {
     "id": {
       "No marketing analytics": "Tidak ada analitik pemasaran",
       "No purchasing module": "Tidak ada modul pembelian",
-      "No reservation intelligence": "Tidak ada intelijen reservasi",
-      "No competitive intelligence": "Tidak ada intelijen kompetitif",
+      "No reservation intelligence": "Tidak ada kecerdasan reservasi",
+      "No competitive intelligence": "Tidak ada kecerdasan kompetitif",
       "Setup fees per module per location": "Biaya pengaturan per modul per lokasi",
       "Higher price point": "Titik harga lebih tinggi",
       "Less granular module selection": "Pemilihan modul yang kurang terperinci",
@@ -15833,7 +15833,7 @@ export const generatedPricingUiCopy = {
       "No competitive intelligence": "Ingen konkurrensintelligens",
       "Setup fees per module per location": "Installationsavgifter per modul per plats",
       "Higher price point": "Högre prispunkt",
-      "Less granular module selection": "Mindre detaljerad modulval",
+      "Less granular module selection": "Mindre detaljerat modulval",
       "Newer platform, less proven at scale": "Nyare plattform, mindre beprövad i stor skala",
       "Accounting-focused, less analytics depth": "Redovisningsfokuserad, mindre analysdjup",
       "No AI-powered insights": "Inga AI-drivna insikter",
@@ -15930,7 +15930,7 @@ export const generatedPricingUiCopy = {
       "Error-prone (88% of spreadsheets contain errors)": "Cenderung kepada ralat (88% lembaran kerja mengandungi ralat)",
       "No real-time data": "Tiada data masa nyata",
       "No AI insights": "Tiada pandangan AI",
-      "Doesn't scale well": "Tidak skala dengan baik",
+      "Doesn't scale well": "Tidak menskala dengan baik",
       "Inventory-focused only": "Fokus hanya pada inventori",
       "No labor analytics": "Tiada analitik buruh",
       "No sales analytics": "Tiada analitik jualan",

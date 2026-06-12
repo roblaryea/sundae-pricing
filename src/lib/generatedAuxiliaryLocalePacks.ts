@@ -6,7 +6,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "Bauen Sie Ihren Intelligence-Stack auf",
       "subtitle": "Wählen Sie Ihre Grundschicht. Fangen Sie einfach an oder gehen Sie aufs Ganze.",
       "report": {
-        "name": "BERICHT",
+        "name": "Report",
         "tagline": "Historische Analyse und Benchmarking",
         "startingPrice": "Ab 0 $/Monat",
         "features": [
@@ -17,8 +17,8 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "KERN",
-        "tagline": "Echtzeitoperationen und KI",
+        "name": "Core",
+        "tagline": "Echtzeitbetrieb und KI",
         "startingPrice": "Ab 279 $/Monat",
         "features": [
           "Echtzeit-POS-Integration",
@@ -28,7 +28,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "WACHTURM",
+        "name": "Watchtower",
         "tagline": "Wettbewerbsintelligenz",
         "startingPrice": "Add-on: Ab 249 $/Monat + pro Standort",
         "features": [
@@ -44,10 +44,10 @@ export const generatedAuxiliaryLocalePacks = {
       "upgradeLater": "Sie können später jederzeit ein Upgrade durchführen."
     },
     "nl": {
-      "title": "Bouw uw inlichtingenstapel",
-      "subtitle": "Kies je foundationlaag. Begin eenvoudig of ga all-in.",
+      "title": "Bouw je intelligence-stack",
+      "subtitle": "Kies je basislaag. Begin eenvoudig of ga all-in.",
       "report": {
-        "name": "RAPPORT",
+        "name": "Report",
         "tagline": "Historische analyse en benchmarking",
         "startingPrice": "Vanaf $ 0/maand",
         "features": [
@@ -58,7 +58,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "KERN",
+        "name": "Core",
         "tagline": "Realtime operaties en AI",
         "startingPrice": "Vanaf $ 279/maand",
         "features": [
@@ -69,11 +69,11 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "WATCHTOWER",
-        "tagline": "Competitieve intelligentie",
+        "name": "Watchtower",
+        "tagline": "Concurrentie-intelligentie",
         "startingPrice": "Add-on: vanaf $ 249/maand + per locatie",
         "features": [
-          "Concurrent volgen",
+          "Concurrenten volgen",
           "Markttrends",
           "Gebeurtenissignalen",
           "Strategische inzichten"
@@ -88,7 +88,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "Construa sua pilha de inteligência",
       "subtitle": "Escolha sua camada de base. Comece simples ou vá all-in.",
       "report": {
-        "name": "RELATÓRIO",
+        "name": "Report",
         "tagline": "Análise histórica e benchmarking",
         "startingPrice": "A partir de US$ 0/mês",
         "features": [
@@ -99,7 +99,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "NÚCLEO",
+        "name": "Core",
         "tagline": "Operações em tempo real e IA",
         "startingPrice": "A partir de $ 279/mês",
         "features": [
@@ -110,7 +110,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "WATCHTOWER",
+        "name": "Watchtower",
         "tagline": "Inteligência competitiva",
         "startingPrice": "Complemento: a partir de $ 249/mês + por local",
         "features": [
@@ -129,7 +129,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "अपना इंटेलिजेंस स्टैक बनाएं",
       "subtitle": "अपनी फाउंडेशन परत चुनें. सरल शुरुआत करें या पूरी तरह से आगे बढ़ें।",
       "report": {
-        "name": "रिपोर्ट",
+        "name": "Report",
         "tagline": "ऐतिहासिक विश्लेषण एवं बेंचमार्किंग",
         "startingPrice": "$0/माह से शुरू",
         "features": [
@@ -140,19 +140,19 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "कोर",
-        "tagline": "वास्तविक समय संचालन और एआई",
+        "name": "Core",
+        "tagline": "रियल-टाइम संचालन और AI",
         "startingPrice": "$279/माह से शुरू",
         "features": [
-          "वास्तविक समय पीओएस एकीकरण",
+          "रियल-टाइम POS एकीकरण",
           "पूर्वानुमानित विश्लेषण",
-          "एआई-संचालित अंतर्दृष्टि",
+          "AI-संचालित अंतर्दृष्टि",
           "पोर्टफोलियो प्रबंधन"
         ]
       },
       "watchtower": {
         "name": "Watchtower",
-        "tagline": "प्रतिस्पर्धी बुद्धि",
+        "tagline": "प्रतिस्पर्धी इंटेलिजेंस",
         "startingPrice": "ऐड-ऑन: $249/महीना + प्रति-स्थान से",
         "features": [
           "प्रतियोगी ट्रैकिंग",
@@ -170,9 +170,9 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "اپنا انٹیلی جنس اسٹیک بنائیں",
       "subtitle": "اپنی بنیاد کی پرت کا انتخاب کریں۔ سادہ شروع کریں یا سب سے آگے بڑھیں۔",
       "report": {
-        "name": "رپورٹ",
+        "name": "Report",
         "tagline": "تاریخی تجزیہ اور بینچ مارکنگ",
-        "startingPrice": "$0/مہینہ سے شروع ہو رہا ہے۔",
+        "startingPrice": "$0/مہینہ سے شروع",
         "features": [
           "تاریخی ڈیٹا کا تجزیہ",
           "بنیادی بینچ مارکنگ",
@@ -181,20 +181,20 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "کور",
-        "tagline": "ریئل ٹائم آپریشنز اور اے آئی",
-        "startingPrice": "$279/مہینہ سے شروع ہو رہا ہے۔",
+        "name": "Core",
+        "tagline": "ریئل ٹائم آپریشنز اور AI",
+        "startingPrice": "$279/مہینہ سے شروع",
         "features": [
           "ریئل ٹائم POS انضمام",
           "پیش گوئی کرنے والے تجزیات",
-          "AI سے چلنے والی بصیرتیں۔",
+          "AI سے چلنے والی بصیرتیں",
           "پورٹ فولیو مینجمنٹ"
         ]
       },
       "watchtower": {
         "name": "Watchtower",
-        "tagline": "مسابقتی ذہانت",
-        "startingPrice": "اضافہ: $249/mo + فی مقام سے",
+        "tagline": "مسابقتی انٹیلی جنس",
+        "startingPrice": "ایڈ آن: $249/ماہ + فی مقام سے",
         "features": [
           "مسابقتی ٹریکنگ",
           "مارکیٹ کے رجحانات",
@@ -211,7 +211,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "Costruisci il tuo stack di intelligenza",
       "subtitle": "Scegli il tuo strato di fondazione. Inizia in modo semplice o vai all-in.",
       "report": {
-        "name": "RAPPORTO",
+        "name": "Report",
         "tagline": "Analisi storica e benchmarking",
         "startingPrice": "A partire da $ 0 al mese",
         "features": [
@@ -222,20 +222,20 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "NUCLEO",
-        "tagline": "Operazioni in tempo reale e intelligenza artificiale",
+        "name": "Core",
+        "tagline": "Operazioni in tempo reale e AI",
         "startingPrice": "A partire da $ 279 al mese",
         "features": [
           "Integrazione POS in tempo reale",
           "Analisi predittiva",
-          "Approfondimenti basati sull'intelligenza artificiale",
+          "Approfondimenti basati sull'AI",
           "Gestione del portafoglio"
         ]
       },
       "watchtower": {
-        "name": "TORRE DI GUARDIA",
+        "name": "Watchtower",
         "tagline": "Intelligenza competitiva",
-        "startingPrice": "Componente aggiuntivo: da $ 249/mese + per posizione",
+        "startingPrice": "Add-on: da $ 249/mese + per sede",
         "features": [
           "Monitoraggio dei concorrenti",
           "Tendenze del mercato",
@@ -252,29 +252,29 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "Zbuduj swój stos inteligencji",
       "subtitle": "Wybierz warstwę podkładową. Zacznij od prostych rzeczy lub idź na całość.",
       "report": {
-        "name": "RAPORT",
+        "name": "Report",
         "tagline": "Analiza historyczna i benchmarking",
-        "startingPrice": "Zaczynając od 0 USD/miesiąc",
+        "startingPrice": "Już od 0 USD/miesiąc",
         "features": [
           "Analiza danych historycznych",
-          "Podstawowe benchmarkingi",
+          "Podstawowy benchmarking",
           "Raportowanie miesięczne",
           "Informacje e-mailowe"
         ]
       },
       "core": {
-        "name": "rdzeniowy",
-        "tagline": "Operacje w czasie rzeczywistym i sztuczna inteligencja",
-        "startingPrice": "Już od 279 USD miesięcznie",
+        "name": "Core",
+        "tagline": "Operacje w czasie rzeczywistym i AI",
+        "startingPrice": "Już od 279 USD/miesiąc",
         "features": [
           "Integracja POS w czasie rzeczywistym",
           "Analityka predykcyjna",
-          "Spostrzeżenia oparte na sztucznej inteligencji",
+          "Spostrzeżenia oparte na AI",
           "Zarządzanie portfelem"
         ]
       },
       "watchtower": {
-        "name": "STRAŻNICA",
+        "name": "Watchtower",
         "tagline": "Inteligencja konkurencyjna",
         "startingPrice": "Dodatek: od 249 USD miesięcznie + za lokalizację",
         "features": [
@@ -293,7 +293,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "İstihbarat Yığınınızı Oluşturun",
       "subtitle": "Temel katmanınızı seçin. Basit başlayın veya her şeyi yapın.",
       "report": {
-        "name": "RAPOR",
+        "name": "Report",
         "tagline": "Tarihsel analiz ve kıyaslama",
         "startingPrice": "Aylık 0$'dan başlayan fiyatlarla",
         "features": [
@@ -304,19 +304,19 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "ÇEKİRDEK",
-        "tagline": "Gerçek zamanlı operasyonlar ve yapay zeka",
+        "name": "Core",
+        "tagline": "Gerçek zamanlı operasyonlar ve AI",
         "startingPrice": "Aylık 279$'dan başlayan fiyatlarla",
         "features": [
           "Gerçek zamanlı POS entegrasyonu",
           "Tahmine dayalı analitik",
-          "Yapay zeka destekli içgörüler",
+          "AI destekli içgörüler",
           "Portföy yönetimi"
         ]
       },
       "watchtower": {
-        "name": "GÖZETLEME KULESİ",
-        "tagline": "Rekabetçi zeka",
+        "name": "Watchtower",
+        "tagline": "Rekabetçi istihbarat",
         "startingPrice": "Eklenti: Aylık 249 ABD dolarından + konum başına",
         "features": [
           "Rakip takibi",
@@ -375,7 +375,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "インテリジェンススタックを構築する",
       "subtitle": "基礎レイヤーを選択します。シンプルに始めることも、全力で取り組むこともできます。",
       "report": {
-        "name": "レポート",
+        "name": "Report",
         "tagline": "履歴分析とベンチマーク",
         "startingPrice": "月額0ドルから",
         "features": [
@@ -386,7 +386,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "コア",
+        "name": "Core",
         "tagline": "リアルタイムオペレーションとAI",
         "startingPrice": "月額279ドルから",
         "features": [
@@ -397,8 +397,8 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "ものみの塔",
-        "tagline": "競争力のあるインテリジェンス",
+        "name": "Watchtower",
+        "tagline": "競合インテリジェンス",
         "startingPrice": "アドオン: $249/月 + 場所ごとに",
         "features": [
           "競合他社の追跡",
@@ -416,7 +416,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "인텔리전스 스택 구축",
       "subtitle": "기초 레이어를 선택하세요. 간단하게 시작하거나 올인하세요.",
       "report": {
-        "name": "보고",
+        "name": "Report",
         "tagline": "과거 분석 및 벤치마킹",
         "startingPrice": "월 $0부터 시작",
         "features": [
@@ -427,7 +427,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "코어",
+        "name": "Core",
         "tagline": "실시간 운영 및 AI",
         "startingPrice": "월 $279부터 시작",
         "features": [
@@ -438,8 +438,8 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "파수대",
-        "tagline": "경쟁력 있는 정보",
+        "name": "Watchtower",
+        "tagline": "경쟁 인텔리전스",
         "startingPrice": "추가 기능: 월 $249부터 + 위치당",
         "features": [
           "경쟁사 추적",
@@ -457,8 +457,8 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "Bangun Tumpukan Intelijen Anda",
       "subtitle": "Pilih lapisan pondasi Anda. Mulai dari yang sederhana atau lakukan semuanya.",
       "report": {
-        "name": "LAPORAN",
-        "tagline": "Analisis sejarah & benchmarking",
+        "name": "Report",
+        "tagline": "Analisis historis & benchmarking",
         "startingPrice": "Mulai dari $0/bulan",
         "features": [
           "Analisis data historis",
@@ -468,7 +468,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "INTI",
+        "name": "Core",
         "tagline": "Operasi & AI waktu nyata",
         "startingPrice": "Mulai dari $279/bulan",
         "features": [
@@ -479,7 +479,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "MENARA PENGAWAL",
+        "name": "Watchtower",
         "tagline": "Kecerdasan kompetitif",
         "startingPrice": "Tambahan: Mulai $249/bln + per lokasi",
         "features": [
@@ -496,9 +496,9 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "vi": {
       "title": "Xây dựng ngăn xếp thông minh của bạn",
-      "subtitle": "Chọn lớp nền tảng của bạn. Bắt đầu đơn giản hoặc đi tất cả.",
+      "subtitle": "Chọn lớp nền tảng của bạn. Bắt đầu đơn giản hoặc dốc toàn lực.",
       "report": {
-        "name": "BÁO CÁO",
+        "name": "Report",
         "tagline": "Phân tích lịch sử và điểm chuẩn",
         "startingPrice": "Bắt đầu từ $0/tháng",
         "features": [
@@ -509,7 +509,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "CỐT LÕI",
+        "name": "Core",
         "tagline": "Hoạt động thời gian thực & AI",
         "startingPrice": "Bắt đầu từ $279/tháng",
         "features": [
@@ -520,7 +520,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "THÁP CANH",
+        "name": "Watchtower",
         "tagline": "Trí tuệ cạnh tranh",
         "startingPrice": "Tiện ích bổ sung: Từ $249/tháng + mỗi vị trí",
         "features": [
@@ -531,7 +531,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "recommended": "KHUYẾN NGHỊ",
-      "select": "chọn",
+      "select": "Chọn",
       "proTip": "Mẹo chuyên nghiệp:",
       "upgradeLater": "Bạn luôn có thể nâng cấp sau."
     },
@@ -539,7 +539,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "Construiește-ți stiva de inteligență",
       "subtitle": "Alegeți stratul de fundație. Începeți simplu sau mergeți all-in.",
       "report": {
-        "name": "RAPORT",
+        "name": "Report",
         "tagline": "Analiză istorică și benchmarking",
         "startingPrice": "Începând de la 0 USD/lună",
         "features": [
@@ -550,7 +550,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "CORE",
+        "name": "Core",
         "tagline": "Operațiuni în timp real și AI",
         "startingPrice": "Începând de la 279 USD/lună",
         "features": [
@@ -561,8 +561,8 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "TURNUL DE VEDERE",
-        "tagline": "Inteligența competitivă",
+        "name": "Watchtower",
+        "tagline": "Inteligență competitivă",
         "startingPrice": "Supliment: de la 249 USD/lună + per locație",
         "features": [
           "Urmărirea concurenților",
@@ -580,7 +580,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "Bygg din intelligensstapel",
       "subtitle": "Välj ditt grundlager. Börja enkelt eller gå all-in.",
       "report": {
-        "name": "RAPPORTERA",
+        "name": "Report",
         "tagline": "Historisk analys & benchmarking",
         "startingPrice": "Från $0/månad",
         "features": [
@@ -591,7 +591,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "KÄRNA",
+        "name": "Core",
         "tagline": "Drift i realtid och AI",
         "startingPrice": "Från $279/månad",
         "features": [
@@ -602,8 +602,8 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "VAKTTORN",
-        "tagline": "Konkurrenskraftig intelligens",
+        "name": "Watchtower",
+        "tagline": "Konkurrentintelligens",
         "startingPrice": "Tillägg: Från $249/månad + per plats",
         "features": [
           "Konkurrentspårning",
@@ -614,14 +614,14 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "recommended": "REKOMMENDERAS",
       "select": "Välj",
-      "proTip": "Proffs tips:",
+      "proTip": "Proffstips:",
       "upgradeLater": "Du kan alltid uppgradera senare."
     },
     "bn": {
       "title": "আপনার বুদ্ধিমত্তা স্ট্যাক তৈরি করুন",
-      "subtitle": "আপনার ভিত্তি স্তর নির্বাচন করুন. সহজভাবে শুরু করুন বা সর্বত্র যান।",
+      "subtitle": "আপনার ভিত্তি স্তর বেছে নিন। সহজভাবে শুরু করুন বা পুরোপুরি এগিয়ে যান।",
       "report": {
-        "name": "রিপোর্ট",
+        "name": "Report",
         "tagline": "ঐতিহাসিক বিশ্লেষণ এবং বেঞ্চমার্কিং",
         "startingPrice": "$0/মাস থেকে শুরু",
         "features": [
@@ -632,13 +632,13 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "কোর",
-        "tagline": "রিয়েল-টাইম অপারেশন এবং এআই",
+        "name": "Core",
+        "tagline": "রিয়েল-টাইম অপারেশন এবং AI",
         "startingPrice": "$279/মাস থেকে শুরু",
         "features": [
           "রিয়েল-টাইম POS ইন্টিগ্রেশন",
           "ভবিষ্যদ্বাণীমূলক বিশ্লেষণ",
-          "এআই-চালিত অন্তর্দৃষ্টি",
+          "AI-চালিত অন্তর্দৃষ্টি",
           "পোর্টফোলিও ব্যবস্থাপনা"
         ]
       },
@@ -656,13 +656,13 @@ export const generatedAuxiliaryLocalePacks = {
       "recommended": "প্রস্তাবিত",
       "select": "নির্বাচন করুন",
       "proTip": "প্রো টিপ:",
-      "upgradeLater": "আপনি সবসময় পরে আপগ্রেড করতে পারেন."
+      "upgradeLater": "আপনি সবসময় পরে আপগ্রেড করতে পারেন।"
     },
     "th": {
       "title": "สร้างกองข่าวกรองของคุณ",
       "subtitle": "เลือกชั้นรองพื้นของคุณ เริ่มต้นง่ายๆ หรือทุ่มเต็มที่",
       "report": {
-        "name": "รายงาน",
+        "name": "Report",
         "tagline": "การวิเคราะห์เชิงประวัติศาสตร์และการเปรียบเทียบ",
         "startingPrice": "เริ่มต้นที่ $0/เดือน",
         "features": [
@@ -673,7 +673,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "แกนกลาง",
+        "name": "Core",
         "tagline": "การดำเนินงานแบบเรียลไทม์และ AI",
         "startingPrice": "เริ่มต้นที่ $279/เดือน",
         "features": [
@@ -703,7 +703,7 @@ export const generatedAuxiliaryLocalePacks = {
       "title": "Bina Timbunan Perisikan Anda",
       "subtitle": "Pilih lapisan asas anda. Mulakan dengan mudah atau ikut serta.",
       "report": {
-        "name": "LAPORAN",
+        "name": "Report",
         "tagline": "Analisis sejarah & penanda aras",
         "startingPrice": "Bermula pada $0/bulan",
         "features": [
@@ -714,7 +714,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "core": {
-        "name": "TERAS",
+        "name": "Core",
         "tagline": "Operasi masa nyata & AI",
         "startingPrice": "Bermula pada $279/bulan",
         "features": [
@@ -725,7 +725,7 @@ export const generatedAuxiliaryLocalePacks = {
         ]
       },
       "watchtower": {
-        "name": "MENARA PENGAWAL",
+        "name": "Watchtower",
         "tagline": "Kecerdasan daya saing",
         "startingPrice": "Alat tambah: Daripada $249/bln + setiap lokasi",
         "features": [
@@ -754,15 +754,15 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Wie funktionieren AI-Credits?",
-          "answer": "AI Credits unterstützen die intelligenten Funktionen von Sundae. Jede KI-Abfrage, Erkenntnisgewinnung oder automatisierte Analyse verbraucht Credits. Jede Stufe beinhaltet eine Basis plus Credits pro Standort. Nicht genutzte Credits werden einen Monat lang über 25 % Ihres Basisguthabens übertragen. Sie können auch zusätzliche Pakete ohne Ablaufdatum erwerben."
+          "answer": "AI Credits unterstützen die intelligenten Funktionen von Sundae. Jede KI-Abfrage, Erkenntnisgewinnung oder automatisierte Analyse verbraucht Credits. Jede Stufe beinhaltet eine Basis plus Credits pro Standort. Nicht genutzte Credits werden einen Monat lang bis zu 25 % Ihres Basisguthabens übertragen. Sie können auch zusätzliche Pakete ohne Ablaufdatum erwerben."
         },
         {
           "question": "Benötige ich eine POS-Integration für Report?",
           "answer": "Nein. Report funktioniert mit importierten Daten: CSV, Exporte von Lieferplattformen und manuelle Eingabe. Die POS-Integration ist optional und aktiviert die Aktualisierung in Echtzeit. Core wird empfohlen, wenn Sie einen direkten POS wünschen."
         },
         {
-          "question": "Was ist der Unterschied zwischen Zuschauersitzen und KI-Sitzen?",
-          "answer": "Zuschauerplätze sind auf allen Ebenen kostenlos und unbegrenzt und bieten schreibgeschützten Zugriff auf Dashboards. KI-Sitze ermöglichen es Ihnen, Fragen zu stellen, Erkenntnisse zu generieren und KI-Funktionen zu nutzen. Jede Ebene beinhaltet eine feste Anzahl von KI-Plänen."
+          "question": "Was ist der Unterschied zwischen Viewer-Plätzen und AI-Plätzen?",
+          "answer": "Viewer-Plätze sind auf allen Ebenen kostenlos und unbegrenzt und bieten schreibgeschützten Zugriff auf Dashboards. AI-Plätze ermöglichen es Ihnen, Fragen zu stellen, Erkenntnisse zu generieren und AI-Funktionen zu nutzen. Jede Ebene beinhaltet eine feste Anzahl von AI-Plätzen."
         },
         {
           "question": "Kann ich später von Report auf Core upgraden?",
@@ -776,11 +776,11 @@ export const generatedAuxiliaryLocalePacks = {
       "core": [
         {
           "question": "Was ist der Unterschied zwischen Report und Core?",
-          "answer": "Core bietet Echtzeit-POS, Informationsmodule, Wachtturm-Zugang und viele weitere KI-Credits und Sitzplätze. Der Bericht eignet sich ideal zur Analyse importierter Daten. Core ist für Live-Operational-Intelligence konzipiert."
+          "answer": "Core bietet Echtzeit-POS, Intelligence-Module, Watchtower-Zugang und viele weitere AI-Credits und -Plätze. Report eignet sich ideal zur Analyse importierter Daten. Core ist für operative Echtzeit-Intelligence konzipiert."
         },
         {
-          "question": "Was sind Intelligenzmodule?",
-          "answer": "Module sind spezielle Optionen für Core, die analytische Tiefe zu Arbeit, Lagerbestand, Einkauf, Marketing, Lieferung, Umsatzsicherung, Kundenerfahrung und mehr bieten. Für jedes Modul gibt es eine Organisationslizenz mit Preisen pro Standort."
+          "question": "Was sind Intelligence-Module?",
+          "answer": "Module sind spezielle Optionen für Core, die analytische Tiefe zu Personal, Lagerbestand, Einkauf, Marketing, Lieferung, Umsatzsicherung, Gästeerlebnis und mehr bieten. Für jedes Modul gibt es eine Organisationslizenz mit Preisen pro Standort."
         },
         {
           "question": "Fallen Einrichtungsgebühren an?",
@@ -809,7 +809,7 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Watchtower ist Sundaes Market-Intelligence-Suite, die Ihre Wettbewerbslandschaft, lokale Ereignisse und Branchentrends überwacht. Es bietet umsetzbare Warnungen, um Preise, Personal und Marketing proaktiv anzupassen."
         },
         {
-          "question": "Was sind die drei Wachtturm-Module?",
+          "question": "Was sind die drei Watchtower-Module?",
           "answer": "Competitive Intelligence verfolgt die Preise, Menüs und Bewertungen der Konkurrenz. Events Intelligence überwacht lokale Ereignisse, die die Nachfrage beeinflussen. Trends Intelligence zeigt Veränderungen in der Markt- und Verbrauchernachfrage auf. Jedes Modul folgt dem im Konfigurator veröffentlichten Preismodell."
         },
         {
@@ -818,10 +818,10 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Benötigt Watchtower den Core-Plan?",
-          "answer": "Ja. Watchtower ist nur für Core-Abonnenten (Core Lite, Core Pro oder Enterprise) verfügbar. Es ist nicht mit der Berichtsformel verfügbar."
+          "answer": "Ja. Watchtower ist nur für Core-Abonnenten (Core Lite, Core Pro oder Enterprise) verfügbar. Mit einem Report-Plan ist es nicht verfügbar."
         },
         {
-          "question": "Wie ändert sich der Watchtower-Preis je nach Website?",
+          "question": "Wie ändert sich der Watchtower-Preis je nach Standort?",
           "answer": "Für jedes Watchtower-Modul gibt es einen Grundpreis, der einen anfänglichen Standortumfang abdeckt, und dann einen Preis pro zusätzlichem Standort. Der Konfigurator zeigt den live veröffentlichten Preis für die ausgewählte Watchtower-Kombination an."
         },
         {
@@ -851,24 +851,24 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Mengenrabatte (5 % zwischen 30 und 99 Standorten, 7 % zwischen 100 und 200) und Rechnungsrabatte (10 % jährlich, 15 % über 2 Jahre) sind nicht kumulierbar. Mit einer Obergrenze von 15 % erhalten Sie immer den größten Vorteil. Unternehmenskunden erhalten personalisierte Preise."
         },
         {
-          "question": "Werden KI-Credits zwischen den Websites geteilt?",
-          "answer": "Ja. KI-Credits werden auf Organisationsebene geteilt und können auf allen Websites verwendet werden. Nicht genutzte Credits werden einen Monat lang über 25 % des Basis-Credits übertragen. Zusätzlich gekaufte Pakete verfallen nie."
+          "question": "Werden AI-Credits zwischen den Standorten geteilt?",
+          "answer": "Ja. AI-Credits werden auf Organisationsebene geteilt und können an allen Standorten verwendet werden. Nicht genutzte Credits werden einen Monat lang bis zu 25 % des Basis-Credits übertragen. Zusätzlich gekaufte Pakete verfallen nie."
         },
         {
-          "question": "Was ist der Unterschied zwischen Zuschauerplätzen und Benutzerplätzen?",
-          "answer": "Zuschauerplätze sind schreibgeschützt und von KI-aktivierten Benutzerplätzen getrennt. KI-Sitze sind die Konten, die Fragen stellen, Erkenntnisse generieren und erweiterte Funktionen nutzen können. Die enthaltenen Kontingente und der Verlängerungspreis richten sich nach dem veröffentlichten Katalog."
+          "question": "Was ist der Unterschied zwischen Viewer-Plätzen und Benutzerplätzen?",
+          "answer": "Viewer-Plätze sind schreibgeschützt und von AI-aktivierten Benutzerplätzen getrennt. AI-Plätze sind die Konten, die Fragen stellen, Erkenntnisse generieren und erweiterte Funktionen nutzen können. Die enthaltenen Kontingente und der Verlängerungspreis richten sich nach dem veröffentlichten Katalog."
         },
         {
           "question": "Wann gelten die Enterprise-Preise?",
-          "answer": "Sie haben Anspruch auf den Enterprise-Preis, wenn Sie mehr als 30 Websites haben, mehr als 10.000 US-Dollar pro Monat an geplanten Ausgaben ausgeben oder benutzerdefinierte Integrationen, SSO/SAML oder bestimmte SLAs benötigen. Berechtigte Kunden können den Standardpreis mit Mengenrabatt wählen oder einen individuellen Enterprise-Preis anfordern."
+          "answer": "Sie haben Anspruch auf den Enterprise-Preis, wenn Sie mehr als 30 Standorte haben, mehr als 10.000 US-Dollar pro Monat an geplanten Ausgaben ausgeben oder benutzerdefinierte Integrationen, SSO/SAML oder bestimmte SLAs benötigen. Berechtigte Kunden können den Standardpreis mit Mengenrabatt wählen oder einen individuellen Enterprise-Preis anfordern."
         }
       ]
     },
     "nl": {
       "report": [
         {
-          "question": "Wat is Sundae-rapport?",
-          "answer": "Sundae Report is onze analyselaag die is verbonden met uw bestaande gegevensbronnen (POS, levering, beoordelingen) om bruikbare inzichten te genereren, zonder dat POS-integratie vereist is. Begin gratis met Report Lite of schakel geavanceerdere analyses in met Plus of Pro."
+          "question": "Wat is Sundae Report?",
+          "answer": "Sundae Report is onze analyselaag die wordt verbonden met uw bestaande gegevensbronnen (POS, bezorging, reviews) om bruikbare inzichten te genereren, zonder dat POS-integratie vereist is. Begin gratis met Report Lite of schakel geavanceerdere analyses in met Plus of Pro."
         },
         {
           "question": "Wat is het verschil tussen Report Lite, Plus en Pro?",
@@ -876,19 +876,19 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Hoe werken AI-credits?",
-          "answer": "AI Credits ondersteunen de slimme functies van Sundae. Elke AI-query, het genereren van inzichten of geautomatiseerde analyses kost credits. Elk niveau omvat een basis plus credits per site. Ongebruikte credits vormen gedurende één maand meer dan 25% van uw basis. U kunt ook extra pakketten kopen zonder vervaldatum."
+          "answer": "AI Credits ondersteunen de slimme functies van Sundae. Elke AI-query, het genereren van inzichten of geautomatiseerde analyses kost credits. Elk niveau omvat een basis plus credits per site. Ongebruikte credits worden gedurende één maand overgedragen, tot 25% van uw basis. U kunt ook extra pakketten kopen zonder vervaldatum."
         },
         {
           "question": "Heb ik een POS-integratie nodig voor Report?",
-          "answer": "Nee. Rapport werkt met geïmporteerde gegevens: CSV, export van bezorgplatforms en handmatige invoer. POS-integratie is optioneel en activeert realtime verversen. Core wordt aanbevolen als u een directe POS wilt."
+          "answer": "Nee. Report werkt met geïmporteerde gegevens: CSV, exports van bezorgplatforms en handmatige invoer. POS-integratie is optioneel en activeert realtime verversen. Core wordt aanbevolen als u een directe POS wilt."
         },
         {
-          "question": "Wat is het verschil tussen kijkersstoelen en AI-stoelen?",
-          "answer": "Kijkersstoelen zijn gratis en onbeperkt op alle niveaus en bieden alleen-lezen toegang tot dashboards. Met AI-stoelen kun je vragen stellen, inzichten genereren en AI-functies gebruiken. Elk niveau bevat een vast aantal AI-stoelen."
+          "question": "Wat is het verschil tussen viewer-seats en AI-seats?",
+          "answer": "Viewer-seats zijn gratis en onbeperkt op alle niveaus en bieden alleen-lezen toegang tot dashboards. Met AI-seats kunt u vragen stellen, inzichten genereren en AI-functies gebruiken. Elk niveau bevat een vast aantal AI-seats."
         },
         {
           "question": "Kan ik later upgraden van Report naar Core?",
-          "answer": "Ja. U kunt op elk moment overstappen van Rapport naar Core. De upgrade vindt onmiddellijk plaats en behoudt uw gegevens, dashboards en instellingen. Core voegt realtime POS, modules en Watchtower-toegang toe."
+          "answer": "Ja. U kunt op elk moment overstappen van Report naar Core. De upgrade vindt onmiddellijk plaats en behoudt uw gegevens, dashboards en instellingen. Core voegt realtime POS, modules en Watchtower-toegang toe."
         },
         {
           "question": "Is er een gratis proefperiode?",
@@ -897,12 +897,12 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "Wat is het verschil tussen rapport en kern?",
-          "answer": "Core voegt realtime POS, intelligentiemodules, Watchtower-toegang en nog veel meer AI-credits en -stoelen toe. Rapport is ideaal voor het analyseren van geïmporteerde gegevens; Core is gemaakt voor live operationele intelligentie."
+          "question": "Wat is het verschil tussen Report en Core?",
+          "answer": "Core voegt realtime POS, intelligence-modules, Watchtower-toegang en nog veel meer AI-credits en -seats toe. Report is ideaal voor het analyseren van geïmporteerde gegevens; Core is gemaakt voor live operationele intelligentie."
         },
         {
-          "question": "Wat zijn intelligentiemodules?",
-          "answer": "Modules zijn gespecialiseerde opties voor Core die analytische diepgang bieden op het gebied van arbeid, voorraad, inkoop, marketing, levering, omzetzekerheid, klantervaring en meer. Elke module heeft een organisatielicentie met prijzen per site."
+          "question": "Wat zijn intelligence-modules?",
+          "answer": "Modules zijn gespecialiseerde opties voor Core die analytische diepgang bieden op het gebied van personeel, voorraad, inkoop, marketing, bezorging, omzetzekerheid, gastbeleving en meer. Elke module heeft een organisatielicentie met prijzen per locatie."
         },
         {
           "question": "Zijn er opstartkosten?",
@@ -935,12 +935,12 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Competitive Intelligence houdt prijzen, menu's en recensies van concurrenten bij. Events Intelligence monitort lokale gebeurtenissen die de vraag beïnvloeden. Trends Intelligence brengt veranderingen in de markt- en consumentenvraag in beeld. Elke module volgt het prijsmodel gepubliceerd in de configurator."
         },
         {
-          "question": "Wat is de Wachttorenbundel?",
+          "question": "Wat is de Watchtower-bundel?",
           "answer": "De Watchtower-bundel brengt de drie Watchtower-modules samen in een scherp geprijsd pakket voor operators die een compleet beeld van de markt willen. De bundelprijs in de configurator weerspiegelt het huidige gepubliceerde model."
         },
         {
           "question": "Heeft Watchtower het Core-plan nodig?",
-          "answer": "Ja. Watchtower is alleen beschikbaar voor Core-abonnees (Core Lite, Core Pro of Enterprise). Deze is niet beschikbaar bij de rapportformule."
+          "answer": "Ja. Watchtower is alleen beschikbaar voor Core-abonnees (Core Lite, Core Pro of Enterprise). Het is niet beschikbaar bij een Report-plan."
         },
         {
           "question": "Hoe verandert de Watchtower-prijs, afhankelijk van de site?",
@@ -974,15 +974,15 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Worden AI-credits gedeeld tussen sites?",
-          "answer": "Ja. AI-credits worden op organisatieniveau gedeeld en kunnen op alle locaties worden gebruikt. Ongebruikte credits behouden gedurende één maand meer dan 25% van de basiscredits. Extra gekochte pakketten verlopen nooit."
+          "answer": "Ja. AI-credits worden op organisatieniveau gedeeld en kunnen op alle locaties worden gebruikt. Ongebruikte credits worden gedurende één maand overgedragen, tot 25% van de basiscredits. Extra gekochte pakketten verlopen nooit."
         },
         {
-          "question": "Wat is het verschil tussen kijkersstoelen en gebruikersstoelen?",
-          "answer": "Kijkersstoelen zijn alleen-lezen en gescheiden van door AI geactiveerde gebruikersstoelen. AI-seats zijn de accounts die vragen kunnen stellen, inzichten kunnen genereren en geavanceerde functies kunnen gebruiken. De inbegrepen quota en de uitbreidingsprijs zijn afhankelijk van de gepubliceerde catalogus."
+          "question": "Wat is het verschil tussen viewer-seats en gebruiker-seats?",
+          "answer": "Viewer-seats zijn alleen-lezen en gescheiden van AI-geactiveerde gebruiker-seats. AI-seats zijn de accounts die vragen kunnen stellen, inzichten kunnen genereren en geavanceerde functies kunnen gebruiken. De inbegrepen quota en de uitbreidingsprijs zijn afhankelijk van de gepubliceerde catalogus."
         },
         {
           "question": "Wanneer zijn Enterprise-prijzen van toepassing?",
-          "answer": "U komt in aanmerking voor Enterprise-prijzen als u meer dan 30 sites heeft, meer dan $ 10.000/maand aan verwachte uitgaven heeft, of aangepaste integraties, SSO/SAML of specifieke SLA's nodig heeft. Klanten die in aanmerking komen, kunnen kiezen voor de standaardprijs met kwantumkorting of een aangepaste Enterprise-prijs aanvragen."
+          "answer": "U komt in aanmerking voor Enterprise-prijzen als u meer dan 30 locaties heeft, meer dan $ 10.000/maand aan verwachte uitgaven heeft, of aangepaste integraties, SSO/SAML of specifieke SLA's nodig heeft. Klanten die in aanmerking komen, kunnen kiezen voor de standaardprijs met volumekorting of een aangepaste Enterprise-prijs aanvragen."
         }
       ]
     },
@@ -998,15 +998,15 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Como funcionam os créditos de IA?",
-          "answer": "Os créditos de IA potencializam os recursos inteligentes do Sundae. Cada consulta de IA, geração de insights ou análise automatizada consome créditos. Cada nível inclui uma base mais créditos por site. Os créditos não utilizados representam mais de 25% de sua base por um mês. Você também pode comprar pacotes adicionais sem expiração."
+          "answer": "Os créditos de IA potencializam os recursos inteligentes do Sundae. Cada consulta de IA, geração de insights ou análise automatizada consome créditos. Cada nível inclui uma base mais créditos por site. Os créditos não utilizados são transferidos em até 25% da sua base por um mês. Você também pode comprar pacotes adicionais sem expiração."
         },
         {
           "question": "Preciso de uma integração de POS para o Report?",
           "answer": "Não. O Report funciona com dados importados: CSV, exportações de plataformas de delivery e entrada manual. A integração POS é opcional e ativa a atualização em tempo real. Core é recomendado se você deseja um POS direto."
         },
         {
-          "question": "Qual é a diferença entre assentos de espectadores e assentos de IA?",
-          "answer": "As licenças de visualizador são gratuitas e ilimitadas em todos os níveis e fornecem acesso somente leitura aos painéis. As licenças de IA permitem que você faça perguntas, gere insights e use funções de IA. Cada nível inclui um número fixo de assentos de IA."
+          "question": "Qual é a diferença entre seats de visualizador e seats de IA?",
+          "answer": "Os seats de visualizador são gratuitos e ilimitados em todos os níveis e fornecem acesso somente leitura aos painéis. Os seats de IA permitem que você faça perguntas, gere insights e use funções de IA. Cada nível inclui um número fixo de seats de IA."
         },
         {
           "question": "Posso atualizar do Report para o Core posteriormente?",
@@ -1019,8 +1019,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "Qual é a diferença entre Relatório e Núcleo?",
-          "answer": "Core adiciona POS em tempo real, módulos de inteligência, acesso à Watchtower e muitos mais créditos e assentos de IA. O relatório é ideal para analisar dados importados; Core é feito para inteligência operacional ao vivo."
+          "question": "Qual é a diferença entre Report e Core?",
+          "answer": "Core adiciona POS em tempo real, módulos de inteligência, acesso à Watchtower e muitos mais créditos e seats de IA. Report é ideal para analisar dados importados; Core é feito para inteligência operacional ao vivo."
         },
         {
           "question": "O que são módulos de inteligência?",
@@ -1028,7 +1028,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Há alguma taxa de instalação?",
-          "answer": "Sim. Alguns módulos incluem uma taxa única que cobre integração e integração. Podem ser aplicados descontos ou isenções dependendo dos pacotes, compromissos de cobrança e acordos empresariais. O configurador reflete a política em vigor."
+          "answer": "Sim. Alguns módulos incluem uma taxa única que cobre onboarding e integração. Podem ser aplicados descontos ou isenções dependendo dos pacotes, compromissos de cobrança e acordos empresariais. O configurador reflete a política em vigor."
         },
         {
           "question": "O que é mecanismo de inteligência cruzada?",
@@ -1061,8 +1061,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "O Pacote Watchtower reúne os três módulos Watchtower em um pacote com desconto para operadoras que desejam uma visão completa do mercado. O preço do pacote no configurador reflete o modelo publicado atualmente."
         },
         {
-          "question": "A Watchtower exige o plano Básico?",
-          "answer": "Sim. Watchtower está disponível apenas para assinantes Core (Core Lite, Core Pro ou Enterprise). Não está disponível com a fórmula Relatório."
+          "question": "A Watchtower exige o plano Core?",
+          "answer": "Sim. Watchtower está disponível apenas para assinantes Core (Core Lite, Core Pro ou Enterprise). Não está disponível com um plano Report."
         },
         {
           "question": "Como o preço da Watchtower muda dependendo do site?",
@@ -1080,7 +1080,7 @@ export const generatedAuxiliaryLocalePacks = {
       "general": [
         {
           "question": "Há alguma taxa de instalação?",
-          "answer": "Sim. Alguns módulos incluem taxas únicas para integração e integração. Podem ser aplicados descontos ou isenções dependendo dos pacotes, compromissos de cobrança e acordos empresariais. As cotações geradas no configurador refletem a política de taxas publicada."
+          "answer": "Sim. Alguns módulos incluem taxas únicas para onboarding e integração. Podem ser aplicados descontos ou isenções dependendo dos pacotes, compromissos de cobrança e acordos empresariais. As cotações geradas no configurador refletem a política de taxas publicada."
         },
         {
           "question": "Quanto tempo dura o contrato?",
@@ -1096,11 +1096,11 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Os créditos de IA são compartilhados entre sites?",
-          "answer": "Sim. Os créditos de IA são compartilhados no nível organizacional e podem ser usados ​​em todos os sites. Os créditos não utilizados representam mais de 25% dos créditos básicos por um mês. Pacotes adicionais adquiridos nunca expiram."
+          "answer": "Sim. Os créditos de IA são compartilhados no nível organizacional e podem ser usados ​​em todos os sites. Os créditos não utilizados são transferidos em até 25% dos créditos básicos por um mês. Pacotes adicionais adquiridos nunca expiram."
         },
         {
-          "question": "Qual é a diferença entre assentos de espectadores e assentos de usuários?",
-          "answer": "As licenças de visualizador são somente leitura e separadas das licenças de usuário ativadas por IA. As licenças de IA são contas que podem fazer perguntas, gerar insights e usar recursos avançados. As cotas incluídas e o preço da extensão dependem do catálogo publicado."
+          "question": "Qual é a diferença entre seats de visualizador e seats de usuário?",
+          "answer": "Os seats de visualizador são somente leitura e separados dos seats de usuário ativados por IA. Os seats de IA são as contas que podem fazer perguntas, gerar insights e usar recursos avançados. As cotas incluídas e o preço da extensão dependem do catálogo publicado."
         },
         {
           "question": "Quando o preço empresarial se aplica?",
@@ -1111,28 +1111,28 @@ export const generatedAuxiliaryLocalePacks = {
     "hi": {
       "report": [
         {
-          "question": "संडे रिपोर्ट क्या है?",
-          "answer": "संडे रिपोर्ट हमारी एनालिटिक्स परत है जो आपके मौजूदा डेटा स्रोतों (पीओएस, डिलीवरी, समीक्षा) से जुड़ी है ताकि कार्रवाई योग्य अंतर्दृष्टि उत्पन्न की जा सके, जिसमें किसी पीओएस एकीकरण की आवश्यकता नहीं है। Report Lite के साथ निःशुल्क शुरुआत करें या प्लस या प्रो के साथ अधिक उन्नत विश्लेषण सक्षम करें।"
+          "question": "Sundae Report क्या है?",
+          "answer": "Sundae Report हमारी एनालिटिक्स परत है जो आपके मौजूदा डेटा स्रोतों (POS, डिलीवरी, समीक्षा) से जुड़ती है ताकि कार्रवाई योग्य अंतर्दृष्टि उत्पन्न की जा सके, और इसमें किसी POS एकीकरण की आवश्यकता नहीं है। Report Lite के साथ निःशुल्क शुरुआत करें या Plus या Pro के साथ अधिक उन्नत विश्लेषण सक्षम करें।"
         },
         {
-          "question": "Report Lite, प्लस और प्रो में क्या अंतर है?",
-          "answer": "Report Lite प्रवेश बिंदु है। Report Plus बेंचमार्क, अधिक एआई क्षमता और एक व्यापक दृश्य पैलेट जोड़ता है। Report Pro गहनतम एनालिटिक्स सूट, अधिक एआई क्षमता और अधिक उन्नत पूर्वानुमान वर्कफ़्लो लाता है। कैटलॉग हमेशा वर्तमान कीमतों और क्षमताओं को प्रदर्शित करता है।"
+          "question": "Report Lite, Plus और Pro में क्या अंतर है?",
+          "answer": "Report Lite प्रवेश बिंदु है। Report Plus बेंचमार्क, अधिक AI क्षमता और एक व्यापक दृश्य पैलेट जोड़ता है। Report Pro गहनतम एनालिटिक्स सूट, अधिक AI क्षमता और अधिक उन्नत पूर्वानुमान वर्कफ़्लो लाता है। कैटलॉग हमेशा वर्तमान कीमतों और क्षमताओं को प्रदर्शित करता है।"
         },
         {
-          "question": "एआई क्रेडिट कैसे काम करते हैं?",
-          "answer": "एआई क्रेडिट संडे की स्मार्ट सुविधाओं को शक्ति प्रदान करता है। प्रत्येक एआई क्वेरी, अंतर्दृष्टि निर्माण या स्वचालित विश्लेषण क्रेडिट की खपत करता है। प्रत्येक स्तर में प्रति साइट आधार प्लस क्रेडिट शामिल है। अप्रयुक्त क्रेडिट एक महीने के लिए आपके आधार का 25% से अधिक ले जाता है। आप बिना समाप्ति तिथि के अतिरिक्त पैक भी खरीद सकते हैं।"
+          "question": "AI क्रेडिट कैसे काम करते हैं?",
+          "answer": "AI क्रेडिट Sundae की स्मार्ट सुविधाओं को शक्ति प्रदान करते हैं। प्रत्येक AI क्वेरी, अंतर्दृष्टि निर्माण या स्वचालित विश्लेषण क्रेडिट की खपत करता है। प्रत्येक स्तर में प्रति स्थान एक आधार और क्रेडिट शामिल हैं। अप्रयुक्त क्रेडिट एक महीने के लिए आपके आधार के 25% तक आगे बढ़ते हैं। आप बिना समाप्ति तिथि के अतिरिक्त पैक भी खरीद सकते हैं।"
         },
         {
-          "question": "क्या मुझे रिपोर्ट के लिए पीओएस एकीकरण की आवश्यकता है?",
-          "answer": "नहीं, रिपोर्ट आयातित डेटा के साथ काम करती है: सीएसवी, डिलीवरी प्लेटफ़ॉर्म से निर्यात और मैन्युअल प्रविष्टि। पीओएस एकीकरण वैकल्पिक है और रीयल-टाइम रिफ्रेशिंग को सक्रिय करता है। यदि आप प्रत्यक्ष पीओएस चाहते हैं तो कोर की अनुशंसा की जाती है।"
+          "question": "क्या मुझे Report के लिए POS एकीकरण की आवश्यकता है?",
+          "answer": "नहीं। Report आयातित डेटा के साथ काम करता है: CSV, डिलीवरी प्लेटफ़ॉर्म से निर्यात और मैन्युअल प्रविष्टि। POS एकीकरण वैकल्पिक है और रीयल-टाइम रिफ्रेश को सक्रिय करता है। यदि आप प्रत्यक्ष POS चाहते हैं तो Core की अनुशंसा की जाती है।"
         },
         {
           "question": "दर्शक सीटों और AI सीटों में क्या अंतर है?",
-          "answer": "दर्शक सीटें सभी स्तरों पर निःशुल्क और असीमित हैं और डैशबोर्ड तक केवल पढ़ने के लिए पहुंच प्रदान करती हैं। एआई सीटें आपको प्रश्न पूछने, अंतर्दृष्टि उत्पन्न करने और एआई कार्यों का उपयोग करने की अनुमति देती हैं। प्रत्येक स्तर में AI सीटों की एक निश्चित संख्या शामिल होती है।"
+          "answer": "दर्शक सीटें सभी स्तरों पर निःशुल्क और असीमित हैं और डैशबोर्ड तक केवल पढ़ने के लिए पहुंच प्रदान करती हैं। AI सीटें आपको प्रश्न पूछने, अंतर्दृष्टि उत्पन्न करने और AI कार्यों का उपयोग करने की अनुमति देती हैं। प्रत्येक स्तर में AI सीटों की एक निश्चित संख्या शामिल होती है।"
         },
         {
-          "question": "क्या मैं बाद में रिपोर्ट से कोर में अपग्रेड कर सकता हूँ?",
-          "answer": "हाँ. आप किसी भी समय रिपोर्ट से कोर पर स्विच कर सकते हैं। अपग्रेड तत्काल है और आपके डेटा, डैशबोर्ड और सेटिंग्स को सुरक्षित रखता है। कोर वास्तविक समय पीओएस, मॉड्यूल और Watchtower एक्सेस जोड़ता है।"
+          "question": "क्या मैं बाद में Report से Core में अपग्रेड कर सकता हूँ?",
+          "answer": "हाँ। आप किसी भी समय Report से Core पर स्विच कर सकते हैं। अपग्रेड तत्काल होता है और आपके डेटा, डैशबोर्ड और सेटिंग्स को सुरक्षित रखता है। Core रीयल-टाइम POS, मॉड्यूल और Watchtower एक्सेस जोड़ता है।"
         },
         {
           "question": "क्या कोई निःशुल्क परीक्षण है?",
@@ -1141,12 +1141,12 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "रिपोर्ट और कोर में क्या अंतर है?",
-          "answer": "कोर वास्तविक समय पीओएस, खुफिया मॉड्यूल, Watchtower एक्सेस और कई एआई क्रेडिट और सीटें जोड़ता है। आयातित डेटा का विश्लेषण करने के लिए रिपोर्ट आदर्श है; कोर लाइव ऑपरेशनल इंटेलिजेंस के लिए बनाया गया है।"
+          "question": "Report और Core में क्या अंतर है?",
+          "answer": "Core रीयल-टाइम POS, इंटेलिजेंस मॉड्यूल, Watchtower एक्सेस और कई अधिक AI क्रेडिट और सीटें जोड़ता है। आयातित डेटा का विश्लेषण करने के लिए Report आदर्श है; Core लाइव ऑपरेशनल इंटेलिजेंस के लिए बनाया गया है।"
         },
         {
-          "question": "खुफिया मॉड्यूल क्या हैं?",
-          "answer": "मॉड्यूल कोर के लिए विशेष विकल्प हैं जो श्रम, इन्वेंट्री, खरीदारी, विपणन, वितरण, राजस्व आश्वासन, ग्राहक अनुभव और बहुत कुछ पर विश्लेषणात्मक गहराई प्रदान करते हैं। प्रत्येक मॉड्यूल के पास प्रति साइट मूल्य निर्धारण के साथ एक संगठन लाइसेंस होता है।"
+          "question": "इंटेलिजेंस मॉड्यूल क्या हैं?",
+          "answer": "मॉड्यूल Core के लिए विशेष विकल्प हैं जो श्रमबल, इन्वेंट्री, खरीदारी, मार्केटिंग, डिलीवरी, राजस्व आश्वासन, ग्राहक अनुभव और बहुत कुछ पर विश्लेषणात्मक गहराई प्रदान करते हैं। प्रत्येक मॉड्यूल के पास प्रति स्थान मूल्य निर्धारण के साथ एक संगठन लाइसेंस होता है।"
         },
         {
           "question": "क्या कोई सेटअप शुल्क है?",
@@ -1158,7 +1158,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Core Lite बनाम Core Pro में क्या शामिल है?",
-          "answer": "Core Lite उन टीमों के लिए उपयुक्त है जिन्हें अच्छे एआई फाउंडेशन के साथ वास्तविक समय परिचालन खुफिया जानकारी की आवश्यकता होती है। Core Pro अधिक क्षमता, गहन भविष्यवाणियाँ और बड़े पैमाने पर बेहतर अर्थशास्त्र जोड़ता है। वर्तमान कैटलॉग सटीक कोटा दिखाता है।"
+          "answer": "Core Lite उन टीमों के लिए उपयुक्त है जिन्हें अच्छे AI फाउंडेशन के साथ रीयल-टाइम ऑपरेशनल इंटेलिजेंस की आवश्यकता होती है। Core Pro अधिक क्षमता, गहन पूर्वानुमान और बड़े पैमाने पर बेहतर इकोनॉमिक्स जोड़ता है। वर्तमान कैटलॉग सटीक कोटा दिखाता है।"
         },
         {
           "question": "वॉल्यूम छूट कैसे काम करती है?",
@@ -1171,8 +1171,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "संडे Watchtower क्या है?",
-          "answer": "Watchtower संडे का मार्केट इंटेलिजेंस सुइट है जो आपके प्रतिस्पर्धी परिदृश्य, स्थानीय घटनाओं और उद्योग के रुझानों पर नज़र रखता है। यह मूल्य निर्धारण, स्टाफिंग और मार्केटिंग को सक्रिय रूप से समायोजित करने के लिए कार्रवाई योग्य अलर्ट प्रदान करता है।"
+          "question": "Sundae Watchtower क्या है?",
+          "answer": "Watchtower, Sundae का मार्केट इंटेलिजेंस सुइट है जो आपके प्रतिस्पर्धी परिदृश्य, स्थानीय घटनाओं और उद्योग के रुझानों पर नज़र रखता है। यह मूल्य निर्धारण, स्टाफिंग और मार्केटिंग को सक्रिय रूप से समायोजित करने के लिए कार्रवाई योग्य अलर्ट प्रदान करता है।"
         },
         {
           "question": "तीन Watchtower मॉड्यूल क्या हैं?",
@@ -1183,8 +1183,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Watchtower बंडल उन ऑपरेटरों के लिए रियायती पैकेज में तीन Watchtower मॉड्यूल को एक साथ लाता है जो बाजार का संपूर्ण दृश्य चाहते हैं। विन्यासकर्ता में बंडल मूल्य वर्तमान प्रकाशित मॉडल को दर्शाता है।"
         },
         {
-          "question": "क्या Watchtower को मुख्य योजना की आवश्यकता है?",
-          "answer": "हाँ. Watchtower केवल कोर ग्राहकों (Core Lite, Core Pro या एंटरप्राइज़) के लिए उपलब्ध है। यह रिपोर्ट फ़ॉर्मूले के साथ उपलब्ध नहीं है."
+          "question": "क्या Watchtower को Core प्लान की आवश्यकता है?",
+          "answer": "हाँ। Watchtower केवल Core ग्राहकों (Core Lite, Core Pro या Enterprise) के लिए उपलब्ध है। यह Report प्लान के साथ उपलब्ध नहीं है।"
         },
         {
           "question": "साइट के आधार पर Watchtower की कीमत कैसे बदलती है?",
@@ -1218,15 +1218,15 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "क्या AI क्रेडिट साइटों के बीच साझा किए जाते हैं?",
-          "answer": "हाँ. एआई क्रेडिट संगठनात्मक स्तर पर साझा किए जाते हैं और सभी साइटों पर इसका उपयोग किया जा सकता है। अप्रयुक्त क्रेडिट एक महीने के लिए बेस क्रेडिट का 25% से अधिक ले जाता है। खरीदे गए अतिरिक्त पैक कभी समाप्त नहीं होते।"
+          "answer": "हाँ। AI क्रेडिट संगठनात्मक स्तर पर साझा किए जाते हैं और सभी स्थानों पर इनका उपयोग किया जा सकता है। अप्रयुक्त क्रेडिट एक महीने के लिए बेस क्रेडिट के 25% तक आगे बढ़ते हैं। खरीदे गए अतिरिक्त पैक कभी समाप्त नहीं होते।"
         },
         {
           "question": "दर्शक सीटों और उपयोगकर्ता सीटों के बीच क्या अंतर है?",
-          "answer": "दर्शक सीटें केवल पढ़ने के लिए हैं और एआई-सक्रिय उपयोगकर्ता सीटों से अलग हैं। एआई सीटें वे खाते हैं जो प्रश्न पूछ सकते हैं, अंतर्दृष्टि उत्पन्न कर सकते हैं और उन्नत सुविधाओं का उपयोग कर सकते हैं। शामिल कोटा और विस्तार मूल्य प्रकाशित कैटलॉग पर निर्भर करते हैं।"
+          "answer": "दर्शक सीटें केवल पढ़ने के लिए हैं और AI-सक्रिय उपयोगकर्ता सीटों से अलग हैं। AI सीटें वे खाते हैं जो प्रश्न पूछ सकते हैं, अंतर्दृष्टि उत्पन्न कर सकते हैं और उन्नत सुविधाओं का उपयोग कर सकते हैं। शामिल कोटा और विस्तार मूल्य प्रकाशित कैटलॉग पर निर्भर करते हैं।"
         },
         {
           "question": "एंटरप्राइज़ मूल्य निर्धारण कब लागू होता है?",
-          "answer": "यदि आपके पास 30 से अधिक साइटें हैं, अनुमानित खर्च $10,000/माह से अधिक है, या आपको कस्टम एकीकरण, एसएसओ/एसएएमएल, या विशिष्ट एसएलए की आवश्यकता है, तो आप एंटरप्राइज़ मूल्य निर्धारण के लिए पात्र हैं। योग्य ग्राहक वॉल्यूम छूट के साथ मानक मूल्य चुन सकते हैं या कस्टम एंटरप्राइज़ मूल्य का अनुरोध कर सकते हैं।"
+          "answer": "यदि आपके पास 30 से अधिक स्थान हैं, अनुमानित खर्च $10,000/माह से अधिक है, या आपको कस्टम एकीकरण, SSO/SAML, या विशिष्ट SLA की आवश्यकता है, तो आप Enterprise मूल्य निर्धारण के लिए पात्र हैं। योग्य ग्राहक वॉल्यूम छूट के साथ मानक मूल्य चुन सकते हैं या कस्टम Enterprise मूल्य का अनुरोध कर सकते हैं।"
         }
       ]
     },
@@ -1242,19 +1242,19 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "AI کریڈٹ کیسے کام کرتے ہیں؟",
-          "answer": "AI کریڈٹ Sundae کی سمارٹ خصوصیات کو طاقت دیتا ہے۔ ہر AI استفسار، بصیرت پیدا کرنا یا خودکار تجزیہ کریڈٹ استعمال کرتا ہے۔ ہر سطح میں ایک بیس پلس کریڈٹ فی سائٹ شامل ہے۔ غیر استعمال شدہ کریڈٹ ایک ماہ کے لیے آپ کی بنیاد کا 25% سے زیادہ لے جاتے ہیں۔ آپ میعاد ختم ہونے کے بغیر اضافی پیک بھی خرید سکتے ہیں۔"
+          "answer": "AI کریڈٹ Sundae کی سمارٹ خصوصیات کو طاقت دیتا ہے۔ ہر AI استفسار، بصیرت پیدا کرنا یا خودکار تجزیہ کریڈٹ استعمال کرتا ہے۔ ہر سطح میں ایک بیس پلس کریڈٹ فی سائٹ شامل ہے۔ غیر استعمال شدہ کریڈٹ ایک ماہ کے لیے آپ کی بنیاد کے 25% تک منتقل ہو جاتے ہیں۔ آپ میعاد ختم ہونے کے بغیر اضافی پیک بھی خرید سکتے ہیں۔"
         },
         {
-          "question": "کیا مجھے رپورٹ کے لیے POS انضمام کی ضرورت ہے؟",
-          "answer": "نمبر. رپورٹ درآمد شدہ ڈیٹا کے ساتھ کام کرتی ہے: CSV، ڈیلیوری پلیٹ فارمز سے برآمدات اور دستی اندراج۔ POS انضمام اختیاری ہے اور ریئل ٹائم ریفریشنگ کو فعال کرتا ہے۔ اگر آپ براہ راست POS چاہتے ہیں تو کور کی سفارش کی جاتی ہے۔"
+          "question": "کیا مجھے Report کے لیے POS انضمام کی ضرورت ہے؟",
+          "answer": "نہیں۔ Report درآمد شدہ ڈیٹا کے ساتھ کام کرتا ہے: CSV، ڈیلیوری پلیٹ فارمز سے برآمدات اور دستی اندراج۔ POS انضمام اختیاری ہے اور ریئل ٹائم ریفریش کو فعال کرتا ہے۔ اگر آپ براہ راست POS چاہتے ہیں تو Core کی سفارش کی جاتی ہے۔"
         },
         {
           "question": "ناظرین کی نشستوں اور AI نشستوں میں کیا فرق ہے؟",
           "answer": "ناظرین کی نشستیں تمام سطحوں پر مفت اور لامحدود ہیں اور ڈیش بورڈز تک صرف پڑھنے کے لیے رسائی فراہم کرتی ہیں۔ AI سیٹیں آپ کو سوالات پوچھنے، بصیرت پیدا کرنے اور AI افعال استعمال کرنے کی اجازت دیتی ہیں۔ ہر سطح میں AI سیٹوں کی ایک مقررہ تعداد شامل ہوتی ہے۔"
         },
         {
-          "question": "کیا میں بعد میں رپورٹ سے کور میں اپ گریڈ کر سکتا ہوں؟",
-          "answer": "جی ہاں آپ کسی بھی وقت رپورٹ سے کور میں سوئچ کر سکتے ہیں۔ اپ گریڈ فوری ہے اور آپ کے ڈیٹا، ڈیش بورڈز اور ترتیبات کو محفوظ رکھتا ہے۔ کور ریئل ٹائم پی او ایس، ماڈیولز اور Watchtower تک رسائی کا اضافہ کرتا ہے۔"
+          "question": "کیا میں بعد میں Report سے Core میں اپ گریڈ کر سکتا ہوں؟",
+          "answer": "جی ہاں۔ آپ کسی بھی وقت Report سے Core میں سوئچ کر سکتے ہیں۔ اپ گریڈ فوری ہوتا ہے اور آپ کے ڈیٹا، ڈیش بورڈز اور ترتیبات کو محفوظ رکھتا ہے۔ Core ریئل ٹائم POS، ماڈیولز اور Watchtower تک رسائی کا اضافہ کرتا ہے۔"
         },
         {
           "question": "کیا کوئی مفت آزمائش ہے؟",
@@ -1263,8 +1263,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "رپورٹ اور کور میں کیا فرق ہے؟",
-          "answer": "کور ریئل ٹائم پی او ایس، انٹیلی جنس ماڈیولز، Watchtower تک رسائی اور بہت سے AI کریڈٹ اور سیٹیں شامل کرتا ہے۔ رپورٹ درآمد شدہ ڈیٹا کا تجزیہ کرنے کے لیے مثالی ہے۔ کور لائیو آپریشنل انٹیلی جنس کے لیے بنایا گیا ہے۔"
+          "question": "Report اور Core میں کیا فرق ہے؟",
+          "answer": "Core ریئل ٹائم POS، انٹیلی جنس ماڈیولز، Watchtower تک رسائی اور بہت سے مزید AI کریڈٹ اور سیٹیں شامل کرتا ہے۔ Report درآمد شدہ ڈیٹا کا تجزیہ کرنے کے لیے مثالی ہے۔ Core لائیو آپریشنل انٹیلی جنس کے لیے بنایا گیا ہے۔"
         },
         {
           "question": "انٹیلی جنس ماڈیولز کیا ہیں؟",
@@ -1305,8 +1305,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Watchtower بنڈل تین Watchtower ماڈیولز کو ایک رعایتی پیکج میں آپریٹرز کے لیے اکٹھا کرتا ہے جو مارکیٹ کا مکمل نظارہ چاہتے ہیں۔ کنفیگریٹر میں بنڈل کی قیمت موجودہ شائع شدہ ماڈل کی عکاسی کرتی ہے۔"
         },
         {
-          "question": "کیا Watchtower کو بنیادی منصوبہ کی ضرورت ہے؟",
-          "answer": "جی ہاں Watchtower صرف کور سبسکرائبرز (Core Lite، Core Pro یا انٹرپرائز) کے لیے دستیاب ہے۔ یہ رپورٹ فارمولے کے ساتھ دستیاب نہیں ہے۔"
+          "question": "کیا Watchtower کو Core پلان کی ضرورت ہے؟",
+          "answer": "جی ہاں۔ Watchtower صرف Core سبسکرائبرز (Core Lite، Core Pro یا Enterprise) کے لیے دستیاب ہے۔ یہ Report پلان کے ساتھ دستیاب نہیں ہے۔"
         },
         {
           "question": "سائٹ کے لحاظ سے Watchtower کی قیمت کیسے بدلتی ہے؟",
@@ -1340,7 +1340,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "کیا AI کریڈٹ سائٹس کے درمیان مشترکہ ہیں؟",
-          "answer": "جی ہاں AI کریڈٹس کو تنظیمی سطح پر شیئر کیا جاتا ہے اور تمام سائٹس پر استعمال کیا جا سکتا ہے۔ غیر استعمال شدہ کریڈٹس ایک ماہ کے لیے 25% سے زیادہ بیس کریڈٹ لے جاتے ہیں۔ خریدے گئے اضافی پیک کبھی ختم نہیں ہوتے۔"
+          "answer": "جی ہاں AI کریڈٹس کو تنظیمی سطح پر شیئر کیا جاتا ہے اور تمام سائٹس پر استعمال کیا جا سکتا ہے۔ غیر استعمال شدہ کریڈٹس ایک ماہ کے لیے بیس کریڈٹ کے 25% تک منتقل ہو جاتے ہیں۔ خریدے گئے اضافی پیک کبھی ختم نہیں ہوتے۔"
         },
         {
           "question": "ناظرین کی نشستوں اور صارف کی نشستوں میں کیا فرق ہے؟",
@@ -1360,15 +1360,15 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Qual è la differenza tra Report Lite, Plus e Pro?",
-          "answer": "Report Lite è il punto di ingresso. Report Plus aggiunge benchmark, più capacità di intelligenza artificiale e una tavolozza visiva più ampia. Report Pro offre la suite di analisi più approfondita, maggiori funzionalità di intelligenza artificiale e flussi di lavoro di previsione più avanzati. Il catalogo mostra sempre i prezzi e le capacità attuali."
+          "answer": "Report Lite è il punto di ingresso. Report Plus aggiunge benchmark, più capacità AI e una tavolozza visiva più ampia. Report Pro offre la suite di analisi più approfondita, maggiori funzionalità AI e flussi di lavoro di previsione più avanzati. Il catalogo mostra sempre i prezzi e le capacità attuali."
         },
         {
           "question": "Come funzionano i crediti AI?",
-          "answer": "I crediti AI potenziano le funzionalità intelligenti di Sundae. Ogni query AI, generazione di insight o analisi automatizzata consuma crediti. Ogni livello include una base più crediti per sito. I crediti non utilizzati mantengono oltre il 25% della tua base per un mese. Puoi anche acquistare pacchetti aggiuntivi senza scadenza."
+          "answer": "I crediti AI potenziano le funzionalità intelligenti di Sundae. Ogni query AI, generazione di insight o analisi automatizzata consuma crediti. Ogni livello include una base più crediti per sito. I crediti non utilizzati vengono riportati fino al 25% della tua base per un mese. Puoi anche acquistare pacchetti aggiuntivi senza scadenza."
         },
         {
           "question": "Ho bisogno di un'integrazione POS per Report?",
-          "answer": "No. Il report funziona con dati importati: CSV, esportazioni da piattaforme di consegna e inserimento manuale. L'integrazione POS è opzionale e attiva l'aggiornamento in tempo reale. Core è consigliato se desideri un POS diretto."
+          "answer": "No. Report funziona con dati importati: CSV, esportazioni da piattaforme di consegna e inserimento manuale. L'integrazione POS è opzionale e attiva l'aggiornamento in tempo reale. Core è consigliato se desideri un POS diretto."
         },
         {
           "question": "Qual è la differenza tra i posti spettatore e i posti AI?",
@@ -1386,7 +1386,7 @@ export const generatedAuxiliaryLocalePacks = {
       "core": [
         {
           "question": "Qual è la differenza tra Report e Core?",
-          "answer": "Core aggiunge POS in tempo reale, moduli di intelligence, accesso alla Watchtower e molti altri crediti e posti AI. Il report è ideale per analizzare i dati importati; Core è fatto per l'intelligence operativa dal vivo."
+          "answer": "Core aggiunge POS in tempo reale, moduli di intelligence, accesso alla Watchtower e molti altri crediti e posti AI. Report è ideale per analizzare i dati importati; Core è fatto per l'intelligence operativa dal vivo."
         },
         {
           "question": "Cosa sono i moduli di intelligence?",
@@ -1402,7 +1402,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Cosa include Core Lite e Core Pro?",
-          "answer": "Core Lite è adatto ai team che necessitano di intelligence operativa in tempo reale con una buona base di intelligenza artificiale. Core Pro aggiunge maggiore capacità, previsioni più approfondite e migliori economie su larga scala. Il catalogo attuale mostra le quote esatte."
+          "answer": "Core Lite è adatto ai team che necessitano di intelligence operativa in tempo reale con una buona base AI. Core Pro aggiunge maggiore capacità, previsioni più approfondite e migliori economie su larga scala. Il catalogo attuale mostra le quote esatte."
         },
         {
           "question": "Come funzionano gli sconti sulla quantità?",
@@ -1415,7 +1415,7 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Cos'è la Watchtower del Sundae?",
+          "question": "Cos'è Sundae Watchtower?",
           "answer": "Watchtower è la suite di market intelligence di Sundae che monitora il panorama competitivo, gli eventi locali e le tendenze del settore. Fornisce avvisi utili per adeguare in modo proattivo prezzi, personale e marketing."
         },
         {
@@ -1428,7 +1428,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "La Watchtower richiede il piano Core?",
-          "answer": "Sì. Watchtower è disponibile solo per gli abbonati Core (Core Lite, Core Pro o Enterprise). Non è disponibile con la formula Report."
+          "answer": "Sì. Watchtower è disponibile solo per gli abbonati Core (Core Lite, Core Pro o Enterprise). Non è disponibile con un piano Report."
         },
         {
           "question": "Come cambia il prezzo della Watchtower a seconda del sito?",
@@ -1462,11 +1462,11 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "I crediti AI vengono condivisi tra i siti?",
-          "answer": "Sì. I crediti AI sono condivisi a livello organizzativo e possono essere utilizzati su tutti i siti. I crediti non utilizzati mantengono oltre il 25% dei crediti base per un mese. I pacchetti aggiuntivi acquistati non scadono mai."
+          "answer": "Sì. I crediti AI sono condivisi a livello organizzativo e possono essere utilizzati su tutti i siti. I crediti non utilizzati vengono riportati fino al 25% dei crediti base per un mese. I pacchetti aggiuntivi acquistati non scadono mai."
         },
         {
           "question": "Qual è la differenza tra posti spettatore e posti utente?",
-          "answer": "Le postazioni degli spettatori sono di sola lettura e separate dalle postazioni degli utenti attivate dall'intelligenza artificiale. Le postazioni AI sono gli account che possono porre domande, generare approfondimenti e utilizzare funzionalità avanzate. Le quote incluse ed il prezzo dell'estensione dipendono dal catalogo pubblicato."
+          "answer": "Le postazioni degli spettatori sono di sola lettura e separate dalle postazioni utente attivate dall'AI. Le postazioni AI sono gli account che possono porre domande, generare approfondimenti e utilizzare funzionalità avanzate. Le quote incluse e il prezzo dell'estensione dipendono dal catalogo pubblicato."
         },
         {
           "question": "Quando si applicano i prezzi Enterprise?",
@@ -1477,28 +1477,28 @@ export const generatedAuxiliaryLocalePacks = {
     "pl": {
       "report": [
         {
-          "question": "Co to jest raport Sundae?",
-          "answer": "Raport Sundae to nasza warstwa analityczna połączona z istniejącymi źródłami danych (punkt sprzedaży, dostawa, recenzje) w celu generowania przydatnych spostrzeżeń, bez konieczności integracji z punktem sprzedaży. Zacznij bezpłatnie z Report Lite lub włącz bardziej zaawansowaną analitykę w Plusie lub Pro."
+          "question": "Czym jest Sundae Report?",
+          "answer": "Sundae Report to nasza warstwa analityczna połączona z istniejącymi źródłami danych (POS, dostawa, recenzje) w celu generowania przydatnych spostrzeżeń, bez konieczności integracji z POS. Zacznij bezpłatnie z Report Lite lub włącz bardziej zaawansowaną analitykę w Plus lub Pro."
         },
         {
           "question": "Jaka jest różnica między Report Lite, Plus i Pro?",
-          "answer": "Report Lite to punkt wyjścia. Report Plus dodaje testy porównawcze, większe możliwości AI i szerszą paletę wizualną. Report Pro zapewnia najgłębszy pakiet analityczny, większe możliwości sztucznej inteligencji i bardziej zaawansowane przepływy pracy związane z prognozowaniem. W katalogu zawsze wyświetlane są aktualne ceny i możliwości."
+          "answer": "Report Lite to punkt wyjścia. Report Plus dodaje testy porównawcze, większe możliwości AI i szerszą paletę wizualną. Report Pro zapewnia najgłębszy pakiet analityczny, większe możliwości AI i bardziej zaawansowane przepływy pracy związane z prognozowaniem. W katalogu zawsze wyświetlane są aktualne ceny i możliwości."
         },
         {
           "question": "Jak działają kredyty AI?",
-          "answer": "Kredyty AI zasilają inteligentne funkcje Sundae. Każde zapytanie AI, wygenerowanie spostrzeżeń lub automatyczna analiza pochłania kredyty. Każdy poziom obejmuje podstawę oraz punkty za witrynę. Niewykorzystane kredyty przenoszą ponad 25% Twojej bazy przez jeden miesiąc. Można także dokupić dodatkowe pakiety bez daty ważności."
+          "answer": "Kredyty AI zasilają inteligentne funkcje Sundae. Każde zapytanie AI, wygenerowanie spostrzeżeń lub automatyczna analiza pochłania kredyty. Każdy poziom obejmuje podstawę oraz punkty za witrynę. Niewykorzystane kredyty są przenoszone na kolejny miesiąc, do 25% Twojej bazy. Można także dokupić dodatkowe pakiety bez daty ważności."
         },
         {
           "question": "Czy potrzebuję integracji POS dla Report?",
-          "answer": "Nie. Raport działa z importowanymi danymi: CSV, eksportami z platform dostawczych i ręcznym wprowadzaniem. Integracja z POS jest opcjonalna i aktywuje odświeżanie w czasie rzeczywistym. Core jest zalecany, jeśli chcesz mieć bezpośredni punkt sprzedaży."
+          "answer": "Nie. Report działa z importowanymi danymi: CSV, eksportami z platform dostawczych i ręcznym wprowadzaniem. Integracja z POS jest opcjonalna i aktywuje odświeżanie w czasie rzeczywistym. Core jest zalecany, jeśli chcesz mieć bezpośredni POS."
         },
         {
           "question": "Jaka jest różnica między miejscami widzów a miejscami AI?",
-          "answer": "Miejsca dla widzów są bezpłatne i nieograniczone na wszystkich poziomach oraz zapewniają dostęp do pulpitów nawigacyjnych tylko do odczytu. Fotele AI umożliwiają zadawanie pytań, generowanie spostrzeżeń i korzystanie z funkcji AI. Każdy poziom obejmuje stałą liczbę stanowisk AI."
+          "answer": "Miejsca dla widzów są bezpłatne i nieograniczone na wszystkich poziomach oraz zapewniają dostęp do pulpitów nawigacyjnych tylko do odczytu. Stanowiska AI umożliwiają zadawanie pytań, generowanie spostrzeżeń i korzystanie z funkcji AI. Każdy poziom obejmuje stałą liczbę stanowisk AI."
         },
         {
           "question": "Czy mogę później dokonać aktualizacji z Report do Core?",
-          "answer": "Tak. W dowolnym momencie możesz przejść z wersji Report na Core. Aktualizacja jest natychmiastowa i pozwala zachować Twoje dane, pulpity nawigacyjne i ustawienia. Core dodaje punkty sprzedaży, moduły i dostęp do Strażnicy w czasie rzeczywistym."
+          "answer": "Tak. W dowolnym momencie możesz przejść z Report na Core. Aktualizacja jest natychmiastowa i pozwala zachować Twoje dane, pulpity nawigacyjne i ustawienia. Core dodaje POS w czasie rzeczywistym, moduły i dostęp do Watchtower."
         },
         {
           "question": "Czy istnieje bezpłatny okres próbny?",
@@ -1507,8 +1507,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "Jaka jest różnica między raportem a rdzeniem?",
-          "answer": "Core dodaje punkty sprzedaży w czasie rzeczywistym, moduły wywiadowcze, dostęp do Strażnicy oraz wiele innych kredytów i miejsc AI. Raport idealnie nadaje się do analizy zaimportowanych danych; Rdzeń został stworzony z myślą o inteligencji operacyjnej na żywo."
+          "question": "Jaka jest różnica między Report a Core?",
+          "answer": "Core dodaje POS w czasie rzeczywistym, moduły inteligencji, dostęp do Watchtower oraz wiele innych kredytów i miejsc AI. Report idealnie nadaje się do analizy zaimportowanych danych; Core został stworzony z myślą o inteligencji operacyjnej na żywo."
         },
         {
           "question": "Czym są moduły inteligencji?",
@@ -1524,7 +1524,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Co zawiera Core Lite w porównaniu z Core Pro?",
-          "answer": "Core Lite jest odpowiedni dla zespołów, które potrzebują inteligencji operacyjnej w czasie rzeczywistym z dobrymi podstawami sztucznej inteligencji. Core Pro zapewnia większą pojemność, głębsze prognozy i lepszą ekonomikę na dużą skalę. Aktualny katalog pokazuje dokładne kwoty."
+          "answer": "Core Lite jest odpowiedni dla zespołów, które potrzebują inteligencji operacyjnej w czasie rzeczywistym z dobrą podstawą AI. Core Pro zapewnia większą pojemność, głębsze prognozy i lepszą ekonomikę na dużą skalę. Aktualny katalog pokazuje dokładne kwoty."
         },
         {
           "question": "Jak działają rabaty ilościowe?",
@@ -1537,31 +1537,31 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Czym jest Strażnica Sundae?",
+          "question": "Czym jest Sundae Watchtower?",
           "answer": "Watchtower to pakiet analiz rynkowych firmy Sundae, który monitoruje Twój krajobraz konkurencyjny, wydarzenia lokalne i trendy branżowe. Zapewnia przydatne alerty umożliwiające proaktywne dostosowywanie cen, personelu i marketingu."
         },
         {
-          "question": "Jakie są trzy moduły Strażnicy?",
+          "question": "Jakie są trzy moduły Watchtower?",
           "answer": "Analiza konkurencyjna śledzi ceny, menu i recenzje konkurencji. Events Intelligence monitoruje lokalne wydarzenia, które wpływają na popyt. Trends Intelligence podkreśla zmiany w zapotrzebowaniu rynku i konsumentów. Każdy moduł jest zgodny z modelem cenowym opublikowanym w konfiguratorze."
         },
         {
-          "question": "Co to jest pakiet Strażnicy?",
-          "answer": "Pakiet Strażnicy łączy trzy moduły Strażnicy w pakiecie ze zniżką dla operatorów, którzy chcą mieć pełny obraz rynku. Cena pakietu w konfiguratorze odzwierciedla aktualnie opublikowany model."
+          "question": "Co to jest pakiet Watchtower?",
+          "answer": "Pakiet Watchtower łączy trzy moduły Watchtower w pakiecie ze zniżką dla operatorów, którzy chcą mieć pełny obraz rynku. Cena pakietu w konfiguratorze odzwierciedla aktualnie opublikowany model."
         },
         {
-          "question": "Czy Strażnica wymaga planu Core?",
-          "answer": "Tak. Watchtower jest dostępny tylko dla abonentów Core (Core Lite, Core Pro lub Enterprise). Nie jest dostępna w formule Raport."
+          "question": "Czy Watchtower wymaga planu Core?",
+          "answer": "Tak. Watchtower jest dostępny tylko dla abonentów Core (Core Lite, Core Pro lub Enterprise). Nie jest dostępny w planie Report."
         },
         {
-          "question": "Jak zmienia się cena Strażnicy w zależności od witryny?",
-          "answer": "Każdy moduł Strażnicy ma cenę podstawową obejmującą początkowy obwód miejsc, a następnie cenę za dodatkowe miejsce. Konfigurator wyświetla aktualną cenę wybranej kombinacji Strażnicy."
+          "question": "Jak zmienia się cena Watchtower w zależności od lokalizacji?",
+          "answer": "Każdy moduł Watchtower ma cenę podstawową obejmującą początkowy zakres lokalizacji, a następnie cenę za każdą dodatkową lokalizację. Konfigurator wyświetla aktualną cenę wybranej kombinacji Watchtower."
         },
         {
           "question": "Czy w przypadku Watchtower dostępne są ceny dla przedsiębiorstw?",
-          "answer": "Tak. Klienci korporacyjni (ponad 30 lokalizacji lub przewidywane wydatki przekraczające 10 000 USD miesięcznie) korzystają ze spersonalizowanych cen Strażnicy, w tym opcji ze stałą stawką. Skontaktuj się z działem sprzedaży, aby uzyskać niestandardową wycenę."
+          "answer": "Tak. Klienci korporacyjni (ponad 30 lokalizacji lub przewidywane wydatki przekraczające 10 000 USD miesięcznie) korzystają ze spersonalizowanych cen Watchtower, w tym opcji ze stałą stawką. Skontaktuj się z działem sprzedaży, aby uzyskać niestandardową wycenę."
         },
         {
-          "question": "Czy mogę później dodać poszczególne moduły Strażnicy?",
+          "question": "Czy mogę później dodać poszczególne moduły Watchtower?",
           "answer": "Tak. Możesz zacząć od jednego modułu i w dowolnym momencie dodać kolejne. Jeśli następnie aktywujesz wszystkie trzy, możesz przejść na cenę pakietu, aby skorzystać ze zniżki. Zmiany obowiązują natychmiast."
         }
       ],
@@ -1584,15 +1584,15 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Czy kredyty AI są dzielone pomiędzy witrynami?",
-          "answer": "Tak. Kredyty AI są współdzielone na poziomie organizacji i można z nich korzystać we wszystkich witrynach. Niewykorzystane kredyty przenoszą na jeden miesiąc ponad 25% kredytów bazowych. Zakupione dodatkowe pakiety nigdy nie tracą ważności."
+          "answer": "Tak. Kredyty AI są współdzielone na poziomie organizacji i można z nich korzystać we wszystkich witrynach. Niewykorzystane kredyty są przenoszone na kolejny miesiąc, do 25% kredytów bazowych. Zakupione dodatkowe pakiety nigdy nie tracą ważności."
         },
         {
           "question": "Jaka jest różnica między miejscami widzów a miejscami użytkownika?",
-          "answer": "Miejsca widzów są przeznaczone tylko do odczytu i są oddzielone od stanowisk użytkowników aktywowanych przez sztuczną inteligencję. Stanowiska AI to konta, na których można zadawać pytania, generować spostrzeżenia i korzystać z zaawansowanych funkcji. Uwzględnione kwoty i cena przedłużenia zależą od opublikowanego katalogu."
+          "answer": "Miejsca widzów są przeznaczone tylko do odczytu i są oddzielone od stanowisk użytkowników aktywowanych przez AI. Stanowiska AI to konta, na których można zadawać pytania, generować spostrzeżenia i korzystać z zaawansowanych funkcji. Uwzględnione kwoty i cena przedłużenia zależą od opublikowanego katalogu."
         },
         {
           "question": "Kiedy obowiązują ceny dla przedsiębiorstw?",
-          "answer": "Kwalifikujesz się do cen dla przedsiębiorstw, jeśli masz ponad 30 witryn, przewidywane wydatki przekraczające 10 000 USD miesięcznie lub potrzebujesz niestandardowych integracji, logowania jednokrotnego/SAML lub określonych umów SLA. Uprawnieni klienci mogą wybrać cenę standardową z rabatem ilościowym lub poprosić o niestandardową cenę dla przedsiębiorstw."
+          "answer": "Kwalifikujesz się do cen dla przedsiębiorstw, jeśli masz ponad 30 lokalizacji, przewidywane wydatki przekraczające 10 000 USD miesięcznie lub potrzebujesz niestandardowych integracji, SSO/SAML lub określonych umów SLA. Uprawnieni klienci mogą wybrać cenę standardową z rabatem ilościowym lub poprosić o niestandardową cenę dla przedsiębiorstw."
         }
       ]
     },
@@ -1604,23 +1604,23 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Report Lite, Plus ve Pro arasındaki fark nedir?",
-          "answer": "Report Lite giriş noktasıdır. Report Plus, kıyaslamalar, daha fazla yapay zeka yeteneği ve daha geniş bir görsel palet ekler. Report Pro, en derin analiz paketini, daha fazla yapay zeka yeteneğini ve daha gelişmiş tahmin iş akışlarını sunar. Katalogda her zaman güncel fiyatlar ve kapasiteler görüntülenir."
+          "answer": "Report Lite giriş noktasıdır. Report Plus, kıyaslamalar, daha fazla AI yeteneği ve daha geniş bir görsel palet ekler. Report Pro, en derin analiz paketini, daha fazla AI yeteneğini ve daha gelişmiş tahmin iş akışlarını sunar. Katalogda her zaman güncel fiyatlar ve kapasiteler görüntülenir."
         },
         {
           "question": "AI kredileri nasıl çalışır?",
-          "answer": "AI Credits, Sundae'nin akıllı özelliklerini güçlendirir. Her AI sorgusu, içgörü oluşturma veya otomatik analiz, kredi tüketir. Her seviye bir temel artı site başına kredi içerir. Kullanılmayan krediler bir ay boyunca baz tutarınızın %25'inden fazlasını taşır. Ayrıca süresi dolmadan ek paketler de satın alabilirsiniz."
+          "answer": "AI Credits, Sundae'nin akıllı özelliklerini güçlendirir. Her AI sorgusu, içgörü oluşturma veya otomatik analiz, kredi tüketir. Her seviye bir temel artı site başına kredi içerir. Kullanılmayan krediler bir ay boyunca baz tutarınızın %25'ine kadar devredilir. Ayrıca süresi dolmadan ek paketler de satın alabilirsiniz."
         },
         {
-          "question": "Rapor için POS entegrasyonuna ihtiyacım var mı?",
-          "answer": "Hayır. Rapor içe aktarılan verilerle çalışır: CSV, dağıtım platformlarından dışa aktarmalar ve manuel giriş. POS entegrasyonu isteğe bağlıdır ve gerçek zamanlı yenilemeyi etkinleştirir. Doğrudan POS istiyorsanız Core önerilir."
+          "question": "Report için POS entegrasyonuna ihtiyacım var mı?",
+          "answer": "Hayır. Report içe aktarılan verilerle çalışır: CSV, dağıtım platformlarından dışa aktarmalar ve manuel giriş. POS entegrasyonu isteğe bağlıdır ve gerçek zamanlı yenilemeyi etkinleştirir. Doğrudan POS istiyorsanız Core önerilir."
         },
         {
-          "question": "İzleyici koltukları ile AI koltuklar arasındaki fark nedir?",
-          "answer": "İzleyici koltukları tüm seviyelerde ücretsiz ve sınırsızdır ve kontrol panellerine salt okunur erişim sağlar. Yapay zeka koltukları soru sormanıza, içgörüler oluşturmanıza ve yapay zeka işlevlerini kullanmanıza olanak tanır. Her seviyede sabit sayıda AI koltuk bulunur."
+          "question": "İzleyici koltukları ile AI koltukları arasındaki fark nedir?",
+          "answer": "İzleyici koltukları tüm seviyelerde ücretsiz ve sınırsızdır ve kontrol panellerine salt okunur erişim sağlar. AI koltukları soru sormanıza, içgörüler oluşturmanıza ve AI işlevlerini kullanmanıza olanak tanır. Her seviyede sabit sayıda AI koltuğu bulunur."
         },
         {
-          "question": "Daha sonra Rapor'dan Çekirdeğe yükseltme yapabilir miyim?",
-          "answer": "Evet. Rapordan Çekirdek'e istediğiniz zaman geçiş yapabilirsiniz. Yükseltme anında gerçekleşir ve verilerinizi, kontrol panellerinizi ve ayarlarınızı korur. Core, gerçek zamanlı POS, modüller ve Watchtower erişimi ekler."
+          "question": "Daha sonra Report'tan Core'a yükseltme yapabilir miyim?",
+          "answer": "Evet. Report'tan Core'a istediğiniz zaman geçiş yapabilirsiniz. Yükseltme anında gerçekleşir ve verilerinizi, kontrol panellerinizi ve ayarlarınızı korur. Core, gerçek zamanlı POS, modüller ve Watchtower erişimi ekler."
         },
         {
           "question": "Ücretsiz deneme var mı?",
@@ -1629,8 +1629,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "Rapor ve Çekirdek arasındaki fark nedir?",
-          "answer": "Core, gerçek zamanlı POS, istihbarat modülleri, Watchtower erişimi ve daha birçok AI kredisi ve koltuğu ekler. Rapor, içe aktarılan verileri analiz etmek için idealdir; Core canlı operasyonel istihbarat için yapılmıştır."
+          "question": "Report ve Core arasındaki fark nedir?",
+          "answer": "Core, gerçek zamanlı POS, istihbarat modülleri, Watchtower erişimi ve daha birçok AI kredisi ve koltuğu ekler. Report, içe aktarılan verileri analiz etmek için idealdir; Core canlı operasyonel istihbarat için yapılmıştır."
         },
         {
           "question": "İstihbarat modülleri nelerdir?",
@@ -1646,7 +1646,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Core Lite vs Core Pro neler içeriyor?",
-          "answer": "Core Lite, iyi bir yapay zeka temeline sahip gerçek zamanlı operasyonel zekaya ihtiyaç duyan ekipler için uygundur. Core Pro, daha fazla kapasite, daha derin tahminler ve geniş ölçekte daha iyi ekonomi sağlar. Mevcut katalog tam kotaları göstermektedir."
+          "answer": "Core Lite, iyi bir AI temeline sahip gerçek zamanlı operasyonel zekaya ihtiyaç duyan ekipler için uygundur. Core Pro, daha fazla kapasite, daha derin tahminler ve geniş ölçekte daha iyi ekonomi sağlar. Mevcut katalog tam kotaları göstermektedir."
         },
         {
           "question": "Toplu indirimler nasıl çalışır?",
@@ -1663,28 +1663,28 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Watchtower, Sundae'nin rekabet ortamınızı, yerel etkinliklerinizi ve sektör trendlerini izleyen pazar istihbarat paketidir. Fiyatlandırmayı, personeli ve pazarlamayı proaktif olarak ayarlamak için eyleme dönüştürülebilir uyarılar sağlar."
         },
         {
-          "question": "What are the three Watchtower modules?",
+          "question": "Üç Watchtower modülü nedir?",
           "answer": "Rekabet İstihbaratı rakiplerin fiyatlarını, menülerini ve incelemelerini takip eder. Event Intelligence, talebi etkileyen yerel olayları izler. Trends Intelligence, pazar ve tüketici talebindeki değişiklikleri vurgular. Her modül yapılandırıcıda yayınlanan fiyat modelini takip eder."
         },
         {
-          "question": "What is the Watchtower Bundle?",
+          "question": "Watchtower Paketi nedir?",
           "answer": "Watchtower Paketi, piyasanın tam bir görünümünü isteyen operatörler için üç Watchtower modülünü indirimli bir pakette bir araya getiriyor. Yapılandırıcıdaki paket fiyatı mevcut yayınlanan modeli yansıtır."
         },
         {
-          "question": "Does Watchtower require the Core plan?",
-          "answer": "Evet. Watchtower yalnızca Core aboneleri (Core Lite, Core Pro veya Enterprise) tarafından kullanılabilir. It is not available with the Report formula."
+          "question": "Watchtower, Core planını gerektirir mi?",
+          "answer": "Evet. Watchtower yalnızca Core aboneleri (Core Lite, Core Pro veya Enterprise) tarafından kullanılabilir. Report planı ile kullanılamaz."
         },
         {
           "question": "Watchtower fiyatı siteye göre nasıl değişiyor?",
           "answer": "Her Watchtower modülünün, sahaların başlangıç çevresini kapsayan bir taban fiyatı, ardından ek saha başına bir fiyatı vardır. Yapılandırıcı, seçilen Watchtower kombinasyonu için canlı yayınlanan fiyatı görüntüler."
         },
         {
-          "question": "Is Enterprise pricing available for Watchtower?",
-          "answer": "Evet. Kurumsal müşteriler (30'dan fazla site veya öngörülen harcama ayda 10.000 ABD dolarının üzerinde), sabit oranlı seçenekler de dahil olmak üzere kişiselleştirilmiş Watchtower fiyatlandırmasından yararlanır. Contact sales for a custom quote."
+          "question": "Watchtower için Enterprise fiyatlandırması mevcut mu?",
+          "answer": "Evet. Kurumsal müşteriler (30'dan fazla site veya öngörülen harcama ayda 10.000 ABD dolarının üzerinde), sabit oranlı seçenekler de dahil olmak üzere kişiselleştirilmiş Watchtower fiyatlandırmasından yararlanır. Özel bir teklif için satış ekibiyle iletişime geçin."
         },
         {
-          "question": "Can I add individual Watchtower modules later?",
-          "answer": "Evet. Bir modülle başlayıp istediğiniz zaman daha fazlasını ekleyebilirsiniz. Daha sonra üçünü de etkinleştirirseniz indirimden yararlanmak için Paket fiyatlandırmasına yükseltebilirsiniz. Changes apply immediately."
+          "question": "Daha sonra tek tek Watchtower modülleri ekleyebilir miyim?",
+          "answer": "Evet. Bir modülle başlayıp istediğiniz zaman daha fazlasını ekleyebilirsiniz. Daha sonra üçünü de etkinleştirirseniz indirimden yararlanmak için Paket fiyatlandırmasına yükseltebilirsiniz. Değişiklikler anında uygulanır."
         }
       ],
       "general": [
@@ -1697,24 +1697,24 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Abonelik varsayılan olarak aylıktır ve herhangi bir zamanda herhangi bir ceza ödemeden iptal edilebilir. Yıllık ön ödemede %10, 2 yıl peşin ödemede %15 indirim imkanı sunulmaktadır. Kurumsal sözleşmelerin belirli koşulları vardır."
         },
         {
-          "question": "Can I upgrade or downgrade?",
-          "answer": "Evet. Yükseltmeler anında gerçekleşir. Downgrades take effect the next billing cycle."
+          "question": "Yükseltme veya düşürme yapabilir miyim?",
+          "answer": "Evet. Yükseltmeler anında gerçekleşir. Düşürmeler bir sonraki faturalandırma döneminde yürürlüğe girer."
         },
         {
           "question": "İndirimler nasıl çalışır?",
           "answer": "Toplu indirimler (30 ile 99 site arasında %5, 100 ile 200 arasında %7) ve fatura indirimleri (yıllık %10, 2 yılda %15) birikimli değildir. %15'lik limit ile her zaman en avantajlı olanı alırsınız. Kurumsal müşteriler kişiselleştirilmiş fiyatlandırma alırlar."
         },
         {
-          "question": "Are AI credits shared between sites?",
-          "answer": "Evet. AI kredileri kurumsal düzeyde paylaşılır ve tüm sitelerde kullanılabilir. Kullanılmayan krediler bir ay boyunca baz kredilerin %25'inden fazlasını taşır. Additional packs purchased never expire."
+          "question": "AI kredileri siteler arasında paylaşılır mı?",
+          "answer": "Evet. AI kredileri kurumsal düzeyde paylaşılır ve tüm sitelerde kullanılabilir. Kullanılmayan krediler bir ay boyunca baz kredilerin %25'ine kadar devredilir. Satın alınan ek paketlerin süresi hiçbir zaman dolmaz."
         },
         {
           "question": "İzleyici koltukları ile kullanıcı koltukları arasındaki fark nedir?",
-          "answer": "İzleyici koltukları salt okunurdur ve yapay zeka ile etkinleştirilen kullanıcı koltuklarından ayrıdır. AI koltukları soru sorabilen, içgörü üretebilen ve gelişmiş özellikleri kullanabilen hesaplardır. Dahil edilen kotalar ve uzatma fiyatı yayınlanan kataloğa bağlıdır."
+          "answer": "İzleyici koltukları salt okunurdur ve AI ile etkinleştirilen kullanıcı koltuklarından ayrıdır. AI koltukları soru sorabilen, içgörü üretebilen ve gelişmiş özellikleri kullanabilen hesaplardır. Dahil edilen kotalar ve uzatma fiyatı yayınlanan kataloğa bağlıdır."
         },
         {
-          "question": "When does Enterprise pricing apply?",
-          "answer": "30'dan fazla siteniz varsa, tahmini harcamanız ayda 10.000 ABD dolarından fazlaysa veya özel entegrasyonlara, SSO/SAML'ye veya belirli HDS'lere ihtiyacınız varsa Kurumsal fiyatlandırmaya hak kazanırsınız. Uygun müşteriler, toplu indirim içeren standart fiyatı seçebilir veya özel bir Kurumsal fiyat talep edebilir."
+          "question": "Enterprise fiyatlandırması ne zaman geçerli olur?",
+          "answer": "30'dan fazla siteniz varsa, tahmini harcamanız ayda 10.000 ABD dolarından fazlaysa veya özel entegrasyonlara, SSO/SAML'ye veya belirli SLA'lara ihtiyacınız varsa Enterprise fiyatlandırmaya hak kazanırsınız. Uygun müşteriler, toplu indirim içeren standart fiyatı seçebilir veya özel bir Enterprise fiyat talep edebilir."
         }
       ]
     },
@@ -1843,7 +1843,7 @@ export const generatedAuxiliaryLocalePacks = {
     "ja": {
       "report": [
         {
-          "question": "サンデーレポートとは何ですか？",
+          "question": "Sundae Report とは何ですか？",
           "answer": "Sundae Report は、既存のデータ ソース (POS、配信、レビュー) に接続された分析レイヤーであり、POS の統合は必要なく、実用的な洞察を生成します。 Report Lite を無料で始めるか、Plus または Pro でより高度な分析を有効にします。"
         },
         {
@@ -1852,19 +1852,19 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "AI クレジットはどのように機能しますか?",
-          "answer": "AI クレジットはサンデーのスマート機能を強化します。各 AI クエリ、洞察生成、または自動分析ではクレジットが消費されます。各レベルには、基本とサイトごとのクレジットが含まれます。未使用のクレジットは、1 か月間基本額の 25% 以上引き継がれます。有効期限なしで追加のパックを購入することもできます。"
+          "answer": "AI クレジットは Sundae のスマート機能を強化します。各 AI クエリ、洞察生成、または自動分析ではクレジットが消費されます。各レベルには、基本とサイトごとのクレジットが含まれます。未使用のクレジットは、1 か月間基本額の 25% まで引き継がれます。有効期限なしで追加のパックを購入することもできます。"
         },
         {
-          "question": "レポートに POS 統合が必要ですか?",
-          "answer": "いいえ。レポートはインポートされたデータ (CSV、配信プラットフォームからのエクスポート、および手動入力) で機能します。 POS 統合はオプションで、リアルタイム更新を有効にします。直接 POS が必要な場合は Core をお勧めします。"
+          "question": "Report に POS 統合が必要ですか?",
+          "answer": "いいえ。Report はインポートされたデータ (CSV、配信プラットフォームからのエクスポート、および手動入力) で機能します。 POS 統合はオプションで、リアルタイム更新を有効にします。直接 POS が必要な場合は Core をお勧めします。"
         },
         {
           "question": "視聴席とAI席の違いは何ですか？",
           "answer": "視聴者席はすべてのレベルで無料かつ無制限で、ダッシュボードへの読み取り専用アクセスが提供されます。 AI シートを使用すると、質問したり、洞察を生成したり、AI 機能を使用したりできます。各レベルには固定数の AI シートが含まれます。"
         },
         {
-          "question": "後でレポートからコアにアップグレードできますか?",
-          "answer": "はい。いつでもレポートからコアに切り替えることができます。アップグレードは即時に行われ、データ、ダッシュボード、設定が保持されます。 Core は、リアルタイム POS、モジュール、Watchtower アクセスを追加します。"
+          "question": "後で Report から Core にアップグレードできますか?",
+          "answer": "はい。いつでも Report から Core に切り替えることができます。アップグレードは即時に行われ、データ、ダッシュボード、設定が保持されます。 Core は、リアルタイム POS、モジュール、Watchtower アクセスを追加します。"
         },
         {
           "question": "無料トライアルはありますか?",
@@ -1873,8 +1873,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "レポートとコアの違いは何ですか?",
-          "answer": "Core では、リアルタイム POS、インテリジェンス モジュール、Watchtower アクセス、さらに多くの AI クレジットとシートが追加されます。レポートは、インポートされたデータの分析に最適です。 Core はライブ運用インテリジェンスのために作られています。"
+          "question": "Report と Core の違いは何ですか?",
+          "answer": "Core では、リアルタイム POS、インテリジェンス モジュール、Watchtower アクセス、さらに多くの AI クレジットとシートが追加されます。Report は、インポートされたデータの分析に最適です。 Core はライブ運用インテリジェンスのために作られています。"
         },
         {
           "question": "インテリジェンスモジュールとは何ですか?",
@@ -1903,23 +1903,23 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "サンデーWatchtowerとは何ですか?",
+          "question": "Sundae Watchtower とは何ですか?",
           "answer": "Watchtower は、競争状況、地域のイベント、業界の傾向を監視する Sundae の市場インテリジェンス スイートです。価格設定、人員配置、マーケティングを積極的に調整するための実用的なアラートを提供します。"
         },
         {
-          "question": "ものみの塔の 3 つのモジュールとは何ですか?",
+          "question": "Watchtower の 3 つのモジュールとは何ですか?",
           "answer": "Competitive Intelligence は、競合他社の価格、メニュー、レビューを追跡します。 Events Intelligence は、需要に影響を与えるローカル イベントを監視します。トレンド インテリジェンスは、市場と消費者の需要の変化を浮き彫りにします。各モジュールは、コンフィギュレーターで公開されている価格モデルに従います。"
         },
         {
-          "question": "ものみの塔バンドルとは何ですか?",
-          "answer": "Watchtower バンドルは、市場を完全に把握したい通信事業者向けに、3 つの Watchtower モジュールを割引パッケージにまとめたものです。コンフィギュレーターのバンドル価格は、現在公開されているモデルを反映しています。"
+          "question": "Watchtower バンドルとは何ですか?",
+          "answer": "Watchtower バンドルは、市場を完全に把握したい事業者向けに、3 つの Watchtower モジュールを割引パッケージにまとめたものです。コンフィギュレーターのバンドル価格は、現在公開されているモデルを反映しています。"
         },
         {
           "question": "Watchtower には Core プランが必要ですか?",
-          "answer": "はい。 Watchtower は、Core サブスクライバー (Core Lite、Core Pro、または Enterprise) のみが利用できます。レポート式では使用できません。"
+          "answer": "はい。 Watchtower は、Core サブスクライバー (Core Lite、Core Pro、または Enterprise) のみが利用できます。Report プランでは使用できません。"
         },
         {
-          "question": "ものみの塔の価格はサイトによってどのように変わりますか?",
+          "question": "Watchtower の価格はサイトによってどのように変わりますか?",
           "answer": "各 Watchtower モジュールには、サイトの初期境界をカバーする基本価格があり、その後、追加サイトごとの価格が適用されます。コンフィギュレータには、選択した Watchtower の組み合わせのライブ公開価格が表示されます。"
         },
         {
@@ -1965,7 +1965,7 @@ export const generatedAuxiliaryLocalePacks = {
     "ko": {
       "report": [
         {
-          "question": "순대리포트란?",
+          "question": "Sundae Report란?",
           "answer": "Sundae Report는 POS 통합이 필요 없이 실행 가능한 통찰력을 생성하기 위해 기존 데이터 소스(POS, 배송, 리뷰)에 연결된 분석 레이어입니다. Report Lite로 무료로 시작하거나 Plus 또는 Pro로 고급 분석을 활성화하세요."
         },
         {
@@ -1974,11 +1974,11 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "AI 크레딧은 어떻게 작동하나요?",
-          "answer": "AI 크레딧은 Sundae의 스마트 기능을 강화합니다. 각 AI 쿼리, 통찰력 생성 또는 자동화된 분석에는 크레딧이 소비됩니다. 각 레벨에는 기본과 사이트당 크레딧이 포함됩니다. 사용하지 않은 크레딧은 한 달 동안 기본 금액의 25% 이상을 차지합니다. 만료 기간 없이 추가 팩을 구매할 수도 있습니다."
+          "answer": "AI 크레딧은 Sundae의 스마트 기능을 강화합니다. 각 AI 쿼리, 통찰력 생성 또는 자동화된 분석에는 크레딧이 소비됩니다. 각 레벨에는 기본과 사이트당 크레딧이 포함됩니다. 사용하지 않은 크레딧은 한 달 동안 기본 금액의 최대 25%까지 이월됩니다. 만료 기간 없이 추가 팩을 구매할 수도 있습니다."
         },
         {
-          "question": "보고서를 작성하려면 POS 통합이 필요합니까?",
-          "answer": "아니요. 보고서는 가져온 데이터(CSV, 전송 플랫폼에서 내보내기, 수동 입력)로 작동합니다. POS 통합은 선택 사항이며 실시간 새로 고침을 활성화합니다. 다이렉트 POS를 원하신다면 Core를 추천드립니다."
+          "question": "Report에는 POS 통합이 필요합니까?",
+          "answer": "아니요. Report는 가져온 데이터(CSV, 배송 플랫폼에서 내보내기, 수동 입력)로 작동합니다. POS 통합은 선택 사항이며 실시간 새로 고침을 활성화합니다. 다이렉트 POS를 원하신다면 Core를 추천드립니다."
         },
         {
           "question": "시청자석과 AI석의 차이점은 무엇인가요?",
@@ -1986,7 +1986,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "나중에 Report에서 Core로 업그레이드할 수 있나요?",
-          "answer": "그렇습니다. 언제든지 보고서에서 코어로 전환할 수 있습니다. 업그레이드는 즉시 이루어지며 데이터, 대시보드 및 설정이 보존됩니다. Core에는 실시간 POS, 모듈 및 Watchtower 액세스가 추가됩니다."
+          "answer": "그렇습니다. 언제든지 Report에서 Core로 전환할 수 있습니다. 업그레이드는 즉시 이루어지며 데이터, 대시보드 및 설정이 보존됩니다. Core에는 실시간 POS, 모듈 및 Watchtower 액세스가 추가됩니다."
         },
         {
           "question": "무료 평가판이 있나요?",
@@ -1995,8 +1995,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "리포트와 코어의 차이점은 무엇입니까?",
-          "answer": "Core에는 실시간 POS, 인텔리전스 모듈, Watchtower 액세스 및 더 많은 AI 크레딧과 좌석이 추가됩니다. 보고서는 가져온 데이터를 분석하는 데 이상적입니다. Core는 실시간 운영 인텔리전스를 위해 만들어졌습니다."
+          "question": "Report와 Core의 차이점은 무엇입니까?",
+          "answer": "Core에는 실시간 POS, 인텔리전스 모듈, Watchtower 액세스 및 더 많은 AI 크레딧과 좌석이 추가됩니다. Report는 가져온 데이터를 분석하는 데 이상적입니다. Core는 실시간 운영 인텔리전스를 위해 만들어졌습니다."
         },
         {
           "question": "인텔리전스 모듈이란 무엇입니까?",
@@ -2025,31 +2025,31 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "순대파수대란 무엇인가요?",
+          "question": "Sundae Watchtower란 무엇인가요?",
           "answer": "Watchtower는 경쟁 환경, 지역 이벤트 및 업계 동향을 모니터링하는 Sundae의 시장 정보 제품군입니다. 가격, 인력 배치, 마케팅을 사전에 조정할 수 있도록 실행 가능한 알림을 제공합니다."
         },
         {
-          "question": "세 가지 파수대 모듈은 무엇입니까?",
+          "question": "세 가지 Watchtower 모듈은 무엇입니까?",
           "answer": "Competitive Intelligence는 경쟁업체의 가격, 메뉴 및 리뷰를 추적합니다. Events Intelligence는 수요에 영향을 미치는 지역 이벤트를 모니터링합니다. Trends Intelligence는 시장과 소비자 수요의 변화를 강조합니다. 각 모듈은 구성기에 게시된 가격 모델을 따릅니다."
         },
         {
-          "question": "감시탑 묶음이란 무엇인가요?",
+          "question": "Watchtower 번들이란 무엇인가요?",
           "answer": "Watchtower 번들은 시장에 대한 전체적인 시각을 원하는 운영자를 위해 할인된 패키지로 3개의 Watchtower 모듈을 함께 제공합니다. 구성기의 번들 가격은 현재 게시된 모델을 반영합니다."
         },
         {
           "question": "Watchtower에는 Core 계획이 필요합니까?",
-          "answer": "그렇습니다. Watchtower는 Core 구독자(Core Lite, Core Pro 또는 Enterprise)에게만 제공됩니다. 보고서 수식에서는 사용할 수 없습니다."
+          "answer": "그렇습니다. Watchtower는 Core 구독자(Core Lite, Core Pro 또는 Enterprise)에게만 제공됩니다. Report 플랜에서는 사용할 수 없습니다."
         },
         {
           "question": "사이트에 따라 Watchtower 가격이 어떻게 달라지나요?",
-          "answer": "각 Watchtower 모듈에는 사이트의 초기 경계에 대한 기본 가격이 있고, 추가 사이트당 가격이 있습니다. 구성자는 선택한 망루 조합의 실시간 공시 가격을 표시합니다."
+          "answer": "각 Watchtower 모듈에는 사이트의 초기 범위에 대한 기본 가격이 있고, 추가 사이트당 가격이 있습니다. 구성자는 선택한 Watchtower 조합의 실시간 공시 가격을 표시합니다."
         },
         {
           "question": "Watchtower에 기업 가격을 적용할 수 있나요?",
           "answer": "그렇습니다. 기업 고객(30개 이상의 사이트 또는 월 $10,000 이상의 예상 지출)은 고정 요금 옵션을 포함한 맞춤형 Watchtower 가격 혜택을 누릴 수 있습니다. 맞춤형 견적을 받으려면 영업팀에 문의하세요."
         },
         {
-          "question": "나중에 개별 감시탑 모듈을 추가할 수 있나요?",
+          "question": "나중에 개별 Watchtower 모듈을 추가할 수 있나요?",
           "answer": "그렇습니다. 하나의 모듈로 시작하고 언제든지 모듈을 더 추가할 수 있습니다. 그런 다음 세 가지를 모두 활성화하면 번들 가격으로 업그레이드하여 할인 혜택을 누릴 수 있습니다. 변경사항은 즉시 적용됩니다."
         }
       ],
@@ -2072,7 +2072,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "AI 크레딧은 사이트 간에 공유됩니까?",
-          "answer": "그렇습니다. AI 크레딧은 조직 수준에서 공유되며 모든 사이트에서 사용할 수 있습니다. 미사용 크레딧은 한 달 동안 기본 크레딧의 25% 이상을 차지합니다. 구매한 추가 팩은 만료되지 않습니다."
+          "answer": "그렇습니다. AI 크레딧은 조직 수준에서 공유되며 모든 사이트에서 사용할 수 있습니다. 미사용 크레딧은 한 달 동안 기본 크레딧의 최대 25%까지 이월됩니다. 구매한 추가 팩은 만료되지 않습니다."
         },
         {
           "question": "시청자석과 사용자석의 차이점은 무엇인가요?",
@@ -2096,11 +2096,11 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Bagaimana cara kerja kredit AI?",
-          "answer": "Kredit AI mendukung fitur pintar Sundae. Setiap kueri AI, pembuatan wawasan, atau analisis otomatis memerlukan kredit. Setiap level mencakup basis ditambah kredit per situs. Kredit yang tidak terpakai membawa lebih dari 25% dari basis Anda selama satu bulan. Anda juga dapat membeli paket tambahan tanpa masa berlaku habis."
+          "answer": "Kredit AI mendukung fitur pintar Sundae. Setiap kueri AI, pembuatan wawasan, atau analisis otomatis memerlukan kredit. Setiap level mencakup basis ditambah kredit per situs. Kredit yang tidak terpakai dibawa ke bulan berikutnya hingga 25% dari basis Anda. Anda juga dapat membeli paket tambahan tanpa masa berlaku habis."
         },
         {
-          "question": "Apakah saya memerlukan integrasi POS untuk Laporan?",
-          "answer": "Tidak. Laporan berfungsi dengan data yang diimpor: CSV, ekspor dari platform pengiriman, dan entri manual. Integrasi POS bersifat opsional dan mengaktifkan penyegaran waktu nyata. Core direkomendasikan jika Anda ingin POS langsung."
+          "question": "Apakah saya memerlukan integrasi POS untuk Report?",
+          "answer": "Tidak. Report berfungsi dengan data yang diimpor: CSV, ekspor dari platform pengiriman, dan entri manual. Integrasi POS bersifat opsional dan mengaktifkan penyegaran waktu nyata. Core direkomendasikan jika Anda ingin POS langsung."
         },
         {
           "question": "Apa perbedaan antara kursi penonton dan kursi AI?",
@@ -2108,7 +2108,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Bisakah saya meningkatkan dari Report ke Core nanti?",
-          "answer": "Ya. Anda dapat beralih dari Laporan ke Inti kapan saja. Peningkatan ini bersifat langsung dan mempertahankan data, dasbor, dan pengaturan Anda. Core menambahkan POS waktu nyata, modul, dan akses Menara Pengawal."
+          "answer": "Ya. Anda dapat beralih dari Report ke Core kapan saja. Peningkatan ini bersifat langsung dan mempertahankan data, dasbor, dan pengaturan Anda. Core menambahkan POS waktu nyata, modul, dan akses Watchtower."
         },
         {
           "question": "Apakah ada uji coba gratis?",
@@ -2117,12 +2117,12 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "Apa perbedaan antara Laporan dan Inti?",
-          "answer": "Core menambahkan POS real-time, modul intelijen, akses Menara Pengawal, dan banyak lagi kredit dan kursi AI. Laporan ideal untuk menganalisis data yang diimpor; Inti dibuat untuk intelijen operasional langsung."
+          "question": "Apa perbedaan antara Report dan Core?",
+          "answer": "Core menambahkan POS real-time, modul intelijen, akses Watchtower, dan banyak lagi kredit dan kursi AI. Report ideal untuk menganalisis data yang diimpor; Core dibuat untuk intelijen operasional langsung."
         },
         {
           "question": "Apa itu modul intelijen?",
-          "answer": "Modul adalah opsi khusus untuk Inti yang memberikan kedalaman analitis mengenai tenaga kerja, inventaris, pembelian, pemasaran, pengiriman, jaminan pendapatan, pengalaman pelanggan, dan banyak lagi. Setiap modul memiliki lisensi organisasi dengan harga per situs."
+          "answer": "Modul adalah opsi khusus untuk Core yang memberikan kedalaman analitis mengenai tenaga kerja, inventaris, pembelian, pemasaran, pengiriman, jaminan pendapatan, pengalaman tamu, dan banyak lagi. Setiap modul memiliki lisensi organisasi dengan harga per lokasi."
         },
         {
           "question": "Apakah ada biaya pengaturan?",
@@ -2147,31 +2147,31 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Apa itu Menara Pengawal Sundae?",
+          "question": "Apa itu Sundae Watchtower?",
           "answer": "Watchtower adalah rangkaian intelijen pasar Sundae yang memantau lanskap persaingan, peristiwa lokal, dan tren industri Anda. Ini memberikan peringatan yang dapat ditindaklanjuti untuk secara proaktif menyesuaikan harga, staf, dan pemasaran."
         },
         {
-          "question": "Apa saja tiga modul Menara Pengawal?",
+          "question": "Apa saja tiga modul Watchtower?",
           "answer": "Intelijen Kompetitif melacak harga, menu, dan ulasan pesaing. Events Intelligence memantau peristiwa lokal yang memengaruhi permintaan. Trends Intelligence menyoroti perubahan permintaan pasar dan konsumen. Setiap modul mengikuti model harga yang dipublikasikan di konfigurator."
         },
         {
-          "question": "Apa itu Paket Menara Pengawal?",
-          "answer": "Bundel Menara Pengawal menyatukan ketiga modul Menara Pengawal dalam paket diskon untuk operator yang menginginkan gambaran pasar secara lengkap. Harga bundel di konfigurator mencerminkan model yang dipublikasikan saat ini."
+          "question": "Apa itu Paket Watchtower?",
+          "answer": "Bundel Watchtower menyatukan ketiga modul Watchtower dalam paket diskon untuk operator yang menginginkan gambaran pasar secara lengkap. Harga bundel di konfigurator mencerminkan model yang dipublikasikan saat ini."
         },
         {
-          "question": "Apakah Menara Pengawal memerlukan rencana Inti?",
-          "answer": "Ya. Menara Pengawal hanya tersedia untuk pelanggan Core (Core Lite, Core Pro, atau Enterprise). Ini tidak tersedia dengan rumus Laporan."
+          "question": "Apakah Watchtower memerlukan paket Core?",
+          "answer": "Ya. Watchtower hanya tersedia untuk pelanggan Core (Core Lite, Core Pro, atau Enterprise). Ini tidak tersedia dengan paket Report."
         },
         {
-          "question": "Bagaimana perubahan harga Menara Pengawal tergantung pada situsnya?",
-          "answer": "Setiap modul Menara Pengawal memiliki harga dasar yang mencakup perimeter awal situs, kemudian harga per situs tambahan. Konfigurator menampilkan harga yang dipublikasikan secara langsung untuk kombinasi Menara Pengawal yang dipilih."
+          "question": "Bagaimana harga Watchtower berubah tergantung lokasinya?",
+          "answer": "Setiap modul Watchtower memiliki harga dasar yang mencakup cakupan lokasi awal, kemudian harga per lokasi tambahan. Konfigurator menampilkan harga yang dipublikasikan secara langsung untuk kombinasi Watchtower yang dipilih."
         },
         {
-          "question": "Apakah harga Perusahaan tersedia untuk Menara Pengawal?",
-          "answer": "Ya. Pelanggan perusahaan (30+ situs atau perkiraan pembelanjaan lebih dari $10.000/bulan) mendapatkan keuntungan dari harga Menara Pengawal yang dipersonalisasi, termasuk opsi tarif tetap. Hubungi bagian penjualan untuk penawaran khusus."
+          "question": "Apakah harga Enterprise tersedia untuk Watchtower?",
+          "answer": "Ya. Pelanggan perusahaan (30+ lokasi atau perkiraan pembelanjaan lebih dari $10.000/bulan) mendapatkan keuntungan dari harga Watchtower yang dipersonalisasi, termasuk opsi tarif tetap. Hubungi bagian penjualan untuk penawaran khusus."
         },
         {
-          "question": "Bisakah saya menambahkan modul Menara Pengawal satu per satu nanti?",
+          "question": "Bisakah saya menambahkan modul Watchtower satu per satu nanti?",
           "answer": "Ya. Anda dapat memulai dengan satu modul dan menambahkan lebih banyak kapan saja. Jika Anda kemudian mengaktifkan ketiganya, Anda dapat meningkatkan ke harga Bundel untuk memanfaatkan diskon. Perubahan segera berlaku."
         }
       ],
@@ -2194,7 +2194,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Apakah kredit AI dibagikan antar situs?",
-          "answer": "Ya. Kredit AI dibagikan di tingkat organisasi dan dapat digunakan di semua situs. Kredit yang tidak terpakai memiliki lebih dari 25% kredit dasar selama satu bulan. Paket tambahan yang dibeli tidak pernah kedaluwarsa."
+          "answer": "Ya. Kredit AI dibagikan di tingkat organisasi dan dapat digunakan di semua situs. Kredit yang tidak terpakai dibawa ke bulan berikutnya hingga 25% dari kredit dasar. Paket tambahan yang dibeli tidak pernah kedaluwarsa."
         },
         {
           "question": "Apa perbedaan antara kursi penonton dan kursi pengguna?",
@@ -2218,19 +2218,19 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Tín dụng AI hoạt động như thế nào?",
-          "answer": "Tín dụng AI hỗ trợ các tính năng thông minh của Sundae. Mỗi truy vấn AI, tạo thông tin chi tiết hoặc phân tích tự động đều tiêu tốn tín dụng. Mỗi cấp độ bao gồm một cơ sở cộng với các khoản tín dụng cho mỗi trang web. Các khoản tín dụng chưa sử dụng sẽ chiếm hơn 25% số tiền cơ sở của bạn trong một tháng. Bạn cũng có thể mua gói bổ sung mà không hết hạn."
+          "answer": "Tín dụng AI hỗ trợ các tính năng thông minh của Sundae. Mỗi truy vấn AI, tạo thông tin chi tiết hoặc phân tích tự động đều tiêu tốn tín dụng. Mỗi cấp độ bao gồm một cơ sở cộng với các khoản tín dụng cho mỗi trang web. Các khoản tín dụng chưa sử dụng được chuyển sang tháng sau, tối đa 25% số dư cơ sở của bạn trong một tháng. Bạn cũng có thể mua gói bổ sung mà không hết hạn."
         },
         {
-          "question": "Tôi có cần tích hợp POS cho Báo cáo không?",
-          "answer": "Không. Báo cáo hoạt động với dữ liệu đã nhập: CSV, xuất từ nền tảng phân phối và nhập thủ công. Tích hợp POS là tùy chọn và kích hoạt làm mới theo thời gian thực. Core được khuyên dùng nếu bạn muốn có POS trực tiếp."
+          "question": "Tôi có cần tích hợp POS cho Report không?",
+          "answer": "Không. Report hoạt động với dữ liệu đã nhập: CSV, xuất từ nền tảng giao hàng và nhập thủ công. Tích hợp POS là tùy chọn và kích hoạt làm mới theo thời gian thực. Core được khuyên dùng nếu bạn muốn có POS trực tiếp."
         },
         {
           "question": "Sự khác biệt giữa ghế của người xem và ghế AI là gì?",
           "answer": "Chỗ ngồi của người xem là miễn phí và không giới hạn ở mọi cấp độ, đồng thời cung cấp quyền truy cập chỉ đọc vào trang tổng quan. Ghế AI cho phép bạn đặt câu hỏi, tạo thông tin chi tiết và sử dụng các chức năng AI. Mỗi cấp độ bao gồm một số lượng ghế AI cố định."
         },
         {
-          "question": "Sau này tôi có thể nâng cấp từ Báo cáo lên Core không?",
-          "answer": "Vâng. Bạn có thể chuyển từ Báo cáo sang Cốt lõi bất cứ lúc nào. Việc nâng cấp diễn ra ngay lập tức và bảo toàn dữ liệu, trang tổng quan cũng như cài đặt của bạn. Core bổ sung POS, mô-đun và quyền truy cập Tháp Canh theo thời gian thực."
+          "question": "Sau này tôi có thể nâng cấp từ Report lên Core không?",
+          "answer": "Vâng. Bạn có thể chuyển từ Report sang Core bất cứ lúc nào. Việc nâng cấp diễn ra ngay lập tức và bảo toàn dữ liệu, trang tổng quan cũng như cài đặt của bạn. Core bổ sung POS, mô-đun và quyền truy cập Watchtower theo thời gian thực."
         },
         {
           "question": "Có bản dùng thử miễn phí không?",
@@ -2239,8 +2239,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "Sự khác biệt giữa Báo cáo và Cốt lõi là gì?",
-          "answer": "Core bổ sung POS thời gian thực, mô-đun thông minh, quyền truy cập Tháp Canh và nhiều khoản tín dụng và chỗ ngồi AI khác. Báo cáo lý tưởng để phân tích dữ liệu đã nhập; Core được tạo ra cho hoạt động tình báo trực tiếp."
+          "question": "Sự khác biệt giữa Report và Core là gì?",
+          "answer": "Core bổ sung POS thời gian thực, mô-đun thông minh, quyền truy cập Watchtower và nhiều khoản tín dụng và chỗ ngồi AI khác. Report lý tưởng để phân tích dữ liệu đã nhập; Core được tạo ra cho hoạt động tình báo trực tiếp."
         },
         {
           "question": "Mô-đun thông minh là gì?",
@@ -2270,30 +2270,30 @@ export const generatedAuxiliaryLocalePacks = {
       "watchtower": [
         {
           "question": "Watchtower Sundae là gì?",
-          "answer": "Tháp Canh là bộ thông tin thị trường của Sundae giúp theo dõi bối cảnh cạnh tranh, các sự kiện địa phương và xu hướng ngành của bạn. Nó cung cấp các cảnh báo hữu ích để chủ động điều chỉnh giá cả, nhân sự và tiếp thị."
+          "answer": "Watchtower là bộ thông tin thị trường của Sundae giúp theo dõi bối cảnh cạnh tranh, các sự kiện địa phương và xu hướng ngành của bạn. Nó cung cấp các cảnh báo hữu ích để chủ động điều chỉnh giá cả, nhân sự và tiếp thị."
         },
         {
-          "question": "Ba mô-đun Tháp Canh là gì?",
+          "question": "Ba mô-đun Watchtower là gì?",
           "answer": "Thông tin Cạnh tranh theo dõi giá cả, thực đơn và đánh giá của đối thủ cạnh tranh. Thông tin sự kiện giám sát các sự kiện địa phương có ảnh hưởng đến nhu cầu. Trends Intelligence nêu bật những thay đổi trong thị trường và nhu cầu của người tiêu dùng. Mỗi mô-đun tuân theo mô hình giá được công bố trong bộ cấu hình."
         },
         {
-          "question": "Gói Tháp Canh là gì?",
-          "answer": "Gói Tháp Canh tập hợp ba mô-đun Tháp Canh trong một gói giảm giá dành cho các nhà khai thác muốn có cái nhìn toàn cảnh về thị trường. Giá gói trong bộ cấu hình phản ánh mô hình được xuất bản hiện tại."
+          "question": "Gói Watchtower là gì?",
+          "answer": "Gói Watchtower tập hợp ba mô-đun Watchtower trong một gói giảm giá dành cho các nhà khai thác muốn có cái nhìn toàn cảnh về thị trường. Giá gói trong bộ cấu hình phản ánh mô hình được xuất bản hiện tại."
         },
         {
-          "question": "Tháp Canh có yêu cầu gói Core không?",
-          "answer": "Vâng. Tháp Canh chỉ khả dụng cho người đăng ký Core (Core Lite, Core Pro hoặc Enterprise). Nó không có sẵn với công thức Báo cáo."
+          "question": "Watchtower có yêu cầu gói Core không?",
+          "answer": "Vâng. Watchtower chỉ khả dụng cho người đăng ký Core (Core Lite, Core Pro hoặc Enterprise). Nó không có sẵn với gói Report."
         },
         {
-          "question": "Giá Tháp Canh thay đổi như thế nào tùy theo trang web?",
-          "answer": "Mỗi mô-đun Tháp Canh có một mức giá cơ bản bao gồm chu vi ban đầu của các địa điểm, sau đó là giá cho mỗi địa điểm bổ sung. Bộ cấu hình hiển thị giá được công bố trực tiếp cho kết hợp Tháp Canh đã chọn."
+          "question": "Giá Watchtower thay đổi như thế nào tùy theo địa điểm?",
+          "answer": "Mỗi mô-đun Watchtower có một mức giá cơ bản bao gồm phạm vi địa điểm ban đầu, sau đó là giá cho mỗi địa điểm bổ sung. Bộ cấu hình hiển thị giá được công bố trực tiếp cho kết hợp Watchtower đã chọn."
         },
         {
-          "question": "Có sẵn giá Doanh nghiệp cho Tháp Canh không?",
-          "answer": "Vâng. Khách hàng doanh nghiệp (hơn 30 địa điểm hoặc chi tiêu dự kiến ​​trên 10.000 USD/tháng) được hưởng lợi từ mức giá Tháp Canh được cá nhân hóa, bao gồm các tùy chọn giá cố định. Liên hệ với bộ phận bán hàng để có báo giá tùy chỉnh."
+          "question": "Có sẵn giá Doanh nghiệp cho Watchtower không?",
+          "answer": "Vâng. Khách hàng doanh nghiệp (hơn 30 địa điểm hoặc chi tiêu dự kiến ​​trên 10.000 USD/tháng) được hưởng lợi từ mức giá Watchtower được cá nhân hóa, bao gồm các tùy chọn giá cố định. Liên hệ với bộ phận bán hàng để có báo giá tùy chỉnh."
         },
         {
-          "question": "Tôi có thể thêm các mô-đun Tháp Canh riêng lẻ sau không?",
+          "question": "Tôi có thể thêm các mô-đun Watchtower riêng lẻ sau không?",
           "answer": "Vâng. Bạn có thể bắt đầu với một mô-đun và thêm nhiều mô-đun hơn bất kỳ lúc nào. Sau đó, nếu kích hoạt cả ba, bạn có thể nâng cấp lên giá Gói để tận dụng chiết khấu. Những thay đổi được áp dụng ngay lập tức."
         }
       ],
@@ -2316,7 +2316,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Tín dụng AI có được chia sẻ giữa các trang web không?",
-          "answer": "Vâng. Tín dụng AI được chia sẻ ở cấp tổ chức và có thể được sử dụng trên tất cả các trang web. Các khoản tín dụng chưa sử dụng mang theo hơn 25% tín dụng cơ bản trong một tháng. Các gói bổ sung được mua không bao giờ hết hạn."
+          "answer": "Vâng. Tín dụng AI được chia sẻ ở cấp tổ chức và có thể được sử dụng trên tất cả các trang web. Các khoản tín dụng chưa sử dụng được chuyển sang tháng sau, tối đa 25% tín dụng cơ bản trong một tháng. Các gói bổ sung được mua không bao giờ hết hạn."
         },
         {
           "question": "Sự khác biệt giữa ghế của người xem và ghế của người dùng là gì?",
@@ -2336,15 +2336,15 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Care este diferența dintre Report Lite, Plus și Pro?",
-          "answer": "Raport Lite este punctul de intrare. Report Plus adaugă benchmark-uri, mai multă capacitate AI și o paletă vizuală mai largă. Report Pro oferă cea mai profundă suită de analiză, mai multe capacități AI și fluxuri de lucru de prognoză mai avansate. Catalogul afișează întotdeauna prețurile și capacitățile actuale."
+          "answer": "Report Lite este punctul de intrare. Report Plus adaugă benchmark-uri, mai multă capacitate AI și o paletă vizuală mai largă. Report Pro oferă cea mai profundă suită de analiză, mai multe capacități AI și fluxuri de lucru de prognoză mai avansate. Catalogul afișează întotdeauna prețurile și capacitățile actuale."
         },
         {
           "question": "Cum funcționează creditele AI?",
-          "answer": "Creditele AI alimentează funcțiile inteligente ale Sundae. Fiecare interogare AI, generare de informații sau analiză automată consumă credite. Fiecare nivel include o bază plus credite pe site. Creditele neutilizate transportă peste 25% din baza dumneavoastră timp de o lună. De asemenea, puteți achiziționa pachete suplimentare fără expirare."
+          "answer": "Creditele AI alimentează funcțiile inteligente ale Sundae. Fiecare interogare AI, generare de informații sau analiză automată consumă credite. Fiecare nivel include o bază plus credite pe site. Creditele neutilizate se reportează până la 25% din baza dumneavoastră timp de o lună. De asemenea, puteți achiziționa pachete suplimentare fără expirare."
         },
         {
           "question": "Am nevoie de o integrare POS pentru Report?",
-          "answer": "Nu. Raportul funcționează cu date importate: CSV, exporturi de pe platformele de livrare și introducere manuală. Integrarea POS este opțională și activează reîmprospătarea în timp real. Core este recomandat dacă doriți un POS direct."
+          "answer": "Nu. Report funcționează cu date importate: CSV, exporturi de pe platformele de livrare și introducere manuală. Integrarea POS este opțională și activează reîmprospătarea în timp real. Core este recomandat dacă doriți un POS direct."
         },
         {
           "question": "Care este diferența dintre scaunele pentru spectatori și scaunele AI?",
@@ -2352,7 +2352,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Pot face upgrade de la Report la Core mai târziu?",
-          "answer": "Da. Puteți comuta oricând de la Raport la Core. Actualizarea este imediată și vă păstrează datele, tablourile de bord și setările. Core adaugă POS în timp real, module și acces la Watchtower."
+          "answer": "Da. Puteți comuta oricând de la Report la Core. Actualizarea este imediată și vă păstrează datele, tablourile de bord și setările. Core adaugă POS în timp real, module și acces la Watchtower."
         },
         {
           "question": "Există o încercare gratuită?",
@@ -2362,7 +2362,7 @@ export const generatedAuxiliaryLocalePacks = {
       "core": [
         {
           "question": "Care este diferența dintre Report și Core?",
-          "answer": "Core adaugă POS în timp real, module de inteligență, acces Watchtower și multe alte credite și locuri AI. Raportul este ideal pentru analiza datelor importate; Core este creat pentru inteligența operațională în direct."
+          "answer": "Core adaugă POS în timp real, module de inteligență, acces Watchtower și multe alte credite și locuri AI. Report este ideal pentru analiza datelor importate; Core este creat pentru inteligența operațională în direct."
         },
         {
           "question": "Ce sunt modulele de inteligență?",
@@ -2370,7 +2370,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Există taxe de instalare?",
-          "answer": "Da. Unele module includ o taxă unică care acoperă integrarea și integrarea. Se pot aplica reduceri sau scutiri în funcție de pachete, angajamente de facturare și acorduri de întreprindere. Configuratorul reflectă politica în vigoare."
+          "answer": "Da. Unele module includ o taxă unică care acoperă onboarding-ul și integrarea. Se pot aplica reduceri sau scutiri în funcție de pachete, angajamente de facturare și acorduri de întreprindere. Configuratorul reflectă politica în vigoare."
         },
         {
           "question": "Ce este Cross-Intelligence Engine?",
@@ -2378,7 +2378,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Ce include Core Lite vs Core Pro?",
-          "answer": "Core Lite este potrivit pentru echipele care au nevoie de inteligență operațională în timp real, cu o bază bună de inteligență artificială. Core Pro adaugă mai multă capacitate, predicții mai profunde și o economie mai bună la scară. Catalogul actual arată cotele exacte."
+          "answer": "Core Lite este potrivit pentru echipele care au nevoie de inteligență operațională în timp real, cu o bază AI bună. Core Pro adaugă mai multă capacitate, predicții mai profunde și o economie mai bună la scară. Catalogul actual arată cotele exacte."
         },
         {
           "question": "Cum funcționează reducerile de volum?",
@@ -2403,8 +2403,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Pachetul Watchtower reunește cele trei module Watchtower într-un pachet redus pentru operatorii care doresc o vedere completă a pieței. Prețul pachetului din configurator reflectă modelul publicat curent."
         },
         {
-          "question": "Watchtower necesită planul de bază?",
-          "answer": "Da. Watchtower este disponibil numai pentru abonații Core (Core Lite, Core Pro sau Enterprise). Nu este disponibil cu formula Raport."
+          "question": "Watchtower necesită planul Core?",
+          "answer": "Da. Watchtower este disponibil numai pentru abonații Core (Core Lite, Core Pro sau Enterprise). Nu este disponibil cu un plan Report."
         },
         {
           "question": "Cum se modifică prețul Watchtower în funcție de site?",
@@ -2422,7 +2422,7 @@ export const generatedAuxiliaryLocalePacks = {
       "general": [
         {
           "question": "Există taxe de instalare?",
-          "answer": "Da. Unele module includ taxe unice pentru integrare și integrare. Se pot aplica reduceri sau scutiri în funcție de pachete, angajamente de facturare și acorduri de întreprindere. Cotațiile generate din configurator reflectă politica de taxe publicată."
+          "answer": "Da. Unele module includ taxe unice pentru onboarding și integrare. Se pot aplica reduceri sau scutiri în funcție de pachete, angajamente de facturare și acorduri de întreprindere. Cotațiile generate din configurator reflectă politica de taxe publicată."
         },
         {
           "question": "Cât durează contractul?",
@@ -2438,7 +2438,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Sunt creditele AI partajate între site-uri?",
-          "answer": "Da. Creditele AI sunt partajate la nivel organizațional și pot fi folosite pe toate site-urile. Creditele neutilizate transportă peste 25% din creditele de bază pentru o lună. Pachetele suplimentare achiziționate nu expiră niciodată."
+          "answer": "Da. Creditele AI sunt partajate la nivel organizațional și pot fi folosite pe toate site-urile. Creditele neutilizate se reportează până la 25% din creditele de bază timp de o lună. Pachetele suplimentare achiziționate nu expiră niciodată."
         },
         {
           "question": "Care este diferența dintre scaunele de spectator și locurile de utilizator?",
@@ -2462,11 +2462,11 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Hur fungerar AI-krediter?",
-          "answer": "AI Credits driver Sundaes smarta funktioner. Varje AI-fråga, insiktsgenerering eller automatiserad analys förbrukar poäng. Varje nivå inkluderar en bas plus poäng per sida. Oanvända krediter tar över 25 % av din bas under en månad. Du kan också köpa ytterligare förpackningar utan utgångsdatum."
+          "answer": "AI Credits driver Sundaes smarta funktioner. Varje AI-fråga, insiktsgenerering eller automatiserad analys förbrukar poäng. Varje nivå inkluderar en bas plus poäng per sida. Oanvända krediter rullas över med upp till 25 % av din bas under en månad. Du kan också köpa ytterligare förpackningar utan utgångsdatum."
         },
         {
-          "question": "Behöver jag en POS-integration för Rapport?",
-          "answer": "Nej. Rapport fungerar med importerad data: CSV, exporter från leveransplattformar och manuell inmatning. POS-integration är valfri och aktiverar uppdatering i realtid. Core rekommenderas om du vill ha en direkt POS."
+          "question": "Behöver jag en POS-integration för Report?",
+          "answer": "Nej. Report fungerar med importerad data: CSV, exporter från leveransplattformar och manuell inmatning. POS-integration är valfri och aktiverar uppdatering i realtid. Core rekommenderas om du vill ha en direkt POS."
         },
         {
           "question": "Vad är skillnaden mellan tittarstolar och AI-stolar?",
@@ -2474,7 +2474,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Kan jag uppgradera från Report till Core senare?",
-          "answer": "Ja. Du kan växla från Rapport till Core när som helst. Uppgraderingen är omedelbar och bevarar dina data, instrumentpaneler och inställningar. Core lägger till POS i realtid, moduler och Watchtower-åtkomst."
+          "answer": "Ja. Du kan växla från Report till Core när som helst. Uppgraderingen är omedelbar och bevarar dina data, instrumentpaneler och inställningar. Core lägger till POS i realtid, moduler och Watchtower-åtkomst."
         },
         {
           "question": "Finns det en gratis provperiod?",
@@ -2484,7 +2484,7 @@ export const generatedAuxiliaryLocalePacks = {
       "core": [
         {
           "question": "Vad är skillnaden mellan Report och Core?",
-          "answer": "Core lägger till POS i realtid, intelligensmoduler, Watchtower-åtkomst och många fler AI-krediter och platser. Rapport är idealisk för att analysera importerad data; Core är gjord för live operationell intelligens."
+          "answer": "Core lägger till POS i realtid, intelligensmoduler, Watchtower-åtkomst och många fler AI-krediter och platser. Report är idealisk för att analysera importerad data; Core är gjord för live operationell intelligens."
         },
         {
           "question": "Vad är intelligensmoduler?",
@@ -2517,34 +2517,34 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Watchtower är Sundaes marknadsinformationssvit som övervakar ditt tävlingslandskap, lokala evenemang och branschtrender. Det ger handlingsbara varningar för att proaktivt justera prissättning, bemanning och marknadsföring."
         },
         {
-          "question": "Vilka är de tre Watchtowerets moduler?",
-          "answer": "Competitive Intelligence spårar konkurrenters priser, menyer och recensioner. Events Intelligence övervakar lokala händelser som påverkar efterfrågan. Trender Intelligence belyser förändringar i marknadens och konsumenternas efterfrågan. Varje modul följer prismodellen som publiceras i konfiguratorn."
+          "question": "Vilka är de tre Watchtower-modulerna?",
+          "answer": "Competitive Intelligence spårar konkurrenters priser, menyer och recensioner. Events Intelligence övervakar lokala händelser som påverkar efterfrågan. Trends Intelligence belyser förändringar i marknadens och konsumenternas efterfrågan. Varje modul följer prismodellen som publiceras i konfiguratorn."
         },
         {
           "question": "Vad är Watchtower Bundle?",
           "answer": "Watchtower Bundle samlar de tre Watchtower-modulerna i ett rabatterat paket för operatörer som vill ha en komplett överblick över marknaden. Paketpriset i konfiguratorn återspeglar den aktuella publicerade modellen."
         },
         {
-          "question": "Kräver Watchtoweret Core-planen?",
-          "answer": "Ja. Watchtower är endast tillgängligt för Core-prenumeranter (Core Lite, Core Pro eller Enterprise). Den är inte tillgänglig med rapportformeln."
+          "question": "Kräver Watchtower Core-planen?",
+          "answer": "Ja. Watchtower är endast tillgängligt för Core-prenumeranter (Core Lite, Core Pro eller Enterprise). Det är inte tillgängligt med en Report-plan."
         },
         {
-          "question": "Hur förändras Watchtowerets pris beroende på webbplatsen?",
-          "answer": "Varje Watchtowersmodul har ett baspris som täcker en första omkrets av webbplatser, sedan ett pris per ytterligare webbplats. Konfiguratorn visar det publicerade priset för den valda Watchtower-kombinationen."
+          "question": "Hur förändras Watchtower-priset beroende på plats?",
+          "answer": "Varje Watchtower-modul har ett baspris som täcker ett första antal platser, sedan ett pris per ytterligare plats. Konfiguratorn visar det publicerade priset för den valda Watchtower-kombinationen."
         },
         {
           "question": "Är Enterprise-priser tillgängliga för Watchtower?",
           "answer": "Ja. Företagskunder (30+ sajter eller över 10 000 USD/månad beräknade utgifter) drar nytta av personliga Watchtower-priser, inklusive fastprisalternativ. Kontakta försäljningen för en skräddarsydd offert."
         },
         {
-          "question": "Kan jag lägga till individuella Watchtowersmoduler senare?",
+          "question": "Kan jag lägga till individuella Watchtower-moduler senare?",
           "answer": "Ja. Du kan börja med en modul och lägga till fler när som helst. Om du sedan aktiverar alla tre kan du uppgradera till Bundle-prissättning för att ta del av rabatten. Ändringar gäller omedelbart."
         }
       ],
       "general": [
         {
           "question": "Finns det några installationsavgifter?",
-          "answer": "Ja. Vissa moduler inkluderar engångsavgifter för onboarding och integration. Rabatter eller undantag kan gälla beroende på paket, faktureringsåtaganden och företagsavtal. Citat som genereras från konfiguratorn återspeglar den publicerade avgiftspolicyn."
+          "answer": "Ja. Vissa moduler inkluderar engångsavgifter för onboarding och integration. Rabatter eller undantag kan gälla beroende på paket, faktureringsåtaganden och företagsavtal. Offerter som genereras från konfiguratorn återspeglar den publicerade avgiftspolicyn."
         },
         {
           "question": "Hur långt är kontraktet?",
@@ -2560,7 +2560,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Delas AI-krediter mellan webbplatser?",
-          "answer": "Ja. AI-poäng delas på organisationsnivå och kan användas på alla webbplatser. Oanvända krediter tar över 25 % av baskrediterna under en månad. Ytterligare paket som köpts upphör aldrig att gälla."
+          "answer": "Ja. AI-poäng delas på organisationsnivå och kan användas på alla webbplatser. Oanvända krediter rullas över med upp till 25 % av baskrediterna under en månad. Ytterligare paket som köpts upphör aldrig att gälla."
         },
         {
           "question": "Vad är skillnaden mellan tittarplatser och användarplatser?",
@@ -2575,28 +2575,28 @@ export const generatedAuxiliaryLocalePacks = {
     "bn": {
       "report": [
         {
-          "question": "Sundae রিপোর্ট কি?",
-          "answer": "সানডে রিপোর্ট হল আমাদের অ্যানালিটিক্স লেয়ার যা আপনার বিদ্যমান ডেটা সোর্সের (পিওএস, ডেলিভারি, রিভিউ) সাথে যুক্ত করা আছে যাতে কোনও পিওএস ইন্টিগ্রেশনের প্রয়োজন নেই। Report Liteের সাথে বিনামূল্যে শুরু করুন বা প্লাস বা প্রো সহ আরও উন্নত বিশ্লেষণ সক্ষম করুন৷"
+          "question": "Sundae Report কী?",
+          "answer": "Sundae Report হল আমাদের অ্যানালিটিক্স লেয়ার যা কার্যকর অন্তর্দৃষ্টি তৈরি করতে আপনার বিদ্যমান ডেটা সোর্সের (POS, ডেলিভারি, রিভিউ) সাথে যুক্ত হয়, এবং এর জন্য কোনও POS ইন্টিগ্রেশনের প্রয়োজন নেই। Report Lite দিয়ে বিনামূল্যে শুরু করুন বা Plus বা Pro সহ আরও উন্নত বিশ্লেষণ সক্ষম করুন।"
         },
         {
           "question": "Report Lite, প্লাস এবং প্রো এর মধ্যে পার্থক্য কি?",
-          "answer": "Report Lite হল এন্ট্রি পয়েন্ট। Report Plus বেঞ্চমার্ক, আরও এআই ক্ষমতা এবং একটি বিস্তৃত ভিজ্যুয়াল প্যালেট যোগ করে। Report Pro গভীরতম অ্যানালিটিক্স স্যুট, আরও AI ক্ষমতা এবং আরও উন্নত পূর্বাভাস কর্মপ্রবাহ নিয়ে আসে। ক্যাটালগ সর্বদা বর্তমান মূল্য এবং ক্ষমতা প্রদর্শন করে।"
+          "answer": "Report Lite হল এন্ট্রি পয়েন্ট। Report Plus বেঞ্চমার্ক, আরও AI ক্ষমতা এবং একটি বিস্তৃত ভিজ্যুয়াল প্যালেট যোগ করে। Report Pro গভীরতম অ্যানালিটিক্স স্যুট, আরও AI ক্ষমতা এবং আরও উন্নত পূর্বাভাস কর্মপ্রবাহ নিয়ে আসে। ক্যাটালগ সর্বদা বর্তমান মূল্য এবং ক্ষমতা প্রদর্শন করে।"
         },
         {
           "question": "এআই ক্রেডিট কিভাবে কাজ করে?",
           "answer": "AI ক্রেডিটগুলি Sundae-এর স্মার্ট বৈশিষ্ট্যগুলিকে শক্তিশালী করে৷ প্রতিটি AI প্রশ্ন, অন্তর্দৃষ্টি তৈরি বা স্বয়ংক্রিয় বিশ্লেষণ ক্রেডিট গ্রহণ করে। প্রতিটি স্তরে সাইট প্রতি একটি বেস প্লাস ক্রেডিট অন্তর্ভুক্ত। অব্যবহৃত ক্রেডিট এক মাসের জন্য আপনার বেসের 25% এর বেশি বহন করে। আপনি মেয়াদ শেষ না করে অতিরিক্ত প্যাকও কিনতে পারেন।"
         },
         {
-          "question": "রিপোর্টের জন্য আমার কি একটি POS ইন্টিগ্রেশন দরকার?",
-          "answer": "না। রিপোর্ট আমদানি করা ডেটার সাথে কাজ করে: CSV, ডেলিভারি প্ল্যাটফর্ম থেকে রপ্তানি এবং ম্যানুয়াল এন্ট্রি। POS ইন্টিগ্রেশন ঐচ্ছিক এবং রিয়েল-টাইম রিফ্রেশিং সক্রিয় করে। আপনি যদি সরাসরি POS চান তাহলে কোর সুপারিশ করা হয়।"
+          "question": "Report-এর জন্য আমার কি একটি POS ইন্টিগ্রেশন দরকার?",
+          "answer": "না। Report আমদানি করা ডেটার সাথে কাজ করে: CSV, ডেলিভারি প্ল্যাটফর্ম থেকে রপ্তানি এবং ম্যানুয়াল এন্ট্রি। POS ইন্টিগ্রেশন ঐচ্ছিক এবং রিয়েল-টাইম রিফ্রেশ সক্রিয় করে। আপনি যদি সরাসরি POS চান তাহলে Core সুপারিশ করা হয়।"
         },
         {
           "question": "দর্শক আসন এবং এআই আসনের মধ্যে পার্থক্য কী?",
           "answer": "দর্শকের আসন বিনামূল্যে এবং সমস্ত স্তরে সীমাহীন এবং ড্যাশবোর্ডগুলিতে শুধুমাত্র-পঠন অ্যাক্সেস প্রদান করে৷ AI আসনগুলি আপনাকে প্রশ্ন জিজ্ঞাসা করতে, অন্তর্দৃষ্টি তৈরি করতে এবং AI ফাংশনগুলি ব্যবহার করতে দেয়। প্রতিটি স্তরে একটি নির্দিষ্ট সংখ্যক এআই আসন রয়েছে।"
         },
         {
-          "question": "আমি কি পরে রিপোর্ট থেকে কোরে আপগ্রেড করতে পারি?",
-          "answer": "হ্যাঁ। আপনি যে কোনো সময় রিপোর্ট থেকে কোরে স্যুইচ করতে পারেন। আপগ্রেড অবিলম্বে এবং আপনার ডেটা, ড্যাশবোর্ড এবং সেটিংস সংরক্ষণ করে৷ কোর রিয়েল-টাইম POS, মডিউল এবং Watchtower অ্যাক্সেস যোগ করে।"
+          "question": "আমি কি পরে Report থেকে Core-এ আপগ্রেড করতে পারি?",
+          "answer": "হ্যাঁ। আপনি যে কোনো সময় Report থেকে Core-এ স্যুইচ করতে পারেন। আপগ্রেড অবিলম্বে হয় এবং আপনার ডেটা, ড্যাশবোর্ড এবং সেটিংস সংরক্ষণ করে। Core রিয়েল-টাইম POS, মডিউল এবং Watchtower অ্যাক্সেস যোগ করে।"
         },
         {
           "question": "একটি বিনামূল্যে ট্রায়াল আছে?",
@@ -2605,16 +2605,16 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "রিপোর্ট এবং কোর মধ্যে পার্থক্য কি?",
-          "answer": "কোর রিয়েল-টাইম POS, ইন্টেলিজেন্স মডিউল, Watchtower অ্যাক্সেস এবং আরও অনেক AI ক্রেডিট এবং আসন যোগ করে। রিপোর্ট আমদানি করা তথ্য বিশ্লেষণের জন্য আদর্শ; কোর লাইভ অপারেশনাল বুদ্ধিমত্তা জন্য তৈরি করা হয়."
+          "question": "Report এবং Core-এর মধ্যে পার্থক্য কী?",
+          "answer": "Core রিয়েল-টাইম POS, ইন্টেলিজেন্স মডিউল, Watchtower অ্যাক্সেস এবং আরও অনেক AI ক্রেডিট এবং আসন যোগ করে। Report আমদানি করা তথ্য বিশ্লেষণের জন্য আদর্শ; Core লাইভ অপারেশনাল বুদ্ধিমত্তার জন্য তৈরি করা হয়েছে।"
         },
         {
           "question": "বুদ্ধিমত্তা মডিউল কি?",
-          "answer": "মডিউল হল কোরের জন্য বিশেষ বিকল্প যা শ্রম, জায়, ক্রয়, বিপণন, বিতরণ, রাজস্ব নিশ্চয়তা, গ্রাহক অভিজ্ঞতা এবং আরও অনেক কিছুর বিশ্লেষণাত্মক গভীরতা প্রদান করে। প্রতিটি মডিউলের প্রতি সাইটের মূল্য সহ একটি প্রতিষ্ঠানের লাইসেন্স রয়েছে।"
+          "answer": "মডিউল হল Core-এর জন্য বিশেষ বিকল্প যা শ্রম, ইনভেন্টরি, ক্রয়, বিপণন, বিতরণ, রাজস্ব নিশ্চয়তা, অতিথি অভিজ্ঞতা এবং আরও অনেক কিছুর বিশ্লেষণাত্মক গভীরতা প্রদান করে। প্রতিটি মডিউলের, প্রতি লোকেশন মূল্য সহ, একটি প্রতিষ্ঠানের লাইসেন্স রয়েছে।"
         },
         {
           "question": "কোন সেটআপ ফি আছে?",
-          "answer": "হ্যাঁ। কিছু মডিউল অনবোর্ডিং এবং ইন্টিগ্রেশন কভার করে এককালীন ফি অন্তর্ভুক্ত করে। বান্ডিল, বিলিং প্রতিশ্রুতি এবং এন্টারপ্রাইজ চুক্তির উপর নির্ভর করে ছাড় বা ছাড় প্রযোজ্য হতে পারে। কনফিগারেটর কার্যকর নীতি প্রতিফলিত করে।"
+          "answer": "হ্যাঁ। কিছু মডিউলে অনবোর্ডিং ও ইন্টিগ্রেশন কভার করার জন্য এককালীন ফি অন্তর্ভুক্ত থাকে। বান্ডিল, বিলিং প্রতিশ্রুতি এবং এন্টারপ্রাইজ চুক্তির উপর নির্ভর করে ছাড় বা অব্যাহতি প্রযোজ্য হতে পারে। কনফিগারেটর কার্যকর নীতি প্রতিফলিত করে।"
         },
         {
           "question": "ক্রস ইন্টেলিজেন্স ইঞ্জিন কি?",
@@ -2626,11 +2626,11 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "ভলিউম ডিসকাউন্ট কিভাবে কাজ করে?",
-          "answer": "ভলিউম ডিসকাউন্ট এবং বিলিং ডিসকাউন্ট ক্রমবর্ধমান নয়. 15% ক্যাপ সহ আপনি সর্বদা সর্বাধিক সুবিধা পান৷ এন্টারপ্রাইজ গ্রাহকরা ব্যক্তিগতকৃত মূল্য থেকে উপকৃত হয়।"
+          "answer": "ভলিউম ডিসকাউন্ট এবং বিলিং ডিসকাউন্ট একসঙ্গে যোগ হয় না। 15% সীমা সহ আপনি সর্বদা সবচেয়ে সুবিধাজনকটি পান। এন্টারপ্রাইজ গ্রাহকরা ব্যক্তিগতকৃত মূল্য থেকে উপকৃত হন।"
         },
         {
           "question": "চুক্তি কতদিনের?",
-          "answer": "সাবস্ক্রিপশনটি ডিফল্টরূপে মাসিক এবং যে কোনো সময় জরিমানা ছাড়াই বাতিল করা যেতে পারে। বার্ষিক প্রিপেইমেন্টে 10% ডিসকাউন্ট এবং 2 বছরের মধ্যে প্রিপেমেন্ট 15% অফার করে। এন্টারপ্রাইজ চুক্তি নির্দিষ্ট শর্ত আছে."
+          "answer": "সাবস্ক্রিপশন ডিফল্টভাবে মাসিক এবং যে কোনো সময় জরিমানা ছাড়াই বাতিল করা যায়। বার্ষিক অগ্রিম পরিশোধে 10% ছাড় এবং 2 বছরের অগ্রিম পরিশোধে 15% ছাড় পাওয়া যায়। এন্টারপ্রাইজ চুক্তির নির্দিষ্ট শর্ত থাকে।"
         }
       ],
       "watchtower": [
@@ -2647,8 +2647,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "Watchtower বান্ডেল তিনটি Watchtower মডিউলকে একত্রিত করে একটি ডিসকাউন্ট প্যাকেজে অপারেটরদের জন্য যারা বাজারের সম্পূর্ণ দৃশ্য দেখতে চান। কনফিগারে বান্ডেলের মূল্য বর্তমান প্রকাশিত মডেলকে প্রতিফলিত করে।"
         },
         {
-          "question": "Watchtowerের কি মূল পরিকল্পনা প্রয়োজন?",
-          "answer": "হ্যাঁ। Watchtower শুধুমাত্র মূল গ্রাহকদের জন্য উপলব্ধ (Core Lite, Core Pro বা এন্টারপ্রাইজ)। এটি রিপোর্ট সূত্রের সাথে উপলব্ধ নয়।"
+          "question": "Watchtower-এর কি Core পরিকল্পনা প্রয়োজন?",
+          "answer": "হ্যাঁ। Watchtower শুধুমাত্র Core গ্রাহকদের জন্য উপলব্ধ (Core Lite, Core Pro বা Enterprise)। এটি Report প্ল্যানের সাথে উপলব্ধ নয়।"
         },
         {
           "question": "সাইটের উপর নির্ভর করে Watchtowerের দাম কীভাবে পরিবর্তিত হয়?",
@@ -2656,25 +2656,25 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "এন্টারপ্রাইজ মূল্য কি Watchtowerের জন্য উপলব্ধ?",
-          "answer": "হ্যাঁ। এন্টারপ্রাইজ গ্রাহকরা (30+ সাইট বা $10,000/মাসে অনুমানিত খরচ) ফিক্সড-রেট বিকল্পগুলি সহ ব্যক্তিগতকৃত Watchtower মূল্য থেকে উপকৃত হয়। একটি কাস্টম উদ্ধৃতি জন্য যোগাযোগ বিক্রয়."
+          "answer": "হ্যাঁ। এন্টারপ্রাইজ গ্রাহকরা (30+ সাইট বা $10,000/মাসে অনুমানিত খরচ) ফিক্সড-রেট বিকল্প সহ ব্যক্তিগতকৃত Watchtower মূল্য থেকে উপকৃত হন। কাস্টম উদ্ধৃতির জন্য সেলস টিমের সঙ্গে যোগাযোগ করুন।"
         },
         {
           "question": "আমি কি পরে পৃথক Watchtower মডিউল যোগ করতে পারি?",
-          "answer": "হ্যাঁ। আপনি একটি মডিউল দিয়ে শুরু করতে পারেন এবং যেকোনো সময় আরও যোগ করতে পারেন। আপনি যদি তিনটিই সক্রিয় করেন, তাহলে ডিসকাউন্টের সুবিধা নিতে আপনি বান্ডেল মূল্যে আপগ্রেড করতে পারেন। পরিবর্তন অবিলম্বে প্রযোজ্য."
+          "answer": "হ্যাঁ। আপনি একটি মডিউল দিয়ে শুরু করতে পারেন এবং যেকোনো সময় আরও যোগ করতে পারেন। এরপর তিনটিই সক্রিয় করলে, ডিসকাউন্টের সুবিধা নিতে আপনি বান্ডেল মূল্যে আপগ্রেড করতে পারেন। পরিবর্তন অবিলম্বে প্রযোজ্য হয়।"
         }
       ],
       "general": [
         {
           "question": "কোন সেটআপ ফি আছে?",
-          "answer": "হ্যাঁ। কিছু মডিউল অনবোর্ডিং এবং ইন্টিগ্রেশনের জন্য এককালীন ফি অন্তর্ভুক্ত করে। বান্ডিল, বিলিং প্রতিশ্রুতি এবং এন্টারপ্রাইজ চুক্তির উপর নির্ভর করে ছাড় বা ছাড় প্রযোজ্য হতে পারে। কনফিগারার থেকে উত্পন্ন উদ্ধৃতি প্রকাশিত ফি নীতি প্রতিফলিত."
+          "answer": "হ্যাঁ। কিছু মডিউলে অনবোর্ডিং ও ইন্টিগ্রেশনের জন্য এককালীন ফি অন্তর্ভুক্ত থাকে। বান্ডিল, বিলিং প্রতিশ্রুতি এবং এন্টারপ্রাইজ চুক্তির উপর নির্ভর করে ছাড় বা অব্যাহতি প্রযোজ্য হতে পারে। কনফিগারার থেকে তৈরি উদ্ধৃতি প্রকাশিত ফি নীতি প্রতিফলিত করে।"
         },
         {
           "question": "চুক্তি কতদিনের?",
-          "answer": "সাবস্ক্রিপশনটি ডিফল্টরূপে মাসিক এবং যে কোনো সময় জরিমানা ছাড়াই বাতিল করা যেতে পারে। বার্ষিক প্রিপেইমেন্টে 10% ডিসকাউন্ট এবং 2 বছরের মধ্যে প্রিপেমেন্ট 15% অফার করে। এন্টারপ্রাইজ চুক্তি নির্দিষ্ট শর্ত আছে."
+          "answer": "সাবস্ক্রিপশন ডিফল্টভাবে মাসিক এবং যে কোনো সময় জরিমানা ছাড়াই বাতিল করা যায়। বার্ষিক অগ্রিম পরিশোধে 10% ছাড় এবং 2 বছরের অগ্রিম পরিশোধে 15% ছাড় পাওয়া যায়। এন্টারপ্রাইজ চুক্তির নির্দিষ্ট শর্ত থাকে।"
         },
         {
           "question": "আমি কি আপগ্রেড বা ডাউনগ্রেড করতে পারি?",
-          "answer": "হ্যাঁ। আপগ্রেড অবিলম্বে হয়. ডাউনগ্রেডগুলি পরবর্তী বিলিং চক্রে কার্যকর হবে৷"
+          "answer": "হ্যাঁ। আপগ্রেড অবিলম্বে কার্যকর হয়। ডাউনগ্রেড পরবর্তী বিলিং চক্রে কার্যকর হয়।"
         },
         {
           "question": "ডিসকাউন্ট কিভাবে কাজ করে?",
@@ -2682,7 +2682,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "AI ক্রেডিট কি সাইটের মধ্যে ভাগ করা হয়?",
-          "answer": "হ্যাঁ। এআই ক্রেডিটগুলি সাংগঠনিক স্তরে ভাগ করা হয় এবং সমস্ত সাইটে ব্যবহার করা যেতে পারে। অব্যবহৃত ক্রেডিট এক মাসের জন্য 25% বেস ক্রেডিট বহন করে। ক্রয় করা অতিরিক্ত প্যাক কখনই মেয়াদ শেষ হয় না।"
+          "answer": "হ্যাঁ। AI ক্রেডিটগুলি সাংগঠনিক স্তরে ভাগ করা হয় এবং সমস্ত সাইটে ব্যবহার করা যেতে পারে। অব্যবহৃত ক্রেডিট এক মাসের জন্য বেস ক্রেডিটের 25% পর্যন্ত বহন করে। ক্রয় করা অতিরিক্ত প্যাক কখনই মেয়াদ শেষ হয় না।"
         },
         {
           "question": "দর্শক আসন এবং ব্যবহারকারী আসন মধ্যে পার্থক্য কি?",
@@ -2706,19 +2706,19 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "เครดิต AI ทำงานอย่างไร",
-          "answer": "เครดิต AI ขับเคลื่อนคุณสมบัติอันชาญฉลาดของ Sundae การสืบค้น AI การสร้างข้อมูลเชิงลึก หรือการวิเคราะห์อัตโนมัติแต่ละรายการต้องใช้เครดิต แต่ละระดับจะมีฐานบวกเครดิตต่อไซต์ เครดิตที่ไม่ได้ใช้จะมียอดฐานของคุณมากกว่า 25% เป็นเวลาหนึ่งเดือน คุณยังสามารถซื้อแพ็คเพิ่มเติมได้โดยไม่หมดอายุ"
+          "answer": "เครดิต AI ขับเคลื่อนคุณสมบัติอันชาญฉลาดของ Sundae การสืบค้น AI การสร้างข้อมูลเชิงลึก หรือการวิเคราะห์อัตโนมัติแต่ละรายการต้องใช้เครดิต แต่ละระดับจะมีฐานบวกเครดิตต่อไซต์ เครดิตที่ไม่ได้ใช้จะถูกยกยอดไปได้สูงสุด 25% ของยอดฐานของคุณเป็นเวลาหนึ่งเดือน คุณยังสามารถซื้อแพ็คเพิ่มเติมได้โดยไม่หมดอายุ"
         },
         {
-          "question": "ฉันจำเป็นต้องมีการรวม POS สำหรับรายงานหรือไม่",
-          "answer": "ไม่ รายงานใช้งานได้กับข้อมูลที่นำเข้า: CSV, การส่งออกจากแพลตฟอร์มการจัดส่ง และการป้อนข้อมูลด้วยตนเอง การรวม POS เป็นทางเลือกและเปิดใช้งานการรีเฟรชแบบเรียลไทม์ แนะนำให้ใช้ Core หากคุณต้องการ POS โดยตรง"
+          "question": "ฉันจำเป็นต้องมีการรวม POS สำหรับ Report หรือไม่",
+          "answer": "ไม่ Report ใช้งานได้กับข้อมูลที่นำเข้า: CSV, การส่งออกจากแพลตฟอร์มการจัดส่ง และการป้อนข้อมูลด้วยตนเอง การรวม POS เป็นทางเลือกและเปิดใช้งานการรีเฟรชแบบเรียลไทม์ แนะนำให้ใช้ Core หากคุณต้องการ POS โดยตรง"
         },
         {
           "question": "ที่นั่งผู้ชมและที่นั่ง AI แตกต่างกันอย่างไร?",
           "answer": "ที่นั่งของผู้ชมนั้นฟรีและไม่จำกัดในทุกระดับ และให้การเข้าถึงแดชบอร์ดแบบอ่านอย่างเดียว ที่นั่ง AI ช่วยให้คุณสามารถถามคำถาม สร้างข้อมูลเชิงลึก และใช้ฟังก์ชัน AI ได้ แต่ละระดับจะมีที่นั่ง AI จำนวนคงที่"
         },
         {
-          "question": "ฉันสามารถอัปเกรดจากรายงานเป็น Core ในภายหลังได้หรือไม่",
-          "answer": "ใช่ คุณสามารถเปลี่ยนจากรายงานเป็นแกนหลักได้ตลอดเวลา การอัปเกรดจะเกิดขึ้นทันทีและจะรักษาข้อมูล แดชบอร์ด และการตั้งค่าของคุณ Core เพิ่มการเข้าถึง POS, โมดูล และ Watchtower แบบเรียลไทม์"
+          "question": "ฉันสามารถอัปเกรดจาก Report เป็น Core ในภายหลังได้หรือไม่",
+          "answer": "ใช่ คุณสามารถเปลี่ยนจาก Report เป็น Core ได้ตลอดเวลา การอัปเกรดจะเกิดขึ้นทันทีและจะรักษาข้อมูล แดชบอร์ด และการตั้งค่าของคุณ Core เพิ่มการเข้าถึง POS, โมดูล และ Watchtower แบบเรียลไทม์"
         },
         {
           "question": "มีการทดลองใช้ฟรีหรือไม่?",
@@ -2727,8 +2727,8 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "ความแตกต่างระหว่างรายงานและคอร์คืออะไร?",
-          "answer": "Core เพิ่ม POS แบบเรียลไทม์ โมดูลอัจฉริยะ การเข้าถึงWatchtower และเครดิต AI และที่นั่งอื่นๆ อีกมากมาย รายงานเหมาะสำหรับการวิเคราะห์ข้อมูลที่นำเข้า Core ถูกสร้างขึ้นมาเพื่อความชาญฉลาดในการปฏิบัติงาน"
+          "question": "ความแตกต่างระหว่าง Report และ Core คืออะไร?",
+          "answer": "Core เพิ่ม POS แบบเรียลไทม์ โมดูลอัจฉริยะ การเข้าถึง Watchtower และเครดิต AI และที่นั่งอื่นๆ อีกมากมาย Report เหมาะสำหรับการวิเคราะห์ข้อมูลที่นำเข้า Core ถูกสร้างขึ้นมาเพื่อความชาญฉลาดในการปฏิบัติงานแบบเรียลไทม์"
         },
         {
           "question": "โมดูลอัจฉริยะคืออะไร?",
@@ -2757,7 +2757,7 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Watchtowerซุนแดคืออะไร?",
+          "question": "Sundae Watchtower คืออะไร?",
           "answer": "Watchtower คือชุดข้อมูลการตลาดของ Sundae ที่คอยติดตามภาพรวมการแข่งขัน กิจกรรมในท้องถิ่น และแนวโน้มของอุตสาหกรรม โดยมีการแจ้งเตือนที่สามารถดำเนินการได้เพื่อปรับราคา พนักงาน และการตลาดในเชิงรุก"
         },
         {
@@ -2769,8 +2769,8 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "ชุด Watchtower รวบรวมโมดูล Watchtower ทั้งสามโมดูลไว้ในแพ็คเกจลดราคาสำหรับผู้ให้บริการที่ต้องการภาพรวมของตลาด ราคารวมในตัวกำหนดค่าสะท้อนถึงโมเดลที่เผยแพร่ในปัจจุบัน"
         },
         {
-          "question": "Watchtowerจำเป็นต้องมีแผนหลักหรือไม่?",
-          "answer": "ใช่ Watchtowerมีให้เฉพาะสมาชิก Core เท่านั้น (Core Lite, Core Pro หรือ Enterprise) ไม่สามารถใช้ได้กับสูตรรายงาน"
+          "question": "Watchtower จำเป็นต้องมีแผน Core หรือไม่?",
+          "answer": "ใช่ Watchtower มีให้เฉพาะสมาชิก Core เท่านั้น (Core Lite, Core Pro หรือ Enterprise) ไม่สามารถใช้ได้กับแผน Report"
         },
         {
           "question": "ราคาของWatchtowerเปลี่ยนแปลงอย่างไรขึ้นอยู่กับเว็บไซต์?",
@@ -2804,7 +2804,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "เครดิต AI ถูกใช้ร่วมกันระหว่างไซต์หรือไม่",
-          "answer": "ใช่ เครดิต AI จะถูกแบ่งปันในระดับองค์กรและสามารถใช้ได้กับทุกไซต์ เครดิตที่ไม่ได้ใช้จะมีเครดิตพื้นฐานมากกว่า 25% เป็นเวลาหนึ่งเดือน แพ็คเพิ่มเติมที่ซื้อไม่มีวันหมดอายุ"
+          "answer": "ใช่ เครดิต AI จะถูกแบ่งปันในระดับองค์กรและสามารถใช้ได้กับทุกไซต์ เครดิตที่ไม่ได้ใช้จะถูกยกยอดไปได้สูงสุด 25% ของเครดิตพื้นฐานเป็นเวลาหนึ่งเดือน แพ็คเพิ่มเติมที่ซื้อไม่มีวันหมดอายุ"
         },
         {
           "question": "ที่นั่งผู้ชมและที่นั่งผู้ใช้แตกต่างกันอย่างไร?",
@@ -2831,16 +2831,16 @@ export const generatedAuxiliaryLocalePacks = {
           "answer": "AI Credits menguasai ciri pintar Sundae. Setiap pertanyaan AI, penjanaan cerapan atau analisis automatik menggunakan kredit. Setiap peringkat termasuk asas tambah kredit setiap tapak. Kredit yang tidak digunakan membawa lebih 25% daripada asas anda selama satu bulan. Anda juga boleh membeli pek tambahan tanpa tamat tempoh."
         },
         {
-          "question": "Adakah saya memerlukan penyepaduan POS untuk Laporan?",
-          "answer": "Tidak. Laporan berfungsi dengan data yang diimport: CSV, eksport daripada platform penghantaran dan kemasukan manual. Penyepaduan POS adalah pilihan dan mengaktifkan penyegaran masa nyata. Teras disyorkan jika anda mahukan POS terus."
+          "question": "Adakah saya memerlukan penyepaduan POS untuk Report?",
+          "answer": "Tidak. Report berfungsi dengan data yang diimport: CSV, eksport daripada platform penghantaran dan kemasukan manual. Penyepaduan POS adalah pilihan dan mengaktifkan penyegaran masa nyata. Core disyorkan jika anda mahukan POS terus."
         },
         {
           "question": "Apakah perbezaan antara tempat duduk penonton dan tempat duduk AI?",
           "answer": "Tempat duduk penonton adalah percuma dan tidak terhad pada semua peringkat dan menyediakan akses baca sahaja ke papan pemuka. Tempat duduk AI membolehkan anda bertanya soalan, menjana cerapan dan menggunakan fungsi AI. Setiap peringkat termasuk bilangan tetap tempat duduk AI."
         },
         {
-          "question": "Bolehkah saya menaik taraf daripada Laporan kepada Teras nanti?",
-          "answer": "ya. Anda boleh bertukar daripada Laporan kepada Teras pada bila-bila masa. Peningkatan adalah serta-merta dan mengekalkan data, papan pemuka dan tetapan anda. Teras menambah POS masa nyata, modul dan akses Menara Pengawal."
+          "question": "Bolehkah saya menaik taraf daripada Report kepada Core nanti?",
+          "answer": "Ya. Anda boleh bertukar daripada Report kepada Core pada bila-bila masa. Peningkatan adalah serta-merta dan mengekalkan data, papan pemuka dan tetapan anda. Core menambah POS masa nyata, modul dan akses Watchtower."
         },
         {
           "question": "Adakah terdapat percubaan percuma?",
@@ -2849,16 +2849,16 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "core": [
         {
-          "question": "Apakah perbezaan antara Laporan dan Teras?",
-          "answer": "Teras menambah POS masa nyata, modul risikan, akses Menara Pengawal dan banyak lagi kredit dan tempat duduk AI. Laporan sesuai untuk menganalisis data yang diimport; Teras dibuat untuk risikan operasi secara langsung."
+          "question": "Apakah perbezaan antara Report dan Core?",
+          "answer": "Core menambah POS masa nyata, modul risikan, akses Watchtower dan banyak lagi kredit dan tempat duduk AI. Report sesuai untuk menganalisis data yang diimport; Core dibuat untuk risikan operasi secara langsung."
         },
         {
           "question": "Apakah modul perisikan?",
-          "answer": "Modul ialah pilihan khusus untuk Teras yang memberikan kedalaman analisis tentang buruh, inventori, pembelian, pemasaran, penghantaran, jaminan hasil, pengalaman pelanggan dan banyak lagi. Setiap modul mempunyai lesen organisasi dengan harga setiap tapak."
+          "answer": "Modul ialah pilihan khusus untuk Core yang memberikan kedalaman analisis tentang tenaga kerja, inventori, pembelian, pemasaran, penghantaran, jaminan hasil, pengalaman tetamu dan banyak lagi. Setiap modul mempunyai lesen organisasi dengan harga setiap lokasi."
         },
         {
           "question": "Adakah terdapat sebarang bayaran persediaan?",
-          "answer": "ya. Sesetengah modul termasuk yuran sekali sahaja meliputi onboarding dan integrasi. Diskaun atau pengecualian mungkin dikenakan bergantung pada himpunan, komitmen pengebilan dan perjanjian perusahaan. Konfigurator mencerminkan dasar yang berkuat kuasa."
+          "answer": "Ya. Sesetengah modul termasuk yuran sekali sahaja yang meliputi onboarding dan penyepaduan. Diskaun atau pengecualian mungkin dikenakan bergantung pada bundel, komitmen pengebilan dan perjanjian perusahaan. Konfigurator mencerminkan dasar yang berkuat kuasa."
         },
         {
           "question": "Apakah Enjin Perisikan Silang?",
@@ -2879,38 +2879,38 @@ export const generatedAuxiliaryLocalePacks = {
       ],
       "watchtower": [
         {
-          "question": "Apakah Menara Pengawal Sundae?",
+          "question": "Apakah Sundae Watchtower?",
           "answer": "Watchtower ialah suite risikan pasaran Sundae yang memantau landskap kompetitif, acara tempatan dan trend industri anda. Ia menyediakan makluman yang boleh diambil tindakan untuk melaraskan harga, kakitangan dan pemasaran secara proaktif."
         },
         {
-          "question": "Apakah tiga modul Menara Pengawal?",
-          "answer": "Kecerdasan Kompetitif menjejaki harga, menu dan ulasan pesaing. Perisikan Acara memantau peristiwa tempatan yang mempengaruhi permintaan. Trends Intelligence menyerlahkan perubahan dalam permintaan pasaran dan pengguna. Setiap modul mengikut model harga yang diterbitkan dalam configurator."
+          "question": "Apakah tiga modul Watchtower?",
+          "answer": "Competitive Intelligence menjejaki harga, menu dan ulasan pesaing. Events Intelligence memantau peristiwa tempatan yang mempengaruhi permintaan. Trends Intelligence menyerlahkan perubahan dalam permintaan pasaran dan pengguna. Setiap modul mengikut model harga yang diterbitkan dalam konfigurator."
         },
         {
-          "question": "Apakah Bundle Menara Pengawal?",
-          "answer": "The Watchtower Bundle menghimpunkan tiga modul Watchtower dalam pakej diskaun untuk pengendali yang mahukan paparan lengkap pasaran. Harga bundle dalam configurator mencerminkan model semasa yang diterbitkan."
+          "question": "Apakah Watchtower Bundle?",
+          "answer": "Watchtower Bundle menghimpunkan ketiga-tiga modul Watchtower dalam satu pakej diskaun untuk pengendali yang mahukan paparan lengkap pasaran. Harga bundel dalam konfigurator mencerminkan model semasa yang diterbitkan."
         },
         {
-          "question": "Adakah Menara Pengawal memerlukan pelan Teras?",
-          "answer": "ya. Menara Pengawal hanya tersedia untuk pelanggan Teras (Teras Lite, Teras Pro atau Perusahaan). Ia tidak tersedia dengan formula Laporan."
+          "question": "Adakah Watchtower memerlukan pelan Core?",
+          "answer": "Ya. Watchtower hanya tersedia untuk pelanggan Core (Core Lite, Core Pro atau Enterprise). Ia tidak tersedia dengan pelan Report."
         },
         {
-          "question": "Bagaimanakah harga Menara Pengawal berubah bergantung pada tapak?",
-          "answer": "Setiap modul Menara Pengawal mempunyai harga asas meliputi perimeter awal tapak, kemudian harga setiap tapak tambahan. Konfigurator memaparkan harga yang diterbitkan secara langsung untuk gabungan Menara Pengawal yang dipilih."
+          "question": "Bagaimanakah harga Watchtower berubah bergantung pada lokasi?",
+          "answer": "Setiap modul Watchtower mempunyai harga asas yang meliputi skop lokasi awal, kemudian harga bagi setiap lokasi tambahan. Konfigurator memaparkan harga yang diterbitkan secara langsung untuk gabungan Watchtower yang dipilih."
         },
         {
-          "question": "Adakah harga Perusahaan tersedia untuk Menara Pengawal?",
-          "answer": "ya. Pelanggan perusahaan (30+ tapak atau lebih unjuran perbelanjaan $10,000/bulan) mendapat manfaat daripada harga Menara Pengawal yang diperibadikan, termasuk pilihan kadar tetap. Hubungi jualan untuk sebut harga tersuai."
+          "question": "Adakah harga Enterprise tersedia untuk Watchtower?",
+          "answer": "Ya. Pelanggan perusahaan (30+ lokasi atau unjuran perbelanjaan melebihi $10,000/bulan) mendapat manfaat daripada harga Watchtower yang diperibadikan, termasuk pilihan kadar tetap. Hubungi pasukan jualan untuk sebut harga tersuai."
         },
         {
-          "question": "Bolehkah saya menambah modul Menara Pengawal individu kemudian?",
-          "answer": "ya. Anda boleh bermula dengan satu modul dan menambah lagi pada bila-bila masa. Jika anda kemudian mengaktifkan ketiga-tiganya, anda boleh menaik taraf kepada harga Bundle untuk memanfaatkan diskaun. Perubahan berlaku serta-merta."
+          "question": "Bolehkah saya menambah modul Watchtower secara individu kemudian?",
+          "answer": "Ya. Anda boleh bermula dengan satu modul dan menambah lagi pada bila-bila masa. Jika anda kemudian mengaktifkan ketiga-tiganya, anda boleh menaik taraf kepada harga Bundle untuk memanfaatkan diskaun. Perubahan berlaku serta-merta."
         }
       ],
       "general": [
         {
           "question": "Adakah terdapat sebarang bayaran persediaan?",
-          "answer": "ya. Sesetengah modul termasuk yuran sekali untuk onboarding dan integrasi. Diskaun atau pengecualian mungkin dikenakan bergantung pada himpunan, komitmen pengebilan dan perjanjian perusahaan. Petikan yang dijana daripada konfigurator mencerminkan dasar yuran yang diterbitkan."
+          "answer": "Ya. Sesetengah modul termasuk yuran sekali untuk onboarding dan penyepaduan. Diskaun atau pengecualian mungkin dikenakan bergantung pada bundel, komitmen pengebilan dan perjanjian perusahaan. Sebut harga yang dijana daripada konfigurator mencerminkan dasar yuran yang diterbitkan."
         },
         {
           "question": "Berapa lama kontrak?",
@@ -2918,7 +2918,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Bolehkah saya menaik taraf atau menurunkan taraf?",
-          "answer": "ya. Peningkatan adalah serta-merta. Penurunan taraf berkuat kuasa pada kitaran pengebilan seterusnya."
+          "answer": "Ya. Peningkatan taraf adalah serta-merta. Penurunan taraf berkuat kuasa pada kitaran pengebilan seterusnya."
         },
         {
           "question": "Bagaimanakah diskaun berfungsi?",
@@ -2926,7 +2926,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "question": "Adakah kredit AI dikongsi antara tapak?",
-          "answer": "ya. Kredit AI dikongsi di peringkat organisasi dan boleh digunakan di semua tapak. Kredit yang tidak digunakan membawa lebih 25% daripada kredit asas selama satu bulan. Pek tambahan yang dibeli tidak akan luput."
+          "answer": "Ya. Kredit AI dikongsi di peringkat organisasi dan boleh digunakan di semua lokasi. Kredit yang tidak digunakan dibawa ke hadapan sehingga 25% daripada kredit asas selama satu bulan. Pek tambahan yang dibeli tidak akan luput."
         },
         {
           "question": "Apakah perbezaan antara tempat duduk penonton dan tempat duduk pengguna?",
@@ -2941,29 +2941,29 @@ export const generatedAuxiliaryLocalePacks = {
   },
   "watchtowerCopy": {
     "de": {
-      "title": "Strategischer Wert des Wachtturms",
-      "badge": "Intelligenzvorteil",
-      "oneWin": "Ein Sieg zahlt sich für das Jahr aus",
+      "title": "Strategischer Wert von Watchtower",
+      "badge": "Intelligence-Vorteil",
+      "oneWin": "Ein Erfolg amortisiert das ganze Jahr",
       "oneWinLabel": "One win",
       "investment": "Ihre Watchtower-Investition:",
-      "scenariosCover": "Nur eines dieser Szenarios deckt es ab:",
+      "scenariosCover": "Schon eines dieser Szenarien deckt sie ab:",
       "annualValue": "Potenzieller Jahreswert",
       "annualPotential": "jährliches Potenzial",
       "frequency": "Frequenz:",
-      "disclaimer": "Strategische Wertschätzungen basierend auf typischen Szenarien. Die tatsächlichen Auswirkungen hängen von den Marktbedingungen, der Wettbewerbslandschaft und den aufgrund der Erkenntnisse ergriffenen Maßnahmen ab. Im Gegensatz zu betrieblichen Einsparungen ist der strategische Wert opportunistisch – er entsteht, wenn sich Chancen ergeben und Sie diese nutzen.",
+      "disclaimer": "Schätzungen des strategischen Werts auf Basis typischer Szenarien. Die tatsächliche Wirkung hängt von den Marktbedingungen, dem Wettbewerbsumfeld und den auf Basis der Erkenntnisse ergriffenen Maßnahmen ab. Anders als betriebliche Einsparungen ist strategischer Wert opportunistisch – er entsteht, wenn sich Chancen ergeben und Sie sie nutzen.",
       "confidence": {
         "high": "Messbar",
         "medium": "Wahrscheinlich",
-        "low": "Variable"
+        "low": "Variabel"
       }
     },
     "nl": {
-      "title": "Strategische waarde van de wachttoren",
-      "badge": "Intelligentie voordeel",
-      "oneWin": "Eén overwinning betaalt voor het hele jaar",
+      "title": "Strategische waarde van Watchtower",
+      "badge": "Intelligence-voordeel",
+      "oneWin": "Eén winst verdient het hele jaar terug",
       "oneWinLabel": "One win",
       "investment": "Uw Watchtower-investering:",
-      "scenariosCover": "Slechts één van deze scenario's dekt dit:",
+      "scenariosCover": "Slechts één van deze scenario's dekt dit al:",
       "annualValue": "Potentiële jaarlijkse waarde",
       "annualPotential": "jaarlijks potentieel",
       "frequency": "Frequentie:",
@@ -2977,24 +2977,24 @@ export const generatedAuxiliaryLocalePacks = {
     "pt": {
       "title": "Valor Estratégico da Watchtower",
       "badge": "Vantagem de Inteligência",
-      "oneWin": "Uma vitória compensa o ano",
+      "oneWin": "Uma única vitória se paga no ano",
       "oneWinLabel": "One win",
-      "investment": "Seu investimento na Watchtower:",
-      "scenariosCover": "Apenas um desses cenários cobre isso:",
+      "investment": "Seu investimento no Watchtower:",
+      "scenariosCover": "Apenas um destes cenários já cobre isso:",
       "annualValue": "Valor Anual Potencial",
       "annualPotential": "potencial anual",
       "frequency": "Frequência:",
-      "disclaimer": "Estimativas de valor estratégico baseadas em cenários típicos. O impacto real depende das condições do mercado, do cenário competitivo e das ações tomadas com base nos insights. Ao contrário da poupança operacional, o valor estratégico é oportunista – materializa-se quando as oportunidades surgem e você age sobre elas.",
+      "disclaimer": "Estimativas de valor estratégico baseadas em cenários típicos. O impacto real depende das condições do mercado, do cenário competitivo e das ações tomadas a partir dos insights. Ao contrário da economia operacional, o valor estratégico é oportunista – materializa-se quando surgem oportunidades e você age sobre elas.",
       "confidence": {
         "high": "Mensurável",
-        "medium": "Provavelmente",
+        "medium": "Provável",
         "low": "Variável"
       }
     },
     "hi": {
       "title": "Watchtower रणनीतिक मूल्य",
-      "badge": "खुफिया लाभ",
-      "oneWin": "एक जीत साल भर का फल देती है",
+      "badge": "इंटेलिजेंस बढ़त",
+      "oneWin": "एक ही जीत पूरे साल की लागत वसूल कर देती है",
       "oneWinLabel": "One win",
       "investment": "आपका Watchtower निवेश:",
       "scenariosCover": "इनमें से केवल एक परिदृश्य इसे कवर करता है:",
@@ -3010,8 +3010,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ur": {
       "title": "Watchtower اسٹریٹجک ویلیو",
-      "badge": "ذہانت کا فائدہ",
-      "oneWin": "ایک جیت سال کے لیے ادا کرتی ہے۔",
+      "badge": "انٹیلی جنس کی برتری",
+      "oneWin": "ایک ہی کامیابی پورے سال کی لاگت پوری کر دیتی ہے",
       "oneWinLabel": "One win",
       "investment": "آپ کی Watchtower کی سرمایہ کاری:",
       "scenariosCover": "ان منظرناموں میں سے صرف ایک اس کا احاطہ کرتا ہے:",
@@ -3026,29 +3026,29 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "it": {
-      "title": "Valore strategico della Watchtower",
-      "badge": "Vantaggio dell'intelligenza",
-      "oneWin": "Una vittoria paga per l'anno",
+      "title": "Valore strategico di Watchtower",
+      "badge": "Vantaggio di intelligence",
+      "oneWin": "Una sola vittoria ripaga l'intero anno",
       "oneWinLabel": "One win",
-      "investment": "Il tuo investimento nella Watchtower:",
-      "scenariosCover": "Solo uno di questi scenari lo copre:",
+      "investment": "Il tuo investimento in Watchtower:",
+      "scenariosCover": "Basta uno di questi scenari a coprirlo:",
       "annualValue": "Valore annuo potenziale",
       "annualPotential": "potenziale annuale",
       "frequency": "Frequenza:",
-      "disclaimer": "Stime del valore strategico basate su scenari tipici. L’impatto effettivo dipende dalle condizioni del mercato, dal panorama competitivo e dalle azioni intraprese in base agli insight. A differenza del risparmio operativo, il valore strategico è opportunistico: si materializza quando si presentano opportunità e si agisce di conseguenza.",
+      "disclaimer": "Stime del valore strategico basate su scenari tipici. L’impatto effettivo dipende dalle condizioni di mercato, dal panorama competitivo e dalle azioni intraprese sulla base degli insight. A differenza dei risparmi operativi, il valore strategico è opportunistico: si concretizza quando si presentano opportunità e tu le cogli.",
       "confidence": {
         "high": "Misurabile",
-        "medium": "Probabilmente",
+        "medium": "Probabile",
         "low": "Variabile"
       }
     },
     "pl": {
-      "title": "Wartość strategiczna Strażnicy",
-      "badge": "Przewaga inteligencji",
-      "oneWin": "Jedno zwycięstwo opłaca się przez cały rok",
+      "title": "Wartość strategiczna Watchtower",
+      "badge": "Przewaga dzięki intelligence",
+      "oneWin": "Jedno zwycięstwo zwraca koszt całego roku",
       "oneWinLabel": "One win",
-      "investment": "Twoja inwestycja w Strażnicę:",
-      "scenariosCover": "Obejmuje to tylko jeden z tych scenariuszy:",
+      "investment": "Twoja inwestycja w Watchtower:",
+      "scenariosCover": "Wystarczy jeden z tych scenariuszy, aby ją pokryć:",
       "annualValue": "Potencjalna wartość roczna",
       "annualPotential": "roczny potencjał",
       "frequency": "Częstotliwość:",
@@ -3061,8 +3061,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "tr": {
       "title": "Watchtower Stratejik Değeri",
-      "badge": "İstihbarat Avantajı",
-      "oneWin": "Bir Galibiyet Yılın Bedelini Amorti Ediyor",
+      "badge": "Intelligence Avantajı",
+      "oneWin": "Tek bir kazanım yılın maliyetini karşılar",
       "oneWinLabel": "One win",
       "investment": "Watchtower yatırımınız:",
       "scenariosCover": "Bu senaryolardan yalnızca biri bunu kapsar:",
@@ -3094,46 +3094,46 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "ja": {
-      "title": "ものみの塔の戦略的価値",
+      "title": "Watchtower の戦略的価値",
       "badge": "インテリジェンスの優位性",
-      "oneWin": "1勝で1年分の利益が得られる",
+      "oneWin": "たった1度の成果で1年分のコストを回収",
       "oneWinLabel": "One win",
-      "investment": "ものみの塔への投資:",
-      "scenariosCover": "次のシナリオの 1 つだけでこれがカバーされます。",
+      "investment": "Watchtower への投資:",
+      "scenariosCover": "次のシナリオのうち1つだけでもこれをカバーします。",
       "annualValue": "潜在的な年間価値",
       "annualPotential": "年間の可能性",
       "frequency": "頻度:",
-      "disclaimer": "典型的なシナリオに基づいた戦略的価値の見積もり。実際の影響は、市場の状況、競争環境、洞察に基づいて取られるアクションによって異なります。運用上の節約とは異なり、戦略的価値は機会主義的です。機会が生じ、それに基づいて行動すると、それが実現します。",
+      "disclaimer": "典型的なシナリオに基づく戦略的価値の見積もりです。実際の効果は、市場の状況、競争環境、そしてインサイトに基づいて取られるアクションによって異なります。運用コストの削減とは異なり、戦略的価値は機会次第です。チャンスが訪れ、それに対して行動したときに実現します。",
       "confidence": {
         "high": "測定可能",
-        "medium": "おそらく",
-        "low": "変数"
+        "medium": "見込みあり",
+        "low": "変動的"
       }
     },
     "ko": {
-      "title": "파수대 전략적 가치",
-      "badge": "지능 우위",
-      "oneWin": "한 번의 승리로 일년 내내 보상을 받습니다",
+      "title": "Watchtower의 전략적 가치",
+      "badge": "인텔리전스 우위",
+      "oneWin": "단 한 번의 성과로 1년 비용을 회수합니다",
       "oneWinLabel": "One win",
       "investment": "귀하의 Watchtower 투자:",
-      "scenariosCover": "다음 시나리오 중 하나만 다룹니다.",
+      "scenariosCover": "다음 시나리오 중 단 하나만으로도 충분히 회수됩니다.",
       "annualValue": "잠재적인 연간 가치",
       "annualPotential": "연간 잠재력",
       "frequency": "빈도:",
-      "disclaimer": "일반적인 시나리오를 기반으로 한 전략적 가치 추정. 실제 영향은 시장 상황, 경쟁 환경, 통찰력에 대해 취해진 조치에 따라 달라집니다. 운영 비용 절감과 달리 전략적 가치는 기회주의적입니다. 즉, 기회가 발생하고 그에 따라 조치를 취할 때 실현됩니다.",
+      "disclaimer": "일반적인 시나리오를 기반으로 한 전략적 가치 추정치입니다. 실제 효과는 시장 상황, 경쟁 환경, 그리고 인사이트에 따라 취하는 조치에 따라 달라집니다. 운영 비용 절감과 달리 전략적 가치는 기회에 좌우됩니다. 즉, 기회가 생기고 그에 맞춰 행동할 때 실현됩니다.",
       "confidence": {
         "high": "측정 가능",
-        "medium": "아마도",
-        "low": "변수"
+        "medium": "가능성 높음",
+        "low": "가변적"
       }
     },
     "id": {
-      "title": "Nilai Strategis Menara Pengawal",
-      "badge": "Keunggulan Intelijen",
-      "oneWin": "Satu Kemenangan Terbayar untuk Tahun Ini",
+      "title": "Nilai Strategis Watchtower",
+      "badge": "Keunggulan Intelligence",
+      "oneWin": "Satu kemenangan saja menutup biaya setahun",
       "oneWinLabel": "One win",
-      "investment": "Investasi Menara Pengawal Anda:",
-      "scenariosCover": "Hanya satu dari skenario berikut yang mencakupnya:",
+      "investment": "Investasi Watchtower Anda:",
+      "scenariosCover": "Cukup satu dari skenario berikut untuk menutupinya:",
       "annualValue": "Potensi Nilai Tahunan",
       "annualPotential": "potensi tahunan",
       "frequency": "Frekuensi:",
@@ -3145,29 +3145,29 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "vi": {
-      "title": "Giá trị chiến lược của Tháp Canh",
-      "badge": "Lợi thế thông minh",
-      "oneWin": "Một chiến thắng có giá trị trong năm",
+      "title": "Giá trị chiến lược của Watchtower",
+      "badge": "Lợi thế intelligence",
+      "oneWin": "Chỉ một thắng lợi đã hoàn vốn cả năm",
       "oneWinLabel": "One win",
-      "investment": "Khoản đầu tư vào Tháp Canh của bạn:",
-      "scenariosCover": "Chỉ một trong những kịch bản này bao gồm nó:",
+      "investment": "Khoản đầu tư vào Watchtower của bạn:",
+      "scenariosCover": "Chỉ một trong những kịch bản này đã đủ để bù lại:",
       "annualValue": "Giá trị tiềm năng hàng năm",
       "annualPotential": "tiềm năng hàng năm",
       "frequency": "Tần số:",
-      "disclaimer": "Ước tính giá trị chiến lược dựa trên các kịch bản điển hình. Tác động thực tế phụ thuộc vào điều kiện thị trường, bối cảnh cạnh tranh và các hành động được thực hiện dựa trên hiểu biết sâu sắc. Không giống như tiết kiệm hoạt động, giá trị chiến lược mang tính cơ hội - nó hiện thực hóa khi có cơ hội và bạn hành động theo chúng.",
+      "disclaimer": "Ước tính giá trị chiến lược dựa trên các kịch bản điển hình. Tác động thực tế phụ thuộc vào điều kiện thị trường, bối cảnh cạnh tranh và các hành động được thực hiện dựa trên insight. Không giống như tiết kiệm vận hành, giá trị chiến lược mang tính nắm bắt cơ hội — nó trở thành hiện thực khi cơ hội xuất hiện và bạn hành động theo.",
       "confidence": {
-        "high": "Có thể đo lường được",
+        "high": "Có thể đo lường",
         "medium": "Có khả năng",
-        "low": "Biến"
+        "low": "Biến động"
       }
     },
     "ro": {
-      "title": "Valoarea strategică a Turnului de veghe",
-      "badge": "Avantajul inteligenței",
-      "oneWin": "Un câștig plătește pentru anul",
+      "title": "Valoarea strategică a Watchtower",
+      "badge": "Avantajul de intelligence",
+      "oneWin": "O singură reușită acoperă costul pe tot anul",
       "oneWinLabel": "One win",
-      "investment": "Investiția dvs. în Turnul de veghe:",
-      "scenariosCover": "Doar unul dintre aceste scenarii o acoperă:",
+      "investment": "Investiția dvs. în Watchtower:",
+      "scenariosCover": "Este suficient unul dintre aceste scenarii ca să o acopere:",
       "annualValue": "Valoarea anuală potențială",
       "annualPotential": "potenţial anual",
       "frequency": "Frecvență:",
@@ -3179,16 +3179,16 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "sv": {
-      "title": "Watchtowerets strategiska värde",
-      "badge": "Intelligensfördel",
-      "oneWin": "En vinst betalar för året",
+      "title": "Watchtower – strategiskt värde",
+      "badge": "Intelligence-fördel",
+      "oneWin": "En enda vinst betalar för hela året",
       "oneWinLabel": "One win",
-      "investment": "Din investering i Watchtoweret:",
-      "scenariosCover": "Bara ett av dessa scenarier täcker det:",
+      "investment": "Din investering i Watchtower:",
+      "scenariosCover": "Redan ett av dessa scenarier täcker den:",
       "annualValue": "Potentiellt årligt värde",
       "annualPotential": "årlig potential",
       "frequency": "Frekvens:",
-      "disclaimer": "Strategiska värdeskattningar baserade på typiska scenarier. Den faktiska effekten beror på marknadsförhållanden, konkurrensbild och vidtagna åtgärder för insikter. Till skillnad från operativa besparingar är strategiskt värde opportunistiskt – det förverkligas när möjligheter uppstår och du agerar utifrån dem.",
+      "disclaimer": "Uppskattningar av strategiskt värde baserade på typiska scenarier. Den faktiska effekten beror på marknadsläget, konkurrensbilden och de åtgärder du vidtar utifrån dina insikter. Till skillnad från operativa besparingar är strategiskt värde opportunistiskt – det förverkligas när möjligheter dyker upp och du agerar på dem.",
       "confidence": {
         "high": "Mätbar",
         "medium": "Sannolikt",
@@ -3197,15 +3197,15 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "bn": {
       "title": "Watchtower কৌশলগত মান",
-      "badge": "বুদ্ধিমত্তার সুবিধা",
-      "oneWin": "এক জয় বছরের জন্য অর্থ প্রদান করে",
+      "badge": "ইন্টেলিজেন্স সুবিধা",
+      "oneWin": "একটি জয়ই পুরো বছরের খরচ তুলে দেয়",
       "oneWinLabel": "One win",
       "investment": "আপনার Watchtower বিনিয়োগ:",
-      "scenariosCover": "এই পরিস্থিতিগুলির মধ্যে একটি এটি কভার করে:",
+      "scenariosCover": "এর মধ্যে যেকোনো একটি পরিস্থিতিই এটি কভার করে:",
       "annualValue": "সম্ভাব্য বার্ষিক মূল্য",
       "annualPotential": "বার্ষিক সম্ভাবনা",
       "frequency": "ফ্রিকোয়েন্সি:",
-      "disclaimer": "সাধারণ পরিস্থিতির উপর ভিত্তি করে কৌশলগত মূল্য অনুমান। প্রকৃত প্রভাব বাজারের অবস্থা, প্রতিযোগিতামূলক ল্যান্ডস্কেপ এবং অন্তর্দৃষ্টিতে নেওয়া পদক্ষেপের উপর নির্ভর করে। কর্মক্ষম সঞ্চয়ের বিপরীতে, কৌশলগত মূল্য সুবিধাবাদী - যখন সুযোগ আসে এবং আপনি সেগুলির উপর কাজ করেন তখন এটি বাস্তবায়িত হয়।",
+      "disclaimer": "সাধারণ পরিস্থিতির ভিত্তিতে কৌশলগত মূল্যের অনুমান। প্রকৃত প্রভাব বাজারের পরিস্থিতি, প্রতিযোগিতামূলক প্রেক্ষাপট এবং অন্তর্দৃষ্টির ভিত্তিতে নেওয়া পদক্ষেপের উপর নির্ভর করে। পরিচালন সাশ্রয়ের বিপরীতে কৌশলগত মূল্য সুযোগনির্ভর—সুযোগ এলে এবং আপনি সেই অনুযায়ী পদক্ষেপ নিলে তবেই এটি বাস্তবায়িত হয়।",
       "confidence": {
         "high": "পরিমাপযোগ্য",
         "medium": "সম্ভবত",
@@ -3213,12 +3213,12 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "th": {
-      "title": "คุณค่าทางยุทธศาสตร์ของWatchtower",
-      "badge": "ความได้เปรียบทางปัญญา",
-      "oneWin": "ชนะครั้งเดียวจ่ายทั้งปี",
+      "title": "คุณค่าเชิงกลยุทธ์ของ Watchtower",
+      "badge": "ความได้เปรียบด้านอินเทลลิเจนซ์",
+      "oneWin": "ชนะเพียงครั้งเดียวก็คุ้มทั้งปี",
       "oneWinLabel": "One win",
-      "investment": "การลงทุนในWatchtowerของคุณ:",
-      "scenariosCover": "เพียงหนึ่งในสถานการณ์เหล่านี้ครอบคลุม:",
+      "investment": "เงินลงทุนใน Watchtower ของคุณ:",
+      "scenariosCover": "เพียงหนึ่งในสถานการณ์เหล่านี้ก็ครอบคลุมแล้ว:",
       "annualValue": "มูลค่ารายปีที่เป็นไปได้",
       "annualPotential": "ศักยภาพประจำปี",
       "frequency": "ความถี่:",
@@ -3230,19 +3230,19 @@ export const generatedAuxiliaryLocalePacks = {
       }
     },
     "ms": {
-      "title": "Nilai Strategik Menara Pengawal",
-      "badge": "Kelebihan Kepintaran",
-      "oneWin": "Satu Kemenangan Berbayar untuk Tahun ini",
+      "title": "Nilai Strategik Watchtower",
+      "badge": "Kelebihan Intelligence",
+      "oneWin": "Satu kemenangan sahaja menampung kos setahun",
       "oneWinLabel": "One win",
-      "investment": "Pelaburan Menara Pengawal anda:",
-      "scenariosCover": "Hanya satu daripada senario ini meliputinya:",
+      "investment": "Pelaburan Watchtower anda:",
+      "scenariosCover": "Cukup satu daripada senario ini untuk menampungnya:",
       "annualValue": "Potensi Nilai Tahunan",
       "annualPotential": "potensi tahunan",
       "frequency": "Kekerapan:",
-      "disclaimer": "Anggaran nilai strategik berdasarkan senario biasa. Kesan sebenar bergantung pada keadaan pasaran, landskap persaingan dan tindakan yang diambil ke atas cerapan. Tidak seperti simpanan operasi, nilai strategik adalah oportunistik - ia menjadi kenyataan apabila peluang muncul dan anda bertindak mengikutnya.",
+      "disclaimer": "Anggaran nilai strategik berdasarkan senario biasa. Kesan sebenar bergantung pada keadaan pasaran, landskap persaingan dan tindakan yang diambil berdasarkan cerapan. Tidak seperti penjimatan operasi, nilai strategik bersifat memanfaatkan peluang — ia menjadi kenyataan apabila peluang muncul dan anda bertindak ke atasnya.",
       "confidence": {
         "high": "Boleh diukur",
-        "medium": "berkemungkinan",
+        "medium": "Berkemungkinan",
         "low": "Pembolehubah"
       }
     }
@@ -3252,7 +3252,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "Preisoptimierung",
-          "description": "Erkennen Sie die Preiserhöhung der Konkurrenz und verfolgen Sie einen Teil des Menüs",
+          "description": "Preiserhöhung der Konkurrenz erkennen und bei einem Teil der Speisekarte nachziehen",
           "oneWin": "Nach einer Preiserhöhung eines Mitbewerbers"
         },
         {
@@ -3279,7 +3279,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Inventarvorbereitung",
-          "description": "Füllen Sie Ihre Vorräte auf, bevor die Nachfrage ansteigt – keine 86-Fuß-Artikel, weniger Abfall",
+          "description": "Vorräte auffüllen, bevor die Nachfrage steigt – keine ausverkauften Artikel, weniger Abfall",
           "oneWin": "Vermeidung eines Fehlbestandsereignisses"
         }
       ],
@@ -3297,7 +3297,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "Bewusstsein für den demografischen Wandel",
           "description": "Passen Sie sich an die sich verändernde Nachbarschaft an, bevor die Einnahmen sinken",
-          "oneWin": "Einer Nachbarschaftsverschiebung immer einen Schritt voraus sein"
+          "oneWin": "Einem Wandel im Viertel immer einen Schritt voraus sein"
         }
       ]
     },
@@ -3315,7 +3315,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Menu-intelligentie",
-          "description": "Ontdek het trending item bij de concurrent - volg de strategie snel",
+          "description": "Spot het trending item bij de concurrent – fast-follow-strategie",
           "oneWin": "Eén menusignaal van een concurrent dat de moeite waard is om op te reageren"
         }
       ],
@@ -3332,7 +3332,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Voorbereiding van de inventaris",
-          "description": "Sla een voorraad in voordat de vraag piekt - geen 86'd items, minder verspilling",
+          "description": "Sla in voordat de vraag piekt – geen uitverkochte items, minder verspilling",
           "oneWin": "Eén stockout-gebeurtenis vermijden"
         }
       ],
@@ -3350,7 +3350,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "Bewustzijn van demografische verschuiving",
           "description": "Pas je aan de veranderende buurt aan voordat de omzet daalt",
-          "oneWin": "Eén wijkverschuiving voorblijven"
+          "oneWin": "Een verschuiving in de buurt voorblijven"
         }
       ]
     },
@@ -3358,7 +3358,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "Otimização de preços",
-          "description": "Aumento de preço do concorrente local, siga parte do menu",
+          "description": "Detecte o aumento de preço do concorrente e acompanhe parte do cardápio",
           "oneWin": "Após o aumento de preços de um concorrente"
         },
         {
@@ -3385,7 +3385,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Preparação de inventário",
-          "description": "Estoque antes do pico de demanda - sem itens 86, menos desperdício",
+          "description": "Reabasteça antes do pico de demanda – sem itens esgotados, menos desperdício",
           "oneWin": "Evitando um evento de ruptura de estoque"
         }
       ],
@@ -3411,7 +3411,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "मूल्य निर्धारण अनुकूलन",
-          "description": "प्रतिस्पर्धी की कीमत में अचानक वृद्धि, मेनू के भाग का अनुसरण करें",
+          "description": "प्रतिस्पर्धी की कीमत बढ़ोतरी पहचानें और मेनू के कुछ हिस्से में उसका अनुसरण करें",
           "oneWin": "एक प्रतिस्पर्धी की कीमत में वृद्धि के बाद"
         },
         {
@@ -3438,7 +3438,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "इन्वेंटरी तैयारी",
-          "description": "मांग बढ़ने से पहले स्टॉक कर लें - कोई 86'डी आइटम नहीं, कम बर्बादी",
+          "description": "मांग बढ़ने से पहले स्टॉक कर लें - कोई आइटम आउट-ऑफ-स्टॉक नहीं, कम बर्बादी",
           "oneWin": "एक स्टॉकआउट घटना से बचना"
         }
       ],
@@ -3456,7 +3456,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "जनसांख्यिकीय बदलाव जागरूकता",
           "description": "राजस्व गिरने से पहले बदलते पड़ोस को अपनाएँ",
-          "oneWin": "एक पड़ोस बदलाव से आगे रहना"
+          "oneWin": "इलाके के एक बदलाव से आगे रहना"
         }
       ]
     },
@@ -3464,7 +3464,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "قیمتوں کا تعین کی اصلاح",
-          "description": "اسپاٹ مسابقتی قیمت میں اضافہ، مینو کے حصے پر عمل کریں۔",
+          "description": "حریف کی قیمت میں اضافے کو پہچانیں اور مینو کے کچھ حصے میں اس کی پیروی کریں۔",
           "oneWin": "ایک مدمقابل قیمت میں اضافے کے بعد"
         },
         {
@@ -3474,7 +3474,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "مینو انٹیلی جنس",
-          "description": "حریف پر اسپاٹ ٹرینڈنگ آئٹم - تیز فالو حکمت عملی",
+          "description": "حریف کے ہاں ٹرینڈنگ آئٹم کو پہچانیں - فاسٹ فالو حکمت عملی",
           "oneWin": "ایک مدمقابل مینو سگنل جس پر عمل کرنے کے قابل ہے۔"
         }
       ],
@@ -3491,7 +3491,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "انوینٹری کی تیاری",
-          "description": "ڈیمانڈ میں اضافے سے پہلے اسٹاک اپ کریں - کوئی 86'd آئٹمز نہیں، کم فضلہ",
+          "description": "طلب بڑھنے سے پہلے اسٹاک کر لیں - کوئی آئٹم آؤٹ آف اسٹاک نہیں، کم ضیاع",
           "oneWin": "ایک اسٹاک آؤٹ ایونٹ سے گریز کرنا"
         }
       ],
@@ -3509,7 +3509,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "ڈیموگرافک شفٹ بیداری",
           "description": "آمدنی میں کمی سے پہلے پڑوس کو تبدیل کرنے کے مطابق بنائیں",
-          "oneWin": "ایک محلے کی شفٹ سے آگے رہنا"
+          "oneWin": "محلے کی ایک تبدیلی سے آگے رہنا"
         }
       ]
     },
@@ -3517,7 +3517,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "Ottimizzazione dei prezzi",
-          "description": "Individua l'aumento del prezzo della concorrenza, segui la parte del menu",
+          "description": "Individua l'aumento di prezzo della concorrenza e adeguati su una parte del menu",
           "oneWin": "A seguito dell'aumento dei prezzi di un concorrente"
         },
         {
@@ -3544,7 +3544,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Preparazione dell'inventario",
-          "description": "Fai scorta prima del picco della domanda: niente articoli 86', meno sprechi",
+          "description": "Fai scorta prima del picco della domanda: niente articoli esauriti, meno sprechi",
           "oneWin": "Evitare un evento di stockout"
         }
       ],
@@ -3570,7 +3570,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "Optymalizacja cen",
-          "description": "Zauważ wzrost cen konkurencji i postępuj zgodnie z częścią menu",
+          "description": "Wychwyć podwyżkę cen konkurencji i dostosuj część menu",
           "oneWin": "Po podwyżce cen jednego z konkurentów"
         },
         {
@@ -3597,7 +3597,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Przygotowanie zapasów",
-          "description": "Zrób zapasy przed gwałtownym wzrostem popytu — żadnych artykułów 86, mniej odpadów",
+          "description": "Zrób zapasy przed gwałtownym wzrostem popytu — żadnych pozycji wyprzedanych, mniej marnotrawstwa",
           "oneWin": "Unikanie jednego zdarzenia związanego z wyczerpaniem zapasów"
         }
       ],
@@ -3615,7 +3615,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "Świadomość zmian demograficznych",
           "description": "Dostosuj się do zmieniającej się okolicy, zanim przychody spadną",
-          "oneWin": "Wyprzedzić jedną zmianę sąsiedzką"
+          "oneWin": "Wyprzedzić zmianę w okolicy"
         }
       ]
     },
@@ -3650,7 +3650,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Envanter Hazırlama",
-          "description": "Talep artışından önce stok yapın - 86'lı ürün yok, daha az atık",
+          "description": "Talep artışından önce stok yapın - tükenen ürün yok, daha az israf",
           "oneWin": "Bir stok tükenme olayından kaçınmak"
         }
       ],
@@ -3668,7 +3668,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "Demografik Değişim Farkındalığı",
           "description": "Gelir düşmeden önce değişen mahalleye uyum sağlayın",
-          "oneWin": "Bir mahalle vardiyasının ilerisinde kalmak"
+          "oneWin": "Mahalledeki bir değişimin önünde olmak"
         }
       ]
     },
@@ -3756,7 +3756,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "在庫の準備",
-          "description": "需要が急増する前に買いだめ - 86 品目はなく、無駄が減ります",
+          "description": "需要が急増する前に在庫を補充 - 品切れ品目をなくし、廃棄を削減",
           "oneWin": "在庫切れイベントを 1 回回避する"
         }
       ],
@@ -3774,7 +3774,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "人口動態の変化に対する認識",
           "description": "収益が低下する前に地域の変化に適応する",
-          "oneWin": "近隣地域のシフトを先取りする"
+          "oneWin": "地域の変化を先取りする"
         }
       ]
     },
@@ -3782,7 +3782,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "가격 최적화",
-          "description": "현물 경쟁업체 가격 인상, 메뉴 일부에 따라 인상",
+          "description": "경쟁업체의 가격 인상을 포착하고 메뉴 일부에서 따라가기",
           "oneWin": "한 경쟁업체의 가격 인상 이후"
         },
         {
@@ -3809,7 +3809,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "재고 준비",
-          "description": "수요가 급증하기 전에 재고 확보 - 86'd 품목 없음, 낭비 감소",
+          "description": "수요가 급증하기 전에 재고 확보 - 품절 품목 없음, 낭비 감소",
           "oneWin": "하나의 품절 이벤트 방지"
         }
       ],
@@ -3827,7 +3827,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "인구통계학적 변화 인식",
           "description": "수익이 떨어지기 전에 변화하는 지역에 적응하세요",
-          "oneWin": "한 지역 교대보다 앞서 나가기"
+          "oneWin": "지역의 변화보다 한발 앞서기"
         }
       ]
     },
@@ -3862,7 +3862,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Persiapan Inventaris",
-          "description": "Persediaan sebelum permintaan melonjak - tidak ada item 86, lebih sedikit limbah",
+          "description": "Stok sebelum permintaan melonjak - tidak ada item habis, lebih sedikit pemborosan",
           "oneWin": "Menghindari satu peristiwa kehabisan stok"
         }
       ],
@@ -3915,7 +3915,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Chuẩn bị hàng tồn kho",
-          "description": "Dự trữ trước khi nhu cầu tăng đột biến - không có mặt hàng 86d, ít lãng phí hơn",
+          "description": "Dự trữ trước khi nhu cầu tăng đột biến - không có mặt hàng hết hàng, ít lãng phí hơn",
           "oneWin": "Tránh một sự kiện hết hàng"
         }
       ],
@@ -3933,7 +3933,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "Nhận thức về sự thay đổi nhân khẩu học",
           "description": "Thích ứng với việc thay đổi khu phố trước khi doanh thu giảm",
-          "oneWin": "Đi trước một ca làm việc trong khu phố"
+          "oneWin": "Đón đầu một thay đổi của khu phố"
         }
       ]
     },
@@ -3968,7 +3968,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Pregatirea inventarului",
-          "description": "Aprovizionați înainte de creșterea cererii - fără articole de 86, mai puține deșeuri",
+          "description": "Aprovizionați înainte de creșterea cererii - fără articole epuizate, mai puține pierderi",
           "oneWin": "Evitarea unui eveniment de epuizare a stocurilor"
         }
       ],
@@ -3986,7 +3986,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "Conștientizarea schimbării demografice",
           "description": "Adaptați-vă la schimbarea cartierului înainte ca veniturile să scadă",
-          "oneWin": "Rămâneți înaintea unei schimburi de cartier"
+          "oneWin": "Rămâneți înaintea unei schimbări din cartier"
         }
       ]
     },
@@ -4021,7 +4021,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Förberedelse av inventering",
-          "description": "Fyll på innan efterfrågan ökar - inga 86'd-artiklar, mindre avfall",
+          "description": "Fyll på innan efterfrågan ökar - inga slutsålda artiklar, mindre svinn",
           "oneWin": "Undviker en stockouthändelse"
         }
       ],
@@ -4039,7 +4039,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "Medvetenhet om demografisk förändring",
           "description": "Anpassa dig till ett förändrat område innan intäkterna sjunker",
-          "oneWin": "Att ligga före ett grannskifte"
+          "oneWin": "Att ligga steget före en förändring i området"
         }
       ]
     },
@@ -4047,7 +4047,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "মূল্য অপ্টিমাইজেশান",
-          "description": "স্পট প্রতিযোগী মূল্য বৃদ্ধি, মেনু অংশ অনুসরণ করুন",
+          "description": "প্রতিযোগীর মূল্য বৃদ্ধি শনাক্ত করুন এবং মেনুর কিছু অংশে তা অনুসরণ করুন",
           "oneWin": "এক প্রতিযোগী মূল্য বৃদ্ধি অনুসরণ"
         },
         {
@@ -4057,8 +4057,8 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "মেনু বুদ্ধিমত্তা",
-          "description": "প্রতিযোগী এ স্পট ট্রেন্ডিং আইটেম - দ্রুত অনুসরণ কৌশল",
-          "oneWin": "একটি প্রতিযোগী মেনু সংকেত অভিনয়ের জন্য মূল্যবান"
+          "description": "প্রতিযোগীর কাছে ট্রেন্ডিং আইটেম শনাক্ত করুন - দ্রুত অনুসরণের কৌশল",
+          "oneWin": "একটি প্রতিযোগী মেনু সংকেত যা নিয়ে পদক্ষেপ নেওয়ার মতো"
         }
       ],
       "events": [
@@ -4074,14 +4074,14 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "ইনভেন্টরি প্রস্তুতি",
-          "description": "চাহিদা বৃদ্ধির আগে স্টক আপ করুন - কোন 86'd আইটেম, কম অপচয়",
+          "description": "চাহিদা বৃদ্ধির আগে স্টক করে রাখুন - কোনো আউট-অফ-স্টক আইটেম নেই, কম অপচয়",
           "oneWin": "একটি স্টকআউট ইভেন্ট এড়ানো"
         }
       ],
       "trends": [
         {
           "title": "ট্রেন্ড-অবহিত মেনু সংযোজন",
-          "description": "চাহিদা ক্যাপচার যে প্রবণতা আইটেম যোগ করুন",
+          "description": "চাহিদা ধরে এমন ট্রেন্ডিং আইটেম যোগ করুন",
           "oneWin": "একটি সফল ট্রেন্ড-অবহিত মেনু আইটেম"
         },
         {
@@ -4092,7 +4092,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "ডেমোগ্রাফিক শিফট সচেতনতা",
           "description": "আয় কমে যাওয়ার আগে আশেপাশের পরিবর্তনের সাথে মানিয়ে নিন",
-          "oneWin": "এক আশেপাশের শিফট থেকে এগিয়ে থাকা"
+          "oneWin": "আশেপাশের একটি পরিবর্তনের চেয়ে এগিয়ে থাকা"
         }
       ]
     },
@@ -4127,7 +4127,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "การเตรียมสินค้าคงคลัง",
-          "description": "ตุนไว้ก่อนความต้องการพุ่งสูง - ไม่มีสินค้า 86 รายการ สิ้นเปลืองน้อยลง",
+          "description": "ตุนสต็อกก่อนความต้องการพุ่งสูง - ไม่มีสินค้าหมด สิ้นเปลืองน้อยลง",
           "oneWin": "หลีกเลี่ยงเหตุการณ์สต็อกสินค้าหนึ่งรายการ"
         }
       ],
@@ -4153,7 +4153,7 @@ export const generatedAuxiliaryLocalePacks = {
       "competitive": [
         {
           "title": "Pengoptimuman Harga",
-          "description": "Spot kenaikan harga pesaing, ikut bahagian menu",
+          "description": "Kesan kenaikan harga pesaing dan ikut pada sebahagian menu",
           "oneWin": "Berikutan satu kenaikan harga pesaing"
         },
         {
@@ -4163,7 +4163,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Menu Perisikan",
-          "description": "Cari item sohor kini di pesaing - strategi ikut pantas",
+          "description": "Kesan item sohor kini pada pesaing - strategi ikut pantas",
           "oneWin": "Satu isyarat menu pesaing yang patut diambil tindakan"
         }
       ],
@@ -4180,7 +4180,7 @@ export const generatedAuxiliaryLocalePacks = {
         },
         {
           "title": "Penyediaan Inventori",
-          "description": "Simpan stok sebelum permintaan melonjak - tiada barang 86'd, kurang pembaziran",
+          "description": "Simpan stok sebelum permintaan melonjak - tiada barang kehabisan stok, kurang pembaziran",
           "oneWin": "Mengelakkan satu acara kehabisan stok"
         }
       ],
@@ -4198,7 +4198,7 @@ export const generatedAuxiliaryLocalePacks = {
         {
           "title": "Kesedaran Anjakan Demografi",
           "description": "Menyesuaikan diri dengan menukar kejiranan sebelum hasil menurun",
-          "oneWin": "Kekal mendahului satu syif kejiranan"
+          "oneWin": "Kekal mendahului satu perubahan kejiranan"
         }
       ]
     }
@@ -4211,15 +4211,15 @@ export const generatedAuxiliaryLocalePacks = {
       "Daily EOD (AI-assisted)": "Täglicher EOD (KI-unterstützt)",
       "Daily EOD (automated API)": "Täglicher EOD (automatisierte API)",
       "~20 core visuals": "~20 Kernvisualisierungen",
-      "~30 visuals": "~30 Bilder",
-      "~80 visuals": "~80 Bilder",
+      "~30 visuals": "~30 Visualisierungen",
+      "~80 visuals": "~80 Visualisierungen",
       "Pre-built only": "Nur vorgefertigt",
       "Pre-built + custom": "Vorgefertigt + individuell",
       "Basic": "Einfach",
       "Advanced": "Fortgeschritten",
-      "1 seat": "1 Sitzplatz",
-      "3 seats": "3 Sitze",
-      "5 seats": "5 Sitzplätze",
+      "1 seat": "1 Seat",
+      "3 seats": "3 Seats",
+      "5 seats": "5 Seats",
       "250 credits": "250 Credits",
       "1,200 credits": "1.200 Credits",
       "3,500 credits": "3.500 Credits",
@@ -4228,13 +4228,13 @@ export const generatedAuxiliaryLocalePacks = {
       "+800 credits": "+800 Credits",
       "✓ (free)": "✓ (kostenlos)",
       "None": "Keine",
-      "No rollover": "Kein Überschlag",
+      "No rollover": "Keine Übertragung",
       "25% of base credits (1 month)": "25 % der Basis-Credits (1 Monat)",
-      "✓ (1,000 cr only)": "✓ (nur 1.000 Cr)",
+      "✓ (1,000 cr only)": "✓ (nur 1.000 Credits)",
       "✓ Basic": "✓ Einfach",
       "✓ Expanded": "✓ Erweitert",
       "✓ Full": "✓ Voll",
-      "1km (locked)": "1 km (gesperrt)",
+      "1km (locked)": "1 km (fest)",
       "1-2km adjustable": "1-2km einstellbar",
       "1-3km adjustable": "1-3km einstellbar",
       "\"All restaurants\" only": "Nur „Alle Restaurants“.",
@@ -4288,7 +4288,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Erweitert (benutzerdefiniert)",
       "✓ Real-time (configurable)": "✓ Echtzeit (konfigurierbar)",
       "Basic (limited)": "Basic (begrenzt)",
-      "Custom cap": "Benutzerdefinierte Kappe",
+      "Custom cap": "Individuelles Limit",
       "+$99/mo (4hr SLA)": "+99 $/Monat (4-Stunden-SLA)",
       "+$79/mo (4hr SLA)": "+79 $/Monat (4-Stunden-SLA)",
       "+$249/mo": "+249 $/Monat",
@@ -4312,10 +4312,10 @@ export const generatedAuxiliaryLocalePacks = {
       "+5,000 credits": "+5.000 Credits",
       "N/A (50,000+ base)": "N/A (50.000+ Basis)",
       "Unlimited": "Unbegrenzt",
-      "$19/seat (max 3 additional)": "19 $/Sitzplatz (max. 3 weitere)",
-      "$15/seat (max 5 additional)": "15 $/Sitzplatz (maximal 5 weitere)",
-      "$12/seat/mo (unlimited)": "12 $/Sitzplatz/Monat (unbegrenzt)",
-      "$10/seat/mo (unlimited)": "10 $/Sitzplatz/Monat (unbegrenzt)",
+      "$19/seat (max 3 additional)": "19 $/Seat (max. 3 weitere)",
+      "$15/seat (max 5 additional)": "15 $/Seat (max. 5 weitere)",
+      "$12/seat/mo (unlimited)": "12 $/Seat/Monat (unbegrenzt)",
+      "$10/seat/mo (unlimited)": "10 $/Seat/Monat (unbegrenzt)",
       "N/A (unlimited)": "N/A (unbegrenzt)",
       "✓ Custom": "✓ Benutzerdefiniert",
       "Custom geography": "Benutzerdefinierte Geografie",
@@ -4330,13 +4330,13 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ (10 available)": "✓ (10 verfügbar)",
       "Included (contract-based)": "Im Preis inbegriffen (vertraglich)",
       "Per module": "Pro Modul",
-      "Waived": "Verzichtet",
+      "Waived": "Entfällt",
       "✓ (2+ locations)": "✓ (2+ Standorte)",
       "✓ Premium dashboard": "✓ Premium-Dashboard",
       "✓ Enterprise suite": "✓ Enterprise-Suite",
       "Limited": "Begrenzt",
       "Standard quota": "Standardkontingent",
-      "Higher quota": "Höhere Quote",
+      "Higher quota": "Höheres Kontingent",
       "No limit (contracted)": "Keine Begrenzung (vertraglich vereinbart)",
       "✓ Advanced": "✓ Fortgeschritten",
       "Archival options": "Archivierungsoptionen",
@@ -4378,18 +4378,18 @@ export const generatedAuxiliaryLocalePacks = {
       "Pre-built + custom": "Vooraf gebouwd + op maat",
       "Basic": "Basis",
       "Advanced": "Geavanceerd",
-      "1 seat": "1 zetel",
-      "3 seats": "3 zitplaatsen",
-      "5 seats": "5 zitplaatsen",
-      "250 credits": "250 studiepunten",
-      "1,200 credits": "1.200 studiepunten",
-      "3,500 credits": "3.500 studiepunten",
-      "+80 credits": "+80 studiepunten",
-      "+300 credits": "+300 studiepunten",
-      "+800 credits": "+800 studiepunten",
+      "1 seat": "1 seat",
+      "3 seats": "3 seats",
+      "5 seats": "5 seats",
+      "250 credits": "250 credits",
+      "1,200 credits": "1.200 credits",
+      "3,500 credits": "3.500 credits",
+      "+80 credits": "+80 credits",
+      "+300 credits": "+300 credits",
+      "+800 credits": "+800 credits",
       "✓ (free)": "✓ (gratis)",
       "None": "Geen",
-      "No rollover": "Geen omrollen",
+      "No rollover": "Geen overdracht",
       "25% of base credits (1 month)": "25% van basiskredieten (1 maand)",
       "✓ (1,000 cr only)": "✓ (alleen 1.000 cr)",
       "✓ Basic": "✓ Eenvoudig",
@@ -4449,7 +4449,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Geavanceerd (aangepast)",
       "✓ Real-time (configurable)": "✓ Realtime (configureerbaar)",
       "Basic (limited)": "Basis (beperkt)",
-      "Custom cap": "Aangepaste pet",
+      "Custom cap": "Aangepaste limiet",
       "+$99/mo (4hr SLA)": "+$99/maand (4 uur SLA)",
       "+$79/mo (4hr SLA)": "+$79/maand (4 uur SLA)",
       "+$249/mo": "+$249/maand",
@@ -4470,13 +4470,13 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Aangepast",
       "3 years": "3 jaar",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 studiepunten",
+      "+5,000 credits": "+5.000 credits",
       "N/A (50,000+ base)": "N.v.t. (50.000+ basis)",
       "Unlimited": "Onbeperkt",
-      "$19/seat (max 3 additional)": "$ 19 per stoel (max. 3 extra)",
-      "$15/seat (max 5 additional)": "$ 15 per stoel (max. 5 extra)",
-      "$12/seat/mo (unlimited)": "$ 12/zitplaats/maand (onbeperkt)",
-      "$10/seat/mo (unlimited)": "$ 10/zitplaats/maand (onbeperkt)",
+      "$19/seat (max 3 additional)": "$19/seat (max. 3 extra)",
+      "$15/seat (max 5 additional)": "$15/seat (max. 5 extra)",
+      "$12/seat/mo (unlimited)": "$12/seat/maand (onbeperkt)",
+      "$10/seat/mo (unlimited)": "$10/seat/maand (onbeperkt)",
       "N/A (unlimited)": "N.v.t. (onbeperkt)",
       "✓ Custom": "✓ Op maat",
       "Custom geography": "Aangepaste geografie",
@@ -4491,7 +4491,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ (10 available)": "✓ (10 beschikbaar)",
       "Included (contract-based)": "Inbegrepen (op contractbasis)",
       "Per module": "Per module",
-      "Waived": "Afgewezen",
+      "Waived": "Kwijtgescholden",
       "✓ (2+ locations)": "✓ (2+ locaties)",
       "✓ Premium dashboard": "✓ Premiumdashboard",
       "✓ Enterprise suite": "✓ Enterprise-suite",
@@ -4524,7 +4524,7 @@ export const generatedAuxiliaryLocalePacks = {
       "$33": "$33",
       "$27": "$27",
       "$50": "$50",
-      "10,000 credits": "10.000 studiepunten"
+      "10,000 credits": "10.000 credits"
     },
     "pt": {
       "10": "10",
@@ -4533,15 +4533,15 @@ export const generatedAuxiliaryLocalePacks = {
       "Daily EOD (AI-assisted)": "EOD diário (assistido por IA)",
       "Daily EOD (automated API)": "EOD diário (API automatizada)",
       "~20 core visuals": "~20 recursos visuais principais",
-      "~30 visuals": "~30 imagens",
+      "~30 visuals": "~30 visuais",
       "~80 visuals": "~80 visuais",
       "Pre-built only": "Apenas pré-construído",
       "Pre-built + custom": "Pré-construído + personalizado",
       "Basic": "Básico",
       "Advanced": "Avançado",
-      "1 seat": "1 assento",
-      "3 seats": "3 assentos",
-      "5 seats": "5 assentos",
+      "1 seat": "1 seat",
+      "3 seats": "3 seats",
+      "5 seats": "5 seats",
       "250 credits": "250 créditos",
       "1,200 credits": "1.200 créditos",
       "3,500 credits": "3.500 créditos",
@@ -4550,9 +4550,9 @@ export const generatedAuxiliaryLocalePacks = {
       "+800 credits": "+800 créditos",
       "✓ (free)": "✓ (grátis)",
       "None": "Nenhum",
-      "No rollover": "Sem capotamento",
+      "No rollover": "Sem acúmulo",
       "25% of base credits (1 month)": "25% dos créditos básicos (1 mês)",
-      "✓ (1,000 cr only)": "✓ (apenas 1.000 cr)",
+      "✓ (1,000 cr only)": "✓ (apenas 1.000 créditos)",
       "✓ Basic": "✓ Básico",
       "✓ Expanded": "✓ Expandido",
       "✓ Full": "✓ Completo",
@@ -4610,7 +4610,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Avançado (personalizado)",
       "✓ Real-time (configurable)": "✓ Tempo real (configurável)",
       "Basic (limited)": "Básico (limitado)",
-      "Custom cap": "Boné personalizado",
+      "Custom cap": "Limite personalizado",
       "+$99/mo (4hr SLA)": "+US$ 99/mês (SLA de 4 horas)",
       "+$79/mo (4hr SLA)": "+US$ 79/mês (SLA de 4 horas)",
       "+$249/mo": "+$249/mês",
@@ -4634,10 +4634,10 @@ export const generatedAuxiliaryLocalePacks = {
       "+5,000 credits": "+5.000 créditos",
       "N/A (50,000+ base)": "N/D (50.000+ base)",
       "Unlimited": "Ilimitado",
-      "$19/seat (max 3 additional)": "US$ 19/assento (máximo de 3 adicionais)",
-      "$15/seat (max 5 additional)": "US$ 15/assento (máximo de 5 adicionais)",
-      "$12/seat/mo (unlimited)": "US$ 12/assento/mês (ilimitado)",
-      "$10/seat/mo (unlimited)": "US$ 10/assento/mês (ilimitado)",
+      "$19/seat (max 3 additional)": "US$ 19/seat (máx. 3 adicionais)",
+      "$15/seat (max 5 additional)": "US$ 15/seat (máx. 5 adicionais)",
+      "$12/seat/mo (unlimited)": "US$ 12/seat/mês (ilimitado)",
+      "$10/seat/mo (unlimited)": "US$ 10/seat/mês (ilimitado)",
       "N/A (unlimited)": "N/A (ilimitado)",
       "✓ Custom": "✓ Personalizado",
       "Custom geography": "Geografia personalizada",
@@ -4652,7 +4652,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ (10 available)": "✓ (10 disponíveis)",
       "Included (contract-based)": "Incluído (com base em contrato)",
       "Per module": "Por módulo",
-      "Waived": "Dispensado",
+      "Waived": "Isento",
       "✓ (2+ locations)": "✓ (2+ locais)",
       "✓ Premium dashboard": "✓ Painel premium",
       "✓ Enterprise suite": "✓ Pacote empresarial",
@@ -4713,7 +4713,7 @@ export const generatedAuxiliaryLocalePacks = {
       "None": "कोई नहीं",
       "No rollover": "कोई रोलओवर नहीं",
       "25% of base credits (1 month)": "आधार क्रेडिट का 25% (1 माह)",
-      "✓ (1,000 cr only)": "✓ (केवल 1,000 करोड़)",
+      "✓ (1,000 cr only)": "✓ (केवल 1,000 क्रेडिट)",
       "✓ Basic": "✓ बुनियादी",
       "✓ Expanded": "✓ विस्तारित",
       "✓ Full": "✓ पूर्ण",
@@ -4740,7 +4740,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Internal only": "✓ केवल आंतरिक",
       "✓ Internal + exports (PDF/CSV)": "✓ आंतरिक + निर्यात (पीडीएफ/सीएसवी)",
       "Full + @mentions": "पूर्ण + @उल्लेख",
-      "2 views": "2 विचार",
+      "2 views": "2 व्यू",
       "Weekly": "साप्ताहिक",
       "Daily": "दैनिक",
       "Monthly": "मासिक",
@@ -4749,7 +4749,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Standard report": "मानक रिपोर्ट",
       "Expanded report": "विस्तृत रिपोर्ट",
       "✓ Per location": "✓ प्रति स्थान",
-      "Email only": "केवल ईमेल करें",
+      "Email only": "केवल ईमेल",
       "Email + Chat": "ईमेल + चैट",
       "Priority Email + Chat": "प्राथमिकता ईमेल + चैट",
       "72 hours": "72 घंटे",
@@ -4757,7 +4757,7 @@ export const generatedAuxiliaryLocalePacks = {
       "12 hours": "12 घंटे",
       "14-day": "14-day",
       "30-day": "30-day",
-      "Custom horizon": "कस्टम क्षितिज",
+      "Custom horizon": "कस्टम समय-सीमा",
       "5-min": "5-min",
       "15-min": "15-min",
       "1-5km": "1-5km",
@@ -4771,7 +4771,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ उन्नत (कस्टम)",
       "✓ Real-time (configurable)": "✓ वास्तविक समय (कॉन्फ़िगर करने योग्य)",
       "Basic (limited)": "बुनियादी (सीमित)",
-      "Custom cap": "कस्टम टोपी",
+      "Custom cap": "कस्टम सीमा",
       "+$99/mo (4hr SLA)": "+$99/माह (4 घंटे एसएलए)",
       "+$79/mo (4hr SLA)": "+$79/माह (4 घंटे एसएलए)",
       "+$249/mo": "+$249/माह",
@@ -4813,7 +4813,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ (10 available)": "✓ (10 उपलब्ध)",
       "Included (contract-based)": "शामिल (अनुबंध-आधारित)",
       "Per module": "प्रति मॉड्यूल",
-      "Waived": "माफ़ कर दिया गया",
+      "Waived": "माफ़",
       "✓ (2+ locations)": "✓ (2+ स्थान)",
       "✓ Premium dashboard": "✓ प्रीमियम डैशबोर्ड",
       "✓ Enterprise suite": "✓ एंटरप्राइज सुइट",
@@ -4857,7 +4857,7 @@ export const generatedAuxiliaryLocalePacks = {
       "~20 core visuals": "~20 بنیادی بصری",
       "~30 visuals": "~30 بصری",
       "~80 visuals": "~80 بصری",
-      "Pre-built only": "صرف پہلے سے بنایا ہوا ہے۔",
+      "Pre-built only": "صرف پہلے سے بنایا ہوا",
       "Pre-built + custom": "پہلے سے بنایا ہوا + اپنی مرضی کے مطابق",
       "Basic": "بنیادی",
       "Advanced": "اعلی درجے کی",
@@ -4871,16 +4871,16 @@ export const generatedAuxiliaryLocalePacks = {
       "+300 credits": "+300 کریڈٹس",
       "+800 credits": "+800 کریڈٹس",
       "✓ (free)": "✓ (مفت)",
-      "None": "کوئی نہیں۔",
+      "None": "کوئی نہیں",
       "No rollover": "کوئی رول اوور نہیں۔",
       "25% of base credits (1 month)": "بیس کریڈٹس کا 25% (1 ماہ)",
-      "✓ (1,000 cr only)": "✓ (صرف 1,000 کروڑ)",
+      "✓ (1,000 cr only)": "✓ (صرف 1,000 کریڈٹ)",
       "✓ Basic": "✓ بنیادی",
       "✓ Expanded": "✓ توسیع شدہ",
       "✓ Full": "✓ مکمل",
       "1km (locked)": "1 کلومیٹر (مقفل)",
-      "1-2km adjustable": "1-2 کلومیٹر سایڈست",
-      "1-3km adjustable": "1-3 کلومیٹر سایڈست",
+      "1-2km adjustable": "1-2 کلومیٹر قابل ایڈجسٹ",
+      "1-3km adjustable": "1-3 کلومیٹر قابل ایڈجسٹ",
       "\"All restaurants\" only": "صرف \"تمام ریستوراں\"",
       "1 simultaneous filter": "1 بیک وقت فلٹر",
       "2 simultaneous filters": "2 بیک وقت فلٹرز",
@@ -4896,7 +4896,7 @@ export const generatedAuxiliaryLocalePacks = {
       "+$29/mo": "+$29/ماہ",
       "+$49/mo": "+$49/ماہ",
       "+$79/mo unlock": "+$79/ماہ غیر مقفل",
-      "+$99/mo unlock + $299/mo module (setup fee applies)": "+$99/mo unlock + $299/mo ماڈیول (سیٹ اپ فیس لاگو ہوتی ہے)",
+      "+$99/mo unlock + $299/mo module (setup fee applies)": "+$99/ماہ ان لاک + $299/ماہ ماڈیول (سیٹ اپ فیس لاگو ہوتی ہے)",
       "✓ (5,000 calls/mo)": "✓ (5,000 کالز/ماہ)",
       "✓ Internal only": "✓ صرف اندرونی",
       "✓ Internal + exports (PDF/CSV)": "✓ اندرونی + برآمدات (PDF/CSV)",
@@ -4910,7 +4910,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Standard report": "معیاری رپورٹ",
       "Expanded report": "توسیع شدہ رپورٹ",
       "✓ Per location": "✓ فی مقام",
-      "Email only": "صرف ای میل کریں۔",
+      "Email only": "صرف ای میل",
       "Email + Chat": "ای میل + چیٹ",
       "Priority Email + Chat": "ترجیحی ای میل + چیٹ",
       "72 hours": "72 گھنٹے",
@@ -4932,7 +4932,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ اعلی درجے کی (اپنی مرضی کے مطابق)",
       "✓ Real-time (configurable)": "✓ ریئل ٹائم (قابل ترتیب)",
       "Basic (limited)": "بنیادی (محدود)",
-      "Custom cap": "اپنی مرضی کی ٹوپی",
+      "Custom cap": "حسب ضرورت حد",
       "+$99/mo (4hr SLA)": "+$99/ماہ (4 گھنٹے SLA)",
       "+$79/mo (4hr SLA)": "+$79/ماہ (4 گھنٹے SLA)",
       "+$249/mo": "+$249/ماہ",
@@ -5016,8 +5016,8 @@ export const generatedAuxiliaryLocalePacks = {
       "Daily EOD (AI-assisted)": "EOD giornaliero (assistito dall'intelligenza artificiale)",
       "Daily EOD (automated API)": "EOD giornaliero (API automatizzata)",
       "~20 core visuals": "~20 elementi visivi principali",
-      "~30 visuals": "~30 immagini",
-      "~80 visuals": "~80 immagini",
+      "~30 visuals": "~30 elementi visivi",
+      "~80 visuals": "~80 elementi visivi",
       "Pre-built only": "Solo precostruito",
       "Pre-built + custom": "Precostruito + personalizzato",
       "Basic": "Essenziale",
@@ -5033,13 +5033,13 @@ export const generatedAuxiliaryLocalePacks = {
       "+800 credits": "+800 crediti",
       "✓ (free)": "✓ (gratuito)",
       "None": "Nessuno",
-      "No rollover": "Nessun ribaltamento",
+      "No rollover": "Nessun riporto",
       "25% of base credits (1 month)": "25% dei crediti base (1 mese)",
       "✓ (1,000 cr only)": "✓ (solo 1.000 crediti)",
       "✓ Basic": "✓ Di base",
       "✓ Expanded": "✓ Ampliato",
       "✓ Full": "✓ Pieno",
-      "1km (locked)": "1 km (chiuso a chiave)",
+      "1km (locked)": "1 km (bloccato)",
       "1-2km adjustable": "1-2 km regolabile",
       "1-3km adjustable": "1-3 km regolabile",
       "\"All restaurants\" only": "Solo \"Tutti i ristoranti\".",
@@ -5093,7 +5093,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Avanzato (personalizzato)",
       "✓ Real-time (configurable)": "✓ In tempo reale (configurabile)",
       "Basic (limited)": "Base (limitato)",
-      "Custom cap": "Berretto personalizzato",
+      "Custom cap": "Limite personalizzato",
       "+$99/mo (4hr SLA)": "+$99/mese (SLA di 4 ore)",
       "+$79/mo (4hr SLA)": "+$79/mese (SLA di 4 ore)",
       "+$249/mo": "+$249/mese",
@@ -5135,9 +5135,9 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ (10 available)": "✓ (10 disponibili)",
       "Included (contract-based)": "Incluso (in base al contratto)",
       "Per module": "Per modulo",
-      "Waived": "Rinunciato",
+      "Waived": "Azzerato",
       "✓ (2+ locations)": "✓ (2+ sedi)",
-      "✓ Premium dashboard": "✓ Cruscotto premium",
+      "✓ Premium dashboard": "✓ Dashboard premium",
       "✓ Enterprise suite": "✓ Suite aziendale",
       "Limited": "Limitato",
       "Standard quota": "Quota standard",
@@ -5194,15 +5194,15 @@ export const generatedAuxiliaryLocalePacks = {
       "+800 credits": "+800 kredytów",
       "✓ (free)": "✓ (bezpłatny)",
       "None": "Żadne",
-      "No rollover": "Żadnego przewrócenia",
+      "No rollover": "Brak przeniesienia",
       "25% of base credits (1 month)": "25% kredytów bazowych (1 miesiąc)",
       "✓ (1,000 cr only)": "✓ (tylko 1000 cr)",
       "✓ Basic": "✓ Podstawowe",
       "✓ Expanded": "✓ Rozszerzone",
       "✓ Full": "✓ Pełne",
-      "1km (locked)": "1km (zamknięty)",
+      "1km (locked)": "1 km (zablokowany)",
       "1-2km adjustable": "1-2 km z możliwością regulacji",
-      "1-3km adjustable": "Możliwość regulacji 1-3 km",
+      "1-3km adjustable": "1-3 km z możliwością regulacji",
       "\"All restaurants\" only": "Tylko „Wszystkie restauracje”.",
       "1 simultaneous filter": "1 filtr jednoczesny",
       "2 simultaneous filters": "2 jednoczesne filtry",
@@ -5254,7 +5254,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Zaawansowane (niestandardowe)",
       "✓ Real-time (configurable)": "✓ W czasie rzeczywistym (konfigurowalne)",
       "Basic (limited)": "Podstawowy (ograniczony)",
-      "Custom cap": "Niestandardowa czapka",
+      "Custom cap": "Niestandardowy limit",
       "+$99/mo (4hr SLA)": "+99 USD/mies. (4-godzinna umowa SLA)",
       "+$79/mo (4hr SLA)": "+79 USD/mies. (4-godzinna umowa SLA)",
       "+$249/mo": "+249 USD/mies",
@@ -5296,13 +5296,13 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ (10 available)": "✓ (10 dostępnych)",
       "Included (contract-based)": "W cenie (na podstawie umowy)",
       "Per module": "Na moduł",
-      "Waived": "Zrzeczenie się",
+      "Waived": "Zniesione",
       "✓ (2+ locations)": "✓ (2+ lokalizacje)",
       "✓ Premium dashboard": "✓ Panel premium",
       "✓ Enterprise suite": "✓ Pakiet korporacyjny",
       "Limited": "Ograniczona",
-      "Standard quota": "Standardowa kwota",
-      "Higher quota": "Wyższa kwota",
+      "Standard quota": "Standardowy limit",
+      "Higher quota": "Wyższy limit",
       "No limit (contracted)": "Bez limitu (kontraktowy)",
       "✓ Advanced": "✓ Zaawansowane",
       "Archival options": "Opcje archiwizacji",
@@ -5336,7 +5336,7 @@ export const generatedAuxiliaryLocalePacks = {
       "15": "15",
       "Manual upload": "Manuel yükleme",
       "Daily EOD (AI-assisted)": "Günlük EOD (Yapay Zeka destekli)",
-      "Daily EOD (automated API)": "Daily EOD (automated API)",
+      "Daily EOD (automated API)": "Günlük EOD (otomatik API)",
       "~20 core visuals": "~20 temel görsel",
       "~30 visuals": "~30 görsel",
       "~80 visuals": "~80 görsel",
@@ -5344,9 +5344,9 @@ export const generatedAuxiliaryLocalePacks = {
       "Pre-built + custom": "Önceden oluşturulmuş + özel",
       "Basic": "Temel",
       "Advanced": "Gelişmiş",
-      "1 seat": "1 koltuk",
-      "3 seats": "3 koltuk",
-      "5 seats": "5 koltuk",
+      "1 seat": "1 seat",
+      "3 seats": "3 seat",
+      "5 seats": "5 seat",
       "250 credits": "250 kredi",
       "1,200 credits": "1.200 kredi",
       "3,500 credits": "3.500 kredi",
@@ -5356,7 +5356,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ (free)": "✓ (ücretsiz)",
       "None": "Yok",
       "No rollover": "Devir yok",
-      "25% of base credits (1 month)": "25% of base credits (1 month)",
+      "25% of base credits (1 month)": "Temel kredinin %25'i (1 ay)",
       "✓ (1,000 cr only)": "✓ (yalnızca 1.000 cr)",
       "✓ Basic": "✓ Temel",
       "✓ Expanded": "✓ Genişletilmiş",
@@ -5382,7 +5382,7 @@ export const generatedAuxiliaryLocalePacks = {
       "+$99/mo unlock + $299/mo module (setup fee applies)": "+$99/ay kilit açma + $299/ay modül (kurulum ücreti uygulanır)",
       "✓ (5,000 calls/mo)": "✓ (5.000 çağrı/ay)",
       "✓ Internal only": "✓ Yalnızca dahili",
-      "✓ Internal + exports (PDF/CSV)": "✓ Internal + exports (PDF/CSV)",
+      "✓ Internal + exports (PDF/CSV)": "✓ Dahili + dışa aktarma (PDF/CSV)",
       "Full + @mentions": "Tam + @bahsetmeler",
       "2 views": "2 görüntüleme",
       "Weekly": "Haftalık",
@@ -5409,13 +5409,13 @@ export const generatedAuxiliaryLocalePacks = {
       "1-10 locations": "1-10 konum",
       "✓ Available": "✓ Mevcut",
       "✓ (add-on)": "✓ (eklenti)",
-      "✓ Available as module (setup fee applies)": "✓ Available as module (setup fee applies)",
+      "✓ Available as module (setup fee applies)": "✓ Modül olarak mevcut (kurulum ücreti uygulanır)",
       "✓ (contracted)": "✓ (sözleşmeli)",
-      "✓ (where integrations exist)": "✓ (where integrations exist)",
+      "✓ (where integrations exist)": "✓ (entegrasyonların mevcut olduğu yerlerde)",
       "✓ Advanced (custom)": "✓ Gelişmiş (özel)",
       "✓ Real-time (configurable)": "✓ Gerçek zamanlı (yapılandırılabilir)",
       "Basic (limited)": "Temel (sınırlı)",
-      "Custom cap": "Özel başlık",
+      "Custom cap": "Özel limit",
       "+$99/mo (4hr SLA)": "+99$/ay (4 saatlik HDS)",
       "+$79/mo (4hr SLA)": "+$79/ay (4 saatlik HDS)",
       "+$249/mo": "+249$/ay",
@@ -5439,10 +5439,10 @@ export const generatedAuxiliaryLocalePacks = {
       "+5,000 credits": "+5.000 kredi",
       "N/A (50,000+ base)": "Yok (50.000+ temel)",
       "Unlimited": "Sınırsız",
-      "$19/seat (max 3 additional)": "19$/koltuk (en fazla 3 ek)",
-      "$15/seat (max 5 additional)": "15$/koltuk (en fazla 5 ek)",
-      "$12/seat/mo (unlimited)": "$12/koltuk/ay (sınırsız)",
-      "$10/seat/mo (unlimited)": "10$/koltuk/ay (sınırsız)",
+      "$19/seat (max 3 additional)": "19$/seat (en fazla 3 ek)",
+      "$15/seat (max 5 additional)": "15$/seat (en fazla 5 ek)",
+      "$12/seat/mo (unlimited)": "$12/seat/ay (sınırsız)",
+      "$10/seat/mo (unlimited)": "10$/seat/ay (sınırsız)",
       "N/A (unlimited)": "Yok (sınırsız)",
       "✓ Custom": "✓ Özel",
       "Custom geography": "Özel coğrafya",
@@ -5660,8 +5660,8 @@ export const generatedAuxiliaryLocalePacks = {
       "Daily EOD (AI-assisted)": "毎日の EOD (AI 支援)",
       "Daily EOD (automated API)": "毎日の EOD (自動化された API)",
       "~20 core visuals": "~20 の主要なビジュアル",
-      "~30 visuals": "約 30 のビジュアル",
-      "~80 visuals": "約 80 のビジュアル",
+      "~30 visuals": "約30のビジュアル",
+      "~80 visuals": "約80のビジュアル",
       "Pre-built only": "プレビルドのみ",
       "Pre-built + custom": "事前構築 + カスタム",
       "Basic": "基本",
@@ -5683,7 +5683,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Basic": "✓ 基本",
       "✓ Expanded": "✓ 拡大",
       "✓ Full": "✓ フル",
-      "1km (locked)": "1km（施錠済み）",
+      "1km (locked)": "1km（固定）",
       "1-2km adjustable": "1〜2km調整可能",
       "1-3km adjustable": "1〜3km調整可能",
       "\"All restaurants\" only": "「全レストラン」のみ",
@@ -5723,7 +5723,7 @@ export const generatedAuxiliaryLocalePacks = {
       "12 hours": "12時間",
       "14-day": "14-day",
       "30-day": "30-day",
-      "Custom horizon": "カスタム水平線",
+      "Custom horizon": "カスタム予測期間",
       "5-min": "5-min",
       "15-min": "15-min",
       "1-5km": "1-5km",
@@ -5737,7 +5737,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ アドバンスト (カスタム)",
       "✓ Real-time (configurable)": "✓ リアルタイム (構成可能)",
       "Basic (limited)": "基本（限定）",
-      "Custom cap": "カスタムキャップ",
+      "Custom cap": "カスタム上限",
       "+$99/mo (4hr SLA)": "+$99/月 (4 時間の SLA)",
       "+$79/mo (4hr SLA)": "+$79/月 (4 時間の SLA)",
       "+$249/mo": "+$249/月",
@@ -5767,7 +5767,7 @@ export const generatedAuxiliaryLocalePacks = {
       "$10/seat/mo (unlimited)": "$10/シート/月 (無制限)",
       "N/A (unlimited)": "該当なし (無制限)",
       "✓ Custom": "✓ カスタム",
-      "Custom geography": "カスタム地理",
+      "Custom geography": "カスタム地域",
       "Multiple simultaneous": "複数同時",
       "Expanded filters": "拡張フィルタ",
       "Expanded + custom": "拡張 + カスタム",
@@ -5790,8 +5790,8 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced": "✓ 高度な",
       "Archival options": "アーカイブオプション",
       "Base API calls": "基本 API 呼び出し",
-      "+10K calls": "+10,000 件の通話",
-      "+50K calls": "+50,000 件の通話",
+      "+10K calls": "+10,000 コール",
+      "+50K calls": "+50,000 コール",
       "BI Connector": "BIコネクタ",
       "Additional POS": "追加のPOS",
       "10,000/mo": "10,000/mo",
@@ -5821,8 +5821,8 @@ export const generatedAuxiliaryLocalePacks = {
       "Daily EOD (AI-assisted)": "일일 EOD(AI 지원)",
       "Daily EOD (automated API)": "일일 EOD(자동 API)",
       "~20 core visuals": "~20개 핵심 비주얼",
-      "~30 visuals": "~30개의 영상",
-      "~80 visuals": "~80개의 영상",
+      "~30 visuals": "~30개 비주얼",
+      "~80 visuals": "~80개 비주얼",
       "Pre-built only": "사전 제작된 제품만 해당",
       "Pre-built + custom": "사전 구축 + 맞춤형",
       "Basic": "기본",
@@ -5830,17 +5830,17 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1석",
       "3 seats": "3석",
       "5 seats": "5석",
-      "250 credits": "250학점",
-      "1,200 credits": "1,200학점",
-      "3,500 credits": "3,500학점",
-      "+80 credits": "+80학점",
+      "250 credits": "250 크레딧",
+      "1,200 credits": "1,200 크레딧",
+      "3,500 credits": "3,500 크레딧",
+      "+80 credits": "+80 크레딧",
       "+300 credits": "+300크레딧",
       "+800 credits": "+800크레딧",
       "✓ (free)": "✓ (무료)",
       "None": "없음",
       "No rollover": "롤오버 없음",
-      "25% of base credits (1 month)": "기본 학점의 25%(1개월)",
-      "✓ (1,000 cr only)": "✓ (1,000cr만 해당)",
+      "25% of base credits (1 month)": "기본 크레딧의 25%(1개월)",
+      "✓ (1,000 cr only)": "✓ (1,000 크레딧만 해당)",
       "✓ Basic": "✓ 기본",
       "✓ Expanded": "✓ 확장됨",
       "✓ Full": "✓ 전체",
@@ -5867,7 +5867,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Internal only": "✓ 내부 전용",
       "✓ Internal + exports (PDF/CSV)": "✓ 내부 + 내보내기(PDF/CSV)",
       "Full + @mentions": "전체 + @멘션",
-      "2 views": "조회수 2회",
+      "2 views": "보기 2개",
       "Weekly": "주간",
       "Daily": "매일",
       "Monthly": "월간",
@@ -5884,7 +5884,7 @@ export const generatedAuxiliaryLocalePacks = {
       "12 hours": "12시간",
       "14-day": "14-day",
       "30-day": "30-day",
-      "Custom horizon": "사용자 정의 지평선",
+      "Custom horizon": "맞춤 예측 기간",
       "5-min": "5-min",
       "15-min": "15-min",
       "1-5km": "1-5km",
@@ -5898,7 +5898,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ 고급(사용자 정의)",
       "✓ Real-time (configurable)": "✓ 실시간(구성 가능)",
       "Basic (limited)": "기본(제한적)",
-      "Custom cap": "맞춤형 캡",
+      "Custom cap": "맞춤 상한",
       "+$99/mo (4hr SLA)": "+$99/월(4시간 SLA)",
       "+$79/mo (4hr SLA)": "+$79/월(4시간 SLA)",
       "+$249/mo": "+$249/월",
@@ -5951,8 +5951,8 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced": "✓ 고급",
       "Archival options": "보관 옵션",
       "Base API calls": "기본 API 호출",
-      "+10K calls": "통화 10,000개 이상",
-      "+50K calls": "통화 50,000개 이상",
+      "+10K calls": "+10,000 호출",
+      "+50K calls": "+50,000 호출",
       "BI Connector": "BI 커넥터",
       "Additional POS": "추가 POS",
       "10,000/mo": "10,000/mo",
@@ -5999,7 +5999,7 @@ export const generatedAuxiliaryLocalePacks = {
       "+800 credits": "+800 kredit",
       "✓ (free)": "✓ (gratis)",
       "None": "Tidak ada",
-      "No rollover": "Tidak ada putaran",
+      "No rollover": "Tidak ada akumulasi",
       "25% of base credits (1 month)": "25% dari kredit dasar (1 bulan)",
       "✓ (1,000 cr only)": "✓ (hanya 1.000 cr)",
       "✓ Basic": "✓ Dasar",
@@ -6059,7 +6059,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Lanjutan (khusus)",
       "✓ Real-time (configurable)": "✓ Waktu nyata (dapat dikonfigurasi)",
       "Basic (limited)": "Dasar (terbatas)",
-      "Custom cap": "Tutup khusus",
+      "Custom cap": "Batas khusus",
       "+$99/mo (4hr SLA)": "+$99/bln (SLA 4 jam)",
       "+$79/mo (4hr SLA)": "+$79/bln (SLA 4 jam)",
       "+$249/mo": "+$249/bln",
@@ -6077,7 +6077,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Supported": "Didukung",
       "✓ Included": "✓ Termasuk",
       "Real-time (configurable)": "Waktu nyata (dapat dikonfigurasi)",
-      "Custom": "Adat",
+      "Custom": "Khusus",
       "3 years": "3 tahun",
       "50,000+": "50,000+",
       "+5,000 credits": "+5.000 kredit",
@@ -6088,7 +6088,7 @@ export const generatedAuxiliaryLocalePacks = {
       "$12/seat/mo (unlimited)": "$12/kursi/bln (tidak terbatas)",
       "$10/seat/mo (unlimited)": "$10/kursi/bln (tidak terbatas)",
       "N/A (unlimited)": "T/A (tidak terbatas)",
-      "✓ Custom": "✓ Adat",
+      "✓ Custom": "✓ Khusus",
       "Custom geography": "Geografi khusus",
       "Multiple simultaneous": "Beberapa secara simultan",
       "Expanded filters": "Filter yang diperluas",
@@ -6097,7 +6097,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom peer groups": "Grup rekan khusus",
       "Portfolio comparison across markets": "Perbandingan portofolio di seluruh pasar",
       "Private peer groups": "Kelompok sejawat swasta",
-      "Proprietary benchmarks": "Tolok ukur kepemilikan",
+      "Proprietary benchmarks": "Tolok ukur eksklusif",
       "✓ (10 available)": "✓ (10 tersedia)",
       "Included (contract-based)": "Termasuk (berbasis kontrak)",
       "Per module": "Per modul",
@@ -6159,10 +6159,10 @@ export const generatedAuxiliaryLocalePacks = {
       "+300 credits": "+300 tín chỉ",
       "+800 credits": "+800 tín chỉ",
       "✓ (free)": "✓ (miễn phí)",
-      "None": "không có",
-      "No rollover": "Không tái đầu tư",
+      "None": "Không có",
+      "No rollover": "Không cộng dồn",
       "25% of base credits (1 month)": "25% tín chỉ cơ bản (1 tháng)",
-      "✓ (1,000 cr only)": "✓ (chỉ 1.000đ)",
+      "✓ (1,000 cr only)": "✓ (chỉ 1.000 tín dụng)",
       "✓ Basic": "✓ Cơ bản",
       "✓ Expanded": "✓ Mở rộng",
       "✓ Full": "✓ Đầy đủ",
@@ -6190,9 +6190,9 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Internal + exports (PDF/CSV)": "✓ Nội bộ + xuất khẩu (PDF/CSV)",
       "Full + @mentions": "Đầy đủ + lượt đề cập @",
       "2 views": "2 lượt xem",
-      "Weekly": "hàng tuần",
-      "Daily": "hàng ngày",
-      "Monthly": "hàng tháng",
+      "Weekly": "Hàng tuần",
+      "Daily": "Hàng ngày",
+      "Monthly": "Hàng tháng",
       "Weekly + monthly": "Hàng tuần + hàng tháng",
       "Basic summary": "Tóm tắt cơ bản",
       "Standard report": "Báo cáo chuẩn",
@@ -6206,7 +6206,7 @@ export const generatedAuxiliaryLocalePacks = {
       "12 hours": "12 giờ",
       "14-day": "14-day",
       "30-day": "30-day",
-      "Custom horizon": "Đường chân trời tùy chỉnh",
+      "Custom horizon": "Phạm vi dự báo tùy chỉnh",
       "5-min": "5-min",
       "15-min": "15-min",
       "1-5km": "1-5km",
@@ -6238,7 +6238,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Supported": "Được hỗ trợ",
       "✓ Included": "✓ Bao gồm",
       "Real-time (configurable)": "Thời gian thực (có thể định cấu hình)",
-      "Custom": "tùy chỉnh",
+      "Custom": "Tùy chỉnh",
       "3 years": "3 năm",
       "50,000+": "50,000+",
       "+5,000 credits": "+5.000 tín dụng",
@@ -6321,7 +6321,7 @@ export const generatedAuxiliaryLocalePacks = {
       "+800 credits": "+800 credite",
       "✓ (free)": "✓ (gratuit)",
       "None": "Niciuna",
-      "No rollover": "Fără răsturnare",
+      "No rollover": "Fără report",
       "25% of base credits (1 month)": "25% din creditele de bază (1 lună)",
       "✓ (1,000 cr only)": "✓ (doar 1.000 cr)",
       "✓ Basic": "✓ De bază",
@@ -6381,7 +6381,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Avansat (personalizat)",
       "✓ Real-time (configurable)": "✓ În timp real (configurabil)",
       "Basic (limited)": "De bază (limitat)",
-      "Custom cap": "Capac personalizat",
+      "Custom cap": "Limită personalizată",
       "+$99/mo (4hr SLA)": "+99 USD/lună (4 ore SLA)",
       "+$79/mo (4hr SLA)": "+79 USD/lună (4 ore SLA)",
       "+$249/mo": "+249 USD/lună",
@@ -6423,7 +6423,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ (10 available)": "✓ (10 disponibile)",
       "Included (contract-based)": "Inclus (pe bază de contract)",
       "Per module": "Pe modul",
-      "Waived": "Renunțat",
+      "Waived": "Scutit",
       "✓ (2+ locations)": "✓ (2+ locații)",
       "✓ Premium dashboard": "✓ Tabloul de bord premium",
       "✓ Enterprise suite": "✓ Suita Enterprise",
@@ -6474,17 +6474,17 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 sittplats",
       "3 seats": "3 platser",
       "5 seats": "5 platser",
-      "250 credits": "250 poäng",
-      "1,200 credits": "1 200 poäng",
-      "3,500 credits": "3 500 poäng",
-      "+80 credits": "+80 poäng",
-      "+300 credits": "+300 poäng",
-      "+800 credits": "+800 poäng",
+      "250 credits": "250 credits",
+      "1,200 credits": "1 200 credits",
+      "3,500 credits": "3 500 credits",
+      "+80 credits": "+80 credits",
+      "+300 credits": "+300 credits",
+      "+800 credits": "+800 credits",
       "✓ (free)": "✓ (gratis)",
       "None": "Inga",
       "No rollover": "Ingen rollover",
       "25% of base credits (1 month)": "25 % av baskrediter (1 månad)",
-      "✓ (1,000 cr only)": "✓ (endast 1 000 kr)",
+      "✓ (1,000 cr only)": "✓ (endast 1 000 credits)",
       "✓ Basic": "✓ Grundläggande",
       "✓ Expanded": "✓ Utökad",
       "✓ Full": "✓ Full",
@@ -6492,7 +6492,7 @@ export const generatedAuxiliaryLocalePacks = {
       "1-2km adjustable": "1-2km justerbar",
       "1-3km adjustable": "1-3 km justerbar",
       "\"All restaurants\" only": "Endast \"Alla restauranger\".",
-      "1 simultaneous filter": "1 samtidig filter",
+      "1 simultaneous filter": "1 samtidigt filter",
       "2 simultaneous filters": "2 samtidiga filter",
       "Anonymous only": "Endast anonym",
       "Percentile rankings": "Percentilrankningar",
@@ -6542,7 +6542,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Avancerat (anpassad)",
       "✓ Real-time (configurable)": "✓ Realtid (konfigurerbar)",
       "Basic (limited)": "Grundläggande (begränsat)",
-      "Custom cap": "Anpassad keps",
+      "Custom cap": "Anpassad gräns",
       "+$99/mo (4hr SLA)": "+99 USD/månad (4 timmar SLA)",
       "+$79/mo (4hr SLA)": "+79 USD/månad (4 timmars SLA)",
       "+$249/mo": "+249 USD/månad",
@@ -6563,7 +6563,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Anpassad",
       "3 years": "3 år",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5 000 poäng",
+      "+5,000 credits": "+5 000 credits",
       "N/A (50,000+ base)": "N/A (50 000+ bas)",
       "Unlimited": "Obegränsad",
       "$19/seat (max 3 additional)": "$19/plats (max 3 extra)",
@@ -6617,7 +6617,7 @@ export const generatedAuxiliaryLocalePacks = {
       "$33": "$33",
       "$27": "$27",
       "$50": "$50",
-      "10,000 credits": "10 000 poäng"
+      "10,000 credits": "10 000 credits"
     },
     "bn": {
       "10": "10",
@@ -6645,7 +6645,7 @@ export const generatedAuxiliaryLocalePacks = {
       "None": "কোনোটিই নয়",
       "No rollover": "কোন রোলওভার নেই",
       "25% of base credits (1 month)": "25% বেস ক্রেডিট (1 মাস)",
-      "✓ (1,000 cr only)": "✓ (শুধুমাত্র 1,000 কোটি)",
+      "✓ (1,000 cr only)": "✓ (শুধুমাত্র 1,000 ক্রেডিট)",
       "✓ Basic": "✓ মৌলিক",
       "✓ Expanded": "✓ প্রসারিত",
       "✓ Full": "✓ পূর্ণ",
@@ -6672,7 +6672,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Internal only": "✓ শুধুমাত্র অভ্যন্তরীণ",
       "✓ Internal + exports (PDF/CSV)": "✓ অভ্যন্তরীণ + রপ্তানি (PDF/CSV)",
       "Full + @mentions": "সম্পূর্ণ + @উল্লেখ",
-      "2 views": "2 বার দেখা হয়েছে",
+      "2 views": "2টি ভিউ",
       "Weekly": "সাপ্তাহিক",
       "Daily": "দৈনিক",
       "Monthly": "মাসিক",
@@ -6703,7 +6703,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ উন্নত (কাস্টম)",
       "✓ Real-time (configurable)": "✓ রিয়েল-টাইম (কনফিগারযোগ্য)",
       "Basic (limited)": "মৌলিক (সীমিত)",
-      "Custom cap": "কাস্টম ক্যাপ",
+      "Custom cap": "কাস্টম সীমা",
       "+$99/mo (4hr SLA)": "+$99/মাস (4 ঘন্টা SLA)",
       "+$79/mo (4hr SLA)": "+$79/মাস (4 ঘন্টা SLA)",
       "+$249/mo": "+$249/মাস",
@@ -6737,11 +6737,11 @@ export const generatedAuxiliaryLocalePacks = {
       "Multiple simultaneous": "একাধিক যুগপৎ",
       "Expanded filters": "প্রসারিত ফিল্টার",
       "Expanded + custom": "প্রসারিত + কাস্টম",
-      "Near real-time updates": "রিয়েল-টাইম আপডেটের কাছাকাছি",
+      "Near real-time updates": "প্রায় রিয়েল-টাইম আপডেট",
       "Custom peer groups": "কাস্টম পিয়ার গ্রুপ",
       "Portfolio comparison across markets": "বাজার জুড়ে পোর্টফোলিও তুলনা",
       "Private peer groups": "প্রাইভেট পিয়ার গ্রুপ",
-      "Proprietary benchmarks": "মালিকানা বেঞ্চমার্ক",
+      "Proprietary benchmarks": "মালিকানাধীন বেঞ্চমার্ক",
       "✓ (10 available)": "✓ (১০টি উপলব্ধ)",
       "Included (contract-based)": "অন্তর্ভুক্ত (চুক্তি-ভিত্তিক)",
       "Per module": "মডিউল প্রতি",
@@ -6786,7 +6786,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Manual upload": "อัพโหลดด้วยตนเอง",
       "Daily EOD (AI-assisted)": "EOD รายวัน (ช่วยด้วย AI)",
       "Daily EOD (automated API)": "EOD รายวัน (API อัตโนมัติ)",
-      "~20 core visuals": "~ 20 ภาพหลัก",
+      "~20 core visuals": "~20 ภาพหลัก",
       "~30 visuals": "~30 ภาพ",
       "~80 visuals": "~80 ภาพ",
       "Pre-built only": "สร้างไว้ล่วงหน้าเท่านั้น",
@@ -6796,10 +6796,10 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 ที่นั่ง",
       "3 seats": "3 ที่นั่ง",
       "5 seats": "5 ที่นั่ง",
-      "250 credits": "250 หน่วยกิต",
-      "1,200 credits": "1,200 หน่วยกิต",
-      "3,500 credits": "3,500 หน่วยกิต",
-      "+80 credits": "+80 หน่วยกิต",
+      "250 credits": "250 เครดิต",
+      "1,200 credits": "1,200 เครดิต",
+      "3,500 credits": "3,500 เครดิต",
+      "+80 credits": "+80 เครดิต",
       "+300 credits": "+300 เครดิต",
       "+800 credits": "+800 เครดิต",
       "✓ (free)": "✓ (ฟรี)",
@@ -6845,12 +6845,12 @@ export const generatedAuxiliaryLocalePacks = {
       "Email only": "อีเมลเท่านั้น",
       "Email + Chat": "อีเมล + แชท",
       "Priority Email + Chat": "อีเมลสำคัญ + แชท",
-      "72 hours": "72 ชม",
-      "24 hours": "24 ชม",
-      "12 hours": "12 ชม",
+      "72 hours": "72 ชม.",
+      "24 hours": "24 ชม.",
+      "12 hours": "12 ชม.",
       "14-day": "14-day",
       "30-day": "30-day",
-      "Custom horizon": "ขอบฟ้าที่กำหนดเอง",
+      "Custom horizon": "ช่วงคาดการณ์ที่กำหนดเอง",
       "5-min": "5-min",
       "15-min": "15-min",
       "1-5km": "1-5km",
@@ -6864,7 +6864,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ ขั้นสูง (กำหนดเอง)",
       "✓ Real-time (configurable)": "✓ เรียลไทม์ (กำหนดค่าได้)",
       "Basic (limited)": "พื้นฐาน (จำกัด)",
-      "Custom cap": "หมวกแบบกำหนดเอง",
+      "Custom cap": "ขีดจำกัดที่กำหนดเอง",
       "+$99/mo (4hr SLA)": "+$99/เดือน (SLA 4 ชม.)",
       "+$79/mo (4hr SLA)": "+$79/เดือน (SLA 4 ชม.)",
       "+$249/mo": "+$249/เดือน",
@@ -6952,11 +6952,11 @@ export const generatedAuxiliaryLocalePacks = {
       "~80 visuals": "~80 visual",
       "Pre-built only": "Pra-bina sahaja",
       "Pre-built + custom": "Pra-bina + tersuai",
-      "Basic": "asas",
+      "Basic": "Asas",
       "Advanced": "Maju",
-      "1 seat": "1 tempat duduk",
-      "3 seats": "3 kerusi",
-      "5 seats": "5 kerusi",
+      "1 seat": "1 seat",
+      "3 seats": "3 seat",
+      "5 seats": "5 seat",
       "250 credits": "250 kredit",
       "1,200 credits": "1,200 kredit",
       "3,500 credits": "3,500 kredit",
@@ -6964,8 +6964,8 @@ export const generatedAuxiliaryLocalePacks = {
       "+300 credits": "+300 kredit",
       "+800 credits": "+800 kredit",
       "✓ (free)": "✓ (percuma)",
-      "None": "tiada",
-      "No rollover": "Tiada rollover",
+      "None": "Tiada",
+      "No rollover": "Tiada bawa ke hadapan",
       "25% of base credits (1 month)": "25% daripada kredit asas (1 bulan)",
       "✓ (1,000 cr only)": "✓ (1,000 cr sahaja)",
       "✓ Basic": "✓ Asas",
@@ -7025,7 +7025,7 @@ export const generatedAuxiliaryLocalePacks = {
       "✓ Advanced (custom)": "✓ Lanjutan (tersuai)",
       "✓ Real-time (configurable)": "✓ Masa nyata (boleh dikonfigurasikan)",
       "Basic (limited)": "Asas (terhad)",
-      "Custom cap": "Tudung tersuai",
+      "Custom cap": "Had tersuai",
       "+$99/mo (4hr SLA)": "+$99/bln (4jam SLA)",
       "+$79/mo (4hr SLA)": "+$79/bln (4jam SLA)",
       "+$249/mo": "+$249/bln",
@@ -7043,14 +7043,14 @@ export const generatedAuxiliaryLocalePacks = {
       "Supported": "Disokong",
       "✓ Included": "✓ Termasuk",
       "Real-time (configurable)": "Masa nyata (boleh dikonfigurasikan)",
-      "Custom": "Adat",
+      "Custom": "Tersuai",
       "3 years": "3 tahun",
       "50,000+": "50,000+",
       "+5,000 credits": "+5,000 kredit",
       "N/A (50,000+ base)": "T/A (50,000+ asas)",
       "Unlimited": "Tidak terhad",
-      "$19/seat (max 3 additional)": "$19/tempat duduk (maks 3 tambahan)",
-      "$15/seat (max 5 additional)": "$15/tempat duduk (maksimum 5 tambahan)",
+      "$19/seat (max 3 additional)": "$19/seat (maks 3 tambahan)",
+      "$15/seat (max 5 additional)": "$15/seat (maks 5 tambahan)",
       "$12/seat/mo (unlimited)": "$12/seat/bln (tanpa had)",
       "$10/seat/mo (unlimited)": "$10/seat/bln (tanpa had)",
       "N/A (unlimited)": "T/A (tidak terhad)",
@@ -7059,7 +7059,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Multiple simultaneous": "Berbilang serentak",
       "Expanded filters": "Penapis dikembangkan",
       "Expanded + custom": "Dikembangkan + tersuai",
-      "Near real-time updates": "Berhampiran kemas kini masa nyata",
+      "Near real-time updates": "Kemas kini hampir masa nyata",
       "Custom peer groups": "Kumpulan rakan sebaya tersuai",
       "Portfolio comparison across markets": "Perbandingan portfolio merentas pasaran",
       "Private peer groups": "Kumpulan rakan sebaya peribadi",
@@ -7090,7 +7090,7 @@ export const generatedAuxiliaryLocalePacks = {
       "+$499/mo": "+$499/bln",
       "+$299/mo": "+$299/bln",
       "Chat": "Sembang",
-      "Phone": "telefon",
+      "Phone": "Telefon",
       "Dedicated CSM": "CSM yang berdedikasi",
       "Priority (4hr SLA)": "Keutamaan (4 jam SLA)",
       "Premium 24/7 (2hr)": "Premium 24/7 (2 jam)",
@@ -7129,15 +7129,15 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "optimizer": {
         "name": "De efficiëntiejager",
-        "description": "Ieder procentpunt telt. U wilt realtime controle over de activiteiten en bent klaar om de arbeids- en voorraadkosten te optimaliseren."
+        "description": "Ieder procentpunt telt. Je wilt realtime grip op je activiteiten en bent klaar om arbeids- en voorraadkosten te optimaliseren."
       },
       "commander": {
         "name": "De portefeuillecommandant",
-        "description": "Meerdere locaties hebben uniforme zichtbaarheid en strategische hulpmiddelen nodig. Je bouwt een imperium op en hebt daarbij passende intelligentie nodig."
+        "description": "Meerdere locaties hebben uniform inzicht en strategische tools nodig. Je bouwt een imperium en hebt de bijpassende intelligentie nodig."
       },
       "strategist": {
         "name": "De marktstrateeg",
-        "description": "Competitieve informatie en marktpositionering bepalen uw beslissingen. Je speelt het lange spel en wilt elk voordeel."
+        "description": "Concurrentie-informatie en marktpositionering bepalen je beslissingen. Je speelt het lange spel en wilt elk voordeel pakken."
       }
     },
     "pt": {
@@ -7165,7 +7165,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "optimizer": {
         "name": "दक्षता शिकारी",
-        "description": "प्रत्येक प्रतिशत बिंदु मायने रखता है. आप संचालन पर वास्तविक समय पर नियंत्रण चाहते हैं और श्रम और इन्वेंट्री लागत को अनुकूलित करने के लिए तैयार हैं।"
+        "description": "हर प्रतिशत अंक मायने रखता है। आप संचालन पर रीयल-टाइम नियंत्रण चाहते हैं और श्रम तथा इन्वेंट्री लागत को अनुकूलित करने के लिए तैयार हैं।"
       },
       "commander": {
         "name": "पोर्टफोलियो कमांडर",
@@ -7182,16 +7182,16 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "آپ تجزیات کے بارے میں جاننا چاہتے ہیں لیکن غوطہ لگانے سے پہلے پانی کی جانچ کرنا چاہتے ہیں۔ ان واحد جگہوں کے لیے بہترین ہے جو ان کے ڈیٹا کو بہتر طور پر سمجھنا چاہتے ہیں۔"
       },
       "optimizer": {
-        "name": "ایفیشنسی ہنٹر",
+        "name": "کارکردگی کا شکاری",
         "description": "ہر فیصد پوائنٹ اہمیت رکھتا ہے۔ آپ آپریشنز پر ریئل ٹائم کنٹرول چاہتے ہیں اور لیبر اور انوینٹری کے اخراجات کو بہتر بنانے کے لیے تیار ہیں۔"
       },
       "commander": {
         "name": "پورٹ فولیو کمانڈر",
-        "description": "متعدد مقامات کو متحد مرئیت اور اسٹریٹجک ٹولز کی ضرورت ہوتی ہے۔ آپ ایک سلطنت بنا رہے ہیں اور میچ کرنے کے لیے ذہانت کی ضرورت ہے۔"
+        "description": "متعدد مقامات کو یکساں شفافیت اور اسٹریٹجک ٹولز درکار ہوتے ہیں۔ آپ ایک سلطنت تعمیر کر رہے ہیں اور اس کے شایانِ شان ذہانت چاہتے ہیں۔"
       },
       "strategist": {
         "name": "مارکیٹ اسٹریٹجسٹ",
-        "description": "مسابقتی ذہانت اور مارکیٹ پوزیشننگ آپ کے فیصلوں کو آگے بڑھاتی ہے۔ آپ لمبا کھیل کھیل رہے ہیں اور ہر کنارے چاہتے ہیں۔"
+        "description": "مسابقتی ذہانت اور مارکیٹ پوزیشننگ آپ کے فیصلوں کی رہنمائی کرتی ہے۔ آپ لمبی دوڑ کھیل رہے ہیں اور ہر برتری چاہتے ہیں۔"
       }
     },
     "it": {
@@ -7209,13 +7209,13 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "strategist": {
         "name": "Lo stratega del mercato",
-        "description": "L’intelligenza competitiva e il posizionamento sul mercato guidano le tue decisioni. Stai giocando un gioco lungo e vuoi ogni vantaggio."
+        "description": "L'intelligenza competitiva e il posizionamento sul mercato guidano le tue decisioni. Giochi sul lungo periodo e vuoi ogni vantaggio possibile."
       }
     },
     "pl": {
       "explorer": {
         "name": "Eksplorator danych",
-        "description": "Interesujesz się analityką, ale chcesz sprawdzić grunt przed zanurzeniem się w wodzie. Idealne rozwiązanie dla pojedynczych lokalizacji, które chcą lepiej zrozumieć swoje dane."
+        "description": "Interesujesz się analityką, ale chcesz wybadać sytuację, zanim się w nią zanurzysz. Idealne rozwiązanie dla pojedynczych lokalizacji, które chcą lepiej zrozumieć swoje dane."
       },
       "optimizer": {
         "name": "Łowca efektywności",
@@ -7227,7 +7227,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "strategist": {
         "name": "Strateg rynkowy",
-        "description": "Inteligencja konkurencyjna i pozycja na rynku wpływają na Twoje decyzje. Grasz długo i chcesz każdej przewagi."
+        "description": "Wywiad konkurencyjny i pozycja rynkowa kierują Twoimi decyzjami. Grasz w długą grę i chcesz każdej przewagi."
       }
     },
     "tr": {
@@ -7352,32 +7352,32 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Locațiile multiple au nevoie de vizibilitate unificată și instrumente strategice. Construiți un imperiu și aveți nevoie de inteligență care să se potrivească."
       },
       "strategist": {
-        "name": "Strategiul de piață",
-        "description": "Inteligența competitivă și poziționarea pe piață vă conduc deciziile. Joci jocul lung și vrei fiecare avantaj."
+        "name": "Strategul de piață",
+        "description": "Inteligența competitivă și poziționarea pe piață vă ghidează deciziile. Jucați pe termen lung și vreți fiecare avantaj."
       }
     },
     "sv": {
       "explorer": {
         "name": "Datautforskaren",
-        "description": "Du är nyfiken på analyser men vill testa vattnet innan du dyker in. Perfekt för enskilda platser som vill förstå deras data bättre."
+        "description": "Du är nyfiken på analyser men vill känna dig för innan du dyker in. Perfekt för enskilda platser som vill förstå sin data bättre."
       },
       "optimizer": {
         "name": "Effektivitetsjägaren",
         "description": "Varje procentenhet spelar roll. Du vill ha kontroll i realtid över verksamheten och är redo att optimera arbets- och lagerkostnader."
       },
       "commander": {
-        "name": "Portfolio Commander",
-        "description": "Flera platser behöver enhetlig synlighet och strategiska verktyg. Du bygger ett imperium och behöver intelligens för att matcha."
+        "name": "Portföljbefälhavaren",
+        "description": "Flera platser behöver enhetlig insyn och strategiska verktyg. Du bygger ett imperium och behöver intelligens som håller måttet."
       },
       "strategist": {
         "name": "Marknadsstrategen",
-        "description": "Konkurrenskraftig intelligens och marknadspositionering driver dina beslut. Du spelar det långa spelet och vill ha varje kant."
+        "description": "Konkurrensbevakning och marknadspositionering styr dina beslut. Du spelar det långa spelet och vill ha varje fördel."
       }
     },
     "bn": {
       "explorer": {
         "name": "ডেটা এক্সপ্লোরার",
-        "description": "আপনি বিশ্লেষণ সম্পর্কে কৌতূহলী কিন্তু ডাইভিং করার আগে জল পরীক্ষা করতে চান৷ একক অবস্থানের জন্য উপযুক্ত যা তাদের ডেটা আরও ভালভাবে বুঝতে চাইছে৷"
+        "description": "আপনি বিশ্লেষণ নিয়ে আগ্রহী, তবে পুরোপুরি নামার আগে একটু যাচাই করে নিতে চান। যেসব একক আউটলেট নিজেদের ডেটা আরও ভালোভাবে বুঝতে চায়, তাদের জন্য আদর্শ।"
       },
       "optimizer": {
         "name": "দক্ষতা শিকারী",
@@ -7385,11 +7385,11 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "commander": {
         "name": "পোর্টফোলিও কমান্ডার",
-        "description": "একাধিক অবস্থানের ইউনিফাইড দৃশ্যমানতা এবং কৌশলগত সরঞ্জাম প্রয়োজন। আপনি একটি সাম্রাজ্য তৈরি করছেন এবং ম্যাচ করার জন্য বুদ্ধিমত্তা প্রয়োজন।"
+        "description": "একাধিক আউটলেটের জন্য প্রয়োজন একীভূত দৃশ্যমানতা ও কৌশলগত টুল। আপনি একটি সাম্রাজ্য গড়ছেন, আর তার সঙ্গে মানানসই বুদ্ধিমত্তা প্রয়োজন।"
       },
       "strategist": {
         "name": "বাজার কৌশলবিদ",
-        "description": "প্রতিযোগিতামূলক বুদ্ধিমত্তা এবং বাজারের অবস্থান আপনার সিদ্ধান্তগুলিকে চালিত করে। আপনি দীর্ঘ খেলা খেলছেন এবং প্রতিটি প্রান্ত চান."
+        "description": "প্রতিযোগিতামূলক বুদ্ধিমত্তা ও বাজারে অবস্থান আপনার সিদ্ধান্ত পরিচালনা করে। আপনি দীর্ঘমেয়াদি খেলা খেলছেন এবং প্রতিটি সুবিধা চান।"
       }
     },
     "th": {
@@ -7421,7 +7421,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "commander": {
         "name": "Komander Portfolio",
-        "description": "Berbilang lokasi memerlukan keterlihatan bersatu dan alatan strategik. Anda sedang membina empayar dan memerlukan kecerdasan untuk dipadankan."
+        "description": "Berbilang lokasi memerlukan keterlihatan bersepadu dan alatan strategik. Anda sedang membina empayar dan memerlukan kecerdasan yang setara."
       },
       "strategist": {
         "name": "Ahli Strategi Pasaran",
@@ -7442,9 +7442,9 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "pain": {
-        "question": "Was hält dich nachts wach?",
+        "question": "Was hält Sie nachts wach?",
         "subtitle": "Ihre größten betrieblichen Herausforderungen",
-        "helperText": "Bis zu 3 abholen",
+        "helperText": "Wählen Sie bis zu 3 aus",
         "options": {
           "labor_costs": "Arbeitskosten und Personal",
           "food_waste": "Lebensmittelkosten und Abfall",
@@ -7484,7 +7484,7 @@ export const generatedAuxiliaryLocalePacks = {
     "nl": {
       "locations": {
         "question": "Hoeveel locaties zijn er in jouw koninkrijk?",
-        "subtitle": "Laten we de omvang van uw imperium begrijpen",
+        "subtitle": "Laten we de omvang van je imperium begrijpen",
         "options": {
           "solo": "Solo-act",
           "small": "Kleine ploeg",
@@ -7494,13 +7494,13 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "pain": {
         "question": "Wat houdt jou 's nachts wakker?",
-        "subtitle": "Uw grootste operationele uitdagingen",
-        "helperText": "Ophalen tot 3",
+        "subtitle": "Je grootste operationele uitdagingen",
+        "helperText": "Kies er maximaal 3",
         "options": {
           "labor_costs": "Arbeidskosten en personeel",
           "food_waste": "Voedselkosten en verspilling",
           "supplier_prices": "Leveranciersprijzen en inkoopcontrole",
-          "revenue_leakage": "Kortingen, vergelijkingen en inkomstenlekken",
+          "revenue_leakage": "Kortingen, comps en omzetlekken",
           "delivery_profitability": "Winstgevendheid van levering en aggregatorkosten",
           "table_utilization": "Tafelgebruik en reserveringen",
           "marketing_roi": "Marketing ROI en vraaggeneratie",
@@ -7511,7 +7511,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "decisions": {
         "question": "Hoe neem jij vandaag de dag beslissingen?",
-        "subtitle": "Uw huidige analytische aanpak",
+        "subtitle": "Je huidige analyseaanpak",
         "helperText": "Selecteer alles wat van toepassing is",
         "options": {
           "gut": "Onderbuikgevoel/ervaring",
@@ -7523,7 +7523,7 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "appetite": {
-        "question": "Wat is uw eetlust voor analyses?",
+        "question": "Hoeveel honger heb je naar analytics?",
         "subtitle": "Hoe snel heb je resultaat nodig?",
         "options": {
           "exploring": "Gewoon verkennen",
@@ -7540,18 +7540,18 @@ export const generatedAuxiliaryLocalePacks = {
           "solo": "Ato Solo",
           "small": "Esquadrão Pequeno",
           "growing": "Império Crescente",
-          "enterprise": "Realeza do restaurante"
+          "enterprise": "Realeza dos Restaurantes"
         }
       },
       "pain": {
         "question": "O que te mantém acordado à noite?",
         "subtitle": "Seus maiores desafios operacionais",
-        "helperText": "Pegue até 3",
+        "helperText": "Selecione até 3",
         "options": {
           "labor_costs": "Custos trabalhistas e pessoal",
           "food_waste": "Custo e desperdício de alimentos",
           "supplier_prices": "Preços de fornecedores e controle de compras",
-          "revenue_leakage": "Descontos, compensações e vazamento de receita",
+          "revenue_leakage": "Descontos, cortesias e perda de receita",
           "delivery_profitability": "Rentabilidade da entrega e taxas de agregação",
           "table_utilization": "Utilização e reservas de mesa",
           "marketing_roi": "ROI de marketing e geração de demanda",
@@ -7565,7 +7565,7 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "Sua abordagem analítica atual",
         "helperText": "Selecione todas as opções aplicáveis",
         "options": {
-          "gut": "Sensação/experiência",
+          "gut": "Intuição/experiência",
           "pos": "Somente relatórios de POS",
           "spreadsheets": "Planilhas e rastreamento manual",
           "fragmented": "Várias ferramentas que não conversam entre si",
@@ -7574,7 +7574,7 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "appetite": {
-        "question": "Qual é o seu apetite analítico?",
+        "question": "Qual é o seu apetite por análises?",
         "subtitle": "Com que rapidez você precisa de resultados?",
         "options": {
           "exploring": "Apenas explorando",
@@ -7597,14 +7597,14 @@ export const generatedAuxiliaryLocalePacks = {
       "pain": {
         "question": "आपको रात में क्या जागता रहता है?",
         "subtitle": "आपकी सबसे बड़ी परिचालन चुनौतियाँ",
-        "helperText": "3 तक उठाओ",
+        "helperText": "अधिकतम 3 चुनें",
         "options": {
           "labor_costs": "श्रम लागत और स्टाफिंग",
           "food_waste": "भोजन की लागत और बर्बादी",
           "supplier_prices": "आपूर्तिकर्ता कीमतें और क्रय नियंत्रण",
-          "revenue_leakage": "छूट, मुआवजा और राजस्व रिसाव",
+          "revenue_leakage": "छूट, कॉम्प और राजस्व रिसाव",
           "delivery_profitability": "डिलिवरी लाभप्रदता और एग्रीगेटर शुल्क",
-          "table_utilization": "तालिका उपयोग और आरक्षण",
+          "table_utilization": "टेबल उपयोग और आरक्षण",
           "marketing_roi": "विपणन आरओआई और मांग सृजन",
           "guest_complaints": "अतिथि शिकायतें एवं समीक्षाएँ",
           "profit_visibility": "लाभ दृश्यता (जो वास्तव में निचले स्तर तक गिरती है)",
@@ -7616,10 +7616,10 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "आपका वर्तमान विश्लेषणात्मक दृष्टिकोण",
         "helperText": "जो भी लागू हो उसे चुनें",
         "options": {
-          "gut": "आंत महसूस/अनुभव",
+          "gut": "अंतर्ज्ञान/अनुभव",
           "pos": "केवल पीओएस रिपोर्ट",
           "spreadsheets": "स्प्रेडशीट और मैन्युअल ट्रैकिंग",
-          "fragmented": "अनेक उपकरण जो एक-दूसरे से बात नहीं करते",
+          "fragmented": "कई टूल जो आपस में बात नहीं करते।",
           "bi": "हम पहले से ही बीआई डैशबोर्ड का उपयोग करते हैं",
           "ai": "मैं चाहता हूं कि एआई कार्यों को प्राथमिकता देने में मदद करे"
         }
@@ -7648,7 +7648,7 @@ export const generatedAuxiliaryLocalePacks = {
       "pain": {
         "question": "رات کو کیا چیز آپ کو جاگتی رہتی ہے؟",
         "subtitle": "آپ کے سب سے بڑے آپریشنل چیلنجز",
-        "helperText": "3 تک اٹھاو",
+        "helperText": "زیادہ سے زیادہ 3 منتخب کریں",
         "options": {
           "labor_costs": "مزدوری کے اخراجات اور عملہ",
           "food_waste": "کھانے کی قیمت اور فضلہ",
@@ -7667,7 +7667,7 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "آپ کا موجودہ تجزیاتی نقطہ نظر",
         "helperText": "ان سب کو منتخب کریں جو لاگو ہوتے ہیں۔",
         "options": {
-          "gut": "گٹ محسوس / تجربہ",
+          "gut": "بدیہی احساس / تجربہ",
           "pos": "صرف POS رپورٹس",
           "spreadsheets": "اسپریڈ شیٹس اور دستی ٹریکنگ",
           "fragmented": "متعدد ٹولز جو ایک دوسرے سے بات نہیں کرتے ہیں۔",
@@ -7693,7 +7693,7 @@ export const generatedAuxiliaryLocalePacks = {
           "solo": "Atto solista",
           "small": "Piccola squadra",
           "growing": "Impero in crescita",
-          "enterprise": "Ristorante Royalty"
+          "enterprise": "Re della ristorazione"
         }
       },
       "pain": {
@@ -7709,7 +7709,7 @@ export const generatedAuxiliaryLocalePacks = {
           "table_utilization": "Utilizzo e prenotazioni dei tavoli",
           "marketing_roi": "ROI del marketing e generazione della domanda",
           "guest_complaints": "Reclami e recensioni degli ospiti",
-          "profit_visibility": "Visibilità dei profitti (ciò che effettivamente scende ai profitti)",
+          "profit_visibility": "Visibilità dei profitti (ciò che incide davvero sull'utile finale)",
           "competition": "Concorrenza e pressione del mercato"
         }
       },
@@ -7718,7 +7718,7 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "Il tuo attuale approccio all'analisi",
         "helperText": "Seleziona tutto ciò che si applica",
         "options": {
-          "gut": "Sensazione/esperienza viscerale",
+          "gut": "Istinto/esperienza",
           "pos": "Solo report POS",
           "spreadsheets": "Fogli di calcolo e monitoraggio manuale",
           "fragmented": "Molteplici strumenti che non dialogano tra loro",
@@ -7727,7 +7727,7 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "appetite": {
-        "question": "Qual è il tuo appetito di analisi?",
+        "question": "Qual è il tuo appetito per le analisi?",
         "subtitle": "Quanto velocemente hai bisogno di risultati?",
         "options": {
           "exploring": "Sto solo esplorando",
@@ -7741,16 +7741,16 @@ export const generatedAuxiliaryLocalePacks = {
         "question": "Ile lokalizacji znajduje się w Twoim królestwie?",
         "subtitle": "Rozumiemy skalę Twojego imperium",
         "options": {
-          "solo": "Ustawa solowa",
+          "solo": "Występ solo",
           "small": "Mały skład",
           "growing": "Rosnące Imperium",
-          "enterprise": "Restauracja"
+          "enterprise": "Restauracyjny ród królewski"
         }
       },
       "pain": {
         "question": "Co nie daje Ci spać w nocy?",
         "subtitle": "Twoje największe wyzwania operacyjne",
-        "helperText": "Odbierz do 3",
+        "helperText": "Wybierz maksymalnie 3",
         "options": {
           "labor_costs": "Koszty pracy i personelu",
           "food_waste": "Koszty żywności i marnotrawstwo",
@@ -7792,48 +7792,48 @@ export const generatedAuxiliaryLocalePacks = {
         "question": "Krallığınızda kaç yer var?",
         "subtitle": "İmparatorluğunuzun ölçeğini anlayalım",
         "options": {
-          "solo": "Solo Perde",
+          "solo": "Tek Başına",
           "small": "Küçük Kadro",
-          "growing": "Growing Empire",
-          "enterprise": "Restaurant Royalty"
+          "growing": "Büyüyen İmparatorluk",
+          "enterprise": "Restoran Hanedanı"
         }
       },
       "pain": {
-        "question": "Geceleri seni ayakta tutan şey nedir?",
+        "question": "Geceleri sizi ayakta tutan şey nedir?",
         "subtitle": "En büyük operasyonel zorluklarınız",
-        "helperText": "Pick up to 3",
+        "helperText": "En fazla 3 tane seçin",
         "options": {
           "labor_costs": "İşçilik maliyetleri ve personel",
           "food_waste": "Gıda maliyeti ve israfı",
-          "supplier_prices": "Supplier prices & purchasing control",
-          "revenue_leakage": "İndirimler, ödemeler ve gelir sızıntısı",
+          "supplier_prices": "Tedarikçi fiyatları ve satın alma kontrolü",
+          "revenue_leakage": "İndirimler, ikramlar ve gelir kaçağı",
           "delivery_profitability": "Teslimat karlılığı ve toplayıcı ücretleri",
-          "table_utilization": "Table utilization & reservations",
-          "marketing_roi": "Marketing ROI & demand generation",
-          "guest_complaints": "Guest complaints & reviews",
-          "profit_visibility": "Kâr görünürlüğü (aslında sonuçta ortaya çıkan şey)",
-          "competition": "Competition & market pressure"
+          "table_utilization": "Masa doluluğu ve rezervasyonlar",
+          "marketing_roi": "Pazarlama ROI'si ve talep yaratma",
+          "guest_complaints": "Misafir şikayetleri ve değerlendirmeleri",
+          "profit_visibility": "Kâr görünürlüğü (gerçekte net kâra yansıyan şey)",
+          "competition": "Rekabet ve pazar baskısı"
         }
       },
       "decisions": {
-        "question": "How do you make decisions today?",
-        "subtitle": "Your current analytics approach",
+        "question": "Bugün kararlarınızı nasıl alıyorsunuz?",
+        "subtitle": "Mevcut analiz yaklaşımınız",
         "helperText": "Geçerli olanların tümünü seçin",
         "options": {
-          "gut": "İçten içe his / deneyim",
+          "gut": "Sezgi / deneyim",
           "pos": "Yalnızca POS raporları",
-          "spreadsheets": "Spreadsheets & manual tracking",
-          "fragmented": "Multiple tools that don't talk to each other",
-          "bi": "We already use BI dashboards",
-          "ai": "I want AI to help prioritize actions"
+          "spreadsheets": "Elektronik tablolar ve manuel takip",
+          "fragmented": "Birbiriyle konuşmayan birden fazla araç",
+          "bi": "Zaten BI panoları kullanıyoruz",
+          "ai": "AI'ın eylemleri önceliklendirmeye yardımcı olmasını istiyorum"
         }
       },
       "appetite": {
-        "question": "What's your analytics appetite?",
-        "subtitle": "How quickly do you need results?",
+        "question": "Analize iştahınız ne düzeyde?",
+        "subtitle": "Sonuçlara ne kadar hızlı ihtiyacınız var?",
         "options": {
           "exploring": "Sadece keşfediyorum",
-          "ready": "Ready to improve with a plan",
+          "ready": "Bir planla gelişmeye hazırım",
           "urgent": "Hızlı sonuçlara ihtiyacınız var"
         }
       }
@@ -7891,22 +7891,22 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ja": {
       "locations": {
-        "question": "あなたの王国にはいくつの場所がありますか?",
+        "question": "あなたの王国にはいくつの拠点がありますか？",
         "subtitle": "あなたの帝国の規模を理解しましょう",
         "options": {
           "solo": "ソロアクト",
           "small": "小部隊",
           "growing": "成長する帝国",
-          "enterprise": "レストランロイヤリティ"
+          "enterprise": "レストランの王者"
         }
       },
       "pain": {
         "question": "何があなたを夜更かしさせますか？",
         "subtitle": "運用上の最大の課題",
-        "helperText": "3つまでピックアップ",
+        "helperText": "最大3つまで選択",
         "options": {
           "labor_costs": "人件費と人員配置",
-          "food_waste": "食費と無駄遣い",
+          "food_waste": "食材費と廃棄ロス",
           "supplier_prices": "サプライヤーの価格と購買管理",
           "revenue_leakage": "割引、特典、収益漏洩",
           "delivery_profitability": "配送の収益性とアグリゲーター手数料",
@@ -7918,7 +7918,7 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "decisions": {
-        "question": "今日はどのように意思決定を行っていますか?",
+        "question": "現在、どのように意思決定を行っていますか？",
         "subtitle": "現在の分析アプローチ",
         "helperText": "該当するものをすべて選択してください",
         "options": {
@@ -7931,8 +7931,8 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "appetite": {
-        "question": "分析に対する関心はどの程度ですか?",
-        "subtitle": "どれくらい早く結果が必要ですか?",
+        "question": "分析への意欲はどの程度ですか？",
+        "subtitle": "どれくらい早く結果が必要ですか？",
         "options": {
           "exploring": "ただ探索するだけ",
           "ready": "計画を立てて改善する準備ができている",
@@ -7948,7 +7948,7 @@ export const generatedAuxiliaryLocalePacks = {
           "solo": "솔로 액트",
           "small": "소규모 분대",
           "growing": "성장하는 제국",
-          "enterprise": "레스토랑 로열티"
+          "enterprise": "레스토랑 왕가"
         }
       },
       "pain": {
@@ -7959,7 +7959,7 @@ export const generatedAuxiliaryLocalePacks = {
           "labor_costs": "인건비 및 인력",
           "food_waste": "음식 비용 및 폐기물",
           "supplier_prices": "공급업체 가격 및 구매 관리",
-          "revenue_leakage": "할인, 보상 및 수익 누출",
+          "revenue_leakage": "할인, 서비스 제공 및 수익 누수",
           "delivery_profitability": "배송 수익성 및 통합 수수료",
           "table_utilization": "테이블 활용 및 예약",
           "marketing_roi": "마케팅 ROI 및 수요 창출",
@@ -7982,7 +7982,7 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "appetite": {
-        "question": "귀하의 분석 취향은 무엇입니까?",
+        "question": "분석에 대한 관심은 어느 정도인가요?",
         "subtitle": "얼마나 빨리 결과가 필요합니까?",
         "options": {
           "exploring": "그냥 탐색 중",
@@ -7999,18 +7999,18 @@ export const generatedAuxiliaryLocalePacks = {
           "solo": "Aksi Tunggal",
           "small": "Pasukan Kecil",
           "growing": "Kekaisaran yang Berkembang",
-          "enterprise": "Royalti Restoran"
+          "enterprise": "Dinasti Restoran"
         }
       },
       "pain": {
         "question": "Apa yang membuatmu terjaga di malam hari?",
         "subtitle": "Tantangan operasional terbesar Anda",
-        "helperText": "Ambil hingga 3",
+        "helperText": "Pilih maksimal 3",
         "options": {
           "labor_costs": "Biaya tenaga kerja & staf",
           "food_waste": "Biaya & limbah makanan",
           "supplier_prices": "Harga pemasok & kontrol pembelian",
-          "revenue_leakage": "Diskon, kompensasi & kebocoran pendapatan",
+          "revenue_leakage": "Diskon, comp & kebocoran pendapatan",
           "delivery_profitability": "Profitabilitas pengiriman & biaya agregator",
           "table_utilization": "Pemanfaatan & reservasi meja",
           "marketing_roi": "ROI pemasaran & pembangkitan permintaan",
@@ -8024,7 +8024,7 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "Pendekatan analitik Anda saat ini",
         "helperText": "Pilih semua yang sesuai",
         "options": {
-          "gut": "Perasaan / pengalaman",
+          "gut": "Insting / pengalaman",
           "pos": "Laporan POS saja",
           "spreadsheets": "Spreadsheet & pelacakan manual",
           "fragmented": "Berbagai alat yang tidak berkomunikasi satu sama lain",
@@ -8061,12 +8061,12 @@ export const generatedAuxiliaryLocalePacks = {
           "labor_costs": "Chi phí lao động & nhân sự",
           "food_waste": "Chi phí thực phẩm & chất thải",
           "supplier_prices": "Giá nhà cung cấp và kiểm soát mua hàng",
-          "revenue_leakage": "Chiết khấu, bù trừ và rò rỉ doanh thu",
+          "revenue_leakage": "Chiết khấu, suất ăn miễn phí và thất thoát doanh thu",
           "delivery_profitability": "Lợi nhuận giao hàng và phí tổng hợp",
           "table_utilization": "Sử dụng và đặt bàn",
           "marketing_roi": "ROI tiếp thị và tạo nhu cầu",
           "guest_complaints": "Lời phàn nàn và đánh giá của khách",
-          "profit_visibility": "Khả năng hiển thị lợi nhuận (những gì thực sự giảm xuống dòng dưới cùng)",
+          "profit_visibility": "Khả năng nhìn rõ lợi nhuận (điều thực sự ảnh hưởng đến lợi nhuận cuối cùng)",
           "competition": "Cạnh tranh và áp lực thị trường"
         }
       },
@@ -8075,7 +8075,7 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "Phương pháp phân tích hiện tại của bạn",
         "helperText": "Chọn tất cả những gì áp dụng",
         "options": {
-          "gut": "Cảm nhận/trải nghiệm trực tiếp",
+          "gut": "Trực giác/kinh nghiệm",
           "pos": "Chỉ báo cáo POS",
           "spreadsheets": "Bảng tính & theo dõi thủ công",
           "fragmented": "Nhiều công cụ không tương tác với nhau",
@@ -8101,32 +8101,32 @@ export const generatedAuxiliaryLocalePacks = {
           "solo": "Act solo",
           "small": "Echipa mică",
           "growing": "Imperiu în creștere",
-          "enterprise": "Restaurant Royalty"
+          "enterprise": "Dinastie de restaurante"
         }
       },
       "pain": {
-        "question": "Ce te ține treaz noaptea?",
+        "question": "Ce vă ține treaz noaptea?",
         "subtitle": "Cele mai mari provocări operaționale ale tale",
-        "helperText": "Ridicați până la 3",
+        "helperText": "Alegeți până la 3",
         "options": {
           "labor_costs": "Costuri cu forța de muncă și personal",
           "food_waste": "Costul alimentelor și risipa",
           "supplier_prices": "Prețurile furnizorilor și controlul achizițiilor",
-          "revenue_leakage": "Reduceri, compensații și pierderi de venituri",
+          "revenue_leakage": "Reduceri, mese oferite și pierderi de venituri",
           "delivery_profitability": "Rentabilitatea livrării și taxele de agregare",
           "table_utilization": "Utilizarea mesei și rezervări",
           "marketing_roi": "Rentabilitatea investiției în marketing și generarea cererii",
           "guest_complaints": "Plângeri și recenzii ale oaspeților",
-          "profit_visibility": "Vizibilitatea profitului (ceea ce scade de fapt la rezultatul final)",
+          "profit_visibility": "Vizibilitatea profitului (ceea ce ajunge cu adevărat la rezultatul final)",
           "competition": "Concurență și presiune pe piață"
         }
       },
       "decisions": {
-        "question": "Cum iei deciziile azi?",
+        "question": "Cum luați deciziile astăzi?",
         "subtitle": "Abordarea dvs. actuală de analiză",
         "helperText": "Selectați tot ce se aplică",
         "options": {
-          "gut": "Simt / experiență",
+          "gut": "Intuiție / experiență",
           "pos": "Doar rapoarte POS",
           "spreadsheets": "Foi de calcul și urmărire manuală",
           "fragmented": "Instrumente multiple care nu vorbesc între ele",
@@ -8135,10 +8135,10 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "appetite": {
-        "question": "Care este pofta ta de analiză?",
+        "question": "Cât de mult vă doriți analize?",
         "subtitle": "Cât de repede ai nevoie de rezultate?",
         "options": {
-          "exploring": "Doar explorând",
+          "exploring": "Doar explorez",
           "ready": "Gata de îmbunătățire cu un plan",
           "urgent": "Am nevoie de rezultate rapid"
         }
@@ -8152,18 +8152,18 @@ export const generatedAuxiliaryLocalePacks = {
           "solo": "Soloakt",
           "small": "Liten trupp",
           "growing": "Växande imperium",
-          "enterprise": "Restaurang royalty"
+          "enterprise": "Restaurangkunglighet"
         }
       },
       "pain": {
         "question": "Vad håller dig vaken på natten?",
         "subtitle": "Dina största operativa utmaningar",
-        "helperText": "Plocka upp till 3",
+        "helperText": "Välj upp till 3",
         "options": {
           "labor_costs": "Arbetskostnader & bemanning",
           "food_waste": "Matkostnad & avfall",
           "supplier_prices": "Leverantörspriser & inköpskontroll",
-          "revenue_leakage": "Rabatter, kompensationer och intäktsläckage",
+          "revenue_leakage": "Rabatter, fria måltider och intäktsläckage",
           "delivery_profitability": "Leveranslönsamhet & aggregatoravgifter",
           "table_utilization": "Bordsutnyttjande och reservationer",
           "marketing_roi": "Marknadsföring ROI och generering av efterfrågan",
@@ -8200,7 +8200,7 @@ export const generatedAuxiliaryLocalePacks = {
         "question": "আপনার রাজ্যে কয়টি অবস্থান আছে?",
         "subtitle": "আসুন আপনার সাম্রাজ্যের স্কেল বুঝতে পারি",
         "options": {
-          "solo": "একক আইন",
+          "solo": "একক পরিবেশনা",
           "small": "ছোট স্কোয়াড",
           "growing": "ক্রমবর্ধমান সাম্রাজ্য",
           "enterprise": "রেস্টুরেন্ট রয়্যালটি"
@@ -8209,17 +8209,17 @@ export const generatedAuxiliaryLocalePacks = {
       "pain": {
         "question": "কি আপনাকে রাতে জাগিয়ে রাখে?",
         "subtitle": "আপনার সবচেয়ে বড় অপারেশনাল চ্যালেঞ্জ",
-        "helperText": "3 পর্যন্ত পিক করুন",
+        "helperText": "সর্বোচ্চ 3টি বেছে নিন",
         "options": {
           "labor_costs": "শ্রম খরচ এবং স্টাফিং",
           "food_waste": "খাদ্য খরচ এবং বর্জ্য",
           "supplier_prices": "সরবরাহকারীর দাম এবং ক্রয় নিয়ন্ত্রণ",
-          "revenue_leakage": "ডিসকাউন্ট, comps এবং রাজস্ব ফাঁস",
+          "revenue_leakage": "ডিসকাউন্ট, কমপ্লিমেন্টারি আইটেম এবং রাজস্ব ফাঁস",
           "delivery_profitability": "বিতরণ লাভজনকতা এবং সমষ্টিগত ফি",
           "table_utilization": "টেবিল ব্যবহার এবং সংরক্ষণ",
           "marketing_roi": "বিপণন ROI এবং চাহিদা উত্পাদন",
           "guest_complaints": "অতিথিদের অভিযোগ এবং পর্যালোচনা",
-          "profit_visibility": "লাভের দৃশ্যমানতা (আসলে কী নিচে নেমে যায়)",
+          "profit_visibility": "লাভের দৃশ্যমানতা (যা সত্যিই চূড়ান্ত মুনাফায় প্রভাব ফেলে)",
           "competition": "প্রতিযোগিতা এবং বাজারের চাপ"
         }
       },
@@ -8228,7 +8228,7 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "আপনার বর্তমান বিশ্লেষণ পদ্ধতি",
         "helperText": "প্রযোজ্য সব নির্বাচন করুন",
         "options": {
-          "gut": "অন্ত্রের অনুভূতি/অভিজ্ঞতা",
+          "gut": "সহজাত অনুভূতি/অভিজ্ঞতা",
           "pos": "শুধুমাত্র POS রিপোর্ট",
           "spreadsheets": "স্প্রেডশীট এবং ম্যানুয়াল ট্র্যাকিং",
           "fragmented": "একাধিক টুল যা একে অপরের সাথে কথা বলে না",
@@ -8251,7 +8251,7 @@ export const generatedAuxiliaryLocalePacks = {
         "question": "อาณาจักรของคุณมีกี่แห่ง?",
         "subtitle": "มาทำความเข้าใจขนาดของอาณาจักรของคุณกันดีกว่า",
         "options": {
-          "solo": "พระราชบัญญัติเดี่ยว",
+          "solo": "นักแสดงเดี่ยว",
           "small": "กองเล็ก",
           "growing": "อาณาจักรที่กำลังเติบโต",
           "enterprise": "ร้านอาหารราชวงศ์"
@@ -8260,7 +8260,7 @@ export const generatedAuxiliaryLocalePacks = {
       "pain": {
         "question": "อะไรทำให้คุณนอนไม่หลับตอนกลางคืน?",
         "subtitle": "ความท้าทายในการดำเนินงานที่ยิ่งใหญ่ที่สุดของคุณ",
-        "helperText": "หยิบได้ถึง 3",
+        "helperText": "เลือกได้สูงสุด 3 ข้อ",
         "options": {
           "labor_costs": "ค่าแรงและบุคลากร",
           "food_waste": "ค่าอาหารและขยะ",
@@ -8279,7 +8279,7 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "แนวทางการวิเคราะห์ปัจจุบันของคุณ",
         "helperText": "เลือกทั้งหมดที่เกี่ยวข้อง",
         "options": {
-          "gut": "ความรู้สึก/ประสบการณ์ของลำไส้",
+          "gut": "สัญชาตญาณ/ประสบการณ์",
           "pos": "รายงาน POS เท่านั้น",
           "spreadsheets": "สเปรดชีตและการติดตามด้วยตนเอง",
           "fragmented": "เครื่องมือหลายอย่างที่ไม่พูดคุยกัน",
@@ -8288,7 +8288,7 @@ export const generatedAuxiliaryLocalePacks = {
         }
       },
       "appetite": {
-        "question": "คุณอยากวิเคราะห์อะไร?",
+        "question": "คุณกระตือรือร้นกับการวิเคราะห์แค่ไหน?",
         "subtitle": "คุณต้องการผลลัพธ์เร็วแค่ไหน?",
         "options": {
           "exploring": "แค่สำรวจ",
@@ -8302,26 +8302,26 @@ export const generatedAuxiliaryLocalePacks = {
         "question": "Berapa banyak lokasi di kerajaan anda?",
         "subtitle": "Mari fahami skala empayar anda",
         "options": {
-          "solo": "Akta Solo",
+          "solo": "Persembahan Solo",
           "small": "Skuad Kecil",
           "growing": "Empayar yang Berkembang",
-          "enterprise": "Royalti Restoran"
+          "enterprise": "Restoran Diraja"
         }
       },
       "pain": {
         "question": "Apa yang membuatkan anda terjaga pada waktu malam?",
         "subtitle": "Cabaran operasi terbesar anda",
-        "helperText": "Angkat sehingga 3",
+        "helperText": "Pilih sehingga 3",
         "options": {
           "labor_costs": "Kos buruh & kakitangan",
           "food_waste": "Kos makanan & pembaziran",
           "supplier_prices": "Harga pembekal & kawalan pembelian",
-          "revenue_leakage": "Diskaun, kompaun & kebocoran hasil",
+          "revenue_leakage": "Diskaun, hidangan percuma & kebocoran hasil",
           "delivery_profitability": "Keuntungan penghantaran & yuran pengagregat",
           "table_utilization": "Penggunaan meja & tempahan",
           "marketing_roi": "ROI pemasaran & penjanaan permintaan",
           "guest_complaints": "Aduan & ulasan tetamu",
-          "profit_visibility": "Keterlihatan keuntungan (apa yang sebenarnya jatuh ke garis bawah)",
+          "profit_visibility": "Keterlihatan keuntungan (apa yang benar-benar menyumbang kepada keuntungan bersih)",
           "competition": "Persaingan & tekanan pasaran"
         }
       },
@@ -8330,7 +8330,7 @@ export const generatedAuxiliaryLocalePacks = {
         "subtitle": "Pendekatan analitik semasa anda",
         "helperText": "Pilih semua yang berkenaan",
         "options": {
-          "gut": "Rasa / pengalaman",
+          "gut": "Naluri / pengalaman",
           "pos": "Laporan POS sahaja",
           "spreadsheets": "Hamparan & penjejakan manual",
           "fragmented": "Pelbagai alatan yang tidak bercakap antara satu sama lain",
@@ -8364,15 +8364,15 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "2+ Module zu Ihrem Stapel hinzugefügt"
       },
       "intelligence-commander": {
-        "name": "Geheimdienstkommandant",
+        "name": "Intelligence-Kommandant",
         "description": "Watchtower freigeschaltet"
       },
       "roi-believer": {
-        "name": "ROI-Gläubiger",
-        "description": "Berechnet Ihre prognostizierten Renditen"
+        "name": "ROI-Überzeugter",
+        "description": "Ihre prognostizierten Renditen berechnet"
       },
       "sundae-ready": {
-        "name": "Eisbecher fertig",
+        "name": "Sundae-bereit",
         "description": "Ihre vollständige Konfiguration ist abgeschlossen"
       },
       "savings-hero": {
@@ -8406,16 +8406,16 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Er zijn 2+ modules aan je stapel toegevoegd"
       },
       "intelligence-commander": {
-        "name": "Commandant van de inlichtingendienst",
-        "description": "Ontgrendelde wachttoren"
+        "name": "Intelligence-commandant",
+        "description": "Watchtower ontgrendeld"
       },
       "roi-believer": {
-        "name": "ROI-gelovige",
-        "description": "Uw verwachte rendement berekend"
+        "name": "ROI-overtuigde",
+        "description": "Je verwachte rendement berekend"
       },
       "sundae-ready": {
-        "name": "Ijscoupe Klaar",
-        "description": "Uw volledige configuratie voltooid"
+        "name": "Sundae-klaar",
+        "description": "Je volledige configuratie voltooid"
       },
       "savings-hero": {
         "name": "Spaarheld",
@@ -8430,7 +8430,7 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Alle beschikbare modules geselecteerd"
       },
       "empire-builder": {
-        "name": "Rijksbouwer",
+        "name": "Imperiumbouwer",
         "description": "10+ locaties geconfigureerd"
       }
     },
@@ -8449,10 +8449,10 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "intelligence-commander": {
         "name": "Comandante de Inteligência",
-        "description": "Watchtower Desbloqueada"
+        "description": "Watchtower desbloqueado"
       },
       "roi-believer": {
-        "name": "Crente no ROI",
+        "name": "Adepto do ROI",
         "description": "Calculou seus retornos projetados"
       },
       "sundae-ready": {
@@ -8490,15 +8490,15 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "आपके स्टैक में 2+ मॉड्यूल जोड़े गए"
       },
       "intelligence-commander": {
-        "name": "ख़ुफ़िया कमांडर",
-        "description": "खुला Watchtower"
+        "name": "इंटेलिजेंस कमांडर",
+        "description": "Watchtower अनलॉक किया"
       },
       "roi-believer": {
         "name": "ROI आस्तिक",
         "description": "आपके अनुमानित रिटर्न की गणना की"
       },
       "sundae-ready": {
-        "name": "संडे तैयार",
+        "name": "Sundae तैयार",
         "description": "आपका पूरा कॉन्फ़िगरेशन पूरा हो गया"
       },
       "savings-hero": {
@@ -8532,15 +8532,15 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "آپ کے اسٹیک میں 2+ ماڈیولز شامل کیے گئے۔"
       },
       "intelligence-commander": {
-        "name": "انٹیلی جنس کمانڈر",
-        "description": "غیر مقفل Watchtower"
+        "name": "انٹیلیجنس کمانڈر",
+        "description": "Watchtower انلاک ہوا"
       },
       "roi-believer": {
-        "name": "ROI مومن",
-        "description": "آپ کے متوقع ریٹرن کا حساب لگایا"
+        "name": "ROI کا قائل",
+        "description": "آپ کے متوقع منافع کا حساب لگایا"
       },
       "sundae-ready": {
-        "name": "سنڈے تیار",
+        "name": "Sundae تیار",
         "description": "آپ کی مکمل کنفیگریشن مکمل کر لی"
       },
       "savings-hero": {
@@ -8566,8 +8566,8 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Hai completato il quiz sulla persona"
       },
       "stack-builder": {
-        "name": "Generatore di stack",
-        "description": "Seleziona il tuo primo livello"
+        "name": "Costruttore di stack",
+        "description": "Hai selezionato il tuo primo tier"
       },
       "module-master": {
         "name": "Maestro del modulo",
@@ -8575,14 +8575,14 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "intelligence-commander": {
         "name": "Comandante dell'intelligence",
-        "description": "Torre di guardia sbloccata"
+        "description": "Watchtower sbloccato"
       },
       "roi-believer": {
-        "name": "Credente del ROI",
-        "description": "Calcolato i rendimenti previsti"
+        "name": "Convinto del ROI",
+        "description": "Rendimenti previsti calcolati"
       },
       "sundae-ready": {
-        "name": "Gelato pronto",
+        "name": "Sundae pronto",
         "description": "Hai completato la tua configurazione completa"
       },
       "savings-hero": {
@@ -8616,15 +8616,15 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Dodano ponad 2 moduły do twojego stosu"
       },
       "intelligence-commander": {
-        "name": "Dowódca wywiadu",
-        "description": "Odblokowana Wieża Strażnicza"
+        "name": "Dowódca Intelligence",
+        "description": "Odblokowano Watchtower"
       },
       "roi-believer": {
-        "name": "Wierzący w ROI",
+        "name": "Zwolennik ROI",
         "description": "Obliczono przewidywane zwroty"
       },
       "sundae-ready": {
-        "name": "Lody gotowe",
+        "name": "Sundae gotowe",
         "description": "Zakończono pełną konfigurację"
       },
       "savings-hero": {
@@ -8646,44 +8646,44 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "tr": {
       "explorer": {
-        "name": "Data Explorer",
-        "description": "Kişi sınavını tamamladım"
+        "name": "Veri Kâşifi",
+        "description": "Persona testini tamamladınız"
       },
       "stack-builder": {
-        "name": "Stack Builder",
-        "description": "Selected your first tier"
+        "name": "Yığın Oluşturucu",
+        "description": "İlk katmanınızı seçtiniz"
       },
       "module-master": {
-        "name": "Module Master",
-        "description": "Yığınınıza 2'den fazla modül eklendi"
+        "name": "Modül Ustası",
+        "description": "Yığınınıza 2'den fazla modül eklediniz"
       },
       "intelligence-commander": {
-        "name": "Intelligence Commander",
-        "description": "Unlocked Watchtower"
+        "name": "Intelligence Komutanı",
+        "description": "Watchtower kilidini açtınız"
       },
       "roi-believer": {
-        "name": "ROI Believer",
-        "description": "Tahmini getirilerinizi hesapladım"
+        "name": "ROI'ye İnanan",
+        "description": "Tahmini getirilerinizi hesapladınız"
       },
       "sundae-ready": {
-        "name": "Sundae Ready",
+        "name": "Sundae'ye Hazır",
         "description": "Tam yapılandırmanızı tamamladınız"
       },
       "savings-hero": {
-        "name": "Savings Hero",
-        "description": "Rakiplere kıyasla %50'den fazla tasarruf keşfedildi"
+        "name": "Tasarruf Kahramanı",
+        "description": "Rakiplere kıyasla %50'den fazla tasarruf keşfettiniz"
       },
       "efficiency-expert": {
-        "name": "Efficiency Expert",
-        "description": "Seçilen işçilik + envanter modülleri"
+        "name": "Verimlilik Uzmanı",
+        "description": "İşçilik ve envanter modüllerini seçtiniz"
       },
       "full-stack": {
-        "name": "Full Stack Operator",
-        "description": "Mevcut tüm modülleri seçti"
+        "name": "Tam Yığın Operatörü",
+        "description": "Mevcut tüm modülleri seçtiniz"
       },
       "empire-builder": {
-        "name": "Empire Builder",
-        "description": "Configured 10+ locations"
+        "name": "İmparatorluk Kurucusu",
+        "description": "10+ lokasyon yapılandırdınız"
       }
     },
     "zh-Hans": {
@@ -8742,15 +8742,15 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "2 つ以上のモジュールをスタックに追加しました"
       },
       "intelligence-commander": {
-        "name": "諜報司令官",
-        "description": "鍵のかからない監視塔"
+        "name": "インテリジェンス司令官",
+        "description": "Watchtower のロックを解除"
       },
       "roi-believer": {
         "name": "ROI 信者",
         "description": "予想収益を計算しました"
       },
       "sundae-ready": {
-        "name": "サンデーレディ",
+        "name": "Sundae 準備完了",
         "description": "完全な構成が完了しました"
       },
       "savings-hero": {
@@ -8784,15 +8784,15 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "스택에 2개 이상의 모듈을 추가했습니다."
       },
       "intelligence-commander": {
-        "name": "정보사령관",
-        "description": "잠금 해제된 감시탑"
+        "name": "인텔리전스 사령관",
+        "description": "Watchtower 잠금 해제됨"
       },
       "roi-believer": {
         "name": "ROI를 믿는 사람",
         "description": "예상 수익을 계산했습니다."
       },
       "sundae-ready": {
-        "name": "순대 준비",
+        "name": "Sundae 준비 완료",
         "description": "전체 구성을 완료했습니다."
       },
       "savings-hero": {
@@ -8822,15 +8822,15 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Pilih tingkat pertama Anda"
       },
       "module-master": {
-        "name": "Modul Guru",
+        "name": "Master Modul",
         "description": "Menambahkan 2+ modul ke tumpukan Anda"
       },
       "intelligence-commander": {
-        "name": "Komandan Intelijen",
-        "description": "Menara Pengawal Tidak Terkunci"
+        "name": "Komandan Intelligence",
+        "description": "Watchtower telah dibuka"
       },
       "roi-believer": {
-        "name": "Orang Percaya ROI",
+        "name": "Penganut ROI",
         "description": "Menghitung proyeksi keuntungan Anda"
       },
       "sundae-ready": {
@@ -8838,7 +8838,7 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Menyelesaikan konfigurasi lengkap Anda"
       },
       "savings-hero": {
-        "name": "Pahlawan Penyelamat",
+        "name": "Pahlawan Penghematan",
         "description": "Menemukan penghematan 50%+ dibandingkan pesaing"
       },
       "efficiency-expert": {
@@ -8864,12 +8864,12 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Đã chọn cấp độ đầu tiên của bạn"
       },
       "module-master": {
-        "name": "Mô-đun chính",
+        "name": "Bậc thầy mô-đun",
         "description": "Đã thêm hơn 2 mô-đun vào ngăn xếp của bạn"
       },
       "intelligence-commander": {
-        "name": "chỉ huy tình báo",
-        "description": "Tháp Canh đã được mở khóa"
+        "name": "Chỉ huy Intelligence",
+        "description": "Đã mở khóa Watchtower"
       },
       "roi-believer": {
         "name": "Tín đồ ROI",
@@ -8888,7 +8888,7 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Các mô-đun lao động + hàng tồn kho được chọn"
       },
       "full-stack": {
-        "name": "Toán tử ngăn xếp đầy đủ",
+        "name": "Người vận hành full-stack",
         "description": "Đã chọn tất cả các mô-đun có sẵn"
       },
       "empire-builder": {
@@ -8899,26 +8899,26 @@ export const generatedAuxiliaryLocalePacks = {
     "ro": {
       "explorer": {
         "name": "Explorator de date",
-        "description": "A finalizat testul personal"
+        "description": "Ați finalizat testul de personalitate"
       },
       "stack-builder": {
-        "name": "Stack Builder",
+        "name": "Constructor de stive",
         "description": "Ți-ai selectat primul nivel"
       },
       "module-master": {
-        "name": "Modul Master",
-        "description": "S-au adăugat peste 2 module la stiva dvs"
+        "name": "Maestru al modulelor",
+        "description": "S-au adăugat peste 2 module la stiva dvs."
       },
       "intelligence-commander": {
-        "name": "Comandant de informații",
-        "description": "Turnul de veghe deblocat"
+        "name": "Comandant Intelligence",
+        "description": "Watchtower deblocat"
       },
       "roi-believer": {
-        "name": "Credinciosul ROI",
-        "description": "A calculat rentabilitatea proiectată"
+        "name": "Adept al ROI",
+        "description": "Ați calculat rentabilitatea proiectată"
       },
       "sundae-ready": {
-        "name": "Sundae Gata",
+        "name": "Sundae gata",
         "description": "Ați finalizat configurația completă"
       },
       "savings-hero": {
@@ -8927,24 +8927,24 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "efficiency-expert": {
         "name": "Expert în eficiență",
-        "description": "Manopera selectata + module de inventar"
+        "description": "Module de manoperă + inventar selectate"
       },
       "full-stack": {
         "name": "Operator Full Stack",
         "description": "S-au selectat toate modulele disponibile"
       },
       "empire-builder": {
-        "name": "Empire Builder",
+        "name": "Constructor de imperii",
         "description": "S-au configurat peste 10 locații"
       }
     },
     "sv": {
       "explorer": {
-        "name": "Data Explorer",
+        "name": "Datautforskare",
         "description": "Klarade personaquizet"
       },
       "stack-builder": {
-        "name": "Stack Builder",
+        "name": "Stackbyggare",
         "description": "Valde din första nivå"
       },
       "module-master": {
@@ -8952,12 +8952,12 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Lade till 2+ moduler till din stack"
       },
       "intelligence-commander": {
-        "name": "Underrättelsechef",
-        "description": "Upplåst vakttorn"
+        "name": "Intelligence-befälhavare",
+        "description": "Watchtower upplåst"
       },
       "roi-believer": {
         "name": "ROI-troende",
-        "description": "Beräknat din beräknade avkastning"
+        "description": "Beräknat din förväntade avkastning"
       },
       "sundae-ready": {
         "name": "Sundae redo",
@@ -8976,7 +8976,7 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Valt alla tillgängliga moduler"
       },
       "empire-builder": {
-        "name": "Empire Builder",
+        "name": "Imperiebyggare",
         "description": "Konfigurerade 10+ platser"
       }
     },
@@ -8994,12 +8994,12 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "আপনার স্ট্যাকে 2+ মডিউল যোগ করা হয়েছে"
       },
       "intelligence-commander": {
-        "name": "গোয়েন্দা কমান্ডার",
-        "description": "খোলা Watchtower"
+        "name": "ইন্টেলিজেন্স কমান্ডার",
+        "description": "Watchtower আনলক করা হয়েছে"
       },
       "roi-believer": {
         "name": "ROI বিশ্বাসী",
-        "description": "আপনার অভিক্ষিপ্ত রিটার্ন গণনা"
+        "description": "আপনার প্রত্যাশিত রিটার্ন গণনা করা হয়েছে"
       },
       "sundae-ready": {
         "name": "Sundae প্রস্তুত",
@@ -9011,7 +9011,7 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "efficiency-expert": {
         "name": "দক্ষতা বিশেষজ্ঞ",
-        "description": "নির্বাচিত শ্রম + জায় মডিউল"
+        "description": "নির্বাচিত শ্রম + ইনভেন্টরি মডিউল"
       },
       "full-stack": {
         "name": "সম্পূর্ণ স্ট্যাক অপারেটর",
@@ -9032,19 +9032,19 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "เลือกระดับแรกของคุณ"
       },
       "module-master": {
-        "name": "ปริญญาโทโมดูล",
+        "name": "ผู้เชี่ยวชาญโมดูล",
         "description": "เพิ่ม 2+ โมดูลลงในสแต็กของคุณ"
       },
       "intelligence-commander": {
-        "name": "ผู้บัญชาการหน่วยสืบราชการลับ",
-        "description": "ปลดล็อคWatchtower"
+        "name": "ผู้บัญชาการ Intelligence",
+        "description": "ปลดล็อก Watchtower แล้ว"
       },
       "roi-believer": {
         "name": "ผู้ศรัทธา ROI",
         "description": "คำนวณผลตอบแทนที่คาดการณ์ไว้ของคุณ"
       },
       "sundae-ready": {
-        "name": "ซันเดย์พร้อม",
+        "name": "Sundae พร้อมแล้ว",
         "description": "เสร็จสิ้นการกำหนดค่าทั้งหมดของคุณ"
       },
       "savings-hero": {
@@ -9078,20 +9078,20 @@ export const generatedAuxiliaryLocalePacks = {
         "description": "Menambahkan 2+ modul pada timbunan anda"
       },
       "intelligence-commander": {
-        "name": "Komander Perisikan",
-        "description": "Menara Pengawal Tidak Berkunci"
+        "name": "Komander Intelligence",
+        "description": "Watchtower tidak berkunci"
       },
       "roi-believer": {
         "name": "Penganut ROI",
         "description": "Mengira unjuran pulangan anda"
       },
       "sundae-ready": {
-        "name": "Ahad Sedia",
+        "name": "Sundae Sedia",
         "description": "Selesai konfigurasi penuh anda"
       },
       "savings-hero": {
-        "name": "Wira Simpanan",
-        "description": "Temui 50%+ penjimatan berbanding pesaing"
+        "name": "Wira Penjimatan",
+        "description": "Menemui penjimatan 50%+ berbanding pesaing"
       },
       "efficiency-expert": {
         "name": "Pakar Kecekapan",
@@ -9115,7 +9115,7 @@ export const generatedAuxiliaryLocalePacks = {
         "message": "Wir verwenden Cookies, um Ihr Erlebnis zu verbessern und die Nutzung der Website zu analysieren.",
         "privacy": "Datenschutzrichtlinie",
         "decline": "Ablehnen",
-        "accept": "Akzeptiere"
+        "accept": "Akzeptieren"
       },
       "errorCopy": {
         "title": "Etwas ist schief gelaufen",
@@ -9180,8 +9180,8 @@ export const generatedAuxiliaryLocalePacks = {
         "ariaLabel": "कुकी सहमति",
         "message": "हम आपके अनुभव को बेहतर बनाने और साइट उपयोग का विश्लेषण करने के लिए कुकीज़ का उपयोग करते हैं।",
         "privacy": "गोपनीयता नीति",
-        "decline": "अस्वीकार",
-        "accept": "स्वीकार करो"
+        "decline": "अस्वीकार करें",
+        "accept": "स्वीकार करें"
       },
       "errorCopy": {
         "title": "कुछ ग़लत हो गया",
@@ -9190,9 +9190,9 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "livePricingCopy": {
         "loadingTitle": "प्रकाशित मूल्य निर्धारण लोड हो रहा है",
-        "loadingBody": "हम संडे एडमिन से नवीनतम मूल्य प्राप्त कर रहे हैं इसलिए यह पृष्ठ वर्तमान प्रकाशित कैटलॉग को दर्शाता है।",
+        "loadingBody": "हम Sundae Admin से नवीनतम मूल्य प्राप्त कर रहे हैं, इसलिए यह पृष्ठ वर्तमान प्रकाशित कैटलॉग को दर्शाता है।",
         "errorTitle": "प्रकाशित मूल्य निर्धारण उपलब्ध नहीं है",
-        "errorBody": "इस मूल्य निर्धारण अनुभव के लिए संडे एडमिन से वर्तमान प्रकाशित कैटलॉग की आवश्यकता होती है और यह स्थिर मूल्यों पर वापस नहीं आएगा।",
+        "errorBody": "इस मूल्य निर्धारण अनुभव के लिए Sundae Admin से वर्तमान प्रकाशित कैटलॉग की आवश्यकता होती है और यह स्थिर मानों पर वापस नहीं आएगा।",
         "retry": "पुनः प्रयास करें"
       }
     },
@@ -9224,7 +9224,7 @@ export const generatedAuxiliaryLocalePacks = {
         "ariaLabel": "Consenso ai cookie",
         "message": "Utilizziamo i cookie per migliorare la tua esperienza e analizzare l'utilizzo del sito.",
         "privacy": "Informativa sulla privacy",
-        "decline": "Rifiutare",
+        "decline": "Rifiuta",
         "accept": "Accetta"
       },
       "errorCopy": {
@@ -9265,7 +9265,7 @@ export const generatedAuxiliaryLocalePacks = {
     "tr": {
       "languageLabel": "Dil",
       "cookieConsentCopy": {
-        "ariaLabel": "Cookie consent",
+        "ariaLabel": "Çerez onayı",
         "message": "Deneyiminizi geliştirmek ve site kullanımını analiz etmek için çerezleri kullanıyoruz.",
         "privacy": "Gizlilik Politikası",
         "decline": "Reddet",
@@ -9312,8 +9312,8 @@ export const generatedAuxiliaryLocalePacks = {
         "ariaLabel": "クッキーの同意",
         "message": "お客様のエクスペリエンスを向上させ、サイトの使用状況を分析するために Cookie を使用します。",
         "privacy": "プライバシーポリシー",
-        "decline": "辞退",
-        "accept": "受け入れる"
+        "decline": "拒否",
+        "accept": "同意する"
       },
       "errorCopy": {
         "title": "何か問題が発生しました",
@@ -9334,7 +9334,7 @@ export const generatedAuxiliaryLocalePacks = {
         "ariaLabel": "쿠키 동의",
         "message": "우리는 귀하의 경험을 개선하고 사이트 사용을 분석하기 위해 쿠키를 사용합니다.",
         "privacy": "개인 정보 보호 정책",
-        "decline": "거절하다",
+        "decline": "거부",
         "accept": "수락"
       },
       "errorCopy": {
@@ -9353,7 +9353,7 @@ export const generatedAuxiliaryLocalePacks = {
     "id": {
       "languageLabel": "Bahasa",
       "cookieConsentCopy": {
-        "ariaLabel": "Persetujuan kue",
+        "ariaLabel": "Persetujuan cookie",
         "message": "Kami menggunakan cookie untuk meningkatkan pengalaman Anda dan menganalisis penggunaan situs.",
         "privacy": "Kebijakan Privasi",
         "decline": "Tolak",
@@ -9390,7 +9390,7 @@ export const generatedAuxiliaryLocalePacks = {
         "loadingTitle": "Đang tải giá đã công bố",
         "loadingBody": "Chúng tôi đang lấy giá mới nhất từ Sundae Admin để trang này phản ánh danh mục đã xuất bản hiện tại.",
         "errorTitle": "Giá công bố không có sẵn",
-        "errorBody": "Trải nghiệm định giá này yêu cầu danh mục được xuất bản hiện tại từ Quản trị viên Sundae và sẽ không quay lại giá trị tĩnh.",
+        "errorBody": "Trải nghiệm định giá này yêu cầu danh mục được xuất bản hiện tại từ Sundae Admin và sẽ không quay lại giá trị tĩnh.",
         "retry": "Thử lại"
       }
     },
@@ -9400,7 +9400,7 @@ export const generatedAuxiliaryLocalePacks = {
         "ariaLabel": "Consimțământ pentru cookie-uri",
         "message": "Folosim cookie-uri pentru a vă îmbunătăți experiența și pentru a analiza utilizarea site-ului.",
         "privacy": "Politica de confidențialitate",
-        "decline": "Declin",
+        "decline": "Refuzați",
         "accept": "Acceptați"
       },
       "errorCopy": {
@@ -9498,9 +9498,9 @@ export const generatedAuxiliaryLocalePacks = {
       },
       "livePricingCopy": {
         "loadingTitle": "Memuatkan harga yang diterbitkan",
-        "loadingBody": "Kami mengambil harga terkini daripada Pentadbir Sundae supaya halaman ini menggambarkan katalog yang diterbitkan semasa.",
+        "loadingBody": "Kami mengambil harga terkini daripada Sundae Admin supaya halaman ini menggambarkan katalog yang diterbitkan semasa.",
         "errorTitle": "Harga yang diterbitkan tidak tersedia",
-        "errorBody": "Pengalaman penetapan harga ini memerlukan katalog terbitan semasa daripada Pentadbir Sundae dan tidak akan kembali kepada nilai statik.",
+        "errorBody": "Pengalaman penetapan harga ini memerlukan katalog terbitan semasa daripada Sundae Admin dan tidak akan kembali kepada nilai statik.",
         "retry": "Cuba semula"
       }
     }

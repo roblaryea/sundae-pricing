@@ -26,7 +26,13 @@
   /* Special Tier Colors */
   --color-sundae-enterprise: #F59E0B;
   --color-sundae-watchtower: #EF4444;
-  
+
+  /* Warm-signature parity tokens (match sundae-website) */
+  --color-sundae-cherry: #E03E48;   /* gradient depth / emphasis */
+  --color-cream: #F6F1E8;           /* warm relief surface (light) */
+  --color-cream-edge: #EAE0CE;
+  --color-ink: #1A140F;             /* warm near-black on cream */
+
   /* Box Shadows */
   --shadow-glow: 0 0 30px rgba(255, 92, 77, 0.5);
   --shadow-glow-lg: 0 0 50px rgba(255, 92, 77, 0.6);
@@ -56,9 +62,9 @@
    COMPREHENSIVE LIGHT MODE STYLES
    ═══════════════════════════════════════════════════════════════════ */
 
-/* Body and base backgrounds */
+/* Body and base backgrounds - warm cream wash (not cold slate) for warm-signature parity */
 .light body {
-  @apply bg-gradient-to-br from-slate-50 via-white to-slate-50;
+  @apply bg-gradient-to-br from-[#F6F1E8] via-white to-[#F6F1E8];
 }
 
 .light .bg-sundae-dark {

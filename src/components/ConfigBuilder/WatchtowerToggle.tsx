@@ -261,9 +261,9 @@ export function WatchtowerToggle() {
           className="mb-8"
         >
           <div className="text-center mb-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 border border-purple-500/30 rounded-full mb-4">
-              <Sparkles className="w-4 h-4 text-purple-400" />
-              <span className="text-sm font-semibold text-purple-300">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#E9A24A]/20 to-[#FF7E6F]/20 border border-[#E9A24A]/30 rounded-full mb-4">
+              <Sparkles className="w-4 h-4 text-[#E9A24A]" />
+              <span className="text-sm font-semibold text-[#E9A24A]">
                 {formatMessage(copy.unlockedWithModules, { count: modules.length })}
               </span>
             </div>
@@ -279,12 +279,12 @@ export function WatchtowerToggle() {
               whileHover={{ y: -3 }}
               className={`p-6 rounded-xl border-2 transition-all ${
                 crossIntelSelection === 'base'
-                  ? 'bg-gradient-to-br from-purple-500/15 to-cyan-500/15 border-purple-500/50'
+                  ? 'bg-gradient-to-br from-[#E9A24A]/15 to-[#FF7E6F]/15 border-[#E9A24A]/50'
                   : 'bg-sundae-surface border-white/10'
               }`}
             >
               <div className="flex items-center gap-3 mb-4">
-                <GitBranch className="w-8 h-8 text-purple-400" />
+                <GitBranch className="w-8 h-8 text-[#E9A24A]" />
                 <div>
                   <h3 className="font-bold text-lg">{crossCatalog.base.name}</h3>
                   <span className="text-green-400 text-sm font-semibold">{copy.includedFree}</span>
@@ -294,7 +294,7 @@ export function WatchtowerToggle() {
               <ul className="space-y-2">
                 {localizedAddOns.crossIntelligence.base.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2 text-sm">
-                    <span className="text-purple-400">•</span>
+                    <span className="text-[#E9A24A]">•</span>
                     <span>{feature}</span>
                   </li>
                 ))}
@@ -309,13 +309,13 @@ export function WatchtowerToggle() {
                 onClick={() => setCrossIntelligence(crossIntelSelection === 'pro' ? 'base' : 'pro')}
                 className={`w-full h-full text-left p-6 rounded-xl border-2 transition-all ${
                   crossIntelSelection === 'pro'
-                    ? 'bg-gradient-to-br from-purple-500/25 to-cyan-500/25 border-purple-500'
-                    : 'bg-gradient-to-br from-purple-500/5 to-cyan-500/5 border-purple-500/30 hover:border-purple-500/60'
+                    ? 'bg-gradient-to-br from-[#E9A24A]/25 to-[#FF7E6F]/25 border-[#E9A24A]'
+                    : 'bg-gradient-to-br from-[#E9A24A]/5 to-[#FF7E6F]/5 border-[#E9A24A]/30 hover:border-[#E9A24A]/60'
                 }`}
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <Zap className="w-8 h-8 text-cyan-400" />
+                    <Zap className="w-8 h-8 text-[#FF7E6F]" />
                     <div>
                       <h3 className="font-bold text-lg">{crossCatalog.pro.name}</h3>
                       <div className="flex items-center gap-2">
@@ -325,7 +325,7 @@ export function WatchtowerToggle() {
                     </div>
                   </div>
                   {crossIntelSelection === 'pro' && (
-                    <div className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-semibold rounded-full">
+                    <div className="px-3 py-1 bg-[#E9A24A]/20 text-[#E9A24A] text-sm font-semibold rounded-full">
                       {copy.selected}
                     </div>
                   )}
@@ -345,7 +345,7 @@ export function WatchtowerToggle() {
                     const Icon = icons[idx] || Sparkles;
                     return (
                     <div key={feature} className="flex items-center gap-2 text-xs text-sundae-muted">
-                      <Icon className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                      <Icon className="w-3 h-3 text-[#FF7E6F] flex-shrink-0" />
                       <span>{feature}</span>
                     </div>
                     );

@@ -39,13 +39,13 @@ export function TierSelector() {
   const getTierColor = (tierId: string) => {
     const colors: Record<string, string> = {
       'report-lite': '#10B981',
-      'report-plus': '#3B82F6',
-      'report-pro': '#6366F1',
-      'core-lite': '#8B5CF6',
-      'core-pro': '#A855F7',
+      'report-plus': '#FF7E6F',
+      'report-pro': '#FF5C4D',
+      'core-lite': '#E9A24A',
+      'core-pro': '#C2410C',
       'enterprise': '#F59E0B'
     };
-    return colors[tierId] || '#3B82F6';
+    return colors[tierId] || '#FF7E6F';
   };
 
   const formatMessage = (template: string, values: Record<string, string | number>) =>
@@ -293,10 +293,10 @@ export function TierSelector() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="mt-6 p-4 bg-gradient-to-r from-purple-500/10 to-violet-500/10 rounded-lg border border-purple-500/30"
+            className="mt-6 p-4 bg-gradient-to-r from-[#E9A24A]/10 to-[#C2410C]/10 rounded-lg border border-[#E9A24A]/30"
           >
             <p className="text-sm flex items-start gap-2">
-              <Star className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+              <Star className="w-4 h-4 text-[#E9A24A] mt-0.5 flex-shrink-0" />
               <span>
                 <strong>{messages.overview.portfolioPricingAdvantage}:</strong> {advantageMessage}
               </span>

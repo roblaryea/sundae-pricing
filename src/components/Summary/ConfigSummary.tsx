@@ -52,7 +52,7 @@ export function ConfigSummary() {
       particleCount: 200,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#667eea', '#764ba2', '#38BDF8', '#22C55E']
+      colors: ['#FF5C4D', '#E9A24A', '#FF5C4D', '#22C55E']
     });
   }, [markStepCompleted]);
 
@@ -195,9 +195,9 @@ export function ConfigSummary() {
                   <div>
                     <div className="font-semibold flex items-center gap-2">
                       {crossIntelSelection === 'pro' ? (
-                        <><Zap className="w-4 h-4 text-cyan-400" /> {messages.summary.crossIntelligencePro}</>
+                        <><Zap className="w-4 h-4 text-[#FF7E6F]" /> {messages.summary.crossIntelligencePro}</>
                       ) : (
-                        <><GitBranch className="w-4 h-4 text-purple-400" /> {messages.summary.crossIntelligence}</>
+                        <><GitBranch className="w-4 h-4 text-[#E9A24A]" /> {messages.summary.crossIntelligence}</>
                       )}
                     </div>
                     <div className="text-sm text-sundae-muted">
@@ -449,7 +449,7 @@ export function ConfigSummary() {
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.45 }}
-        className="text-center p-6 md:p-8 bg-gradient-to-r from-violet-500/10 to-purple-500/10 rounded-xl border border-violet-500/30 mb-8"
+        className="text-center p-6 md:p-8 bg-gradient-to-r from-[#C2410C]/10 to-[#E9A24A]/10 rounded-xl border border-[#C2410C]/30 mb-8"
       >
         <h3 className="text-2xl font-bold mb-3">{messages.summary.readyTitle}</h3>
         <p className="text-base md:text-lg text-sundae-muted mb-5">
@@ -557,7 +557,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
           className="text-4xl md:text-5xl font-bold mb-3 flex items-center justify-center gap-3"
         >
           Your Crew stack is ready
-          <Sparkles className="w-10 h-10 text-cyan-400" />
+          <Sparkles className="w-10 h-10 text-[#FF7E6F]" />
         </motion.h1>
         <p className="text-lg md:text-xl text-sundae-muted">
           Multi-region payroll readiness, scheduling, and HR ops on one operational substrate.
@@ -576,7 +576,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
             <h3 className="text-lg font-bold mb-4">Your configuration</h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                <Check className="w-5 h-5 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
                 <div>
                   <div className="font-semibold">{headline}</div>
                   <div className="text-sm text-sundae-muted">
@@ -587,7 +587,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                <Check className="w-5 h-5 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
                 <div>
                   <div className="font-semibold">{quote.locations} {quote.locations === 1 ? 'location' : 'locations'}</div>
                   <div className="text-sm text-sundae-muted">
@@ -599,7 +599,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
               </div>
               {setupFee > 0 && (
                 <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+                  <Check className="w-5 h-5 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="font-semibold">One-time setup: ${setupFee}</div>
                     <div className="text-sm text-sundae-muted">
@@ -623,13 +623,13 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
           </div>
 
           {/* Pricing column */}
-          <div className="bg-gradient-to-br from-cyan-500/10 to-teal-600/5 border-2 border-cyan-500/30 rounded-xl p-6">
-            <p className="text-xs uppercase tracking-wider text-cyan-300 font-semibold mb-2">Monthly investment</p>
+          <div className="bg-gradient-to-br from-[#FF7E6F]/10 to-teal-600/5 border-2 border-[#FF7E6F]/30 rounded-xl p-6">
+            <p className="text-xs uppercase tracking-wider text-[#FF7E6F] font-semibold mb-2">Monthly investment</p>
             <div className="flex items-baseline gap-1 mb-4">
               <span className="text-5xl font-bold text-white tabular-nums">${monthly}</span>
               <span className="text-lg text-sundae-muted">/mo</span>
             </div>
-            <div className="space-y-2 pt-4 border-t border-cyan-500/20">
+            <div className="space-y-2 pt-4 border-t border-[#FF7E6F]/20">
               {lines.length > 1 && lines.map((line) => {
                 const isFreeIncluded = line.monthly === 0 && line.id === 'crew_scheduling';
                 return (
@@ -660,7 +660,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                   <span className="text-white tabular-nums">${setupFee}</span>
                 </div>
               )}
-              <div className="flex justify-between text-sm pt-2 mt-2 border-t border-cyan-500/10">
+              <div className="flex justify-between text-sm pt-2 mt-2 border-t border-[#FF7E6F]/10">
                 <span className="text-sundae-muted">First-year total</span>
                 <span className="text-white font-semibold tabular-nums">${(annual + setupFee).toLocaleString()}</span>
               </div>

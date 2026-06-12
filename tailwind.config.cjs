@@ -8,22 +8,22 @@ module.exports = {
     extend: {
       colors: {
         sundae: {
-          dark: '#0F172A',
-          surface: '#1E293B',
-          'surface-hover': '#334155',
+          dark: '#15110D',
+          surface: '#1F1A15',
+          'surface-hover': '#2A231C',
           text: '#F8FAFC',
           muted: '#94A3B8',
-          accent: '#38BDF8',
+          accent: '#FF5C4D',
           success: '#22C55E',
           warning: '#F59E0B',
           report: {
             lite: '#10B981',
-            plus: '#3B82F6',
-            pro: '#6366F1'
+            plus: '#FF7E6F',
+            pro: '#FF5C4D'
           },
           core: {
-            lite: '#8B5CF6',
-            pro: '#A855F7'
+            lite: '#E9A24A',
+            pro: '#C2410C'
           },
           enterprise: '#F59E0B',
           watchtower: '#EF4444'
@@ -33,11 +33,12 @@ module.exports = {
         102: '1.02'
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        'gradient-primary': 'linear-gradient(135deg, #FF5C4D 0%, #E9A24A 100%)',
         'gradient-gold': 'linear-gradient(135deg, #f5af19 0%, #f12711 100%)',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Hanken Grotesk', 'system-ui', 'sans-serif'],
+        display: ['Fraunces', 'Georgia', 'serif'],
       },
       animation: {
         shimmer: 'shimmer 2s linear infinite',
@@ -56,7 +57,7 @@ module.exports = {
         }
       },
       boxShadow: {
-        glow: '0 0 30px rgba(102, 126, 234, 0.5)',
+        glow: '0 0 30px rgba(255, 92, 77, 0.5)',
       }
     },
   },

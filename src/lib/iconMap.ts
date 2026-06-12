@@ -145,12 +145,12 @@ export const CONCEPT_ICONS = {
 
 export const PRODUCT_COLORS = {
   report: {
-    primary: '#3B82F6',
-    gradient: 'from-blue-500 to-blue-600',
+    primary: '#FF7E6F',
+    gradient: 'from-[#FF5C4D] to-[#FF5C4D]',
   },
   core: {
-    primary: '#8B5CF6',
-    gradient: 'from-purple-500 to-purple-600',
+    primary: '#E9A24A',
+    gradient: 'from-[#E9A24A] to-[#E9A24A]',
   },
   watchtower: {
     primary: '#F59E0B',
@@ -159,7 +159,7 @@ export const PRODUCT_COLORS = {
 } as const;
 
 // Module colors (unified gradient)
-export const MODULE_GRADIENT = 'from-blue-500 to-purple-600';
+export const MODULE_GRADIENT = 'from-[#FF5C4D] to-[#E9A24A]';
 
 // ============================================================================
 // LEGACY ICON MAP (for emoji replacement compatibility)

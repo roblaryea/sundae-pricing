@@ -116,7 +116,7 @@ export function ModulePicker() {
                 onClick={() => toggleModule(moduleId)}
                 className={`w-full h-full p-6 rounded-xl border-2 transition-all relative ${
                   isSelected 
-                    ? 'bg-gradient-to-br from-sundae-accent/20 to-blue-500/20 border-sundae-accent/50'
+                    ? 'bg-gradient-to-br from-sundae-accent/20 to-[#FF5C4D]/20 border-sundae-accent/50'
                     : 'bg-sundae-surface border-white/10 hover:border-white/30'
                 }`}
               >
@@ -221,12 +221,12 @@ export function ModulePicker() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="mb-6 p-4 bg-gradient-to-r from-purple-500/20 to-cyan-500/20 rounded-lg border border-purple-500/30"
+          className="mb-6 p-4 bg-gradient-to-r from-[#E9A24A]/20 to-[#FF7E6F]/20 rounded-lg border border-[#E9A24A]/30"
         >
           <div className="flex items-center gap-3">
-            <Sparkles className="w-6 h-6 text-purple-400" />
+            <Sparkles className="w-6 h-6 text-[#E9A24A]" />
             <div>
-              <span className="font-semibold text-purple-300">{copy.crossUnlocked}</span>
+              <span className="font-semibold text-[#E9A24A]">{copy.crossUnlocked}</span>
               <span className="ml-2 text-sm text-sundae-muted">
                 {formatMessage(copy.crossUnlockedDescription, { count: selectedModules.length })}
               </span>
@@ -246,7 +246,7 @@ export function ModulePicker() {
                 count: 3 - selectedModules.length,
                 moduleWord: 3 - selectedModules.length === 1 ? copy.moduleSingular : copy.modulePlural,
               })}{' '}
-              <span className="text-purple-400 font-semibold">{copy.crossFreeSuffix}</span>
+              <span className="text-[#E9A24A] font-semibold">{copy.crossFreeSuffix}</span>
             </p>
           </div>
         </motion.div>

@@ -207,7 +207,7 @@ export function LayerStack() {
     {
       id: 'core' as const,
       icon: Zap,
-      color: '#8B5CF6',
+      color: '#E9A24A',
       borderColor: 'violet',
       copy: copy.core,
       recommended: persona?.recommendedPath.includes('core'),
@@ -268,15 +268,15 @@ export function LayerStack() {
               switch (layerItem.id) {
                 case 'core':
                   return {
-                    icon: 'text-violet-400',
-                    card: 'from-violet-500/20 to-purple-600/20 border-violet-500/30 hover:border-violet-500/60',
-                    badge: 'bg-violet-500/30 text-violet-300',
+                    icon: 'text-[#C2410C]',
+                    card: 'from-[#C2410C]/20 to-[#E9A24A]/20 border-[#C2410C]/30 hover:border-[#C2410C]/60',
+                    badge: 'bg-[#C2410C]/30 text-[#C2410C]',
                   };
                 case 'crew':
                   return {
-                    icon: 'text-cyan-400',
-                    card: 'from-cyan-500/20 to-teal-600/20 border-cyan-500/30 hover:border-cyan-500/60',
-                    badge: 'bg-cyan-500/30 text-cyan-300',
+                    icon: 'text-[#FF7E6F]',
+                    card: 'from-[#FF7E6F]/20 to-teal-600/20 border-[#FF7E6F]/30 hover:border-[#FF7E6F]/60',
+                    badge: 'bg-[#FF7E6F]/30 text-[#FF7E6F]',
                   };
                 default: // 'report'
                   return {

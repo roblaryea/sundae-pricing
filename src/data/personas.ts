@@ -54,7 +54,7 @@ export const personas: Record<string, Persona> = {
     emoji: "zap",
     description: "Every percentage point matters. You want real-time control over operations and are ready to optimize labor and inventory costs.",
     recommendedPath: "core-lite",
-    color: "#3B82F6", // blue
+    color: "#FF7E6F", // blue
     modules: ["labor", "inventory"],
     locationRange: { min: 2, max: 5 }
   },
@@ -64,7 +64,7 @@ export const personas: Record<string, Persona> = {
     emoji: "target",
     description: "Multiple locations need unified visibility and strategic tools. You're building an empire and need intelligence to match.",
     recommendedPath: "core-pro",
-    color: "#8B5CF6", // purple
+    color: "#E9A24A", // purple
     modules: ["labor", "inventory", "marketing"],
     locationRange: { min: 6, max: 20 }
   },

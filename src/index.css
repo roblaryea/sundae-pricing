@@ -1,37 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Warm-signature type system (parity with sundae-website):
+   Hanken Grotesk = body/UI, Fraunces = display/headings. */
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap');
 @import "tailwindcss";
 
 @theme {
   /* Custom Colors */
-  --color-sundae-dark: #0F172A;
-  --color-sundae-surface: #1E293B;
-  --color-sundae-surface-hover: #334155;
+  --color-sundae-dark: #15110D;
+  --color-sundae-surface: #1F1A15;
+  --color-sundae-surface-hover: #2A231C;
   --color-sundae-text: #F8FAFC;
   --color-sundae-muted: #94A3B8;
-  --color-sundae-accent: #38BDF8;
+  --color-sundae-accent: #FF5C4D;
   --color-sundae-success: #22C55E;
   --color-sundae-warning: #F59E0B;
   
   /* Report Tier Colors */
   --color-sundae-report-lite: #10B981;
-  --color-sundae-report-plus: #3B82F6;
-  --color-sundae-report-pro: #6366F1;
+  --color-sundae-report-plus: #FF7E6F;
+  --color-sundae-report-pro: #FF5C4D;
   
   /* Core Tier Colors */
-  --color-sundae-core-lite: #8B5CF6;
-  --color-sundae-core-pro: #A855F7;
+  --color-sundae-core-lite: #E9A24A;
+  --color-sundae-core-pro: #C2410C;
   
   /* Special Tier Colors */
   --color-sundae-enterprise: #F59E0B;
   --color-sundae-watchtower: #EF4444;
   
   /* Box Shadows */
-  --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.5);
-  --shadow-glow-lg: 0 0 50px rgba(102, 126, 234, 0.6);
+  --shadow-glow: 0 0 30px rgba(255, 92, 77, 0.5);
+  --shadow-glow-lg: 0 0 50px rgba(255, 92, 77, 0.6);
   
   /* Font Families */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  
+  --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
+
   /* Animations */
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -41,12 +44,12 @@
   --color-sundae-dark: #F8FAFC;
   --color-sundae-surface: #FFFFFF;
   --color-sundae-surface-hover: #F1F5F9;
-  --color-sundae-text: #0F172A;
+  --color-sundae-text: #15110D;
   --color-sundae-muted: #64748B;
   
   /* Adjust shadows for light mode */
-  --shadow-glow: 0 0 30px rgba(102, 126, 234, 0.15);
-  --shadow-glow-lg: 0 0 50px rgba(102, 126, 234, 0.2);
+  --shadow-glow: 0 0 30px rgba(255, 92, 77, 0.15);
+  --shadow-glow-lg: 0 0 50px rgba(255, 92, 77, 0.2);
 }
 
 /* ═══════════════════════════════════════════════════════════════════
@@ -116,16 +119,16 @@
   @apply from-green-50 to-emerald-50 border-green-300;
 }
 
-.light .bg-gradient-to-r.from-purple-500\/10 {
-  @apply from-purple-50 to-violet-50 border-purple-300;
+.light .bg-gradient-to-r.from-[#E9A24A]\/10 {
+  @apply from-[#E9A24A] to-[#C2410C] border-[#E9A24A];
 }
 
 .light .bg-gradient-to-r.from-sundae-accent\/10 {
-  @apply from-cyan-50 to-blue-50 border-cyan-300;
+  @apply from-[#FF7E6F] to-[#FF5C4D] border-[#FF7E6F];
 }
 
-.light .bg-gradient-to-r.from-violet-500\/10 {
-  @apply from-violet-50 to-purple-50 border-violet-300;
+.light .bg-gradient-to-r.from-[#C2410C]\/10 {
+  @apply from-[#C2410C] to-[#E9A24A] border-[#C2410C];
 }
 
 .light .bg-gradient-to-r.from-green-900\/30 {
@@ -170,8 +173,8 @@
 }
 
 /* Special background patterns */
-.light .bg-purple-900\/20 {
-  @apply bg-purple-100 border-purple-300;
+.light .bg-[#E9A24A]\/20 {
+  @apply bg-[#E9A24A] border-[#E9A24A];
 }
 
 .light .bg-green-500\/10 {
@@ -179,8 +182,8 @@
 }
 
 /* Text on colored backgrounds */
-.light .text-purple-300 {
-  @apply text-purple-700;
+.light .text-[#E9A24A] {
+  @apply text-[#E9A24A];
 }
 
 .light .text-green-400 {
@@ -192,12 +195,12 @@
   @apply text-amber-600;
 }
 
-.light .text-blue-400 {
-  @apply text-blue-600;
+.light .text-[#FF5C4D] {
+  @apply text-[#FF5C4D];
 }
 
-.light .text-cyan-400 {
-  @apply text-cyan-600;
+.light .text-[#FF7E6F] {
+  @apply text-[#FF7E6F];
 }
 
 .light .text-orange-400 {
@@ -208,9 +211,9 @@
   @apply text-pink-600;
 }
 
-.light .text-violet-400,
-.light .text-purple-400 {
-  @apply text-purple-600;
+.light .text-[#C2410C],
+.light .text-[#E9A24A] {
+  @apply text-[#E9A24A];
 }
 
 .light .text-red-400 {
@@ -249,7 +252,7 @@
 /* Summary page cards */
 .light .bg-gradient-primary {
   /* Keep the gradient for CTA buttons */
-  background: linear-gradient(to bottom right, #667eea, #764ba2);
+  background: linear-gradient(to bottom right, #FF5C4D, #E9A24A);
 }
 
 /* Glass effect in light mode */
@@ -263,7 +266,7 @@
 }
 
 .light ::-webkit-scrollbar-thumb {
-  @apply bg-slate-400 hover:bg-cyan-500;
+  @apply bg-slate-400 hover:bg-[#FF7E6F];
 }
 
 /* Tooltip and popover styles */
@@ -303,26 +306,33 @@
 
 /* Special utility classes */
 .light .shadow-glow {
-  box-shadow: 0 0 30px rgba(102, 126, 234, 0.15);
+  box-shadow: 0 0 30px rgba(255, 92, 77, 0.15);
 }
 
 .light .shadow-glow-lg {
-  box-shadow: 0 0 50px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 0 50px rgba(255, 92, 77, 0.2);
 }
 
 /* Preserve certain dark elements that look good in light mode */
 .light .bg-gradient-primary {
   /* Primary gradient buttons stay vibrant */
-  background: linear-gradient(to bottom right, #667eea, #764ba2);
+  background: linear-gradient(to bottom right, #FF5C4D, #E9A24A);
   color: white;
 }
 
 .light .button-primary:hover {
-  box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 0 30px rgba(255, 92, 77, 0.3);
 }
 
 /* Custom scrollbar styles */
 @layer base {
+  /* Display face (Fraunces) for headings — warm-signature parity with the
+     main site, where utility classes still override when needed. */
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-optical-sizing: auto;
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -354,7 +364,7 @@
   }
   
   .button-primary {
-    @apply bg-gradient-to-br from-[#667eea] to-[#764ba2] text-white font-semibold px-6 py-3 rounded-lg 
+    @apply bg-gradient-to-br from-[#FF5C4D] to-[#E9A24A] text-white font-semibold px-6 py-3 rounded-lg 
            hover:shadow-glow transition-all duration-300 transform hover:scale-105;
   }
   

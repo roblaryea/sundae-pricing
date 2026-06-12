@@ -62,7 +62,7 @@ export function PathwaySelector() {
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: [result.persona.color, '#ffffff', '#38BDF8']
+      colors: [result.persona.color, '#ffffff', '#FF5C4D']
     });
   }, [locale, multiSelections, setModules, setLocations, setPersona, quizQuestions]);
 
@@ -371,7 +371,7 @@ export function PathwaySelector() {
               className={cn(
                 'p-4 md:p-5 rounded-xl border-2 transition-all duration-200 text-left group relative',
                 isSelected 
-                  ? 'bg-gradient-to-br from-sundae-accent/20 to-blue-500/20 border-sundae-accent/60 ring-2 ring-sundae-accent/30'
+                  ? 'bg-gradient-to-br from-sundae-accent/20 to-[#FF5C4D]/20 border-sundae-accent/60 ring-2 ring-sundae-accent/30'
                   : 'bg-sundae-surface hover:bg-sundae-surface-hover border-white/10 hover:border-white/30'
               )}
             >

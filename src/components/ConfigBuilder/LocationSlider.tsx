@@ -67,12 +67,12 @@ function getScaleLabel(
   copy: ReturnType<typeof getLocationSliderCopy>
 ): { label: string; color: string } {
   if (locations <= 2) return { label: copy.scale.independent, color: 'text-slate-400' };
-  if (locations <= 9) return { label: copy.scale.smallPortfolio, color: 'text-blue-400' };
+  if (locations <= 9) return { label: copy.scale.smallPortfolio, color: 'text-[#FF5C4D]' };
   if (locations <= 24) return { label: copy.scale.growthStage, color: 'text-green-400' };
   if (locations <= 50) return { label: copy.scale.enterprise, color: 'text-amber-400' };
   if (locations <= 100) return { label: copy.scale.regionalChain, color: 'text-orange-400' };
   if (locations <= 250) return { label: copy.scale.majorChain, color: 'text-pink-400' };
-  return { label: copy.scale.nationalScale, color: 'text-purple-400' };
+  return { label: copy.scale.nationalScale, color: 'text-[#E9A24A]' };
 }
 
 export function LocationSlider() {
@@ -310,9 +310,9 @@ export function LocationSlider() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-6 text-center p-4 bg-purple-900/20 border border-purple-500/30 rounded-lg"
+            className="mt-6 text-center p-4 bg-[#E9A24A]/20 border border-[#E9A24A]/30 rounded-lg"
           >
-            <p className="text-purple-300 text-sm">
+            <p className="text-[#E9A24A] text-sm">
               <Crown className="inline-block w-4 h-4 mr-1 -mt-0.5" />{' '}
               {formatMessage(copy.enterpriseQualified, { locations: locations.toLocaleString(locale) })}
             </p>
@@ -344,11 +344,11 @@ export function LocationSlider() {
 
         {/* Core Pro advantage */}
         {layer === 'core' && tier === 'lite' && locations >= 15 && (
-          <div className="p-4 bg-gradient-to-r from-purple-500/10 to-violet-500/10 rounded-lg border border-purple-500/30">
+          <div className="p-4 bg-gradient-to-r from-[#E9A24A]/10 to-[#C2410C]/10 rounded-lg border border-[#E9A24A]/30">
             <div className="flex items-start gap-3">
-              <Info className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" />
+              <Info className="w-5 h-5 text-[#E9A24A] mt-0.5 flex-shrink-0" />
               <div>
-                <div className="font-semibold text-purple-400 mb-1">{copy.considerCoreProTitle}</div>
+                <div className="font-semibold text-[#E9A24A] mb-1">{copy.considerCoreProTitle}</div>
                 <p className="text-sm text-sundae-muted">
                   {formatMessage(copy.considerCoreProBody, { locations: locations.toLocaleString(locale) })}
                 </p>
@@ -359,7 +359,7 @@ export function LocationSlider() {
 
         {/* Portfolio management */}
         {locations >= 2 && layer === 'core' && (
-          <div className="p-4 bg-gradient-to-r from-sundae-accent/10 to-blue-500/10 rounded-lg border border-sundae-accent/30">
+          <div className="p-4 bg-gradient-to-r from-sundae-accent/10 to-[#FF5C4D]/10 rounded-lg border border-sundae-accent/30">
             <div className="flex items-start gap-3">
               <MapPin className="w-5 h-5 text-sundae-accent mt-0.5 flex-shrink-0" />
               <div>

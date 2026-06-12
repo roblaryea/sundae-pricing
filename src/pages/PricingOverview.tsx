@@ -44,13 +44,13 @@ export function PricingOverview() {
   const getTierColor = (tierId: string) => {
     const colors: Record<string, string> = {
       'report-lite': '#10B981',
-      'report-plus': '#3B82F6',
-      'report-pro': '#6366F1',
-      'core-lite': '#8B5CF6',
-      'core-pro': '#A855F7',
+      'report-plus': '#FF7E6F',
+      'report-pro': '#FF5C4D',
+      'core-lite': '#E9A24A',
+      'core-pro': '#C2410C',
       'core-enterprise': '#F59E0B'
     };
-    return colors[tierId] || '#3B82F6';
+    return colors[tierId] || '#FF7E6F';
   };
 
   const getReportTierCatalog = (tierId: string) => {
@@ -260,7 +260,7 @@ export function PricingOverview() {
                 localizedTiers.reportTiers.plus.name,
                 localizedTiers.reportTiers.pro.name,
               ]}
-              tierColors={['#10B981', '#3B82F6', '#6366F1']}
+              tierColors={['#10B981', '#FF7E6F', '#FF5C4D']}
             />
           </CollapsibleSection>
         </motion.div>
@@ -276,7 +276,7 @@ export function PricingOverview() {
         >
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <Zap className="w-8 h-8 text-violet-400" />
+              <Zap className="w-8 h-8 text-[#C2410C]" />
               <h2 className="text-3xl md:text-4xl font-bold text-white">{overview.coreTitle}</h2>
             </div>
             <p className="text-sundae-muted">{overview.coreSubtitle}</p>
@@ -411,9 +411,9 @@ export function PricingOverview() {
           {(() => {
             const advantageMessage = getCoreProAdvantageMessage(locale);
             return advantageMessage ? (
-              <div className="mb-8 p-4 bg-gradient-to-r from-purple-500/10 to-violet-500/10 rounded-lg border border-purple-500/30">
+              <div className="mb-8 p-4 bg-gradient-to-r from-[#E9A24A]/10 to-[#C2410C]/10 rounded-lg border border-[#E9A24A]/30">
                 <p className="text-sm flex items-start gap-2 text-white">
-                  <Star className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+                  <Star className="w-4 h-4 text-[#E9A24A] mt-0.5 flex-shrink-0" />
                   <span>
                     <strong>{overview.portfolioPricingAdvantage}:</strong> {advantageMessage}
                   </span>
@@ -436,16 +436,16 @@ export function PricingOverview() {
                 localizedTiers.coreTiers.pro.name,
                 localizedTiers.coreTiers.enterprise.name,
               ]}
-              tierColors={['#8B5CF6', '#A855F7', '#F59E0B']}
+              tierColors={['#E9A24A', '#C2410C', '#F59E0B']}
             />
           </CollapsibleSection>
 
           {/* Module Add-ons for Core */}
-          <div className="mb-8 p-6 rounded-xl border-2 border-violet-500/30 bg-gradient-to-br from-violet-500/10 to-purple-500/10" style={{ boxShadow: '0 0 30px rgba(139, 92, 246, 0.2)' }}>
+          <div className="mb-8 p-6 rounded-xl border-2 border-[#C2410C]/30 bg-gradient-to-br from-[#C2410C]/10 to-[#E9A24A]/10" style={{ boxShadow: '0 0 30px rgba(139, 92, 246, 0.2)' }}>
             <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-violet-500/20 rounded-full border border-violet-500/30 mb-4">
-                <Star className="w-4 h-4 text-violet-400" />
-                <span className="text-sm font-semibold text-violet-300">{overview.addOnModulesEyebrow}</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#C2410C]/20 rounded-full border border-[#C2410C]/30 mb-4">
+                <Star className="w-4 h-4 text-[#C2410C]" />
+                <span className="text-sm font-semibold text-[#C2410C]">{overview.addOnModulesEyebrow}</span>
               </div>
               <h3 className="text-2xl font-bold mb-2 text-white">{overview.moduleAddonsTitle}</h3>
               <p className="text-sundae-muted max-w-3xl mx-auto">
@@ -456,7 +456,7 @@ export function PricingOverview() {
             <div className="overflow-x-auto">
               <table className="w-full border border-white/10 rounded-xl overflow-hidden bg-sundae-surface/50">
                 <thead>
-                  <tr className="bg-violet-500/20 border-b border-violet-500/30">
+                  <tr className="bg-[#C2410C]/20 border-b border-[#C2410C]/30">
                     <th className="text-left p-4 font-semibold text-white">{overview.module}</th>
                     <th className="text-right p-4 font-semibold text-white">{overview.orgLicense}</th>
                     <th className="text-right p-4 font-semibold text-white">{overview.perLocationFrom4}</th>
@@ -479,10 +479,10 @@ export function PricingOverview() {
                       <td className="p-4">
                         <div>
                           <div className="font-semibold text-white">{localizedModule?.name ?? module.name}</div>
-                          <div className="text-xs text-violet-300 mt-1">{localizedModule?.roi ?? module.roiPotential}</div>
+                          <div className="text-xs text-[#C2410C] mt-1">{localizedModule?.roi ?? module.roiPotential}</div>
                         </div>
                       </td>
-                      <td className="text-right p-4 font-semibold text-violet-300">${module.orgLicensePrice}</td>
+                      <td className="text-right p-4 font-semibold text-[#C2410C]">${module.orgLicensePrice}</td>
                       <td className="text-right p-4 text-white">${module.perLocationPrice}</td>
                       <td className="text-right p-4 font-semibold text-white">${module.orgLicensePrice + (module.perLocationPrice * 2)}</td>
                       <td className="text-right p-4 font-semibold text-white">
@@ -498,11 +498,11 @@ export function PricingOverview() {
           </div>
 
           {/* Cross-Intelligence Correlation Engine */}
-          <div className="mb-8 p-6 rounded-xl border-2 border-purple-500/30 bg-gradient-to-br from-purple-500/10 to-cyan-500/10" style={{ boxShadow: '0 0 30px rgba(168, 85, 247, 0.15)' }}>
+          <div className="mb-8 p-6 rounded-xl border-2 border-[#E9A24A]/30 bg-gradient-to-br from-[#E9A24A]/10 to-[#FF7E6F]/10" style={{ boxShadow: '0 0 30px rgba(168, 85, 247, 0.15)' }}>
             <div className="text-center mb-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/20 rounded-full border border-purple-500/30 mb-4">
-                <Star className="w-4 h-4 text-purple-400" />
-                <span className="text-sm font-semibold text-purple-300">{overview.crossIntelligenceEyebrow}</span>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#E9A24A]/20 rounded-full border border-[#E9A24A]/30 mb-4">
+                <Star className="w-4 h-4 text-[#E9A24A]" />
+                <span className="text-sm font-semibold text-[#E9A24A]">{overview.crossIntelligenceEyebrow}</span>
               </div>
               <h3 className="text-2xl font-bold mb-2 text-white">{overview.crossIntelligenceTitle}</h3>
               <p className="text-sundae-muted max-w-3xl mx-auto">
@@ -512,7 +512,7 @@ export function PricingOverview() {
 
             <div className="grid md:grid-cols-2 gap-6">
               {/* Base tier */}
-              <div className="p-5 rounded-xl bg-sundae-surface border border-purple-500/20">
+              <div className="p-5 rounded-xl bg-sundae-surface border border-[#E9A24A]/20">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="font-bold text-lg text-white">{catalog.crossIntelligence.base.name}</h4>
                   <span className="px-3 py-1 bg-green-500/20 text-green-400 text-sm font-semibold rounded-full">{overview.free}</span>
@@ -521,7 +521,7 @@ export function PricingOverview() {
                 <ul className="space-y-2">
                   {localizedAddOns.crossIntelligence.base.map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-sm">
-                      <Check className="w-4 h-4 text-purple-400 mt-0.5 flex-shrink-0" />
+                      <Check className="w-4 h-4 text-[#E9A24A] mt-0.5 flex-shrink-0" />
                       <span className="text-white">{feature}</span>
                     </li>
                   ))}
@@ -529,11 +529,11 @@ export function PricingOverview() {
               </div>
 
               {/* Pro tier */}
-              <div className="p-5 rounded-xl bg-gradient-to-br from-purple-500/10 to-cyan-500/10 border-2 border-purple-500/40 relative overflow-hidden">
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 to-cyan-500" />
+              <div className="p-5 rounded-xl bg-gradient-to-br from-[#E9A24A]/10 to-[#FF7E6F]/10 border-2 border-[#E9A24A]/40 relative overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E9A24A] to-[#FF7E6F]" />
                 <div className="flex items-center justify-between mb-1">
                   <h4 className="font-bold text-lg text-white">{catalog.crossIntelligence.pro.name}</h4>
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 text-sm font-semibold rounded-full">{overview.pro}</span>
+                  <span className="px-3 py-1 bg-[#E9A24A]/20 text-[#E9A24A] text-sm font-semibold rounded-full">{overview.pro}</span>
                 </div>
                 <div className="flex items-baseline gap-1 mb-1">
                   <span className="text-2xl font-bold text-white">${crossIntelligence.pro.monthlyFee}</span>
@@ -545,7 +545,7 @@ export function PricingOverview() {
                 <ul className="space-y-2">
                   {localizedAddOns.crossIntelligence.pro.map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-2 text-sm">
-                      <Check className="w-4 h-4 text-cyan-400 mt-0.5 flex-shrink-0" />
+                      <Check className="w-4 h-4 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
                       <span className="text-white">{feature}</span>
                     </li>
                   ))}
@@ -580,8 +580,8 @@ export function PricingOverview() {
               const tierColors: Record<string, string> = {
                 'competitive': '#EF4444',
                 'events': '#F59E0B',
-                'trends': '#3B82F6',
-                'bundle': '#8B5CF6'
+                'trends': '#FF7E6F',
+                'bundle': '#E9A24A'
               };
               const tierColor = tierColors[item.id] || '#EF4444';
               
@@ -658,8 +658,8 @@ export function PricingOverview() {
 
                     {/* Bundle Savings Badge */}
                     {isBundle && 'baseSavings' in item && (
-                      <div className="mb-4 p-3 bg-gradient-to-r from-purple-500/20 to-violet-500/20 rounded-lg border border-purple-500/30">
-                        <p className="text-xs font-semibold text-purple-300 text-center">
+                      <div className="mb-4 p-3 bg-gradient-to-r from-[#E9A24A]/20 to-[#C2410C]/20 rounded-lg border border-[#E9A24A]/30">
+                        <p className="text-xs font-semibold text-[#E9A24A] text-center">
                           {formatMessage(overview.savePerMonth, {
                             amount: item.baseSavings,
                             percent: item.savingsPercent,

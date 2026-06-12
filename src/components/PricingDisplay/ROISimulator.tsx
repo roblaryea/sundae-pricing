@@ -120,7 +120,7 @@ export function ROISimulator() {
               onChange={(e) => handleInputChange('monthlyRevenue', parseInt(e.target.value))}
               className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #38BDF8 0%, #38BDF8 ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #334155 ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #334155 100%)`,
+                background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C 100%)`,
               }}
             />
           </div>
@@ -138,7 +138,7 @@ export function ROISimulator() {
               onChange={(e) => handleInputChange('laborPercent', parseInt(e.target.value))}
               className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #38BDF8 0%, #38BDF8 ${((roiInputs.laborPercent - 20) / 20) * 100}%, #334155 ${((roiInputs.laborPercent - 20) / 20) * 100}%, #334155 100%)`,
+                background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.laborPercent - 20) / 20) * 100}%, #2A231C ${((roiInputs.laborPercent - 20) / 20) * 100}%, #2A231C 100%)`,
               }}
             />
           </div>
@@ -156,7 +156,7 @@ export function ROISimulator() {
               onChange={(e) => handleInputChange('foodCostPercent', parseInt(e.target.value))}
               className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #38BDF8 0%, #38BDF8 ${((roiInputs.foodCostPercent - 20) / 20) * 100}%, #334155 ${((roiInputs.foodCostPercent - 20) / 20) * 100}%, #334155 100%)`,
+                background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.foodCostPercent - 20) / 20) * 100}%, #2A231C ${((roiInputs.foodCostPercent - 20) / 20) * 100}%, #2A231C 100%)`,
               }}
             />
           </div>
@@ -178,7 +178,7 @@ export function ROISimulator() {
                 onChange={(e) => handleInputChange('marketingSpend', parseInt(e.target.value))}
                 className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #38BDF8 0%, #38BDF8 ${((roiInputs.marketingSpend || 0) / 10000) * 100}%, #334155 ${((roiInputs.marketingSpend || 0) / 10000) * 100}%, #334155 100%)`,
+                  background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.marketingSpend || 0) / 10000) * 100}%, #2A231C ${((roiInputs.marketingSpend || 0) / 10000) * 100}%, #2A231C 100%)`,
                 }}
               />
               {(roiInputs.marketingSpend || 0) === 0 && (
@@ -205,7 +205,7 @@ export function ROISimulator() {
                 onChange={(e) => handleInputChange('deliveryRevenuePct', parseInt(e.target.value))}
                 className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #38BDF8 0%, #38BDF8 ${((roiInputs.deliveryRevenuePct || 0) / 50) * 100}%, #334155 ${((roiInputs.deliveryRevenuePct || 0) / 50) * 100}%, #334155 100%)`,
+                  background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.deliveryRevenuePct || 0) / 50) * 100}%, #2A231C ${((roiInputs.deliveryRevenuePct || 0) / 50) * 100}%, #2A231C 100%)`,
                 }}
               />
               {(roiInputs.deliveryRevenuePct || 0) === 0 && (
@@ -326,7 +326,7 @@ export function ROISimulator() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mb-8 p-6 bg-gradient-to-r from-sundae-accent/10 to-blue-500/10 rounded-lg border border-sundae-accent/30"
+          className="mb-8 p-6 bg-gradient-to-r from-sundae-accent/10 to-[#FF5C4D]/10 rounded-lg border border-sundae-accent/30"
         >
           <div className="flex items-start gap-3">
             <TrendingUp className="w-6 h-6 text-sundae-accent mt-0.5" />

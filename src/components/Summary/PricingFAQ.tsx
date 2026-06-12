@@ -620,7 +620,7 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
         ))}
       </div>
 
-      <div className="mt-6 p-4 bg-violet-500/10 rounded-lg border border-violet-500/30">
+      <div className="mt-6 p-4 bg-[#C2410C]/10 rounded-lg border border-[#C2410C]/30">
         <p className="text-sm text-center">
           <strong>{messages.faq.stillQuestions}</strong> {messages.faq.contactIntro}{' '}
           <a

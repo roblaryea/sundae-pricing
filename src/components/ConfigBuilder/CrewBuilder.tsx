@@ -250,7 +250,7 @@ export function CrewBuilder() {
             </p>
           </div>
           <div className="text-right">
-            <div className="text-3xl font-bold text-[#FF7E6F] tabular-nums">{locations}</div>
+            <div className="font-display text-3xl font-bold text-[#FF7E6F] tabular-nums">{locations}</div>
             <p className="text-xs text-sundae-muted">
               {locations === 1 ? '1 location' : `${locations} locations`}
             </p>
@@ -304,7 +304,7 @@ export function CrewBuilder() {
             </div>
             <div className="text-right flex-shrink-0">
               <div className="flex items-baseline gap-1 justify-end">
-                <span className="text-3xl font-bold text-white tabular-nums">${quote.monthly}</span>
+                <span className="font-display text-3xl font-bold text-white tabular-nums">${quote.monthly}</span>
                 <span className="text-sm text-sundae-muted">/mo</span>
               </div>
               <p className="text-xs text-sundae-muted">${quote.annual.toLocaleString()}/yr</p>

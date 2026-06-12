@@ -170,7 +170,7 @@ export function ModulePicker() {
                   {/* Price */}
                   <div className="mb-4">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-2xl font-bold tabular-nums" data-testid={`module-price-${moduleId}`}>${modulePrice}</span>
+                      <span className="font-display text-2xl font-bold tabular-nums" data-testid={`module-price-${moduleId}`}>${modulePrice}</span>
                       <span className="text-sm text-sundae-muted">{copy.perMonth}</span>
                     </div>
                     {locations > module.baseIncludesLocations && (
@@ -262,7 +262,7 @@ export function ModulePicker() {
         <div className="flex items-center justify-between">
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.totalWithModules}</div>
-            <div className="text-3xl font-bold tabular-nums">
+            <div className="font-display text-3xl font-bold tabular-nums">
               ${pricing.total.toLocaleString()}{copy.perMonth}
             </div>
             <div className="text-sm text-sundae-muted mt-1">
@@ -280,7 +280,7 @@ export function ModulePicker() {
             return monthlySavings > 0 ? (
               <div className="text-right">
                 <div className="text-sm text-sundae-muted mb-1">{copy.vsTenzo}</div>
-                <div className="text-2xl font-bold text-green-400">
+                <div className="font-display text-2xl font-bold text-green-400">
                   {formatMessage(copy.savePerMonth, { amount: Math.round(monthlySavings) })}
                 </div>
                 <div className="text-sm text-green-400">

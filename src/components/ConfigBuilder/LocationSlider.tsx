@@ -277,7 +277,7 @@ export function LocationSlider() {
             className="p-4 bg-sundae-dark/50 rounded-lg"
           >
             <div className="text-sm text-sundae-muted mb-1">{copy.totalMonthly}</div>
-            <div className="text-3xl font-bold tabular-nums">
+            <div className="font-display text-3xl font-bold tabular-nums">
               ${pricing.total.toLocaleString(locale)}
             </div>
             <div className="text-sm text-sundae-muted mt-1">
@@ -292,7 +292,7 @@ export function LocationSlider() {
             className="p-4 bg-sundae-dark/50 rounded-lg"
           >
             <div className="text-sm text-sundae-muted mb-1">{copy.perLocation}</div>
-            <div className="text-3xl font-bold tabular-nums">
+            <div className="font-display text-3xl font-bold tabular-nums">
               ${pricing.perLocation.toFixed(0)}
             </div>
             <div className="text-sm text-green-400 mt-1">

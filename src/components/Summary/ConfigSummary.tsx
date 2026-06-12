@@ -626,7 +626,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
           <div className="bg-gradient-to-br from-[#FF7E6F]/10 to-teal-600/5 border-2 border-[#FF7E6F]/30 rounded-xl p-6">
             <p className="text-xs uppercase tracking-wider text-[#FF7E6F] font-semibold mb-2">Monthly investment</p>
             <div className="flex items-baseline gap-1 mb-4">
-              <span className="text-5xl font-bold text-white tabular-nums">${monthly}</span>
+              <span className="font-display text-5xl font-bold text-white tabular-nums">${monthly}</span>
               <span className="text-lg text-sundae-muted">/mo</span>
             </div>
             <div className="space-y-2 pt-4 border-t border-[#FF7E6F]/20">

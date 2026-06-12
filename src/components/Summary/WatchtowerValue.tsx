@@ -484,7 +484,7 @@ export function WatchtowerValue() {
         <div className="flex items-center justify-between mb-2">
           <span className="text-sundae-muted">{copy.annualValue}</span>
           <div className="text-right">
-            <div className="text-xl font-bold text-watchtower">
+            <div className="font-display text-xl font-bold text-watchtower">
               ${valueResult.totalAnnualRange.low.toLocaleString()} – ${valueResult.totalAnnualRange.high.toLocaleString()}
             </div>
             <div className="text-xs text-sundae-muted">

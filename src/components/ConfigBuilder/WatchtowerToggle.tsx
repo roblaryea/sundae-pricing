@@ -94,7 +94,7 @@ export function WatchtowerToggle() {
               </p>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-green-400">
+              <div className="font-display text-2xl font-bold text-green-400">
                 {formatMessage(copy.saveAmount, { amount: Math.round(individualResult.total - bundleResult.total) })}
               </div>
               <button
@@ -159,7 +159,7 @@ export function WatchtowerToggle() {
                   </div>
 
                   <div className="mb-4">
-                    <span className="text-2xl font-bold">${modulePrice.toLocaleString(locale)}</span>
+                    <span className="font-display text-2xl font-bold">${modulePrice.toLocaleString(locale)}</span>
                     <span className="text-sundae-muted">{copy.perMonth}</span>
                     <div className="text-xs text-sundae-muted mt-1">
                       {formatMessage(copy.basePlusLocations, {
@@ -234,7 +234,7 @@ export function WatchtowerToggle() {
               </div>
 
             <div className="text-right">
-                <div className="text-3xl font-bold mb-1">${bundleResult.total.toLocaleString(locale)}{copy.perMonth}</div>
+                <div className="font-display text-3xl font-bold mb-1">${bundleResult.total.toLocaleString(locale)}{copy.perMonth}</div>
                 <div className="text-xs text-sundae-muted mb-2">
                   {formatMessage(copy.basePlusLocations, {
                     base: watchtower.bundle.basePrice,
@@ -319,7 +319,7 @@ export function WatchtowerToggle() {
                     <div>
                       <h3 className="font-bold text-lg">{crossCatalog.pro.name}</h3>
                       <div className="flex items-center gap-2">
-                        <span className="text-2xl font-bold">${crossIntelProPrice.toLocaleString(locale)}</span>
+                        <span className="font-display text-2xl font-bold">${crossIntelProPrice.toLocaleString(locale)}</span>
                         <span className="text-sundae-muted">{copy.perMonth}</span>
                       </div>
                     </div>
@@ -367,13 +367,13 @@ export function WatchtowerToggle() {
         <div className="flex items-center justify-between">
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.totalWithAddons}</div>
-            <div className="text-3xl font-bold tabular-nums">
+            <div className="font-display text-3xl font-bold tabular-nums">
               ${pricing.total.toLocaleString(locale)}{copy.perMonth}
             </div>
           </div>
           <div className="text-right">
             <div className="text-sm text-sundae-muted mb-1">{copy.perLocation}</div>
-            <div className="text-2xl font-bold">
+            <div className="font-display text-2xl font-bold">
               ${pricing.perLocation.toFixed(0)}{copy.perMonth}
             </div>
           </div>

@@ -138,7 +138,7 @@ export function LiveCalculator() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="text-2xl font-bold tabular-nums"
+                      className="font-display text-2xl font-bold tabular-nums"
                     >
                       ${pricing.total.toLocaleString(locale)}
                     </motion.div>

@@ -142,7 +142,7 @@ export function TierSelector() {
                   {/* Price */}
                   <div className="mb-6">
                     <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-bold tabular-nums">
+                      <span className="font-display text-4xl font-bold tabular-nums">
                         {typeof tierData.basePrice === 'number' ? `$${tierData.basePrice}` : tierData.basePrice}
                       </span>
                       {typeof tierData.basePrice === 'number' && <span className="text-sundae-muted">{copy.perMonth}</span>}

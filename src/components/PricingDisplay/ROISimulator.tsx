@@ -247,23 +247,23 @@ export function ROISimulator() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.monthlySavings}</div>
-            <div className="text-3xl font-bold text-green-400">
+            <div className="font-display text-3xl font-bold text-green-400">
               ${roi.monthlySavings.toLocaleString(locale)}
             </div>
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.annualSavings}</div>
-            <div className="text-3xl font-bold text-green-400">
+            <div className="font-display text-3xl font-bold text-green-400">
               ${roi.annualSavings.toLocaleString(locale)}
             </div>
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.roiMultiple}</div>
-            <div className="text-3xl font-bold text-green-400">{roi.roi}x</div>
+            <div className="font-display text-3xl font-bold text-green-400">{roi.roi}x</div>
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.paybackPeriod}</div>
-            <div className="text-3xl font-bold text-green-400">
+            <div className="font-display text-3xl font-bold text-green-400">
               {formatMessage(copy.days, { count: roi.paybackDays })}
             </div>
           </div>
@@ -349,12 +349,12 @@ export function ROISimulator() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.monthlyPlatformCost}</div>
-            <div className="text-2xl font-bold">${pricing.total.toLocaleString(locale)}</div>
+            <div className="font-display text-2xl font-bold">${pricing.total.toLocaleString(locale)}</div>
           </div>
           <div className="text-center px-8">
             <Clock className="w-8 h-8 mx-auto mb-2 text-sundae-accent" />
             <div className="text-sm text-sundae-muted">{copy.paysForItselfIn}</div>
-            <div className="text-xl font-bold text-green-400">
+            <div className="font-display text-xl font-bold text-green-400">
               {formatMessage(copy.days, { count: roi.paybackDays })}
             </div>
           </div>

@@ -122,7 +122,7 @@ export function CompactCompetitorCompare() {
               </div>
             </div>
             <div className="text-right">
-              <div className="text-2xl font-bold text-green-400">
+              <div className="font-display text-2xl font-bold text-green-400">
                 ${bestSavings.savings.firstYear.toLocaleString(locale)}
               </div>
               <div className="text-xs text-slate-400">{copy.firstYear}</div>

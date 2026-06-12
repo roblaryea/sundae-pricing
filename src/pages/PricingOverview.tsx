@@ -189,7 +189,7 @@ export function PricingOverview() {
                     {/* Price */}
                     <div className="mb-6">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-4xl font-bold text-white tabular-nums">${tier.basePrice}</span>
+                        <span className="font-display text-4xl font-bold text-white tabular-nums">${tier.basePrice}</span>
                         <span className="text-sundae-muted">{overview.perMonth}</span>
                       </div>
                       {tier.additionalLocationPrice > 0 && (
@@ -331,7 +331,7 @@ export function PricingOverview() {
                     {/* Price */}
                     <div className="mb-6">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-4xl font-bold text-white tabular-nums">
+                        <span className="font-display text-4xl font-bold text-white tabular-nums">
                           {typeof tier.basePrice === 'number' ? `$${tier.basePrice}` : tier.basePrice}
                         </span>
                         {typeof tier.basePrice === 'number' && <span className="text-sundae-muted">{overview.perMonth}</span>}
@@ -536,7 +536,7 @@ export function PricingOverview() {
                   <span className="px-3 py-1 bg-[#E9A24A]/20 text-[#E9A24A] text-sm font-semibold rounded-full">{overview.pro}</span>
                 </div>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="text-2xl font-bold text-white">${crossIntelligence.pro.monthlyFee}</span>
+                  <span className="font-display text-2xl font-bold text-white">${crossIntelligence.pro.monthlyFee}</span>
                   <span className="text-sundae-muted">{overview.perMonth}</span>
                 </div>
                 <p className="text-xs text-sundae-muted mb-4">
@@ -621,7 +621,7 @@ export function PricingOverview() {
                     {/* Price */}
                     <div className="mb-6">
                       <div className="flex items-baseline gap-1">
-                        <span className="text-4xl font-bold text-white tabular-nums">${item.basePrice}</span>
+                        <span className="font-display text-4xl font-bold text-white tabular-nums">${item.basePrice}</span>
                         <span className="text-sundae-muted">{overview.perMonth}</span>
                       </div>
                       {!isBundle && (
@@ -723,7 +723,7 @@ export function PricingOverview() {
 
                 <div className="mb-4">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-bold text-slate-900 dark:text-white tabular-nums">${sku.orgLicensePrice}</span>
+                    <span className="font-display text-3xl font-bold text-slate-900 dark:text-white tabular-nums">${sku.orgLicensePrice}</span>
                     <span className="text-slate-500 dark:text-sundae-muted text-sm">{overview.perMonth}</span>
                   </div>
                   <p className="text-xs text-slate-600 dark:text-sundae-muted mt-1">
@@ -780,7 +780,7 @@ export function PricingOverview() {
 
                 <div className="mb-4">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-bold text-slate-900 dark:text-white tabular-nums">${bundle.basePrice}</span>
+                    <span className="font-display text-3xl font-bold text-slate-900 dark:text-white tabular-nums">${bundle.basePrice}</span>
                     <span className="text-slate-600 dark:text-sundae-muted text-sm">{overview.perMonth}</span>
                   </div>
                   <p className="text-xs text-slate-700 dark:text-sundae-muted mt-1">

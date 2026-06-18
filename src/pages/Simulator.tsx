@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useConfiguration } from '../hooks/useConfiguration';
+import type { CrewSkuId } from '../types/configuration';
 import { PathwaySelector } from '../components/PathwaySelector/PathwaySelector';
 import { LayerStack } from '../components/ConfigBuilder/LayerStack';
 import { TierSelector } from '../components/ConfigBuilder/TierSelector';
@@ -25,6 +26,51 @@ export function Simulator() {
     return () => {
       document.body.classList.remove('bg-sundae-dark', 'text-white');
     };
+  }, []);
+
+  // One-time prefill from a diagnostic deep-link (?cfg=...). The marketing-site
+  // Operations Diagnostic encodes the operator's already-known configuration
+  // here (see pricingLink.ts in sundae-website) so "Open pricing simulator"
+  // seeds the store and jumps straight to the Review & Launch summary instead
+  // of restarting the questionnaire.
+  useEffect(() => {
+    const raw = new URLSearchParams(window.location.search).get('cfg');
+    if (!raw) return;
+    try {
+      const b64 = raw.replace(/-/g, '+').replace(/_/g, '/');
+      const data = JSON.parse(atob(b64)) as {
+        v?: number;
+        layer?: 'report' | 'core';
+        tier?: 'lite' | 'plus' | 'pro' | 'enterprise';
+        locations?: number;
+        modules?: string[];
+        watchtower?: boolean;
+        crewSkus?: string[];
+      };
+      if (!data || data.v !== 1) return;
+      const s = useConfiguration.getState();
+      if (data.layer === 'report' || data.layer === 'core') {
+        s.setLayer(data.layer);
+        if (data.tier) s.setTier(data.tier);
+        if (typeof data.locations === 'number') s.setLocations(data.locations);
+        if (data.layer === 'core') {
+          if (Array.isArray(data.modules)) s.setModules(data.modules);
+          s.setWatchtowerModules(data.watchtower ? ['bundle'] : []);
+        }
+      }
+      if (Array.isArray(data.crewSkus) && data.crewSkus.length > 0) {
+        s.setCrewSkus(data.crewSkus as CrewSkuId[]);
+      }
+      // Mark the journey complete so the summary renders fully, then jump to it.
+      (['persona', 'layer', 'tier', 'locations', 'modules', 'watchtower', 'roi'] as const)
+        .forEach((id) => s.markStepCompleted(id));
+      s.setCurrentStep(7); // Review & Launch summary
+    } catch {
+      // Malformed cfg — fall through to the normal first-run flow.
+    } finally {
+      // Strip cfg so a refresh doesn't re-apply or clobber later edits.
+      window.history.replaceState(null, '', '/simulator');
+    }
   }, []);
 
   const stepComponents = [

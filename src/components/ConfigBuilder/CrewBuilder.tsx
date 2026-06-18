@@ -293,7 +293,7 @@ export function CrewBuilder() {
         <div className="bg-gradient-to-br from-[#FF7E6F]/10 to-teal-600/5 border-2 border-[#FF7E6F]/30 rounded-xl p-5 mb-5">
           <div className="flex items-start justify-between mb-3 gap-4">
             <div className="min-w-0">
-              <p className="text-xs uppercase tracking-wider text-[#FF7E6F] font-semibold mb-1">
+              <p className="text-xs uppercase tracking-wider text-sundae-muted font-semibold mb-1">
                 {quote.detectedBundleId ? 'Bundle auto-detected · 20% off' : 'Your Crew stack'}
               </p>
               <h3 className="text-lg font-bold text-white truncate">

@@ -8,8 +8,8 @@
   --color-sundae-dark: #15110D;
   --color-sundae-surface: #1F1A15;
   --color-sundae-surface-hover: #2A231C;
-  --color-sundae-text: #F8FAFC;
-  --color-sundae-muted: #94A3B8;
+  --color-sundae-text: #FBF8F4;   /* warm off-white (was cool slate #F8FAFC) - parity with sundae-website --text-display */
+  --color-sundae-muted: #A89F92;  /* warm muted (was cool slate-400 #94A3B8) */
   --color-sundae-accent: #FF5C4D;
   --color-sundae-success: #22C55E;
   --color-sundae-warning: #F59E0B;
@@ -33,6 +33,22 @@
   --color-cream-edge: #EAE0CE;
   --color-ink: #1A140F;             /* warm near-black on cream */
 
+  /* Warm neutral ramp - override Tailwind's COOL default `slate` scale so every
+     text-slate, bg-slate and border-slate utility in the app (and the .light
+     remaps below, which lean on slate) reads warm, not blue-grey. This is the
+     parity fix: the site leaned on cool slate for muted text, surfaces, borders. */
+  --color-slate-50:  #FAF7F2;
+  --color-slate-100: #F1ECE3;
+  --color-slate-200: #E5DDD0;
+  --color-slate-300: #D0C6B6;
+  --color-slate-400: #A89F92;
+  --color-slate-500: #8C8275;
+  --color-slate-600: #6B6157;
+  --color-slate-700: #4A4339;
+  --color-slate-800: #2A231C;
+  --color-slate-900: #1A140F;
+  --color-slate-950: #15110D;
+
   /* Box Shadows */
   --shadow-glow: 0 0 30px rgba(255, 92, 77, 0.5);
   --shadow-glow-lg: 0 0 50px rgba(255, 92, 77, 0.6);
@@ -47,11 +63,11 @@
 
 /* Light mode overrides */
 .light {
-  --color-sundae-dark: #F8FAFC;
+  --color-sundae-dark: #FAF7F2;        /* warm off-white surface (was cool #F8FAFC) */
   --color-sundae-surface: #FFFFFF;
-  --color-sundae-surface-hover: #F1F5F9;
+  --color-sundae-surface-hover: #F3EEE6; /* warm (was cool slate #F1F5F9) */
   --color-sundae-text: #15110D;
-  --color-sundae-muted: #64748B;
+  --color-sundae-muted: #6B6157;       /* warm muted ink (was cool slate-500 #64748B) */
   
   /* Adjust shadows for light mode */
   --shadow-glow: 0 0 30px rgba(255, 92, 77, 0.15);

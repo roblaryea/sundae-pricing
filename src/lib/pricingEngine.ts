@@ -551,6 +551,13 @@ export function applyDiscounts(
 
 export function calculateFullPrice(config: Configuration): PriceResult {
   const breakdown: PriceBreakdown[] = [];
+  // NOTE (intentional): the public marketing calculator shows BASE included
+  // seats only. The backend (config/pricing_master.ts → resolveTierAiSeats)
+  // grants a modest per-location block bonus (+1 seat per N extra units), which
+  // surfaces in the in-product quote/checkout. We deliberately do NOT mirror the
+  // bonus here — base-only understates (customer-safe) and preserves the
+  // à-la-carte seat-purchase incentive the bonus was calibrated for. Do not
+  // "sync" aiSeatsPerUnitBlock into this engine without a product decision.
   let aiCredits = 0, aiSeats = 0;
 
   // Determine the module tier key for tier-aware pricing

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../hooks/useConfiguration';
@@ -36,6 +36,27 @@ export function Simulator() {
       : Math.max(0, currentStep - 1);
   const backLabel =
     ({ en: 'Back', ar: 'رجوع', fr: 'Retour', es: 'Volver' } as Record<string, string>)[locale] ?? 'Back';
+
+  // The step bar sticks directly below the site header. Measure the header's real
+  // height (logo + subtitle; differs mobile vs desktop) instead of a hardcoded
+  // offset — otherwise the bar tucks BEHIND a header taller than the guess.
+  const [headerH, setHeaderH] = useState(96);
+  useEffect(() => {
+    const measure = () => {
+      const h = document.querySelector('header');
+      if (h) setHeaderH(Math.round(h.getBoundingClientRect().height));
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
+  // Open each step at the top. Without this, navigating next/back keeps the prior
+  // scroll position (usually the bottom, where the CTA was), so the new step
+  // appears scrolled to its bottom and the user has to scroll back up.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }, [currentStep]);
 
   useEffect(() => {
     // Add dark background to body
@@ -130,7 +151,7 @@ export function Simulator() {
     <div className="min-h-screen">
       {/* Progress indicator bar below header */}
       {currentStep > 0 && (
-        <div className="sticky top-[73px] md:top-[89px] z-40 py-3 px-4 md:px-8 border-b border-white/10 bg-sundae-dark/95 backdrop-blur-sm">
+        <div className="sticky z-40 py-3 px-4 md:px-8 border-b border-white/10 bg-sundae-dark/95 backdrop-blur-sm" style={{ top: headerH }}>
           <div className="max-w-7xl mx-auto relative flex items-center justify-center">
             {/* Always-visible (sticky) back, so every step — including the ROI and
                 Review & Launch summary — can navigate to the previous page. */}

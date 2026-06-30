@@ -7,6 +7,7 @@ import {
   TrendingUp,
   Clock,
   ChevronRight,
+  ChevronLeft,
   Users,
   Package,
   Megaphone,
@@ -79,6 +80,17 @@ export function ROISimulator() {
   const handleContinue = () => {
     setCurrentStep(7);
   };
+
+  const handleBack = () => {
+    setCurrentStep(5);
+  };
+
+  // Per-location helper + small locale labels (the pricing site runs en/ar/fr/es).
+  const perLoc = (n: number) => (locations > 0 ? Math.round(n / locations) : n);
+  const L = (m: Record<string, string>) => m[locale] ?? m.en;
+  const backLabel = L({ en: 'Back', ar: 'رجوع', fr: 'Retour', es: 'Volver' });
+  const perLocationLabel = L({ en: 'Per location', ar: 'لكل موقع', fr: 'Par site', es: 'Por local' });
+  const totalLabel = L({ en: 'Total', ar: 'الإجمالي', fr: 'Total', es: 'Total' });
 
   const topCategories = getTopSavingsCategories(roi.savingsLines);
   const hasMarketingModule = modules.includes('marketing');
@@ -250,12 +262,22 @@ export function ROISimulator() {
             <div className="font-display text-3xl font-bold text-green-400">
               ${roi.monthlySavings.toLocaleString(locale)}
             </div>
+            {locations > 1 && (
+              <div className="text-xs text-sundae-muted mt-1">
+                ${perLoc(roi.monthlySavings).toLocaleString(locale)} {perLocationLabel}
+              </div>
+            )}
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.annualSavings}</div>
             <div className="font-display text-3xl font-bold text-green-400">
               ${roi.annualSavings.toLocaleString(locale)}
             </div>
+            {locations > 1 && (
+              <div className="text-xs text-sundae-muted mt-1">
+                ${perLoc(roi.annualSavings).toLocaleString(locale)} {perLocationLabel}
+              </div>
+            )}
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.roiMultiple}</div>
@@ -283,14 +305,20 @@ export function ROISimulator() {
           transition={{ delay: 0.3 }}
           className="bg-sundae-surface rounded-xl p-8 mb-8"
         >
-          <h3 className="text-lg font-bold mb-6">{copy.savingsBreakdown}</h3>
+          <h3 className="text-lg font-bold mb-4">{copy.savingsBreakdown}</h3>
 
+          {/* Two-column header: per-location vs total-across-all-locations */}
+          <div className="flex items-baseline justify-end gap-4 mb-3 pr-0.5">
+            <span className="w-20 sm:w-24 text-right text-[11px] font-semibold uppercase tracking-wide text-sundae-muted">{perLocationLabel}</span>
+            <span className="w-24 sm:w-28 text-right text-[11px] font-semibold uppercase tracking-wide text-sundae-muted">{totalLabel}</span>
+          </div>
           <div className="space-y-4">
             {roi.savingsLines.map((line) => (
               <SavingsLineRow
                 key={line.moduleId}
                 line={line}
                 totalSavings={roi.monthlySavings}
+                locations={locations}
                 isHovered={hoveredTooltip === line.moduleId}
                 onHover={(id) => setHoveredTooltip(id)}
                 locale={locale as PricingUiLocale}
@@ -377,8 +405,15 @@ export function ROISimulator() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
-        className="text-center"
+        className="flex flex-col sm:flex-row items-center justify-center gap-4"
       >
+        <button
+          onClick={handleBack}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-sundae-surface hover:bg-sundae-surface-hover border border-white/10 hover:border-white/20 transition-colors font-semibold"
+        >
+          <ChevronLeft className="w-5 h-5" />
+          {backLabel}
+        </button>
         <button
           onClick={handleContinue}
           className="button-primary inline-flex items-center gap-2"
@@ -394,6 +429,7 @@ export function ROISimulator() {
 function SavingsLineRow({
   line,
   totalSavings,
+  locations,
   isHovered,
   onHover,
   locale,
@@ -401,6 +437,7 @@ function SavingsLineRow({
 }: {
   line: SavingsLineItem;
   totalSavings: number;
+  locations: number;
   isHovered: boolean;
   onHover: (id: string | null) => void;
   locale: PricingUiLocale;
@@ -424,13 +461,22 @@ function SavingsLineRow({
             <Info className="w-3 h-3" />
           </button>
         </span>
-        <span className={cn('text-sm font-bold', showMissing ? 'text-amber-400' : '')}>
-          {showMissing ? (
+        {showMissing ? (
+          <span className="text-sm font-bold text-amber-400">
             <span className="text-xs">{line.missingInputMessage}</span>
-          ) : (
-            `$${line.amount.toLocaleString(locale)}${copy.perMonthShort}`
-          )}
-        </span>
+          </span>
+        ) : (
+          <span className="flex items-baseline gap-4 flex-none tabular-nums">
+            <span className="w-20 sm:w-24 text-right text-sm text-sundae-muted">
+              ${(locations > 0 ? Math.round(line.amount / locations) : line.amount).toLocaleString(locale)}
+              {copy.perMonthShort}
+            </span>
+            <span className="w-24 sm:w-28 text-right text-sm font-bold">
+              ${line.amount.toLocaleString(locale)}
+              {copy.perMonthShort}
+            </span>
+          </span>
+        )}
       </div>
 
       {!showMissing && (

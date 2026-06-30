@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../hooks/useConfiguration';
+import { useLocale } from '../contexts/LocaleContext';
 import type { CrewSkuId } from '../types/configuration';
 import { PathwaySelector } from '../components/PathwaySelector/PathwaySelector';
 import { LayerStack } from '../components/ConfigBuilder/LayerStack';
@@ -17,8 +19,23 @@ import { useLivePricingCatalog } from '../data/livePricing';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
 
 export function Simulator() {
-  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer } = useConfiguration();
+  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer, modules } = useConfiguration();
   const livePricing = useLivePricingCatalog();
+  const { locale } = useLocale();
+  // Where "Back" goes from each step, honoring path-specific skips (Crew collapses
+  // to one builder step; Report skips modules/watchtower/ROI before the summary).
+  const backTarget =
+    currentStep === 7
+      ? layer === 'crew'
+        ? 2
+        : layer === 'report'
+          ? 3
+          : modules.length > 0
+            ? 6
+            : 5
+      : Math.max(0, currentStep - 1);
+  const backLabel =
+    ({ en: 'Back', ar: 'رجوع', fr: 'Retour', es: 'Volver' } as Record<string, string>)[locale] ?? 'Back';
 
   useEffect(() => {
     // Add dark background to body
@@ -114,7 +131,17 @@ export function Simulator() {
       {/* Progress indicator bar below header */}
       {currentStep > 0 && (
         <div className="sticky top-[73px] md:top-[89px] z-40 py-3 px-4 md:px-8 border-b border-white/10 bg-sundae-dark/95 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto flex items-center justify-center">
+          <div className="max-w-7xl mx-auto relative flex items-center justify-center">
+            {/* Always-visible (sticky) back, so every step — including the ROI and
+                Review & Launch summary — can navigate to the previous page. */}
+            <button
+              onClick={() => setCurrentStep(backTarget)}
+              className="absolute left-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-sundae-muted transition-colors hover:bg-sundae-surface hover:text-white"
+              aria-label={backLabel}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span className="hidden sm:inline">{backLabel}</span>
+            </button>
             <ProgressIndicator
               steps={journeySteps}
               onStepClick={setCurrentStep}

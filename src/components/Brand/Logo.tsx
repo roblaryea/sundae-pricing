@@ -1,65 +1,35 @@
-// Reusable Sundae logo component - Single source of truth for branding
+// Reusable Sundae logo component - Single source of truth for branding.
+// The mark + Fraunces logotype lockup mirrors the marketing site navbar so the
+// brand reads identically across marketing, pricing, and app surfaces.
 
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../contexts/ThemeContext';
+import { SundaeMark } from './SundaeMark';
+import { SundaeLogotype } from './SundaeLogotype';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   linkToHome?: boolean;
-  variant?: 'wordmark'; // Only wordmark for now
+  variant?: 'wordmark'; // retained for API compatibility
 }
 
 const sizeMap = {
-  sm: 'h-8 md:h-9', // 32-36px (was 24-28px, +33%)
-  md: 'h-9 md:h-11', // 36-44px (was 28-32px, +35%)
-  lg: 'h-11 md:h-13', // 44-52px (was 32-40px, +30%)
+  sm: { mark: 26, text: 'text-[20px]', gap: 'gap-2' },
+  md: { mark: 30, text: 'text-[24px]', gap: 'gap-2.5' },
+  lg: { mark: 34, text: 'text-[30px]', gap: 'gap-2.5' },
 };
 
 export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) {
   const { theme } = useTheme();
-  const logoSrc = theme === 'dark' ? '/logos/sundae-wordmark-white.svg' : '/logos/sundae-wordmark.svg';
-
-  const logoImg = (
-    <img
-      src={logoSrc}
-      alt="Sundae"
-      className={cn(
-        sizeMap[size],
-        'w-auto object-contain',
-        className
-      )}
-      onError={(e) => {
-        // Fallback to text if image fails to load
-        const target = e.currentTarget;
-        target.style.display = 'none';
-        const fallback = target.nextElementSibling as HTMLElement;
-        if (fallback) {
-          fallback.style.display = 'block';
-        }
-      }}
-    />
-  );
-
-  const fallbackText = (
-    <span
-      className={cn(
-        theme === 'dark' ? 'font-bold text-white hidden' : 'font-bold bg-gradient-primary bg-clip-text text-transparent hidden',
-        size === 'sm' && 'text-xl',
-        size === 'md' && 'text-2xl md:text-3xl',
-        size === 'lg' && 'text-3xl md:text-4xl',
-        className
-      )}
-    >
-      Sundae
-    </span>
-  );
+  const { mark, text, gap } = sizeMap[size];
+  const textColor = theme === 'dark' ? '#FBF8F4' : '#2A2320';
 
   const logoContent = (
-    <>
-      {logoImg}
-      {fallbackText}
-    </>
+    <span className={cn('inline-flex items-center', gap, className)}>
+      <SundaeMark size={mark} className="flex-shrink-0" />
+      <SundaeLogotype className={text} style={{ color: textColor }} />
+    </span>
   );
 
   if (linkToHome) {
@@ -67,7 +37,7 @@ export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) 
       <a
         href="/"
         aria-label="Sundae home"
-        className="inline-flex items-center hover:opacity-80 transition-opacity"
+        className="inline-flex items-center transition-opacity hover:opacity-80"
       >
         {logoContent}
       </a>

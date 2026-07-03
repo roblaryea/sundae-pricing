@@ -7432,13 +7432,13 @@ export const generatedAuxiliaryLocalePacks = {
   "questionText": {
     "de": {
       "locations": {
-        "question": "Wie viele Standorte gibt es in Ihrem Königreich?",
-        "subtitle": "Lassen Sie uns die Größe Ihres Imperiums verstehen",
+        "question": "Wie viele Standorte umfasst Ihr Portfolio?",
+        "subtitle": "Lassen Sie uns den Umfang Ihres Betriebs verstehen",
         "options": {
-          "solo": "Solo-Act",
-          "small": "Kleiner Trupp",
-          "growing": "Wachsendes Imperium",
-          "enterprise": "Restaurant-Königshaus"
+          "solo": "Einzelstandort",
+          "small": "Kleine Gruppe",
+          "growing": "Wachsende Gruppe",
+          "enterprise": "Unternehmensgruppe"
         }
       },
       "pain": {
@@ -7483,13 +7483,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "nl": {
       "locations": {
-        "question": "Hoeveel locaties zijn er in jouw koninkrijk?",
-        "subtitle": "Laten we de omvang van je imperium begrijpen",
+        "question": "Hoeveel locaties heb je in je portfolio?",
+        "subtitle": "Laten we de omvang van je operatie begrijpen",
         "options": {
-          "solo": "Solo-act",
-          "small": "Kleine ploeg",
-          "growing": "Groeiend imperium",
-          "enterprise": "Restaurant Royalty"
+          "solo": "Eén locatie",
+          "small": "Kleine groep",
+          "growing": "Groeiende groep",
+          "enterprise": "Enterprisegroep"
         }
       },
       "pain": {
@@ -7534,13 +7534,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "pt": {
       "locations": {
-        "question": "Quantos locais existem em seu reino?",
-        "subtitle": "Vamos entender a escala do seu império",
+        "question": "Quantas unidades você tem no seu portfólio?",
+        "subtitle": "Vamos entender a escala da sua operação",
         "options": {
-          "solo": "Ato Solo",
-          "small": "Esquadrão Pequeno",
-          "growing": "Império Crescente",
-          "enterprise": "Realeza dos Restaurantes"
+          "solo": "Local Único",
+          "small": "Grupo Pequeno",
+          "growing": "Grupo em Crescimento",
+          "enterprise": "Grupo Empresarial"
         }
       },
       "pain": {
@@ -7585,13 +7585,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "hi": {
       "locations": {
-        "question": "आपके राज्य में कितने स्थान हैं?",
-        "subtitle": "आइए आपके साम्राज्य के पैमाने को समझें",
+        "question": "आपके पोर्टफोलियो में कितने स्थान हैं?",
+        "subtitle": "आइए आपके संचालन के पैमाने को समझें",
         "options": {
-          "solo": "एकल अभिनय",
-          "small": "छोटा दस्ता",
-          "growing": "बढ़ता हुआ साम्राज्य",
-          "enterprise": "रेस्टोरेंट रॉयल्टी"
+          "solo": "एकल स्थान",
+          "small": "छोटा समूह",
+          "growing": "बढ़ता हुआ समूह",
+          "enterprise": "एंटरप्राइज़ समूह"
         }
       },
       "pain": {
@@ -7636,13 +7636,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ur": {
       "locations": {
-        "question": "آپ کی مملکت میں کتنے مقامات ہیں؟",
-        "subtitle": "آئیے آپ کی سلطنت کے پیمانے کو سمجھیں۔",
+        "question": "آپ کے پورٹ فولیو میں کتنے مقامات ہیں؟",
+        "subtitle": "آئیے آپ کے آپریشن کے پیمانے کو سمجھیں۔",
         "options": {
-          "solo": "سولو ایکٹ",
-          "small": "چھوٹا دستہ",
-          "growing": "بڑھتی ہوئی سلطنت",
-          "enterprise": "ریستوراں رائلٹی"
+          "solo": "واحد مقام",
+          "small": "چھوٹا گروپ",
+          "growing": "بڑھتا ہوا گروپ",
+          "enterprise": "انٹرپرائز گروپ"
         }
       },
       "pain": {
@@ -7687,13 +7687,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "it": {
       "locations": {
-        "question": "Quante località ci sono nel tuo regno?",
-        "subtitle": "Comprendiamo le dimensioni del tuo impero",
+        "question": "Quante sedi ci sono nel tuo portfolio?",
+        "subtitle": "Comprendiamo le dimensioni della tua attività",
         "options": {
-          "solo": "Atto solista",
-          "small": "Piccola squadra",
-          "growing": "Impero in crescita",
-          "enterprise": "Re della ristorazione"
+          "solo": "Sede singola",
+          "small": "Piccolo gruppo",
+          "growing": "Gruppo in crescita",
+          "enterprise": "Gruppo aziendale"
         }
       },
       "pain": {
@@ -7738,13 +7738,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "pl": {
       "locations": {
-        "question": "Ile lokalizacji znajduje się w Twoim królestwie?",
-        "subtitle": "Rozumiemy skalę Twojego imperium",
+        "question": "Ile lokalizacji masz w swoim portfolio?",
+        "subtitle": "Poznajmy skalę Twojej działalności",
         "options": {
-          "solo": "Występ solo",
-          "small": "Mały skład",
-          "growing": "Rosnące Imperium",
-          "enterprise": "Restauracyjny ród królewski"
+          "solo": "Jedna lokalizacja",
+          "small": "Mała grupa",
+          "growing": "Rosnąca grupa",
+          "enterprise": "Grupa korporacyjna"
         }
       },
       "pain": {
@@ -7789,13 +7789,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "tr": {
       "locations": {
-        "question": "Krallığınızda kaç yer var?",
-        "subtitle": "İmparatorluğunuzun ölçeğini anlayalım",
+        "question": "Portföyünüzde kaç lokasyon var?",
+        "subtitle": "İşletmenizin ölçeğini anlayalım",
         "options": {
-          "solo": "Tek Başına",
-          "small": "Küçük Kadro",
-          "growing": "Büyüyen İmparatorluk",
-          "enterprise": "Restoran Hanedanı"
+          "solo": "Tek Lokasyon",
+          "small": "Küçük Grup",
+          "growing": "Büyüyen Grup",
+          "enterprise": "Kurumsal Grup"
         }
       },
       "pain": {
@@ -7840,13 +7840,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "zh-Hans": {
       "locations": {
-        "question": "你的王国有多少个地点？",
-        "subtitle": "让我们了解您的帝国的规模",
+        "question": "您的业务组合中有多少个门店？",
+        "subtitle": "让我们了解一下您的运营规模",
         "options": {
-          "solo": "独奏表演",
-          "small": "小分队",
-          "growing": "成长中的帝国",
-          "enterprise": "餐厅皇室"
+          "solo": "单一门店",
+          "small": "小型集团",
+          "growing": "成长型集团",
+          "enterprise": "企业集团"
         }
       },
       "pain": {
@@ -7891,13 +7891,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ja": {
       "locations": {
-        "question": "あなたの王国にはいくつの拠点がありますか？",
-        "subtitle": "あなたの帝国の規模を理解しましょう",
+        "question": "ポートフォリオにはいくつの店舗がありますか？",
+        "subtitle": "あなたの事業の規模を把握しましょう",
         "options": {
-          "solo": "ソロアクト",
-          "small": "小部隊",
-          "growing": "成長する帝国",
-          "enterprise": "レストランの王者"
+          "solo": "単一店舗",
+          "small": "小規模グループ",
+          "growing": "成長中のグループ",
+          "enterprise": "エンタープライズグループ"
         }
       },
       "pain": {
@@ -7942,13 +7942,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ko": {
       "locations": {
-        "question": "당신의 왕국에는 몇 개의 장소가 있나요?",
-        "subtitle": "당신의 제국의 규모를 이해합시다",
+        "question": "운영 중인 매장은 몇 곳인가요?",
+        "subtitle": "귀사의 운영 규모를 파악해 보겠습니다",
         "options": {
-          "solo": "솔로 액트",
-          "small": "소규모 분대",
-          "growing": "성장하는 제국",
-          "enterprise": "레스토랑 왕가"
+          "solo": "단일 매장",
+          "small": "소규모 그룹",
+          "growing": "성장하는 그룹",
+          "enterprise": "엔터프라이즈 그룹"
         }
       },
       "pain": {
@@ -7993,13 +7993,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "id": {
       "locations": {
-        "question": "Berapa banyak lokasi di kerajaan Anda?",
-        "subtitle": "Mari kita pahami skala kerajaan Anda",
+        "question": "Berapa banyak lokasi dalam portofolio Anda?",
+        "subtitle": "Mari kita pahami skala operasi Anda",
         "options": {
-          "solo": "Aksi Tunggal",
-          "small": "Pasukan Kecil",
-          "growing": "Kekaisaran yang Berkembang",
-          "enterprise": "Dinasti Restoran"
+          "solo": "Lokasi Tunggal",
+          "small": "Grup Kecil",
+          "growing": "Grup yang Berkembang",
+          "enterprise": "Grup Enterprise"
         }
       },
       "pain": {
@@ -8044,13 +8044,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "vi": {
       "locations": {
-        "question": "Có bao nhiêu địa điểm trong vương quốc của bạn?",
-        "subtitle": "Hãy hiểu quy mô đế chế của bạn",
+        "question": "Bạn có bao nhiêu địa điểm trong danh mục của mình?",
+        "subtitle": "Hãy cùng tìm hiểu quy mô hoạt động của bạn",
         "options": {
-          "solo": "Màn solo",
-          "small": "Tiểu đội",
-          "growing": "Đế chế đang phát triển",
-          "enterprise": "Nhà hàng Hoàng gia"
+          "solo": "Một địa điểm",
+          "small": "Nhóm nhỏ",
+          "growing": "Nhóm đang phát triển",
+          "enterprise": "Tập đoàn doanh nghiệp"
         }
       },
       "pain": {
@@ -8095,13 +8095,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ro": {
       "locations": {
-        "question": "Câte locații sunt în regatul tău?",
-        "subtitle": "Să înțelegem amploarea imperiului tău",
+        "question": "Câte locații ai în portofoliul tău?",
+        "subtitle": "Să înțelegem amploarea operațiunii tale",
         "options": {
-          "solo": "Act solo",
-          "small": "Echipa mică",
-          "growing": "Imperiu în creștere",
-          "enterprise": "Dinastie de restaurante"
+          "solo": "Locație unică",
+          "small": "Grup mic",
+          "growing": "Grup în creștere",
+          "enterprise": "Grup enterprise"
         }
       },
       "pain": {
@@ -8146,13 +8146,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "sv": {
       "locations": {
-        "question": "Hur många platser finns i ditt kungarike?",
-        "subtitle": "Låt oss förstå omfattningen av ditt imperium",
+        "question": "Hur många platser har du i din portfölj?",
+        "subtitle": "Låt oss förstå omfattningen av din verksamhet",
         "options": {
-          "solo": "Soloakt",
-          "small": "Liten trupp",
-          "growing": "Växande imperium",
-          "enterprise": "Restaurangkunglighet"
+          "solo": "En plats",
+          "small": "Liten grupp",
+          "growing": "Växande grupp",
+          "enterprise": "Företagsgrupp"
         }
       },
       "pain": {
@@ -8197,13 +8197,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "bn": {
       "locations": {
-        "question": "আপনার রাজ্যে কয়টি অবস্থান আছে?",
-        "subtitle": "আসুন আপনার সাম্রাজ্যের স্কেল বুঝতে পারি",
+        "question": "আপনার পোর্টফোলিওতে কতগুলো লোকেশন আছে?",
+        "subtitle": "আসুন আপনার পরিচালনার পরিসর বুঝে নিই",
         "options": {
-          "solo": "একক পরিবেশনা",
-          "small": "ছোট স্কোয়াড",
-          "growing": "ক্রমবর্ধমান সাম্রাজ্য",
-          "enterprise": "রেস্টুরেন্ট রয়্যালটি"
+          "solo": "একক অবস্থান",
+          "small": "ছোট গ্রুপ",
+          "growing": "ক্রমবর্ধমান গ্রুপ",
+          "enterprise": "এন্টারপ্রাইজ গ্রুপ"
         }
       },
       "pain": {
@@ -8248,13 +8248,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "th": {
       "locations": {
-        "question": "อาณาจักรของคุณมีกี่แห่ง?",
-        "subtitle": "มาทำความเข้าใจขนาดของอาณาจักรของคุณกันดีกว่า",
+        "question": "พอร์ตโฟลิโอของคุณมีกี่สาขา?",
+        "subtitle": "มาทำความเข้าใจขนาดของธุรกิจคุณกันดีกว่า",
         "options": {
-          "solo": "นักแสดงเดี่ยว",
-          "small": "กองเล็ก",
-          "growing": "อาณาจักรที่กำลังเติบโต",
-          "enterprise": "ร้านอาหารราชวงศ์"
+          "solo": "สาขาเดียว",
+          "small": "กลุ่มขนาดเล็ก",
+          "growing": "กลุ่มที่กำลังเติบโต",
+          "enterprise": "กลุ่มองค์กร"
         }
       },
       "pain": {
@@ -8299,13 +8299,13 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ms": {
       "locations": {
-        "question": "Berapa banyak lokasi di kerajaan anda?",
-        "subtitle": "Mari fahami skala empayar anda",
+        "question": "Berapa banyak lokasi dalam portfolio anda?",
+        "subtitle": "Mari fahami skala operasi anda",
         "options": {
-          "solo": "Persembahan Solo",
-          "small": "Skuad Kecil",
-          "growing": "Empayar yang Berkembang",
-          "enterprise": "Restoran Diraja"
+          "solo": "Lokasi Tunggal",
+          "small": "Kumpulan Kecil",
+          "growing": "Kumpulan yang Berkembang",
+          "enterprise": "Kumpulan Perusahaan"
         }
       },
       "pain": {

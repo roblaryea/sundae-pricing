@@ -84,8 +84,8 @@ export const personas: Record<string, Persona> = {
 export const quizQuestions: QuizQuestion[] = [
   {
     id: "locations",
-    question: "How many locations are in your kingdom?",
-    subtitle: "Let's understand the scale of your empire",
+    question: "How many locations are in your portfolio?",
+    subtitle: "Let's understand the scale of your operation",
     multiSelect: false,
     options: [
       {

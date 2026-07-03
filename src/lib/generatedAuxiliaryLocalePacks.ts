@@ -7432,8 +7432,8 @@ export const generatedAuxiliaryLocalePacks = {
   "questionText": {
     "de": {
       "locations": {
-        "question": "Wie viele Standorte gibt es in Ihrem Königreich?",
-        "subtitle": "Lassen Sie uns die Größe Ihres Imperiums verstehen",
+        "question": "Wie viele Standorte umfasst Ihr Portfolio?",
+        "subtitle": "Lassen Sie uns den Umfang Ihres Betriebs verstehen",
         "options": {
           "solo": "Solo-Act",
           "small": "Kleiner Trupp",
@@ -7483,8 +7483,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "nl": {
       "locations": {
-        "question": "Hoeveel locaties zijn er in jouw koninkrijk?",
-        "subtitle": "Laten we de omvang van je imperium begrijpen",
+        "question": "Hoeveel locaties heb je in je portfolio?",
+        "subtitle": "Laten we de omvang van je operatie begrijpen",
         "options": {
           "solo": "Solo-act",
           "small": "Kleine ploeg",
@@ -7534,8 +7534,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "pt": {
       "locations": {
-        "question": "Quantos locais existem em seu reino?",
-        "subtitle": "Vamos entender a escala do seu império",
+        "question": "Quantas unidades você tem no seu portfólio?",
+        "subtitle": "Vamos entender a escala da sua operação",
         "options": {
           "solo": "Ato Solo",
           "small": "Esquadrão Pequeno",
@@ -7585,8 +7585,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "hi": {
       "locations": {
-        "question": "आपके राज्य में कितने स्थान हैं?",
-        "subtitle": "आइए आपके साम्राज्य के पैमाने को समझें",
+        "question": "आपके पोर्टफोलियो में कितने स्थान हैं?",
+        "subtitle": "आइए आपके संचालन के पैमाने को समझें",
         "options": {
           "solo": "एकल अभिनय",
           "small": "छोटा दस्ता",
@@ -7636,8 +7636,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ur": {
       "locations": {
-        "question": "آپ کی مملکت میں کتنے مقامات ہیں؟",
-        "subtitle": "آئیے آپ کی سلطنت کے پیمانے کو سمجھیں۔",
+        "question": "آپ کے پورٹ فولیو میں کتنے مقامات ہیں؟",
+        "subtitle": "آئیے آپ کے آپریشن کے پیمانے کو سمجھیں۔",
         "options": {
           "solo": "سولو ایکٹ",
           "small": "چھوٹا دستہ",
@@ -7687,8 +7687,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "it": {
       "locations": {
-        "question": "Quante località ci sono nel tuo regno?",
-        "subtitle": "Comprendiamo le dimensioni del tuo impero",
+        "question": "Quante sedi ci sono nel tuo portfolio?",
+        "subtitle": "Comprendiamo le dimensioni della tua attività",
         "options": {
           "solo": "Atto solista",
           "small": "Piccola squadra",
@@ -7738,8 +7738,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "pl": {
       "locations": {
-        "question": "Ile lokalizacji znajduje się w Twoim królestwie?",
-        "subtitle": "Rozumiemy skalę Twojego imperium",
+        "question": "Ile lokalizacji masz w swoim portfolio?",
+        "subtitle": "Poznajmy skalę Twojej działalności",
         "options": {
           "solo": "Występ solo",
           "small": "Mały skład",
@@ -7789,8 +7789,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "tr": {
       "locations": {
-        "question": "Krallığınızda kaç yer var?",
-        "subtitle": "İmparatorluğunuzun ölçeğini anlayalım",
+        "question": "Portföyünüzde kaç lokasyon var?",
+        "subtitle": "İşletmenizin ölçeğini anlayalım",
         "options": {
           "solo": "Tek Başına",
           "small": "Küçük Kadro",
@@ -7840,8 +7840,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "zh-Hans": {
       "locations": {
-        "question": "你的王国有多少个地点？",
-        "subtitle": "让我们了解您的帝国的规模",
+        "question": "您的业务组合中有多少个门店？",
+        "subtitle": "让我们了解一下您的运营规模",
         "options": {
           "solo": "独奏表演",
           "small": "小分队",
@@ -7891,8 +7891,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ja": {
       "locations": {
-        "question": "あなたの王国にはいくつの拠点がありますか？",
-        "subtitle": "あなたの帝国の規模を理解しましょう",
+        "question": "ポートフォリオにはいくつの店舗がありますか？",
+        "subtitle": "あなたの事業の規模を把握しましょう",
         "options": {
           "solo": "ソロアクト",
           "small": "小部隊",
@@ -7942,8 +7942,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ko": {
       "locations": {
-        "question": "당신의 왕국에는 몇 개의 장소가 있나요?",
-        "subtitle": "당신의 제국의 규모를 이해합시다",
+        "question": "운영 중인 매장은 몇 곳인가요?",
+        "subtitle": "귀사의 운영 규모를 파악해 보겠습니다",
         "options": {
           "solo": "솔로 액트",
           "small": "소규모 분대",
@@ -7993,8 +7993,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "id": {
       "locations": {
-        "question": "Berapa banyak lokasi di kerajaan Anda?",
-        "subtitle": "Mari kita pahami skala kerajaan Anda",
+        "question": "Berapa banyak lokasi dalam portofolio Anda?",
+        "subtitle": "Mari kita pahami skala operasi Anda",
         "options": {
           "solo": "Aksi Tunggal",
           "small": "Pasukan Kecil",
@@ -8044,8 +8044,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "vi": {
       "locations": {
-        "question": "Có bao nhiêu địa điểm trong vương quốc của bạn?",
-        "subtitle": "Hãy hiểu quy mô đế chế của bạn",
+        "question": "Bạn có bao nhiêu địa điểm trong danh mục của mình?",
+        "subtitle": "Hãy cùng tìm hiểu quy mô hoạt động của bạn",
         "options": {
           "solo": "Màn solo",
           "small": "Tiểu đội",
@@ -8095,8 +8095,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ro": {
       "locations": {
-        "question": "Câte locații sunt în regatul tău?",
-        "subtitle": "Să înțelegem amploarea imperiului tău",
+        "question": "Câte locații ai în portofoliul tău?",
+        "subtitle": "Să înțelegem amploarea operațiunii tale",
         "options": {
           "solo": "Act solo",
           "small": "Echipa mică",
@@ -8146,8 +8146,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "sv": {
       "locations": {
-        "question": "Hur många platser finns i ditt kungarike?",
-        "subtitle": "Låt oss förstå omfattningen av ditt imperium",
+        "question": "Hur många platser har du i din portfölj?",
+        "subtitle": "Låt oss förstå omfattningen av din verksamhet",
         "options": {
           "solo": "Soloakt",
           "small": "Liten trupp",
@@ -8197,8 +8197,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "bn": {
       "locations": {
-        "question": "আপনার রাজ্যে কয়টি অবস্থান আছে?",
-        "subtitle": "আসুন আপনার সাম্রাজ্যের স্কেল বুঝতে পারি",
+        "question": "আপনার পোর্টফোলিওতে কতগুলো লোকেশন আছে?",
+        "subtitle": "আসুন আপনার পরিচালনার পরিসর বুঝে নিই",
         "options": {
           "solo": "একক পরিবেশনা",
           "small": "ছোট স্কোয়াড",
@@ -8248,8 +8248,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "th": {
       "locations": {
-        "question": "อาณาจักรของคุณมีกี่แห่ง?",
-        "subtitle": "มาทำความเข้าใจขนาดของอาณาจักรของคุณกันดีกว่า",
+        "question": "พอร์ตโฟลิโอของคุณมีกี่สาขา?",
+        "subtitle": "มาทำความเข้าใจขนาดของธุรกิจคุณกันดีกว่า",
         "options": {
           "solo": "นักแสดงเดี่ยว",
           "small": "กองเล็ก",
@@ -8299,8 +8299,8 @@ export const generatedAuxiliaryLocalePacks = {
     },
     "ms": {
       "locations": {
-        "question": "Berapa banyak lokasi di kerajaan anda?",
-        "subtitle": "Mari fahami skala empayar anda",
+        "question": "Berapa banyak lokasi dalam portfolio anda?",
+        "subtitle": "Mari fahami skala operasi anda",
         "options": {
           "solo": "Persembahan Solo",
           "small": "Skuad Kecil",

@@ -90,29 +90,29 @@ export const quizQuestions: QuizQuestion[] = [
     options: [
       {
         id: "solo",
-        label: "Solo Act",
+        label: "Single Location",
         emoji: "store",
         value: 1,
         weight: { explorer: 10, optimizer: 0, commander: 0, strategist: 0 }
       },
       {
         id: "small",
-        label: "Small Squad",
+        label: "Small Group",
         emoji: "building",
         value: 3,
         weight: { explorer: 5, optimizer: 10, commander: 3, strategist: 0 }
       },
       {
         id: "growing",
-        label: "Growing Empire",
-        emoji: "building",
+        label: "Growing Group",
+        emoji: "trending-up",
         value: 8,
         weight: { explorer: 0, optimizer: 5, commander: 10, strategist: 5 }
       },
       {
         id: "enterprise",
-        label: "Restaurant Royalty",
-        emoji: "crown",
+        label: "Enterprise Group",
+        emoji: "building",
         value: 25,
         weight: { explorer: 0, optimizer: 0, commander: 5, strategist: 10 }
       }

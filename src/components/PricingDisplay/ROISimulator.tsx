@@ -30,6 +30,7 @@ import {
 import type { SavingsLineItem } from '../../hooks/useROICalculation';
 import { cn } from '../../utils/cn';
 import { useLocale } from '../../contexts/LocaleContext';
+import { tMicro } from '../../lib/pricingI18n';
 import {
   formatMessage,
   getRoiCopy,
@@ -85,12 +86,11 @@ export function ROISimulator() {
     setCurrentStep(5);
   };
 
-  // Per-location helper + small locale labels (the pricing site runs en/ar/fr/es).
+  // Per-location helper + small locale labels (localized across all 22 locales via tMicro).
   const perLoc = (n: number) => (locations > 0 ? Math.round(n / locations) : n);
-  const L = (m: Record<string, string>) => m[locale] ?? m.en;
-  const backLabel = L({ en: 'Back', ar: 'رجوع', fr: 'Retour', es: 'Volver' });
-  const perLocationLabel = L({ en: 'Per location', ar: 'لكل موقع', fr: 'Par site', es: 'Por local' });
-  const totalLabel = L({ en: 'Total', ar: 'الإجمالي', fr: 'Total', es: 'Total' });
+  const backLabel = tMicro(locale, 'back');
+  const perLocationLabel = tMicro(locale, 'perLocation');
+  const totalLabel = tMicro(locale, 'total');
 
   const topCategories = getTopSavingsCategories(roi.savingsLines);
   const hasMarketingModule = modules.includes('marketing');

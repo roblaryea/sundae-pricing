@@ -17,7 +17,7 @@ export function SiteHeader() {
     'Language';
 
   return (
-    <header className="sticky top-0 z-50 py-4 md:py-6 px-4 md:px-8 border-b border-white/10 bg-sundae-dark/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 py-4 md:py-6 px-4 md:px-8 border-b border-white/[0.08] bg-sundae-dark/80 backdrop-blur-md">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Left: Logo */}
         <div className="min-w-0">

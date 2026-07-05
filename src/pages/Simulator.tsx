@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../hooks/useConfiguration';
 import { useLocale } from '../contexts/LocaleContext';
+import { tMicro } from '../lib/pricingI18n';
 import type { CrewSkuId } from '../types/configuration';
 import { PathwaySelector } from '../components/PathwaySelector/PathwaySelector';
 import { LayerStack } from '../components/ConfigBuilder/LayerStack';
@@ -34,8 +35,7 @@ export function Simulator() {
             ? 6
             : 5
       : Math.max(0, currentStep - 1);
-  const backLabel =
-    ({ en: 'Back', ar: 'رجوع', fr: 'Retour', es: 'Volver' } as Record<string, string>)[locale] ?? 'Back';
+  const backLabel = tMicro(locale, 'back');
 
   // The step bar sticks directly below the site header. Measure the header's real
   // height (logo + subtitle; differs mobile vs desktop) instead of a hardcoded

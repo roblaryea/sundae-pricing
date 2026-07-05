@@ -7,6 +7,7 @@ import type { Achievement } from '../../data/personas';
 import { getLocalizedAchievement } from '../../data/personas';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { useLocale } from '../../contexts/LocaleContext';
+import { tMicro } from '../../lib/pricingI18n';
 
 interface AchievementNotificationProps {
   achievement: Achievement;
@@ -21,7 +22,7 @@ export function AchievementNotification({ achievement }: AchievementNotification
   const { dismissAchievement } = useConfiguration();
   const { locale } = useLocale();
   const localizedAchievement = getLocalizedAchievement(locale, achievement);
-  const pointsLabel = locale === 'ar' ? 'نقطة' : locale === 'es' ? 'puntos' : 'points';
+  const pointsLabel = tMicro(locale, 'points');
 
   return (
     <motion.div

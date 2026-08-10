@@ -274,7 +274,9 @@ export function LocationSlider() {
             transition={{ delay: 0.3 }}
             className="p-4 bg-sundae-dark/50 rounded-lg"
           >
-            <div className="text-sm text-sundae-muted mb-1">{copy.perLocation}</div>
+            {/* DERIVED AVERAGE (total / units) — bands are marginal, so this
+                is never a per-location rate card. */}
+            <div className="text-sm text-sundae-muted mb-1">Avg · {copy.perLocation}</div>
             <div className="font-display text-3xl font-bold tabular-nums">
               ${pricing.perLocation.toFixed(0)}
             </div>

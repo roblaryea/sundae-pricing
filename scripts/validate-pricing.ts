@@ -115,6 +115,28 @@ check('crewBundles.crew_schedule_time_bundle.basePrice', 249, crewBundles.crew_s
 check('crewBundles.crew_suite_bundle.basePrice', 499, crewBundles.crew_suite_bundle.basePrice);
 check('crewBundles.crew_complete_bundle.basePrice', 699, crewBundles.crew_complete_bundle.basePrice);
 
+// Crew is a FLAT monthly price under v1.7 — no per-location adder, no
+// included-location allowance, no per-SKU setup fee to sum, and no bundle
+// discount percentage (bundle prices are named NET figures).
+for (const [id, sku] of Object.entries(crewSkus)) {
+  for (const forbidden of ['perLocationPrice', 'baseIncludesLocations', 'setupFee']) {
+    if (forbidden in sku) {
+      errors.push(
+        `❌ crewSkus.${id}.${forbidden} exists — v1.7 prices Crew flat, with implementation charged once at the highest class`,
+      );
+    }
+  }
+}
+for (const [id, bundle] of Object.entries(crewBundles)) {
+  for (const forbidden of ['perLocationPrice', 'setupFee', 'discountPercent']) {
+    if (forbidden in bundle) {
+      errors.push(
+        `❌ crewBundles.${id}.${forbidden} exists — v1.7 bundle prices are named NET prices, not a discount off components`,
+      );
+    }
+  }
+}
+
 // ── Discounts ─────────────────────────────────────────────────────────────
 check('volume @ 1', 0, getVolumeDiscount(1));
 check('volume @ 49', 0, getVolumeDiscount(49));

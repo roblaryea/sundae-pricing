@@ -23,6 +23,7 @@ import {
 } from '../data/pricing';
 import type { CorePackageId } from '../data/pricing';
 import { calculateBandedTotal, calculateBandLines } from '../lib/pricingEngine';
+import { crewBundleSavings } from '../lib/crewPricing';
 import { PRODUCT_ICONS } from '../constants/icons';
 
 // Get product icons from centralized mapping (per SUNDAE_ICON_MAPPING.md)
@@ -216,7 +217,7 @@ export function PricingOverview() {
 
                         <div className="mb-5 pb-5 border-b border-white/10">
                           <p className="text-[11px] uppercase tracking-wider text-sundae-muted font-semibold mb-2">
-                            Then, per additional location
+                            Then, per additional location (marginal bands)
                           </p>
                           <ul className="space-y-1">
                             {pkg.marginalBands.map((band) => (
@@ -377,7 +378,7 @@ export function PricingOverview() {
                     </div>
                     <p className="text-xs text-sundae-muted mb-4">for your first location</p>
                     <p className="text-[11px] uppercase tracking-wider text-sundae-muted font-semibold mb-2">
-                      Then, per additional location
+                      Then, per additional location (marginal bands)
                     </p>
                     <ul className="space-y-1 mb-4">
                       {foresightAction.marginalBands.map((band) => (
@@ -778,9 +779,7 @@ export function PricingOverview() {
                         </span>
                       </div>
                       <p className="text-xs text-slate-600 dark:text-sundae-muted mt-1">
-                        {formatMessage(overview.perAdditionalLocation, {
-                          price: sku.perLocationPrice,
-                        })}
+                        Flat monthly price — no per-location charge
                       </p>
                     </div>
 
@@ -843,15 +842,13 @@ export function PricingOverview() {
                         </span>
                       </div>
                       <p className="text-xs text-slate-700 dark:text-sundae-muted mt-1">
-                        {formatMessage(overview.perAdditionalLocation, {
-                          price: bundle.perLocationPrice,
-                        })}
+                        Published net bundle price — flat monthly, no per-location charge
                       </p>
                     </div>
 
                     <div className="p-3 bg-emerald-100 dark:bg-emerald-500/15 rounded-lg border border-emerald-300 dark:border-emerald-500/30 mb-2">
                       <p className="text-xs font-semibold text-emerald-800 dark:text-emerald-200 text-center">
-                        Save {fmt(bundle.baseSavings)}/mo vs buying separately
+                        Save {fmt(crewBundleSavings(bundle))}/mo vs buying separately
                       </p>
                     </div>
                   </div>

@@ -268,6 +268,20 @@ export function ConfigSummary() {
                     <span className="font-medium">${item.price.toLocaleString(locale)}</span>
                   </div>
                 ))}
+                <div className="flex justify-between pt-2 mt-2 border-t border-white/10">
+                  <span className="text-sundae-muted">Implementation (one-time)</span>
+                  <span className="font-medium">
+                    {pricing.implementation.requiresScoping
+                      ? 'Scoped at contract'
+                      : pricing.implementation.fee === 0
+                        ? 'Self-service · $0'
+                        : `${pricing.implementation.isFloor ? 'from ' : ''}$${pricing.implementation.fee.toLocaleString(locale)}`}
+                  </span>
+                </div>
+                <p className="text-[10px] text-sundae-muted/80">
+                  Charged once at the highest implementation class in your selection — never summed
+                  per module.
+                </p>
               </div>
             </div>
           </div>
@@ -539,7 +553,12 @@ interface CrewSummaryBodyProps {
 function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
   const { locale, messages } = useLocale();
   const quote = computeCrewQuote(selectedSkus, locations);
-  const { monthly, annual, setupFee, lines, detectedBundleId, bundleSavingsMonthly } = quote;
+  const { monthly, annual, implementation, lines, detectedBundleId, bundleSavingsMonthly } = quote;
+  const implementationLabel = implementation.requiresScoping
+    ? 'Scoped at contract'
+    : implementation.fee === 0
+      ? 'Self-service · $0'
+      : `${implementation.isFloor ? 'from ' : ''}$${implementation.fee.toLocaleString()}`;
   const headline = detectedBundleId
     ? lines[0].label
     : selectedSkus.length === 1
@@ -593,7 +612,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                   <div className="font-semibold">{headline}</div>
                   <div className="text-sm text-sundae-muted">
                     {detectedBundleId
-                      ? 'Bundle auto-detected · 20% discount applied'
+                      ? 'Bundle auto-detected · published net bundle price'
                       : `${selectedSkus.length} SKU${selectedSkus.length === 1 ? '' : 's'} selected`}
                   </div>
                 </div>
@@ -603,31 +622,28 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 <div>
                   <div className="font-semibold">{quote.locations} {quote.locations === 1 ? 'location' : 'locations'}</div>
                   <div className="text-sm text-sundae-muted">
-                    {detectedBundleId
-                      ? `Bundle includes 3 · ${Math.max(0, quote.locations - 3)} billable extra`
-                      : `${lines.length === 1 ? lines[0].includedLocations : 'Per-SKU'} included · scales by SKU`}
+                    Crew is a flat monthly price — your location count does not change it
                   </div>
                 </div>
               </div>
-              {setupFee > 0 && (
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
-                  <div>
-                    <div className="font-semibold">One-time setup: ${setupFee}</div>
-                    <div className="text-sm text-sundae-muted">
-                      {detectedBundleId
-                        ? 'Bundle setup · country pack activation + statutory exports'
-                        : 'Onboarding + activation across selected SKUs'}
-                    </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
+                <div>
+                  <div className="font-semibold">Implementation: {implementationLabel}</div>
+                  <div className="text-sm text-sundae-muted">
+                    Charged once at the highest implementation class in your selection — never
+                    summed per SKU
                   </div>
                 </div>
-              )}
+              </div>
               {bundleSavingsMonthly > 0 && (
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="font-semibold text-emerald-300">Bundle savings · ${bundleSavingsMonthly}/mo</div>
-                    <div className="text-sm text-sundae-muted">vs buying the SKUs separately</div>
+                    <div className="text-sm text-sundae-muted">
+                      the published net bundle price vs buying the SKUs separately
+                    </div>
                   </div>
                 </div>
               )}
@@ -666,15 +682,18 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 <span className="text-sundae-muted">Annual</span>
                 <span className="text-white tabular-nums">${annual.toLocaleString()}/yr</span>
               </div>
-              {setupFee > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-sundae-muted">One-time setup</span>
-                  <span className="text-white tabular-nums">${setupFee}</span>
-                </div>
-              )}
+              <div className="flex justify-between text-sm">
+                <span className="text-sundae-muted">Implementation (one-time)</span>
+                <span className="text-white tabular-nums">{implementationLabel}</span>
+              </div>
               <div className="flex justify-between text-sm pt-2 mt-2 border-t border-[#FF7E6F]/10">
-                <span className="text-sundae-muted">First-year total</span>
-                <span className="text-white font-semibold tabular-nums">${(annual + setupFee).toLocaleString()}</span>
+                <span className="text-sundae-muted">
+                  First-year subscription
+                  {implementation.requiresScoping ? ' (excl. implementation)' : ''}
+                </span>
+                <span className="text-white font-semibold tabular-nums">
+                  ${(annual + (implementation.requiresScoping ? 0 : implementation.fee)).toLocaleString()}
+                </span>
               </div>
             </div>
           </div>
@@ -703,7 +722,10 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
           {messages.summary.pricingFooterNote.replace('{date}', new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date('2026-02-26T00:00:00Z')))}
         </p>
         <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
-        <p className="text-[10px] opacity-70">{messages.summary.locationPricingNote}</p>
+        <p className="text-[10px] opacity-70">
+          Crew SKUs and bundles are a flat monthly price. Implementation is charged once, at the
+          highest class in your selection.
+        </p>
       </motion.div>
     </div>
   );

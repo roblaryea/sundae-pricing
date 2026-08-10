@@ -251,6 +251,15 @@ export interface CorePackage extends BandedSku {
   /** Every Core package ships all eleven domain modules. */
   includesDomainModules: readonly ModuleId[];
   bestFor: string;
+  /**
+   * Implementation class for this SKU, or `null` when v1.7 does not publish
+   * one. v1.7 publishes the LADDER ($0 / $1,500 / $2,500 / $7,500 / from
+   * $12,500) but not a per-SKU assignment, so every Core package is `null`:
+   * the quote states that implementation is scoped at contract and charged
+   * once at the highest class, rather than inventing a fee. See
+   * `resolveImplementationFee`.
+   */
+  implementationClass: ImplementationClassId | null;
 }
 
 export const corePackages: Record<CorePackageId, CorePackage> = {
@@ -263,6 +272,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     aiCreditWallet: 14000,
     includesDomainModules: CORE_DOMAIN_MODULE_IDS,
     bestFor: 'Operators starting on the Core decision layer',
+    implementationClass: null,
   },
   core_margin: {
     id: 'core_margin',
@@ -273,6 +283,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     aiCreditWallet: 16000,
     includesDomainModules: CORE_DOMAIN_MODULE_IDS,
     bestFor: 'Operators whose priority is cost and leakage control',
+    implementationClass: null,
   },
   core_growth: {
     id: 'core_growth',
@@ -283,6 +294,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     aiCreditWallet: 18000,
     includesDomainModules: CORE_DOMAIN_MODULE_IDS,
     bestFor: 'Operators in expansion who need demand and channel signal',
+    implementationClass: null,
   },
   core_performance: {
     id: 'core_performance',
@@ -293,6 +305,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     aiCreditWallet: 24000,
     includesDomainModules: CORE_DOMAIN_MODULE_IDS,
     bestFor: 'Multi-brand and multi-region portfolios',
+    implementationClass: null,
   },
 };
 
@@ -304,12 +317,19 @@ export const CORE_PACKAGE_IDS = Object.keys(corePackages) as CorePackageId[];
 // The predictive-planning + actuation layer. Its own banded SKU — NOT one of
 // the eleven Core domain modules and no longer an a-la-carte analytics module.
 
-export const foresightAction: BandedSku & { tagline: string; description: string; features: string[] } = {
+export const foresightAction: BandedSku & {
+  tagline: string;
+  description: string;
+  features: string[];
+  /** Not published under v1.7 — scoped at contract. See `CorePackage`. */
+  implementationClass: ImplementationClassId | null;
+} = {
   id: 'foresight_action',
   name: 'Foresight & Action',
   tagline: 'Plan forward, then act on the plan',
   firstUnitPrice: 495,
   marginalBands: [band(2, 10, 65), band(11, 25, 55), band(26, 50, 45), band(51, null, 35)],
+  implementationClass: null,
   description:
     'Predictive planning plus the action layer: demand and revenue forecasting, scenario modelling, sensitivity analysis, decision replay, and approve-in-the-loop actuation.',
   features: [
@@ -336,6 +356,8 @@ export interface ConceptSku {
   name: string;
   monthlyPrice: number;
   description: string;
+  /** Not published under v1.7 — scoped at contract. See `CorePackage`. */
+  implementationClass: ImplementationClassId | null;
 }
 
 export const conceptSkus: Record<ConceptSkuId, ConceptSku> = {
@@ -344,36 +366,42 @@ export const conceptSkus: Record<ConceptSkuId, ConceptSku> = {
     name: 'Franchise',
     monthlyPrice: 595,
     description: 'Franchisor / franchisee split reporting, royalty visibility, and network health.',
+    implementationClass: null,
   },
   concept_hotel_fb: {
     id: 'concept_hotel_fb',
     name: 'Hotel F&B',
     monthlyPrice: 395,
     description: 'Outlet-level F&B economics inside a hotel P&L, including banqueting and in-room.',
+    implementationClass: null,
   },
   concept_cloud_kitchen: {
     id: 'concept_cloud_kitchen',
     name: 'Cloud Kitchen',
     monthlyPrice: 395,
     description: 'Virtual-brand and delivery-only economics across shared kitchen capacity.',
+    implementationClass: null,
   },
   concept_catering: {
     id: 'concept_catering',
     name: 'Catering',
     monthlyPrice: 349,
     description: 'Event and contract catering: quote-to-actual margin, event costing, and pipeline.',
+    implementationClass: null,
   },
   concept_production: {
     id: 'concept_production',
     name: 'Production',
     monthlyPrice: 595,
     description: 'Central production and commissary output: yield, batch cost, and transfer pricing.',
+    implementationClass: null,
   },
   concept_rental_commissary: {
     id: 'concept_rental_commissary',
     name: 'Rental Commissary',
     monthlyPrice: 395,
     description: 'Commissary space let to third parties: tenant utilisation, billing, and recovery.',
+    implementationClass: null,
   },
 };
 
@@ -760,13 +788,23 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
 //   • crew_payroll (15)                     — depends on crew_operations (employee records + pay rates)
 //   • crew_people_intelligence (16)         — depends on crew_operations
 
-// ⚠️ UNRECONCILED AGAINST v1.7: `baseIncludesLocations` + `perLocationPrice`.
-// Price book v1.7 publishes ONLY a monthly price for each Crew SKU (Starter
-// $99, Schedule $179, Manage $399, Time $99, Pay $129, People $249) and gives
-// Crew no marginal bands. The per-location adder and the included-location
-// count below are carried over from v1.6 because v1.7 does not state a
-// replacement — inventing one would be worse than disclosing this. Do NOT
-// treat these two fields as approved; they need a founder decision.
+// Price book v1.7 publishes ONE monthly price per Crew SKU (Starter $99,
+// Schedule $179, Manage $399, Time $99, Pay $129, People $249) and gives Crew
+// no marginal bands and no per-location component. The v1.6 `perLocationPrice`
+// and `baseIncludesLocations` fields were therefore DELETED rather than
+// zeroed: the "base covers 3 locations, then $X per extra location" mechanic
+// is retired everywhere in the book, and a field that does not exist cannot be
+// summed into a quote by accident.
+//
+// The per-module setup-fee ladder ($199/$299/$399/$499) is likewise gone.
+// Implementation is a single charge at the HIGHEST `implementationClass` in
+// the selection (see `implementationClasses` + `resolveImplementationFee`).
+// v1.7 publishes the ladder but does NOT publish a per-SKU class assignment,
+// so every SKU whose class is not derivable carries `implementationClass:
+// null` — the quote then says implementation is scoped at contract instead of
+// inventing a number. `crew_lite` is the one safe assignment: it has always
+// been $0 self-serve onboarding, which is exactly the published $0
+// self-service class.
 export const crewSkus = {
   crew_lite: {
     id: 'crew_lite',
@@ -774,10 +812,8 @@ export const crewSkus = {
     icon: 'sparkles',
     backendId: 'crew_lite',
     orgLicensePrice: 99,
-    perLocationPrice: 19,
-    baseIncludesLocations: 1,
-    setupFee: 0,
-    setupIncludes: 'Self-serve onboarding; no setup fee',
+    implementationClass: 'self_service' as ImplementationClassId | null,
+    implementationIncludes: 'Self-serve onboarding',
     sortOrder: 11,
     prerequisites: [] as CrewSkuId[],
     mutuallyExclusiveWith: ['crew_scheduling', 'crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'] as CrewSkuId[],
@@ -808,10 +844,8 @@ export const crewSkus = {
     icon: 'calendar-days',
     backendId: 'crew_scheduling',
     orgLicensePrice: 179,
-    perLocationPrice: 39,
-    baseIncludesLocations: 3,
-    setupFee: 399,
-    setupIncludes: 'Initial schedule template setup',
+    implementationClass: null as ImplementationClassId | null,
+    implementationIncludes: 'Initial schedule template setup',
     sortOrder: 12,
     prerequisites: [] as CrewSkuId[],
     caps: {
@@ -842,10 +876,8 @@ export const crewSkus = {
     icon: 'users',
     backendId: 'crew_operations',
     orgLicensePrice: 399,
-    perLocationPrice: 79,
-    baseIncludesLocations: 3,
-    setupFee: 499,
-    setupIncludes: 'HR operations + credentials + assets setup',
+    implementationClass: null as ImplementationClassId | null,
+    implementationIncludes: 'HR operations + credentials + assets setup',
     sortOrder: 13,
     prerequisites: [] as CrewSkuId[],
     caps: {
@@ -877,10 +909,8 @@ export const crewSkus = {
     icon: 'clock',
     backendId: 'crew_tna',
     orgLicensePrice: 99,
-    perLocationPrice: 19,
-    baseIncludesLocations: 3,
-    setupFee: 199,
-    setupIncludes: 'T&A clock-in configuration + geofencing setup',
+    implementationClass: null as ImplementationClassId | null,
+    implementationIncludes: 'T&A clock-in configuration + geofencing setup',
     sortOrder: 14,
     // Scheduling is the cheaper recommended dep ($179 entry), but
     // Operations ($399) also satisfies — Operations entitlement includes
@@ -917,10 +947,8 @@ export const crewSkus = {
     icon: 'wallet',
     backendId: 'crew_payroll',
     orgLicensePrice: 129,
-    perLocationPrice: 29,
-    baseIncludesLocations: 3,
-    setupFee: 399,
-    setupIncludes: 'Country pack activation + statutory export configuration',
+    implementationClass: null as ImplementationClassId | null,
+    implementationIncludes: 'Country pack activation + statutory export configuration',
     sortOrder: 15,
     prerequisites: ['crew_operations'] as CrewSkuId[],
     prerequisiteMessage: 'Requires Crew Operations',
@@ -952,10 +980,8 @@ export const crewSkus = {
     icon: 'brain',
     backendId: 'crew_people_intelligence',
     orgLicensePrice: 249,
-    perLocationPrice: 39,
-    baseIncludesLocations: 3,
-    setupFee: 299,
-    setupIncludes: 'Performance / talent / comp data ingestion',
+    implementationClass: null as ImplementationClassId | null,
+    implementationIncludes: 'Performance / talent / comp data ingestion',
     sortOrder: 16,
     prerequisites: ['crew_operations'] as CrewSkuId[],
     prerequisiteMessage: 'Requires Crew Operations',
@@ -986,55 +1012,53 @@ export const crewSkus = {
 // ═══════════════════════════════════════════════════════════════════════════
 // CREW BUNDLES (price book v1.7)
 // ═══════════════════════════════════════════════════════════════════════════
-// Three auto-applied bundles. v1.7 publishes the bundle BASE price only:
+// Three auto-applied bundles. v1.7 publishes each bundle as a NAMED NET price
+// — NOT a percentage off the component sum:
 //   Schedule & Time $249 · Crew Operating $499 · Crew Complete $699.
-// The per-location adder is not published for bundles, so it is derived the
-// way this file has always derived it — the component per-location sum scaled
-// by the same ratio as the published base. `discountPercent` is the rounded
-// effective discount off the component sum.
+// `discountPercent` was therefore deleted: nothing may derive a bundle price
+// by discounting components, and no surface may advertise "20% off". Where a
+// saving is shown it is DERIVED at render time as (component sum − net
+// price), never used as an input to the price.
+//
+// No per-location adder and no setup fee: v1.7 publishes neither for bundles,
+// and both belonged to the retired "base covers 3, then $X per extra" ladder.
+// Implementation follows the same class rule as the individual SKUs.
 
-export const crewBundles = {
+export interface CrewBundle {
+  id: CrewBundleId;
+  name: string;
+  skus: CrewSkuId[];
+  /** The published NET monthly price. Never derived from the component sum. */
+  basePrice: number;
+  description: string;
+  /** Not published under v1.7 — scoped at contract. */
+  implementationClass: ImplementationClassId | null;
+}
+
+export const crewBundles: Record<CrewBundleId, CrewBundle> = {
   crew_schedule_time_bundle: {
     id: 'crew_schedule_time_bundle',
     name: 'Schedule & Time',
-    skus: ['crew_scheduling', 'crew_tna'] as CrewSkuId[],
-    discountPercent: 10,
+    skus: ['crew_scheduling', 'crew_tna'],
     basePrice: 249,
-    perLocationPrice: 52,
-    setupFee: 399,
     description: 'Crew Schedule + Crew Time bundled. The scheduling-plus-attendance entry point for operators who are not replacing payroll yet.',
-    individualBaseTotal: 278, // $179 + $99
-    individualPerLocTotal: 58, // $39 + $19
-    baseSavings: 29, // $278 − $249
-    perLocSavings: 6, // $58 − $52
+    implementationClass: null,
   },
   crew_suite_bundle: {
     id: 'crew_suite_bundle',
     name: 'Crew Operating',
-    skus: ['crew_operations', 'crew_tna', 'crew_payroll'] as CrewSkuId[],
-    discountPercent: 20,
+    skus: ['crew_operations', 'crew_tna', 'crew_payroll'],
     basePrice: 499,
-    perLocationPrice: 102,
-    setupFee: 799,
     description: 'Crew Manage + Crew Time + Crew Pay bundled. Acquisition-friendly bundle for operators replacing or augmenting an existing HR/payroll stack.',
-    individualBaseTotal: 627, // $399 + $99 + $129
-    individualPerLocTotal: 127, // $79 + $19 + $29
-    baseSavings: 128, // $627 − $499
-    perLocSavings: 25, // $127 − $102
+    implementationClass: null,
   },
   crew_complete_bundle: {
     id: 'crew_complete_bundle',
     name: 'Crew Complete',
-    skus: ['crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'] as CrewSkuId[],
-    discountPercent: 20,
+    skus: ['crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
     basePrice: 699,
-    perLocationPrice: 133,
-    setupFee: 999,
     description: 'Crew Manage + Crew Time + Crew Pay + Crew People bundled. Full workforce stack with the intelligence layer on top.',
-    individualBaseTotal: 876, // $399 + $99 + $129 + $249
-    individualPerLocTotal: 166, // $79 + $19 + $29 + $39
-    baseSavings: 177, // $876 − $699
-    perLocSavings: 33, // $166 − $133
+    implementationClass: null,
   },
 };
 
@@ -1180,11 +1204,15 @@ export const billingDiscounts: Record<BillingCycle, number> = {
 };
 
 export const DISCOUNT_RULES = {
-  /** v1.7: volume and billing-cycle discounts combine. */
+  /** v1.7: calculated discounts combine. */
   stackingAllowed: true,
-  /** Combined ceiling across volume + billing cycle. */
+  /**
+   * Combined ceiling across EVERY calculated discount — volume, billing cycle
+   * and the early-adopter programme rate. Nothing published may be applied on
+   * top of this cap.
+   */
   maxDiscountPercent: 15,
-  note: 'Volume and billing-cycle discounts combine, capped at 15% in total'
+  note: 'Volume, billing-cycle and early-adopter discounts combine, capped at 15% in total'
 };
 
 /** The unit count at and above which only Enterprise (quoted) pricing applies. */
@@ -1264,13 +1292,22 @@ export function requiresEnterpriseQuote(locations: number): boolean {
 // EARLY ADOPTER PROGRAM (kept for backward compatibility)
 // ═══════════════════════════════════════════════════════════════════════════
 
+// The early-adopter rate is a CALCULATED discount, so under v1.7 it sits
+// inside the combined calculated-discount cap (`DISCOUNT_RULES
+// .maxDiscountPercent`, 15%) alongside volume and billing cycle — it does NOT
+// stack on top of the capped remainder. `discountPercent` below is the
+// programme's nominal rate; the engine clamps the combined total, so the
+// realised discount can never exceed the published cap. Only a hand-negotiated
+// discount (`ClientProfile.customDiscountPercent`) sits outside the ladder,
+// because it is a contract term rather than a published rate.
 export const EARLY_ADOPTER_TERMS = {
+  /** Nominal programme rate. Realised discount is capped — see above. */
   discountPercent: 20,
   priceLockMonths: 24,
   extendedTrialDays: 30,
   bonusCredits: 500,
   features: [
-    '20% founding member discount',
+    `Founding member discount, up to the ${DISCOUNT_RULES.maxDiscountPercent}% combined discount cap`,
     '24-month price lock guarantee',
     '30-day extended trial (vs 14-day standard)',
     '500 bonus AI credits',

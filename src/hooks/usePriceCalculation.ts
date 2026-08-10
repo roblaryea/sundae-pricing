@@ -110,6 +110,7 @@ export function usePriceCalculation(
       subtotal: result.subtotal,
       discounts,
       requiresEnterpriseQuote: result.requiresEnterpriseQuote,
+      implementation: result.implementation,
       savings: {
         tenzo: tenzoComparison,
       },

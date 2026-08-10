@@ -27,6 +27,9 @@ import {
   isRetiredCatalogId,
   RETIRED_CATALOG_IDS,
 } from '../src/data/pricing';
+import { computeCrewQuote, crewBundleSavings } from '../src/lib/crewPricing';
+import { COMPETITOR_PRICING, CORE_PACKAGE_SELECTION_ID } from '../src/data/competitorPricing';
+import type { CrewSkuId } from '../src/types/configuration';
 import {
   calculateBandedTotal,
   calculateBandLines,
@@ -345,7 +348,26 @@ describe('Crew SKUs', () => {
       expect(sku.name).toBe(spec.name);
       expect(sku.orgLicensePrice).toBe(spec.price);
     });
+
+    it(`${spec.name} carries no retired per-location mechanic`, () => {
+      const sku = crewSkus[id as keyof typeof crewSkus];
+      // v1.7 publishes ONE flat monthly price per Crew SKU. The v5.1 fields
+      // were deleted rather than zeroed so nothing can sum them by accident.
+      expect(sku).not.toHaveProperty('perLocationPrice');
+      expect(sku).not.toHaveProperty('baseIncludesLocations');
+      // The per-SKU setup-fee ladder is retired — implementation is one
+      // charge at the highest class in the selection.
+      expect(sku).not.toHaveProperty('setupFee');
+    });
   }
+
+  it('prices Crew independently of location count', () => {
+    for (const id of Object.keys(expected) as CrewSkuId[]) {
+      const one = computeCrewQuote([id], 1).monthly;
+      const fifty = computeCrewQuote([id], 50).monthly;
+      expect(fifty).toBe(one);
+    }
+  });
 });
 
 describe('Crew bundles', () => {
@@ -365,10 +387,55 @@ describe('Crew bundles', () => {
     expect(crewBundles.crew_complete_bundle.basePrice).toBe(699);
   });
 
-  it('states savings that reconcile against the component sum', () => {
+  it('publishes NET prices, never a discount off the components', () => {
     for (const bundle of Object.values(crewBundles)) {
-      expect(bundle.individualBaseTotal - bundle.basePrice).toBe(bundle.baseSavings);
+      // A `discountPercent` field would let a surface derive the bundle price
+      // by discounting components. v1.7 bundle prices are named net figures.
+      expect(bundle).not.toHaveProperty('discountPercent');
+      expect(bundle).not.toHaveProperty('perLocationPrice');
+      expect(bundle).not.toHaveProperty('setupFee');
     }
+  });
+
+  it('derives savings from the component sum and the net price', () => {
+    expect(crewBundleSavings(crewBundles.crew_schedule_time_bundle)).toBe(278 - 249);
+    expect(crewBundleSavings(crewBundles.crew_suite_bundle)).toBe(627 - 499);
+    expect(crewBundleSavings(crewBundles.crew_complete_bundle)).toBe(876 - 699);
+  });
+
+  it('holds the bundle price flat across location counts', () => {
+    const skus: CrewSkuId[] = ['crew_operations', 'crew_tna', 'crew_payroll'];
+    expect(computeCrewQuote(skus, 1).monthly).toBe(499);
+    expect(computeCrewQuote(skus, 40).monthly).toBe(499);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CREW IMPLEMENTATION — one charge, never a sum
+// ═══════════════════════════════════════════════════════════════════════════
+
+describe('Crew implementation', () => {
+  it('never sums a per-SKU setup ladder', () => {
+    const quote = computeCrewQuote(
+      ['crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
+      10,
+    );
+    // The retired ladder would have summed 499 + 199 + 399 + 299 = 1,396.
+    expect(quote).not.toHaveProperty('setupFee');
+    expect(quote.implementation.fee).not.toBe(1396);
+  });
+
+  it('reports scoping instead of inventing a fee for unpublished classes', () => {
+    const quote = computeCrewQuote(['crew_operations'], 3);
+    expect(quote.implementation.requiresScoping).toBe(true);
+    expect(quote.implementation.classId).toBeNull();
+  });
+
+  it('resolves the published self-service class for Crew Starter', () => {
+    const quote = computeCrewQuote(['crew_lite'], 3);
+    expect(quote.implementation.requiresScoping).toBe(false);
+    expect(quote.implementation.classId).toBe('self_service');
+    expect(quote.implementation.fee).toBe(0);
   });
 });
 
@@ -538,5 +605,75 @@ describe('calculateFullPrice', () => {
       calculateForesightActionPrice(3) +
       conceptSkus.concept_franchise.monthlyPrice;
     expect(result.subtotal).toBe(expected);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COMBINED DISCOUNT CAP — nothing published may be applied on top of it
+// ═══════════════════════════════════════════════════════════════════════════
+
+describe('Combined calculated-discount cap', () => {
+  const earlyAdopter = {
+    type: 'independent' as const,
+    isEarlyAdopter: true,
+    isFranchise: false,
+    brandCount: 1,
+  };
+
+  it('counts the early-adopter rate inside the cap, not after it', () => {
+    const combined = calculateCombinedDiscount(200, 'two_year', true);
+    expect(combined.earlyAdopterPercent).toBe(20);
+    expect(combined.totalPercent).toBe(DISCOUNT_RULES.maxDiscountPercent);
+    expect(combined.capped).toBe(true);
+  });
+
+  it('never lets an early adopter beat the published cap end to end', () => {
+    const result = calculateFullPrice({
+      layer: 'core',
+      corePackage: 'core_foundation',
+      locations: 200,
+      addOns: [],
+      watchtower: [],
+      clientProfile: { ...earlyAdopter, billingCycle: 'two_year' },
+    });
+    const effective = (1 - result.total / result.subtotal) * 100;
+    expect(effective).toBeLessThanOrEqual(DISCOUNT_RULES.maxDiscountPercent + 1e-9);
+    // v5.1 stacked 20% on the capped remainder: 15% then 20% = 32% effective.
+    expect(effective).not.toBeCloseTo(32, 5);
+  });
+
+  it('emits ONE combined discount line, not a stack', () => {
+    const result = calculateFullPrice({
+      layer: 'core',
+      corePackage: 'core_margin',
+      locations: 120,
+      addOns: [],
+      watchtower: [],
+      clientProfile: { ...earlyAdopter, billingCycle: 'annual' },
+    });
+    expect(result.discountsApplied).toHaveLength(1);
+    expect(result.discountsApplied[0].percent).toBe(DISCOUNT_RULES.maxDiscountPercent);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COMPETITOR COMPARISON — must not key on a retired tier id
+// ═══════════════════════════════════════════════════════════════════════════
+
+describe('Competitor comparison', () => {
+  const selection = [CORE_PACKAGE_SELECTION_ID, ...CORE_DOMAIN_MODULE_IDS];
+
+  it('still costs a competitor out for a v1.7 Core package', () => {
+    const tenzo = COMPETITOR_PRICING.tenzo.calculate(10, selection);
+    // 3 comparable products x 10 locations x $75.
+    expect(tenzo.monthly).toBe(2250);
+    expect(tenzo.firstYear).toBeGreaterThan(0);
+  });
+
+  it('does not silently zero out when no retired tier id is passed', () => {
+    const retiredStyle = COMPETITOR_PRICING.tenzo.calculate(10, ['core-lite']);
+    expect(retiredStyle.monthly).toBe(0);
+    const v17 = COMPETITOR_PRICING.tenzo.calculate(10, selection);
+    expect(v17.monthly).toBeGreaterThan(0);
   });
 });

@@ -20,62 +20,78 @@ interface FAQItem {
 // FAQ category, because there is no Report product to answer questions about.
 type FAQCategory = 'core' | 'watchtower' | 'crew' | 'general';
 
+// Hand-written locale packs, rewritten for price book v1.7.
+//
+// The previous packs were written for v5.1 and stated retired facts that the
+// retired-NAME filter below could not catch: modules sold a la carte with
+// per-location pricing, a per-module setup fee, "volume and billing discounts
+// do NOT combine — you get the larger", the 30-99/100-200 volume ladder, and a
+// 30-location Enterprise threshold. All of that is wrong under v1.7, so it was
+// rewritten rather than left to a name filter that would never fire on it.
 const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<FAQCategory, FAQItem[]>>>> = {
   ar: {
-  core: [
+    core: [
       {
-        question: 'ما الفرق بين Report و Core؟',
-        answer: 'Core يضيف تكاملاً لحظياً مع POS ووحدات ذكاء متخصصة وأهلية Watchtower وأرصدة ومقاعد ذكاء اصطناعي أكبر بكثير. Report مناسب لتحليل البيانات المرفوعة، بينما Core مخصص للذكاء التشغيلي المباشر.',
+        question: 'ما هي باقات Core الأربع؟',
+        answer: 'Core Foundation و Core Margin و Core Growth و Core Performance. كل باقة تتضمن وحدات Core المجالية الإحدى عشرة كاملةً، ومحرك الترابط Cross-Intelligence، و Sundae Intelligence. تختلف الباقات في النطاق وفي حجم محفظة أرصدة الذكاء الاصطناعي الشهرية، والمحاكي يعرض دائماً الأرقام المنشورة الحالية.',
       },
       {
-        question: 'ما هي وحدات الذكاء؟',
-        answer: 'الوحدات هي إضافات متخصصة لـ Core تمنح عمقاً تحليلياً في مجالات مثل العمالة والمخزون والمشتريات والتسويق والتوصيل وضمان الإيرادات وتجربة الضيف وغيرها. لكل وحدة ترخيص على مستوى المؤسسة مع تسعير حسب الموقع.',
+        question: 'كيف يعمل التسعير حسب عدد المواقع؟',
+        answer: 'يُسعَّر موقعك الأول بسعر الباقة الأساسي (سعر الارتكاز). وكل موقع بعده يُسعَّر حسب شريحته، والشرائح حدّية: الانتقال إلى شريحة أرخص لا يعيد تسعير المواقع التي لديك بالفعل. مثال: 5 مواقع على Core Foundation = 1,195 دولاراً + 4 × 175 دولاراً = 1,895 دولاراً شهرياً، أي بمتوسط 379 دولاراً للموقع.',
       },
       {
-        question: 'هل توجد رسوم إعداد للوحدات؟',
-        answer: 'نعم. قد تتضمن الوحدات رسوماً لمرة واحدة تغطي الإعداد والتكامل. قد تنطبق خصومات أو إعفاءات حسب الحزم وشروط الفوترة والترتيبات المؤسسية. يعكس المحاكي وعرض السعر سياسة رسوم الإعداد الحالية.',
+        question: 'كم عدد المواقع المشمولة في السعر الأساسي؟',
+        answer: 'لا شيء. لا يوجد أي حد مجاني من المواقع. سعر الارتكاز يغطي موقعك الأول فقط، وكل موقع إضافي يُحتسب بسعر شريحته. أي عرض سعر يقول "السعر الأساسي يشمل 3 مواقع" هو عرض قديم.',
+      },
+      {
+        question: 'هل يمكنني شراء الوحدات المجالية منفردة؟',
+        answer: 'لا. العمالة والمخزون والمشتريات والتسويق والحجوزات والربحية وضمان الإيرادات والتوصيل وتجربة الضيف و Pulse و Guest CRM هي مكوّنات داخل كل باقة Core. ليس لها سعر مستقل ولا تُضاف كإضافات.',
+      },
+      {
+        question: 'ما هي Foresight & Action؟',
+        answer: 'طبقة التخطيط التنبؤي والتنفيذ الاختيارية: التنبؤ ونمذجة السيناريوهات وتحليل الحساسية وإعادة تشغيل القرارات والإجراءات باعتماد بشري. تُسعَّر مثل باقة Core — 495 دولاراً لموقعك الأول، ثم شرائح حدّية لما بعده.',
       },
       {
         question: 'ما هو محرك Cross-Intelligence؟',
-        answer: 'عند تفعيل 3 وحدات أو أكثر يكشف محرك Cross-Intelligence الارتباطات الخفية بين مصادر بياناتك تلقائياً. النسخة الأساسية مجانية، بينما تضيف Cross-Intelligence Pro مصفوفة ترابط كاملة وإسناد الإيرادات ورادار كفاءة الإنفاق ومراقبة الحملات وكشف الإزاحة.',
+        answer: `يكشف Cross-Intelligence الارتباطات الخفية بين مصادر بياناتك — مثل تأثير الطقس على جدولة العمالة وهدر المخزون معاً. المحرك الأساسي مشمول في كل باقة Core بلا تكلفة إضافية. أما Cross-Intelligence Pro (${CI_PRO_MONTHLY} دولاراً شهرياً + ${CI_PRO_PER_LOC} دولاراً للموقع) فيضيف مصفوفة الترابط الكاملة وإسناد الإيرادات ورادار كفاءة الإنفاق ومراقبة الحملات وكشف الإزاحة.`,
       },
       {
-        question: 'ما الذي يتضمنه Core Lite مقابل Core Pro؟',
-        answer: 'Core Lite مناسب للفرق التي تحتاج ذكاءً تشغيلياً مباشراً مع قدرة ذكاء اصطناعي جيدة ولوحات واضحة. Core Pro يضيف قدرة أكبر وتحليلات تنبؤية أعمق واقتصاديات أفضل عند التوسع في الوحدات. تعرض الكتالوجات الحالية الحصص والأسعار الدقيقة.',
+        question: 'كم تبلغ تكلفة التنفيذ؟',
+        answer: 'تُحتسب تكلفة التنفيذ مرة واحدة فقط، بأعلى فئة ضمن اختيارك — ولا تُجمع أبداً لكل وحدة. الفئات هي: 0 دولار خدمة ذاتية، و1,500 دولار للفئة A، و2,500 دولار للفئة B، و7,500 دولار للفئة C، وابتداءً من 12,500 دولار للفئة D.',
       },
       {
-        question: 'كيف تعمل خصومات الحجم؟',
-        answer: 'خصومات الحجم وخصومات الفوترة غير قابلة للجمع. تحصل دائماً على الخصم الأكبر فقط، وبحد أقصى 15%. العملاء المؤسسيون يحصلون على تسعير مخصص.',
+        question: 'كيف تعمل الخصومات؟',
+        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 10% للسنوي و15% لسنتين. الخصمان يُجمعان معاً بحد أقصى 15% إجمالاً. ومن 250 موقعاً لا توجد شريحة ذاتية الخدمة، ويصبح التسعير بعرض سعر مخصص.',
       },
       {
         question: 'ما مدة العقد؟',
-        answer: 'الاشتراك شهري افتراضياً ويمكن الإلغاء في أي وقت دون غرامة. الفوترة السنوية توفر 10%، والدفع لسنتين يوفر 15%. أما عقود المؤسسة فلها شروط مخصصة.',
+        answer: 'الاشتراك شهري افتراضياً ويمكن الإلغاء في أي وقت دون غرامة. الدفع السنوي المسبق يوفر 10%، والدفع لسنتين يوفر 15%. أما عقود Enterprise فلها شروط مخصصة.',
       },
     ],
     watchtower: [
       {
         question: 'ما هو Sundae Watchtower؟',
-        answer: 'Watchtower هي مجموعة الذكاء السوقي في Sundae التي تراقب المنافسين والفعاليات المحلية واتجاهات السوق. توفر تنبيهات عملية تساعدك على تعديل التسعير والتوظيف والتسويق بشكل استباقي.',
+        answer: 'Watchtower هي مجموعة الذكاء السوقي في Sundae التي تراقب المنافسين والفعاليات المحلية واتجاهات القطاع. توفر تنبيهات عملية تساعدك على تعديل التسعير والتوظيف والتسويق بشكل استباقي.',
       },
       {
         question: 'ما هي وحدات Watchtower الثلاث؟',
-        answer: 'ذكاء المنافسين يتتبع الأسعار والقوائم والمراجعات لدى المنافسين. إشارات الفعاليات تراقب الفعاليات المحلية التي تؤثر في الحركة. اتجاهات السوق تكشف تحولات الطلب الاستهلاكي والسوقي. كل وحدة تتبع نموذج التسعير المنشور داخل المحاكي.',
+        answer: 'ذكاء المنافسين يتتبع أسعار المنافسين وقوائمهم ومراجعاتهم. ذكاء الفعاليات يراقب الفعاليات المحلية التي تؤثر في الحركة. ذكاء الاتجاهات يكشف تحولات الطلب في السوق ولدى المستهلك. وكل وحدة تتبع نموذج تسعير Watchtower المنشور داخل المحاكي.',
       },
       {
         question: 'ما هي حزمة Watchtower؟',
-        answer: 'حزمة Watchtower تتضمن الوحدات الثلاث كلها بسعر مخفّض للفرق التي تريد رؤية سوقية كاملة. تسعير الحزمة في المحاكي يعكس النموذج المنشور الحالي.',
+        answer: 'حزمة Watchtower تتضمن الوحدات الثلاث كلها بسعر مخفّض للمشغلين الذين يريدون رؤية سوقية كاملة. تسعير الحزمة في المحاكي يعكس النموذج المنشور الحالي.',
       },
       {
-        question: 'هل يتطلب Watchtower فئة Core؟',
-        answer: 'نعم. Watchtower متاح حصرياً لمشتركي Core (Core Lite أو Core Pro أو Enterprise). وهو غير متاح مع فئة Report.',
+        question: 'هل يتطلب Watchtower اشتراك Core؟',
+        answer: 'نعم. Watchtower متاح حصرياً لمشتركي Core — أي باقة Core (Foundation أو Margin أو Growth أو Performance) أو Enterprise.',
       },
       {
         question: 'كيف يتدرج تسعير Watchtower مع عدد المواقع؟',
-        answer: 'لكل وحدة Watchtower سعر أساسي يغطي نطاقاً أولياً من المواقع ثم يتدرج مع المواقع الإضافية. يوضح المحاكي التسعير المنشور فعلياً حسب تركيبة Watchtower التي تختارها.',
+        answer: 'يحتفظ Watchtower بنموذج تسعيره المنشور الخاص: سعر أساسي للوحدة زائد مكوّن لكل موقع. وهو ليس باقة Core ولا يُسعَّر بالشرائح الحدّية الخاصة بـ Core. يعرض المحاكي التسعير المنشور مباشرةً حسب تركيبة Watchtower التي تختارها.',
       },
       {
-        question: 'هل يتوفر تسعير مؤسسي لـ Watchtower؟',
-        answer: 'نعم. عملاء Enterprise (30+ موقعاً أو إنفاق متوقع يفوق 10,000 دولار/شهر) يحصلون على تسعير مخصص لـ Watchtower، بما في ذلك خيارات السعر الثابت. تواصل مع المبيعات لعرض مخصص.',
+        question: 'هل يتوفر تسعير Enterprise لـ Watchtower؟',
+        answer: 'نعم. يحصل عملاء Enterprise على تسعير مخصص لـ Watchtower، بما في ذلك خيارات السعر الثابت. تسعير Enterprise إلزامي ابتداءً من 250 موقعاً، ومتاح قبل ذلك عند الطلب. تواصل مع المبيعات لعرض مخصص.',
       },
       {
         question: 'هل يمكنني إضافة وحدات Watchtower منفردة لاحقاً؟',
@@ -84,12 +100,12 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
     ],
     general: [
       {
-        question: 'هل توجد رسوم إعداد؟',
-        answer: 'نعم. بعض الوحدات تتضمن رسوماً لمرة واحدة مقابل أعمال الإعداد والتكامل. قد تنطبق خصومات أو إعفاءات بحسب الحزم والتزامات الفوترة وترتيبات المؤسسات. العروض المنشأة من المحاكي تعكس سياسة رسوم الإعداد المنشورة.',
+        question: 'كم تبلغ تكلفة التنفيذ؟',
+        answer: 'التنفيذ رسم لمرة واحدة يُحتسب بأعلى فئة ضمن اختيارك: 0 دولار خدمة ذاتية، أو 1,500 دولار للفئة A، أو 2,500 دولار للفئة B، أو 7,500 دولار للفئة C، أو ابتداءً من 12,500 دولار للفئة D. ولا يُجمع أبداً لكل وحدة.',
       },
       {
         question: 'ما مدة العقد؟',
-        answer: 'الاشتراك شهري افتراضياً ويمكن الإلغاء في أي وقت دون غرامة. الفوترة السنوية توفر 10%، والدفع لسنتين يوفر 15%. أما عقود المؤسسة فلها شروط مخصصة.',
+        answer: 'الاشتراك شهري افتراضياً ويمكن الإلغاء في أي وقت دون غرامة. الدفع السنوي المسبق يوفر 10%، والدفع لسنتين يوفر 15%. أما عقود Enterprise فلها شروط مخصصة.',
       },
       {
         question: 'هل يمكنني الترقية أو التخفيض لاحقاً؟',
@@ -97,203 +113,207 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'كيف تعمل الخصومات؟',
-        answer: 'خصومات الحجم (5% بين 30 و99 موقعاً، و7% بين 100 و200) وخصومات الفوترة (10% سنوي، 15% لسنتين) لا تتجمع. تحصل على الأعلى فقط وبحد أقصى 15%. عملاء Enterprise يحصلون على تسعير مخصص.',
+        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 10% سنوي و15% لسنتين. الخصمان يُجمعان معاً بحد أقصى 15% إجمالاً. ومن 250 موقعاً يكون التسعير بعرض سعر مخصص.',
       },
       {
         question: 'هل أرصدة الذكاء الاصطناعي مشتركة بين المواقع؟',
-        answer: 'نعم. أرصدة الذكاء الاصطناعي مجمعة على مستوى المؤسسة ويمكن استخدامها عبر جميع المواقع. تُرحّل الأرصدة غير المستخدمة بنسبة 25% من الأرصدة الأساسية لمدة شهر واحد. الأرصدة الإضافية المشتراة لا تنتهي صلاحيتها.',
-      },
-      {
-        question: 'ما الفرق بين مقاعد العرض ومقاعد المستخدمين؟',
-        answer: 'مقاعد العرض للقراءة فقط ومفصولة عن مقاعد المستخدمين المفعلة بالذكاء الاصطناعي. أما المقاعد المفعلة بالذكاء الاصطناعي فهي الحسابات التي يمكنها طرح الأسئلة وتوليد الرؤى واستخدام ميزات الذكاء المتقدمة. عدد المقاعد المشمولة وأي تسعير توسعي يعتمدان على كتالوج الطبقة المنشور.',
+        answer: 'نعم. أرصدة الذكاء الاصطناعي مجمّعة على مستوى المؤسسة ويمكن استخدامها عبر جميع المواقع. تُرحّل الأرصدة غير المستخدمة بنسبة 25% من الأرصدة الأساسية لمدة شهر واحد. أما أرصدة التعبئة المشتراة فلا تنتهي صلاحيتها.',
       },
       {
         question: 'متى ينطبق تسعير Enterprise؟',
-        answer: 'تكون مؤهلاً لتسعير Enterprise إذا كان لديك 30+ موقعاً، أو إنفاق متوقع يفوق 10,000 دولار/شهر، أو كنت تحتاج تكاملات مخصصة أو SSO/SAML أو SLAs مخصصة. يمكن للعملاء المؤهلين اختيار التسعير القياسي مع خصم الحجم أو طلب تسعير Enterprise مخصص.',
+        answer: 'تسعير Enterprise إلزامي ابتداءً من 250 موقعاً، حيث تنتهي شريحة الحجم ذاتية الخدمة. وتحت هذا الحد يتوفر عند الطلب إذا كنت تحتاج تكاملات مخصصة أو SSO/SAML أو SLAs مخصصة أو مراجعة أمنية وامتثالية.',
       },
     ],
   },
   fr: {
-  core: [
+    core: [
       {
-        question: 'Quelle difference entre Report et Core ?',
-        answer: 'Core ajoute le temps reel POS, les modules d intelligence, l acces Watchtower et beaucoup plus de credits et sieges IA. Report est ideal pour analyser des donnees importees ; Core est fait pour l intelligence operationnelle en direct.',
+        question: 'Quels sont les quatre forfaits Core ?',
+        answer: "Core Foundation, Core Margin, Core Growth et Core Performance. Chaque forfait inclut les onze modules de domaine Core, le moteur de corrélation Cross-Intelligence et Sundae Intelligence. Ils diffèrent par leur périmètre et par la taille du portefeuille mensuel de crédits IA ; le configurateur affiche toujours les chiffres publiés en vigueur.",
       },
       {
-        question: 'Que sont les modules d intelligence ?',
-        answer: 'Les modules sont des options specialisees pour Core qui apportent une profondeur analytique sur le travail, les stocks, les achats, le marketing, la livraison, la garantie de revenu, l experience client, etc. Chaque module dispose d une licence organisation avec tarification par site.',
+        question: 'Comment fonctionne la tarification par site ?',
+        answer: "Votre premier site est facturé au prix d'ancrage du forfait. Chaque site suivant est facturé par tranche, et les tranches sont MARGINALES : passer dans une tranche moins chère ne retarife pas les sites que vous avez déjà. Exemple : 5 sites en Core Foundation coûtent 1 195 $ + 4 × 175 $ = 1 895 $/mois, soit une moyenne de 379 $ par site.",
       },
       {
-        question: 'Y a-t-il des frais de configuration ?',
-        answer: 'Oui. Certains modules incluent des frais uniques couvrant l onboarding et l integration. Des remises ou exonerations peuvent s appliquer selon les bundles, les engagements de facturation et les accords enterprise. Le configurateur reflete la politique en vigueur.',
+        question: "Combien de sites sont compris dans le prix de base ?",
+        answer: "Aucun. Il n'y a pas de quota de sites. Le prix d'ancrage couvre votre premier site, et chaque site supplémentaire est facturé au tarif de sa tranche. Tout devis indiquant « la base couvre 3 sites » est obsolète.",
       },
       {
-        question: 'Qu est-ce que Cross-Intelligence Engine ?',
-        answer: 'Lorsque 3 modules ou plus sont actifs, Cross-Intelligence revele automatiquement les correlations cachees entre vos sources de donnees. La version de base est gratuite ; Cross-Intelligence Pro ajoute une matrice de correlation complete, l attribution des revenus, un radar d efficacite et le suivi des campagnes.',
+        question: 'Puis-je acheter les modules de domaine séparément ?',
+        answer: "Non. Travail, Stocks, Achats, Marketing, Réservations, Rentabilité, Garantie de revenu, Livraison, Expérience client, Pulse et Guest CRM sont des composants de chaque forfait Core. Ils n'ont pas de prix autonome et ne s'ajoutent pas en option.",
       },
       {
-        question: 'Que comprend Core Lite vs Core Pro ?',
-        answer: 'Core Lite convient aux equipes qui ont besoin d une intelligence operationnelle en temps reel avec une bonne base IA. Core Pro ajoute plus de capacite, des previsions plus profondes et une meilleure economie a grande echelle. Le catalogue actuel affiche les quotas exacts.',
+        question: "Qu'est-ce que Foresight & Action ?",
+        answer: "La couche optionnelle de planification prédictive et d'actuation : prévisions, modélisation de scénarios, analyse de sensibilité, rejeu de décisions et actions validées par un humain. Elle est tarifée comme un forfait Core — 495 $ pour votre premier site, puis des tranches marginales pour les suivants.",
       },
       {
-        question: 'Comment fonctionnent les remises volume ?',
-        answer: 'Les remises volume et les remises de facturation ne se cumulent pas. Vous obtenez toujours la plus avantageuse, avec un plafond de 15 %. Les clients enterprise beneficient d une tarification personnalisee.',
+        question: "Qu'est-ce que le moteur Cross-Intelligence ?",
+        answer: `Cross-Intelligence révèle les corrélations cachées entre vos sources de données — par exemple la façon dont la météo agit à la fois sur la planification du personnel et sur le gaspillage des stocks. Le moteur de base est inclus dans chaque forfait Core, sans supplément. Cross-Intelligence Pro (${CI_PRO_MONTHLY} $/mois + ${CI_PRO_PER_LOC} $/site) ajoute la matrice de corrélation complète, l'attribution des revenus, le radar d'efficacité des dépenses, le suivi des campagnes et la détection de cannibalisation.`,
       },
       {
-        question: 'Quelle est la duree du contrat ?',
-        answer: 'L abonnement est mensuel par defaut et annulable a tout moment sans penalite. Le prepaiement annuel offre 10 % de remise et le prepaiement sur 2 ans 15 %. Les contrats enterprise ont des conditions specifiques.',
+        question: "Combien coûte l'implémentation ?",
+        answer: "L'implémentation est facturée UNE SEULE FOIS, à la classe la plus élevée de votre sélection — jamais additionnée par module. Les classes sont : 0 $ en libre-service, 1 500 $ classe A, 2 500 $ classe B, 7 500 $ classe C et à partir de 12 500 $ classe D.",
+      },
+      {
+        question: 'Comment fonctionnent les remises ?',
+        answer: "Les remises volume sont de 0 % en dessous de 50 sites, 2,5 % de 50 à 99, 5 % de 100 à 199 et 7 % de 200 à 249. Les remises de cycle de facturation sont de 10 % en annuel et 15 % sur deux ans. Les deux SE CUMULENT, dans la limite de 15 % au total. À partir de 250 sites, il n'existe plus de palier en libre-service et le prix est établi sur devis.",
+      },
+      {
+        question: 'Quelle est la durée du contrat ?',
+        answer: "L'abonnement est mensuel par défaut et annulable à tout moment sans pénalité. Le prépaiement annuel offre 10 % de remise et le prépaiement sur deux ans 15 %. Les contrats Enterprise ont des conditions spécifiques.",
       },
     ],
     watchtower: [
       {
-        question: 'Qu est-ce que Sundae Watchtower ?',
-        answer: 'Watchtower est la suite d intelligence de marche de Sundae qui surveille votre paysage concurrentiel, les evenements locaux et les tendances du secteur. Elle fournit des alertes actionnables pour ajuster prix, staffing et marketing de facon proactive.',
+        question: "Qu'est-ce que Sundae Watchtower ?",
+        answer: "Watchtower est la suite d'intelligence de marché de Sundae qui surveille votre paysage concurrentiel, les événements locaux et les tendances du secteur. Elle fournit des alertes actionnables pour ajuster prix, staffing et marketing de façon proactive.",
       },
       {
-        question: 'Quelles sont les trois modules Watchtower ?',
-        answer: 'Competitive Intelligence suit les prix, menus et avis des concurrents. Events Intelligence surveille les evenements locaux qui influencent la demande. Trends Intelligence met en avant les evolutions de demande du marche et des consommateurs. Chaque module suit le modele de prix publie dans le configurateur.',
+        question: 'Quels sont les trois modules Watchtower ?',
+        answer: "Competitive Intelligence suit les prix, menus et avis des concurrents. Events Intelligence surveille les événements locaux qui influencent la fréquentation. Trends Intelligence met en avant les évolutions de la demande du marché et des consommateurs. Chaque module suit le modèle de prix Watchtower publié dans le configurateur.",
       },
       {
-        question: 'Qu est-ce que le Watchtower Bundle ?',
-        answer: 'Le Watchtower Bundle regroupe les trois modules Watchtower dans un package a tarif reduit pour les operateurs qui veulent une vision complete du marche. Le prix du bundle dans le configurateur reflete le modele publie actuel.',
+        question: "Qu'est-ce que le Watchtower Bundle ?",
+        answer: "Le Watchtower Bundle regroupe les trois modules Watchtower dans un package à tarif réduit pour les opérateurs qui veulent une vision complète du marché. Le prix du bundle dans le configurateur reflète le modèle publié actuel.",
       },
       {
-        question: 'Watchtower requiert-il la formule Core ?',
-        answer: 'Oui. Watchtower est disponible uniquement pour les abonnes Core (Core Lite, Core Pro ou Enterprise). Il n est pas disponible avec la formule Report.',
+        question: 'Watchtower nécessite-t-il un abonnement Core ?',
+        answer: "Oui. Watchtower est réservé aux abonnés Core — n'importe quel forfait Core (Foundation, Margin, Growth ou Performance) ou Enterprise.",
       },
       {
-        question: 'Comment le prix Watchtower evolue-t-il selon les sites ?',
-        answer: 'Chaque module Watchtower a un prix de base couvrant un premier perimetre de sites, puis un tarif par site supplementaire. Le configurateur affiche le prix publie en direct pour la combinaison Watchtower choisie.',
+        question: 'Comment le prix Watchtower évolue-t-il selon les sites ?',
+        answer: "Watchtower conserve son propre modèle de prix publié : un prix de base par module plus une composante par site. Ce n'est pas un forfait Core et il n'est pas tarifé avec les tranches marginales de Core. Le configurateur affiche le prix publié en direct pour la combinaison Watchtower choisie.",
       },
       {
-        question: 'Le prix Enterprise est-il disponible pour Watchtower ?',
-        answer: 'Oui. Les clients Enterprise (30+ sites ou plus de 10 000 $/mois de depense projetee) beneficient d un prix Watchtower personnalise, y compris des options a tarif fixe. Contactez les ventes pour un devis sur mesure.',
+        question: "Le prix Enterprise est-il disponible pour Watchtower ?",
+        answer: "Oui. Les clients Enterprise bénéficient d'un prix Watchtower personnalisé, y compris des options à tarif fixe. La tarification Enterprise est obligatoire à partir de 250 sites et disponible plus tôt sur demande. Contactez les ventes pour un devis sur mesure.",
       },
       {
         question: 'Puis-je ajouter des modules Watchtower individuels plus tard ?',
-        answer: 'Oui. Vous pouvez commencer avec un module et en ajouter d autres a tout moment. Si vous activez ensuite les trois, vous pouvez passer au prix Bundle pour profiter de la remise. Les changements s appliquent immediatement.',
+        answer: "Oui. Vous pouvez commencer avec un module et en ajouter d'autres à tout moment. Si vous activez ensuite les trois, vous pouvez passer au prix Bundle pour profiter de la remise. Les changements s'appliquent immédiatement.",
       },
     ],
     general: [
       {
-        question: 'Y a-t-il des frais de configuration ?',
-        answer: 'Oui. Certains modules incluent des frais uniques pour l onboarding et l integration. Des remises ou exemptions peuvent s appliquer selon les bundles, les engagements de facturation et les accords enterprise. Les devis generes depuis le configurateur refletent la politique de frais publiee.',
+        question: "Combien coûte l'implémentation ?",
+        answer: "L'implémentation est un frais unique, facturé une seule fois à la classe la plus élevée de votre sélection : 0 $ en libre-service, 1 500 $ classe A, 2 500 $ classe B, 7 500 $ classe C ou à partir de 12 500 $ classe D. Elle n'est jamais additionnée par module.",
       },
       {
-        question: 'Quelle est la duree du contrat ?',
-        answer: 'L abonnement est mensuel par defaut et annulable a tout moment sans penalite. Le prepaiement annuel offre 10 % de remise et le prepaiement sur 2 ans 15 %. Les contrats enterprise ont des conditions specifiques.',
+        question: 'Quelle est la durée du contrat ?',
+        answer: "L'abonnement est mensuel par défaut et annulable à tout moment sans pénalité. Le prépaiement annuel offre 10 % de remise et le prépaiement sur deux ans 15 %. Les contrats Enterprise ont des conditions spécifiques.",
       },
       {
         question: 'Puis-je monter ou descendre de gamme ?',
-        answer: 'Oui. Les montes en gamme sont immediates. Les baisses de gamme prennent effet au cycle de facturation suivant.',
+        answer: "Oui. Les montées en gamme sont immédiates. Les baisses de gamme prennent effet au cycle de facturation suivant.",
       },
       {
         question: 'Comment fonctionnent les remises ?',
-        answer: 'Les remises volume (5 % entre 30 et 99 sites, 7 % entre 100 et 200) et les remises de facturation (10 % annuel, 15 % sur 2 ans) ne se cumulent pas. Vous obtenez toujours la plus avantageuse, avec un plafond de 15 %. Les clients Enterprise recoivent une tarification personnalisee.',
+        answer: "Les remises volume sont de 0 % en dessous de 50 sites, 2,5 % de 50 à 99, 5 % de 100 à 199 et 7 % de 200 à 249. Les remises de cycle de facturation sont de 10 % en annuel et 15 % sur deux ans. Les deux se cumulent, dans la limite de 15 % au total. À partir de 250 sites, le prix est établi sur devis.",
       },
       {
-        question: 'Les credits IA sont-ils partages entre les sites ?',
-        answer: 'Oui. Les credits IA sont mutualises au niveau de l organisation et peuvent etre utilises sur tous les sites. Les credits non utilises reportent 25 % des credits de base pendant un mois. Les packs supplementaires achetes n expirent jamais.',
+        question: 'Les crédits IA sont-ils partagés entre les sites ?',
+        answer: "Oui. Les crédits IA sont mutualisés au niveau de l'organisation et utilisables sur tous les sites. Les crédits non utilisés se reportent à hauteur de 25 % des crédits de base pendant un mois. Les packs de recharge achetés n'expirent jamais.",
       },
       {
-        question: 'Quelle difference entre sieges viewers et sieges utilisateurs ?',
-        answer: 'Les sieges viewers sont en lecture seule et separent des sieges utilisateurs actives par IA. Les sieges IA sont les comptes qui peuvent poser des questions, generer des insights et utiliser les fonctions avancees. Les quotas inclus et le prix d extension dependent du catalogue publie.',
-      },
-      {
-        question: 'Quand le prix Enterprise s applique-t-il ?',
-        answer: 'Vous etes eligible au prix Enterprise si vous avez 30+ sites, plus de 10 000 $/mois de depense projetee, ou si vous avez besoin d integrations personnalisees, de SSO/SAML ou de SLA specifiques. Les clients eligibles peuvent choisir le tarif standard avec remise volume ou demander un prix Enterprise personnalise.',
+        question: "Quand la tarification Enterprise s'applique-t-elle ?",
+        answer: "La tarification Enterprise est obligatoire à partir de 250 sites, là où s'arrête le palier volume en libre-service. En dessous, elle est disponible sur demande si vous avez besoin d'intégrations personnalisées, de SSO/SAML, de SLA spécifiques ou d'une revue de sécurité et de conformité.",
       },
     ],
   },
   es: {
-  core: [
+    core: [
       {
-        question: 'Cual es la diferencia entre Report y Core?',
-        answer: 'Core añade POS en tiempo real, modulos especializados, acceso a Watchtower y mucha mas capacidad de creditos y puestos IA. Report es ideal para analizar datos cargados; Core es para inteligencia operativa en vivo.',
+        question: '¿Cuáles son los cuatro paquetes Core?',
+        answer: 'Core Foundation, Core Margin, Core Growth y Core Performance. Cada paquete incluye los once módulos de dominio de Core, el motor de correlación Cross-Intelligence y Sundae Intelligence. Se diferencian en el alcance y en el tamaño de la cartera mensual de créditos de IA; el configurador siempre muestra las cifras publicadas vigentes.',
       },
       {
-        question: 'Que son los modulos de inteligencia?',
-        answer: 'Los modulos son complementos especializados para Core que aportan profundidad analitica en areas como personal, inventario, compras, marketing, delivery, aseguramiento de ingresos, experiencia del cliente y mas. Cada modulo tiene una licencia por organizacion con precios por local.',
+        question: '¿Cómo funciona el precio por local?',
+        answer: 'Tu primer local se cobra al precio ancla del paquete. Cada local posterior se cobra por tramo, y los tramos son MARGINALES: entrar en un tramo más barato no vuelve a tarificar los locales que ya tienes. Ejemplo: 5 locales en Core Foundation cuestan 1.195 $ + 4 × 175 $ = 1.895 $/mes, una media de 379 $ por local.',
       },
       {
-        question: 'Hay costes de configuracion para los modulos?',
-        answer: 'Si. Algunos modulos incluyen una tarifa unica para onboarding e integracion. Pueden aplicarse descuentos o exenciones segun el bundle, el compromiso de facturacion y acuerdos enterprise. El configurador refleja la politica vigente.',
+        question: '¿Cuántos locales incluye el precio base?',
+        answer: 'Ninguno. No hay cupo de locales. El precio ancla cubre tu primer local y cada local adicional se cobra a la tarifa de su tramo. Cualquier presupuesto que diga «la base cubre 3 locales» está desactualizado.',
       },
       {
-        question: 'Que es Cross-Intelligence Engine?',
-        answer: 'Cuando activas 3 o mas modulos, Cross-Intelligence revela automaticamente correlaciones ocultas entre tus fuentes de datos. La version base es gratis; Cross-Intelligence Pro añade matriz completa de correlacion, atribucion de ingresos, radar de eficiencia y monitor de campañas.',
+        question: '¿Puedo comprar los módulos de dominio por separado?',
+        answer: 'No. Personal, Inventario, Compras, Marketing, Reservas, Rentabilidad, Revenue Assurance, Delivery, Experiencia del cliente, Pulse y Guest CRM son componentes de cada paquete Core. No tienen precio independiente ni se añaden como extras.',
       },
       {
-        question: 'Que incluye Core Lite frente a Core Pro?',
-        answer: 'Core Lite es ideal para equipos que necesitan inteligencia operativa en tiempo real con una buena base de IA. Core Pro añade mas capacidad, pronosticos mas profundos y mejor economia a gran escala. El catalogo actual muestra las cuotas exactas.',
+        question: '¿Qué es Foresight & Action?',
+        answer: 'La capa opcional de planificación predictiva y actuación: previsión, modelado de escenarios, análisis de sensibilidad, repetición de decisiones y acciones aprobadas por una persona. Se tarifica como un paquete Core: 495 $ para tu primer local y luego tramos marginales para el resto.',
       },
       {
-        question: 'Como funcionan los descuentos por volumen?',
-        answer: 'Los descuentos por volumen y por facturacion no se acumulan. Siempre recibes el mayor, con un maximo del 15%. Los clientes enterprise reciben precios personalizados.',
+        question: '¿Qué es el motor Cross-Intelligence?',
+        answer: `Cross-Intelligence revela correlaciones ocultas entre tus fuentes de datos, por ejemplo cómo el clima mueve a la vez la planificación de personal y la merma de inventario. El motor base va incluido en cada paquete Core sin coste adicional. Cross-Intelligence Pro (${CI_PRO_MONTHLY} $/mes + ${CI_PRO_PER_LOC} $/local) añade la matriz de correlación completa, la atribución de ingresos, el radar de eficiencia del gasto, el seguimiento de campañas y la detección de canibalización.`,
       },
       {
-        question: 'Cual es el plazo del contrato?',
-        answer: 'La suscripcion es mensual por defecto y se puede cancelar en cualquier momento sin penalizacion. El prepago anual ofrece 10% de descuento y el de 2 años, 15%. Los contratos enterprise tienen condiciones personalizadas.',
+        question: '¿Cuánto cuesta la implementación?',
+        answer: 'La implementación se cobra UNA SOLA VEZ, a la clase más alta de tu selección, y nunca se suma por módulo. Las clases son: 0 $ autoservicio, 1.500 $ clase A, 2.500 $ clase B, 7.500 $ clase C y desde 12.500 $ clase D.',
+      },
+      {
+        question: '¿Cómo funcionan los descuentos?',
+        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 10 % anual y del 15 % a dos años. Ambos SE COMBINAN, con un tope del 15 % en total. A partir de 250 locales no hay tramo de autoservicio y el precio se presupuesta.',
+      },
+      {
+        question: '¿Cuál es el plazo del contrato?',
+        answer: 'La suscripción es mensual por defecto y se puede cancelar en cualquier momento sin penalización. El prepago anual ahorra un 10 % y el de dos años un 15 %. Los contratos Enterprise tienen condiciones personalizadas.',
       },
     ],
     watchtower: [
       {
-        question: 'Que es Sundae Watchtower?',
-        answer: 'Watchtower es la suite de inteligencia de mercado de Sundae que supervisa tu panorama competitivo, los eventos locales y las tendencias del sector. Proporciona alertas accionables para ajustar precios, personal y marketing de forma proactiva.',
+        question: '¿Qué es Sundae Watchtower?',
+        answer: 'Watchtower es la suite de inteligencia de mercado de Sundae que vigila tu panorama competitivo, los eventos locales y las tendencias del sector. Ofrece alertas accionables para ajustar precios, personal y marketing de forma proactiva.',
       },
       {
-        question: 'Cuales son los tres modulos de Watchtower?',
-        answer: 'Competitive Intelligence sigue precios, menus y reseñas de competidores. Events Intelligence supervisa eventos locales que afectan al trafico. Trends Intelligence muestra cambios en la demanda del mercado y de los consumidores. Cada modulo sigue el modelo de precios publicado en el configurador.',
+        question: '¿Cuáles son los tres módulos de Watchtower?',
+        answer: 'Competitive Intelligence sigue precios, cartas y reseñas de la competencia. Events Intelligence vigila los eventos locales que afectan al tráfico. Trends Intelligence destaca los cambios de demanda del mercado y del consumidor. Cada módulo sigue el modelo de precios de Watchtower publicado en el configurador.',
       },
       {
-        question: 'Que incluye el Watchtower Bundle?',
-        answer: 'El Watchtower Bundle incluye los tres modulos de Watchtower en un paquete con descuento para operadores que quieren visibilidad total del mercado. El precio del bundle en el configurador refleja el modelo publicado actual.',
+        question: '¿Qué es el Watchtower Bundle?',
+        answer: 'El Watchtower Bundle reúne los tres módulos de Watchtower en un paquete con precio reducido para operadores que quieren visibilidad de mercado completa. El precio del bundle en el configurador refleja el modelo publicado actual.',
       },
       {
-        question: 'Watchtower requiere Core?',
-        answer: 'Si. Watchtower esta disponible solo para suscriptores Core (Core Lite, Core Pro o Enterprise). No esta disponible con Report.',
+        question: '¿Watchtower requiere una suscripción Core?',
+        answer: 'Sí. Watchtower está disponible exclusivamente para suscriptores de Core: cualquier paquete Core (Foundation, Margin, Growth o Performance) o Enterprise.',
       },
       {
-        question: 'Como escala el precio de Watchtower con los locales?',
-        answer: 'Cada modulo de Watchtower tiene un precio base que cubre un primer alcance de locales y luego escala con locales adicionales. El configurador muestra el precio publicado en vivo para la combinacion que selecciones.',
+        question: '¿Cómo escala el precio de Watchtower con los locales?',
+        answer: 'Watchtower mantiene su propio modelo de precios publicado: un precio base por módulo más un componente por local. No es un paquete Core y no se tarifica con los tramos marginales de Core. El configurador muestra el precio publicado en vivo para la combinación de Watchtower que elijas.',
       },
       {
-        question: 'Hay precio Enterprise para Watchtower?',
-        answer: 'Si. Los clientes Enterprise (30+ locales o mas de $10,000/mes de gasto previsto) obtienen precio personalizado para Watchtower, incluidas opciones de tarifa fija. Contacta ventas para una propuesta a medida.',
+        question: '¿Hay precio Enterprise para Watchtower?',
+        answer: 'Sí. Los clientes Enterprise reciben precios personalizados de Watchtower, incluidas opciones de tarifa plana. El precio Enterprise es obligatorio a partir de 250 locales y está disponible antes bajo petición. Contacta con ventas para una propuesta a medida.',
       },
       {
-        question: 'Puedo añadir modulos de Watchtower individualmente mas adelante?',
-        answer: 'Si. Puedes empezar con un modulo y agregar mas cuando quieras. Si luego activas los tres, puedes pasar al precio de bundle para obtener el descuento. Los cambios se aplican de inmediato.',
+        question: '¿Puedo añadir módulos de Watchtower individuales más adelante?',
+        answer: 'Sí. Puedes empezar con un módulo y añadir más cuando quieras. Si más adelante activas los tres, puedes pasar al precio del Bundle para aprovechar el descuento. Los cambios se aplican de inmediato.',
       },
     ],
     general: [
       {
-        question: 'Hay costes de configuracion?',
-        answer: 'Si. Algunos modulos incluyen tarifas unicas de configuracion para onboarding e integracion. Pueden aplicarse descuentos o exenciones segun bundles, compromisos de facturacion y acuerdos enterprise. Las cotizaciones generadas desde el configurador reflejan la politica publicada de setup.',
+        question: '¿Cuánto cuesta la implementación?',
+        answer: 'La implementación es un cargo único que se factura una sola vez a la clase más alta de tu selección: 0 $ autoservicio, 1.500 $ clase A, 2.500 $ clase B, 7.500 $ clase C o desde 12.500 $ clase D. Nunca se suma por módulo.',
       },
       {
-        question: 'Cual es el plazo del contrato?',
-        answer: 'La suscripcion es mensual por defecto y se puede cancelar en cualquier momento sin penalizacion. El prepago anual ofrece 10% de descuento y el de 2 años, 15%. Los contratos enterprise tienen condiciones personalizadas.',
+        question: '¿Cuál es el plazo del contrato?',
+        answer: 'La suscripción es mensual por defecto y se puede cancelar en cualquier momento sin penalización. El prepago anual ahorra un 10 % y el de dos años un 15 %. Los contratos Enterprise tienen condiciones personalizadas.',
       },
       {
-        question: 'Puedo subir o bajar de plan?',
-        answer: 'Si. Las mejoras se aplican de inmediato. Las bajadas entran en vigor en el siguiente ciclo de facturacion.',
+        question: '¿Puedo subir o bajar de plan?',
+        answer: 'Sí. Las mejoras se aplican de inmediato. Las bajadas entran en vigor en el siguiente ciclo de facturación.',
       },
       {
-        question: 'Como funcionan los descuentos?',
-        answer: 'Los descuentos por volumen (5% entre 30 y 99 locales, 7% entre 100 y 200) y los descuentos por facturacion (10% anual, 15% a 2 años) no se acumulan. Siempre recibes el mayor, con un maximo del 15%. Los clientes Enterprise reciben precios personalizados.',
+        question: '¿Cómo funcionan los descuentos?',
+        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 10 % anual y del 15 % a dos años. Ambos se combinan, con un tope del 15 % en total. A partir de 250 locales el precio se presupuesta.',
       },
       {
-        question: 'Los creditos de IA se comparten entre locales?',
-        answer: 'Si. Los creditos de IA se agrupan a nivel de la organizacion y se pueden usar en todos los locales. Los creditos no usados se arrastran al 25% de los creditos base durante un mes. Los paquetes top-up comprados nunca vencen.',
+        question: '¿Los créditos de IA se comparten entre locales?',
+        answer: 'Sí. Los créditos de IA se agrupan a nivel de organización y se pueden usar en todos los locales. Los créditos no usados se arrastran al 25 % de los créditos base durante un mes. Los paquetes de recarga comprados nunca caducan.',
       },
       {
-        question: 'Que diferencia hay entre puestos viewer y puestos de usuario?',
-        answer: 'Los puestos viewer son solo lectura y estan separados de los puestos de usuario con IA. Los puestos con IA son las cuentas que pueden hacer preguntas, generar insights y usar funciones avanzadas. Las cantidades incluidas y el precio de expansion dependen del catalogo publicado.',
-      },
-      {
-        question: 'Cuando aplica el precio Enterprise?',
-        answer: 'Eres elegible para precio Enterprise si tienes 30+ locales, mas de $10,000/mes de gasto previsto, o necesitas integraciones personalizadas, SSO/SAML o SLAs especificos. Los clientes elegibles pueden elegir el precio estandar con descuento por volumen o pedir una propuesta Enterprise personalizada.',
+        question: '¿Cuándo aplica el precio Enterprise?',
+        answer: 'El precio Enterprise es obligatorio a partir de 250 locales, donde termina la escala de volumen de autoservicio. Por debajo está disponible bajo petición si necesitas integraciones personalizadas, SSO/SAML, SLAs específicos o una revisión de seguridad y cumplimiento.',
       },
     ],
   },
@@ -357,7 +377,7 @@ const watchtowerFAQ: FAQItem[] = [
   },
   {
     question: 'How does Watchtower pricing scale with locations?',
-    answer: 'Each Watchtower module has a base price that covers an initial location footprint, then scales with additional locations. The configurator shows the live published pricing for the specific Watchtower mix you select.'
+    answer: 'Watchtower keeps its own published pricing model — a module base price plus a per-location component. It is not a Core package and is not priced with the Core marginal bands. The configurator shows the live published pricing for the specific Watchtower mix you select.'
   },
   {
     question: 'Is Enterprise pricing available for Watchtower?',
@@ -421,6 +441,31 @@ function mentionsRetiredCatalog(text: string): boolean {
   return RETIRED_CATALOG_PATTERNS.some((pattern) => pattern.test(text));
 }
 
+// A name filter cannot catch a retired RULE. The machine-generated packs were
+// translated from the v5.1 English source and still assert, in eighteen
+// languages, that "volume and billing discounts do not combine — you get the
+// larger", that the volume ladder runs 5% at 30-99 / 7% at 100-200, and that
+// Enterprise starts at 30 locations or $10,000/month. Every one of those is
+// wrong under v1.7 and none of them names a retired product.
+//
+// Pattern-matching that prose across eighteen languages cannot be shown to be
+// complete — a first attempt here missed Turkish "%5" (percent leading), German
+// "10.000 US-Dollar" and Japanese "10,000 ドル". So the gate is structural
+// instead: a machine-generated FAQ entry may not contain a NUMBER. Every
+// pricing claim needs one, so no number provably means no pricing claim, and
+// the digit classes below cover the numerals these locales actually use.
+// Anything dropped is still answered by the configurator, which reads the live
+// catalog; entries with no number (what Watchtower is, how upgrades take
+// effect) survive — roughly half of each generated pack.
+//
+// The hand-written ar/fr/es packs above are curated against v1.7 and are
+// deliberately NOT subject to this gate — their figures are correct.
+const NUMERAL_PATTERN = /[0-9\u0660-\u0669\u06F0-\u06F9\u0966-\u096F\u09E6-\u09EF\u0E50-\u0E59]/;
+
+function statesNumber(text: string): boolean {
+  return NUMERAL_PATTERN.test(text);
+}
+
 interface PricingFAQProps {
   category?: FAQCategory;
 }
@@ -442,21 +487,28 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
     localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.[lookupCategory];
   const localizedGeneralFaqItems =
     localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.general;
-  const resolvedFaqItems =
-    localizedFaqItems ??
-    generatedFaqItems ??
-    (locale === 'en'
-      ? faqByCategory[category] || generalFAQ
-      : localizedGeneralFaqItems || generatedGeneralFaqItems || []);
+  // Curated (English + hand-written ar/fr/es) packs are written against v1.7
+  // and may quote figures. Machine-generated packs are still v5.1 output and
+  // may not state a number at all — see `statesNumber`.
+  const curatedFaqItems =
+    localizedFaqItems ?? (locale === 'en' ? faqByCategory[category] || generalFAQ : undefined);
+  const curatedFallback = locale === 'en' ? undefined : localizedGeneralFaqItems;
+  const generatedFallback = generatedFaqItems ?? generatedGeneralFaqItems;
 
-  // Translated FAQ packs still carry answers written for the retired price
-  // book (Report tiers, Core Lite/Pro, the "base covers N locations" mechanic,
-  // the old non-stacking discount rule). Retranslating 22 locales is a
-  // separate task; until then we DROP those entries rather than display a
-  // retired offer. Dropping is safe — a shorter FAQ beats a wrong one.
-  const faqItems = resolvedFaqItems.filter(
-    (item) => !mentionsRetiredCatalog(`${item.question} ${item.answer}`),
-  );
+  const resolvedFaqItems: Array<FAQItem & { isGenerated?: boolean }> =
+    curatedFaqItems ??
+    curatedFallback ??
+    (generatedFallback ?? []).map((item) => ({ ...item, isGenerated: true }));
+
+  // Retranslating 22 locales against v1.7 is a separate task; until then we
+  // DROP entries written for the retired book rather than display a retired
+  // offer. Dropping is safe — a shorter FAQ beats a wrong one.
+  const faqItems = resolvedFaqItems.filter((item) => {
+    const text = `${item.question} ${item.answer}`;
+    if (mentionsRetiredCatalog(text)) return false;
+    if (item.isGenerated && statesNumber(text)) return false;
+    return true;
+  });
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);

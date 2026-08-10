@@ -2,7 +2,7 @@
 
 import type { CompetitorId } from '../data/competitors';
 import type { CorePackageId } from '../data/pricing';
-import type { AddOnId } from '../lib/pricingEngine';
+import type { AddOnId, ImplementationResult } from '../lib/pricingEngine';
 
 export type CrossIntelligenceSelection = 'none' | 'base' | 'pro';
 
@@ -90,6 +90,12 @@ export interface PriceCalculation {
   discounts: DiscountLine[];
   /** True at 250+ units — past the self-serve volume ladder. */
   requiresEnterpriseQuote: boolean;
+  /**
+   * ONE implementation charge for the whole selection, resolved at the
+   * highest class present. Never a per-module sum — the v5.1 setup-fee ladder
+   * is retired.
+   */
+  implementation: ImplementationResult;
   savings: {
     tenzo: { monthly: number; setup: number; firstYear: number };
   };

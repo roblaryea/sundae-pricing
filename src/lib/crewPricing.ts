@@ -3,19 +3,29 @@
 // (final quote summary), and the PDF generator (downloadable / emailable
 // quote). Centralizing here means a pricing/dep tweak only touches one
 // file instead of three.
+//
+// ── PRICE BOOK v1.7 ────────────────────────────────────────────────────────
+// Crew is priced as a FLAT monthly price per SKU (Starter $99, Schedule $179,
+// Manage $399, Time $99, Pay $129, People $249) and per bundle (Schedule &
+// Time $249, Crew Operating $499, Crew Complete $699). There is:
+//   • no per-location adder and no "included locations" allowance — the
+//     retired "base covers 3, then $X per extra location" mechanic is gone,
+//     so location count no longer moves the Crew price at all;
+//   • no per-SKU setup fee to sum. Implementation is charged ONCE at the
+//     HIGHEST implementation class in the selection.
+// Bundle prices are NAMED NET prices, never a percentage off the components.
+// Any saving shown is DERIVED here as (component sum − net price); it is
+// never an input to the price.
 
-import { crewSkus, crewBundles } from '../data/pricing';
+import { crewSkus, crewBundles, type CrewBundle } from '../data/pricing';
+import { resolveImplementationFee, type ImplementationResult } from './pricingEngine';
 import type { CrewSkuId, CrewBundleId } from '../types/configuration';
 
 export interface CrewQuoteLine {
   id: CrewSkuId | CrewBundleId;
   label: string;
-  orgLicense: number;
-  perLoc: number;
-  includedLocations: number;
-  billableExtras: number;
+  /** Flat published monthly price for this line. */
   monthly: number;
-  setupFee: number;
 }
 
 export interface CrewQuote {
@@ -25,11 +35,17 @@ export interface CrewQuote {
   lines: CrewQuoteLine[];
   monthly: number;
   annual: number;
-  setupFee: number;
-  /** Monthly $ saved when the bundle is detected (vs sum of standalone SKUs). */
+  /** ONE implementation charge for the whole stack — never a per-SKU sum. */
+  implementation: ImplementationResult;
+  /** Derived: component sum − the bundle's published net price. */
   bundleSavingsMonthly: number;
   /** Whether the visitor is on the Lite SMB path (caps locations at 5). */
   isLiteOnly: boolean;
+  /**
+   * Location count. Retained because `crew_lite` carries a hard 5-location
+   * ENTITLEMENT cap and the quote shows the footprint — it does NOT affect
+   * the Crew price under v1.7.
+   */
   locations: number;
 }
 
@@ -61,36 +77,12 @@ interface LineOptions {
   includedFree?: boolean;
 }
 
-function lineForSku(id: CrewSkuId, locations: number, opts: LineOptions = {}): CrewQuoteLine {
+function lineForSku(id: CrewSkuId, opts: LineOptions = {}): CrewQuoteLine {
   const sku = crewSkus[id];
-  const includedLocations = sku.baseIncludesLocations;
-  const billableExtras = Math.max(0, locations - includedLocations);
-
-  if (opts.includedFree) {
-    return {
-      id,
-      label: sku.name,
-      orgLicense: 0,
-      perLoc: 0,
-      includedLocations,
-      billableExtras: 0,
-      monthly: 0,
-      // Setup is also $0 when Scheduling rides along — Operations covers
-      // the scheduling setup as part of its own activation.
-      setupFee: 0,
-    };
-  }
-
-  const monthly = sku.orgLicensePrice + sku.perLocationPrice * billableExtras;
   return {
     id,
     label: sku.name,
-    orgLicense: sku.orgLicensePrice,
-    perLoc: sku.perLocationPrice,
-    includedLocations,
-    billableExtras,
-    monthly,
-    setupFee: sku.setupFee ?? 0,
+    monthly: opts.includedFree ? 0 : sku.orgLicensePrice,
   };
 }
 
@@ -102,36 +94,23 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
 
   if (detectedBundleId) {
     const bundle = crewBundles[detectedBundleId];
-    const includedLocations = 3;
-    const billableExtras = Math.max(0, effectiveLocations - includedLocations);
-    const bundleMonthly = bundle.basePrice + bundle.perLocationPrice * billableExtras;
-    // Savings vs sum of standalone SKUs at this location count. Strip
-    // Scheduling from the standalone calc when Operations is present
-    // so the savings comparison isn't inflated by a line that's
-    // already $0.
+    const bundleMonthly = bundle.basePrice;
+    // Savings vs the sum of the standalone SKUs. Strip Scheduling from the
+    // standalone calc when Operations is present so the comparison isn't
+    // inflated by a line that is already $0. DERIVED only — the bundle price
+    // above is the published net figure, not a discount off this sum.
     const hasOps = selectedSkus.includes('crew_operations');
     const standaloneMonthly = selectedSkus
       .filter((id) => !(id === 'crew_scheduling' && hasOps))
-      .map((id) => lineForSku(id, effectiveLocations).monthly)
+      .map((id) => lineForSku(id).monthly)
       .reduce((sum, m) => sum + m, 0);
     return {
       selectedSkus,
       detectedBundleId,
-      lines: [
-        {
-          id: detectedBundleId,
-          label: bundle.name,
-          orgLicense: bundle.basePrice,
-          perLoc: bundle.perLocationPrice,
-          includedLocations,
-          billableExtras,
-          monthly: bundleMonthly,
-          setupFee: bundle.setupFee,
-        },
-      ],
+      lines: [{ id: detectedBundleId, label: bundle.name, monthly: bundleMonthly }],
       monthly: bundleMonthly,
       annual: bundleMonthly * 12,
-      setupFee: bundle.setupFee,
+      implementation: resolveImplementationFee([bundle.implementationClass]),
       bundleSavingsMonthly: Math.max(0, standaloneMonthly - bundleMonthly),
       isLiteOnly: false,
       locations: effectiveLocations,
@@ -144,12 +123,9 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
   // Scheduling tile's "selected at $0" state.
   const hasOperations = selectedSkus.includes('crew_operations');
   const lines = selectedSkus.map((id) =>
-    lineForSku(id, effectiveLocations, {
-      includedFree: id === 'crew_scheduling' && hasOperations,
-    }),
+    lineForSku(id, { includedFree: id === 'crew_scheduling' && hasOperations }),
   );
   const monthly = lines.reduce((sum, line) => sum + line.monthly, 0);
-  const setupFee = lines.reduce((sum, line) => sum + line.setupFee, 0);
 
   return {
     selectedSkus,
@@ -157,11 +133,24 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
     lines,
     monthly,
     annual: monthly * 12,
-    setupFee,
+    // Charged ONCE at the highest class in the selection. Never summed.
+    implementation: resolveImplementationFee(
+      selectedSkus.map((id) => crewSkus[id].implementationClass),
+    ),
     bundleSavingsMonthly: 0,
     isLiteOnly,
     locations: effectiveLocations,
   };
+}
+
+/**
+ * What a bundle saves against the sum of its component SKUs, DERIVED from the
+ * published net bundle price. Never used as an input to a price — v1.7 bundles
+ * are named net prices, not a percentage off components.
+ */
+export function crewBundleSavings(bundle: CrewBundle): number {
+  const componentSum = bundle.skus.reduce((sum, id) => sum + crewSkus[id].orgLicensePrice, 0);
+  return Math.max(0, componentSum - bundle.basePrice);
 }
 
 // One-click preset SKU sets used by CrewBuilder's "Quick presets" row.
@@ -173,14 +162,14 @@ export const CREW_PRESETS: Array<{
 }> = [
   {
     id: 'lite',
-    label: 'Crew Lite',
+    label: 'Crew Starter',
     description: 'SMB entry · 1–5 locations · basic scheduling + self-service',
     skus: ['crew_lite'],
   },
   {
     id: 'operating_suite',
-    label: 'Operating Suite',
-    description: 'Operations + T&A + Payroll · 20% bundle discount',
+    label: 'Crew Operating',
+    description: `Manage + Time + Pay · net $${crewBundles.crew_suite_bundle.basePrice}/mo`,
     // Scheduling is included with Operations entitlement (priced at $0
     // in the UI / line items). Bundle detection normalizes this away
     // so the canonical bundle definition still matches.
@@ -188,8 +177,8 @@ export const CREW_PRESETS: Array<{
   },
   {
     id: 'complete_suite',
-    label: 'Complete Suite',
-    description: 'Operating Suite + People Intelligence · 20% bundle discount',
+    label: 'Crew Complete',
+    description: `Operating + People · net $${crewBundles.crew_complete_bundle.basePrice}/mo`,
     skus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
   },
 ];

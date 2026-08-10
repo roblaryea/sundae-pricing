@@ -7,7 +7,8 @@ import { ChevronDown, TrendingDown, Info, AlertTriangle, X, CheckCircle, AlertCi
 import { getIconByEmoji } from '../../lib/iconMap';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { calculateAllComparisons, COMPETITOR_ASSUMPTIONS, COMPETITOR_PRICING, type ComparisonResult } from '../../data/competitorPricing';
+import { calculateAllComparisons, COMPETITOR_ASSUMPTIONS, COMPETITOR_PRICING, CORE_PACKAGE_SELECTION_ID, type ComparisonResult } from '../../data/competitorPricing';
+import { CORE_DOMAIN_MODULE_IDS } from '../../data/pricing';
 import { cn } from '../../utils/cn';
 import { useLocale } from '../../contexts/LocaleContext';
 import {
@@ -35,8 +36,12 @@ export function CompactCompetitorCompare() {
   const [expandedCompetitor, setExpandedCompetitor] = useState<string | null>(null);
   const [showAssumptions, setShowAssumptions] = useState(false);
   
-  // Calculate all competitor comparisons using new system
-  const allModules = [...addOns, `${layer}-${corePackage}`];
+  // Selection passed to the competitor calculators. Under price book v1.7 a
+  // Core package INCLUDES all eleven domain modules, so the comparison is
+  // keyed on the package marker plus those domain ids — never on a tier id
+  // (`core-lite` / `core-pro` are retired and no calculator may test for
+  // them).
+  const allModules = [...addOns, CORE_PACKAGE_SELECTION_ID, ...CORE_DOMAIN_MODULE_IDS];
   const comparisons = calculateAllComparisons(locations, allModules, pricing.total);
   
   // Split into savings vs costs more

@@ -127,7 +127,7 @@ export function TierSelector() {
                 {/* Marginal band table */}
                 <div className="mb-4 pb-4 border-b border-white/10">
                   <p className="text-[11px] uppercase tracking-wider text-sundae-muted font-semibold mb-2">
-                    Then, per additional location
+                    Then, per additional location (marginal bands)
                   </p>
                   <ul className="space-y-1">
                     {pkg.marginalBands.map((band) => (

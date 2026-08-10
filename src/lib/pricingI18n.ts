@@ -42,11 +42,6 @@ type LocaleCopy = {
 const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
   en: {
     tiers: {
-      'Report Lite': 'Report Lite',
-      'Report Plus': 'Report Plus',
-      'Report Pro': 'Report Pro',
-      'Core Lite': 'Core Lite',
-      'Core Pro': 'Core Pro',
       'Enterprise': 'Enterprise',
     },
     modules: {
@@ -105,11 +100,6 @@ const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
   },
   ar: {
     tiers: {
-      'Report Lite': 'Report Lite',
-      'Report Plus': 'Report Plus',
-      'Report Pro': 'Report Pro',
-      'Core Lite': 'Core Lite',
-      'Core Pro': 'Core Pro',
       'Enterprise': 'Enterprise',
     },
     modules: {
@@ -168,11 +158,6 @@ const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
   },
   fr: {
     tiers: {
-      'Report Lite': 'Report Lite',
-      'Report Plus': 'Report Plus',
-      'Report Pro': 'Report Pro',
-      'Core Lite': 'Core Lite',
-      'Core Pro': 'Core Pro',
       'Enterprise': 'Enterprise',
     },
     modules: {
@@ -231,11 +216,6 @@ const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
   },
   es: {
     tiers: {
-      'Report Lite': 'Report Lite',
-      'Report Plus': 'Report Plus',
-      'Report Pro': 'Report Pro',
-      'Core Lite': 'Core Lite',
-      'Core Pro': 'Core Pro',
       'Enterprise': 'Enterprise',
     },
     modules: {

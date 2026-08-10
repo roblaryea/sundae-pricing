@@ -18,6 +18,7 @@ import {
   conceptSkus,
   foresightAction,
   implementationClasses,
+  IMPLEMENTATION_CLASS_ORDER,
   CLIENT_TYPE_RULES,
   EARLY_ADOPTER_TERMS,
   billingDiscounts,
@@ -87,6 +88,12 @@ export interface PriceResult {
   breakdown: PriceBreakdown[];
   /** True past the self-serve volume ladder (250+ units) — the deal is quoted. */
   requiresEnterpriseQuote: boolean;
+  /**
+   * ONE implementation charge for the whole selection, resolved at the highest
+   * class present. Never a sum, and never part of `subtotal`/`total` (those are
+   * recurring monthly figures).
+   */
+  implementation: ImplementationResult;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -183,28 +190,65 @@ export function calculateAddOnsPrice(addOns: AddOnId[], locations: number): numb
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface ImplementationResult {
-  classId: ImplementationClassId;
+  /** Highest PUBLISHED class in the selection, or null when none is known. */
+  classId: ImplementationClassId | null;
   name: string;
   fee: number;
   /** True when the published fee is a floor ("from $12,500"). */
   isFloor: boolean;
+  /**
+   * True when at least one selected SKU has no published v1.7 implementation
+   * class. The quote must then say implementation is scoped at contract
+   * instead of printing `fee` as if it were the answer.
+   */
+  requiresScoping: boolean;
 }
 
 /**
  * Implementation is a single line, never a per-SKU sum. Give it every class in
- * the selection and it returns the highest one.
+ * the selection and it returns the HIGHEST one.
+ *
+ * A `null` entry means "this SKU's class is not published under v1.7". Those
+ * do not lower the resolved class — they raise `requiresScoping`, so the
+ * caller renders "scoped at contract" rather than inventing a fee.
  */
-export function resolveImplementationFee(classIds: ImplementationClassId[]): ImplementationResult {
-  const winner = classIds
-    .map((id) => implementationClasses[id])
-    .filter(Boolean)
-    .reduce(
-      (highest, candidate) => (candidate.rank > highest.rank ? candidate : highest),
-      implementationClasses.self_service,
-    );
+export function resolveImplementationFee(
+  classIds: (ImplementationClassId | null | undefined)[],
+): ImplementationResult {
+  const known = classIds
+    .filter((id): id is ImplementationClassId => Boolean(id && implementationClasses[id]))
+    .map((id) => implementationClasses[id]);
 
-  return { classId: winner.id, name: winner.name, fee: winner.fee, isFloor: winner.isFloor };
+  const requiresScoping = classIds.some((id) => !id || !implementationClasses[id as ImplementationClassId]);
+
+  if (known.length === 0) {
+    return {
+      classId: requiresScoping ? null : 'self_service',
+      name: requiresScoping ? 'Scoped at contract' : implementationClasses.self_service.name,
+      fee: requiresScoping ? 0 : implementationClasses.self_service.fee,
+      isFloor: false,
+      requiresScoping,
+    };
+  }
+
+  const winner = known.reduce(
+    (highest, candidate) => (candidate.rank > highest.rank ? candidate : highest),
+    implementationClasses.self_service,
+  );
+
+  return {
+    classId: winner.id,
+    name: winner.name,
+    fee: winner.fee,
+    isFloor: winner.isFloor,
+    requiresScoping,
+  };
 }
+
+/** The published ladder, for "charged once at the highest class" copy. */
+export const implementationLadder = IMPLEMENTATION_CLASS_ORDER.map(
+  (id) => implementationClasses[id],
+);
 
 // ═══════════════════════════════════════════════════════════════════════════
 // WATCHTOWER
@@ -246,13 +290,17 @@ export function calculateCrossIntelligencePrice(
 
 // ═══════════════════════════════════════════════════════════════════════════
 // DISCOUNTS
-// v1.7: volume AND billing-cycle discounts combine, capped at 15% in total.
+// v1.7: EVERY calculated discount combines into ONE percentage, capped at 15%.
+// That includes the early-adopter programme rate — applying it after the cap
+// (as v5.1 did) produced a 32% effective discount and breached the published
+// ceiling. Only a hand-negotiated contract term sits outside the ladder.
 // ═══════════════════════════════════════════════════════════════════════════
 
 export interface CombinedDiscount {
   volumePercent: number;
   billingPercent: number;
-  /** volume + billing, clamped to the combined cap. */
+  earlyAdopterPercent: number;
+  /** volume + billing + early adopter, clamped to the combined cap. */
   totalPercent: number;
   capped: boolean;
 }
@@ -260,12 +308,20 @@ export interface CombinedDiscount {
 export function calculateCombinedDiscount(
   locations: number,
   billingCycle?: BillingCycle,
+  isEarlyAdopter = false,
 ): CombinedDiscount {
   const volumePercent = getVolumeDiscount(locations);
   const billingPercent = billingCycle ? billingDiscounts[billingCycle] : 0;
-  const raw = volumePercent + billingPercent;
+  const earlyAdopterPercent = isEarlyAdopter ? EARLY_ADOPTER_TERMS.discountPercent : 0;
+  const raw = volumePercent + billingPercent + earlyAdopterPercent;
   const totalPercent = Math.min(raw, DISCOUNT_RULES.maxDiscountPercent);
-  return { volumePercent, billingPercent, totalPercent, capped: raw > totalPercent };
+  return {
+    volumePercent,
+    billingPercent,
+    earlyAdopterPercent,
+    totalPercent,
+    capped: raw > totalPercent,
+  };
 }
 
 export function applyDiscounts(
@@ -276,7 +332,11 @@ export function applyDiscounts(
   let running = subtotal;
   const discounts: DiscountLine[] = [];
 
-  const combined = calculateCombinedDiscount(locations, profile.billingCycle);
+  const combined = calculateCombinedDiscount(
+    locations,
+    profile.billingCycle,
+    profile.isEarlyAdopter,
+  );
   const rules = CLIENT_TYPE_RULES[profile.type];
 
   if (combined.totalPercent > 0 && rules?.pricingModel !== 'enterprise') {
@@ -285,24 +345,13 @@ export function applyDiscounts(
     const parts: string[] = [];
     if (combined.volumePercent > 0) parts.push(`volume ${combined.volumePercent}%`);
     if (combined.billingPercent > 0) parts.push(`billing ${combined.billingPercent}%`);
+    if (combined.earlyAdopterPercent > 0) parts.push('early adopter');
     discounts.push({
       name: combined.capped
-        ? `Volume + billing discount (${parts.join(' + ')}, capped at ${DISCOUNT_RULES.maxDiscountPercent}%)`
-        : `Volume + billing discount (${parts.join(' + ')})`,
+        ? `Combined discount (${parts.join(' + ')}, capped at ${DISCOUNT_RULES.maxDiscountPercent}%)`
+        : `Combined discount (${parts.join(' + ')})`,
       amount: -amt,
       percent: combined.totalPercent,
-    });
-  }
-
-  // Early adopter (legacy programme — stacks on the remainder, not on the
-  // v1.7 volume/billing cap).
-  if (profile.isEarlyAdopter) {
-    const amt = running * (EARLY_ADOPTER_TERMS.discountPercent / 100);
-    running -= amt;
-    discounts.push({
-      name: 'Early Adopter discount',
-      amount: -amt,
-      percent: EARLY_ADOPTER_TERMS.discountPercent,
     });
   }
 
@@ -409,7 +458,25 @@ export function calculateFullPrice(config: Configuration): PriceResult {
     aiCreditsTotal: aiCredits,
     breakdown,
     requiresEnterpriseQuote: requiresEnterpriseQuote(locations),
+    implementation: resolveCoreImplementation(config),
   };
+}
+
+/**
+ * The single implementation charge for a Core configuration. Collects the
+ * implementation class of every selected SKU and resolves the HIGHEST — the
+ * per-module setup-fee ladder that used to be summed here is retired.
+ */
+export function resolveCoreImplementation(config: Configuration): ImplementationResult {
+  const classIds: (ImplementationClassId | null)[] = [
+    corePackages[config.corePackage].implementationClass,
+    ...config.addOns.map((id) =>
+      id === 'foresight_action'
+        ? foresightAction.implementationClass
+        : conceptSkus[id].implementationClass,
+    ),
+  ];
+  return resolveImplementationFee(classIds);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

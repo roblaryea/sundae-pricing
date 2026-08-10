@@ -503,7 +503,7 @@ export async function generateCrewQuotePDF(
   yPos += 8;
   if (quote.detectedBundleId) {
     doc.setTextColor(22, 163, 74);
-    renderPdfText(doc, 'Bundle auto-detected · 20% discount applied', 20, yPos, locale);
+    renderPdfText(doc, 'Bundle auto-detected · published net bundle price', 20, yPos, locale);
     doc.setTextColor(71, 85, 105);
     yPos += 8;
   }
@@ -526,9 +526,12 @@ export async function generateCrewQuotePDF(
   doc.setTextColor(100, 116, 139);
   setPdfFont(doc, locale, 'normal');
   renderPdfText(doc, `${copy.annualLabel}: ${formatCurrencyAmount(quote.annual, locale)}`, pageWidth - 80, yPos + 10, locale);
-  if (quote.setupFee > 0) {
-    renderPdfText(doc, `Setup: ${formatCurrencyAmount(quote.setupFee, locale)}`, pageWidth - 80, yPos + 20, locale);
-  }
+  const implLabel = quote.implementation.requiresScoping
+    ? 'scoped at contract'
+    : quote.implementation.fee === 0
+      ? 'self-service, $0'
+      : `${quote.implementation.isFloor ? 'from ' : ''}${formatCurrencyAmount(quote.implementation.fee, locale)}`;
+  renderPdfText(doc, `Implementation: ${implLabel}`, pageWidth - 80, yPos + 20, locale);
   yPos += 60;
 
   // Line items
@@ -548,19 +551,16 @@ export async function generateCrewQuotePDF(
       yPos = 25;
     }
     const isFreeIncluded = line.monthly === 0 && line.id === 'crew_scheduling';
-    const extras = line.billableExtras > 0 ? ` (+${line.billableExtras} × $${line.perLoc})` : '';
-    const suffix = isFreeIncluded ? ' (Included with Operations)' : extras;
+    const suffix = isFreeIncluded ? ' (Included with Operations)' : '';
     renderPdfText(doc, `${line.label}${suffix}`, 25, yPos, locale);
     renderPdfText(doc, formatCurrencyAmount(line.monthly, locale), pageWidth - 50, yPos, locale, { align: 'right' });
     yPos += 7;
   });
 
-  if (quote.setupFee > 0) {
-    yPos += 4;
-    renderPdfText(doc, 'One-time setup', 25, yPos, locale);
-    renderPdfText(doc, formatCurrencyAmount(quote.setupFee, locale), pageWidth - 50, yPos, locale, { align: 'right' });
-    yPos += 7;
-  }
+  yPos += 4;
+  renderPdfText(doc, 'Implementation (one-time, highest class only)', 25, yPos, locale);
+  renderPdfText(doc, implLabel, pageWidth - 50, yPos, locale, { align: 'right' });
+  yPos += 7;
 
   if (quote.bundleSavingsMonthly > 0) {
     yPos += 4;
@@ -581,10 +581,21 @@ export async function generateCrewQuotePDF(
   doc.setTextColor(30, 41, 59);
   setPdfFont(doc, locale, 'bold');
   doc.setFontSize(12);
-  renderPdfText(doc, 'First-year total', 25, yPos, locale);
   renderPdfText(
     doc,
-    formatCurrencyAmount(quote.annual + quote.setupFee, locale),
+    quote.implementation.requiresScoping
+      ? 'First-year subscription (excl. implementation)'
+      : 'First-year total',
+    25,
+    yPos,
+    locale,
+  );
+  renderPdfText(
+    doc,
+    formatCurrencyAmount(
+      quote.annual + (quote.implementation.requiresScoping ? 0 : quote.implementation.fee),
+      locale,
+    ),
     pageWidth - 50,
     yPos,
     locale,

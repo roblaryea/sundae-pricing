@@ -54,6 +54,18 @@ export interface CompetitorPricing {
   limitations: string[];
 }
 
+/**
+ * Selection id passed to a competitor calculator to mean "the customer has a
+ * Sundae Core package".
+ *
+ * Price book v1.7 retired `core-lite` / `core-pro`, so nothing may key on a
+ * tier id any more — a Core PACKAGE (Foundation / Margin / Growth /
+ * Performance) includes all eleven domain modules, which is what actually
+ * determines competitor overlap. Callers pass this marker plus the domain
+ * module ids; competitor calculators must never test for a retired tier id.
+ */
+export const CORE_PACKAGE_SELECTION_ID = 'core_package';
+
 export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   
   // ─────────────────────────────────────────────────────────────────────────
@@ -85,26 +97,27 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     },
     
     calculate: (locations: number, modules: string[]) => {
-      // Only count modules Tenzo offers
-      const tenzoModules = modules.filter(m => 
-        ['sales', 'labor', 'inventory'].includes(m) || 
-        m === 'core-lite' || m === 'core-pro'  // Core includes sales
-      );
-      
-      // Core counts as sales module equivalent
-      let moduleCount = tenzoModules.filter(m => ['labor', 'inventory'].includes(m)).length;
-      if (tenzoModules.some(m => m.includes('core'))) moduleCount += 1;  // Add sales
-      
+      // The three products Tenzo actually sells, in Sundae's domain ids.
+      const TENZO_DOMAINS = ['sales', 'labor', 'inventory'];
+
+      // A v1.7 Core package includes every domain module, so all three of
+      // Tenzo's are in scope whenever a Core package is selected.
+      const hasCorePackage = modules.includes(CORE_PACKAGE_SELECTION_ID);
+      const covered = hasCorePackage
+        ? TENZO_DOMAINS
+        : TENZO_DOMAINS.filter(d => modules.includes(d));
+      const moduleCount = covered.length;
+
       const monthlyPerLoc = moduleCount * 75;
       const monthly = monthlyPerLoc * locations;
       const setupFee = moduleCount * locations * 350;
       const firstYear = (monthly * 12) + setupFee;
       const ongoing = monthly * 12;
-      
-      const unavailableModules = modules.filter(m => 
-        !['sales', 'labor', 'inventory', 'core-lite', 'core-pro'].includes(m)
+
+      const notCovered = modules.filter(
+        m => m !== CORE_PACKAGE_SELECTION_ID && !TENZO_DOMAINS.includes(m)
       );
-      
+
       return {
         monthly,
         firstYear,
@@ -114,8 +127,8 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
           'Monthly licenses': monthly * 12,
           'Setup fees': setupFee
         },
-        notes: unavailableModules.length > 0
-          ? `Tenzo doesn't offer: ${unavailableModules.join(', ')}`
+        notes: notCovered.length > 0
+          ? `Tenzo covers ${moduleCount} of the ${moduleCount + notCovered.length} areas in your Sundae selection`
           : null,
         confidence: 'high'
       };

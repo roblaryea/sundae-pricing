@@ -185,7 +185,7 @@ const messages = {
       pricingFooterNote: 'Pricing effective {date}',
       taxNote: 'Taxes (VAT/GST) not included unless stated',
       changeNotice: 'Subject to change with 30-day notice',
-      locationPricingNote: 'Additional locations are billed from location #2 onward (location #1 is included in the base price)',
+      locationPricingNote: 'Location #1 is priced at the package anchor. Every location after that is charged at its marginal band rate — reaching a band never reprices the locations you already have, and no locations are bundled into the anchor',
     },
     overview: {
       heroTitle: 'Simple, Transparent Pricing',
@@ -311,15 +311,8 @@ const messages = {
     },
     catalog: {
       tiers: {
-        report: {
-          lite: { name: 'Report Lite', tagline: 'FREE Forever', bestFor: 'Testing Sundae, basic visibility, proof of concept' },
-          plus: { name: 'Report Plus', tagline: 'Automated Insights', bestFor: 'Serious single-location, automated data input, regular AI insights' },
-          pro: { name: 'Report Pro', tagline: 'API-Powered Analytics', bestFor: 'Multi-location operators, API automation, advanced analytics, portfolio prep' }
-        },
         core: {
-          lite: { name: 'Core Lite', tagline: 'Real-Time Operations', bestFor: '1-10 locations, real-time operations, portfolio management, single POS system' },
-          pro: { name: 'Core Pro', tagline: 'Portfolio Intelligence', bestFor: '10-50 locations, multi-POS environments, advanced forecasting, strategic planning' },
-          enterprise: { name: 'Enterprise', tagline: 'Custom Solutions', bestFor: '30+ locations or enterprise requirements, multi-brand portfolios' }
+          enterprise: { name: 'Enterprise', tagline: 'Custom Solutions', bestFor: '250+ locations (no self-serve band) or enterprise requirements, multi-brand portfolios' }
         }
       },
       modules: {
@@ -474,7 +467,7 @@ const messages = {
       pricingFooterNote: 'السعر سارٍ اعتباراً من {date}',
       taxNote: 'الضرائب (VAT/GST) غير مشمولة ما لم يُذكر خلاف ذلك',
       changeNotice: 'قابل للتغيير مع إشعار قبل 30 يوماً',
-      locationPricingNote: 'تُحتسب المواقع الإضافية ابتداءً من الموقع رقم 2 (الموقع رقم 1 مشمول في السعر الأساسي)',
+      locationPricingNote: 'يُسعَّر الموقع رقم 1 بسعر الباقة الأساسي، ويُحتسب كل موقع بعده بسعر شريحته الحدية — وبلوغ شريحة جديدة لا يعيد تسعير المواقع القائمة، ولا تتضمن الباقة أي مواقع مجانية',
     },
     overview: {
       heroTitle: 'تسعير واضح وشفاف',
@@ -600,15 +593,8 @@ const messages = {
     },
     catalog: {
       tiers: {
-        report: {
-          lite: { name: 'Report Lite', tagline: 'مجاني دائما', bestFor: 'تجربة Sundae ورؤية اساسية واثبات جدوى' },
-          plus: { name: 'Report Plus', tagline: 'رؤى مؤتمتة', bestFor: 'موقع واحد جاد وادخال بيانات مؤتمت ورؤى ذكاء اصطناعي منتظمة' },
-          pro: { name: 'Report Pro', tagline: 'تحليلات مدعومة بواجهات API', bestFor: 'مشغلو مواقع متعددة وادارة عبر API وتحليلات متقدمة وتحضير للمحفظة' }
-        },
         core: {
-          lite: { name: 'Core Lite', tagline: 'عمليات لحظية', bestFor: 'من 1 الى 10 مواقع وعمليات لحظية وادارة محفظة ونظام POS واحد' },
-          pro: { name: 'Core Pro', tagline: 'ذكاء المحفظة', bestFor: 'من 10 الى 50 موقعا وبيئات متعددة POS وتنبؤات متقدمة وتخطيط استراتيجي' },
-          enterprise: { name: 'Enterprise', tagline: 'حلول مخصصة', bestFor: '30+ موقعاً او متطلبات مؤسسية ومحافظ متعددة العلامات' }
+          enterprise: { name: 'Enterprise', tagline: 'حلول مخصصة', bestFor: '250+ موقعاً (لا توجد شريحة ذاتية الخدمة) او متطلبات مؤسسية ومحافظ متعددة العلامات' }
         }
       },
       modules: {
@@ -763,7 +749,7 @@ const messages = {
       pricingFooterNote: 'Tarifs en vigueur a partir du {date}',
       taxNote: 'Taxes (TVA/GST) non incluses sauf indication contraire',
       changeNotice: 'Sous reserve de modification avec preavis de 30 jours',
-      locationPricingNote: 'Les sites supplementaires sont factures a partir du site n°2 (le site n°1 est inclus dans le prix de base)',
+      locationPricingNote: "Le site n°1 est facture au prix d'ancrage du forfait. Chaque site suivant est facture au tarif de sa tranche marginale : atteindre une tranche ne retarifie jamais les sites deja en place, et aucun site n'est compris dans le prix d'ancrage",
     },
     overview: {
       heroTitle: 'Tarification simple et transparente',
@@ -889,15 +875,8 @@ const messages = {
     },
     catalog: {
       tiers: {
-        report: {
-          lite: { name: 'Report Lite', tagline: 'Gratuit pour toujours', bestFor: 'Tester Sundae, visibilite de base, preuve de concept' },
-          plus: { name: 'Report Plus', tagline: 'Insights automatises', bestFor: 'Site unique serieux, saisie automatisee et insights IA reguliers' },
-          pro: { name: 'Report Pro', tagline: 'Analytique alimentee par API', bestFor: 'Exploitants multi-sites, automatisation API, analytique avancee, preparation portefeuille' }
-        },
         core: {
-          lite: { name: 'Core Lite', tagline: 'Operations en temps reel', bestFor: '1 a 10 sites, operations temps reel, gestion de portefeuille, POS unique' },
-          pro: { name: 'Core Pro', tagline: 'Intelligence portefeuille', bestFor: '10 a 50 sites, environnements multi-POS, previsions avancees, planification strategique' },
-          enterprise: { name: 'Enterprise', tagline: 'Solutions sur mesure', bestFor: '30+ sites ou exigences enterprise, portefeuilles multi-marques' }
+          enterprise: { name: 'Enterprise', tagline: 'Solutions sur mesure', bestFor: '250+ sites (plus de palier en libre-service) ou exigences enterprise, portefeuilles multi-marques' }
         }
       },
       modules: {
@@ -1052,7 +1031,7 @@ const messages = {
       pricingFooterNote: 'Precios vigentes a partir de {date}',
       taxNote: 'Impuestos (IVA/GST) no incluidos salvo que se indique lo contrario',
       changeNotice: 'Sujeto a cambios con aviso de 30 dias',
-      locationPricingNote: 'Los locales adicionales se facturan desde el local n.º 2 (el local n.º 1 esta incluido en el precio base)',
+      locationPricingNote: 'El local n.º 1 se factura al precio ancla del paquete. Cada local posterior se cobra a la tarifa de su tramo marginal: alcanzar un tramo nunca vuelve a tarificar los locales que ya tienes, y el precio ancla no incluye ningun local adicional',
     },
     overview: {
       heroTitle: 'Precios simples y transparentes',
@@ -1178,15 +1157,8 @@ const messages = {
     },
     catalog: {
       tiers: {
-        report: {
-          lite: { name: 'Report Lite', tagline: 'Gratis para siempre', bestFor: 'Probar Sundae, visibilidad basica y prueba de concepto' },
-          plus: { name: 'Report Plus', tagline: 'Insights automatizados', bestFor: 'Local unico serio, carga automatizada e insights de IA regulares' },
-          pro: { name: 'Report Pro', tagline: 'Analitica impulsada por API', bestFor: 'Operadores multi-local, automatizacion API, analitica avanzada y preparacion de portafolio' }
-        },
         core: {
-          lite: { name: 'Core Lite', tagline: 'Operaciones en tiempo real', bestFor: '1-10 locales, operaciones en tiempo real, gestion de portafolio y un solo POS' },
-          pro: { name: 'Core Pro', tagline: 'Inteligencia de portafolio', bestFor: '10-50 locales, entornos multi-POS, pronosticos avanzados y planificacion estrategica' },
-          enterprise: { name: 'Enterprise', tagline: 'Soluciones personalizadas', bestFor: '30+ locales o requisitos enterprise, portafolios multi-marca' }
+          enterprise: { name: 'Enterprise', tagline: 'Soluciones personalizadas', bestFor: '250+ locales (sin tramo de autoservicio) o requisitos enterprise, portafolios multi-marca' }
         }
       },
       modules: {

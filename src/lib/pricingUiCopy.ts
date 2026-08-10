@@ -11,16 +11,50 @@ export function formatMessage(template: string, values: Record<string, string | 
   )
 }
 
+/**
+ * CTL-13: this used to pick ONE pack wholesale with `??`. When the chosen pack
+ * was shape-incomplete — which the checked-in generated packs routinely are,
+ * because nothing in this repo regenerates them — every key it lacked resolved
+ * to `undefined` and rendered blank, or threw on a nested read. That exact
+ * failure took the whole simulator down in 18 locales via layerStackCopy.
+ *
+ * Resolving per FIELD over the English base makes that impossible: a pack that
+ * is missing a key degrades to English for that key alone, which is all a
+ * missing translation should ever cost. Adding a new copy key is now safe
+ * before the generated packs catch up.
+ */
 function resolvePricingUiCopy<T extends Record<FullyLocalizedPricingLocale, unknown>>(
   copyByLocale: T,
   locale: PricingUiLocale,
   generatedCopyByLocale?: Partial<Record<PricingLocale, unknown>>,
 ): T[FullyLocalizedPricingLocale] {
-  return (
-    copyByLocale[locale as FullyLocalizedPricingLocale] ??
-    generatedCopyByLocale?.[locale] ??
-    copyByLocale.en
-  ) as T[FullyLocalizedPricingLocale]
+  const base = copyByLocale.en as Record<string, unknown>
+  const pack = (copyByLocale[locale as FullyLocalizedPricingLocale] ??
+    generatedCopyByLocale?.[locale]) as Record<string, unknown> | undefined
+  if (!pack) return copyByLocale.en as T[FullyLocalizedPricingLocale]
+  if (pack === base) return copyByLocale.en as T[FullyLocalizedPricingLocale]
+
+  const merged: Record<string, unknown> = { ...base }
+  for (const key of Object.keys(base)) {
+    const value = pack[key]
+    if (value === undefined || value === null) continue
+    // Nested objects (e.g. categoryLabels) merge one level so a partial group
+    // cannot blank out the labels it does define.
+    if (
+      typeof value === 'object' &&
+      !Array.isArray(value) &&
+      typeof base[key] === 'object' &&
+      base[key] !== null &&
+      !Array.isArray(base[key])
+    ) {
+      merged[key] = { ...(base[key] as object), ...(value as object) }
+      continue
+    }
+    if (Array.isArray(value) && value.length === 0) continue
+    if (typeof value === 'string' && value.length === 0) continue
+    merged[key] = value
+  }
+  return merged as T[FullyLocalizedPricingLocale]
 }
 
 const locationSliderCopy = {
@@ -33,6 +67,7 @@ const locationSliderCopy = {
     totalMonthly: 'Total Monthly',
     annualSuffix: '/year',
     perLocation: 'Per Location',
+    avgPerLocation: 'Avg · per location',
     saveVsSingle: 'Save {percent}% vs single',
     bestValueAtScale: 'Best value at scale',
     enterpriseQualified:
@@ -63,6 +98,7 @@ const locationSliderCopy = {
     totalMonthly: 'الإجمالي الشهري',
     annualSuffix: '/سنوياً',
     perLocation: 'لكل موقع',
+    avgPerLocation: 'المتوسط · لكل موقع',
     saveVsSingle: 'وفّر {percent}% مقابل موقع واحد',
     bestValueAtScale: 'أفضل قيمة عند التوسع',
     enterpriseQualified:
@@ -93,6 +129,7 @@ const locationSliderCopy = {
     totalMonthly: 'Total mensuel',
     annualSuffix: '/an',
     perLocation: 'Par site',
+    avgPerLocation: 'Moy. · par site',
     saveVsSingle: 'Économisez {percent}% par rapport à un site unique',
     bestValueAtScale: 'Meilleure valeur à grande échelle',
     enterpriseQualified:
@@ -125,6 +162,7 @@ const locationSliderCopy = {
     totalMonthly: 'Total mensual',
     annualSuffix: '/año',
     perLocation: 'Por local',
+    avgPerLocation: 'Prom. · por local',
     saveVsSingle: 'Ahorra {percent}% vs un solo local',
     bestValueAtScale: 'Mejor valor a escala',
     enterpriseQualified:
@@ -154,6 +192,7 @@ const liveCalculatorCopy = {
   en: {
     monthlyTotal: 'Monthly Total',
     perLocation: 'Per Location',
+    avgPerLocation: 'Avg · per location',
     saveVs: 'Save {percent}% vs {competitor}',
     expandAria: 'Expand price calculator',
     minimizeAria: 'Minimize price calculator',
@@ -162,6 +201,7 @@ const liveCalculatorCopy = {
   ar: {
     monthlyTotal: 'الإجمالي الشهري',
     perLocation: 'لكل موقع',
+    avgPerLocation: 'المتوسط · لكل موقع',
     saveVs: 'وفّر {percent}% مقابل {competitor}',
     expandAria: 'توسيع حاسبة الأسعار',
     minimizeAria: 'تصغير حاسبة الأسعار',
@@ -170,6 +210,7 @@ const liveCalculatorCopy = {
   fr: {
     monthlyTotal: 'Total mensuel',
     perLocation: 'Par site',
+    avgPerLocation: 'Moy. · par site',
     saveVs: 'Économisez {percent}% par rapport à {competitor}',
     expandAria: 'Développer le calculateur de prix',
     minimizeAria: 'Réduire le calculateur de prix',
@@ -178,6 +219,7 @@ const liveCalculatorCopy = {
   es: {
     monthlyTotal: 'Total mensual',
     perLocation: 'Por local',
+    avgPerLocation: 'Prom. · por local',
     saveVs: 'Ahorra {percent}% vs {competitor}',
     expandAria: 'Expandir calculadora de precios',
     minimizeAria: 'Minimizar calculadora de precios',

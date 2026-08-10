@@ -1,19 +1,50 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// SUNDAE PRICING ENGINE — All calculation logic (v5.1)
+// SUNDAE PRICING ENGINE — price book v1.7
 // ═══════════════════════════════════════════════════════════════════════════
+// Core is priced as a FIRST-UNIT anchor plus MARGINAL bands. Bands never
+// reprice earlier units:
+//   5 Core Foundation locations = 1195 + 4 × 175 = $1,895 total ($379 each).
+//
+// Consequences the rest of the app depends on:
+//   • There is NO flat per-location rate for a banded SKU. `perLocation` is a
+//     derived AVERAGE (total ÷ units) and must be labelled as such.
+//   • There is NO "included locations" allowance. Unit #1 is the anchor.
+//   • There is no per-module setup-fee ladder. Implementation is charged ONCE
+//     at the highest class in the selection (see `resolveImplementationFee`).
 
 import {
-  reportTiers, coreTiers, modules, moduleBundles,
-  CLIENT_TYPE_RULES, EARLY_ADOPTER_TERMS, enterprisePricing,
-  billingDiscounts, DISCOUNT_RULES, setupFeeDiscounts,
-  crossIntelligence, completeIntelligenceWithCrossIntel
+  corePackages,
+  coreTiers,
+  conceptSkus,
+  foresightAction,
+  implementationClasses,
+  IMPLEMENTATION_CLASS_ORDER,
+  CLIENT_TYPE_RULES,
+  EARLY_ADOPTER_TERMS,
+  billingDiscounts,
+  DISCOUNT_RULES,
+  crossIntelligence,
+  getVolumeDiscount,
+  requiresEnterpriseQuote,
 } from '../data/pricing';
-import type { ReportTier, CoreTier, ModuleId, BundleId, ClientType, BillingCycle, CrossIntelligenceTier } from '../data/pricing';
+import type {
+  BandedSku,
+  MarginalBand,
+  CorePackageId,
+  ConceptSkuId,
+  ImplementationClassId,
+  ClientType,
+  BillingCycle,
+  CrossIntelligenceTier,
+} from '../data/pricing';
 import { calculateWatchtowerPrice as calcWatchtowerPrice, type WatchtowerModuleId } from './watchtowerEngine';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════════════════════════════
+
+/** Everything sellable alongside a Core package. */
+export type AddOnId = 'foresight_action' | ConceptSkuId;
 
 export interface ClientProfile {
   type: ClientType;
@@ -25,10 +56,10 @@ export interface ClientProfile {
 }
 
 export interface Configuration {
-  layer: 'report' | 'core';
-  tier: string;
+  layer: 'core';
+  corePackage: CorePackageId;
   locations: number;
-  modules: ModuleId[];
+  addOns: AddOnId[];
   watchtower: string[];
   clientProfile: ClientProfile;
   crossIntelligence?: CrossIntelligenceTier;
@@ -50,484 +81,277 @@ export interface PriceResult {
   subtotal: number;
   discountsApplied: DiscountLine[];
   total: number;
+  /** Derived AVERAGE per unit (total ÷ units) — never a per-location rate card. */
   perLocation: number;
   annualTotal: number;
   aiCreditsTotal: number;
-  aiSeatsTotal: number;
   breakdown: PriceBreakdown[];
+  /** True past the self-serve volume ladder (250+ units) — the deal is quoted. */
+  requiresEnterpriseQuote: boolean;
+  /**
+   * ONE implementation charge for the whole selection, resolved at the highest
+   * class present. Never a sum, and never part of `subtotal`/`total` (those are
+   * recurring monthly figures).
+   */
+  implementation: ImplementationResult;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// TIER CALCULATIONS
+// MARGINAL BAND MATH
 // ═══════════════════════════════════════════════════════════════════════════
 
-export function calculateReportPrice(tier: ReportTier, locations: number) {
-  const t = reportTiers[tier];
-  const additionalLocs = Math.max(0, locations - 1);
+export interface BandLine {
+  band: MarginalBand;
+  /** How many units fall inside this band at the requested unit count. */
+  units: number;
+  subtotal: number;
+}
+
+/**
+ * Units priced by one band at a given total unit count.
+ * A band covers [fromUnit, toUnit]; `toUnit === null` is terminal.
+ */
+function unitsInBand(band: MarginalBand, units: number): number {
+  if (units < band.fromUnit) return 0;
+  const upper = band.toUnit === null ? units : Math.min(units, band.toUnit);
+  return Math.max(0, upper - band.fromUnit + 1);
+}
+
+/**
+ * Per-band breakdown for a banded SKU. Unit #1 is the anchor and is NOT part
+ * of any band, so it is not represented here.
+ */
+export function calculateBandLines(sku: BandedSku, units: number): BandLine[] {
+  const safeUnits = Math.max(0, Math.floor(units));
+  return sku.marginalBands
+    .map((band) => {
+      const bandUnits = unitsInBand(band, safeUnits);
+      return { band, units: bandUnits, subtotal: bandUnits * band.pricePerUnit };
+    })
+    .filter((line) => line.units > 0);
+}
+
+/**
+ * Total monthly price for a banded SKU: the first-unit anchor plus the
+ * marginal cost of every unit from #2 upward. MARGINAL — reaching a band does
+ * not reprice earlier units.
+ */
+export function calculateBandedTotal(sku: BandedSku, units: number): number {
+  const safeUnits = Math.max(0, Math.floor(units));
+  if (safeUnits <= 0) return 0;
+  return (
+    sku.firstUnitPrice +
+    calculateBandLines(sku, safeUnits).reduce((sum, line) => sum + line.subtotal, 0)
+  );
+}
+
+/**
+ * The marginal rate the NEXT unit would be charged at. Useful for "your next
+ * location costs $X" copy — never for multiplying out a total.
+ */
+export function marginalRateForNextUnit(sku: BandedSku, currentUnits: number): number | null {
+  const nextUnit = Math.max(1, Math.floor(currentUnits)) + 1;
+  const band = sku.marginalBands.find(
+    (b) => nextUnit >= b.fromUnit && (b.toUnit === null || nextUnit <= b.toUnit),
+  );
+  return band?.pricePerUnit ?? null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// CORE PACKAGE / ADD-ON CALCULATIONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+export function calculateCorePackagePrice(packageId: CorePackageId, locations: number): number {
+  return calculateBandedTotal(corePackages[packageId], locations);
+}
+
+export function calculateForesightActionPrice(locations: number): number {
+  return calculateBandedTotal(foresightAction, locations);
+}
+
+/** Concept SKUs are published as a flat monthly price with no per-unit band. */
+export function calculateConceptPrice(conceptId: ConceptSkuId): number {
+  return conceptSkus[conceptId].monthlyPrice;
+}
+
+export function isConceptId(id: string): id is ConceptSkuId {
+  return Object.prototype.hasOwnProperty.call(conceptSkus, id);
+}
+
+export function calculateAddOnsPrice(addOns: AddOnId[], locations: number): number {
+  return addOns.reduce((sum, id) => {
+    if (id === 'foresight_action') return sum + calculateForesightActionPrice(locations);
+    return sum + calculateConceptPrice(id);
+  }, 0);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// IMPLEMENTATION (charged ONCE, at the highest class in the selection)
+// ═══════════════════════════════════════════════════════════════════════════
+
+export interface ImplementationResult {
+  /** Highest PUBLISHED class in the selection, or null when none is known. */
+  classId: ImplementationClassId | null;
+  name: string;
+  fee: number;
+  /** True when the published fee is a floor ("from $12,500"). */
+  isFloor: boolean;
+  /**
+   * True when at least one selected SKU has no published v1.7 implementation
+   * class. The quote must then say implementation is scoped at contract
+   * instead of printing `fee` as if it were the answer.
+   */
+  requiresScoping: boolean;
+}
+
+/**
+ * Implementation is a single line, never a per-SKU sum. Give it every class in
+ * the selection and it returns the HIGHEST one.
+ *
+ * A `null` entry means "this SKU's class is not published under v1.7". Those
+ * do not lower the resolved class — they raise `requiresScoping`, so the
+ * caller renders "scoped at contract" rather than inventing a fee.
+ */
+export function resolveImplementationFee(
+  classIds: (ImplementationClassId | null | undefined)[],
+): ImplementationResult {
+  const known = classIds
+    .filter((id): id is ImplementationClassId => Boolean(id && implementationClasses[id]))
+    .map((id) => implementationClasses[id]);
+
+  const requiresScoping = classIds.some((id) => !id || !implementationClasses[id as ImplementationClassId]);
+
+  if (known.length === 0) {
+    return {
+      classId: requiresScoping ? null : 'self_service',
+      name: requiresScoping ? 'Scoped at contract' : implementationClasses.self_service.name,
+      fee: requiresScoping ? 0 : implementationClasses.self_service.fee,
+      isFloor: false,
+      requiresScoping,
+    };
+  }
+
+  const winner = known.reduce(
+    (highest, candidate) => (candidate.rank > highest.rank ? candidate : highest),
+    implementationClasses.self_service,
+  );
+
   return {
-    price: t.basePrice + (additionalLocs * t.additionalLocationPrice),
-    aiCredits: t.aiCredits.base + (additionalLocs * t.aiCredits.perLocation),
-    aiSeats: t.aiSeats
+    classId: winner.id,
+    name: winner.name,
+    fee: winner.fee,
+    isFloor: winner.isFloor,
+    requiresScoping,
   };
 }
 
-export function calculateCorePrice(tier: CoreTier, locations: number) {
-  const t = coreTiers[tier];
-  const additionalLocs = Math.max(0, locations - 1);
-  return {
-    price: t.basePrice + (additionalLocs * t.additionalLocationPrice),
-    aiCredits: t.aiCredits.base + (additionalLocs * t.aiCredits.perLocation),
-    aiSeats: t.aiSeats as number
-  };
-}
+/** The published ladder, for "charged once at the highest class" copy. */
+export const implementationLadder = IMPLEMENTATION_CLASS_ORDER.map(
+  (id) => implementationClasses[id],
+);
 
 // ═══════════════════════════════════════════════════════════════════════════
-// MODULE CALCULATIONS
-// ═══════════════════════════════════════════════════════════════════════════
-
-export function calculateModulePrice(moduleId: ModuleId, locations: number, tier?: 'core_lite' | 'core_pro'): number {
-  const m = modules[moduleId];
-  const extraLocs = Math.max(0, locations - m.baseIncludesLocations);
-  const tierPricing = tier && m.pricingByTier?.[tier];
-  const orgPrice = tierPricing?.orgLicensePrice ?? m.orgLicensePrice;
-  const perLocPrice = tierPricing?.perLocationPrice ?? m.perLocationPrice;
-  return orgPrice + (extraLocs * perLocPrice);
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// WATCHTOWER CALCULATIONS (Uses new base + per-location model)
+// WATCHTOWER
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function calculateWatchtowerPrice(
   selected: string[],
-  locations: number
+  locations: number,
 ): { price: number; savings: number; isBundle: boolean } {
   if (selected.length === 0) {
     return { price: 0, savings: 0, isBundle: false };
   }
 
   const result = calcWatchtowerPrice(selected as WatchtowerModuleId[], locations);
-  return {
-    price: result.total,
-    savings: result.bundleSavings,
-    isBundle: result.isBundle
-  };
+  return { price: result.total, savings: result.bundleSavings, isBundle: result.isBundle };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// BUNDLE CALCULATIONS
+// CROSS-INTELLIGENCE
 // ═══════════════════════════════════════════════════════════════════════════
 
-export function calculateBundlePrice(bundleId: BundleId, locations: number, tier?: 'core_lite' | 'core_pro'): number {
-  const b = moduleBundles[bundleId];
-  const tierPricing = tier && b.pricingByTier?.[tier];
-  const basePrice = tierPricing?.basePrice ?? b.basePrice;
-  const perLocPrice = tierPricing?.perLocationPrice ?? b.perLocationPrice;
-  const extraLocs = Math.max(0, locations - 3); // bundles include 3 locations
-  return basePrice + (extraLocs * perLocPrice);
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// UNLOCK FEES (Report Pro only)
-// ═══════════════════════════════════════════════════════════════════════════
-
-export interface UnlockFees {
-  intelligence: number;
-  pulseAccess: number;
-  total: number;
-}
-
-export function calculateUnlockFees(
-  layer: 'report' | 'core',
-  tier: string,
-  selections: { intelligence?: boolean; pulse?: boolean }
-): UnlockFees {
-  let intelligence = 0;
-  let pulseAccess = 0;
-
-  if (layer === 'report' && tier === 'pro') {
-    // Report Pro has unlock fees for Sundae Intelligence and Pulse
-    if (selections.intelligence) {
-      const tierData = reportTiers.pro;
-      const intel = tierData.intelligenceAccess;
-      if (intel && typeof intel === 'object' && 'unlockFee' in intel) {
-        intelligence = intel.unlockFee;
-      }
-    }
-    if (selections.pulse) {
-      const tierData = reportTiers.pro;
-      const pulse = tierData.pulseAccess;
-      if (pulse && typeof pulse === 'object' && 'unlockFee' in pulse) {
-        pulseAccess = pulse.unlockFee;
-      }
-    }
-  }
-  // Core tiers: unlock fees are 0 (included)
-
-  return { intelligence, pulseAccess, total: intelligence + pulseAccess };
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// SETUP FEE CALCULATIONS
-// ═══════════════════════════════════════════════════════════════════════════
-
-export interface SetupFeeResult {
-  items: { name: string; fee: number }[];
-  subtotal: number;
-  discountPercent: number;
-  discountAmount: number;
-  total: number;
-}
-
-interface PulseIntegrationCreditRules {
-  laborSameSystem: number;
-  inventorySameSystem: number;
-  maxCredit: number;
-}
-
-export function calculateSetupFees(
-  selectedModules: ModuleId[],
-  options: {
-    isBundle?: BundleId;
-    isEnterprise?: boolean;
-    isAnnualPrepay?: boolean;
-    pulseIntegrationOverlap?: { laborSameSystem?: boolean; inventorySameSystem?: boolean };
-  } = {}
-): SetupFeeResult {
-  // Enterprise: setup fees waived
-  if (options.isEnterprise) {
-    return { items: [], subtotal: 0, discountPercent: 100, discountAmount: 0, total: 0 };
-  }
-
-  const items: { name: string; fee: number }[] = [];
-
-  if (options.isBundle) {
-    // Bundle has a fixed setup fee
-    const bundle = moduleBundles[options.isBundle];
-    items.push({ name: `${bundle.name} setup`, fee: bundle.setupFee });
-  } else {
-    // Individual module setup fees
-    for (const id of selectedModules) {
-      const m = modules[id];
-      let fee = m.setupFee;
-
-      // Pulse integration credit rule
-      if (id === 'pulse' && options.pulseIntegrationOverlap) {
-        const creditRules = (m as typeof m & { integrationCreditRules?: PulseIntegrationCreditRules }).integrationCreditRules;
-        if (creditRules) {
-          let credit = 0;
-          if (options.pulseIntegrationOverlap.laborSameSystem && selectedModules.includes('labor')) {
-            credit += creditRules.laborSameSystem; // $299
-          }
-          if (options.pulseIntegrationOverlap.inventorySameSystem && selectedModules.includes('inventory')) {
-            credit += creditRules.inventorySameSystem; // $499
-          }
-          credit = Math.min(credit, creditRules.maxCredit); // cap at $399
-          fee = Math.max(0, fee - credit);
-        }
-      }
-
-      items.push({ name: `${m.name} setup`, fee });
-    }
-  }
-
-  const subtotal = items.reduce((sum, i) => sum + i.fee, 0);
-
-  // Determine discount
-  let discountPercent = 0;
-
-  if (options.isBundle === 'complete_intelligence') {
-    discountPercent = setupFeeDiscounts.completeIntelligencePercent; // 50%
-  } else if (selectedModules.length >= 3 && !options.isBundle) {
-    discountPercent = setupFeeDiscounts.threeOrMoreModulesPercent; // 20%
-  }
-
-  // Annual prepay discount on setup (non-stacking with module count discount — take best)
-  if (options.isAnnualPrepay) {
-    discountPercent = Math.max(discountPercent, setupFeeDiscounts.annualPrepayPercent); // 25%
-  }
-
-  const discountAmount = Math.round(subtotal * discountPercent / 100);
-  const total = subtotal - discountAmount;
-
-  return { items, subtotal, discountPercent, discountAmount, total };
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// PREREQUISITE VALIDATION
-// ═══════════════════════════════════════════════════════════════════════════
-
-export interface PrerequisiteError {
-  moduleId: string;
-  moduleName: string;
-  missingPrerequisites: string[];
-  message: string;
-}
-
-export function validatePrerequisites(
-  selectedModules: ModuleId[]
-): PrerequisiteError[] {
-  const errors: PrerequisiteError[] = [];
-
-  for (const id of selectedModules) {
-    const m = modules[id];
-    if (m.prerequisites && m.prerequisites.length > 0) {
-      const missing = m.prerequisites.filter(
-        (prereq: string) => !selectedModules.includes(prereq as ModuleId)
-      );
-      if (missing.length > 0) {
-        const prerequisiteMessage = (m as typeof m & { prerequisiteMessage?: string }).prerequisiteMessage;
-        errors.push({
-          moduleId: id,
-          moduleName: m.name,
-          missingPrerequisites: missing,
-          message: prerequisiteMessage || `Requires: ${missing.join(', ')}`
-        });
-      }
-    }
-  }
-
-  return errors;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// CROSS-INTELLIGENCE CALCULATIONS
-// ═══════════════════════════════════════════════════════════════════════════
-
-export function isCrossIntelligenceEligible(activeModuleCount: number): boolean {
-  return activeModuleCount >= crossIntelligence.base.autoEnableThreshold;
+/**
+ * v1.7: every Core package ships all eleven domain modules, so the correlation
+ * engine's "3+ active domains" condition is satisfied by any Core package.
+ */
+export function isCrossIntelligenceEligible(hasCorePackage: boolean): boolean {
+  return hasCorePackage;
 }
 
 export function calculateCrossIntelligencePrice(
   tier: CrossIntelligenceTier,
-  locations: number
+  locations: number,
 ): number {
   if (tier === 'base') return 0;
   const pro = crossIntelligence.pro;
   const additionalLocs = Math.max(0, locations - pro.includedLocations);
-  return pro.monthlyFee + (additionalLocs * pro.perLocationPrice);
+  return pro.monthlyFee + additionalLocs * pro.perLocationPrice;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// FULL SCENARIO CALCULATION (one-time + monthly)
+// DISCOUNTS
+// v1.7: EVERY calculated discount combines into ONE percentage, capped at 15%.
+// That includes the early-adopter programme rate — applying it after the cap
+// (as v5.1 did) produced a 32% effective discount and breached the published
+// ceiling. Only a hand-negotiated contract term sits outside the ladder.
 // ═══════════════════════════════════════════════════════════════════════════
 
-export interface ScenarioInput {
-  layer: 'report' | 'core';
-  tier: string;
-  locations: number;
-  modules: ModuleId[];
-  bundle?: BundleId;
-  watchtower: string[];
-  intelligence?: boolean;
-  pulse?: boolean;
-  aiPackage?: 'ai_plus' | 'ai_pro';
-  crossIntelligence?: CrossIntelligenceTier;
-  billingCycle?: BillingCycle;
-  isEnterprise?: boolean;
-  isAnnualPrepay?: boolean;
-  pulseIntegrationOverlap?: { laborSameSystem?: boolean; inventorySameSystem?: boolean };
+export interface CombinedDiscount {
+  volumePercent: number;
+  billingPercent: number;
+  earlyAdopterPercent: number;
+  /** volume + billing + early adopter, clamped to the combined cap. */
+  totalPercent: number;
+  capped: boolean;
 }
 
-export interface ScenarioResult {
-  monthly: {
-    tierPrice: number;
-    modulePrice: number;
-    watchtowerPrice: number;
-    unlockFees: number;
-    aiPackagePrice: number;
-    crossIntelligencePrice: number;
-    subtotal: number;
-    discountAmount: number;
-    total: number;
-  };
-  oneTime: {
-    setupFees: number;
-  };
-  perLocation: number;
-  aiCredits: number;
-  crossIntelligenceEligible: boolean;
-  prerequisiteErrors: PrerequisiteError[];
-}
-
-export function calculateScenario(input: ScenarioInput): ScenarioResult {
-  // Determine the module tier key for tier-aware pricing
-  const moduleTier = input.layer === 'core'
-    ? (`core_${input.tier}` as 'core_lite' | 'core_pro')
-    : undefined;
-
-  // Tier price
-  let tierPrice = 0;
-  let aiCredits = 0;
-  if (input.layer === 'report') {
-    const r = calculateReportPrice(input.tier as ReportTier, input.locations);
-    tierPrice = r.price;
-    aiCredits = r.aiCredits;
-  } else {
-    const c = calculateCorePrice(input.tier as CoreTier, input.locations);
-    tierPrice = c.price;
-    aiCredits = c.aiCredits;
-  }
-
-  // Module price
-  let modulePrice = 0;
-  if (input.bundle) {
-    modulePrice = calculateBundlePrice(input.bundle, input.locations, moduleTier);
-  } else {
-    for (const id of input.modules) {
-      modulePrice += calculateModulePrice(id, input.locations, moduleTier);
-    }
-  }
-
-  // Pulse module price when selected via pulse flag (not already in modules list)
-  if (input.pulse && !input.modules.includes('pulse' as ModuleId) && !input.bundle) {
-    modulePrice += calculateModulePrice('pulse' as ModuleId, input.locations, moduleTier);
-  }
-
-  // Watchtower price
-  let watchtowerPrice = 0;
-  if (input.watchtower.length > 0) {
-    watchtowerPrice = calculateWatchtowerPrice(input.watchtower, input.locations).price;
-  }
-
-  // Unlock fees
-  const unlocks = calculateUnlockFees(input.layer, input.tier, {
-    intelligence: input.intelligence,
-    pulse: input.pulse
-  });
-
-  // AI package
-  let aiPackagePrice = 0;
-  if (input.aiPackage === 'ai_plus') aiPackagePrice = 399;
-  if (input.aiPackage === 'ai_pro') aiPackagePrice = 599;
-
-  // Cross-Intelligence
-  const activeModuleCount = input.bundle
-    ? moduleBundles[input.bundle].modules.length
-    : input.modules.length + (input.pulse && !input.modules.includes('pulse' as ModuleId) ? 1 : 0);
-  const crossIntelEligible = input.layer === 'core' && isCrossIntelligenceEligible(activeModuleCount);
-  let crossIntelligencePrice = 0;
-  if (crossIntelEligible && input.crossIntelligence === 'pro') {
-    // Check for Complete Intelligence + Cross-Intel bundle discount
-    if (input.bundle === 'complete_intelligence') {
-      const tierKey = moduleTier === 'core_lite' ? 'core_lite' : 'core_pro';
-      const bundlePricing = completeIntelligenceWithCrossIntel.pricingByTier[tierKey];
-      const regularBundlePrice = calculateBundlePrice(input.bundle, input.locations, moduleTier);
-      const regularCrossIntelPrice = calculateCrossIntelligencePrice('pro', input.locations);
-      // Bundle discount: use pre-calculated bundle price minus what we'd charge separately
-      crossIntelligencePrice = (bundlePricing.basePrice + Math.max(0, input.locations - 3) * bundlePricing.perLocationPrice) - regularBundlePrice;
-      crossIntelligencePrice = Math.max(0, crossIntelligencePrice);
-      // If the combined bundle is cheaper, use the savings
-      if (crossIntelligencePrice > regularCrossIntelPrice) {
-        crossIntelligencePrice = regularCrossIntelPrice;
-      }
-    } else {
-      crossIntelligencePrice = calculateCrossIntelligencePrice('pro', input.locations);
-    }
-  }
-
-  const subtotal = tierPrice + modulePrice + watchtowerPrice + unlocks.total + aiPackagePrice + crossIntelligencePrice;
-
-  // Apply discounts
-  const volumePct = input.locations >= 100 ? 7 : input.locations >= 30 ? 5 : 0;
-  const billingPct = input.billingCycle ? billingDiscounts[input.billingCycle] : 0;
-  const bestDiscount = Math.min(Math.max(volumePct, billingPct), DISCOUNT_RULES.maxDiscountPercent);
-  const discountAmount = Math.round(subtotal * bestDiscount / 100);
-  const monthlyTotal = subtotal - discountAmount;
-
-  // Setup fees
-  const modulesForSetup = input.bundle
-    ? moduleBundles[input.bundle].modules as ModuleId[]
-    : input.modules;
-  const pulseInSelection = modulesForSetup.includes('pulse') || input.pulse;
-  const allModulesForSetup = pulseInSelection && !modulesForSetup.includes('pulse')
-    ? [...modulesForSetup, 'pulse' as ModuleId]
-    : modulesForSetup;
-
-  const setup = calculateSetupFees(
-    input.bundle ? [] : allModulesForSetup,
-    {
-      isBundle: input.bundle,
-      isEnterprise: input.isEnterprise,
-      isAnnualPrepay: input.isAnnualPrepay,
-      pulseIntegrationOverlap: input.pulseIntegrationOverlap
-    }
-  );
-
-  // Prerequisites
-  const prerequisiteErrors = validatePrerequisites(
-    input.bundle ? moduleBundles[input.bundle].modules as ModuleId[] : input.modules
-  );
-
+export function calculateCombinedDiscount(
+  locations: number,
+  billingCycle?: BillingCycle,
+  isEarlyAdopter = false,
+): CombinedDiscount {
+  const volumePercent = getVolumeDiscount(locations);
+  const billingPercent = billingCycle ? billingDiscounts[billingCycle] : 0;
+  const earlyAdopterPercent = isEarlyAdopter ? EARLY_ADOPTER_TERMS.discountPercent : 0;
+  const raw = volumePercent + billingPercent + earlyAdopterPercent;
+  const totalPercent = Math.min(raw, DISCOUNT_RULES.maxDiscountPercent);
   return {
-    monthly: {
-      tierPrice,
-      modulePrice,
-      watchtowerPrice,
-      unlockFees: unlocks.total,
-      aiPackagePrice,
-      crossIntelligencePrice,
-      subtotal,
-      discountAmount,
-      total: monthlyTotal
-    },
-    oneTime: {
-      setupFees: setup.total
-    },
-    perLocation: input.locations > 0 ? Math.round(monthlyTotal / input.locations) : 0,
-    aiCredits,
-    crossIntelligenceEligible: crossIntelEligible,
-    prerequisiteErrors
+    volumePercent,
+    billingPercent,
+    earlyAdopterPercent,
+    totalPercent,
+    capped: raw > totalPercent,
   };
 }
-
-// ═══════════════════════════════════════════════════════════════════════════
-// DISCOUNT APPLICATION
-// v5.1: Volume OR Billing — choose one, not both. Max 15%.
-// Volume: 30-99 locs = 5%, 100-200 = 7%, 201+ = Enterprise custom.
-// ═══════════════════════════════════════════════════════════════════════════
 
 export function applyDiscounts(
   subtotal: number,
-  profile: ClientProfile
+  profile: ClientProfile,
+  locations: number,
 ): { total: number; discounts: DiscountLine[] } {
   let running = subtotal;
   const discounts: DiscountLine[] = [];
 
-  // v5.1 non-stacking discount model: choose the best between volume and billing
-  const billingPct = profile.billingCycle ? billingDiscounts[profile.billingCycle] : 0;
-
-  // Client type discount (maps to volume discount tiers in v5.1)
-  const rules = CLIENT_TYPE_RULES[profile.type];
-  const clientTypePct = rules?.discountTier ?? 0;
-
-  // Per v5.1: volume OR billing, whichever is larger, capped at 15%
-  const bestStandardDiscount = Math.min(
-    Math.max(clientTypePct, billingPct),
-    DISCOUNT_RULES.maxDiscountPercent
+  const combined = calculateCombinedDiscount(
+    locations,
+    profile.billingCycle,
+    profile.isEarlyAdopter,
   );
+  const rules = CLIENT_TYPE_RULES[profile.type];
 
-  if (bestStandardDiscount > 0 && rules.pricingModel !== 'enterprise') {
-    const amt = running * (bestStandardDiscount / 100);
+  if (combined.totalPercent > 0 && rules?.pricingModel !== 'enterprise') {
+    const amt = running * (combined.totalPercent / 100);
     running -= amt;
-    const label = clientTypePct >= billingPct
-      ? `Volume discount (${clientTypePct}%)`
-      : `Billing discount (${billingPct}%)`;
+    const parts: string[] = [];
+    if (combined.volumePercent > 0) parts.push(`volume ${combined.volumePercent}%`);
+    if (combined.billingPercent > 0) parts.push(`billing ${combined.billingPercent}%`);
+    if (combined.earlyAdopterPercent > 0) parts.push('early adopter');
     discounts.push({
-      name: label,
+      name: combined.capped
+        ? `Combined discount (${parts.join(' + ')}, capped at ${DISCOUNT_RULES.maxDiscountPercent}%)`
+        : `Combined discount (${parts.join(' + ')})`,
       amount: -amt,
-      percent: bestStandardDiscount
-    });
-  }
-
-  // Early adopter (legacy — kept for backward compat, does NOT stack with v4.3 discounts)
-  if (profile.isEarlyAdopter) {
-    const amt = running * (EARLY_ADOPTER_TERMS.discountPercent / 100);
-    running -= amt;
-    discounts.push({
-      name: 'Early Adopter discount',
-      amount: -amt,
-      percent: EARLY_ADOPTER_TERMS.discountPercent
+      percent: combined.totalPercent,
     });
   }
 
@@ -538,7 +362,7 @@ export function applyDiscounts(
     discounts.push({
       name: 'Negotiated discount',
       amount: -amt,
-      percent: profile.customDiscountPercent
+      percent: profile.customDiscountPercent,
     });
   }
 
@@ -546,93 +370,81 @@ export function applyDiscounts(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// MAIN CALCULATION FUNCTION
+// MAIN CALCULATION
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function calculateFullPrice(config: Configuration): PriceResult {
   const breakdown: PriceBreakdown[] = [];
-  // NOTE (intentional): the public marketing calculator shows BASE included
-  // seats only. The backend (config/pricing_master.ts → resolveTierAiSeats)
-  // grants a modest per-location block bonus (+1 seat per N extra units), which
-  // surfaces in the in-product quote/checkout. We deliberately do NOT mirror the
-  // bonus here — base-only understates (customer-safe) and preserves the
-  // à-la-carte seat-purchase incentive the bonus was calibrated for. Do not
-  // "sync" aiSeatsPerUnitBlock into this engine without a product decision.
-  let aiCredits = 0, aiSeats = 0;
+  const locations = Math.max(1, Math.floor(config.locations));
+  const pkg = corePackages[config.corePackage];
 
-  // Determine the module tier key for tier-aware pricing
-  const moduleTier = config.layer === 'core'
-    ? (`core_${config.tier}` as 'core_lite' | 'core_pro')
-    : undefined;
+  // Core package — first-unit anchor + marginal bands.
+  const packagePrice = calculateBandedTotal(pkg, locations);
+  const bandLines = calculateBandLines(pkg, locations);
+  breakdown.push({
+    item: `${pkg.name} (${locations} ${locations === 1 ? 'location' : 'locations'})`,
+    price: packagePrice,
+    note:
+      locations === 1
+        ? `First unit $${pkg.firstUnitPrice.toLocaleString()}`
+        : `First unit $${pkg.firstUnitPrice.toLocaleString()} + ${bandLines
+            .map((l) => `${l.units} @ $${l.band.pricePerUnit}`)
+            .join(' + ')}`,
+  });
 
-  // Base tier
-  if (config.layer === 'report') {
-    const r = calculateReportPrice(config.tier as ReportTier, config.locations);
-    breakdown.push({
-      item: `${reportTiers[config.tier as ReportTier].name} (${config.locations} loc)`,
-      price: r.price
-    });
-    aiCredits += r.aiCredits;
-    aiSeats += r.aiSeats;
-  } else {
-    const c = calculateCorePrice(config.tier as CoreTier, config.locations);
-    breakdown.push({
-      item: `${coreTiers[config.tier as CoreTier].name} (${config.locations} loc)`,
-      price: c.price,
-      note: 'Includes full sales analytics'
-    });
-    aiCredits += c.aiCredits;
-    aiSeats += c.aiSeats;
-  }
+  let aiCredits = pkg.aiCreditWallet;
 
-  // Modules (only for Core tier)
-  if (config.layer === 'core') {
-    const baseIncl = 3;
-    config.modules.forEach(id => {
-      const price = calculateModulePrice(id, config.locations, moduleTier);
-      const tierPricing = moduleTier && modules[id].pricingByTier?.[moduleTier];
-      const perLocPrice = tierPricing?.perLocationPrice ?? modules[id].perLocationPrice;
+  // Add-ons
+  for (const addOnId of config.addOns) {
+    if (addOnId === 'foresight_action') {
+      const price = calculateForesightActionPrice(locations);
+      const lines = calculateBandLines(foresightAction, locations);
       breakdown.push({
-        item: modules[id].name,
+        item: foresightAction.name,
         price,
-        note: config.locations > baseIncl ? `Base + ${config.locations - baseIncl} extra @ $${perLocPrice}` : `Base (incl ${baseIncl} loc)`
+        note:
+          locations === 1
+            ? `First unit $${foresightAction.firstUnitPrice}`
+            : `First unit $${foresightAction.firstUnitPrice} + ${lines
+                .map((l) => `${l.units} @ $${l.band.pricePerUnit}`)
+                .join(' + ')}`,
       });
-    });
+      continue;
+    }
+    const concept = conceptSkus[addOnId];
+    breakdown.push({ item: concept.name, price: concept.monthlyPrice, note: 'Flat monthly' });
   }
 
-  // Watchtower (only for Core tier)
-  if (config.layer === 'core' && config.watchtower.length > 0) {
-    const wt = calculateWatchtowerPrice(config.watchtower, config.locations);
+  // Watchtower
+  if (config.watchtower.length > 0) {
+    const wt = calculateWatchtowerPrice(config.watchtower, locations);
     breakdown.push({
       item: wt.isBundle ? 'Watchtower Bundle' : 'Watchtower',
       price: wt.price,
-      note: wt.isBundle && wt.savings > 0 ? `Saves $${Math.round(wt.savings)}/mo (~18%)` : undefined
+      note: wt.isBundle && wt.savings > 0 ? `Saves $${Math.round(wt.savings)}/mo (~18%)` : undefined,
     });
   }
 
-  // Cross-Intelligence (only for Core tier with 3+ modules)
-  if (config.layer === 'core' && config.crossIntelligence) {
-    const eligible = isCrossIntelligenceEligible(config.modules.length);
-    if (eligible && config.crossIntelligence === 'pro') {
-      const ciPrice = calculateCrossIntelligencePrice('pro', config.locations);
+  // Cross-Intelligence
+  if (config.crossIntelligence) {
+    if (config.crossIntelligence === 'pro') {
       breakdown.push({
         item: 'Cross-Intelligence Pro',
-        price: ciPrice,
-        note: `$${crossIntelligence.pro.monthlyFee}/mo + $${crossIntelligence.pro.perLocationPrice}/loc from #2 (${config.locations} loc)`
+        price: calculateCrossIntelligencePrice('pro', locations),
+        note: `$${crossIntelligence.pro.monthlyFee}/mo + $${crossIntelligence.pro.perLocationPrice}/loc from #2`,
       });
-    } else if (eligible) {
+    } else {
       breakdown.push({
         item: 'Cross-Intelligence',
         price: 0,
-        note: 'Included with 3+ modules'
+        note: 'Included with every Core package',
       });
     }
   }
 
   const subtotal = breakdown.reduce((sum, b) => sum + b.price, 0);
-  const { total, discounts } = applyDiscounts(subtotal, config.clientProfile);
+  const { total, discounts } = applyDiscounts(subtotal, config.clientProfile, locations);
 
-  // Early adopter bonus credits
   if (config.clientProfile.isEarlyAdopter) {
     aiCredits += EARLY_ADOPTER_TERMS.bonusCredits;
   }
@@ -641,49 +453,44 @@ export function calculateFullPrice(config: Configuration): PriceResult {
     subtotal,
     discountsApplied: discounts,
     total,
-    perLocation: Math.round((total / config.locations) * 100) / 100,
+    perLocation: Math.round((total / locations) * 100) / 100,
     annualTotal: Math.round(total * 12 * 100) / 100,
     aiCreditsTotal: aiCredits,
-    aiSeatsTotal: aiSeats,
-    breakdown
+    breakdown,
+    requiresEnterpriseQuote: requiresEnterpriseQuote(locations),
+    implementation: resolveCoreImplementation(config),
   };
 }
 
+/**
+ * The single implementation charge for a Core configuration. Collects the
+ * implementation class of every selected SKU and resolves the HIGHEST — the
+ * per-module setup-fee ladder that used to be summed here is retired.
+ */
+export function resolveCoreImplementation(config: Configuration): ImplementationResult {
+  const classIds: (ImplementationClassId | null)[] = [
+    corePackages[config.corePackage].implementationClass,
+    ...config.addOns.map((id) =>
+      id === 'foresight_action'
+        ? foresightAction.implementationClass
+        : conceptSkus[id].implementationClass,
+    ),
+  ];
+  return resolveImplementationFee(classIds);
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
-// ENTERPRISE CALCULATIONS
+// ENTERPRISE
 // ═══════════════════════════════════════════════════════════════════════════
+// v1.7 publishes no self-serve numbers at or above 250 units, so the engine
+// deliberately refuses to compute one. `coreTiers.enterprise` carries the
+// qualitative card copy; the price is quoted.
 
-export function calculateEnterpriseVolume(locations: number): number | 'Custom' {
-  const tier = enterprisePricing.volumeDiscount.tiers.find(
-    t => locations >= t.min && (t.max === null || locations <= t.max)
-  );
-  return tier && typeof tier.monthly === 'number' ? tier.monthly : 'Custom';
+export function enterpriseQuoteRequired(locations: number): boolean {
+  return requiresEnterpriseQuote(locations);
 }
 
-export function calculateEnterpriseOrg(locations: number): number {
-  const { baseFee, perLocationTiers } = enterprisePricing.orgLicense;
-  let total = baseFee;
-  let remaining = locations;
-
-  for (const tier of perLocationTiers) {
-    if (remaining <= 0) break;
-    const tierEnd = tier.max ?? Infinity;
-    const tierSize = tierEnd - tier.min + 1;
-    const locsInTier = Math.min(remaining, tierSize);
-    total += locsInTier * tier.price;
-    remaining -= locsInTier;
-  }
-
-  return total;
-}
-
-export function recommendEnterpriseModel(locations: number, brandCount: number): 'volume' | 'org' {
-  if (brandCount > 1) return 'org';
-  const vol = calculateEnterpriseVolume(locations);
-  const org = calculateEnterpriseOrg(locations);
-  if (vol === 'Custom') return 'org';
-  return org < vol ? 'org' : 'volume';
-}
+export const enterpriseCardCopy = coreTiers.enterprise;
 
 // ═══════════════════════════════════════════════════════════════════════════
 // COMPETITOR COMPARISON
@@ -692,5 +499,5 @@ export function recommendEnterpriseModel(locations: number, brandCount: number):
 export function calculateTenzoPrice(locations: number, moduleCount: number) {
   const monthly = locations * moduleCount * 75;
   const setup = locations * moduleCount * 350;
-  return { monthly, setup, firstYear: (monthly * 12) + setup };
+  return { monthly, setup, firstYear: monthly * 12 + setup };
 }

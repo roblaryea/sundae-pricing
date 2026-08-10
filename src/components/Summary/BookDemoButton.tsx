@@ -8,16 +8,16 @@ import { useLocale } from '../../contexts/LocaleContext';
 
 export function BookDemoButton() {
   const { messages, locale } = useLocale();
-  const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
-  const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
+  const { layer, corePackage, locations, addOns, watchtowerModules } = useConfiguration();
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
   
   const handleBookDemo = () => {
     // Build URL with configuration context as query params
     const params = new URLSearchParams({
       locations: locations.toString(),
-      tier: `${layer}-${tier}`,
+      tier: `${layer}-${corePackage}`,
       monthly: pricing.total.toString(),
-      modules: selectedModules.join(','),
+      modules: addOns.join(','),
       source: 'pricing-configurator'
     });
     

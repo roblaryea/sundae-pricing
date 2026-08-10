@@ -4,7 +4,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Rocket, ChevronDown, Sparkles, Castle, GitBranch, Zap, Calendar, Search, TrendingUp } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { watchtower, getLocalizedTierCatalog } from '../../data/pricing';
+import {
+  watchtower,
+  getLocalizedTierCatalog,
+  corePackages,
+  CORE_DOMAIN_MODULE_IDS,
+  modules as coreDomainModules,
+} from '../../data/pricing';
 import confetti from 'canvas-confetti';
 import { useEffect, useState } from 'react';
 import { PDFExportButton } from './PDFExport';
@@ -28,12 +34,12 @@ export function ConfigSummary() {
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
   const {
-    layer, tier, locations, modules: selectedModules, watchtowerModules,
+    layer, corePackage, locations, addOns, watchtowerModules,
     crossIntelligence: crossIntelSelection, markStepCompleted, crewSkus: selectedCrewSkus
   } = useConfiguration();
 
-  const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules, undefined, crossIntelSelection);
-  const localizedTiers = getLocalizedTierCatalog(locale);
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules, undefined, crossIntelSelection);
+  void getLocalizedTierCatalog(locale);
   // Layer label is rendered in the Report/Core branch only; coerce Crew to
   // null for the helper signature (Crew branch returns early below).
   const layerLabel = getLocalizedLayerName(locale, layer === 'crew' ? null : layer);
@@ -56,19 +62,12 @@ export function ConfigSummary() {
     });
   }, [markStepCompleted]);
 
-  // Get tier details
-  const getTierDetails = () => {
-    if (layer === 'report' && tier !== 'enterprise') {
-      const reportTier = tier as 'lite' | 'plus' | 'pro';
-      return localizedTiers.reportTiers[reportTier];
-    } else if (layer === 'core' && (tier === 'lite' || tier === 'pro')) {
-      const coreTier = tier as 'lite' | 'pro';
-      return localizedTiers.coreTiers[coreTier];
-    }
-    return null;
-  };
-
-  const tierDetails = getTierDetails();
+  // v1.7: the Core PACKAGE is the thing being summarised. Its "what's
+  // included" list is the eleven domain modules, which ship with every package.
+  const packageDetails = layer === 'core' ? corePackages[corePackage] : null;
+  const includedFeatures = packageDetails
+    ? CORE_DOMAIN_MODULE_IDS.map((moduleId) => coreDomainModules[moduleId].name)
+    : [];
 
   // Crew is the parallel operational substrate path — it doesn't use
   // tiers, modules, watchtower, AI credits, or the cross-intelligence
@@ -119,10 +118,10 @@ export function ConfigSummary() {
                 <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                 <div>
                   <div className="font-semibold">
-                    {layerLabel} {tierDetails?.name}
+                    {layerLabel} {packageDetails?.name}
                   </div>
                   <div className="text-sm text-sundae-muted">
-                    {tierDetails?.tagline}
+                    {packageDetails?.tagline}
                   </div>
                 </div>
               </div>
@@ -132,29 +131,42 @@ export function ConfigSummary() {
                 <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                 <div>
                   <div className="font-semibold">{locations.toLocaleString(locale)} {messages.summary.locationLabel}{locations !== 1 ? messages.summary.locationPluralSuffix : ''}</div>
+                  {/* Bands are MARGINAL, so this figure is an AVERAGE (total ÷
+                      locations), not a per-location rate card. Label it as one. */}
                   <div className="text-sm text-sundae-muted">
-                    {tier === 'enterprise'
-                      ? messages.summary.volumePricing
-                      : isNaN(pricing.perLocation) || !isFinite(pricing.perLocation)
+                    {isNaN(pricing.perLocation) || !isFinite(pricing.perLocation)
                         ? messages.summary.customPricing
-                        : `$${pricing.perLocation.toLocaleString(locale, { maximumFractionDigits: 0 })} ${messages.summary.perLocation}`}
+                        : `Avg $${pricing.perLocation.toLocaleString(locale, { maximumFractionDigits: 0 })} ${messages.summary.perLocation}`}
                   </div>
                 </div>
               </div>
 
               {/* Modules */}
-              {selectedModules.length > 0 && (
+              {/* Included domain modules — a package component, not a purchase */}
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                <div>
+                  <div className="font-semibold">
+                    {CORE_DOMAIN_MODULE_IDS.length} Core domain modules included
+                  </div>
+                  <div className="text-sm text-sundae-muted">
+                    {messages.summary.enhancedAnalytics}
+                  </div>
+                </div>
+              </div>
+
+              {addOns.length > 0 && (
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="font-semibold">
-                      {selectedModules.length} {messages.summary.intelligenceModule}{selectedModules.length !== 1 ? messages.summary.locationPluralSuffix : ''}
+                      {addOns.length} add-on{addOns.length === 1 ? '' : 's'}
                     </div>
                     <div className="text-sm text-sundae-muted">
-                      {messages.summary.enhancedAnalytics}
+                      {addOns.join(', ')}
                     </div>
+                  </div>
                 </div>
-              </div>
               )}
 
               {/* Watchtower */}
@@ -210,7 +222,7 @@ export function ConfigSummary() {
               )}
 
               {/* AI Credits */}
-              {tierDetails && (
+              {packageDetails && (
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                   <div>
@@ -233,14 +245,14 @@ export function ConfigSummary() {
               <div className="text-center p-6 bg-sundae-dark/50 rounded-lg">
                 <div className="text-sm text-sundae-muted mb-1">{messages.summary.monthlyInvestment}</div>
                 <div className="text-4xl md:text-5xl font-bold mb-1">
-                  {tier === 'enterprise' 
+                  {pricing.requiresEnterpriseQuote
                     ? messages.summary.customPricing
                     : isNaN(pricing.total) || !isFinite(pricing.total)
                       ? messages.summary.customPricing
                       : `$${pricing.total.toLocaleString(locale)}`}
                 </div>
                 <div className="text-sm text-sundae-muted">
-                  {tier === 'enterprise'
+                  {pricing.requiresEnterpriseQuote
                     ? messages.summary.enterpriseQuote.replace('{email}', LEGAL.supportEmail)
                     : isNaN(pricing.total) || !isFinite(pricing.total)
                       ? messages.summary.contactSales
@@ -256,6 +268,20 @@ export function ConfigSummary() {
                     <span className="font-medium">${item.price.toLocaleString(locale)}</span>
                   </div>
                 ))}
+                <div className="flex justify-between pt-2 mt-2 border-t border-white/10">
+                  <span className="text-sundae-muted">Implementation (one-time)</span>
+                  <span className="font-medium">
+                    {pricing.implementation.requiresScoping
+                      ? 'Scoped at contract'
+                      : pricing.implementation.fee === 0
+                        ? 'Self-service · $0'
+                        : `${pricing.implementation.isFloor ? 'from ' : ''}$${pricing.implementation.fee.toLocaleString(locale)}`}
+                  </span>
+                </div>
+                <p className="text-[10px] text-sundae-muted/80">
+                  Charged once at the highest implementation class in your selection — never summed
+                  per module.
+                </p>
               </div>
             </div>
           </div>
@@ -263,7 +289,7 @@ export function ConfigSummary() {
       </motion.div>
 
       {/* 2. What's Included - COLLAPSIBLE */}
-      {tierDetails && (
+      {packageDetails && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -296,7 +322,7 @@ export function ConfigSummary() {
                 className="overflow-hidden"
               >
                 <div className="px-6 pb-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {tierDetails.features.map((feature, idx) => (
+                  {includedFeatures.map((feature: string, idx: number) => (
                     <div key={idx} className="flex items-start gap-2">
                       <Check className="w-4 h-4 text-green-400 mt-0.5 flex-shrink-0" />
                       <span className="text-sm">{feature}</span>
@@ -425,7 +451,7 @@ export function ConfigSummary() {
               className="overflow-hidden"
             >
               <div className="px-6 pb-6">
-                <PricingFAQ category={layer === 'report' || layer === 'core' ? layer : 'general'} />
+                <PricingFAQ category={layer === 'core' ? 'core' : 'general'} />
               </div>
             </motion.div>
           )}
@@ -527,7 +553,12 @@ interface CrewSummaryBodyProps {
 function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
   const { locale, messages } = useLocale();
   const quote = computeCrewQuote(selectedSkus, locations);
-  const { monthly, annual, setupFee, lines, detectedBundleId, bundleSavingsMonthly } = quote;
+  const { monthly, annual, implementation, lines, detectedBundleId, bundleSavingsMonthly } = quote;
+  const implementationLabel = implementation.requiresScoping
+    ? 'Scoped at contract'
+    : implementation.fee === 0
+      ? 'Self-service · $0'
+      : `${implementation.isFloor ? 'from ' : ''}$${implementation.fee.toLocaleString()}`;
   const headline = detectedBundleId
     ? lines[0].label
     : selectedSkus.length === 1
@@ -581,7 +612,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                   <div className="font-semibold">{headline}</div>
                   <div className="text-sm text-sundae-muted">
                     {detectedBundleId
-                      ? 'Bundle auto-detected · 20% discount applied'
+                      ? 'Bundle auto-detected · published net bundle price'
                       : `${selectedSkus.length} SKU${selectedSkus.length === 1 ? '' : 's'} selected`}
                   </div>
                 </div>
@@ -591,31 +622,28 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 <div>
                   <div className="font-semibold">{quote.locations} {quote.locations === 1 ? 'location' : 'locations'}</div>
                   <div className="text-sm text-sundae-muted">
-                    {detectedBundleId
-                      ? `Bundle includes 3 · ${Math.max(0, quote.locations - 3)} billable extra`
-                      : `${lines.length === 1 ? lines[0].includedLocations : 'Per-SKU'} included · scales by SKU`}
+                    Crew is a flat monthly price — your location count does not change it
                   </div>
                 </div>
               </div>
-              {setupFee > 0 && (
-                <div className="flex items-start gap-3">
-                  <Check className="w-5 h-5 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
-                  <div>
-                    <div className="font-semibold">One-time setup: ${setupFee}</div>
-                    <div className="text-sm text-sundae-muted">
-                      {detectedBundleId
-                        ? 'Bundle setup · country pack activation + statutory exports'
-                        : 'Onboarding + activation across selected SKUs'}
-                    </div>
+              <div className="flex items-start gap-3">
+                <Check className="w-5 h-5 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
+                <div>
+                  <div className="font-semibold">Implementation: {implementationLabel}</div>
+                  <div className="text-sm text-sundae-muted">
+                    Charged once at the highest implementation class in your selection — never
+                    summed per SKU
                   </div>
                 </div>
-              )}
+              </div>
               {bundleSavingsMonthly > 0 && (
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-emerald-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="font-semibold text-emerald-300">Bundle savings · ${bundleSavingsMonthly}/mo</div>
-                    <div className="text-sm text-sundae-muted">vs buying the SKUs separately</div>
+                    <div className="text-sm text-sundae-muted">
+                      the published net bundle price vs buying the SKUs separately
+                    </div>
                   </div>
                 </div>
               )}
@@ -654,15 +682,18 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 <span className="text-sundae-muted">Annual</span>
                 <span className="text-white tabular-nums">${annual.toLocaleString()}/yr</span>
               </div>
-              {setupFee > 0 && (
-                <div className="flex justify-between text-sm">
-                  <span className="text-sundae-muted">One-time setup</span>
-                  <span className="text-white tabular-nums">${setupFee}</span>
-                </div>
-              )}
+              <div className="flex justify-between text-sm">
+                <span className="text-sundae-muted">Implementation (one-time)</span>
+                <span className="text-white tabular-nums">{implementationLabel}</span>
+              </div>
               <div className="flex justify-between text-sm pt-2 mt-2 border-t border-[#FF7E6F]/10">
-                <span className="text-sundae-muted">First-year total</span>
-                <span className="text-white font-semibold tabular-nums">${(annual + setupFee).toLocaleString()}</span>
+                <span className="text-sundae-muted">
+                  First-year subscription
+                  {implementation.requiresScoping ? ' (excl. implementation)' : ''}
+                </span>
+                <span className="text-white font-semibold tabular-nums">
+                  ${(annual + (implementation.requiresScoping ? 0 : implementation.fee)).toLocaleString()}
+                </span>
               </div>
             </div>
           </div>
@@ -691,7 +722,10 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
           {messages.summary.pricingFooterNote.replace('{date}', new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date('2026-02-26T00:00:00Z')))}
         </p>
         <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
-        <p className="text-[10px] opacity-70">{messages.summary.locationPricingNote}</p>
+        <p className="text-[10px] opacity-70">
+          Crew SKUs and bundles are a flat monthly price. Implementation is charged once, at the
+          highest class in your selection.
+        </p>
       </motion.div>
     </div>
   );

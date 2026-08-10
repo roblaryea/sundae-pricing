@@ -1,93 +1,42 @@
-// Tier availability rules - defines which features are available for each tier
+// Step availability rules for the configurator (price book v1.7).
+//
+// The Report layer was retired, and with it the "this tier cannot buy modules
+// or Watchtower" branch: all four Core packages carry identical add-on and
+// Watchtower eligibility, because every package ships all eleven Core domain
+// modules. Crew has its own consolidated builder step.
 
-export interface TierFeatures {
-  modules: boolean;
+export interface StepFeatures {
+  addOns: boolean;
   watchtower: boolean;
-  skipToStep?: number; // If set, skip to this step after locations
+  /** If set, skip to this step after locations. */
+  skipToStep?: number;
 }
 
-// Define which features are available for each layer+tier combination
-export const TIER_AVAILABILITY: Record<string, TierFeatures> = {
-  // Report tiers - no modules or watchtower → skip directly to Summary
-  // (ROI calculator requires modules to show meaningful savings)
-  'report-lite': {
-    modules: false,
-    watchtower: false,
-    skipToStep: 7
-  },
-  'report-plus': {
-    modules: false,
-    watchtower: false,
-    skipToStep: 7
-  },
-  'report-pro': {
-    modules: false,
-    watchtower: false,
-    skipToStep: 7
-  },
-  'report-enterprise': {
-    modules: false,
-    watchtower: false,
-    skipToStep: 7
-  },
-  
-  // Core tiers - full features
-  'core-lite': {
-    modules: true,
-    watchtower: true
-  },
-  'core-pro': {
-    modules: true,
-    watchtower: true
-  },
-  'core-enterprise': {
-    modules: true,
-    watchtower: true
-  }
-};
+const CORE_FEATURES: StepFeatures = { addOns: true, watchtower: true };
+// Crew collapses SKU pick + locations + price preview into CrewBuilder and
+// routes straight to the shared summary.
+const CREW_FEATURES: StepFeatures = { addOns: false, watchtower: false, skipToStep: 7 };
 
-/**
- * Get feature availability for a specific layer+tier combination
- */
-export function getTierFeatures(layer: string | null, tier: string): TierFeatures {
-  const key = `${layer}-${tier}`;
-  return TIER_AVAILABILITY[key] || {
-    modules: true,
-    watchtower: true
-  };
+export function getStepFeatures(layer: string | null): StepFeatures {
+  return layer === 'crew' ? CREW_FEATURES : CORE_FEATURES;
 }
 
-/**
- * Check if modules are available for the current tier
- */
-export function canAccessModules(layer: string | null, tier: string): boolean {
-  return getTierFeatures(layer, tier).modules;
+export function canAccessAddOns(layer: string | null): boolean {
+  return getStepFeatures(layer).addOns;
 }
 
-/**
- * Check if watchtower is available for the current tier
- */
-export function canAccessWatchtower(layer: string | null, tier: string): boolean {
-  return getTierFeatures(layer, tier).watchtower;
+export function canAccessWatchtower(layer: string | null): boolean {
+  return getStepFeatures(layer).watchtower;
 }
 
-/**
- * Get the step to skip to after locations (if any)
- */
-export function getSkipToStep(layer: string | null, tier: string): number | undefined {
-  return getTierFeatures(layer, tier).skipToStep;
+export function getSkipToStep(layer: string | null): number | undefined {
+  return getStepFeatures(layer).skipToStep;
 }
 
-/**
- * Check if a specific step should be shown for the current tier
- */
-export function shouldShowStep(step: number, layer: string | null, tier: string): boolean {
-  const features = getTierFeatures(layer, tier);
-  
-  // Step 4 = Modules, Step 5 = Watchtower
-  if (step === 4) return features.modules;
+/** Step 4 = Add-ons, Step 5 = Watchtower. Everything else always shows. */
+export function shouldShowStep(step: number, layer: string | null): boolean {
+  const features = getStepFeatures(layer);
+  if (step === 4) return features.addOns;
   if (step === 5) return features.watchtower;
-  
-  // All other steps are always shown
   return true;
 }

@@ -127,7 +127,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Preise gültig ab {date}",
       "taxNote": "Steuern (MwSt./GST) nicht enthalten, sofern nicht anders angegeben",
       "changeNotice": "Änderungen vorbehalten mit 30 Tagen Vorankündigung",
-      "locationPricingNote": "Zusätzliche Standorte werden ab Standort #2 berechnet (Standort #1 ist im Basispreis enthalten)"
+      "locationPricingNote": "Standort #1 wird zum Ankerpreis des Pakets berechnet. Jeder weitere Standort wird zum Satz seiner Grenzstufe abgerechnet – das Erreichen einer Stufe berechnet bereits vorhandene Standorte nie neu, und im Ankerpreis sind keine Standorte enthalten."
     },
     "overview": {
       "heroTitle": "Einfache, transparente Preise",
@@ -158,7 +158,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Portfolio-Preisvorteil",
       "addOnModulesEyebrow": "ZUSATZMODULE",
       "moduleAddonsTitle": "Modul-Zusätze für den Kern",
-      "moduleAddonsSubtitle": "Fügen Sie spezialisierte Intelligenz zur Kernstufe hinzu. Die Org-Lizenz deckt die Standorte 1-3 ab, dann pro Standort ab #4+",
+      "moduleAddonsSubtitle": "Core-Domänen sind in Ihrem Core-Paket enthalten. Erweitern Sie durch ein höheres Paket oder Foresight & Action.",
       "module": "Modul",
       "orgLicense": "Org-Lizenz",
       "perLocationFrom4": "Pro Standort (#4+)",
@@ -499,7 +499,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Prijzen effectief {date}",
       "taxNote": "Belastingen (BTW/GST) niet inbegrepen tenzij anders vermeld",
       "changeNotice": "Onderhevig aan wijziging met 30 dagen kennisgeving",
-      "locationPricingNote": "Extra locaties worden vanaf locatie #2 in rekening gebracht (locatie #1 is inbegrepen in de basisprijs)"
+      "locationPricingNote": "Locatie #1 wordt tegen de ankerprijs van het pakket berekend. Elke volgende locatie wordt afgerekend tegen het tarief van de eigen marginale schijf – een nieuwe schijf herberekent bestaande locaties nooit, en de ankerprijs bevat geen extra locaties."
     },
     "overview": {
       "heroTitle": "Eenvoudige, Transparante Prijzen",
@@ -530,7 +530,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Portfolio Prijsvoordeel",
       "addOnModulesEyebrow": "AANVULLENDE MODULES",
       "moduleAddonsTitle": "Module Add-ons voor Core",
-      "moduleAddonsSubtitle": "Voeg gespecialiseerde intelligentie toe aan het Core-niveau. Organisatielicentie dekt locaties 1-3, daarna per locatie vanaf #4+",
+      "moduleAddonsSubtitle": "Core-domeinen zitten in je Core-pakket. Breid uit met een hoger pakket of met Foresight & Action.",
       "module": "Module",
       "orgLicense": "Organisatielicentie",
       "perLocationFrom4": "Per Locatie (#4+)",
@@ -871,7 +871,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Preços efetivos a partir de {date}",
       "taxNote": "Impostos (VAT/GST) não incluídos, a menos que declarado",
       "changeNotice": "Sujeito a alterações com aviso de 30 dias",
-      "locationPricingNote": "Localizações adicionais são cobradas a partir da localização #2 (localização #1 está incluída no preço base)"
+      "locationPricingNote": "A localização #1 é cobrada pelo preço-âncora do pacote. Cada localização seguinte é cobrada pela taxa da respetiva faixa marginal — entrar numa faixa nunca reprecifica as localizações que já tem, e o preço-âncora não inclui localizações adicionais."
     },
     "overview": {
       "heroTitle": "Preços Simples e Transparentes",
@@ -902,7 +902,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Vantagem de Preços de Portfólio",
       "addOnModulesEyebrow": "MÓDULOS ADICIONAIS",
       "moduleAddonsTitle": "Add-ons de Módulos para Core",
-      "moduleAddonsSubtitle": "Adicione inteligência especializada ao nível Core. Licença da organização cobre as localizações 1-3, depois por localização a partir da #4",
+      "moduleAddonsSubtitle": "Os domínios Core vêm no seu pacote Core. Amplie subindo de pacote ou adicionando Foresight & Action.",
       "module": "Módulo",
       "orgLicense": "Licença da Organização",
       "perLocationFrom4": "Por Localização (#4+)",
@@ -1243,7 +1243,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "मूल्य निर्धारण {date} से प्रभावी",
       "taxNote": "कर (VAT/GST) शामिल नहीं हैं जब तक कि उल्लेख न किया गया हो",
       "changeNotice": "30-दिन की सूचना के साथ परिवर्तन के अधीन",
-      "locationPricingNote": "अतिरिक्त स्थानों का बिलिंग स्थान #2 से शुरू होता है (स्थान #1 आधार मूल्य में शामिल है)"
+      "locationPricingNote": "स्थान #1 पैकेज के एंकर मूल्य पर लगता है। उसके बाद हर स्थान अपनी सीमांत बैंड दर पर लगता है — नई बैंड में पहुँचने से पहले के स्थानों का मूल्य दोबारा तय नहीं होता, और एंकर मूल्य में कोई स्थान शामिल नहीं है।"
     },
     "overview": {
       "heroTitle": "सरल, पारदर्शी मूल्य निर्धारण",
@@ -1274,7 +1274,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "पोर्टफोलियो मूल्य निर्धारण लाभ",
       "addOnModulesEyebrow": "ऐड-ऑन मॉड्यूल",
       "moduleAddonsTitle": "Core के लिए मॉड्यूल ऐड-ऑन",
-      "moduleAddonsSubtitle": "Core श्रेणी में विशेष बुद्धिमत्ता जोड़ें। संगठन लाइसेंस स्थान 1-3 को कवर करता है, फिर स्थान #4+ से प्रति स्थान।",
+      "moduleAddonsSubtitle": "Core डोमेन आपके Core पैकेज में शामिल हैं। विस्तार के लिए उच्च पैकेज लें या Foresight & Action जोड़ें।",
       "module": "मॉड्यूल",
       "orgLicense": "संगठन लाइसेंस",
       "perLocationFrom4": "प्रति स्थान (#4+)",
@@ -1615,7 +1615,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "قیمتیں {date} سے مؤثر ہیں",
       "taxNote": "ٹیکس (VAT/GST) شامل نہیں ہیں جب تک کہ بیان نہ کیا جائے",
       "changeNotice": "30 دن کی نوٹس کے ساتھ تبدیلی کے تابع",
-      "locationPricingNote": "اضافی مقامات کو مقام #2 سے آگے بل کیا جاتا ہے (مقام #1 بنیادی قیمت میں شامل ہے)"
+      "locationPricingNote": "مقام #1 پیکیج کی اینکر قیمت پر شمار ہوتا ہے۔ اس کے بعد ہر مقام اپنے مارجنل بینڈ کے نرخ پر لگتا ہے — نئے بینڈ تک پہنچنے سے پہلے کے مقامات کی قیمت دوبارہ طے نہیں ہوتی، اور اینکر قیمت میں کوئی مقام شامل نہیں۔"
     },
     "overview": {
       "heroTitle": "سادہ، شفاف قیمتیں",
@@ -1646,7 +1646,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "پورٹ فولیو قیمتوں کا فائدہ",
       "addOnModulesEyebrow": "ایڈ-آن ماڈیولز",
       "moduleAddonsTitle": "Core کے لیے ماڈیول ایڈ-آن",
-      "moduleAddonsSubtitle": "Core کی سطح میں خصوصی ذہانت شامل کریں۔ تنظیمی لائسنس مقامات 1-3 کا احاطہ کرتا ہے، پھر #4+ سے فی مقام",
+      "moduleAddonsSubtitle": "Core ڈومینز آپ کے Core پیکیج میں شامل ہیں۔ توسیع کے لیے اعلیٰ پیکیج لیں یا Foresight & Action شامل کریں۔",
       "module": "ماڈیول",
       "orgLicense": "تنظیمی لائسنس",
       "perLocationFrom4": "فی مقام (#4+)",
@@ -1987,7 +1987,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Prezzi efficaci dal {date}",
       "taxNote": "Tasse (IVA/GST) non incluse a meno che non sia specificato",
       "changeNotice": "Soggetto a modifica con preavviso di 30 giorni",
-      "locationPricingNote": "Le località aggiuntive sono fatturate dalla località #2 in poi (la località #1 è inclusa nel prezzo base)"
+      "locationPricingNote": "La località #1 è addebitata al prezzo di ancoraggio del pacchetto. Ogni località successiva è addebitata alla tariffa della propria fascia marginale: raggiungere una fascia non ritariffa mai le località già attive e il prezzo di ancoraggio non comprende località aggiuntive."
     },
     "overview": {
       "heroTitle": "Prezzi Semplici e Trasparenti",
@@ -2018,7 +2018,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Vantaggio dei Prezzi del Portafoglio",
       "addOnModulesEyebrow": "MODULI AGGIUNTIVI",
       "moduleAddonsTitle": "Moduli Aggiuntivi per il Core",
-      "moduleAddonsSubtitle": "Aggiungi intelligenza specializzata al livello Core. La licenza dell'organizzazione copre le località 1-3, poi per località dalla #4+",
+      "moduleAddonsSubtitle": "I domini Core sono inclusi nel tuo pacchetto Core. Amplia passando a un pacchetto superiore o aggiungendo Foresight & Action.",
       "module": "Modulo",
       "orgLicense": "Licenza Organizzativa",
       "perLocationFrom4": "Per Località (#4+)",
@@ -2359,7 +2359,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Cennik obowiązuje od {date}",
       "taxNote": "Podatki (VAT/GST) nie są wliczone, chyba że zaznaczone",
       "changeNotice": "Może ulec zmianie z 30-dniowym wyprzedzeniem",
-      "locationPricingNote": "Dodatkowe lokalizacje są fakturowane od lokalizacji #2 wzwyż (lokalizacja #1 jest wliczona w cenę podstawową)"
+      "locationPricingNote": "Lokalizacja #1 jest wyceniana według ceny kotwicowej pakietu. Każda kolejna lokalizacja jest rozliczana według stawki swojego progu krańcowego — wejście w kolejny próg nigdy nie przelicza już posiadanych lokalizacji, a cena kotwicowa nie obejmuje żadnych lokalizacji dodatkowych."
     },
     "overview": {
       "heroTitle": "Proste, Przejrzyste Ceny",
@@ -2390,7 +2390,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Zaleta Cennika Portfela",
       "addOnModulesEyebrow": "MODUŁY DODATKOWE",
       "moduleAddonsTitle": "Moduły Dodatkowe dla Core",
-      "moduleAddonsSubtitle": "Dodaj specjalistyczną inteligencję do poziomu Core. Licencja organizacyjna obejmuje lokalizacje 1-3, a następnie naliczana jest opłata za lokalizację od #4 wzwyż",
+      "moduleAddonsSubtitle": "Domeny Core są częścią Twojego pakietu Core. Rozszerz go, przechodząc na wyższy pakiet lub dodając Foresight & Action.",
       "module": "Moduł",
       "orgLicense": "Licencja Organizacyjna",
       "perLocationFrom4": "Za lokalizację (#4+)",
@@ -2731,7 +2731,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Fiyatlandırma {date} itibarıyla geçerlidir",
       "taxNote": "Vergiler (KDV/GST) belirtilmedikçe dahil değildir",
       "changeNotice": "30 günlük bildirimle değişiklik yapılabilir",
-      "locationPricingNote": "Ek lokasyonlar, lokasyon #2'den itibaren faturalandırılır (lokasyon #1 temel fiyat içinde dahil)"
+      "locationPricingNote": "Lokasyon #1, paketin çıpa fiyatı üzerinden faturalandırılır. Sonraki her lokasyon kendi marjinal bandının oranıyla ücretlendirilir; yeni bir banda geçmek mevcut lokasyonları asla yeniden fiyatlandırmaz ve çıpa fiyatına dahil lokasyon yoktur."
     },
     "overview": {
       "heroTitle": "Basit, Şeffaf Fiyatlandırma",
@@ -2762,7 +2762,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Portföy Fiyatlandırma Avantajı",
       "addOnModulesEyebrow": "EK MODÜLLER",
       "moduleAddonsTitle": "Core için Modül Eklemeleri",
-      "moduleAddonsSubtitle": "Core katmanına özel zeka ekleyin. Kuruluş lisansı 1-3 lokasyonu kapsar, ardından #4+ lokasyon başına faturalandırılır",
+      "moduleAddonsSubtitle": "Core alanları Core paketinizde yer alır. Genişletmek için üst pakete geçin ya da Foresight & Action ekleyin.",
       "module": "Modül",
       "orgLicense": "Kuruluş Lisansı",
       "perLocationFrom4": "Lokasyon başına (#4+)",
@@ -3103,7 +3103,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "定价自 {date} 起生效",
       "taxNote": "税费（增值税/GST）未包含，除非另有说明",
       "changeNotice": "如有变更，提前30天通知",
-      "locationPricingNote": "额外地点从第2个地点开始收费（第1个地点包含在基础价格中）"
+      "locationPricingNote": "第 1 个地点按套餐锚定价格计费。此后每增加一个地点，按其所在的边际档位费率计费——进入新档位绝不会重新计算已有地点的价格，锚定价格也不包含任何地点。"
     },
     "overview": {
       "heroTitle": "简单、透明的定价",
@@ -3134,7 +3134,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "组合定价优势",
       "addOnModulesEyebrow": "附加模块",
       "moduleAddonsTitle": "核心的模块附加",
-      "moduleAddonsSubtitle": "为核心级别添加专业智能。组织许可证覆盖地点1-3，然后从第4个地点开始按地点收费",
+      "moduleAddonsSubtitle": "Core 各领域已包含在您的 Core 套餐中。如需扩展，可升级套餐或加购 Foresight & Action。",
       "module": "模块",
       "orgLicense": "组织许可证",
       "perLocationFrom4": "每个地点（#4+）",
@@ -3475,7 +3475,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "価格は {date} より有効",
       "taxNote": "税金（VAT/GST）は明記されていない限り含まれていません",
       "changeNotice": "30日前の通知で変更される場合があります",
-      "locationPricingNote": "追加のロケーションはロケーション #2 以降から請求されます（ロケーション #1 は基本価格に含まれています）"
+      "locationPricingNote": "ロケーション #1 はパッケージのアンカー価格で課金されます。以降のロケーションはそれぞれの限界バンドの単価で課金され、バンドが変わっても既存のロケーションが再計算されることはありません。アンカー価格にロケーションは含まれていません。"
     },
     "overview": {
       "heroTitle": "シンプルで透明な価格設定",
@@ -3506,7 +3506,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "ポートフォリオ価格設定の利点",
       "addOnModulesEyebrow": "アドオンモジュール",
       "moduleAddonsTitle": "Core 用モジュールアドオン",
-      "moduleAddonsSubtitle": "Core ティアに特化したインテリジェンスを追加します。組織ライセンスはロケーション1-3をカバーし、4以上からはロケーションごとに請求されます",
+      "moduleAddonsSubtitle": "Core の各ドメインは Core パッケージに含まれています。拡張するにはパッケージを上げるか Foresight & Action を追加してください。",
       "module": "モジュール",
       "orgLicense": "組織ライセンス",
       "perLocationFrom4": "ロケーションごと（#4以上）",
@@ -3847,7 +3847,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "가격 유효 {date}",
       "taxNote": "세금 (VAT/GST)은 명시되지 않는 한 포함되지 않음",
       "changeNotice": "30일 전에 통지 시 변경될 수 있음",
-      "locationPricingNote": "추가 위치는 위치 #2부터 청구됨 (위치 #1은 기본 가격에 포함됨)"
+      "locationPricingNote": "위치 #1은 패키지 앵커 가격으로 청구됩니다. 이후 각 위치는 해당 한계 구간 요율로 청구되며, 새 구간에 진입해도 기존 위치의 가격은 다시 계산되지 않습니다. 앵커 가격에 포함된 위치는 없습니다."
     },
     "overview": {
       "heroTitle": "간단하고 투명한 가격",
@@ -3878,7 +3878,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "포트폴리오 가격 이점",
       "addOnModulesEyebrow": "추가 모듈",
       "moduleAddonsTitle": "Core를 위한 모듈 추가",
-      "moduleAddonsSubtitle": "Core 티어에 전문 인텔리전스를 추가하세요. 조직 라이센스는 위치 1-3을 포함하며, 이후 위치 #4부터는 위치당 요금이 부과됩니다.",
+      "moduleAddonsSubtitle": "Core 도메인은 Core 패키지에 포함됩니다. 확장하려면 상위 패키지로 이동하거나 Foresight & Action을 추가하세요.",
       "module": "모듈",
       "orgLicense": "조직 라이센스",
       "perLocationFrom4": "위치당 (#4+)",
@@ -4219,7 +4219,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Harga berlaku {date}",
       "taxNote": "Pajak (VAT/GST) tidak termasuk kecuali dinyatakan",
       "changeNotice": "Dapat berubah dengan pemberitahuan 30 hari",
-      "locationPricingNote": "Lokasi tambahan dikenakan biaya dari lokasi #2 dan seterusnya (lokasi #1 termasuk dalam harga dasar)"
+      "locationPricingNote": "Lokasi #1 ditagih dengan harga jangkar paket. Setiap lokasi berikutnya ditagih sesuai tarif pita marginalnya — masuk ke pita baru tidak pernah menghitung ulang lokasi yang sudah ada, dan harga jangkar tidak mencakup lokasi apa pun."
     },
     "overview": {
       "heroTitle": "Harga Sederhana dan Transparan",
@@ -4250,7 +4250,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Keuntungan Harga Portofolio",
       "addOnModulesEyebrow": "MODUL TAMBAHAN",
       "moduleAddonsTitle": "Modul Tambahan untuk Core",
-      "moduleAddonsSubtitle": "Tambahkan kecerdasan khusus ke tingkatan Core. Lisensi org mencakup lokasi 1-3, kemudian per lokasi dari #4+",
+      "moduleAddonsSubtitle": "Domain Core sudah termasuk dalam paket Core Anda. Perluas dengan naik paket atau menambahkan Foresight & Action.",
       "module": "Modul",
       "orgLicense": "Lisensi Org",
       "perLocationFrom4": "Per Lokasi (#4+)",
@@ -4591,7 +4591,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Giá cả có hiệu lực từ {date}",
       "taxNote": "Thuế (VAT/GST) không bao gồm trừ khi có ghi chú",
       "changeNotice": "Có thể thay đổi với thông báo 30 ngày",
-      "locationPricingNote": "Các địa điểm bổ sung sẽ bị tính phí từ địa điểm #2 trở đi (địa điểm #1 đã bao gồm trong giá cơ bản)"
+      "locationPricingNote": "Địa điểm #1 được tính theo giá neo của gói. Mỗi địa điểm tiếp theo được tính theo mức giá của bậc biên tương ứng — bước sang bậc mới không bao giờ tính lại giá cho các địa điểm đã có, và giá neo không bao gồm địa điểm nào."
     },
     "overview": {
       "heroTitle": "Giá cả Đơn giản, Minh bạch",
@@ -4622,7 +4622,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Lợi thế Giá cả Danh mục",
       "addOnModulesEyebrow": "MÔ-ĐUN BỔ SUNG",
       "moduleAddonsTitle": "Mô-đun Bổ sung cho Core",
-      "moduleAddonsSubtitle": "Thêm trí tuệ chuyên biệt vào cấp Core. Giấy phép tổ chức bao gồm các địa điểm 1-3, sau đó tính phí theo địa điểm từ #4+",
+      "moduleAddonsSubtitle": "Các miền Core đã có trong gói Core của bạn. Mở rộng bằng cách nâng gói hoặc thêm Foresight & Action.",
       "module": "Mô-đun",
       "orgLicense": "Giấy phép Tổ chức",
       "perLocationFrom4": "Theo Địa điểm (#4+)",
@@ -4963,7 +4963,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Prețurile sunt efective din {date}",
       "taxNote": "Taxele (TVA/GST) nu sunt incluse, cu excepția cazului în care se specifică altfel",
       "changeNotice": "Poate fi modificat cu un preaviz de 30 de zile",
-      "locationPricingNote": "Locațiile suplimentare sunt facturate de la locația #2 încolo (locația #1 este inclusă în prețul de bază)"
+      "locationPricingNote": "Locația #1 se facturează la prețul de ancorare al pachetului. Fiecare locație următoare se facturează la tariful benzii sale marginale — intrarea într-o bandă nouă nu retarifează niciodată locațiile existente, iar prețul de ancorare nu include locații suplimentare."
     },
     "overview": {
       "heroTitle": "Prețuri Simple și Transparente",
@@ -4994,7 +4994,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Avantajul Prețurilor pe Portofoliu",
       "addOnModulesEyebrow": "MODULE SUPLIMENTARE",
       "moduleAddonsTitle": "Module Suplimentare pentru Core",
-      "moduleAddonsSubtitle": "Adaugă inteligență specializată la nivelul Core. Licența organizației acoperă locațiile 1-3, apoi pe locație de la #4+",
+      "moduleAddonsSubtitle": "Domeniile Core sunt incluse în pachetul tău Core. Extinde trecând la un pachet superior sau adăugând Foresight & Action.",
       "module": "Modul",
       "orgLicense": "Licență Organizațională",
       "perLocationFrom4": "Pe Locație (#4+)",
@@ -5335,7 +5335,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Prissättning gäller {date}",
       "taxNote": "Skatter (MOMS/GST) ingår inte om inte annat anges",
       "changeNotice": "Ändringar kan göras med 30 dagars varsel",
-      "locationPricingNote": "Ytterligare platser debiteras från plats #2 och framåt (plats #1 ingår i baspriset)"
+      "locationPricingNote": "Plats #1 debiteras till paketets ankarpris. Varje ytterligare plats debiteras till sitt marginalskikts pris – att nå ett nytt skikt omprissätter aldrig platser du redan har, och ankarpriset innehåller inga platser."
     },
     "overview": {
       "heroTitle": "Enkel, transparent prissättning",
@@ -5366,7 +5366,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Portföljprissättningsfördel",
       "addOnModulesEyebrow": "TILLÄGGSMODULER",
       "moduleAddonsTitle": "Modul-tillägg för Core",
-      "moduleAddonsSubtitle": "Lägg till specialiserad intelligens till Core-nivån. Org-licens täcker platser 1-3, sedan per plats från #4+",
+      "moduleAddonsSubtitle": "Core-domänerna ingår i ditt Core-paket. Utöka genom att gå upp ett paket eller lägga till Foresight & Action.",
       "module": "Modul",
       "orgLicense": "Org-licens",
       "perLocationFrom4": "Per plats (#4+)",
@@ -5707,7 +5707,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "মূল্য কার্যকর {date}",
       "taxNote": "কর (ভ্যাট/জিএসটি) উল্লেখ না করা হলে অন্তর্ভুক্ত নয়",
       "changeNotice": "৩০ দিনের নোটিশসহ পরিবর্তন সাপেক্ষে",
-      "locationPricingNote": "অতিরিক্ত স্থানগুলি স্থান #২ থেকে বিল করা হয় (স্থান #১ মৌলিক মূল্যে অন্তর্ভুক্ত)"
+      "locationPricingNote": "স্থান #১ প্যাকেজের অ্যাঙ্কর মূল্যে বিল করা হয়। এরপর প্রতিটি স্থান তার প্রান্তিক ব্যান্ডের হারে বিল হয় — নতুন ব্যান্ডে পৌঁছালে আগের স্থানগুলির মূল্য কখনও নতুন করে নির্ধারিত হয় না, এবং অ্যাঙ্কর মূল্যে কোনো স্থান অন্তর্ভুক্ত নেই।"
     },
     "overview": {
       "heroTitle": "সরল, স্বচ্ছ মূল্য নির্ধারণ",
@@ -5738,7 +5738,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "পোর্টফোলিও মূল্য নির্ধারণ সুবিধা",
       "addOnModulesEyebrow": "অ্যাড-অন মডিউল",
       "moduleAddonsTitle": "Core-এর জন্য মডিউল অ্যাড-অন",
-      "moduleAddonsSubtitle": "Core স্তরে বিশেষায়িত বুদ্ধিমত্তা যোগ করুন। অর্গ লাইসেন্স স্থান ১-৩ কভার করে, তারপর #৪+ থেকে প্রতি স্থানে।",
+      "moduleAddonsSubtitle": "Core ডোমেনগুলি আপনার Core প্যাকেজেই রয়েছে। বাড়াতে উচ্চতর প্যাকেজে যান বা Foresight & Action যোগ করুন।",
       "module": "মডিউল",
       "orgLicense": "অর্গ লাইসেন্স",
       "perLocationFrom4": "প্রতি স্থান (#৪+)",
@@ -6079,7 +6079,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "ราคาใช้ได้ตั้งแต่ {date}",
       "taxNote": "ภาษี (VAT/GST) ไม่รวมอยู่ด้วยเว้นแต่จะระบุไว้",
       "changeNotice": "อาจมีการเปลี่ยนแปลงโดยแจ้งล่วงหน้า 30 วัน",
-      "locationPricingNote": "สถานที่เพิ่มเติมจะถูกเรียกเก็บเงินตั้งแต่สถานที่ #2 เป็นต้นไป (สถานที่ #1 รวมอยู่ในราคาเริ่มต้น)"
+      "locationPricingNote": "สถานที่ #1 คิดตามราคาตั้งต้นของแพ็กเกจ สถานที่ถัดไปแต่ละแห่งคิดตามอัตราของช่วงส่วนเพิ่มของตนเอง การเข้าสู่ช่วงใหม่จะไม่คิดราคาสถานที่เดิมใหม่ และราคาตั้งต้นไม่ได้รวมสถานที่ใด ๆ ไว้"
     },
     "overview": {
       "heroTitle": "ราคาที่เรียบง่ายและโปร่งใส",
@@ -6110,7 +6110,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "ข้อได้เปรียบด้านราคาพอร์ตโฟลิโอ",
       "addOnModulesEyebrow": "โมดูลเสริม",
       "moduleAddonsTitle": "โมดูลเสริมสำหรับ Core",
-      "moduleAddonsSubtitle": "เพิ่มข้อมูลเชิงลึกเฉพาะให้กับระดับ Core ใบอนุญาตองค์กรครอบคลุมสถานที่ 1-3 จากนั้นเรียกเก็บเงินต่อสถานที่จาก #4+",
+      "moduleAddonsSubtitle": "โดเมน Core รวมอยู่ในแพ็กเกจ Core ของคุณแล้ว ขยายได้โดยอัปแพ็กเกจหรือเพิ่ม Foresight & Action",
       "module": "โมดูล",
       "orgLicense": "ใบอนุญาตองค์กร",
       "perLocationFrom4": "ต่อสถานที่ (#4+)",
@@ -6451,7 +6451,7 @@ export const generatedPricingMessages = {
       "pricingFooterNote": "Harga berkuat kuasa {date}",
       "taxNote": "Cukai (VAT/GST) tidak termasuk kecuali dinyatakan",
       "changeNotice": "Tertakluk kepada perubahan dengan notis 30 hari",
-      "locationPricingNote": "Lokasi tambahan dikenakan bayaran dari lokasi #2 seterusnya (lokasi #1 termasuk dalam harga asas)"
+      "locationPricingNote": "Lokasi #1 dicaj pada harga sauh pakej. Setiap lokasi seterusnya dicaj pada kadar jalur marginalnya — memasuki jalur baharu tidak sekali-kali menetapkan semula harga lokasi sedia ada, dan harga sauh tidak merangkumi sebarang lokasi."
     },
     "overview": {
       "heroTitle": "Harga yang Mudah dan Telus",
@@ -6482,7 +6482,7 @@ export const generatedPricingMessages = {
       "portfolioPricingAdvantage": "Kelebihan Harga Portfolio",
       "addOnModulesEyebrow": "MODUL TAMBAHAN",
       "moduleAddonsTitle": "Modul Tambahan untuk Core",
-      "moduleAddonsSubtitle": "Tambah kecerdasan khusus kepada tahap Core. Lesen organisasi merangkumi lokasi 1-3, kemudian setiap lokasi dari #4+",
+      "moduleAddonsSubtitle": "Domain Core disertakan dalam pakej Core anda. Kembangkan dengan menaik taraf pakej atau menambah Foresight & Action.",
       "module": "Modul",
       "orgLicense": "Lesen Organisasi",
       "perLocationFrom4": "Setiap Lokasi (#4+)",

@@ -10,9 +10,11 @@ import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocal
 // reconciled against the backend pricing master via `npm run sync:backend-pricing`).
 // This eliminates the hard-coded "Starting at $XXX/month" strings that the
 // pricing audit previously flagged as drift risks.
-import { coreTiers, watchtower } from '../../data/pricing';
+import { corePackages, watchtower } from '../../data/pricing';
 
-const corePrice = coreTiers.lite.basePrice; // 279
+// v1.7: the entry point into Core is the Core Foundation FIRST-UNIT anchor.
+// It is not a per-location rate and it includes no location allowance.
+const corePrice = corePackages.core_foundation.firstUnitPrice; // 1195
 const watchtowerCheapestPrice = Math.min(
   watchtower.competitive.basePrice,
   watchtower.events.basePrice,
@@ -20,7 +22,58 @@ const watchtowerCheapestPrice = Math.min(
 ); // 249 (events) currently
 
 // Get product icons from centralized mapping
-const { report: FileText, core: Zap, watchtower: Castle, crew: UsersIcon } = PRODUCT_ICONS;
+const { core: Zap, watchtower: Castle, crew: UsersIcon } = PRODUCT_ICONS;
+
+/** A layer card's copy, with every field guaranteed present. */
+type LayerCopy = PricingCopy['core'];
+
+function resolveLayerCard(
+  base: LayerCopy,
+  override: Partial<LayerCopy> | undefined,
+): LayerCopy {
+  if (!override) return base;
+  return {
+    name: override.name ?? base.name,
+    tagline: override.tagline ?? base.tagline,
+    startingPrice: override.startingPrice ?? base.startingPrice,
+    features:
+      Array.isArray(override.features) && override.features.length > 0
+        ? override.features
+        : base.features,
+  };
+}
+
+/**
+ * Resolve layer-stack copy for a locale, field by field, over the English base.
+ * Hand-written packs win, then the generated packs, then English.
+ */
+function resolveLayerStackCopy(locale: string): PricingCopy {
+  const base = localizedLayerStackCopy.en;
+  const handWritten = (
+    localizedLayerStackCopy as Record<string, PricingCopy | undefined>
+  )[locale];
+  const generated = (
+    generatedAuxiliaryLocalePacks.layerStackCopy as unknown as Record<
+      string,
+      Partial<PricingCopy> | undefined
+    >
+  )[locale];
+  const pack: Partial<PricingCopy> | undefined = handWritten ?? generated;
+  if (!pack) return base;
+
+  return {
+    title: pack.title ?? base.title,
+    subtitle: pack.subtitle ?? base.subtitle,
+    report: resolveLayerCard(base.report, pack.report),
+    core: resolveLayerCard(base.core, pack.core),
+    watchtower: resolveLayerCard(base.watchtower, pack.watchtower),
+    crew: resolveLayerCard(base.crew, pack.crew),
+    recommended: pack.recommended ?? base.recommended,
+    select: pack.select ?? base.select,
+    proTip: pack.proTip ?? base.proTip,
+    upgradeLater: pack.upgradeLater ?? base.upgradeLater,
+  };
+}
 
 type PricingCopy = {
   title: string;
@@ -68,7 +121,7 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
     core: {
       name: 'CORE',
       tagline: 'Real-time operations & AI',
-      startingPrice: `Starting at $${corePrice}/month`,
+      startingPrice: `From $${corePrice}/month for your first location`,
       features: ['Real-time POS integration', 'Predictive analytics', 'AI-powered insights', 'Portfolio management'],
     },
     watchtower: {
@@ -100,7 +153,7 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
     core: {
       name: 'Core',
       tagline: 'عمليات لحظية وذكاء اصطناعي',
-      startingPrice: `يبدأ من ${corePrice} دولار/شهرياً`,
+      startingPrice: `من ${corePrice} دولار/شهرياً للموقع الأول`,
       features: ['تكامل POS لحظي', 'تحليلات تنبؤية', 'رؤى مدعومة بالذكاء الاصطناعي', 'إدارة المحافظ'],
     },
     watchtower: {
@@ -132,7 +185,7 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
     core: {
       name: 'CORE',
       tagline: 'Operations en temps reel et IA',
-      startingPrice: `A partir de ${corePrice} $/mois`,
+      startingPrice: `A partir de ${corePrice} $/mois pour votre premier site`,
       features: ['Integration POS en temps reel', 'Analytique predictive', 'Insights IA', 'Gestion de portefeuille'],
     },
     watchtower: {
@@ -164,7 +217,7 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
     core: {
       name: 'CORE',
       tagline: 'Operaciones en tiempo real e IA',
-      startingPrice: `Desde ${corePrice} $/mes`,
+      startingPrice: `Desde ${corePrice} $/mes para tu primer local`,
       features: ['Integracion POS en tiempo real', 'Analitica predictiva', 'Insights con IA', 'Gestion de portafolio'],
     },
     watchtower: {
@@ -186,18 +239,23 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
   },
 };
 
-type LocalizedLayerStackLocale = keyof typeof localizedLayerStackCopy;
-type GeneratedLayerStackLocale = keyof typeof generatedAuxiliaryLocalePacks.layerStackCopy;
 
 export function LayerStack() {
   const { setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
   const { locale } = useLocale();
-  const copy =
-    localizedLayerStackCopy[locale as LocalizedLayerStackLocale] ??
-    generatedAuxiliaryLocalePacks.layerStackCopy[locale as GeneratedLayerStackLocale] ??
-    localizedLayerStackCopy.en;
+  // The `??` chain used to pick ONE pack wholesale. When that pack was
+  // shape-incomplete the whole subtree beneath it went undefined - the
+  // generated packs carried a retired `report` layer and no `crew`, so
+  // `copy.crew` was undefined and `layerItem.copy.name` threw, taking the
+  // entire simulator to the ErrorBoundary in 18 of 22 locales. tsc could not
+  // see it because the index lookups are typed non-optional.
+  //
+  // Resolving per FIELD over the English base makes a missing key structurally
+  // impossible: a partial translation now degrades to English for that field
+  // only, which is what a missing translation should ever cost.
+  const copy = resolveLayerStackCopy(locale);
 
-  const handleLayerSelect = (layerId: 'report' | 'core' | 'crew') => {
+  const handleLayerSelect = (layerId: 'core' | 'crew') => {
     setLayer(layerId);
     markStepCompleted('layer');
     setCurrentStep(2);
@@ -212,14 +270,9 @@ export function LayerStack() {
       copy: copy.core,
       recommended: persona?.recommendedPath.includes('core'),
     },
-    {
-      id: 'report' as const,
-      icon: FileText,
-      color: '#10B981',
-      borderColor: 'green',
-      copy: copy.report,
-      recommended: persona?.recommendedPath === 'report-lite',
-    },
+    // The Report layer was retired with price book v1.7 and is no longer
+    // offered. Its localized copy stays in the pack only so the translation
+    // bundles keep their shape; nothing renders it.
     {
       id: 'crew' as const,
       icon: UsersIcon,
@@ -278,11 +331,11 @@ export function LayerStack() {
                     card: 'from-[#FF7E6F]/20 to-teal-600/20 border-[#FF7E6F]/30 hover:border-[#FF7E6F]/60',
                     badge: 'bg-[#FF7E6F]/30 text-[#FF7E6F]',
                   };
-                default: // 'report'
+                default:
                   return {
-                    icon: 'text-green-400',
-                    card: 'from-green-500/20 to-emerald-600/20 border-green-500/30 hover:border-green-500/60',
-                    badge: 'bg-green-500/30 text-green-300',
+                    icon: 'text-[#C2410C]',
+                    card: 'from-[#C2410C]/20 to-[#E9A24A]/20 border-[#C2410C]/30 hover:border-[#C2410C]/60',
+                    badge: 'bg-[#C2410C]/30 text-[#C2410C]',
                   };
               }
             })();

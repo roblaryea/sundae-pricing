@@ -1,10 +1,11 @@
-// Price calculation hook for Sundae pricing configurator
-// Uses the centralized pricing engine for all calculations
+// Price calculation hook for the Sundae pricing configurator (price book v1.7)
+// Uses the centralized pricing engine for all calculations.
 
 import { useMemo } from 'react';
-import { calculateFullPrice, calculateTenzoPrice } from '../lib/pricingEngine';
-import type { PriceResult, ClientProfile } from '../lib/pricingEngine';
-import type { ModuleId, CrossIntelligenceTier } from '../data/pricing';
+import { calculateFullPrice, calculateTenzoPrice, calculateBandedTotal } from '../lib/pricingEngine';
+import type { PriceResult, ClientProfile, AddOnId } from '../lib/pricingEngine';
+import type { CorePackageId, CrossIntelligenceTier } from '../data/pricing';
+import { corePackages, CORE_PACKAGE_IDS } from '../data/pricing';
 import type { Configuration as EngineConfig } from '../lib/pricingEngine';
 import type { PriceBreakdown, PriceCalculation, CrossIntelligenceSelection } from '../types/configuration';
 import { useLivePricingCatalog } from '../data/livePricing';
@@ -14,54 +15,44 @@ import { localizeBreakdownLabel, localizeDiscountName, type PricingLocale } from
 // Re-export for backward compatibility
 export type { PriceBreakdown, PriceCalculation };
 
-// Convert old configuration format to new engine format
-function convertToEngineConfig(
-  // 'crew' is accepted on the type level for caller compatibility but the
-  // engine treats it as `null` (no-op): Crew pricing is computed in
-  // CrewBuilder + CrewSummaryBody, not by this Report/Core engine.
-  layer: 'report' | 'core' | 'crew' | null,
-  tier: string,
+function toEngineConfig(
+  corePackage: CorePackageId,
   locations: number,
-  modules: string[],
+  addOns: AddOnId[],
   watchtowerModules: string[],
   clientProfile?: ClientProfile,
-  crossIntelligence?: CrossIntelligenceSelection
+  crossIntelligence?: CrossIntelligenceSelection,
 ): EngineConfig {
-  // Map crossIntelligence selection to engine tier
   const ciTier: CrossIntelligenceTier | undefined =
-    crossIntelligence === 'pro' ? 'pro' :
-    crossIntelligence === 'base' ? 'base' :
-    undefined;
+    crossIntelligence === 'pro' ? 'pro' : crossIntelligence === 'base' ? 'base' : undefined;
 
   return {
-    // Crew bypasses this engine — coerce to 'report' so downstream calc
-    // doesn't crash; the Crew path renders its own summary upstream.
-    layer: layer && layer !== 'crew' ? layer : 'report',
-    tier,
+    layer: 'core',
+    corePackage,
     locations: Math.max(1, locations),
-    modules: modules as ModuleId[],
+    addOns,
     watchtower: watchtowerModules,
     crossIntelligence: ciTier,
     clientProfile: clientProfile || {
       type: 'independent',
       isEarlyAdopter: false,
       isFranchise: false,
-      brandCount: 1
-    }
+      brandCount: 1,
+    },
   };
 }
 
 export function usePriceCalculation(
   // 'crew' is accepted on the type level for caller compatibility but the
-  // engine treats it as `null` (no-op): Crew pricing is computed in
-  // CrewBuilder + CrewSummaryBody, not by this Report/Core engine.
-  layer: 'report' | 'core' | 'crew' | null,
-  tier: string,
+  // engine treats it as a no-op: Crew pricing is computed in CrewBuilder +
+  // CrewSummaryBody, not by this Core engine.
+  layer: 'core' | 'crew' | null,
+  corePackage: CorePackageId,
   locations: number,
-  modules: string[] = [],
+  addOns: AddOnId[] = [],
   watchtowerModules: string[] = [],
   clientProfile?: ClientProfile,
-  crossIntelligence?: CrossIntelligenceSelection
+  crossIntelligence?: CrossIntelligenceSelection,
 ): PriceCalculation {
   const livePricing = useLivePricingCatalog();
   const { locale } = useLocale();
@@ -69,28 +60,34 @@ export function usePriceCalculation(
 
   return useMemo(() => {
     void livePricingVersion;
-    // Use centralized pricing engine
-    const config = convertToEngineConfig(layer, tier, locations, modules, watchtowerModules, clientProfile, crossIntelligence);
+    void layer;
+    const config = toEngineConfig(
+      corePackage,
+      locations,
+      addOns,
+      watchtowerModules,
+      clientProfile,
+      crossIntelligence,
+    );
     const result: PriceResult = calculateFullPrice(config);
-    
-    // Convert breakdown to old format
-    const breakdown: PriceBreakdown[] = result.breakdown.map(item => {
-      let category: 'base' | 'module' | 'watchtower' | 'cross_intelligence' = 'base';
+
+    const breakdown: PriceBreakdown[] = result.breakdown.map((item) => {
+      let category: PriceBreakdown['category'] = 'base';
 
       if (item.item.includes('Cross-Intelligence')) {
         category = 'cross_intelligence';
-      } else if (item.item.includes('Intelligence') || item.item.includes('Connect') || item.item.includes('Analytics') || item.item.includes('Performance')) {
-        category = 'module';
       } else if (item.item.includes('Watchtower')) {
         category = 'watchtower';
+      } else if (!item.item.startsWith('Core ')) {
+        category = 'addon';
       }
-      
+
       return {
         item: localizeBreakdownLabel(item.item, locale as PricingLocale),
         price: item.price,
-        perLocation: item.price / locations,
+        perLocation: item.price / Math.max(1, locations),
         category,
-        note: item.note
+        note: item.note,
       };
     });
 
@@ -98,74 +95,50 @@ export function usePriceCalculation(
       ...discount,
       name: localizeDiscountName(discount.name, locale as PricingLocale),
     }));
-    
-    // Calculate Tenzo comparison
-    const tenzoComparison = calculateTenzoPrice(locations, modules.length || 1);
-    
+
+    // Tenzo prices per module per location; every Core package ships the
+    // eleven domain modules, so compare against all eleven.
+    const tenzoComparison = calculateTenzoPrice(locations, 11);
+
     return {
       total: result.total,
       perLocation: result.perLocation,
       breakdown,
       annualTotal: result.annualTotal,
-      annualPerLocation: result.annualTotal / locations,
+      annualPerLocation: result.annualTotal / Math.max(1, locations),
       aiCredits: result.aiCreditsTotal,
-      aiSeats: result.aiSeatsTotal,
       subtotal: result.subtotal,
       discounts,
+      requiresEnterpriseQuote: result.requiresEnterpriseQuote,
+      implementation: result.implementation,
       savings: {
-        tenzo: tenzoComparison
-      }
+        tenzo: tenzoComparison,
+      },
     };
-  }, [layer, tier, locations, modules, watchtowerModules, clientProfile, crossIntelligence, livePricingVersion, locale]);
+  }, [
+    layer,
+    corePackage,
+    locations,
+    addOns,
+    watchtowerModules,
+    clientProfile,
+    crossIntelligence,
+    livePricingVersion,
+    locale,
+  ]);
 }
 
-// Helper to check if a configuration includes specific module combinations
-export function hasModuleCombo(modules: string[], combo: string[]): boolean {
-  return combo.every(module => modules.includes(module));
-}
-
-// Get bundle savings if user selects individual watchtower modules
-export function getWatchtowerBundleSavings(selectedModules: string[]): number {
-  const bundleModules = ['competitive', 'events', 'trends'];
-  const hasAllBundleModules = bundleModules.every(module => 
-    selectedModules.includes(module)
+/**
+ * Cheapest Core package at a given unit count. Because bands are marginal and
+ * every package uses the same band boundaries, the cheapest package is
+ * Foundation at every scale — this helper recomputes rather than assuming, so
+ * a future band change can flip the answer without silently lying.
+ */
+export function suggestOptimalCorePackage(locations: number): CorePackageId {
+  return CORE_PACKAGE_IDS.reduce((cheapest, id) =>
+    calculateBandedTotal(corePackages[id], locations) <
+    calculateBandedTotal(corePackages[cheapest], locations)
+      ? id
+      : cheapest,
   );
-  
-  if (hasAllBundleModules && !selectedModules.includes('bundle')) {
-    // Individual base prices: $549 + $249 + $299 = $1,097
-    // Bundle base price: $899
-    // Base savings: $198
-    return 198;
-  }
-  
-  return 0;
-}
-
-// Suggest optimal tier based on location count
-export function suggestOptimalTier(locations: number, layer: 'report' | 'core'): string {
-  if (layer === 'report') {
-    if (locations === 1) return 'lite';
-    if (locations <= 3) return 'plus';
-    return 'pro';
-  }
-  
-  if (layer === 'core') {
-    if (locations <= 5) return 'lite';
-    const crossover = calculateCoreProCrossoverPoint();
-    if (locations >= crossover + 1) return 'pro'; // Pro becomes cheaper at crossover + 1
-    return 'lite';
-  }
-  
-  return 'lite';
-}
-
-// Calculate crossover point where Core Pro becomes cheaper than Core Lite
-export function calculateCoreProCrossoverPoint(): number {
-  // Core Lite: $279 + (n-1) * $79
-  // Core Pro: $449 + (n-1) * $89
-  // Core Pro has both higher base and higher per-location in v5.1,
-  // so there is no crossover — Core Pro is always more expensive.
-  // Core Pro's value is in features/capabilities, not cost savings at scale.
-  // Return a high number so tier suggestion defaults to 'lite' for cost optimization.
-  return Number.MAX_SAFE_INTEGER;
 }

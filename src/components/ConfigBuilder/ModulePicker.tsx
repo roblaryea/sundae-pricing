@@ -1,258 +1,239 @@
-// Module marketplace interface component
+// Add-on picker (price book v1.7).
+//
+// Two distinct things live on this step, and conflating them is what the old
+// build got wrong:
+//   1. The eleven Core DOMAIN modules — PACKAGE COMPONENTS. Shown as what the
+//      chosen package already includes. No price, no checkbox, no purchase.
+//   2. The genuinely optional add-ons — Foresight & Action (banded) and the
+//      concept SKUs (flat monthly). These are selectable.
 
 import { motion } from 'framer-motion';
-import { Plus, Check, Zap, TrendingUp, ChevronLeft, Sparkles, GitBranch } from 'lucide-react';
+import { Check, Zap, TrendingUp, ChevronLeft, Sparkles, Lock } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { modules } from '../../data/pricing';
-import type { ModuleId } from '../../data/pricing';
+import {
+  conceptSkus,
+  CONCEPT_SKU_IDS,
+  corePackages,
+  foresightAction,
+  modules as coreDomainModules,
+} from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { MODULE_ICONS } from '../../constants/icons';
 import { useLocale } from '../../contexts/LocaleContext';
-import { calculateModulePrice as calculateEngineModulePrice } from '../../lib/pricingEngine';
-
-type ModuleDisplayConfig = {
-  powerLevel?: number;
-  tagline?: string;
-  unlocks?: string[];
-  note?: string;
-};
+import {
+  calculateBandLines,
+  calculateForesightActionPrice,
+} from '../../lib/pricingEngine';
+import type { AddOnId } from '../../lib/pricingEngine';
 
 export function ModulePicker() {
-  const { layer, tier, locations, modules: selectedModules, toggleModule, setCurrentStep } = useConfiguration();
-  const { messages } = useLocale();
+  const {
+    layer,
+    corePackage,
+    locations,
+    addOns,
+    toggleAddOn,
+    setCurrentStep,
+  } = useConfiguration();
+  const { locale, messages } = useLocale();
   const copy = messages.builder.modulePicker;
   const moduleCatalog = messages.catalog.modules;
-  
-  // Calculate pricing with current modules
-  const pricing = usePriceCalculation(layer, tier, locations, selectedModules, []);
 
-  const handleContinue = () => {
-    setCurrentStep(5);
-  };
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, []);
+  const pkg = corePackages[corePackage];
 
-  const handleBack = () => {
-    setCurrentStep(3);
-  };
+  const fmt = (value: number) => `$${value.toLocaleString(locale)}`;
 
-  const getModuleIcon = (moduleId: string) => {
-    // Use official module icons from SUNDAE_ICON_MAPPING
-    return MODULE_ICONS[moduleId as keyof typeof MODULE_ICONS] || MODULE_ICONS.labor;
-  };
+  const handleContinue = () => setCurrentStep(5);
+  const handleBack = () => setCurrentStep(3);
 
-  const calculateModuleCardPrice = (moduleId: string, module: typeof modules[keyof typeof modules]) => {
-    if (layer === 'core') {
-      const tierKey = tier === 'lite' ? 'core_lite' : 'core_pro';
-      return calculateEngineModulePrice(moduleId as ModuleId, locations, tierKey);
-    }
+  const getModuleIcon = (moduleId: string) =>
+    MODULE_ICONS[moduleId as keyof typeof MODULE_ICONS] || MODULE_ICONS.labor;
 
-    let price = module.orgLicensePrice;
-    if (locations > module.baseIncludesLocations) {
-      price += (locations - module.baseIncludesLocations) * module.perLocationPrice;
-    }
-    return price;
-  };
+  const foresightTotal = calculateForesightActionPrice(locations);
+  const foresightBands = calculateBandLines(foresightAction, locations);
 
-  // Check for combo bonuses
-  const hasLaborInventoryCombo = selectedModules.includes('labor') && selectedModules.includes('inventory');
-
-  const formatMessage = (template: string, values: Record<string, string | number>) =>
-    Object.entries(values).reduce(
-      (result, [key, value]) => result.replaceAll(`\${${key}}`, String(value)).replaceAll(`{${key}}`, String(value)),
-      template,
-    );
+  const isSelected = (id: AddOnId) => addOns.includes(id);
 
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-12"
+        className="text-center mb-10"
       >
-        <h1 className="text-4xl font-bold mb-4">
-          {copy.title}
-        </h1>
-        <p className="text-xl text-sundae-muted">
-          {copy.subtitle}
-        </p>
+        <h1 className="text-4xl font-bold mb-4">{copy.title}</h1>
+        <p className="text-xl text-sundae-muted">{copy.subtitle}</p>
       </motion.div>
 
-      {/* Combo bonus notification */}
-      {hasLaborInventoryCombo && (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="mb-6 p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-lg border border-green-500/30"
+      {/* ── 1. Included with the package (NOT purchasable) ───────────────── */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-12 p-6 rounded-xl border border-white/10 bg-sundae-surface"
+      >
+        <div className="flex items-start gap-3 mb-5">
+          <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <h2 className="text-xl font-bold">Included in {pkg.name}</h2>
+            <p className="text-sm text-sundae-muted">
+              All {Object.keys(coreDomainModules).length} Core domain modules ship with every Core
+              package. They are components of the package, not separate purchases.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          {Object.entries(coreDomainModules).map(([moduleId, module]) => {
+            const localizedModule = moduleCatalog[moduleId as keyof typeof moduleCatalog];
+            const IconComponent = getModuleIcon(moduleId);
+            return (
+              <div
+                key={moduleId}
+                className="flex items-start gap-3 p-3 rounded-lg bg-sundae-dark/40 border border-white/5"
+                data-testid={`included-module-${moduleId}`}
+              >
+                <IconComponent className="w-6 h-6 flex-shrink-0" />
+                <div className="min-w-0">
+                  <div className="font-semibold text-sm truncate">
+                    {localizedModule?.name ?? module.name}
+                  </div>
+                  <div className="text-xs text-green-400">
+                    {localizedModule?.roi ?? module.roiPotential}
+                  </div>
+                </div>
+                <span className="ml-auto inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-sundae-muted flex-shrink-0">
+                  <Lock className="w-3 h-3" />
+                  Included
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </motion.section>
+
+      {/* ── 2. Optional add-ons ──────────────────────────────────────────── */}
+      <h2 className="text-2xl font-bold mb-2">Optional add-ons</h2>
+      <p className="text-sundae-muted mb-6">
+        Sold alongside your Core package. Nothing here is required.
+      </p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        {/* Foresight & Action — banded */}
+        <motion.button
+          onClick={() => toggleAddOn('foresight_action')}
+          data-testid="addon-foresight_action"
+          whileHover={{ y: -4 }}
+          className={`w-full h-full p-6 rounded-xl border-2 transition-all text-left relative ${
+            isSelected('foresight_action')
+              ? 'bg-gradient-to-br from-sundae-accent/20 to-[#FF5C4D]/20 border-sundae-accent/50'
+              : 'bg-sundae-surface border-white/10 hover:border-white/30'
+          }`}
         >
-          <div className="flex items-center gap-3">
-            <Zap className="w-6 h-6 text-green-400" />
+          {isSelected('foresight_action') && (
+            <div className="absolute -top-3 -right-3 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+              <Check className="w-5 h-5 text-white" />
+            </div>
+          )}
+          <div className="flex items-start gap-3 mb-3">
+            <Sparkles className="w-8 h-8 flex-shrink-0 text-[#E9A24A]" />
             <div>
-              <span className="font-semibold text-green-400">{copy.comboUnlocked}</span>
-              <span className="ml-2 text-sm text-sundae-muted">
-                {copy.comboDescription}
-              </span>
+              <h3 className="font-bold text-lg">{foresightAction.name}</h3>
+              <p className="text-xs text-sundae-muted">{foresightAction.tagline}</p>
             </div>
           </div>
-        </motion.div>
-      )}
 
-      {/* Module grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-        {Object.entries(modules).map(([moduleId, module]) => {
-          const isSelected = selectedModules.includes(moduleId);
-          const modulePrice = calculateModuleCardPrice(moduleId, module);
-          const moduleAny = module as typeof module & ModuleDisplayConfig;
-          const isRecommended = moduleAny.powerLevel && moduleAny.powerLevel >= 4;
-          const localizedModule = moduleCatalog[moduleId as keyof typeof moduleCatalog];
-
-          return (
-            <motion.div
-              key={moduleId}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -5, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <button
-                onClick={() => toggleModule(moduleId)}
-                className={`w-full h-full p-6 rounded-xl border-2 transition-all relative ${
-                  isSelected 
-                    ? 'bg-gradient-to-br from-sundae-accent/20 to-[#FF5C4D]/20 border-sundae-accent/50'
-                    : 'bg-sundae-surface border-white/10 hover:border-white/30'
-                }`}
+          <div className="mb-3">
+            <div className="flex items-baseline gap-2">
+              <span
+                className="font-display text-2xl font-bold tabular-nums"
+                data-testid="addon-price-foresight_action"
               >
-                {/* Selected indicator */}
-                {isSelected && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute -top-3 -right-3 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center"
-                  >
-                    <Check className="w-5 h-5 text-white" />
-                  </motion.div>
-                )}
+                {fmt(foresightTotal)}
+              </span>
+              <span className="text-sm text-sundae-muted">{copy.perMonth}</span>
+            </div>
+            <p className="text-xs text-sundae-muted mt-1">
+              {fmt(foresightAction.firstUnitPrice)} first location
+              {locations > 1 && (
+                <>
+                  {' '}
+                  +{' '}
+                  {foresightBands
+                    .map((line) => `${line.units} × ${fmt(line.band.pricePerUnit)}`)
+                    .join(' + ')}
+                </>
+              )}
+            </p>
+          </div>
 
-                {/* Recommended badge */}
-                {isRecommended && !isSelected && (
-                  <div className="absolute -top-2 left-4 px-3 py-1 bg-gradient-primary text-white text-xs font-bold rounded-full">
-                    {copy.recommended}
-                  </div>
-                )}
+          <ul className="space-y-1">
+            {foresightAction.features.slice(0, 4).map((feature, idx) => (
+              <li key={idx} className="flex items-start gap-2 text-xs text-sundae-muted">
+                <Check className="w-3 h-3 text-sundae-accent mt-0.5 flex-shrink-0" />
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </motion.button>
 
-                <div className="text-left">
-                  {/* Header */}
-                  <div className="flex items-start gap-4 mb-4">
-                    {(() => {
-                      const IconComponent = getModuleIcon(moduleId);
-                      return <IconComponent className="w-10 h-10 flex-shrink-0" />;
-                    })()}
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg mb-1">{localizedModule?.name ?? module.name}</h3>
-                      <p className="text-xs text-sundae-muted">{moduleAny.tagline || localizedModule?.description || module.description}</p>
-                    </div>
-                  </div>
-
-                  {/* Power level */}
-                  {moduleAny.powerLevel && (
-                    <div className="flex gap-1 mb-3">
-                      {[...Array(5)].map((_, i) => (
-                        <div
-                          key={i}
-                          className={`w-4 h-4 rounded-full ${
-                            moduleAny.powerLevel && i < moduleAny.powerLevel 
-                              ? 'bg-gradient-to-r from-yellow-400 to-orange-400' 
-                              : 'bg-sundae-surface-hover'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Price */}
-                  <div className="mb-4">
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-display text-2xl font-bold tabular-nums" data-testid={`module-price-${moduleId}`}>${modulePrice}</span>
-                      <span className="text-sm text-sundae-muted">{copy.perMonth}</span>
-                    </div>
-                    {locations > module.baseIncludesLocations && (
-                      <p className="text-xs text-sundae-muted mt-1">
-                        {formatMessage(copy.includesExtra, {
-                          included: module.baseIncludesLocations,
-                          extra: locations - module.baseIncludesLocations,
-                        })}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* ROI potential */}
-                  <div className="mb-4 p-3 bg-sundae-dark/50 rounded-lg">
-                    <div className="flex items-center gap-2 text-sm">
-                      <TrendingUp className="w-4 h-4 text-green-400" />
-                      <span className="text-green-400 font-semibold">{localizedModule?.roi ?? module.roiPotential}</span>
-                    </div>
-                  </div>
-
-                  {/* Key unlocks */}
-                  {moduleAny.unlocks && (
-                    <ul className="space-y-1">
-                      {moduleAny.unlocks.slice(0, 3).map((unlock: string, idx: number) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs">
-                          <Plus className="w-3 h-3 text-sundae-accent mt-0.5 flex-shrink-0" />
-                          <span>{unlock}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-
-                  {/* Special note */}
-                  {moduleAny.note && (
-                    <p className="mt-3 text-xs text-yellow-400 italic">
-                      {moduleAny.note}
-                    </p>
-                  )}
+        {/* Concept SKUs — flat monthly */}
+        {CONCEPT_SKU_IDS.map((conceptId) => {
+          const concept = conceptSkus[conceptId];
+          return (
+            <motion.button
+              key={conceptId}
+              onClick={() => toggleAddOn(conceptId)}
+              data-testid={`addon-${conceptId}`}
+              whileHover={{ y: -4 }}
+              className={`w-full h-full p-6 rounded-xl border-2 transition-all text-left relative ${
+                isSelected(conceptId)
+                  ? 'bg-gradient-to-br from-sundae-accent/20 to-[#FF5C4D]/20 border-sundae-accent/50'
+                  : 'bg-sundae-surface border-white/10 hover:border-white/30'
+              }`}
+            >
+              {isSelected(conceptId) && (
+                <div className="absolute -top-3 -right-3 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                  <Check className="w-5 h-5 text-white" />
                 </div>
-              </button>
-            </motion.div>
+              )}
+              <h3 className="font-bold text-lg mb-2">{concept.name}</h3>
+              <div className="mb-3">
+                <div className="flex items-baseline gap-2">
+                  <span
+                    className="font-display text-2xl font-bold tabular-nums"
+                    data-testid={`addon-price-${conceptId}`}
+                  >
+                    {fmt(concept.monthlyPrice)}
+                  </span>
+                  <span className="text-sm text-sundae-muted">{copy.perMonth}</span>
+                </div>
+                <p className="text-xs text-sundae-muted mt-1">Flat monthly — not per location</p>
+              </div>
+              <p className="text-xs text-sundae-muted">{concept.description}</p>
+            </motion.button>
           );
         })}
       </div>
 
-      {/* Cross-Intelligence unlock indicator */}
-      {selectedModules.length >= 3 ? (
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="mb-6 p-4 bg-gradient-to-r from-[#E9A24A]/20 to-[#FF7E6F]/20 rounded-lg border border-[#E9A24A]/30"
-        >
-          <div className="flex items-center gap-3">
-            <Sparkles className="w-6 h-6 text-[#E9A24A]" />
-            <div>
-              <span className="font-semibold text-[#E9A24A]">{copy.crossUnlocked}</span>
-              <span className="ml-2 text-sm text-sundae-muted">
-                {formatMessage(copy.crossUnlockedDescription, { count: selectedModules.length })}
-              </span>
-            </div>
+      {/* Cross-Intelligence: always on with a Core package */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="mb-6 p-4 bg-gradient-to-r from-[#E9A24A]/20 to-[#FF7E6F]/20 rounded-lg border border-[#E9A24A]/30"
+      >
+        <div className="flex items-center gap-3">
+          <Zap className="w-6 h-6 text-[#E9A24A]" />
+          <div>
+            <span className="font-semibold text-[#E9A24A]">{copy.crossUnlocked}</span>
+            <span className="ml-2 text-sm text-sundae-muted">
+              The correlation engine is included with every Core package.
+            </span>
           </div>
-        </motion.div>
-      ) : selectedModules.length >= 1 ? (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mb-6 p-4 bg-sundae-surface rounded-lg border border-white/10"
-        >
-          <div className="flex items-center gap-3">
-            <GitBranch className="w-5 h-5 text-sundae-muted" />
-            <p className="text-sm text-sundae-muted">
-              {formatMessage(copy.crossNeedsMore, {
-                count: 3 - selectedModules.length,
-                moduleWord: 3 - selectedModules.length === 1 ? copy.moduleSingular : copy.modulePlural,
-              })}{' '}
-              <span className="text-[#E9A24A] font-semibold">{copy.crossFreeSuffix}</span>
-            </p>
-          </div>
-        </motion.div>
-      ) : null}
+        </div>
+      </motion.div>
 
-      {/* Current total with modules */}
+      {/* Running total */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -263,28 +244,27 @@ export function ModulePicker() {
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.totalWithModules}</div>
             <div className="font-display text-3xl font-bold tabular-nums">
-              ${pricing.total.toLocaleString()}{copy.perMonth}
+              {fmt(pricing.total)}
+              {copy.perMonth}
             </div>
             <div className="text-sm text-sundae-muted mt-1">
-              {formatMessage(copy.modulesSelected, { count: selectedModules.length })}
+              {addOns.length} add-on{addOns.length === 1 ? '' : 's'} selected
             </div>
           </div>
-          
-          {/* Savings indicator */}
+
           {(() => {
             const tenzoMonthly = pricing.savings.tenzo.monthly;
-            const ourMonthly = pricing.total;
-            const monthlySavings = tenzoMonthly - ourMonthly;
+            const monthlySavings = tenzoMonthly - pricing.total;
             const savingsPercent = tenzoMonthly > 0 ? (monthlySavings / tenzoMonthly) * 100 : 0;
-            
+
             return monthlySavings > 0 ? (
               <div className="text-right">
                 <div className="text-sm text-sundae-muted mb-1">{copy.vsTenzo}</div>
                 <div className="font-display text-2xl font-bold text-green-400">
-                  {formatMessage(copy.savePerMonth, { amount: Math.round(monthlySavings) })}
+                  {fmt(Math.round(monthlySavings))}
                 </div>
                 <div className="text-sm text-green-400">
-                  {formatMessage(copy.percentLess, { percent: Math.round(savingsPercent) })}
+                  {Math.round(savingsPercent)}% less
                 </div>
               </div>
             ) : null;
@@ -292,7 +272,7 @@ export function ModulePicker() {
         </div>
       </motion.div>
 
-      {/* Navigation buttons */}
+      {/* Navigation */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -306,7 +286,7 @@ export function ModulePicker() {
           <ChevronLeft className="w-5 h-5" />
           {copy.back}
         </button>
-        
+
         <div className="text-center">
           <button
             onClick={handleContinue}
@@ -314,13 +294,12 @@ export function ModulePicker() {
             data-testid="continue-button-modules"
           >
             <span>{copy.continueToWatchtower}</span>
-            {selectedModules.length === 0 && (
-              <span className="text-sm opacity-75">{copy.optional}</span>
-            )}
+            {addOns.length === 0 && <span className="text-sm opacity-75">{copy.optional}</span>}
           </button>
-          
-          {selectedModules.length === 0 && (
-            <p className="text-sm text-sundae-muted mt-2">
+
+          {addOns.length === 0 && (
+            <p className="text-sm text-sundae-muted mt-2 flex items-center justify-center gap-1">
+              <TrendingUp className="w-4 h-4" />
               {copy.skipModules}
             </p>
           )}

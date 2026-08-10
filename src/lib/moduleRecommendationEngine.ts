@@ -1,8 +1,13 @@
 /**
- * MODULE RECOMMENDATION ENGINE
- * 
- * Deterministic answer → module preselection mapping
- * Single source of truth for onboarding quiz → module recommendations
+ * DOMAIN MODULE RELEVANCE ENGINE
+ *
+ * Deterministic answer → Core DOMAIN module relevance ranking.
+ *
+ * Under price book v1.7 the eleven domain modules are PACKAGE COMPONENTS —
+ * every Core package includes all of them. This engine therefore no longer
+ * drives a purchase: it ranks which included domains speak to the operator's
+ * stated pains, so the UI can say "here is what your package already covers".
+ * It must never be used to preselect a chargeable line item.
  */
 
 import type { ModuleId } from '../data/pricing';
@@ -130,7 +135,7 @@ export function calculateModuleRecommendations(
     delivery: { score: 0, rationales: [], fromPains: [] },
     guest: { score: 0, rationales: [], fromPains: [] },
     pulse: { score: 0, rationales: [], fromPains: [] },
-    foresight: { score: 0, rationales: [], fromPains: [] }
+    guest_crm: { score: 0, rationales: [], fromPains: [] }
   };
 
   // Score modules based on selected pain points

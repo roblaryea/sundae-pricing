@@ -1,20 +1,31 @@
-// Tier selector with feature comparison component
+// Core PACKAGE selector (price book v1.7).
+//
+// Replaces the retired Report / Core Lite / Core Pro tier picker. Each card
+// shows the FIRST-UNIT anchor and the MARGINAL band table — never a flat
+// per-location rate, and never an "includes N locations" allowance.
 
 import { motion } from 'framer-motion';
 import { Check, Star, TrendingUp, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { getLocalizedTierCatalog } from '../../data/pricing';
-import { suggestOptimalTier } from '../../hooks/usePriceCalculation';
-import { getCoreProAdvantageMessage } from '../../utils/pricingCalculators';
+import { corePackages, CORE_PACKAGE_IDS, modules as coreDomainModules } from '../../data/pricing';
+import type { CorePackageId } from '../../data/pricing';
+import { calculateBandedTotal, calculateBandLines } from '../../lib/pricingEngine';
+import { suggestOptimalCorePackage } from '../../hooks/usePriceCalculation';
 import { useLivePricingCatalog } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
 
+const PACKAGE_COLORS: Record<CorePackageId, string> = {
+  core_foundation: '#E9A24A',
+  core_margin: '#FF7E6F',
+  core_growth: '#FF5C4D',
+  core_performance: '#C2410C',
+};
+
 export function TierSelector() {
-  const { layer, setTier, locations, setCurrentStep } = useConfiguration();
+  const { layer, setCorePackage, locations, setCurrentStep } = useConfiguration();
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
   const copy = messages.builder.tierSelector;
-  const localizedTiers = getLocalizedTierCatalog(locale);
 
   if (!layer) {
     // Shouldn't happen, but handle gracefully
@@ -22,180 +33,160 @@ export function TierSelector() {
     return null;
   }
 
-  const tiers = layer === 'report' 
-    ? Object.values(localizedTiers.reportTiers)
-    : Object.values(localizedTiers.coreTiers).filter(t => typeof t === 'object' && 'basePrice' in t);
+  const packages = CORE_PACKAGE_IDS.map((id) => corePackages[id]);
+  const optimalPackage = suggestOptimalCorePackage(locations);
 
-  // Crew never reaches TierSelector (CrewBuilder handles it upstream); the
-  // coercion here just satisfies the narrower suggestOptimalTier signature
-  // without widening every helper.
-  const optimalTier = suggestOptimalTier(locations, layer === 'crew' ? 'report' : layer);
-
-  const handleTierSelect = (tierId: string) => {
-    setTier(tierId as 'lite' | 'plus' | 'pro' | 'enterprise');
+  const handleSelect = (packageId: CorePackageId) => {
+    setCorePackage(packageId);
     setCurrentStep(3);
   };
 
-  const getTierColor = (tierId: string) => {
-    const colors: Record<string, string> = {
-      'report-lite': '#10B981',
-      'report-plus': '#FF7E6F',
-      'report-pro': '#FF5C4D',
-      'core-lite': '#E9A24A',
-      'core-pro': '#C2410C',
-      'enterprise': '#F59E0B'
-    };
-    return colors[tierId] || '#FF7E6F';
-  };
+  const fmt = (value: number) => `$${value.toLocaleString(locale)}`;
 
-  const formatMessage = (template: string, values: Record<string, string | number>) =>
-    Object.entries(values).reduce(
-      (result, [key, value]) => result.replaceAll(`\${${key}}`, String(value)).replaceAll(`{${key}}`, String(value)),
-      template,
-    );
-
-  const supportLabel = {
-    en: 'Support',
-    ar: 'الدعم',
-    fr: 'Support',
-    es: 'Soporte',
-  }[locale as 'en' | 'ar' | 'fr' | 'es'] ?? 'Support';
-
-  const getTierCatalog = (tierId: string) => {
-    const shortId = tierId.split('-').pop() as 'lite' | 'plus' | 'pro' | 'enterprise';
-    return layer === 'report' ? localizedTiers.reportTiers[shortId as 'lite' | 'plus' | 'pro'] : localizedTiers.coreTiers[shortId as 'lite' | 'pro' | 'enterprise'];
-  };
+  const domainModuleCount = Object.keys(coreDomainModules).length;
 
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-12"
+        className="text-center mb-8"
       >
-        <h1 className="text-4xl font-bold mb-4">
-          {layer === 'report' ? copy.chooseReportTier : copy.chooseCoreTier}
-        </h1>
-        <p className="text-xl text-sundae-muted">
-          {layer === 'report' 
-            ? copy.reportSubtitle
-            : copy.coreSubtitle}
-        </p>
+        <h1 className="text-4xl font-bold mb-4">{copy.chooseCoreTier}</h1>
+        <p className="text-xl text-sundae-muted">{copy.coreSubtitle}</p>
       </motion.div>
 
-      {/* Tier cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        {tiers.map((tierData, index) => {
-          if (!('basePrice' in tierData)) return null;
-          
-          const isOptimal = tierData.id.includes(optimalTier);
-          const tierColor = getTierColor(tierData.id);
-          const tierCatalog = getTierCatalog(tierData.id);
+      {/* Marginal-band explainer — the single most misread mechanic in the book */}
+      <div className="mb-10 mx-auto max-w-3xl p-4 rounded-xl border border-white/10 bg-sundae-surface text-sm text-sundae-muted">
+        <p>
+          <strong className="text-white">How unit pricing works.</strong> Your first location is
+          priced at the anchor. Every location after that is priced by band, and{' '}
+          <strong className="text-white">bands are marginal</strong> — reaching a cheaper band never
+          reprices the locations you already have. There is no bundled location allowance.
+        </p>
+      </div>
+
+      {/* Package cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+        {packages.map((pkg, index) => {
+          const isOptimal = pkg.id === optimalPackage;
+          const color = PACKAGE_COLORS[pkg.id];
+          const total = calculateBandedTotal(pkg, locations);
+          const bandLines = calculateBandLines(pkg, locations);
+          const average = locations > 0 ? Math.round(total / locations) : total;
 
           return (
             <motion.div
-              key={tierData.id}
+              key={pkg.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -10 }}
+              transition={{ delay: index * 0.08 }}
+              whileHover={{ y: -8 }}
               className="relative"
             >
               {isOptimal && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.3 }}
-                  className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10"
-                >
-                  <div className="bg-gradient-primary text-white px-4 py-1 rounded-full text-sm font-bold flex items-center gap-1 shimmer">
-                    <Star className="w-4 h-4" />
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-10">
+                  <div className="bg-gradient-primary text-white px-4 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                    <Star className="w-3.5 h-3.5" />
                     {copy.recommended}
                   </div>
-                </motion.div>
+                </div>
               )}
 
               <motion.button
-                onClick={() => handleTierSelect(tierData.id.split('-').pop() || 'lite')}
-                className={`w-full h-full p-6 rounded-xl border-2 transition-all ${
+                onClick={() => handleSelect(pkg.id)}
+                data-testid={`core-package-${pkg.id}`}
+                className={`w-full h-full p-6 rounded-xl border-2 transition-all text-left ${
                   isOptimal
                     ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/30 hover:border-white/50'
                     : 'bg-sundae-surface border-white/10 hover:border-white/30'
                 }`}
                 style={{
-                  borderColor: isOptimal ? `${tierColor}50` : undefined,
-                  boxShadow: isOptimal ? `0 0 30px ${tierColor}30` : undefined
-                }}
-                whileHover={{
-                  boxShadow: `0 20px 40px ${tierColor}30`,
+                  borderColor: isOptimal ? `${color}50` : undefined,
+                  boxShadow: isOptimal ? `0 0 30px ${color}30` : undefined,
                 }}
               >
-                <div className="text-left">
-                  {/* Header */}
-                  <div className="mb-4">
-                    <h3 className="text-2xl font-bold mb-1" style={{ color: tierColor }}>
-                      {tierCatalog?.name ?? tierData.name}
-                    </h3>
-                    <p className="text-sm text-sundae-muted">{tierCatalog?.tagline ?? tierData.tagline}</p>
-                  </div>
+                <div className="mb-4">
+                  <h3 className="text-xl font-bold mb-1" style={{ color }}>
+                    {pkg.name}
+                  </h3>
+                  <p className="text-sm text-sundae-muted">{pkg.tagline}</p>
+                </div>
 
-                  {/* Price */}
-                  <div className="mb-6">
-                    <div className="flex items-baseline gap-1">
-                      <span className="font-display text-4xl font-bold tabular-nums">
-                        {typeof tierData.basePrice === 'number' ? `$${tierData.basePrice}` : tierData.basePrice}
-                      </span>
-                      {typeof tierData.basePrice === 'number' && <span className="text-sundae-muted">{copy.perMonth}</span>}
-                    </div>
-                    {typeof tierData.additionalLocationPrice === 'number' && tierData.additionalLocationPrice > 0 && (
-                      <p className="text-sm text-sundae-muted mt-1">
-                        {formatMessage(copy.perAdditionalLocation, { price: tierData.additionalLocationPrice })}
-                      </p>
-                    )}
-                    {typeof tierData.additionalLocationPrice === 'string' && (
-                      <p className="text-sm text-sundae-muted mt-1">
-                        {formatMessage(copy.pricingSuffix, { label: tierData.additionalLocationPrice })}
-                      </p>
-                    )}
+                {/* First-unit anchor */}
+                <div className="mb-4">
+                  <div className="flex items-baseline gap-1">
+                    <span className="font-display text-3xl font-bold tabular-nums">
+                      {fmt(pkg.firstUnitPrice)}
+                    </span>
+                    <span className="text-sundae-muted text-sm">{copy.perMonth}</span>
                   </div>
+                  <p className="text-xs text-sundae-muted mt-1">First location</p>
+                </div>
 
-                  {/* Key metrics */}
-                  <div className="space-y-3 mb-6 pb-6 border-b border-white/10">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-sundae-muted">{copy.aiCredits}</span>
-                      <span className="font-semibold">
-                        {tierData.aiCredits.base}+
-                      </span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-sundae-muted">{copy.visuals}</span>
-                      <span className="font-semibold">{tierData.visuals}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-sundae-muted">{copy.dataRefresh}</span>
-                      <span className="font-semibold">{tierData.refresh}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-sundae-muted">{copy.benchmark}</span>
-                      <span className="font-semibold">{tierData.benchmarkMetrics} {copy.metrics}</span>
-                    </div>
-                  </div>
-
-                  {/* Features */}
-                  <ul className="space-y-2">
-                    {tierData.features.slice(0, 5).map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm">
-                        <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span>{feature}</span>
+                {/* Marginal band table */}
+                <div className="mb-4 pb-4 border-b border-white/10">
+                  <p className="text-[11px] uppercase tracking-wider text-sundae-muted font-semibold mb-2">
+                    Then, per additional location (marginal bands)
+                  </p>
+                  <ul className="space-y-1">
+                    {pkg.marginalBands.map((band) => (
+                      <li key={band.label} className="flex justify-between text-xs">
+                        <span className="text-sundae-muted">{band.label}</span>
+                        <span className="font-semibold tabular-nums">{fmt(band.pricePerUnit)}</span>
                       </li>
                     ))}
                   </ul>
+                </div>
 
-                  {/* CTA */}
-                  <div className="mt-6 flex items-center justify-center gap-2 text-sm font-semibold" style={{ color: tierColor }}>
-                    {formatMessage(copy.selectTier, { tier: tierCatalog?.name ?? tierData.name })}
-                    <ChevronRight className="w-4 h-4" />
+                {/* Live total at the chosen unit count */}
+                <div className="mb-4 p-3 rounded-lg bg-sundae-dark/50">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-sundae-muted">
+                      {locations} {locations === 1 ? 'location' : 'locations'}
+                    </span>
+                    <span
+                      className="font-semibold tabular-nums"
+                      data-testid={`core-package-total-${pkg.id}`}
+                    >
+                      {fmt(total)}
+                      {copy.perMonth}
+                    </span>
                   </div>
+                  {locations > 1 && (
+                    <>
+                      <p className="text-[11px] text-sundae-muted mt-1">
+                        {fmt(pkg.firstUnitPrice)} +{' '}
+                        {bandLines
+                          .map((line) => `${line.units} × ${fmt(line.band.pricePerUnit)}`)
+                          .join(' + ')}
+                      </p>
+                      <p className="text-[11px] text-sundae-muted mt-1">
+                        Averages {fmt(average)} per location
+                      </p>
+                    </>
+                  )}
+                </div>
+
+                <div className="space-y-2 mb-4">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-sundae-muted">{copy.aiCredits}</span>
+                    <span className="font-semibold tabular-nums">
+                      {pkg.aiCreditWallet.toLocaleString(locale)}
+                    </span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm">
+                    <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span>All {domainModuleCount} Core domain modules included</span>
+                  </div>
+                </div>
+
+                <div
+                  className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold"
+                  style={{ color }}
+                >
+                  Select {pkg.name}
+                  <ChevronRight className="w-4 h-4" />
                 </div>
               </motion.button>
             </motion.div>
@@ -203,7 +194,7 @@ export function TierSelector() {
         })}
       </div>
 
-      {/* Feature comparison table */}
+      {/* Side-by-side comparison at the selected unit count */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -220,90 +211,60 @@ export function TierSelector() {
             <thead>
               <tr className="border-b border-white/10">
                 <th className="text-left py-2 px-4">{copy.feature}</th>
-                {tiers.map(tierData => (
-                  'basePrice' in tierData && (
-                    <th key={tierData.id} className="text-center py-2 px-4" style={{ color: getTierColor(tierData.id) }}>
-                      {tierData.name}
-                    </th>
-                  )
+                {packages.map((pkg) => (
+                  <th
+                    key={pkg.id}
+                    className="text-center py-2 px-4"
+                    style={{ color: PACKAGE_COLORS[pkg.id] }}
+                  >
+                    {pkg.name}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-white/5">
               <tr>
-                <td className="py-3 px-4">{copy.monthlyPrice}</td>
-                {tiers.map(tierData => (
-                  'basePrice' in tierData && (
-                    <td key={tierData.id} className="text-center py-3 px-4">
-                      ${tierData.basePrice}
-                    </td>
-                  )
+                <td className="py-3 px-4">First location</td>
+                {packages.map((pkg) => (
+                  <td key={pkg.id} className="text-center py-3 px-4 tabular-nums">
+                    {fmt(pkg.firstUnitPrice)}
+                  </td>
                 ))}
               </tr>
+              {corePackages.core_foundation.marginalBands.map((_, bandIndex) => (
+                <tr key={bandIndex}>
+                  <td className="py-3 px-4">
+                    {corePackages.core_foundation.marginalBands[bandIndex].label}
+                  </td>
+                  {packages.map((pkg) => (
+                    <td key={pkg.id} className="text-center py-3 px-4 tabular-nums">
+                      {fmt(pkg.marginalBands[bandIndex].pricePerUnit)}
+                    </td>
+                  ))}
+                </tr>
+              ))}
               <tr>
                 <td className="py-3 px-4">{copy.aiCredits}</td>
-                {tiers.map(tierData => (
-                  'basePrice' in tierData && (
-                    <td key={tierData.id} className="text-center py-3 px-4">
-                      {tierData.aiCredits.base}
-                    </td>
-                  )
+                {packages.map((pkg) => (
+                  <td key={pkg.id} className="text-center py-3 px-4 tabular-nums">
+                    {pkg.aiCreditWallet.toLocaleString(locale)}
+                  </td>
                 ))}
               </tr>
               <tr>
-                <td className="py-3 px-4">{copy.dataRefresh}</td>
-                {tiers.map(tierData => (
-                  'basePrice' in tierData && (
-                    <td key={tierData.id} className="text-center py-3 px-4">
-                      {tierData.refresh}
-                    </td>
-                  )
-                ))}
-              </tr>
-              <tr>
-                <td className="py-3 px-4">{copy.benchmarkMetrics}</td>
-                {tiers.map(tierData => (
-                  'basePrice' in tierData && (
-                    <td key={tierData.id} className="text-center py-3 px-4">
-                      {tierData.benchmarkMetrics}
-                    </td>
-                  )
-                ))}
-              </tr>
-              <tr>
-                <td className="py-3 px-4">{supportLabel}</td>
-                {tiers.map(tierData => (
-                  'basePrice' in tierData && (
-                    <td key={tierData.id} className="text-center py-3 px-4 text-xs">
-                      {tierData.support}
-                    </td>
-                  )
+                <td className="py-3 px-4">
+                  Total at {locations} {locations === 1 ? 'location' : 'locations'}
+                </td>
+                {packages.map((pkg) => (
+                  <td key={pkg.id} className="text-center py-3 px-4 font-semibold tabular-nums">
+                    {fmt(calculateBandedTotal(pkg, locations))}
+                  </td>
                 ))}
               </tr>
             </tbody>
           </table>
         </div>
       </motion.div>
-
-      {/* Special note for Core Pro - DYNAMIC calculation */}
-      {layer === 'core' && (() => {
-        const advantageMessage = getCoreProAdvantageMessage(locale);
-        return advantageMessage ? (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-6 p-4 bg-gradient-to-r from-[#E9A24A]/10 to-[#C2410C]/10 rounded-lg border border-[#E9A24A]/30"
-          >
-            <p className="text-sm flex items-start gap-2">
-              <Star className="w-4 h-4 text-[#E9A24A] mt-0.5 flex-shrink-0" />
-              <span>
-                <strong>{messages.overview.portfolioPricingAdvantage}:</strong> {advantageMessage}
-              </span>
-            </p>
-          </motion.div>
-        ) : null;
-      })()}
     </div>
   );
 }

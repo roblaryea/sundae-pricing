@@ -3,6 +3,8 @@
 
 import jsPDF from 'jspdf';
 import { calculateAllComparisons } from '../data/competitorPricing';
+import { corePackages } from '../data/pricing';
+import type { CorePackageId } from '../data/pricing';
 import { LEGAL } from '../config/legal';
 import {
   getPricingPdfCopy,
@@ -100,15 +102,10 @@ function renderPdfText(
   doc.text(output, x, y, options);
 }
 
-function formatTierName(layer: string | null, tier: string | null, locale: PricingLocale): string {
-  if (!layer || !tier) return '';
-  const rawTier =
-    layer === 'report'
-      ? `Report ${tier.charAt(0).toUpperCase()}${tier.slice(1)}`
-      : layer === 'core'
-        ? `Core ${tier.charAt(0).toUpperCase()}${tier.slice(1)}`
-        : tier.charAt(0).toUpperCase() + tier.slice(1);
-  return localizeTierName(rawTier, locale);
+function formatTierName(layer: string | null, corePackage: string | null, locale: PricingLocale): string {
+  if (!layer || !corePackage) return '';
+  const pkg = corePackages[corePackage as CorePackageId];
+  return localizeTierName(pkg?.name ?? corePackage, locale);
 }
 
 function formatModuleList(moduleIds: string[], locale: PricingLocale): string {
@@ -124,9 +121,9 @@ function formatWatchtowerList(watchtowerModules: string[], locale: PricingLocale
 
 export async function generateQuotePDF(
   layer: string | null,
-  tier: string | null,
+  corePackage: string | null,
   locations: number,
-  selectedModules: string[],
+  addOns: string[],
   watchtowerModules: string[],
   pricing: PricingData,
   locale: PricingLocale = 'en'
@@ -141,7 +138,7 @@ export async function generateQuotePDF(
   await ensurePdfFont(doc, locale);
 
   // Calculate competitor comparisons
-  const allModules = [...selectedModules, `${layer}-${tier}`];
+  const allModules = [...addOns, `${layer}-${corePackage}`];
   const comparisons = calculateAllComparisons(locations, allModules, pricing.total);
   const savingsComparisons = comparisons.filter((c) => c.savings.firstYear > 0).slice(0, 3);
 
@@ -211,16 +208,18 @@ export async function generateQuotePDF(
   setPdfFont(doc, locale, 'normal');
   doc.setTextColor(71, 85, 105);
 
-  const tierName = formatTierName(layer, tier, locale);
+  const tierName = formatTierName(layer, corePackage, locale);
   renderPdfText(doc, `${copy.platformLabel}: ${tierName}`, 20, yPos, locale);
   yPos += 8;
 
   renderPdfText(doc, `${copy.locationsLabel}: ${locations.toLocaleString(locale)}`, 20, yPos, locale);
   yPos += 8;
 
-  if (selectedModules.length > 0) {
-    const moduleNames = formatModuleList(selectedModules, locale);
-    renderPdfText(doc, `${copy.modulesLabel}: ${moduleNames}`, 20, yPos, locale);
+  // Add-ons only. The eleven Core domain modules ship inside the package and
+  // are never itemised as separately purchased lines.
+  if (addOns.length > 0) {
+    const addOnNames = formatModuleList(addOns, locale);
+    renderPdfText(doc, `${copy.modulesLabel}: ${addOnNames}`, 20, yPos, locale);
     yPos += 8;
   }
 
@@ -504,7 +503,7 @@ export async function generateCrewQuotePDF(
   yPos += 8;
   if (quote.detectedBundleId) {
     doc.setTextColor(22, 163, 74);
-    renderPdfText(doc, 'Bundle auto-detected · 20% discount applied', 20, yPos, locale);
+    renderPdfText(doc, 'Bundle auto-detected · published net bundle price', 20, yPos, locale);
     doc.setTextColor(71, 85, 105);
     yPos += 8;
   }
@@ -527,9 +526,12 @@ export async function generateCrewQuotePDF(
   doc.setTextColor(100, 116, 139);
   setPdfFont(doc, locale, 'normal');
   renderPdfText(doc, `${copy.annualLabel}: ${formatCurrencyAmount(quote.annual, locale)}`, pageWidth - 80, yPos + 10, locale);
-  if (quote.setupFee > 0) {
-    renderPdfText(doc, `Setup: ${formatCurrencyAmount(quote.setupFee, locale)}`, pageWidth - 80, yPos + 20, locale);
-  }
+  const implLabel = quote.implementation.requiresScoping
+    ? 'scoped at contract'
+    : quote.implementation.fee === 0
+      ? 'self-service, $0'
+      : `${quote.implementation.isFloor ? 'from ' : ''}${formatCurrencyAmount(quote.implementation.fee, locale)}`;
+  renderPdfText(doc, `Implementation: ${implLabel}`, pageWidth - 80, yPos + 20, locale);
   yPos += 60;
 
   // Line items
@@ -549,19 +551,16 @@ export async function generateCrewQuotePDF(
       yPos = 25;
     }
     const isFreeIncluded = line.monthly === 0 && line.id === 'crew_scheduling';
-    const extras = line.billableExtras > 0 ? ` (+${line.billableExtras} × $${line.perLoc})` : '';
-    const suffix = isFreeIncluded ? ' (Included with Operations)' : extras;
+    const suffix = isFreeIncluded ? ' (Included with Operations)' : '';
     renderPdfText(doc, `${line.label}${suffix}`, 25, yPos, locale);
     renderPdfText(doc, formatCurrencyAmount(line.monthly, locale), pageWidth - 50, yPos, locale, { align: 'right' });
     yPos += 7;
   });
 
-  if (quote.setupFee > 0) {
-    yPos += 4;
-    renderPdfText(doc, 'One-time setup', 25, yPos, locale);
-    renderPdfText(doc, formatCurrencyAmount(quote.setupFee, locale), pageWidth - 50, yPos, locale, { align: 'right' });
-    yPos += 7;
-  }
+  yPos += 4;
+  renderPdfText(doc, 'Implementation (one-time, highest class only)', 25, yPos, locale);
+  renderPdfText(doc, implLabel, pageWidth - 50, yPos, locale, { align: 'right' });
+  yPos += 7;
 
   if (quote.bundleSavingsMonthly > 0) {
     yPos += 4;
@@ -582,10 +581,21 @@ export async function generateCrewQuotePDF(
   doc.setTextColor(30, 41, 59);
   setPdfFont(doc, locale, 'bold');
   doc.setFontSize(12);
-  renderPdfText(doc, 'First-year total', 25, yPos, locale);
   renderPdfText(
     doc,
-    formatCurrencyAmount(quote.annual + quote.setupFee, locale),
+    quote.implementation.requiresScoping
+      ? 'First-year subscription (excl. implementation)'
+      : 'First-year total',
+    25,
+    yPos,
+    locale,
+  );
+  renderPdfText(
+    doc,
+    formatCurrencyAmount(
+      quote.annual + (quote.implementation.requiresScoping ? 0 : quote.implementation.fee),
+      locale,
+    ),
     pageWidth - 50,
     yPos,
     locale,

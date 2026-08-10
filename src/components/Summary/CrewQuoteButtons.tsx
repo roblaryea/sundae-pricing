@@ -75,7 +75,8 @@ ${messages.quote.configuration}
 • ${messages.quote.locations}: ${quote.locations}
 • ${messages.quote.monthlyInvestment}: $${quote.monthly.toLocaleString()}
 • ${messages.quote.annualInvestment}: $${quote.annual.toLocaleString()}
-${quote.setupFee > 0 ? `• One-time setup: $${quote.setupFee.toLocaleString()}\n` : ''}${quote.bundleSavingsMonthly > 0 ? `• Bundle savings: $${quote.bundleSavingsMonthly}/mo\n` : ''}
+• Implementation (one-time, charged at the highest class only): ${quote.implementation.requiresScoping ? 'scoped at contract' : quote.implementation.fee === 0 ? 'self-service, $0' : `${quote.implementation.isFloor ? 'from ' : ''}$${quote.implementation.fee.toLocaleString()}`}
+${quote.bundleSavingsMonthly > 0 ? `• Bundle savings: $${quote.bundleSavingsMonthly}/mo\n` : ''}
 ${messages.quote.attached.replace('{filename}', filename)}
 
 ${messages.quote.nextSteps}

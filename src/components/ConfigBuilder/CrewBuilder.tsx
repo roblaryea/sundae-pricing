@@ -116,7 +116,8 @@ export function CrewBuilder() {
         </div>
         <p className="text-base md:text-lg text-sundae-muted max-w-2xl mx-auto">
           Pick a preset or build your own. Dependencies auto-resolve — selecting Payroll attaches
-          Operations, selecting T&amp;A attaches Scheduling, and bundle discounts auto-apply.
+          Operations, selecting T&amp;A attaches Scheduling, and the published net bundle
+          price auto-applies when a set matches.
         </p>
       </motion.div>
 
@@ -164,7 +165,7 @@ export function CrewBuilder() {
             Or build your own
           </p>
           <p className="text-[10px] text-sundae-muted">
-            Dependencies auto-attach · Bundle discount applied automatically when matched
+            Dependencies auto-attach · Net bundle price applied automatically when matched
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -213,9 +214,7 @@ export function CrewBuilder() {
                     <span className="text-base font-bold text-white tabular-nums">
                       ${sku.orgLicensePrice}
                     </span>
-                    <span className="text-[11px] text-sundae-muted">
-                      /mo + ${sku.perLocationPrice}/loc
-                    </span>
+                    <span className="text-[11px] text-sundae-muted">/mo</span>
                   </div>
                 )}
                 {'prerequisiteMessage' in sku && sku.prerequisiteMessage && (
@@ -294,7 +293,7 @@ export function CrewBuilder() {
           <div className="flex items-start justify-between mb-3 gap-4">
             <div className="min-w-0">
               <p className="text-xs uppercase tracking-wider text-sundae-muted font-semibold mb-1">
-                {quote.detectedBundleId ? 'Bundle auto-detected · 20% off' : 'Your Crew stack'}
+                {quote.detectedBundleId ? 'Bundle auto-detected · net bundle price' : 'Your Crew stack'}
               </p>
               <h3 className="text-lg font-bold text-white truncate">
                 {quote.detectedBundleId
@@ -320,11 +319,6 @@ export function CrewBuilder() {
                     {isFreeIncluded && (
                       <span className="text-[10px] text-emerald-300 ml-1">· included</span>
                     )}
-                    {line.billableExtras > 0 && (
-                      <span className="text-[10px] opacity-70">
-                        {' '}· {line.billableExtras} extra × ${line.perLoc}
-                      </span>
-                    )}
                   </span>
                   <span
                     className={`tabular-nums flex-shrink-0 ${
@@ -336,12 +330,19 @@ export function CrewBuilder() {
                 </div>
               );
             })}
-            {quote.setupFee > 0 && (
-              <div className="flex justify-between text-xs pt-2 mt-2 border-t border-[#FF7E6F]/10">
-                <span className="text-sundae-muted">One-time setup</span>
-                <span className="text-white tabular-nums">${quote.setupFee}</span>
-              </div>
-            )}
+            <div className="flex justify-between text-xs pt-2 mt-2 border-t border-[#FF7E6F]/10">
+              <span className="text-sundae-muted">Implementation (one-time)</span>
+              <span className="text-white tabular-nums">
+                {quote.implementation.requiresScoping
+                  ? 'Scoped at contract'
+                  : quote.implementation.fee === 0
+                    ? 'Self-service · $0'
+                    : `${quote.implementation.isFloor ? 'from ' : ''}$${quote.implementation.fee.toLocaleString()}`}
+              </span>
+            </div>
+            <p className="text-[10px] text-sundae-muted/80 pt-1">
+              Charged once at the highest implementation class in your selection — never summed per SKU.
+            </p>
             {quote.bundleSavingsMonthly > 0 && (
               <div className="flex justify-between text-xs pt-2 mt-2 border-t border-[#FF7E6F]/10">
                 <span className="text-emerald-300 font-semibold">Bundle savings</span>

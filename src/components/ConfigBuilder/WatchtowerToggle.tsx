@@ -4,14 +4,14 @@
 import { motion } from 'framer-motion';
 import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft, Castle, Sparkles, Zap, GitBranch, BarChart3, Radar, Activity, AlertTriangle, Search, type LucideIcon } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { watchtower, crossIntelligence, getLocalizedAddOnDisplay } from '../../data/pricing';
+import { watchtower, crossIntelligence, getLocalizedAddOnDisplay, CORE_DOMAIN_MODULE_IDS } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/watchtowerEngine';
 import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '../../lib/pricingEngine';
 import { useLocale } from '../../contexts/LocaleContext';
 
 export function WatchtowerToggle() {
-  const { layer, tier, locations, modules, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep } = useConfiguration();
+  const { layer, corePackage, locations, addOns, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep } = useConfiguration();
   const { locale, messages } = useLocale();
   const copy = messages.builder.watchtowerToggle;
   const watchtowerCatalog = messages.catalog.watchtower;
@@ -19,15 +19,17 @@ export function WatchtowerToggle() {
   const localizedAddOns = getLocalizedAddOnDisplay(locale);
 
   // Calculate pricing with current configuration
-  const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules, undefined, crossIntelSelection);
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules, undefined, crossIntelSelection);
 
-  // Cross-Intelligence eligibility
-  const crossIntelEligible = isCrossIntelligenceEligible(modules.length);
+  // v1.7: every Core package ships all eleven domain modules, so the
+  // correlation engine is always eligible on the Core path.
+  const crossIntelEligible = isCrossIntelligenceEligible(layer === 'core');
   const crossIntelProPrice = calculateCrossIntelligencePrice('pro', locations);
 
   const handleContinue = () => {
-    // Skip ROI page when no modules selected (ROI requires modules for savings)
-    setCurrentStep(modules.length === 0 ? 7 : 6);
+    // The ROI step is always meaningful now: every Core package includes the
+    // labour / inventory / marketing domains the ROI model draws on.
+    setCurrentStep(6);
   };
 
   const handleBack = () => {
@@ -264,7 +266,7 @@ export function WatchtowerToggle() {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#E9A24A]/20 to-[#FF7E6F]/20 border border-[#E9A24A]/30 rounded-full mb-4">
               <Sparkles className="w-4 h-4 text-[#E9A24A]" />
               <span className="text-sm font-semibold text-[#E9A24A]">
-                {formatMessage(copy.unlockedWithModules, { count: modules.length })}
+                {formatMessage(copy.unlockedWithModules, { count: CORE_DOMAIN_MODULE_IDS.length })}
               </span>
             </div>
             <h2 className="text-2xl font-bold mb-2">{copy.crossTitle}</h2>

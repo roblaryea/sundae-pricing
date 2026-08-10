@@ -5,21 +5,10 @@ export const generatedAuxiliaryLocalePacks = {
     "de": {
       "title": "Bauen Sie Ihren Intelligence-Stack auf",
       "subtitle": "Wählen Sie Ihre Grundschicht. Fangen Sie einfach an oder gehen Sie aufs Ganze.",
-      "report": {
-        "name": "Report",
-        "tagline": "Historische Analyse und Benchmarking",
-        "startingPrice": "Ab 0 $/Monat",
-        "features": [
-          "Historische Datenanalyse",
-          "Grundlegendes Benchmarking",
-          "Monatliche Berichterstattung",
-          "E-Mail-Einblicke"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Echtzeitbetrieb und KI",
-        "startingPrice": "Ab 279 $/Monat",
+        "startingPrice": "Ab 1.195 $/Monat für Ihren ersten Standort",
         "features": [
           "Echtzeit-POS-Integration",
           "Prädiktive Analysen",
@@ -38,6 +27,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Strategische Erkenntnisse"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Operative Basis: Personal, Dienstplan, Lohn",
+        "startingPrice": "Ab 99 $/Monat",
+        "features": [
+          "Dienstplanung + Zeiterfassung",
+          "Lohnbereitschaft für mehrere Regionen",
+          "HR-Fallbearbeitung + Ask-HR",
+          "Kostenloses Mitarbeiterportal"
+        ]
+      },
       "recommended": "EMPFOHLEN",
       "select": "Wählen",
       "proTip": "Profi-Tipp:",
@@ -46,21 +46,10 @@ export const generatedAuxiliaryLocalePacks = {
     "nl": {
       "title": "Bouw je intelligence-stack",
       "subtitle": "Kies je basislaag. Begin eenvoudig of ga all-in.",
-      "report": {
-        "name": "Report",
-        "tagline": "Historische analyse en benchmarking",
-        "startingPrice": "Vanaf $ 0/maand",
-        "features": [
-          "Historische data-analyse",
-          "Basis benchmarking",
-          "Maandelijkse rapportage",
-          "E-mailinzichten"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Realtime operaties en AI",
-        "startingPrice": "Vanaf $ 279/maand",
+        "startingPrice": "Vanaf $ 1.195/maand voor uw eerste locatie",
         "features": [
           "Realtime POS-integratie",
           "Voorspellende analyses",
@@ -79,6 +68,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Strategische inzichten"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Operationele basis: mensen, rooster, loon",
+        "startingPrice": "Vanaf $ 99/maand",
+        "features": [
+          "Roosters + tijdregistratie",
+          "Loonklaar in meerdere regio's",
+          "HR-dossiers + Ask-HR",
+          "Gratis medewerkersportaal"
+        ]
+      },
       "recommended": "AANBEVOLEN",
       "select": "Selecteer",
       "proTip": "Pro-tip:",
@@ -87,21 +87,10 @@ export const generatedAuxiliaryLocalePacks = {
     "pt": {
       "title": "Construa sua pilha de inteligência",
       "subtitle": "Escolha sua camada de base. Comece simples ou vá all-in.",
-      "report": {
-        "name": "Report",
-        "tagline": "Análise histórica e benchmarking",
-        "startingPrice": "A partir de US$ 0/mês",
-        "features": [
-          "Análise de dados históricos",
-          "Comparativo básico",
-          "Relatórios mensais",
-          "Informações por e-mail"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Operações em tempo real e IA",
-        "startingPrice": "A partir de $ 279/mês",
+        "startingPrice": "A partir de $ 1.195/mês para o seu primeiro local",
         "features": [
           "Integração de POS em tempo real",
           "Análise preditiva",
@@ -120,6 +109,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Insights estratégicos"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Base operacional: pessoas, escala, folha de pagamento",
+        "startingPrice": "A partir de $ 99/mês",
+        "features": [
+          "Escalas + ponto",
+          "Prontidão de folha em várias regiões",
+          "Casos de RH + Ask-HR",
+          "Portal do colaborador gratuito"
+        ]
+      },
       "recommended": "RECOMENDADO",
       "select": "Selecione",
       "proTip": "Dica profissional:",
@@ -128,21 +128,10 @@ export const generatedAuxiliaryLocalePacks = {
     "hi": {
       "title": "अपना इंटेलिजेंस स्टैक बनाएं",
       "subtitle": "अपनी फाउंडेशन परत चुनें. सरल शुरुआत करें या पूरी तरह से आगे बढ़ें।",
-      "report": {
-        "name": "Report",
-        "tagline": "ऐतिहासिक विश्लेषण एवं बेंचमार्किंग",
-        "startingPrice": "$0/माह से शुरू",
-        "features": [
-          "ऐतिहासिक डेटा विश्लेषण",
-          "बुनियादी बेंचमार्किंग",
-          "मासिक रिपोर्टिंग",
-          "ईमेल अंतर्दृष्टि"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "रियल-टाइम संचालन और AI",
-        "startingPrice": "$279/माह से शुरू",
+        "startingPrice": "आपके पहले स्थान के लिए $1,195/माह से शुरू",
         "features": [
           "रियल-टाइम POS एकीकरण",
           "पूर्वानुमानित विश्लेषण",
@@ -161,6 +150,17 @@ export const generatedAuxiliaryLocalePacks = {
           "रणनीतिक अंतर्दृष्टि"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "संचालन का आधार: लोग, शेड्यूल, पेरोल",
+        "startingPrice": "$99/माह से शुरू",
+        "features": [
+          "शेड्यूलिंग + उपस्थिति",
+          "बहु-क्षेत्रीय पेरोल तैयारी",
+          "HR केसवर्क + Ask-HR",
+          "निःशुल्क कर्मचारी पोर्टल"
+        ]
+      },
       "recommended": "अनुशंसित",
       "select": "चयन करें",
       "proTip": "प्रो टिप:",
@@ -169,21 +169,10 @@ export const generatedAuxiliaryLocalePacks = {
     "ur": {
       "title": "اپنا انٹیلی جنس اسٹیک بنائیں",
       "subtitle": "اپنی بنیاد کی پرت کا انتخاب کریں۔ سادہ شروع کریں یا سب سے آگے بڑھیں۔",
-      "report": {
-        "name": "Report",
-        "tagline": "تاریخی تجزیہ اور بینچ مارکنگ",
-        "startingPrice": "$0/مہینہ سے شروع",
-        "features": [
-          "تاریخی ڈیٹا کا تجزیہ",
-          "بنیادی بینچ مارکنگ",
-          "ماہانہ رپورٹنگ",
-          "ای میل بصیرت"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "ریئل ٹائم آپریشنز اور AI",
-        "startingPrice": "$279/مہینہ سے شروع",
+        "startingPrice": "آپ کے پہلے مقام کے لیے $1,195/مہینہ سے شروع",
         "features": [
           "ریئل ٹائم POS انضمام",
           "پیش گوئی کرنے والے تجزیات",
@@ -202,6 +191,17 @@ export const generatedAuxiliaryLocalePacks = {
           "اسٹریٹجک بصیرت"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "آپریشنل بنیاد: عملہ، شیڈول، پے رول",
+        "startingPrice": "$99/مہینہ سے شروع",
+        "features": [
+          "شیڈولنگ + حاضری",
+          "کثیر خطہ پے رول تیاری",
+          "HR کیس ورک + Ask-HR",
+          "مفت ملازم پورٹل"
+        ]
+      },
       "recommended": "تجویز کردہ",
       "select": "منتخب کریں۔",
       "proTip": "پرو ٹپ:",
@@ -210,21 +210,10 @@ export const generatedAuxiliaryLocalePacks = {
     "it": {
       "title": "Costruisci il tuo stack di intelligenza",
       "subtitle": "Scegli il tuo strato di fondazione. Inizia in modo semplice o vai all-in.",
-      "report": {
-        "name": "Report",
-        "tagline": "Analisi storica e benchmarking",
-        "startingPrice": "A partire da $ 0 al mese",
-        "features": [
-          "Analisi dei dati storici",
-          "Benchmarking di base",
-          "Reportistica mensile",
-          "Approfondimenti via e-mail"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Operazioni in tempo reale e AI",
-        "startingPrice": "A partire da $ 279 al mese",
+        "startingPrice": "A partire da $ 1.195 al mese per la prima sede",
         "features": [
           "Integrazione POS in tempo reale",
           "Analisi predittiva",
@@ -243,6 +232,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Approfondimenti strategici"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Base operativa: personale, turni, buste paga",
+        "startingPrice": "A partire da $ 99 al mese",
+        "features": [
+          "Turni + rilevazione presenze",
+          "Buste paga pronte in più aree",
+          "Pratiche HR + Ask-HR",
+          "Portale dipendenti gratuito"
+        ]
+      },
       "recommended": "CONSIGLIATO",
       "select": "Seleziona",
       "proTip": "Suggerimento da professionista:",
@@ -251,21 +251,10 @@ export const generatedAuxiliaryLocalePacks = {
     "pl": {
       "title": "Zbuduj swój stos inteligencji",
       "subtitle": "Wybierz warstwę podkładową. Zacznij od prostych rzeczy lub idź na całość.",
-      "report": {
-        "name": "Report",
-        "tagline": "Analiza historyczna i benchmarking",
-        "startingPrice": "Już od 0 USD/miesiąc",
-        "features": [
-          "Analiza danych historycznych",
-          "Podstawowy benchmarking",
-          "Raportowanie miesięczne",
-          "Informacje e-mailowe"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Operacje w czasie rzeczywistym i AI",
-        "startingPrice": "Już od 279 USD/miesiąc",
+        "startingPrice": "Już od 1 195 USD/miesiąc za pierwszą lokalizację",
         "features": [
           "Integracja POS w czasie rzeczywistym",
           "Analityka predykcyjna",
@@ -284,6 +273,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Spostrzeżenia strategiczne"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Podstawa operacyjna: ludzie, grafik, płace",
+        "startingPrice": "Już od 99 USD/miesiąc",
+        "features": [
+          "Grafiki + ewidencja czasu",
+          "Gotowość płacowa w wielu regionach",
+          "Sprawy HR + Ask-HR",
+          "Bezpłatny portal pracownika"
+        ]
+      },
       "recommended": "POLECANE",
       "select": "Wybierz",
       "proTip": "Wskazówka dla profesjonalistów:",
@@ -292,21 +292,10 @@ export const generatedAuxiliaryLocalePacks = {
     "tr": {
       "title": "İstihbarat Yığınınızı Oluşturun",
       "subtitle": "Temel katmanınızı seçin. Basit başlayın veya her şeyi yapın.",
-      "report": {
-        "name": "Report",
-        "tagline": "Tarihsel analiz ve kıyaslama",
-        "startingPrice": "Aylık 0$'dan başlayan fiyatlarla",
-        "features": [
-          "Geçmiş veri analizi",
-          "Temel kıyaslama",
-          "Aylık raporlama",
-          "E-posta analizleri"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Gerçek zamanlı operasyonlar ve AI",
-        "startingPrice": "Aylık 279$'dan başlayan fiyatlarla",
+        "startingPrice": "İlk konumunuz için aylık 1.195$'dan başlayan fiyatlarla",
         "features": [
           "Gerçek zamanlı POS entegrasyonu",
           "Tahmine dayalı analitik",
@@ -325,6 +314,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Stratejik bilgiler"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Operasyonel temel: ekip, vardiya, bordro",
+        "startingPrice": "Aylık 99$'dan başlayan fiyatlarla",
+        "features": [
+          "Vardiya + PDKS",
+          "Çok bölgeli bordro hazırlığı",
+          "İK vaka yönetimi + Ask-HR",
+          "Ücretsiz çalışan portalı"
+        ]
+      },
       "recommended": "ÖNERİLEN",
       "select": "Seç",
       "proTip": "Profesyonel ipucu:",
@@ -333,21 +333,10 @@ export const generatedAuxiliaryLocalePacks = {
     "zh-Hans": {
       "title": "构建您的情报堆栈",
       "subtitle": "选择您的基础层。从简单开始或全力以赴。",
-      "report": {
-        "name": "报告",
-        "tagline": "历史分析和基准测试",
-        "startingPrice": "每月 0 美元起",
-        "features": [
-          "历史数据分析",
-          "基本基准测试",
-          "月度报告",
-          "电子邮件见解"
-        ]
-      },
       "core": {
         "name": "核心",
         "tagline": "实时操作和人工智能",
-        "startingPrice": "每月 279 美元起",
+        "startingPrice": "首个门店每月 1,195 美元起",
         "features": [
           "实时 POS 集成",
           "预测分析",
@@ -366,6 +355,17 @@ export const generatedAuxiliaryLocalePacks = {
           "战略洞察"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "运营底座：人员、排班、薪酬",
+        "startingPrice": "每月 99 美元起",
+        "features": [
+          "排班 + 考勤",
+          "多地区薪酬就绪",
+          "人力资源案件 + Ask-HR",
+          "免费员工门户"
+        ]
+      },
       "recommended": "推荐",
       "select": "选择",
       "proTip": "专业提示：",
@@ -374,21 +374,10 @@ export const generatedAuxiliaryLocalePacks = {
     "ja": {
       "title": "インテリジェンススタックを構築する",
       "subtitle": "基礎レイヤーを選択します。シンプルに始めることも、全力で取り組むこともできます。",
-      "report": {
-        "name": "Report",
-        "tagline": "履歴分析とベンチマーク",
-        "startingPrice": "月額0ドルから",
-        "features": [
-          "履歴データ分析",
-          "基本的なベンチマーク",
-          "月次報告",
-          "電子メールによるインサイト"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "リアルタイムオペレーションとAI",
-        "startingPrice": "月額279ドルから",
+        "startingPrice": "最初の店舗は月額1,195ドルから",
         "features": [
           "リアルタイムPOS統合",
           "予測分析",
@@ -407,6 +396,17 @@ export const generatedAuxiliaryLocalePacks = {
           "戦略的洞察"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "オペレーションの基盤：人員、シフト、給与",
+        "startingPrice": "月額99ドルから",
+        "features": [
+          "シフト管理 + 勤怠",
+          "多地域の給与対応",
+          "HRケース管理 + Ask-HR",
+          "無料の従業員ポータル"
+        ]
+      },
       "recommended": "推奨",
       "select": "選択",
       "proTip": "プロのヒント:",
@@ -415,21 +415,10 @@ export const generatedAuxiliaryLocalePacks = {
     "ko": {
       "title": "인텔리전스 스택 구축",
       "subtitle": "기초 레이어를 선택하세요. 간단하게 시작하거나 올인하세요.",
-      "report": {
-        "name": "Report",
-        "tagline": "과거 분석 및 벤치마킹",
-        "startingPrice": "월 $0부터 시작",
-        "features": [
-          "과거 데이터 분석",
-          "기본 벤치마킹",
-          "월별 보고",
-          "이메일 통찰력"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "실시간 운영 및 AI",
-        "startingPrice": "월 $279부터 시작",
+        "startingPrice": "첫 지점 월 $1,195부터 시작",
         "features": [
           "실시간 POS 통합",
           "예측 분석",
@@ -448,6 +437,17 @@ export const generatedAuxiliaryLocalePacks = {
           "전략적 통찰력"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "운영 기반: 인력, 근무 일정, 급여",
+        "startingPrice": "월 $99부터 시작",
+        "features": [
+          "근무 일정 + 근태",
+          "다지역 급여 준비",
+          "HR 케이스 관리 + Ask-HR",
+          "무료 직원 포털"
+        ]
+      },
       "recommended": "추천",
       "select": "선택",
       "proTip": "전문가 팁:",
@@ -456,21 +456,10 @@ export const generatedAuxiliaryLocalePacks = {
     "id": {
       "title": "Bangun Tumpukan Intelijen Anda",
       "subtitle": "Pilih lapisan pondasi Anda. Mulai dari yang sederhana atau lakukan semuanya.",
-      "report": {
-        "name": "Report",
-        "tagline": "Analisis historis & benchmarking",
-        "startingPrice": "Mulai dari $0/bulan",
-        "features": [
-          "Analisis data historis",
-          "Pembandingan dasar",
-          "Pelaporan bulanan",
-          "Wawasan email"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Operasi & AI waktu nyata",
-        "startingPrice": "Mulai dari $279/bulan",
+        "startingPrice": "Mulai dari $1.195/bulan untuk lokasi pertama Anda",
         "features": [
           "Integrasi POS waktu nyata",
           "Analisis prediktif",
@@ -489,6 +478,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Wawasan strategis"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Fondasi operasional: orang, jadwal, penggajian",
+        "startingPrice": "Mulai dari $99/bulan",
+        "features": [
+          "Penjadwalan + absensi",
+          "Kesiapan penggajian multi-wilayah",
+          "Kasus HR + Ask-HR",
+          "Portal karyawan gratis"
+        ]
+      },
       "recommended": "DIREKOMENDASIKAN",
       "select": "Pilih",
       "proTip": "Kiat profesional:",
@@ -497,21 +497,10 @@ export const generatedAuxiliaryLocalePacks = {
     "vi": {
       "title": "Xây dựng ngăn xếp thông minh của bạn",
       "subtitle": "Chọn lớp nền tảng của bạn. Bắt đầu đơn giản hoặc dốc toàn lực.",
-      "report": {
-        "name": "Report",
-        "tagline": "Phân tích lịch sử và điểm chuẩn",
-        "startingPrice": "Bắt đầu từ $0/tháng",
-        "features": [
-          "Phân tích dữ liệu lịch sử",
-          "Điểm chuẩn cơ bản",
-          "Báo cáo hàng tháng",
-          "Thông tin chi tiết về email"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Hoạt động thời gian thực & AI",
-        "startingPrice": "Bắt đầu từ $279/tháng",
+        "startingPrice": "Bắt đầu từ $1.195/tháng cho địa điểm đầu tiên",
         "features": [
           "Tích hợp POS thời gian thực",
           "Phân tích dự đoán",
@@ -530,6 +519,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Thông tin chi tiết mang tính chiến lược"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Nền tảng vận hành: nhân sự, lịch làm việc, lương",
+        "startingPrice": "Bắt đầu từ $99/tháng",
+        "features": [
+          "Xếp lịch + chấm công",
+          "Sẵn sàng tính lương đa khu vực",
+          "Hồ sơ nhân sự + Ask-HR",
+          "Cổng nhân viên miễn phí"
+        ]
+      },
       "recommended": "KHUYẾN NGHỊ",
       "select": "Chọn",
       "proTip": "Mẹo chuyên nghiệp:",
@@ -538,21 +538,10 @@ export const generatedAuxiliaryLocalePacks = {
     "ro": {
       "title": "Construiește-ți stiva de inteligență",
       "subtitle": "Alegeți stratul de fundație. Începeți simplu sau mergeți all-in.",
-      "report": {
-        "name": "Report",
-        "tagline": "Analiză istorică și benchmarking",
-        "startingPrice": "Începând de la 0 USD/lună",
-        "features": [
-          "Analiza datelor istorice",
-          "Benchmarking de bază",
-          "Raportare lunară",
-          "Informații prin e-mail"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Operațiuni în timp real și AI",
-        "startingPrice": "Începând de la 279 USD/lună",
+        "startingPrice": "Începând de la 1.195 USD/lună pentru prima locație",
         "features": [
           "Integrare POS în timp real",
           "Analiza predictivă",
@@ -571,6 +560,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Perspective strategice"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Baza operațională: oameni, program, salarizare",
+        "startingPrice": "Începând de la 99 USD/lună",
+        "features": [
+          "Programare + pontaj",
+          "Pregătire salarizare multi-regiune",
+          "Dosare HR + Ask-HR",
+          "Portal gratuit pentru angajați"
+        ]
+      },
       "recommended": "RECOMANDAT",
       "select": "Selectați",
       "proTip": "Sfat pro:",
@@ -579,21 +579,10 @@ export const generatedAuxiliaryLocalePacks = {
     "sv": {
       "title": "Bygg din intelligensstapel",
       "subtitle": "Välj ditt grundlager. Börja enkelt eller gå all-in.",
-      "report": {
-        "name": "Report",
-        "tagline": "Historisk analys & benchmarking",
-        "startingPrice": "Från $0/månad",
-        "features": [
-          "Historisk dataanalys",
-          "Grundläggande benchmarking",
-          "Månadsrapportering",
-          "E-postinsikter"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Drift i realtid och AI",
-        "startingPrice": "Från $279/månad",
+        "startingPrice": "Från $1 195/månad för din första plats",
         "features": [
           "Realtids POS-integration",
           "Prediktiv analys",
@@ -612,6 +601,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Strategiska insikter"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Operativ bas: personal, schema, lön",
+        "startingPrice": "Från $99/månad",
+        "features": [
+          "Schemaläggning + tidrapportering",
+          "Löneberedskap i flera regioner",
+          "HR-ärenden + Ask-HR",
+          "Gratis medarbetarportal"
+        ]
+      },
       "recommended": "REKOMMENDERAS",
       "select": "Välj",
       "proTip": "Proffstips:",
@@ -620,21 +620,10 @@ export const generatedAuxiliaryLocalePacks = {
     "bn": {
       "title": "আপনার বুদ্ধিমত্তা স্ট্যাক তৈরি করুন",
       "subtitle": "আপনার ভিত্তি স্তর বেছে নিন। সহজভাবে শুরু করুন বা পুরোপুরি এগিয়ে যান।",
-      "report": {
-        "name": "Report",
-        "tagline": "ঐতিহাসিক বিশ্লেষণ এবং বেঞ্চমার্কিং",
-        "startingPrice": "$0/মাস থেকে শুরু",
-        "features": [
-          "ঐতিহাসিক তথ্য বিশ্লেষণ",
-          "বেসিক বেঞ্চমার্কিং",
-          "মাসিক রিপোর্টিং",
-          "ইমেল অন্তর্দৃষ্টি"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "রিয়েল-টাইম অপারেশন এবং AI",
-        "startingPrice": "$279/মাস থেকে শুরু",
+        "startingPrice": "আপনার প্রথম লোকেশনের জন্য $1,195/মাস থেকে শুরু",
         "features": [
           "রিয়েল-টাইম POS ইন্টিগ্রেশন",
           "ভবিষ্যদ্বাণীমূলক বিশ্লেষণ",
@@ -653,6 +642,17 @@ export const generatedAuxiliaryLocalePacks = {
           "কৌশলগত অন্তর্দৃষ্টি"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "পরিচালন ভিত্তি: কর্মী, সময়সূচি, বেতন",
+        "startingPrice": "$99/মাস থেকে শুরু",
+        "features": [
+          "সময়সূচি + উপস্থিতি",
+          "বহু-অঞ্চল বেতন প্রস্তুতি",
+          "HR কেসওয়ার্ক + Ask-HR",
+          "বিনামূল্যে কর্মী পোর্টাল"
+        ]
+      },
       "recommended": "প্রস্তাবিত",
       "select": "নির্বাচন করুন",
       "proTip": "প্রো টিপ:",
@@ -661,21 +661,10 @@ export const generatedAuxiliaryLocalePacks = {
     "th": {
       "title": "สร้างกองข่าวกรองของคุณ",
       "subtitle": "เลือกชั้นรองพื้นของคุณ เริ่มต้นง่ายๆ หรือทุ่มเต็มที่",
-      "report": {
-        "name": "Report",
-        "tagline": "การวิเคราะห์เชิงประวัติศาสตร์และการเปรียบเทียบ",
-        "startingPrice": "เริ่มต้นที่ $0/เดือน",
-        "features": [
-          "การวิเคราะห์ข้อมูลในอดีต",
-          "การเปรียบเทียบพื้นฐาน",
-          "รายงานประจำเดือน",
-          "ข้อมูลเชิงลึกทางอีเมล"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "การดำเนินงานแบบเรียลไทม์และ AI",
-        "startingPrice": "เริ่มต้นที่ $279/เดือน",
+        "startingPrice": "เริ่มต้นที่ $1,195/เดือน สำหรับสาขาแรกของคุณ",
         "features": [
           "บูรณาการ POS แบบเรียลไทม์",
           "การวิเคราะห์เชิงคาดการณ์",
@@ -694,6 +683,17 @@ export const generatedAuxiliaryLocalePacks = {
           "ข้อมูลเชิงลึกเชิงกลยุทธ์"
         ]
       },
+      "crew": {
+        "name": "CREW",
+        "tagline": "ฐานปฏิบัติการ: บุคลากร ตารางงาน เงินเดือน",
+        "startingPrice": "เริ่มต้นที่ $99/เดือน",
+        "features": [
+          "จัดตารางงาน + ลงเวลา",
+          "ความพร้อมด้านเงินเดือนหลายภูมิภาค",
+          "งาน HR + Ask-HR",
+          "พอร์ทัลพนักงานฟรี"
+        ]
+      },
       "recommended": "แนะนำ",
       "select": "เลือก",
       "proTip": "เคล็ดลับสำหรับมือโปร:",
@@ -702,21 +702,10 @@ export const generatedAuxiliaryLocalePacks = {
     "ms": {
       "title": "Bina Timbunan Perisikan Anda",
       "subtitle": "Pilih lapisan asas anda. Mulakan dengan mudah atau ikut serta.",
-      "report": {
-        "name": "Report",
-        "tagline": "Analisis sejarah & penanda aras",
-        "startingPrice": "Bermula pada $0/bulan",
-        "features": [
-          "Analisis data sejarah",
-          "Penandaarasan asas",
-          "Pelaporan bulanan",
-          "Cerapan e-mel"
-        ]
-      },
       "core": {
         "name": "Core",
         "tagline": "Operasi masa nyata & AI",
-        "startingPrice": "Bermula pada $279/bulan",
+        "startingPrice": "Bermula pada $1,195/bulan untuk lokasi pertama anda",
         "features": [
           "Penyepaduan POS masa nyata",
           "Analisis ramalan",
@@ -733,6 +722,17 @@ export const generatedAuxiliaryLocalePacks = {
           "Trend pasaran",
           "Isyarat acara",
           "Wawasan strategik"
+        ]
+      },
+      "crew": {
+        "name": "CREW",
+        "tagline": "Asas operasi: pekerja, jadual, gaji",
+        "startingPrice": "Bermula pada $99/bulan",
+        "features": [
+          "Penjadualan + kehadiran",
+          "Kesediaan gaji pelbagai wilayah",
+          "Kes HR + Ask-HR",
+          "Portal pekerja percuma"
         ]
       },
       "recommended": "DISYORKAN",
@@ -4220,12 +4220,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 Seat",
       "3 seats": "3 Seats",
       "5 seats": "5 Seats",
-      "250 credits": "250 Credits",
-      "1,200 credits": "1.200 Credits",
-      "3,500 credits": "3.500 Credits",
-      "+80 credits": "+80 Credits",
-      "+300 credits": "+300 Credits",
-      "+800 credits": "+800 Credits",
       "✓ (free)": "✓ (kostenlos)",
       "None": "Keine",
       "No rollover": "Keine Übertragung",
@@ -4309,7 +4303,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Benutzerdefiniert",
       "3 years": "3 Jahre",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 Credits",
       "N/A (50,000+ base)": "N/A (50.000+ Basis)",
       "Unlimited": "Unbegrenzt",
       "$19/seat (max 3 additional)": "19 $/Seat (max. 3 weitere)",
@@ -4345,7 +4338,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50.000 Anrufe",
       "BI Connector": "BI-Connector",
       "Additional POS": "Zusätzlicher POS",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+39 $/Monat",
       "+$149/mo": "+149 $/Monat",
@@ -4362,8 +4354,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Im Lieferumfang enthalten",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10.000 Credits"
+      "$50": "$50"
     },
     "nl": {
       "10": "10",
@@ -4381,12 +4372,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 seat",
       "3 seats": "3 seats",
       "5 seats": "5 seats",
-      "250 credits": "250 credits",
-      "1,200 credits": "1.200 credits",
-      "3,500 credits": "3.500 credits",
-      "+80 credits": "+80 credits",
-      "+300 credits": "+300 credits",
-      "+800 credits": "+800 credits",
       "✓ (free)": "✓ (gratis)",
       "None": "Geen",
       "No rollover": "Geen overdracht",
@@ -4470,7 +4455,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Aangepast",
       "3 years": "3 jaar",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 credits",
       "N/A (50,000+ base)": "N.v.t. (50.000+ basis)",
       "Unlimited": "Onbeperkt",
       "$19/seat (max 3 additional)": "$19/seat (max. 3 extra)",
@@ -4506,7 +4490,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50K oproepen",
       "BI Connector": "BI-connector",
       "Additional POS": "Extra kassa",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/maand",
       "+$149/mo": "+$149/maand",
@@ -4523,8 +4506,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Inbegrepen",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10.000 credits"
+      "$50": "$50"
     },
     "pt": {
       "10": "10",
@@ -4542,12 +4524,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 seat",
       "3 seats": "3 seats",
       "5 seats": "5 seats",
-      "250 credits": "250 créditos",
-      "1,200 credits": "1.200 créditos",
-      "3,500 credits": "3.500 créditos",
-      "+80 credits": "+80 créditos",
-      "+300 credits": "+300 créditos",
-      "+800 credits": "+800 créditos",
       "✓ (free)": "✓ (grátis)",
       "None": "Nenhum",
       "No rollover": "Sem acúmulo",
@@ -4631,7 +4607,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Personalizado",
       "3 years": "3 anos",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 créditos",
       "N/A (50,000+ base)": "N/D (50.000+ base)",
       "Unlimited": "Ilimitado",
       "$19/seat (max 3 additional)": "US$ 19/seat (máx. 3 adicionais)",
@@ -4667,7 +4642,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50 mil chamadas",
       "BI Connector": "Conector BI",
       "Additional POS": "POS adicional",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/mês",
       "+$149/mo": "+$ 149/mês",
@@ -4684,8 +4658,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Incluído",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10.000 créditos"
+      "$50": "$50"
     },
     "hi": {
       "10": "10",
@@ -4703,12 +4676,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 सीट",
       "3 seats": "3 सीटें",
       "5 seats": "5 सीटें",
-      "250 credits": "250 क्रेडिट",
-      "1,200 credits": "1,200 क्रेडिट",
-      "3,500 credits": "3,500 क्रेडिट",
-      "+80 credits": "+80 क्रेडिट",
-      "+300 credits": "+300 क्रेडिट",
-      "+800 credits": "+800 क्रेडिट",
       "✓ (free)": "✓ (मुक्त)",
       "None": "कोई नहीं",
       "No rollover": "कोई रोलओवर नहीं",
@@ -4792,7 +4759,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "कस्टम",
       "3 years": "3 साल",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5,000 क्रेडिट",
       "N/A (50,000+ base)": "एन/ए (50,000+ आधार)",
       "Unlimited": "असीमित",
       "$19/seat (max 3 additional)": "$19/सीट (अधिकतम 3 अतिरिक्त)",
@@ -4828,7 +4794,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50K कॉल",
       "BI Connector": "बीआई कनेक्टर",
       "Additional POS": "अतिरिक्त पीओएस",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/माह",
       "+$149/mo": "+$149/माह",
@@ -4845,8 +4810,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "सम्मिलित",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10,000 क्रेडिट"
+      "$50": "$50"
     },
     "ur": {
       "10": "10",
@@ -4864,12 +4828,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 سیٹ",
       "3 seats": "3 نشستیں",
       "5 seats": "5 نشستیں",
-      "250 credits": "250 کریڈٹ",
-      "1,200 credits": "1,200 کریڈٹس",
-      "3,500 credits": "3,500 کریڈٹس",
-      "+80 credits": "+80 کریڈٹس",
-      "+300 credits": "+300 کریڈٹس",
-      "+800 credits": "+800 کریڈٹس",
       "✓ (free)": "✓ (مفت)",
       "None": "کوئی نہیں",
       "No rollover": "کوئی رول اوور نہیں۔",
@@ -4953,7 +4911,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "حسب ضرورت",
       "3 years": "3 سال",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5,000 کریڈٹس",
       "N/A (50,000+ base)": "N/A (50,000+ بیس)",
       "Unlimited": "لا محدود",
       "$19/seat (max 3 additional)": "$19/سیٹ (زیادہ سے زیادہ 3 اضافی)",
@@ -4989,7 +4946,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50K کالز",
       "BI Connector": "BI کنیکٹر",
       "Additional POS": "اضافی پی او ایس",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/ماہ",
       "+$149/mo": "+$149/ماہ",
@@ -5006,8 +4962,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "شامل",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10,000 کریڈٹس"
+      "$50": "$50"
     },
     "it": {
       "10": "10",
@@ -5025,12 +4980,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 posto",
       "3 seats": "3 posti",
       "5 seats": "5 posti",
-      "250 credits": "250 crediti",
-      "1,200 credits": "1.200 crediti",
-      "3,500 credits": "3.500 crediti",
-      "+80 credits": "+80 crediti",
-      "+300 credits": "+300 crediti",
-      "+800 credits": "+800 crediti",
       "✓ (free)": "✓ (gratuito)",
       "None": "Nessuno",
       "No rollover": "Nessun riporto",
@@ -5114,7 +5063,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Personalizzato",
       "3 years": "3 anni",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 crediti",
       "N/A (50,000+ base)": "N/D (oltre 50.000 basi)",
       "Unlimited": "Illimitato",
       "$19/seat (max 3 additional)": "$19/posto (massimo 3 aggiuntivi)",
@@ -5150,7 +5098,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50.000 chiamate",
       "BI Connector": "Connettore BI",
       "Additional POS": "POS aggiuntivo",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/mese",
       "+$149/mo": "+$149/mese",
@@ -5167,8 +5114,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Incluso",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10.000 crediti"
+      "$50": "$50"
     },
     "pl": {
       "10": "10",
@@ -5186,12 +5132,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 miejsce",
       "3 seats": "3 miejsca",
       "5 seats": "5 miejsc",
-      "250 credits": "250 kredytów",
-      "1,200 credits": "1200 kredytów",
-      "3,500 credits": "3500 kredytów",
-      "+80 credits": "+80 kredytów",
-      "+300 credits": "+300 kredytów",
-      "+800 credits": "+800 kredytów",
       "✓ (free)": "✓ (bezpłatny)",
       "None": "Żadne",
       "No rollover": "Brak przeniesienia",
@@ -5275,7 +5215,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Niestandardowe",
       "3 years": "3 lata",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5000 kredytów",
       "N/A (50,000+ base)": "Nie dotyczy (50 000+ podstawa)",
       "Unlimited": "Nieograniczony",
       "$19/seat (max 3 additional)": "19 USD/miejsce (maks. 3 dodatkowe)",
@@ -5311,7 +5250,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50 tys. połączeń",
       "BI Connector": "Złącze BI",
       "Additional POS": "Dodatkowy punkt sprzedaży",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+39 USD/mies",
       "+$149/mo": "+149 USD/mies",
@@ -5328,8 +5266,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Uwzględnione",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10 000 kredytów"
+      "$50": "$50"
     },
     "tr": {
       "10": "10",
@@ -5347,12 +5284,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 seat",
       "3 seats": "3 seat",
       "5 seats": "5 seat",
-      "250 credits": "250 kredi",
-      "1,200 credits": "1.200 kredi",
-      "3,500 credits": "3.500 kredi",
-      "+80 credits": "+80 kredi",
-      "+300 credits": "+300 kredi",
-      "+800 credits": "+800 kredi",
       "✓ (free)": "✓ (ücretsiz)",
       "None": "Yok",
       "No rollover": "Devir yok",
@@ -5436,7 +5367,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Özel",
       "3 years": "3 yıl",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 kredi",
       "N/A (50,000+ base)": "Yok (50.000+ temel)",
       "Unlimited": "Sınırsız",
       "$19/seat (max 3 additional)": "19$/seat (en fazla 3 ek)",
@@ -5472,7 +5402,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50.000 çağrı",
       "BI Connector": "BI Bağlayıcısı",
       "Additional POS": "Ek POS",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+39$/ay",
       "+$149/mo": "+149$/ay",
@@ -5489,8 +5418,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Dahil",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10.000 kredi"
+      "$50": "$50"
     },
     "zh-Hans": {
       "10": "10",
@@ -5508,12 +5436,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1个座位",
       "3 seats": "3个座位",
       "5 seats": "5个座位",
-      "250 credits": "250 学分",
-      "1,200 credits": "1,200 学分",
-      "3,500 credits": "3,500 学分",
-      "+80 credits": "+80 学分",
-      "+300 credits": "+300 学分",
-      "+800 credits": "+800 学分",
       "✓ (free)": "✓（免费）",
       "None": "无",
       "No rollover": "无翻转",
@@ -5597,7 +5519,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "定制",
       "3 years": "3年",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5,000 积分",
       "N/A (50,000+ base)": "不适用（50,000+ 基础）",
       "Unlimited": "无限",
       "$19/seat (max 3 additional)": "$19/位（最多可加 3 位）",
@@ -5633,7 +5554,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50K 通话",
       "BI Connector": "商业智能连接器",
       "Additional POS": "附加销售点",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/月",
       "+$149/mo": "+$149/月",
@@ -5650,8 +5570,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "包含",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10,000 积分"
+      "$50": "$50"
     },
     "ja": {
       "10": "10",
@@ -5669,12 +5588,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1席",
       "3 seats": "3席",
       "5 seats": "5席",
-      "250 credits": "250クレジット",
-      "1,200 credits": "1,200クレジット",
-      "3,500 credits": "3,500 クレジット",
-      "+80 credits": "+80クレジット",
-      "+300 credits": "+300クレジット",
-      "+800 credits": "+800クレジット",
       "✓ (free)": "✓ (無料)",
       "None": "なし",
       "No rollover": "ロールオーバーなし",
@@ -5758,7 +5671,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "カスタム",
       "3 years": "3年",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5,000クレジット",
       "N/A (50,000+ base)": "該当なし (50,000 以上のベース)",
       "Unlimited": "無制限",
       "$19/seat (max 3 additional)": "$19/座席 (最大 3 追加)",
@@ -5794,7 +5706,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50,000 コール",
       "BI Connector": "BIコネクタ",
       "Additional POS": "追加のPOS",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/月",
       "+$149/mo": "+$149/月",
@@ -5811,8 +5722,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "付属",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10,000クレジット"
+      "$50": "$50"
     },
     "ko": {
       "10": "10",
@@ -5830,12 +5740,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1석",
       "3 seats": "3석",
       "5 seats": "5석",
-      "250 credits": "250 크레딧",
-      "1,200 credits": "1,200 크레딧",
-      "3,500 credits": "3,500 크레딧",
-      "+80 credits": "+80 크레딧",
-      "+300 credits": "+300크레딧",
-      "+800 credits": "+800크레딧",
       "✓ (free)": "✓ (무료)",
       "None": "없음",
       "No rollover": "롤오버 없음",
@@ -5919,7 +5823,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "맞춤",
       "3 years": "3년",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5,000크레딧",
       "N/A (50,000+ base)": "해당 없음(기본 50,000개 이상)",
       "Unlimited": "무제한",
       "$19/seat (max 3 additional)": "$19/좌석(최대 3개 추가)",
@@ -5955,7 +5858,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50,000 호출",
       "BI Connector": "BI 커넥터",
       "Additional POS": "추가 POS",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/월",
       "+$149/mo": "+$149/월",
@@ -5972,8 +5874,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "포함됨",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10,000크레딧"
+      "$50": "$50"
     },
     "id": {
       "10": "10",
@@ -5991,12 +5892,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 kursi",
       "3 seats": "3 kursi",
       "5 seats": "5 kursi",
-      "250 credits": "250 kredit",
-      "1,200 credits": "1.200 kredit",
-      "3,500 credits": "3.500 kredit",
-      "+80 credits": "+80 kredit",
-      "+300 credits": "+300 kredit",
-      "+800 credits": "+800 kredit",
       "✓ (free)": "✓ (gratis)",
       "None": "Tidak ada",
       "No rollover": "Tidak ada akumulasi",
@@ -6080,7 +5975,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Khusus",
       "3 years": "3 tahun",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 kredit",
       "N/A (50,000+ base)": "T/A (50.000+ basis)",
       "Unlimited": "Tidak terbatas",
       "$19/seat (max 3 additional)": "$19/kursi (maks 3 tambahan)",
@@ -6116,7 +6010,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50 ribu panggilan",
       "BI Connector": "Konektor BI",
       "Additional POS": "POS tambahan",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/bln",
       "+$149/mo": "+$149/bln",
@@ -6133,8 +6026,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Termasuk",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10.000 kredit"
+      "$50": "$50"
     },
     "vi": {
       "10": "10",
@@ -6152,12 +6044,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 chỗ ngồi",
       "3 seats": "3 chỗ ngồi",
       "5 seats": "5 chỗ ngồi",
-      "250 credits": "250 tín chỉ",
-      "1,200 credits": "1.200 tín chỉ",
-      "3,500 credits": "3.500 tín chỉ",
-      "+80 credits": "+80 tín chỉ",
-      "+300 credits": "+300 tín chỉ",
-      "+800 credits": "+800 tín chỉ",
       "✓ (free)": "✓ (miễn phí)",
       "None": "Không có",
       "No rollover": "Không cộng dồn",
@@ -6241,7 +6127,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Tùy chỉnh",
       "3 years": "3 năm",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 tín dụng",
       "N/A (50,000+ base)": "Không áp dụng (50.000+ cơ sở)",
       "Unlimited": "Không giới hạn",
       "$19/seat (max 3 additional)": "$19/ghế (thêm tối đa 3 chỗ)",
@@ -6277,7 +6162,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50K cuộc gọi",
       "BI Connector": "Đầu nối BI",
       "Additional POS": "POS bổ sung",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/tháng",
       "+$149/mo": "+$149/tháng",
@@ -6294,8 +6178,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Bao gồm",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10.000 tín dụng"
+      "$50": "$50"
     },
     "ro": {
       "10": "10",
@@ -6313,12 +6196,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 loc",
       "3 seats": "3 locuri",
       "5 seats": "5 locuri",
-      "250 credits": "250 de credite",
-      "1,200 credits": "1.200 de credite",
-      "3,500 credits": "3.500 de credite",
-      "+80 credits": "+80 credite",
-      "+300 credits": "+300 de credite",
-      "+800 credits": "+800 credite",
       "✓ (free)": "✓ (gratuit)",
       "None": "Niciuna",
       "No rollover": "Fără report",
@@ -6402,7 +6279,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Personalizat",
       "3 years": "3 ani",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5.000 de credite",
       "N/A (50,000+ base)": "N/A (50.000+ bază)",
       "Unlimited": "Nelimitat",
       "$19/seat (max 3 additional)": "19 USD/loc (maxim 3 suplimentar)",
@@ -6438,7 +6314,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50.000 de apeluri",
       "BI Connector": "Conector BI",
       "Additional POS": "POS suplimentar",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+39 USD/lună",
       "+$149/mo": "+149 USD/lună",
@@ -6455,8 +6330,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Inclus",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10.000 de credite"
+      "$50": "$50"
     },
     "sv": {
       "10": "10",
@@ -6474,12 +6348,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 sittplats",
       "3 seats": "3 platser",
       "5 seats": "5 platser",
-      "250 credits": "250 credits",
-      "1,200 credits": "1 200 credits",
-      "3,500 credits": "3 500 credits",
-      "+80 credits": "+80 credits",
-      "+300 credits": "+300 credits",
-      "+800 credits": "+800 credits",
       "✓ (free)": "✓ (gratis)",
       "None": "Inga",
       "No rollover": "Ingen rollover",
@@ -6563,7 +6431,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Anpassad",
       "3 years": "3 år",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5 000 credits",
       "N/A (50,000+ base)": "N/A (50 000+ bas)",
       "Unlimited": "Obegränsad",
       "$19/seat (max 3 additional)": "$19/plats (max 3 extra)",
@@ -6599,7 +6466,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50 000 samtal",
       "BI Connector": "BI Connector",
       "Additional POS": "Ytterligare POS",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+39 USD/månad",
       "+$149/mo": "+149 USD/månad",
@@ -6616,8 +6482,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Ingår",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10 000 credits"
+      "$50": "$50"
     },
     "bn": {
       "10": "10",
@@ -6635,12 +6500,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 আসন",
       "3 seats": "3টি আসন",
       "5 seats": "5টি আসন",
-      "250 credits": "250 ক্রেডিট",
-      "1,200 credits": "1,200 ক্রেডিট",
-      "3,500 credits": "3,500 ক্রেডিট",
-      "+80 credits": "+80 ক্রেডিট",
-      "+300 credits": "+300 ক্রেডিট",
-      "+800 credits": "+800 ক্রেডিট",
       "✓ (free)": "✓ (বিনামূল্যে)",
       "None": "কোনোটিই নয়",
       "No rollover": "কোন রোলওভার নেই",
@@ -6724,7 +6583,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "কাস্টম",
       "3 years": "3 বছর",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5,000 ক্রেডিট",
       "N/A (50,000+ base)": "N/A (50,000+ বেস)",
       "Unlimited": "আনলিমিটেড",
       "$19/seat (max 3 additional)": "$19/সিট (সর্বোচ্চ 3 অতিরিক্ত)",
@@ -6760,7 +6618,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+৫০ হাজার কল",
       "BI Connector": "BI সংযোগকারী",
       "Additional POS": "অতিরিক্ত POS",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/মাস",
       "+$149/mo": "+$149/মাস",
@@ -6777,8 +6634,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "অন্তর্ভুক্ত",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10,000 ক্রেডিট"
+      "$50": "$50"
     },
     "th": {
       "10": "10",
@@ -6796,12 +6652,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 ที่นั่ง",
       "3 seats": "3 ที่นั่ง",
       "5 seats": "5 ที่นั่ง",
-      "250 credits": "250 เครดิต",
-      "1,200 credits": "1,200 เครดิต",
-      "3,500 credits": "3,500 เครดิต",
-      "+80 credits": "+80 เครดิต",
-      "+300 credits": "+300 เครดิต",
-      "+800 credits": "+800 เครดิต",
       "✓ (free)": "✓ (ฟรี)",
       "None": "ไม่มี",
       "No rollover": "ไม่มีการโรลโอเวอร์",
@@ -6885,7 +6735,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "กำหนดเอง",
       "3 years": "3 ปี",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5,000 เครดิต",
       "N/A (50,000+ base)": "ไม่มี (50,000+ ฐาน)",
       "Unlimited": "ไม่จำกัด",
       "$19/seat (max 3 additional)": "$19/ที่นั่ง (เพิ่มสูงสุด 3 รายการ)",
@@ -6921,7 +6770,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50,000 สาย",
       "BI Connector": "ตัวเชื่อมต่อ BI",
       "Additional POS": "POS เพิ่มเติม",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/เดือน",
       "+$149/mo": "+$149/เดือน",
@@ -6938,8 +6786,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "รวมอยู่ด้วย",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10,000 เครดิต"
+      "$50": "$50"
     },
     "ms": {
       "10": "10",
@@ -6957,12 +6804,6 @@ export const generatedAuxiliaryLocalePacks = {
       "1 seat": "1 seat",
       "3 seats": "3 seat",
       "5 seats": "5 seat",
-      "250 credits": "250 kredit",
-      "1,200 credits": "1,200 kredit",
-      "3,500 credits": "3,500 kredit",
-      "+80 credits": "+80 kredit",
-      "+300 credits": "+300 kredit",
-      "+800 credits": "+800 kredit",
       "✓ (free)": "✓ (percuma)",
       "None": "Tiada",
       "No rollover": "Tiada bawa ke hadapan",
@@ -7046,7 +6887,6 @@ export const generatedAuxiliaryLocalePacks = {
       "Custom": "Tersuai",
       "3 years": "3 tahun",
       "50,000+": "50,000+",
-      "+5,000 credits": "+5,000 kredit",
       "N/A (50,000+ base)": "T/A (50,000+ asas)",
       "Unlimited": "Tidak terhad",
       "$19/seat (max 3 additional)": "$19/seat (maks 3 tambahan)",
@@ -7082,7 +6922,6 @@ export const generatedAuxiliaryLocalePacks = {
       "+50K calls": "+50K panggilan",
       "BI Connector": "Penyambung BI",
       "Additional POS": "POS tambahan",
-      "10,000/mo": "10,000/mo",
       "100,000/mo": "100,000/mo",
       "+$39/mo": "+$39/bln",
       "+$149/mo": "+$149/bln",
@@ -7099,8 +6938,7 @@ export const generatedAuxiliaryLocalePacks = {
       "Included": "Termasuk",
       "$33": "$33",
       "$27": "$27",
-      "$50": "$50",
-      "10,000 credits": "10,000 kredit"
+      "$50": "$50"
     }
   },
   "personaText": {

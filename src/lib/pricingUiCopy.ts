@@ -39,9 +39,6 @@ const locationSliderCopy = {
       'With {locations} locations, you qualify for Enterprise pricing with dedicated support.',
     volumeDiscountTitle: 'Volume Discount Active',
     volumeDiscountBody: 'You are getting enterprise pricing benefits with {locations} locations',
-    considerCoreProTitle: 'Consider Core Pro',
-    considerCoreProBody:
-      'At {locations} locations, Core Pro may be worth considering for advanced forecasting and multi-POS workflows.',
     portfolioUnlockedTitle: 'Portfolio Management Unlocked',
     portfolioUnlockedBody: 'Compare performance across all {locations} locations in one view',
     back: 'Back',
@@ -72,9 +69,6 @@ const locationSliderCopy = {
       'مع {locations} موقعاً، أنت مؤهل لتسعير Enterprise مع دعم مخصص.',
     volumeDiscountTitle: 'خصم الحجم مفعل',
     volumeDiscountBody: 'أنت تحصل على مزايا تسعير Enterprise مع {locations} موقعاً',
-    considerCoreProTitle: 'فكر في Core Pro',
-    considerCoreProBody:
-      'عند {locations} موقعاً، قد يكون Core Pro خياراً مناسباً للتنبؤات المتقدمة وتدفقات العمل متعددة POS.',
     portfolioUnlockedTitle: 'تم فتح إدارة المحفظة',
     portfolioUnlockedBody: 'قارن الأداء عبر جميع المواقع وعددها {locations} في عرض واحد',
     back: 'رجوع',
@@ -106,9 +100,6 @@ const locationSliderCopy = {
     volumeDiscountTitle: 'Remise volume active',
     volumeDiscountBody:
       'Vous profitez des avantages tarifaires Enterprise avec {locations} sites',
-    considerCoreProTitle: 'Envisagez Core Pro',
-    considerCoreProBody:
-      'À {locations} sites, Core Pro peut être pertinent pour les prévisions avancées et les workflows multi-POS.',
     portfolioUnlockedTitle: 'Gestion de portefeuille débloquée',
     portfolioUnlockedBody:
       'Comparez la performance de vos {locations} sites dans une seule vue',
@@ -141,9 +132,6 @@ const locationSliderCopy = {
     volumeDiscountTitle: 'Descuento por volumen activo',
     volumeDiscountBody:
       'Estas obteniendo ventajas de precio Enterprise con {locations} locales',
-    considerCoreProTitle: 'Considera Core Pro',
-    considerCoreProBody:
-      'Con {locations} locales, Core Pro puede compensar por sus pronosticos avanzados y flujos multi-POS.',
     portfolioUnlockedTitle: 'Gestion de cartera desbloqueada',
     portfolioUnlockedBody:
       'Compara el rendimiento de tus {locations} locales en una sola vista',
@@ -682,16 +670,6 @@ const competitorCompareCopy = {
   },
 } as const satisfies Record<FullyLocalizedPricingLocale, object>
 
-const coreProAdvantageCopy = {
-  en:
-    'Core Pro becomes cheaper than Core Lite at {cheaperAt}+ locations (break-even at {breakEven}) due to lower per-location pricing (${proPrice} vs ${litePrice}).',
-  ar:
-    'يصبح Core Pro أقل تكلفة من Core Lite عند {cheaperAt}+ موقعاً (نقطة التعادل عند {breakEven}) بسبب انخفاض تسعير كل موقع (${proPrice} مقابل ${litePrice}).',
-  fr:
-    "Core Pro devient moins cher que Core Lite à partir de {cheaperAt}+ sites (point d'équilibre à {breakEven}) grâce à un prix par site plus bas (${proPrice} vs ${litePrice}).",
-  es:
-    'Core Pro pasa a ser más barato que Core Lite a partir de {cheaperAt}+ locales (equilibrio en {breakEven}) gracias a un menor precio por local (${proPrice} vs ${litePrice}).',
-} as const
 
 const annualAmountTemplates = {
   en: '${amount} annually',
@@ -1104,17 +1082,6 @@ export function getLocalizedCompetitorLimitation(locale: PricingUiLocale, limita
   return copy[limitation as keyof typeof copy] ?? limitation
 }
 
-export function getCoreProAdvantageText(
-  locale: PricingUiLocale,
-  values: {
-    cheaperAt: number
-    breakEven: number
-    proPrice: number
-    litePrice: number
-  }
-) {
-  return formatMessage(resolvePricingUiCopy(coreProAdvantageCopy, locale, generatedPricingUiCopy.coreProAdvantageCopy), values)
-}
 
 export function formatAnnualAmount(locale: PricingUiLocale, amount: string) {
   return formatMessage(resolvePricingUiCopy(annualAmountTemplates, locale, generatedPricingUiCopy.annualAmountTemplates), { amount })

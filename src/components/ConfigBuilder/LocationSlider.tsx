@@ -1,12 +1,13 @@
 // Location slider with logarithmic scale mapping
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, TrendingUp, Info, ChevronLeft, Crown } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { cn } from '../../utils/cn';
 import { getSkipToStep } from '../../utils/tierAvailability';
+import { getMarginalBandMessage } from '../../utils/pricingCalculators';
 import { useLocale } from '../../contexts/LocaleContext';
 import {
   formatMessage,
@@ -78,23 +79,17 @@ function getScaleLabel(
 export function LocationSlider() {
   const { locale } = useLocale();
   const copy = getLocationSliderCopy(locale as PricingUiLocale);
-  const { layer, tier, locations, setLocations, setCurrentStep } = useConfiguration();
-  const pricing = usePriceCalculation(layer, tier, locations, [], []);
-  
-  // Enterprise tier requires minimum 30 locations
-  const isEnterprise = tier === 'enterprise';
-  const minLocations = isEnterprise ? 30 : 1;
+  const { layer, corePackage, locations, setLocations, setCurrentStep } = useConfiguration();
+  const pricing = usePriceCalculation(layer, corePackage, locations, [], []);
+
+  const minLocations = 1;
   
   const [inputValue, setInputValue] = useState(locations.toString());
   const [isDragging, setIsDragging] = useState(false);
   const [isEditingInput, setIsEditingInput] = useState(false);
   
-  // Ensure Enterprise tier starts at 30+ locations
-  useEffect(() => {
-    if (isEnterprise && locations < minLocations) {
-      setLocations(minLocations);
-    }
-  }, [isEnterprise, locations, minLocations, setLocations]);
+  // v1.7: there is no minimum-location tier. Enterprise is a quoted path
+  // from 250 units, not a floor the slider has to enforce.
   
   const percent = useMemo(() => locationToPercent(locations), [locations]);
   const scaleInfo = getScaleLabel(locations, copy);
@@ -103,16 +98,11 @@ export function LocationSlider() {
   const handleSliderChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setIsDragging(true);
     const newPercent = parseFloat(e.target.value);
-    let newLocation = percentToLocation(newPercent);
-    
-    // Enforce minimum for Enterprise
-    if (isEnterprise && newLocation < minLocations) {
-      newLocation = minLocations;
-    }
+    const newLocation = percentToLocation(newPercent);
     
     setLocations(newLocation);
     setInputValue(newLocation.toString());
-  }, [setLocations, isEnterprise, minLocations]);
+  }, [setLocations]);
   
   const handleSliderEnd = useCallback(() => {
     setIsDragging(false);
@@ -149,7 +139,7 @@ export function LocationSlider() {
 
   const handleContinue = () => {
     // Check if tier requires skipping steps
-    const skipTo = getSkipToStep(layer, tier);
+    const skipTo = getSkipToStep(layer);
     setCurrentStep(skipTo || 4); // Default to step 4 (Modules) if no skip
   };
 
@@ -246,9 +236,7 @@ export function LocationSlider() {
         {/* Manual input */}
         <div className="text-center mb-6">
           <p className="text-sm text-slate-400 mb-2">
-            {isEnterprise 
-              ? formatMessage(copy.preciseCountEnterprise, { min: minLocations })
-              : copy.preciseCount}
+            {copy.preciseCount}
           </p>
           <input
             id="location-input"
@@ -261,11 +249,6 @@ export function LocationSlider() {
             min={minLocations}
             className="bg-slate-800 border border-slate-600 rounded-lg px-4 py-2 text-center text-lg w-28 focus:border-amber-400 focus:outline-none"
           />
-          {isEnterprise && (
-            <p className="text-xs text-amber-400 mt-2">
-              {formatMessage(copy.minimum, { min: minLocations })}
-            </p>
-          )}
         </div>
 
         {/* Live pricing display */}
@@ -291,7 +274,9 @@ export function LocationSlider() {
             transition={{ delay: 0.3 }}
             className="p-4 bg-sundae-dark/50 rounded-lg"
           >
-            <div className="text-sm text-sundae-muted mb-1">{copy.perLocation}</div>
+            {/* DERIVED AVERAGE (total / units) — bands are marginal, so this
+                is never a per-location rate card. */}
+            <div className="text-sm text-sundae-muted mb-1">Avg · {copy.perLocation}</div>
             <div className="font-display text-3xl font-bold tabular-nums">
               ${pricing.perLocation.toFixed(0)}
             </div>
@@ -342,15 +327,17 @@ export function LocationSlider() {
           </div>
         )}
 
-        {/* Core Pro advantage */}
-        {layer === 'core' && tier === 'lite' && locations >= 15 && (
+        {/* Marginal-band explainer — replaces the retired "upgrade to Core Pro
+            and your per-location rate drops" nudge, which described a flat
+            rate card that v1.7 does not have. */}
+        {layer === 'core' && locations >= 2 && (
           <div className="p-4 bg-gradient-to-r from-[#E9A24A]/10 to-[#C2410C]/10 rounded-lg border border-[#E9A24A]/30">
             <div className="flex items-start gap-3">
               <Info className="w-5 h-5 text-[#E9A24A] mt-0.5 flex-shrink-0" />
               <div>
-                <div className="font-semibold text-[#E9A24A] mb-1">{copy.considerCoreProTitle}</div>
+                <div className="font-semibold text-[#E9A24A] mb-1">How your locations are priced</div>
                 <p className="text-sm text-sundae-muted">
-                  {formatMessage(copy.considerCoreProBody, { locations: locations.toLocaleString(locale) })}
+                  {getMarginalBandMessage(corePackage, locations)}
                 </p>
               </div>
             </div>
@@ -393,7 +380,7 @@ export function LocationSlider() {
           className="button-primary relative z-50"
           data-testid="continue-button"
         >
-          {getSkipToStep(layer, tier) ? copy.continueToSummary : copy.continueToModules}
+          {getSkipToStep(layer) ? copy.continueToSummary : copy.continueToModules}
         </button>
       </motion.div>
     </div>

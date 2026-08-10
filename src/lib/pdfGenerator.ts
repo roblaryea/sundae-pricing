@@ -3,6 +3,8 @@
 
 import jsPDF from 'jspdf';
 import { calculateAllComparisons } from '../data/competitorPricing';
+import { corePackages } from '../data/pricing';
+import type { CorePackageId } from '../data/pricing';
 import { LEGAL } from '../config/legal';
 import {
   getPricingPdfCopy,
@@ -100,15 +102,10 @@ function renderPdfText(
   doc.text(output, x, y, options);
 }
 
-function formatTierName(layer: string | null, tier: string | null, locale: PricingLocale): string {
-  if (!layer || !tier) return '';
-  const rawTier =
-    layer === 'report'
-      ? `Report ${tier.charAt(0).toUpperCase()}${tier.slice(1)}`
-      : layer === 'core'
-        ? `Core ${tier.charAt(0).toUpperCase()}${tier.slice(1)}`
-        : tier.charAt(0).toUpperCase() + tier.slice(1);
-  return localizeTierName(rawTier, locale);
+function formatTierName(layer: string | null, corePackage: string | null, locale: PricingLocale): string {
+  if (!layer || !corePackage) return '';
+  const pkg = corePackages[corePackage as CorePackageId];
+  return localizeTierName(pkg?.name ?? corePackage, locale);
 }
 
 function formatModuleList(moduleIds: string[], locale: PricingLocale): string {
@@ -124,9 +121,9 @@ function formatWatchtowerList(watchtowerModules: string[], locale: PricingLocale
 
 export async function generateQuotePDF(
   layer: string | null,
-  tier: string | null,
+  corePackage: string | null,
   locations: number,
-  selectedModules: string[],
+  addOns: string[],
   watchtowerModules: string[],
   pricing: PricingData,
   locale: PricingLocale = 'en'
@@ -141,7 +138,7 @@ export async function generateQuotePDF(
   await ensurePdfFont(doc, locale);
 
   // Calculate competitor comparisons
-  const allModules = [...selectedModules, `${layer}-${tier}`];
+  const allModules = [...addOns, `${layer}-${corePackage}`];
   const comparisons = calculateAllComparisons(locations, allModules, pricing.total);
   const savingsComparisons = comparisons.filter((c) => c.savings.firstYear > 0).slice(0, 3);
 
@@ -211,16 +208,18 @@ export async function generateQuotePDF(
   setPdfFont(doc, locale, 'normal');
   doc.setTextColor(71, 85, 105);
 
-  const tierName = formatTierName(layer, tier, locale);
+  const tierName = formatTierName(layer, corePackage, locale);
   renderPdfText(doc, `${copy.platformLabel}: ${tierName}`, 20, yPos, locale);
   yPos += 8;
 
   renderPdfText(doc, `${copy.locationsLabel}: ${locations.toLocaleString(locale)}`, 20, yPos, locale);
   yPos += 8;
 
-  if (selectedModules.length > 0) {
-    const moduleNames = formatModuleList(selectedModules, locale);
-    renderPdfText(doc, `${copy.modulesLabel}: ${moduleNames}`, 20, yPos, locale);
+  // Add-ons only. The eleven Core domain modules ship inside the package and
+  // are never itemised as separately purchased lines.
+  if (addOns.length > 0) {
+    const addOnNames = formatModuleList(addOns, locale);
+    renderPdfText(doc, `${copy.modulesLabel}: ${addOnNames}`, 20, yPos, locale);
     yPos += 8;
   }
 

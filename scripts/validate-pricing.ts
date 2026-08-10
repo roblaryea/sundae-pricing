@@ -1,71 +1,170 @@
+/**
+ * Pre-build gate: assert the shipped catalog matches approved price book v1.7.
+ *
+ * This runs on every `npm run build` (via `prebuild`). It is deliberately blunt:
+ * a wrong number here reaches customers, so the script fails the build rather
+ * than warning.
+ */
 import {
-  reportTiers,
+  corePackages,
+  CORE_PACKAGE_IDS,
+  CORE_DOMAIN_MODULE_IDS,
+  conceptSkus,
+  foresightAction,
+  implementationClasses,
+  crewSkus,
+  crewBundles,
+  billingDiscounts,
+  DISCOUNT_RULES,
+  ENTERPRISE_ONLY_FROM_UNITS,
   modules,
-  watchtower,
-  CLIENT_TYPE_RULES,
-  enterprisePricing
+  getVolumeDiscount,
+  RETIRED_CATALOG_IDS,
 } from '../src/data/pricing';
+import { calculateCorePackagePrice, calculateForesightActionPrice } from '../src/lib/pricingEngine';
 
 const errors: string[] = [];
 
-function check(name: string, expected: any, actual: any) {
+function check(name: string, expected: unknown, actual: unknown) {
   if (expected !== actual) {
-    errors.push(`❌ ${name}: expected ${expected}, got ${actual}`);
+    errors.push(`❌ ${name}: expected ${String(expected)}, got ${String(actual)}`);
   }
 }
 
-console.log('🔍 Validating pricing data (v5.1)...\n');
+console.log('🔍 Validating pricing data against price book v1.7...\n');
 
-// Report Lite FREE
-check('reportTiers.lite.basePrice', 0, reportTiers.lite.basePrice);
-check('reportTiers.lite.aiSeats', 1, reportTiers.lite.aiSeats);
+// ── Core packages: anchor + marginal bands ────────────────────────────────
+const EXPECTED_PACKAGES: Record<string, { name: string; anchor: number; bands: number[]; wallet: number }> = {
+  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 105], wallet: 14000 },
+  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 145], wallet: 16000 },
+  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 155], wallet: 18000 },
+  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 236], wallet: 24000 },
+};
 
-// Report Plus (v5.1)
-check('reportTiers.plus.basePrice', 79, reportTiers.plus.basePrice);
-check('reportTiers.plus.additionalLocationPrice', 39, reportTiers.plus.additionalLocationPrice);
-check('reportTiers.plus.visuals', 30, reportTiers.plus.visuals);
-check('reportTiers.plus.aiSeats', 3, reportTiers.plus.aiSeats);
-check('reportTiers.plus.benchmarkRadius', '1-2km adjustable', reportTiers.plus.benchmarkRadius);
+check('CORE_PACKAGE_IDS.length', 4, CORE_PACKAGE_IDS.length);
 
-// Report Pro (v5.1)
-check('reportTiers.pro.basePrice', 159, reportTiers.pro.basePrice);
-check('reportTiers.pro.additionalLocationPrice', 59, reportTiers.pro.additionalLocationPrice);
-check('reportTiers.pro.aiSeats', 5, reportTiers.pro.aiSeats);
-
-// Module prices (v5.1 — Core Pro defaults)
-check('modules.labor.orgLicensePrice', 219, modules.labor.orgLicensePrice);
-check('modules.inventory.orgLicensePrice', 229, modules.inventory.orgLicensePrice);
-check('modules.inventory.perLocationPrice', 24, modules.inventory.perLocationPrice);
-check('modules.purchasing.orgLicensePrice', 169, modules.purchasing.orgLicensePrice);
-check('modules.purchasing.perLocationPrice', 16, modules.purchasing.perLocationPrice);
-
-// Pulse module (v5.1 — Core Pro default)
-check('modules.pulse.orgLicensePrice', 269, modules.pulse.orgLicensePrice);
-check('modules.pulse.perLocationPrice', 29, modules.pulse.perLocationPrice);
-
-// Watchtower (v5.1 — ~18% bundle savings)
-check('watchtower.bundle.basePrice', 899, watchtower.bundle.basePrice);
-check('watchtower.bundle.perLocationPrice', 109, watchtower.bundle.perLocationPrice);
-check('watchtower.bundle.savingsPercent', 18, watchtower.bundle.savingsPercent);
-check('watchtower.bundle.baseSavings', 198, watchtower.bundle.baseSavings);
-
-// Client types (v5.1 volume discount tiers)
-if (!CLIENT_TYPE_RULES['multi-site']) {
-  errors.push("❌ CLIENT_TYPE_RULES['multi-site'] is undefined (wrong key?)");
+for (const [id, spec] of Object.entries(EXPECTED_PACKAGES)) {
+  const pkg = corePackages[id as keyof typeof corePackages];
+  if (!pkg) {
+    errors.push(`❌ corePackages.${id} is missing`);
+    continue;
+  }
+  check(`${id}.name`, spec.name, pkg.name);
+  check(`${id}.firstUnitPrice`, spec.anchor, pkg.firstUnitPrice);
+  check(`${id}.aiCreditWallet`, spec.wallet, pkg.aiCreditWallet);
+  check(`${id}.marginalBands.length`, 4, pkg.marginalBands.length);
+  spec.bands.forEach((rate, index) => {
+    check(`${id}.marginalBands[${index}].pricePerUnit`, rate, pkg.marginalBands[index]?.pricePerUnit);
+  });
+  // Bands must start at unit 2 — there is no included-location allowance.
+  check(`${id}.marginalBands[0].fromUnit`, 2, pkg.marginalBands[0]?.fromUnit);
 }
-check('independent.discountTier', 0, CLIENT_TYPE_RULES['independent']?.discountTier);
-check('growth.discountTier', 5, CLIENT_TYPE_RULES['growth']?.discountTier);
-check('multi-site.discountTier', 7, CLIENT_TYPE_RULES['multi-site']?.discountTier);
-check('enterprise.locationRange[0]', 30, CLIENT_TYPE_RULES['enterprise'].locationRange[0]);
 
-// Results
+// ── The marginal mechanic itself ──────────────────────────────────────────
+check('5 x Core Foundation total', 1895, calculateCorePackagePrice('core_foundation', 5));
+check('5 x Core Foundation average', 379, calculateCorePackagePrice('core_foundation', 5) / 5);
+check(
+  '11 x Core Foundation is marginal, not retroactive',
+  1195 + 9 * 175 + 150,
+  calculateCorePackagePrice('core_foundation', 11),
+);
+
+// ── Foresight & Action ────────────────────────────────────────────────────
+check('foresightAction.firstUnitPrice', 495, foresightAction.firstUnitPrice);
+[65, 55, 45, 35].forEach((rate, index) => {
+  check(`foresightAction.marginalBands[${index}]`, rate, foresightAction.marginalBands[index]?.pricePerUnit);
+});
+check('5 x Foresight & Action total', 755, calculateForesightActionPrice(5));
+
+// ── Concepts ──────────────────────────────────────────────────────────────
+const EXPECTED_CONCEPTS: Record<string, number> = {
+  concept_franchise: 595,
+  concept_hotel_fb: 395,
+  concept_cloud_kitchen: 395,
+  concept_catering: 349,
+  concept_production: 595,
+  concept_rental_commissary: 395,
+};
+for (const [id, price] of Object.entries(EXPECTED_CONCEPTS)) {
+  check(`conceptSkus.${id}.monthlyPrice`, price, conceptSkus[id as keyof typeof conceptSkus]?.monthlyPrice);
+}
+
+// ── Implementation classes (charged once, highest class) ──────────────────
+check('implementation.self_service', 0, implementationClasses.self_service.fee);
+check('implementation.class_a', 1500, implementationClasses.class_a.fee);
+check('implementation.class_b', 2500, implementationClasses.class_b.fee);
+check('implementation.class_c', 7500, implementationClasses.class_c.fee);
+check('implementation.class_d', 12500, implementationClasses.class_d.fee);
+check('implementation.class_d.isFloor', true, implementationClasses.class_d.isFloor);
+
+// ── Crew ──────────────────────────────────────────────────────────────────
+const EXPECTED_CREW: Record<string, { name: string; price: number }> = {
+  crew_lite: { name: 'Crew Starter', price: 99 },
+  crew_scheduling: { name: 'Crew Schedule', price: 179 },
+  crew_operations: { name: 'Crew Manage', price: 399 },
+  crew_tna: { name: 'Crew Time', price: 99 },
+  crew_payroll: { name: 'Crew Pay', price: 129 },
+  crew_people_intelligence: { name: 'Crew People', price: 249 },
+};
+for (const [id, spec] of Object.entries(EXPECTED_CREW)) {
+  const sku = crewSkus[id as keyof typeof crewSkus];
+  check(`crewSkus.${id}.name`, spec.name, sku?.name);
+  check(`crewSkus.${id}.orgLicensePrice`, spec.price, sku?.orgLicensePrice);
+}
+check('crewBundles.crew_schedule_time_bundle.basePrice', 249, crewBundles.crew_schedule_time_bundle.basePrice);
+check('crewBundles.crew_suite_bundle.basePrice', 499, crewBundles.crew_suite_bundle.basePrice);
+check('crewBundles.crew_complete_bundle.basePrice', 699, crewBundles.crew_complete_bundle.basePrice);
+
+// ── Discounts ─────────────────────────────────────────────────────────────
+check('volume @ 1', 0, getVolumeDiscount(1));
+check('volume @ 49', 0, getVolumeDiscount(49));
+check('volume @ 50', 2.5, getVolumeDiscount(50));
+check('volume @ 99', 2.5, getVolumeDiscount(99));
+check('volume @ 100', 5, getVolumeDiscount(100));
+check('volume @ 199', 5, getVolumeDiscount(199));
+check('volume @ 200', 7, getVolumeDiscount(200));
+check('volume @ 249', 7, getVolumeDiscount(249));
+check('ENTERPRISE_ONLY_FROM_UNITS', 250, ENTERPRISE_ONLY_FROM_UNITS);
+check('billingDiscounts.annual', 10, billingDiscounts.annual);
+check('billingDiscounts.two_year', 15, billingDiscounts.two_year);
+check('DISCOUNT_RULES.stackingAllowed', true, DISCOUNT_RULES.stackingAllowed);
+check('DISCOUNT_RULES.maxDiscountPercent', 15, DISCOUNT_RULES.maxDiscountPercent);
+
+// ── Domain modules must stay unpriced package components ──────────────────
+check('CORE_DOMAIN_MODULE_IDS.length', 11, CORE_DOMAIN_MODULE_IDS.length);
+for (const [id, module] of Object.entries(modules)) {
+  for (const forbidden of [
+    'orgLicensePrice',
+    'perLocationPrice',
+    'baseIncludesLocations',
+    'setupFee',
+    'pricingByTier',
+  ]) {
+    if (forbidden in module) {
+      errors.push(
+        `❌ modules.${id}.${forbidden} exists — domain modules are package components and must carry no price`,
+      );
+    }
+  }
+}
+
+// ── Retired ids must not be sellable ──────────────────────────────────────
+for (const retired of RETIRED_CATALOG_IDS) {
+  if ((CORE_PACKAGE_IDS as string[]).includes(retired)) {
+    errors.push(`❌ retired id "${retired}" is being offered as a Core package`);
+  }
+  if (retired in conceptSkus) {
+    errors.push(`❌ retired id "${retired}" is being offered as a concept SKU`);
+  }
+}
+
 console.log('');
 if (errors.length === 0) {
-  console.log('✅ All pricing validations passed!\n');
+  console.log('✅ All price book v1.7 validations passed!\n');
   process.exit(0);
 } else {
   console.log(`Found ${errors.length} error(s):\n`);
-  errors.forEach(e => console.log('  ' + e));
+  errors.forEach((e) => console.log('  ' + e));
   console.log('');
   process.exit(1);
 }

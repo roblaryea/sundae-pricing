@@ -43,7 +43,7 @@ export const personas: Record<string, Persona> = {
     name: "The Data Explorer",
     emoji: "radar",
     description: "You're curious about analytics but want to test the waters before diving in. Perfect for single locations looking to understand their data better.",
-    recommendedPath: "report-lite",
+    recommendedPath: "core-foundation",
     color: "#10B981", // green
     modules: [],
     locationRange: { min: 1, max: 2 }
@@ -53,7 +53,7 @@ export const personas: Record<string, Persona> = {
     name: "The Efficiency Hunter",
     emoji: "zap",
     description: "Every percentage point matters. You want real-time control over operations and are ready to optimize labor and inventory costs.",
-    recommendedPath: "core-lite",
+    recommendedPath: "core-margin",
     color: "#FF7E6F", // blue
     modules: ["labor", "inventory"],
     locationRange: { min: 2, max: 5 }
@@ -63,7 +63,7 @@ export const personas: Record<string, Persona> = {
     name: "The Portfolio Commander",
     emoji: "target",
     description: "Multiple locations need unified visibility and strategic tools. You're building an empire and need intelligence to match.",
-    recommendedPath: "core-pro",
+    recommendedPath: "core-growth",
     color: "#E9A24A", // purple
     modules: ["labor", "inventory", "marketing"],
     locationRange: { min: 6, max: 20 }
@@ -73,7 +73,7 @@ export const personas: Record<string, Persona> = {
     name: "The Market Strategist",
     emoji: "crown",
     description: "Competitive intelligence and market positioning drive your decisions. You're playing the long game and want every edge.",
-    recommendedPath: "core-pro-watchtower",
+    recommendedPath: "core-performance-watchtower",
     color: "#F59E0B", // amber
     modules: ["labor", "inventory", "marketing", "purchasing"],
     locationRange: { min: 10, max: 100 }

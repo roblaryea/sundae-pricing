@@ -16,8 +16,8 @@ import {
 export function LiveCalculator() {
   const { locale } = useLocale();
   const copy = getLiveCalculatorCopy(locale as PricingUiLocale);
-  const { layer, tier, locations, modules, watchtowerModules, competitors: configCompetitors } = useConfiguration();
-  const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules);
+  const { layer, corePackage, locations, addOns, watchtowerModules, competitors: configCompetitors } = useConfiguration();
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
   
   // Get dynamic competitor name (defaults to Tenzo for backwards compatibility)
   const primaryCompetitor = configCompetitors?.primaryComparison || 'tenzo';

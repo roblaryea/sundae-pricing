@@ -16,40 +16,12 @@ interface FAQItem {
   answer: string;
 }
 
-type FAQCategory = 'report' | 'core' | 'watchtower' | 'crew' | 'general';
+// The Report layer was retired with price book v1.7 — there is no 'report'
+// FAQ category, because there is no Report product to answer questions about.
+type FAQCategory = 'core' | 'watchtower' | 'crew' | 'general';
 
 const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<FAQCategory, FAQItem[]>>>> = {
   ar: {
-    report: [
-      {
-        question: 'ما هو Sundae Report؟',
-        answer: 'Sundae Report هي طبقة التحليلات لدينا التي تتصل بمصادر بياناتك الحالية مثل POS والتوصيل والمراجعات وتحوّلها إلى رؤى عملية. لا تحتاج إلى تكامل POS لبدء الاستخدام. ابدأ مجاناً مع Report Lite أو فعّل التحليلات المتقدمة مع Plus أو Pro.',
-      },
-      {
-        question: 'ما الفرق بين Report Lite و Plus و Pro؟',
-        answer: 'Report Lite هو نقطة البداية للتجربة. يضيف Report Plus المقارنات المعيارية وسعة ذكاء اصطناعي أكبر ومجموعة مرئيات أوسع. أما Report Pro فيقدّم أعمق حزمة تحليلات وقدرات تنبؤ أقوى وسير عمل أكثر تقدماً. يعرض الكتالوج الحالي الأسعار والسعة المشمولة دائماً داخل المحاكي.',
-      },
-      {
-        question: 'كيف تعمل أرصدة الذكاء الاصطناعي؟',
-        answer: 'أرصدة الذكاء الاصطناعي تشغّل الميزات الذكية في Sundae. كل استعلام أو توليد رؤى أو تحليل مؤتمت يستهلك أرصدة. تتضمن كل طبقة رصيداً أساسياً إضافةً إلى أرصدة حسب الموقع. يمكن ترحيل الأرصدة غير المستخدمة بنسبة 25% من الرصيد الأساسي لمدة شهر واحد. كما يمكنك شراء حزم إضافية لا تنتهي صلاحيتها.',
-      },
-      {
-        question: 'هل أحتاج تكاملاً مع POS في Report؟',
-        answer: 'لا. يعمل Report مع البيانات المرفوعة مثل CSV وتصديرات منصات التوصيل والإدخال اليدوي. تكامل POS اختياري ويفعّل التحديث اللحظي. نوصي بـ Core إذا كنت تريد تكاملاً مباشراً مع POS.',
-      },
-      {
-        question: 'ما الفرق بين مقاعد العرض ومقاعد مستخدمي الذكاء الاصطناعي؟',
-        answer: 'مقاعد العرض مجانية وغير محدودة في جميع الطبقات وتمنح وصولاً للقراءة فقط إلى لوحات المعلومات. أما مقاعد الذكاء الاصطناعي فتسمح لأعضاء الفريق بطرح الأسئلة وتوليد الرؤى واستخدام ميزات الذكاء الاصطناعي. تتضمن كل طبقة عدداً محدداً من هذه المقاعد.',
-      },
-      {
-        question: 'هل يمكنني الترقية من Report إلى Core لاحقاً؟',
-        answer: 'نعم. يمكنك الترقية من Report إلى Core في أي وقت. تصبح الترقية فعّالة فوراً وتنتقل بياناتك ولوحاتك وإعداداتك الحالية معك. يضيف Core تكاملاً لحظياً مع POS ووحدات متخصصة وأهلية Watchtower.',
-      },
-      {
-        question: 'هل توجد نسخة تجريبية مجانية؟',
-        answer: 'Report Lite مجاني دائماً ولا يحتاج بطاقة. أما Report Plus و Pro فهناك تجربة مجانية لمدة 14 يوماً لتجربة المجموعة الكاملة قبل الالتزام.',
-      },
-    ],
   core: [
       {
         question: 'ما الفرق بين Report و Core؟',
@@ -142,36 +114,6 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
     ],
   },
   fr: {
-    report: [
-      {
-        question: 'Qu est-ce que Sundae Report ?',
-        answer: 'Sundae Report est notre couche analytique connectee a vos sources de donnees existantes (POS, livraison, avis) pour generer des insights actionnables, sans integration POS requise. Commencez gratuitement avec Report Lite ou activez des analyses plus avancees avec Plus ou Pro.',
-      },
-      {
-        question: 'Quelle difference entre Report Lite, Plus et Pro ?',
-        answer: 'Report Lite est le point d entree. Report Plus ajoute les benchmarks, davantage de capacite IA et une palette visuelle plus large. Report Pro apporte la suite analytique la plus profonde, plus de capacite IA et des workflows de prevision plus avances. Le catalogue affiche toujours les tarifs et capacites du moment.',
-      },
-      {
-        question: 'Comment fonctionnent les credits IA ?',
-        answer: 'Les credits IA alimentent les fonctionnalites intelligentes de Sundae. Chaque requete IA, generation d insight ou analyse automatisee consomme des credits. Chaque niveau inclut une base plus des credits par site. Les credits non utilises reportent 25% de votre base pendant un mois. Vous pouvez aussi acheter des packs supplementaires sans expiration.',
-      },
-      {
-        question: 'Ai-je besoin d une integration POS pour Report ?',
-        answer: 'Non. Report fonctionne avec les donnees importees : CSV, exports des plateformes de livraison et saisie manuelle. L integration POS est optionnelle et active le rafraichissement temps reel. Core est recommande si vous voulez un POS direct.',
-      },
-      {
-        question: 'Quelle difference entre les sieges viewers et les sieges IA ?',
-        answer: 'Les sieges viewers sont gratuits et illimites sur tous les niveaux et donnent un acces lecture seule aux tableaux de bord. Les sieges IA permettent de poser des questions, generer des insights et utiliser les fonctions IA. Chaque niveau inclut un nombre fixe de sieges IA.',
-      },
-      {
-        question: 'Puis-je passer de Report a Core plus tard ?',
-        answer: 'Oui. Vous pouvez passer de Report a Core a tout moment. La mise a niveau est immediate et conserve vos donnees, tableaux de bord et parametres. Core ajoute le temps reel POS, les modules et l acces Watchtower.',
-      },
-      {
-        question: 'Existe-t-il un essai gratuit ?',
-        answer: 'Report Lite est gratuit a vie, sans carte bancaire. Report Plus et Pro incluent un essai gratuit de 14 jours pour tester l ensemble avant de vous engager.',
-      },
-    ],
   core: [
       {
         question: 'Quelle difference entre Report et Core ?',
@@ -264,36 +206,6 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
     ],
   },
   es: {
-    report: [
-      {
-        question: 'Que es Sundae Report?',
-        answer: 'Sundae Report es nuestra capa de analitica que conecta con tus fuentes de datos existentes (POS, delivery, reseñas) y genera insights accionables sin requerir integracion POS. Empieza gratis con Report Lite o desbloquea analisis mas avanzados con Plus o Pro.',
-      },
-      {
-        question: 'Cual es la diferencia entre Report Lite, Plus y Pro?',
-        answer: 'Report Lite es el punto de entrada. Report Plus añade benchmarks, mas capacidad de IA y un conjunto visual mas amplio. Report Pro ofrece la suite analitica mas profunda, mayor capacidad de IA y flujos de trabajo de pronostico mas avanzados. El catalogo siempre muestra los precios y capacidades vigentes.',
-      },
-      {
-        question: 'Como funcionan los creditos de IA?',
-        answer: 'Los creditos de IA impulsan las funciones inteligentes de Sundae. Cada consulta, generacion de insight o analisis automatizado consume creditos. Cada nivel incluye una base mas creditos por local. Los creditos no usados se arrastran en un 25% de tu base durante un mes. Tambien puedes comprar paquetes adicionales sin vencimiento.',
-      },
-      {
-        question: 'Necesito integracion POS para Report?',
-        answer: 'No. Report funciona con datos cargados: CSV, exports de plataformas de delivery y entrada manual. La integracion POS es opcional y habilita actualizacion en tiempo real. Recomendamos Core si quieres POS directo.',
-      },
-      {
-        question: 'Cual es la diferencia entre puestos viewer y puestos IA?',
-        answer: 'Los puestos viewer son gratis e ilimitados en todos los niveles y ofrecen acceso solo lectura a los dashboards. Los puestos IA permiten hacer preguntas, generar insights y usar las funciones de IA. Cada nivel incluye un numero fijo de puestos IA.',
-      },
-      {
-        question: 'Puedo pasar de Report a Core despues?',
-        answer: 'Si. Puedes pasar de Report a Core cuando quieras. La mejora es inmediata y conserva datos, dashboards y configuracion. Core añade POS en tiempo real, modulos y acceso a Watchtower.',
-      },
-      {
-        question: 'Hay prueba gratis?',
-        answer: 'Report Lite es gratis para siempre y no requiere tarjeta. Report Plus y Pro incluyen una prueba gratuita de 14 dias para probar todo antes de comprometerte.',
-      },
-    ],
   core: [
       {
         question: 'Cual es la diferencia entre Report y Core?',
@@ -387,61 +299,38 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
   },
 };
 
-const reportFAQ: FAQItem[] = [
-  {
-    question: 'What is Sundae Report?',
-    answer: 'Sundae Report is our analytics layer that connects to your existing data sources (POS, delivery, reviews) and generates actionable insights — no POS integration required. Start free with Report Lite, or unlock benchmarking and AI-powered analysis with Plus or Pro.'
-  },
-  {
-    question: 'What\'s the difference between Report Lite, Plus, and Pro?',
-    answer: 'Report Lite is the entry point for trying Sundae. Report Plus adds benchmarking, more AI capacity, and a broader visual set. Report Pro adds the deepest analytics package, higher AI capacity, and advanced forecasting-oriented workflows. Current pricing and included capacity are always reflected in the published catalog shown in the configurator.'
-  },
-  {
-    question: 'How do AI credits work?',
-    answer: 'AI credits power Sundae\'s intelligent features — every AI query, insight generation, or automated analysis consumes credits. Each tier includes a base amount plus per-location credits. Unused credits roll over at 25% of your base allocation (one month). You can also buy top-up bundles that never expire.'
-  },
-  {
-    question: 'Do I need a POS integration for Report?',
-    answer: 'No! Report works with uploaded data — CSV files, delivery platform exports, and manual entry. POS integration is optional and unlocks real-time data refresh. Core tier is recommended if you want live POS integration.'
-  },
-  {
-    question: 'What are viewer seats vs AI user seats?',
-    answer: 'Viewer seats are unlimited and free at all tiers — they provide read-only access to dashboards without AI query capabilities. AI user seats allow team members to ask questions, generate insights, and use AI features. Each tier includes a set number of AI seats.'
-  },
-  {
-    question: 'Can I upgrade from Report to Core later?',
-    answer: 'Yes! You can upgrade from Report to Core anytime. Upgrades are effective immediately and your existing data, dashboards, and settings carry over. Core adds real-time POS integration, modules, and Watchtower eligibility.'
-  },
-  {
-    question: 'Is there a free trial?',
-    answer: 'Report Lite is free forever — no credit card required. For Report Plus and Pro, we offer a 14-day free trial so you can experience the full feature set before committing.'
-  }
-];
-
 const coreFAQ: FAQItem[] = [
   {
-    question: 'What\'s the difference between Report and Core?',
-    answer: 'Core adds real-time POS integration, intelligence modules (Labor, Inventory, Marketing, etc.), Watchtower eligibility, and significantly more AI credits and seats. Report is great for analytics on uploaded data; Core is for live operational intelligence.'
+    question: 'What are the four Core packages?',
+    answer: 'Core Foundation, Core Margin, Core Growth, and Core Performance. Every package includes all eleven Core domain modules, the Cross-Intelligence correlation engine, and Sundae Intelligence. They differ in scope and in the size of the monthly AI credit wallet; the configurator always shows the current published figures.'
   },
   {
-    question: 'What are intelligence modules?',
-    answer: 'Modules are specialized add-ons for Core tier that provide deep intelligence in specific areas like labor, inventory, purchasing, marketing, delivery, revenue assurance, guest experience, and more. Each module has an organization license with location-based scaling. The live configurator reflects the current published catalog for module pricing by tier.'
+    question: 'How does per-location pricing work?',
+    answer: 'Your first location is priced at the package anchor. Every location after that is priced by band, and the bands are MARGINAL — moving into a cheaper band does not reprice the locations you already have. For example, 5 Core Foundation locations cost $1,195 + 4 x $175 = $1,895/mo, an average of $379 per location.'
   },
   {
-    question: 'Are there setup fees for modules?',
-    answer: 'Yes. Modules can include one-time setup fees covering onboarding and integration work. Discounts and waivers may apply based on bundle selection, billing terms, and enterprise arrangements. The configurator and quote output reflect the current published setup-fee model.'
+    question: 'How many locations are included in the base price?',
+    answer: 'None. There is no location allowance. The anchor price covers your first location, and each additional location is charged at its band rate. Any quote that says "base covers 3 locations" is out of date.'
+  },
+  {
+    question: 'Can I buy the domain modules individually?',
+    answer: 'No. Labor, Inventory, Purchasing, Marketing, Reservations, Profit, Revenue Assurance, Delivery, Guest Experience, Pulse and Guest CRM are components of every Core package. They have no standalone price and nothing to add on.'
+  },
+  {
+    question: 'What is Foresight & Action?',
+    answer: 'The optional predictive-planning and actuation layer: forecasting, scenario modelling, sensitivity analysis, decision replay, and approve-in-the-loop actions. It is priced like a Core package — $495 for your first location, then marginal bands for the rest.'
   },
   {
     question: 'What is the Cross-Intelligence Engine?',
-    answer: `When you activate 3+ modules, the Cross-Intelligence Engine automatically surfaces hidden correlations between your data sources — e.g., how weather impacts both labor scheduling and inventory waste. The base tier is included free; Cross-Intelligence Pro ($${CI_PRO_MONTHLY}/mo + $${CI_PRO_PER_LOC}/location) adds full correlation matrix, revenue attribution, spend efficiency radar, campaign pulse monitoring, and cannibalization detection.`
+    answer: `Cross-Intelligence surfaces hidden correlations between your data sources — for example how weather moves both labour scheduling and inventory waste. The base engine is included with every Core package at no extra cost. Cross-Intelligence Pro ($${CI_PRO_MONTHLY}/mo + $${CI_PRO_PER_LOC}/location) adds the full correlation matrix, revenue attribution, spend efficiency radar, campaign pulse monitoring, and cannibalization detection.`
   },
   {
-    question: 'What\'s included in Core Lite vs Core Pro?',
-    answer: 'Core Lite is designed for teams that need real-time operating intelligence with strong baseline AI capacity and dashboarding. Core Pro adds more AI capacity, deeper predictive workflows, and more favorable economics for scaled module usage. The exact included seats, credits, and pricing are pulled from the current published catalog.'
+    question: 'How much is implementation?',
+    answer: 'Implementation is charged ONCE, at the highest class in your selection — never summed per module. The classes are $0 self-service, $1,500 Class A, $2,500 Class B, $7,500 Class C, and from $12,500 Class D.'
   },
   {
-    question: 'How do volume discounts work?',
-    answer: 'Volume discounts (5% for growth chains at 30-99 locations, 7% for multi-site at 100-200) and billing discounts (10% annual, 15% 2-year) are non-stacking — you get whichever is larger, up to a maximum of 15%. Enterprise customers (30+ locations) receive custom pricing.'
+    question: 'How do discounts work?',
+    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% for annual and 15% for two-year. Volume and billing-cycle discounts COMBINE, capped at 15% in total. From 250 locations there is no self-serve band and pricing is quoted.'
   },
   {
     question: "What's the contract term?",
@@ -464,7 +353,7 @@ const watchtowerFAQ: FAQItem[] = [
   },
   {
     question: 'Does Watchtower require Core tier?',
-    answer: 'Yes. Watchtower is available exclusively for Core tier subscribers (Core Lite, Core Pro, or Enterprise). It is not available with Report tier.'
+    answer: 'Yes. Watchtower is available exclusively to Core subscribers — any Core package (Foundation, Margin, Growth or Performance) or Enterprise.'
   },
   {
     question: 'How does Watchtower pricing scale with locations?',
@@ -472,7 +361,7 @@ const watchtowerFAQ: FAQItem[] = [
   },
   {
     question: 'Is Enterprise pricing available for Watchtower?',
-    answer: 'Yes. Enterprise customers (30+ locations or $10,000+/month projected spend) receive custom Watchtower pricing, including flat-rate options. Contact sales for a custom quote.'
+    answer: 'Yes. Enterprise customers receive custom Watchtower pricing, including flat-rate options. Enterprise pricing is mandatory from 250 locations and available earlier on request. Contact sales for a custom quote.'
   },
   {
     question: 'Can I add individual Watchtower modules later?',
@@ -482,8 +371,8 @@ const watchtowerFAQ: FAQItem[] = [
 
 const generalFAQ: FAQItem[] = [
   {
-    question: 'Are there setup fees?',
-    answer: 'Yes. Some modules include one-time setup fees for onboarding and integration work. Discounts and waivers can apply depending on bundles, billing commitments, and enterprise arrangements. Quotes generated from the configurator reflect the live published setup-fee policy.'
+    question: 'How much is implementation?',
+    answer: 'Implementation is a one-time charge, billed once at the highest class in your selection: $0 self-service, $1,500 Class A, $2,500 Class B, $7,500 Class C, or from $12,500 Class D. It is never summed per module.'
   },
   {
     question: "What's the contract term?",
@@ -495,24 +384,19 @@ const generalFAQ: FAQItem[] = [
   },
   {
     question: 'How do discounts work?',
-    answer: 'Volume discounts (5% at 30-99 locations, 7% at 100-200) and billing discounts (10% annual, 15% 2-year) are non-stacking — you get whichever is larger, up to a maximum of 15%. Enterprise customers receive custom pricing.'
+    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% annual and 15% two-year. The two combine, capped at 15% in total. From 250 locations, pricing is quoted.'
   },
   {
     question: 'Are AI credits shared across locations?',
     answer: 'Yes. AI credits are pooled at the org level and can be used across all locations. Unused credits roll over at 25% of base credits (one month). Purchased top-up credits never expire.'
   },
   {
-    question: 'What are viewer seats vs user seats?',
-    answer: 'Viewer seats are read-only and separate from AI-enabled user seats. AI-enabled seats are the accounts that can ask questions, generate insights, and use advanced intelligence features. Included seat counts and any expansion pricing depend on the published tier catalog.'
-  },
-  {
     question: 'When does Enterprise pricing apply?',
-    answer: 'You are eligible for Enterprise pricing if you have 30+ locations, $10,000+/month projected spend, or need custom integrations, SSO/SAML, or custom SLAs. Eligible customers may choose standard pricing with a volume discount OR request custom Enterprise pricing.'
+    answer: 'Enterprise pricing is mandatory from 250 locations, where the self-serve volume ladder ends. Below that it is available on request when you need custom integrations, SSO/SAML, custom SLAs, or a security and compliance review.'
   }
 ];
 
 const faqByCategory: Record<FAQCategory, FAQItem[]> = {
-  report: reportFAQ,
   core: coreFAQ,
   watchtower: watchtowerFAQ,
   // Crew-specific FAQ content not yet authored; falling back to the
@@ -522,6 +406,20 @@ const faqByCategory: Record<FAQCategory, FAQItem[]> = {
   crew: generalFAQ,
   general: generalFAQ,
 };
+
+// Product names are proper nouns and are left untranslated in every locale
+// pack, so a literal match catches the retired entries across all 22 of them.
+const RETIRED_CATALOG_PATTERNS = [
+  /Report\s+(Lite|Plus|Pro)/i,
+  /Core\s+(Lite|Pro)\b/i,
+  /Sundae\s+Report/i,
+  /report[_-](lite|plus|pro)/i,
+  /core[_-](lite|pro)/i,
+];
+
+function mentionsRetiredCatalog(text: string): boolean {
+  return RETIRED_CATALOG_PATTERNS.some((pattern) => pattern.test(text));
+}
 
 interface PricingFAQProps {
   category?: FAQCategory;
@@ -533,7 +431,7 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
   // 'crew' has no dedicated FAQ pack yet; fall back to the general pool for
   // both generated + localized lookups. Local faqByCategory map already
   // points crew → generalFAQ, so the EN path is covered separately.
-  const lookupCategory: 'report' | 'core' | 'watchtower' | 'general' =
+  const lookupCategory: 'core' | 'watchtower' | 'general' =
     category === 'crew' ? 'general' : category;
   const generatedFaqItems =
     generatedAuxiliaryLocalePacks.pricingFaqs[locale as keyof typeof generatedAuxiliaryLocalePacks.pricingFaqs]?.[lookupCategory];
@@ -544,12 +442,21 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
     localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.[lookupCategory];
   const localizedGeneralFaqItems =
     localizedFaqsByLocale[locale as keyof typeof localizedFaqsByLocale]?.general;
-  const faqItems =
+  const resolvedFaqItems =
     localizedFaqItems ??
     generatedFaqItems ??
     (locale === 'en'
       ? faqByCategory[category] || generalFAQ
       : localizedGeneralFaqItems || generatedGeneralFaqItems || []);
+
+  // Translated FAQ packs still carry answers written for the retired price
+  // book (Report tiers, Core Lite/Pro, the "base covers N locations" mechanic,
+  // the old non-stacking discount rule). Retranslating 22 locales is a
+  // separate task; until then we DROP those entries rather than display a
+  // retired offer. Dropping is safe — a shorter FAQ beats a wrong one.
+  const faqItems = resolvedFaqItems.filter(
+    (item) => !mentionsRetiredCatalog(`${item.question} ${item.answer}`),
+  );
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);

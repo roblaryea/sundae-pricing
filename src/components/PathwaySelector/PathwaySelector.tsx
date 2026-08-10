@@ -19,7 +19,7 @@ export function PathwaySelector() {
   const [showPersona, setShowPersona] = useState(false);
   const [multiSelections, setMultiSelections] = useState<Record<string, string[]>>({});
   const [showMaxToast, setShowMaxToast] = useState(false);
-  const { quizAnswers, setQuizAnswer, setPersona, loadFromPersona, setCurrentStep, setModules, setLocations } = useConfiguration();
+  const { quizAnswers, setQuizAnswer, setPersona, loadFromPersona, setCurrentStep, setLocations } = useConfiguration();
 
   const question = quizQuestions[currentQuestion];
   const totalQuestions = quizQuestions.length;
@@ -45,9 +45,10 @@ export function PathwaySelector() {
       appetiteAnswer
     );
     
-    // Pre-set recommended modules
-    const recommendedModuleIds = getRecommendedModuleIds(moduleRec);
-    setModules(recommendedModuleIds);
+    // v1.7: the ranked domain modules are already included in every Core
+    // package, so nothing chargeable is preselected here. The ranking is kept
+    // for the "what your package covers" copy downstream.
+    void getRecommendedModuleIds(moduleRec);
     
     // Set location count from quiz
     const locationOption = quizQuestions[0].options.find(o => o.id === locationAnswer);
@@ -64,7 +65,7 @@ export function PathwaySelector() {
       origin: { y: 0.6 },
       colors: [result.persona.color, '#ffffff', '#FF5C4D']
     });
-  }, [locale, multiSelections, setModules, setLocations, setPersona, quizQuestions]);
+  }, [locale, multiSelections, setLocations, setPersona, quizQuestions]);
 
   const handleOptionClick = useCallback((optionId: string) => {
     if (isMultiSelect) {

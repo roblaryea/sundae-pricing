@@ -4,7 +4,8 @@ import { ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../hooks/useConfiguration';
 import { useLocale } from '../contexts/LocaleContext';
 import { tMicro } from '../lib/pricingI18n';
-import type { CrewSkuId } from '../types/configuration';
+import type { AddOnId, CorePackageId, CrewSkuId } from '../types/configuration';
+import { CORE_PACKAGE_IDS } from '../data/pricing';
 import { PathwaySelector } from '../components/PathwaySelector/PathwaySelector';
 import { LayerStack } from '../components/ConfigBuilder/LayerStack';
 import { TierSelector } from '../components/ConfigBuilder/TierSelector';
@@ -20,7 +21,7 @@ import { useLivePricingCatalog } from '../data/livePricing';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
 
 export function Simulator() {
-  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer, modules } = useConfiguration();
+  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer, addOns } = useConfiguration();
   const livePricing = useLivePricingCatalog();
   const { locale } = useLocale();
   // Where "Back" goes from each step, honoring path-specific skips (Crew collapses
@@ -29,11 +30,9 @@ export function Simulator() {
     currentStep === 7
       ? layer === 'crew'
         ? 2
-        : layer === 'report'
-          ? 3
-          : modules.length > 0
-            ? 6
-            : 5
+        : addOns.length > 0
+          ? 6
+          : 5
       : Math.max(0, currentStep - 1);
   const backLabel = tMicro(locale, 'back');
 
@@ -76,31 +75,34 @@ export function Simulator() {
     if (!raw) return;
     try {
       const b64 = raw.replace(/-/g, '+').replace(/_/g, '/');
+      // A deep link minted before price book v1.7 may still carry `layer:
+      // 'report'` or a retired tier id. Those are dropped, not translated —
+      // there is no v1.7 equivalent to silently substitute.
       const data = JSON.parse(atob(b64)) as {
         v?: number;
-        layer?: 'report' | 'core';
-        tier?: 'lite' | 'plus' | 'pro' | 'enterprise';
+        layer?: string;
+        corePackage?: CorePackageId;
         locations?: number;
-        modules?: string[];
+        addOns?: string[];
         watchtower?: boolean;
         crewSkus?: string[];
       };
       if (!data || data.v !== 1) return;
       const s = useConfiguration.getState();
-      if (data.layer === 'report' || data.layer === 'core') {
-        s.setLayer(data.layer);
-        if (data.tier) s.setTier(data.tier);
-        if (typeof data.locations === 'number') s.setLocations(data.locations);
-        if (data.layer === 'core') {
-          if (Array.isArray(data.modules)) s.setModules(data.modules);
-          s.setWatchtowerModules(data.watchtower ? ['bundle'] : []);
+      if (data.layer === 'core') {
+        s.setLayer('core');
+        if (data.corePackage && CORE_PACKAGE_IDS.includes(data.corePackage)) {
+          s.setCorePackage(data.corePackage);
         }
+        if (typeof data.locations === 'number') s.setLocations(data.locations);
+        if (Array.isArray(data.addOns)) s.setAddOns(data.addOns as AddOnId[]);
+        s.setWatchtowerModules(data.watchtower ? ['bundle'] : []);
       }
       if (Array.isArray(data.crewSkus) && data.crewSkus.length > 0) {
         s.setCrewSkus(data.crewSkus as CrewSkuId[]);
       }
       // Mark the journey complete so the summary renders fully, then jump to it.
-      (['persona', 'layer', 'tier', 'locations', 'modules', 'watchtower', 'roi'] as const)
+      (['persona', 'layer', 'package', 'locations', 'addons', 'watchtower', 'roi'] as const)
         .forEach((id) => s.markStepCompleted(id));
       s.setCurrentStep(7); // Review & Launch summary
     } catch {

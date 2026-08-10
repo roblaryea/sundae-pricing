@@ -21,6 +21,7 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
+import { CORE_DOMAIN_MODULE_IDS } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import {
   useROICalculation,
@@ -54,9 +55,9 @@ export function ROISimulator() {
   const copy = getRoiCopy(locale as PricingUiLocale);
   const {
     layer,
-    tier,
+    corePackage,
     locations,
-    modules,
+    addOns,
     watchtowerModules,
     roiInputs,
     setROIInputs,
@@ -65,11 +66,18 @@ export function ROISimulator() {
 
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
-  const pricing = usePriceCalculation(layer, tier, locations, modules, watchtowerModules);
-  // Crew never reaches ROISimulator; coerce the layer for the
-  // useROICalculation hook (which still uses the narrower union).
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
+  // v1.7: every Core package includes all eleven domain modules, so the ROI
+  // model credits every domain rather than only the ones the visitor ticked.
+  const activeDomains = CORE_DOMAIN_MODULE_IDS as readonly string[];
   const roi = useROICalculation(
-    { layer: layer === 'crew' ? null : layer, tier, locations, modules, watchtowerModules },
+    {
+      layer: layer === 'crew' ? null : layer,
+      corePackage,
+      locations,
+      activeDomains: [...activeDomains],
+      watchtowerModules,
+    },
     roiInputs,
     pricing.total
   );
@@ -93,9 +101,9 @@ export function ROISimulator() {
   const totalLabel = tMicro(locale, 'total');
 
   const topCategories = getTopSavingsCategories(roi.savingsLines);
-  const hasMarketingModule = modules.includes('marketing');
-  const hasDeliveryModule = modules.includes('delivery');
-  const hasGuestModule = modules.includes('guest');
+  const hasMarketingModule = activeDomains.includes('marketing');
+  const hasDeliveryModule = activeDomains.includes('delivery');
+  const hasGuestModule = activeDomains.includes('guest');
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -333,19 +341,6 @@ export function ROISimulator() {
               {copy.savingsNote}
             </p>
           </div>
-        </motion.div>
-      )}
-
-      {modules.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="bg-sundae-surface rounded-xl p-8 mb-8 text-center"
-        >
-          <AlertCircle className="w-12 h-12 mx-auto mb-4 text-sundae-muted" />
-          <h3 className="text-lg font-bold mb-2">{copy.noModulesSelected}</h3>
-          <p className="text-sundae-muted">{copy.noModulesBody}</p>
         </motion.div>
       )}
 

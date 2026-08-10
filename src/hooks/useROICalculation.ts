@@ -6,10 +6,15 @@ import { useLocale } from '../contexts/LocaleContext';
 import { getRoiCopy, type PricingUiLocale, formatMessage } from '../lib/pricingUiCopy';
 
 interface Configuration {
-  layer: 'report' | 'core' | null;
-  tier: 'lite' | 'plus' | 'pro' | 'enterprise' | null;
+  layer: 'core' | null;
+  corePackage: string | null;
   locations: number;
-  modules: string[];
+  /**
+   * Core DOMAIN modules whose savings apply. Under price book v1.7 every Core
+   * package includes all eleven, so callers pass the full list — the field is
+   * kept so the ROI model stays explicit about which domains it is crediting.
+   */
+  activeDomains: string[];
   watchtowerModules: string[];
 }
 
@@ -257,27 +262,27 @@ export function useROICalculation(
     // ═══════════════════════════════════════════════════════════════════
     
     // Labor Intelligence
-    if (config.modules.includes('labor')) {
+    if (config.activeDomains.includes('labor')) {
       totalSavings += addSavingsLine('labor', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.labor);
     }
     
     // Inventory Connect
-    if (config.modules.includes('inventory')) {
+    if (config.activeDomains.includes('inventory')) {
       totalSavings += addSavingsLine('inventory', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.inventory);
     }
     
     // Purchasing Analytics
-    if (config.modules.includes('purchasing')) {
+    if (config.activeDomains.includes('purchasing')) {
       totalSavings += addSavingsLine('purchasing', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.purchasing);
     }
     
     // Reservations Intelligence
-    if (config.modules.includes('reservations')) {
+    if (config.activeDomains.includes('reservations')) {
       totalSavings += addSavingsLine('reservations', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.reservations);
     }
     
     // Marketing Performance (requires marketing spend input)
-    if (config.modules.includes('marketing')) {
+    if (config.activeDomains.includes('marketing')) {
       const hasMarketingInput = marketingSpend > 0;
       const marketingBase = marketingSpend * config.locations;
       totalSavings += addSavingsLine(
@@ -290,17 +295,17 @@ export function useROICalculation(
     }
     
     // Profit Intelligence
-    if (config.modules.includes('profit')) {
+    if (config.activeDomains.includes('profit')) {
       totalSavings += addSavingsLine('profit', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.profit);
     }
     
     // Revenue Assurance
-    if (config.modules.includes('revenue')) {
+    if (config.activeDomains.includes('revenue')) {
       totalSavings += addSavingsLine('revenue', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.revenue);
     }
     
     // Delivery Economics (requires delivery revenue % input)
-    if (config.modules.includes('delivery')) {
+    if (config.activeDomains.includes('delivery')) {
       const hasDeliveryInput = deliveryRevenuePct > 0;
       const deliveryRevenue = totalMonthlyRevenue * (deliveryRevenuePct / 100);
       totalSavings += addSavingsLine(
@@ -313,7 +318,7 @@ export function useROICalculation(
     }
     
     // Guest Experience (soft benefit unless review data exists)
-    if (config.modules.includes('guest')) {
+    if (config.activeDomains.includes('guest')) {
       const countInTotal = hasReviewData;
       totalSavings += addSavingsLine(
         'guest',

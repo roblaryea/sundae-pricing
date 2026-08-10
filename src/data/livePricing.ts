@@ -1,30 +1,37 @@
 import { useEffect, useState } from 'react';
-import { coreTiers, moduleBundles, modules, reportTiers, watchtower } from './pricing';
+// ── Live catalog overlay (price book v1.7) ────────────────────────────────
+// The published catalog can only patch NUMERIC values on SKUs this app still
+// offers. Under v1.7 that means: the four Core packages (first-unit anchor +
+// marginal bands + AI credit wallet), Foresight & Action, the concept SKUs,
+// and Watchtower. It deliberately can no longer patch the retired
+// report_lite / report_plus / report_pro / core_lite / core_pro ids, nor the
+// per-module prices that v1.7 removed — those SKUs are not sold, so a live
+// value for them would have nothing to price.
+import {
+  conceptSkus,
+  corePackages,
+  foresightAction,
+  watchtower,
+  isRetiredCatalogId,
+} from './pricing';
+import type { BandedSku, ConceptSkuId, CorePackageId, MarginalBand } from './pricing';
 
-type LiveCatalogTier = {
-  id: string;
-  basePrice?: number | null;
-  perLocationPrice?: number | null;
-  aiCreditsBase?: number | null;
-  aiCreditsPerLocation?: number | null;
-  aiSeatsIncluded?: number | null;
+type LiveCatalogBand = {
+  fromUnit?: number | null;
+  toUnit?: number | null;
+  pricePerUnit?: number | null;
 };
 
-type LiveCatalogModule = {
+type LiveCatalogPackage = {
   id: string;
-  orgLicense?: number | null;
-  perLocationPrice?: number | null;
-  baseIncludesLocations?: number | null;
-  setupFee?: number | null;
-  dependencies?: string[] | null;
-  pricingByTier?: Record<
-    string,
-    {
-      orgLicense?: number | null;
-      perLocationPrice?: number | null;
-      baseIncludesLocations?: number | null;
-    }
-  > | null;
+  firstUnitPrice?: number | null;
+  marginalBands?: LiveCatalogBand[] | null;
+  aiCreditWallet?: number | null;
+};
+
+type LiveCatalogConcept = {
+  id: string;
+  monthlyPrice?: number | null;
 };
 
 type LiveCatalogWatchtower = {
@@ -34,17 +41,11 @@ type LiveCatalogWatchtower = {
   baseIncludesLocations?: number | null;
 };
 
-type LiveCatalogBundle = {
-  id: string;
-  moduleIds?: string[] | null;
-  discountPercent?: number | null;
-};
-
 type LiveCatalogResponse = {
-  tiers?: LiveCatalogTier[];
-  modules?: LiveCatalogModule[];
+  corePackages?: LiveCatalogPackage[];
+  foresightAction?: LiveCatalogPackage | null;
+  concepts?: LiveCatalogConcept[];
   watchtower?: LiveCatalogWatchtower[];
-  bundles?: LiveCatalogBundle[] | { modules?: LiveCatalogBundle[] | null } | null;
 };
 
 type LivePricingStatus = 'idle' | 'loading' | 'ready' | 'error' | 'disabled';
@@ -55,16 +56,6 @@ export interface LivePricingState {
   error: string | null;
   required: boolean;
 }
-
-type MutableTier = {
-  basePrice: number | string;
-  additionalLocationPrice: number | string;
-  aiCredits: {
-    base: number;
-    perLocation: number;
-  };
-  aiSeats: number | string;
-};
 
 const ENV_BASE_URL =
   import.meta.env.VITE_PRICING_CATALOG_URL ||
@@ -155,20 +146,20 @@ function buildLiveCatalogRequestUrl(url: string) {
 }
 
 export function normalizeLiveCatalogResponse(data: LiveCatalogResponse): {
-  tiers?: LiveCatalogTier[];
-  modules?: LiveCatalogModule[];
-  watchtower?: LiveCatalogWatchtower[];
-  bundles?: LiveCatalogBundle[];
+  corePackages: LiveCatalogPackage[];
+  foresightAction: LiveCatalogPackage | null;
+  concepts: LiveCatalogConcept[];
+  watchtower: LiveCatalogWatchtower[];
 } {
-  const bundles = Array.isArray(data.bundles)
-    ? data.bundles
-    : data.bundles?.modules ?? [];
+  // Retired ids are dropped at the door: nothing downstream should be able to
+  // resurrect a Report tier or Core Lite/Pro by publishing a price for it.
+  const corePackageRows = (data.corePackages ?? []).filter((row) => !isRetiredCatalogId(row.id));
 
   return {
-    tiers: data.tiers,
-    modules: data.modules,
-    watchtower: data.watchtower,
-    bundles,
+    corePackages: corePackageRows,
+    foresightAction: data.foresightAction ?? null,
+    concepts: data.concepts ?? [],
+    watchtower: data.watchtower ?? [],
   };
 }
 
@@ -198,132 +189,62 @@ function setState(patch: Partial<LivePricingState>) {
   emit();
 }
 
-function applyLiveTierValues(tiers: LiveCatalogTier[] | undefined) {
-  if (!tiers?.length) return;
-
-  const byId = new Map(tiers.map((tier) => [tier.id, tier]));
-  const patchTier = (tier: MutableTier, live: LiveCatalogTier | undefined) => {
-    if (!live) return;
-    if (typeof live.basePrice === 'number') tier.basePrice = live.basePrice;
-    if (typeof live.perLocationPrice === 'number') tier.additionalLocationPrice = live.perLocationPrice;
-    if (typeof live.aiCreditsBase === 'number') tier.aiCredits.base = live.aiCreditsBase;
-    if (typeof live.aiCreditsPerLocation === 'number') tier.aiCredits.perLocation = live.aiCreditsPerLocation;
-    if (typeof live.aiSeatsIncluded === 'number') tier.aiSeats = live.aiSeatsIncluded;
-  };
-
-  patchTier(reportTiers.lite as MutableTier, byId.get('report_lite'));
-  patchTier(reportTiers.plus as MutableTier, byId.get('report_plus'));
-  patchTier(reportTiers.pro as MutableTier, byId.get('report_pro'));
-  patchTier(coreTiers.lite as MutableTier, byId.get('core_lite'));
-  patchTier(coreTiers.pro as MutableTier, byId.get('core_pro'));
-}
-
-function applyLiveModuleValues(liveModules: LiveCatalogModule[] | undefined) {
-  if (!liveModules?.length) return;
-
-  const byId = new Map(liveModules.map((module) => [module.id, module]));
-
-  for (const [moduleId, moduleConfig] of Object.entries(modules)) {
-    const liveModule = byId.get(moduleId);
-    if (!liveModule) continue;
-
-    if (typeof liveModule.orgLicense === 'number') {
-      moduleConfig.orgLicensePrice = liveModule.orgLicense;
+function applyLiveBands(sku: BandedSku, live: LiveCatalogPackage | null | undefined) {
+  if (!live) return;
+  if (typeof live.firstUnitPrice === 'number') {
+    sku.firstUnitPrice = live.firstUnitPrice;
+  }
+  if (Array.isArray(live.marginalBands) && live.marginalBands.length > 0) {
+    const bands: MarginalBand[] = [];
+    for (const row of live.marginalBands) {
+      if (typeof row.fromUnit !== 'number' || typeof row.pricePerUnit !== 'number') continue;
+      const toUnit = typeof row.toUnit === 'number' ? row.toUnit : null;
+      bands.push({
+        fromUnit: row.fromUnit,
+        toUnit,
+        pricePerUnit: row.pricePerUnit,
+        label: toUnit === null ? `Units ${row.fromUnit}+` : `Units ${row.fromUnit}\u2013${toUnit}`,
+      });
     }
-    if (typeof liveModule.perLocationPrice === 'number') {
-      moduleConfig.perLocationPrice = liveModule.perLocationPrice;
-    }
-    if (typeof liveModule.baseIncludesLocations === 'number') {
-      moduleConfig.baseIncludesLocations = liveModule.baseIncludesLocations;
-    }
-    if (typeof liveModule.setupFee === 'number') {
-      moduleConfig.setupFee = liveModule.setupFee;
-    }
-    if (Array.isArray(liveModule.dependencies)) {
-      moduleConfig.prerequisites = [...liveModule.dependencies];
-    }
-    if (liveModule.pricingByTier) {
-      const nextPricingByTier = {} as NonNullable<typeof moduleConfig.pricingByTier>;
-
-      for (const [tierKey, tierPricing] of Object.entries(liveModule.pricingByTier)) {
-        nextPricingByTier[tierKey as keyof typeof nextPricingByTier] = {
-          orgLicensePrice:
-            typeof tierPricing.orgLicense === 'number'
-              ? tierPricing.orgLicense
-              : moduleConfig.orgLicensePrice,
-          perLocationPrice:
-            typeof tierPricing.perLocationPrice === 'number'
-              ? tierPricing.perLocationPrice
-              : moduleConfig.perLocationPrice,
-        };
-      }
-
-      if (Object.keys(nextPricingByTier).length > 0) {
-        moduleConfig.pricingByTier = nextPricingByTier;
-      }
+    if (bands.length > 0) {
+      sku.marginalBands = bands;
     }
   }
 }
 
-function recalculateModuleBundleValues(liveBundles: LiveCatalogBundle[] | undefined) {
-  const bundleMap = new Map((liveBundles || []).map((bundle) => [bundle.id, bundle]));
+function applyLiveCorePackages(rows: LiveCatalogPackage[]) {
+  if (!rows.length) return;
+  const byId = new Map(rows.map((row) => [row.id, row]));
 
-  for (const bundle of Object.values(moduleBundles)) {
-    const liveBundle = bundleMap.get(bundle.id);
-    const bundleModuleIds = Array.isArray(liveBundle?.moduleIds) && liveBundle.moduleIds.length > 0
-      ? liveBundle.moduleIds
-      : bundle.modules;
-
-    const moduleConfigs = bundleModuleIds
-      .map((moduleId) => modules[moduleId as keyof typeof modules])
-      .filter(Boolean);
-    if (moduleConfigs.length === 0) continue;
-
-    bundle.modules = [...bundleModuleIds] as typeof bundle.modules;
-
-    const baseModuleTotal = moduleConfigs.reduce((sum, moduleConfig) => sum + moduleConfig.orgLicensePrice, 0);
-    const perLocationModuleTotal = moduleConfigs.reduce(
-      (sum, moduleConfig) => sum + moduleConfig.perLocationPrice,
-      0
-    );
-
-    const liveDiscountRatio =
-      typeof liveBundle?.discountPercent === 'number'
-        ? Math.max(0, liveBundle.discountPercent / 100)
-        : null;
-    const baseDiscountRatio =
-      liveDiscountRatio ??
-      (baseModuleTotal > 0 ? Math.max(0, 1 - bundle.basePrice / baseModuleTotal) : 0);
-    const perLocationDiscountRatio =
-      liveDiscountRatio ??
-      (perLocationModuleTotal > 0
-        ? Math.max(0, 1 - bundle.perLocationPrice / perLocationModuleTotal)
-        : 0);
-
-    bundle.basePrice = Math.round(baseModuleTotal * (1 - baseDiscountRatio));
-    bundle.perLocationPrice = Math.round(perLocationModuleTotal * (1 - perLocationDiscountRatio));
-
-    for (const [tierKey, tierPricing] of Object.entries(bundle.pricingByTier)) {
-      const tierModuleTotal = moduleConfigs.reduce((sum, moduleConfig) => {
-        const liveTierPricing = moduleConfig.pricingByTier?.[tierKey as keyof typeof moduleConfig.pricingByTier];
-        return sum + (liveTierPricing?.orgLicensePrice ?? moduleConfig.orgLicensePrice);
-      }, 0);
-
-      const tierPerLocationTotal = moduleConfigs.reduce((sum, moduleConfig) => {
-        const liveTierPricing = moduleConfig.pricingByTier?.[tierKey as keyof typeof moduleConfig.pricingByTier];
-        return sum + (liveTierPricing?.perLocationPrice ?? moduleConfig.perLocationPrice);
-      }, 0);
-
-      tierPricing.basePrice = Math.round(tierModuleTotal * (1 - baseDiscountRatio));
-      tierPricing.perLocationPrice = Math.round(
-        tierPerLocationTotal * (1 - perLocationDiscountRatio)
-      );
+  for (const packageId of Object.keys(corePackages) as CorePackageId[]) {
+    const live = byId.get(packageId);
+    if (!live) continue;
+    const pkg = corePackages[packageId];
+    applyLiveBands(pkg, live);
+    if (typeof live.aiCreditWallet === 'number') {
+      pkg.aiCreditWallet = live.aiCreditWallet;
     }
   }
 }
 
-function applyLiveWatchtowerValues(liveWatchtower: LiveCatalogWatchtower[] | undefined) {
-  if (!liveWatchtower?.length) return;
+function applyLiveForesightAction(live: LiveCatalogPackage | null) {
+  applyLiveBands(foresightAction, live);
+}
+
+function applyLiveConcepts(rows: LiveCatalogConcept[]) {
+  if (!rows.length) return;
+  const byId = new Map(rows.map((row) => [row.id, row]));
+
+  for (const conceptId of Object.keys(conceptSkus) as ConceptSkuId[]) {
+    const live = byId.get(conceptId);
+    if (live && typeof live.monthlyPrice === 'number') {
+      conceptSkus[conceptId].monthlyPrice = live.monthlyPrice;
+    }
+  }
+}
+
+function applyLiveWatchtowerValues(liveWatchtower: LiveCatalogWatchtower[]) {
+  if (!liveWatchtower.length) return;
 
   const byId = new Map(liveWatchtower.map((item) => [item.id, item]));
 
@@ -345,9 +266,9 @@ function applyLiveWatchtowerValues(liveWatchtower: LiveCatalogWatchtower[] | und
 
 function applyLiveCatalogValues(data: LiveCatalogResponse) {
   const normalized = normalizeLiveCatalogResponse(data);
-  applyLiveTierValues(normalized.tiers);
-  applyLiveModuleValues(normalized.modules);
-  recalculateModuleBundleValues(normalized.bundles);
+  applyLiveCorePackages(normalized.corePackages);
+  applyLiveForesightAction(normalized.foresightAction);
+  applyLiveConcepts(normalized.concepts);
   applyLiveWatchtowerValues(normalized.watchtower);
 
   livePricingState = {

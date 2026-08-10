@@ -16,7 +16,7 @@ interface ProgressIndicatorProps {
 
 export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressIndicatorProps) {
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
-  const { layer, tier } = useConfiguration();
+  const { layer } = useConfiguration();
   const { messages } = useLocale();
   const stepLabels = messages.simulator.journey;
 
@@ -24,7 +24,7 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
 
   const handleStepClick = (index: number) => {
     // Check if step is available for current tier
-    if (!shouldShowStep(index, layer, tier)) {
+    if (!shouldShowStep(index, layer)) {
       return; // Don't allow navigation to unavailable steps
     }
     
@@ -41,7 +41,7 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
     <div className="hidden md:flex items-center gap-2">
       {steps.map((step, index) => {
         // Check if this step should be shown for the current tier
-        const isAvailable = shouldShowStep(index, layer, tier);
+        const isAvailable = shouldShowStep(index, layer);
         
         // Skip rendering unavailable steps
         if (!isAvailable) {

@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import type { Configuration, CrewSkuId } from '../types/configuration';
+import type { AddOnId, Configuration, CorePackageId, CrewSkuId } from '../types/configuration';
 import { crewSkus } from '../data/pricing';
 import type { CompetitorId } from '../data/competitors';
 import type { ROIInputs } from './useROICalculation';
@@ -43,16 +43,16 @@ export interface ConfigurationState extends Configuration {
   isAnimating: boolean;
   
   // Actions
-  setLayer: (layer: 'report' | 'core' | 'crew' | null) => void;
-  setTier: (tier: 'lite' | 'plus' | 'pro' | 'enterprise') => void;
+  setLayer: (layer: 'core' | 'crew' | null) => void;
+  setCorePackage: (corePackage: CorePackageId) => void;
   // Crew multi-select API. `toggle` flips a single SKU and auto-resolves
   // prerequisites + mutual exclusions. `set` replaces the entire set (used
   // when picking a one-click preset like Operating Suite / Complete Suite).
   toggleCrewSku: (sku: CrewSkuId) => void;
   setCrewSkus: (skus: CrewSkuId[]) => void;
   setLocations: (locations: number) => void;
-  toggleModule: (moduleId: string) => void;
-  setModules: (modules: string[]) => void;
+  toggleAddOn: (addOnId: AddOnId) => void;
+  setAddOns: (addOns: AddOnId[]) => void;
   toggleWatchtowerModule: (moduleId: string) => void;
   setWatchtowerModules: (modules: string[]) => void;
   setCrossIntelligence: (selection: 'none' | 'base' | 'pro') => void;
@@ -80,10 +80,10 @@ export interface ConfigurationState extends Configuration {
 
 const initialState = {
   // Configuration
-  layer: null as 'report' | 'core' | 'crew' | null,
-  tier: 'lite' as 'lite' | 'plus' | 'pro' | 'enterprise',
+  layer: null as 'core' | 'crew' | null,
+  corePackage: 'core_foundation' as CorePackageId,
   locations: 1,
-  modules: [] as string[],
+  addOns: [] as AddOnId[],
   watchtowerModules: [] as string[],
   crossIntelligence: 'none' as 'none' | 'base' | 'pro',
   crewSkus: [] as CrewSkuId[],
@@ -100,7 +100,7 @@ const initialState = {
     { id: 'layer', name: 'Choose Your Layer', completed: false },
     { id: 'tier', name: 'Select Your Tier', completed: false },
     { id: 'locations', name: 'Configure Locations', completed: false },
-    { id: 'modules', name: 'Add Modules', completed: false },
+    { id: 'addons', name: 'Add-ons', completed: false },
     { id: 'watchtower', name: 'Watchtower Intel', completed: false },
     { id: 'roi', name: 'Calculate ROI', completed: false },
     { id: 'summary', name: 'Review & Launch', completed: false }
@@ -151,7 +151,7 @@ export const useConfiguration = create<ConfigurationState>()(
               : ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'];
             set({
               layer,
-              modules: [],
+              addOns: [],
               watchtowerModules: [],
               crossIntelligence: 'none' as const,
               crewSkus: seed,
@@ -175,7 +175,7 @@ export const useConfiguration = create<ConfigurationState>()(
           if (sku === 'crew_lite') {
             const next: CrewSkuId[] = isAdding ? ['crew_lite'] : [];
             set({ crewSkus: next, locations: isAdding ? Math.min(get().locations, 5) : get().locations });
-            get().markStepCompleted('tier');
+            get().markStepCompleted('package');
             get().checkAchievements();
             return;
           }
@@ -238,7 +238,7 @@ export const useConfiguration = create<ConfigurationState>()(
           }
 
           set({ crewSkus: next });
-          get().markStepCompleted('tier');
+          get().markStepCompleted('package');
           get().checkAchievements();
         },
 
@@ -248,41 +248,16 @@ export const useConfiguration = create<ConfigurationState>()(
           if (skus.length === 1 && skus[0] === 'crew_lite') {
             set({ locations: Math.min(get().locations, 5) });
           }
-          get().markStepCompleted('tier');
+          get().markStepCompleted('package');
           get().checkAchievements();
         },
         
-        setTier: (tier) => {
-          const { layer } = get();
-          const updates: Partial<ConfigurationState> = { tier };
-          
-          // Import tier availability check
-          const key = `${layer}-${tier}`;
-          const TIER_AVAILABILITY: Record<string, { modules: boolean; watchtower: boolean }> = {
-            'report-lite': { modules: false, watchtower: false },
-            'report-plus': { modules: false, watchtower: false },
-            'report-pro': { modules: false, watchtower: false },
-            'report-enterprise': { modules: false, watchtower: false },
-            'core-lite': { modules: true, watchtower: true },
-            'core-pro': { modules: true, watchtower: true },
-            'core-enterprise': { modules: true, watchtower: true }
-          };
-          
-          const features = TIER_AVAILABILITY[key];
-          
-          // Clear modules if tier doesn't support them
-          if (features && !features.modules) {
-            updates.modules = [];
-            updates.crossIntelligence = 'none' as const;
-          }
-
-          // Clear watchtower if tier doesn't support it
-          if (features && !features.watchtower) {
-            updates.watchtowerModules = [];
-          }
-          
-          set(updates);
-          get().markStepCompleted('tier');
+        // v1.7: all four Core packages carry the same add-on and Watchtower
+        // eligibility (every package ships all eleven domain modules), so
+        // switching package never has to strip a selection.
+        setCorePackage: (corePackage) => {
+          set({ corePackage });
+          get().markStepCompleted('package');
           get().checkAchievements();
         },
         
@@ -298,35 +273,22 @@ export const useConfiguration = create<ConfigurationState>()(
           get().checkAchievements();
         },
         
-        toggleModule: (moduleId) => {
-          const modules = get().modules;
-          const newModules = modules.includes(moduleId)
-            ? modules.filter(id => id !== moduleId)
-            : [...modules, moduleId];
-          const updates: Partial<ConfigurationState> = { modules: newModules };
-          // Auto-enable Cross-Intelligence Base when 3+ modules
-          if (newModules.length >= 3 && get().crossIntelligence === 'none') {
-            updates.crossIntelligence = 'base' as const;
-          } else if (newModules.length < 3 && get().crossIntelligence !== 'none') {
-            updates.crossIntelligence = 'none' as const;
-          }
-          set(updates);
-          if (newModules.length > 0) {
-            get().markStepCompleted('modules');
+        toggleAddOn: (addOnId) => {
+          const addOns = get().addOns;
+          const next = addOns.includes(addOnId)
+            ? addOns.filter((id) => id !== addOnId)
+            : [...addOns, addOnId];
+          set({ addOns: next });
+          if (next.length > 0) {
+            get().markStepCompleted('addons');
           }
           get().checkAchievements();
         },
 
-        setModules: (modules) => {
-          const updates: Partial<ConfigurationState> = { modules };
-          if (modules.length >= 3 && get().crossIntelligence === 'none') {
-            updates.crossIntelligence = 'base' as const;
-          } else if (modules.length < 3) {
-            updates.crossIntelligence = 'none' as const;
-          }
-          set(updates);
-          if (modules.length > 0) {
-            get().markStepCompleted('modules');
+        setAddOns: (addOns) => {
+          set({ addOns });
+          if (addOns.length > 0) {
+            get().markStepCompleted('addons');
           }
           get().checkAchievements();
         },
@@ -448,31 +410,30 @@ export const useConfiguration = create<ConfigurationState>()(
         
         checkAchievements: () => {
           const state = get();
-          
-          // Check tier selection
-          if (state.tier && !state.unlockedAchievements.includes('stack-builder')) {
+
+          // Check package selection
+          if (state.corePackage && !state.unlockedAchievements.includes('stack-builder')) {
             state.unlockAchievement('stack-builder');
           }
-          
-          // Check module count
-          if (state.modules.length >= 2 && !state.unlockedAchievements.includes('module-master')) {
+
+          // Check add-on count
+          if (state.addOns.length >= 2 && !state.unlockedAchievements.includes('module-master')) {
             state.unlockAchievement('module-master');
           }
-          
+
           // Check Watchtower
           if (state.watchtowerModules.length > 0 && !state.unlockedAchievements.includes('intelligence-commander')) {
             state.unlockAchievement('intelligence-commander');
           }
-          
-          // Check efficiency combo
-          if (state.modules.includes('labor') && state.modules.includes('inventory') && 
-              !state.unlockedAchievements.includes('efficiency-expert')) {
+
+          // Every Core package ships all eleven domain modules, so the
+          // labour + inventory pairing is satisfied by any package.
+          if (state.corePackage && !state.unlockedAchievements.includes('efficiency-expert')) {
             state.unlockAchievement('efficiency-expert');
           }
-          
-          // Check all modules (now 12 modules)
-          const allModules = ['labor', 'inventory', 'marketing', 'purchasing', 'reservations', 'profit', 'revenue', 'delivery', 'guest', 'accounting', 'guest_crm', 'economic'];
-          if (allModules.every(m => state.modules.includes(m)) && 
+
+          // Full stack = Foresight & Action plus at least one concept SKU.
+          if (state.addOns.includes('foresight_action') && state.addOns.length >= 2 &&
               !state.unlockedAchievements.includes('full-stack')) {
             state.unlockAchievement('full-stack');
           }
@@ -493,45 +454,38 @@ export const useConfiguration = create<ConfigurationState>()(
         reset: () => set(initialState),
         
         loadFromPersona: (persona) => {
-          // Set recommended configuration based on persona
-          // NOTE: modules are NOT set here - they are set by the recommendation engine
-          // in PathwaySelector based on user's "keeps you up at night" answers
-          let layer: 'report' | 'core' = 'report';
-          let tier: 'lite' | 'plus' | 'pro' | 'enterprise' = 'lite';
-          
-          if (persona.recommendedPath.includes('report')) {
-            layer = 'report';
-            if (persona.recommendedPath.includes('lite')) tier = 'lite';
-            else if (persona.recommendedPath.includes('plus')) tier = 'plus';
-            else if (persona.recommendedPath.includes('pro')) tier = 'pro';
-          } else if (persona.recommendedPath.includes('core')) {
-            layer = 'core';
-            if (persona.recommendedPath.includes('lite')) tier = 'lite';
-            else if (persona.recommendedPath.includes('pro')) tier = 'pro';
-          }
-          
-          const watchtowerModules = persona.recommendedPath.includes('watchtower') ? ['bundle'] : [];
-          
-          // Only set layer, tier, and watchtower - DO NOT overwrite modules
-          // Modules are pre-selected by the recommendation engine based on quiz answers
+          // v1.7: the Report layer is retired, so every analytics persona lands
+          // on a Core package. `recommendedPath` carries the package slug.
+          const path = persona.recommendedPath;
+          let corePackage: CorePackageId = 'core_foundation';
+          if (path.includes('performance')) corePackage = 'core_performance';
+          else if (path.includes('growth')) corePackage = 'core_growth';
+          else if (path.includes('margin')) corePackage = 'core_margin';
+
+          const watchtowerModules = path.includes('watchtower') ? ['bundle'] : [];
+
+          // Only set layer, package, and Watchtower — add-ons are pre-selected
+          // by the recommendation engine based on quiz answers.
           set({
-            layer,
-            tier,
+            layer: 'core',
+            corePackage,
             watchtowerModules
           });
-          
-          // Mark appropriate steps as completed
+
           get().markStepCompleted('layer');
         }
       }),
       {
-        name: 'sundae-pricing-config',
+        // Key bumped for price book v1.7: the persisted shape changed
+        // (tier/modules → corePackage/addOns) and the old shape references
+        // retired catalog ids. A fresh key discards it outright.
+        name: 'sundae-pricing-config-v1-7',
         partialize: (state) => ({
           // Only persist essential configuration
           layer: state.layer,
-          tier: state.tier,
+          corePackage: state.corePackage,
           locations: state.locations,
-          modules: state.modules,
+          addOns: state.addOns,
           watchtowerModules: state.watchtowerModules,
           crossIntelligence: state.crossIntelligence,
           crewSkus: state.crewSkus,

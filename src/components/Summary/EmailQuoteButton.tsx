@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { Mail, Loader2, CheckCircle, Download } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
+import { corePackages } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { LEGAL } from '../../config/legal';
 import { useLocale } from '../../contexts/LocaleContext';
@@ -20,8 +21,8 @@ export function EmailQuoteButton() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   
-  const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
-  const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
+  const { layer, corePackage, locations, addOns, watchtowerModules } = useConfiguration();
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
   
   const handleEmailQuote = async () => {
     setIsGenerating(true);
@@ -32,9 +33,9 @@ export function EmailQuoteButton() {
       // Step 1: Generate and download PDF
       const pdfBlob = await generateQuotePDF(
         layer,
-        tier,
+        corePackage,
         locations,
-        selectedModules,
+        addOns,
         watchtowerModules,
         pricing,
         locale as PricingLocale
@@ -54,14 +55,13 @@ export function EmailQuoteButton() {
       URL.revokeObjectURL(url);
       
       // Step 2: Prepare email content
-      const tierName = layer && tier
-        ? localizeTierName(
-            `${layer === 'report' ? 'Report' : 'Core'} ${tier.charAt(0).toUpperCase()}${tier.slice(1)}`,
-            locale as PricingLocale
-          )
+      const tierName = layer && corePackage
+        ? localizeTierName(corePackages[corePackage].name, locale as PricingLocale)
         : messages.quote.none;
-      const moduleList = selectedModules.length > 0 
-        ? selectedModules.map((moduleId) => localizeModuleName(moduleId, locale as PricingLocale)).join(', ')
+      // Add-ons only. The eleven Core domain modules are package components
+      // and must not be listed as separate purchased lines.
+      const moduleList = addOns.length > 0
+        ? addOns.map((addOnId: string) => localizeModuleName(addOnId, locale as PricingLocale)).join(', ')
         : messages.quote.none;
       const watchtowerList = watchtowerModules.includes('bundle')
         ? localizeWatchtowerName('bundle', locale as PricingLocale)

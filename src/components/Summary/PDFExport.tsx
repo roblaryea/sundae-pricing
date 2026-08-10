@@ -12,8 +12,8 @@ export function PDFExportButton() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   
-  const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
-  const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
+  const { layer, corePackage, locations, addOns, watchtowerModules } = useConfiguration();
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
   
   const handleDownload = async () => {
     setIsGenerating(true);
@@ -24,9 +24,9 @@ export function PDFExportButton() {
       // Generate PDF using shared utility
       const pdfBlob = await generateQuotePDF(
         layer,
-        tier,
+        corePackage,
         locations,
-        selectedModules,
+        addOns,
         watchtowerModules,
         pricing,
         locale

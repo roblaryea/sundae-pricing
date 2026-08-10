@@ -1,75 +1,62 @@
-// Pricing calculation utilities - dynamic, never hardcoded
-// All values sourced from pricing.ts
+// Pricing calculation utilities — dynamic, never hardcoded.
+// All values sourced from pricing.ts / pricingEngine.ts.
+//
+// The former Core Lite ⇄ Core Pro break-even helpers were removed with price
+// book v1.7: those two tiers are retired, and the four Core packages are not
+// substitutes for one another at scale — they differ in scope, not in a
+// crossover point. `calculateBandedTotal` is the only correct way to compare
+// two packages at a given unit count.
 
-import { coreTiers } from '../data/pricing';
-import { getCoreProAdvantageText, type PricingUiLocale } from '../lib/pricingUiCopy';
+import { corePackages, CORE_PACKAGE_IDS } from '../data/pricing';
+import type { CorePackageId } from '../data/pricing';
+import { calculateBandedTotal, marginalRateForNextUnit } from '../lib/pricingEngine';
 
-/**
- * Calculate the break-even point between Core Lite and Core Pro
- * Returns the number of locations where the two tiers cost the same
- */
-export function calculateCoreProBreakEven(): number {
-  const liteBase = coreTiers.lite.basePrice as number;
-  const litePerLoc = coreTiers.lite.additionalLocationPrice as number;
-  const proBase = coreTiers.pro.basePrice as number;
-  const proPerLoc = coreTiers.pro.additionalLocationPrice as number;
+export interface CorePackageQuote {
+  id: CorePackageId;
+  name: string;
+  /** Total monthly price at this unit count (anchor + marginal bands). */
+  total: number;
+  /** Derived AVERAGE per unit — never a rate card. */
+  averagePerUnit: number;
+  /** What the NEXT unit would cost at this scale. */
+  nextUnitPrice: number | null;
+}
 
-  // If Pro's per-location isn't cheaper, no break-even exists
-  if (litePerLoc <= proPerLoc) {
-    return Infinity;
-  }
-
-  // Solve: liteBase + (n-1)*litePerLoc = proBase + (n-1)*proPerLoc
-  // Rearrange: (n-1)*(litePerLoc - proPerLoc) = proBase - liteBase
-  // n = ((proBase - liteBase) / (litePerLoc - proPerLoc)) + 1
-
-  const breakEven = ((proBase - liteBase) / (litePerLoc - proPerLoc)) + 1;
-  
-  return Math.ceil(breakEven);
+/** Price every Core package at a given unit count, cheapest first. */
+export function quoteAllCorePackages(locations: number): CorePackageQuote[] {
+  const units = Math.max(1, Math.floor(locations));
+  return CORE_PACKAGE_IDS.map((id) => {
+    const pkg = corePackages[id];
+    const total = calculateBandedTotal(pkg, units);
+    return {
+      id,
+      name: pkg.name,
+      total,
+      averagePerUnit: Math.round((total / units) * 100) / 100,
+      nextUnitPrice: marginalRateForNextUnit(pkg, units),
+    };
+  }).sort((a, b) => a.total - b.total);
 }
 
 /**
- * Get a human-readable message about Core Pro pricing advantage
+ * Human-readable explanation of the marginal-band mechanic at the visitor's
+ * current scale. Replaces the retired "Core Pro gets cheaper at N locations"
+ * message, which described a crossover that no longer exists.
  */
-export function getCoreProAdvantageMessage(locale: PricingUiLocale = 'en'): string | null {
-  const breakEven = calculateCoreProBreakEven();
-  
-  if (breakEven === Infinity) {
-    return null; // Pro is never cheaper
-  }
+export function getMarginalBandMessage(
+  packageId: CorePackageId,
+  locations: number,
+): string | null {
+  const units = Math.max(1, Math.floor(locations));
+  if (units < 2) return null;
 
-  const cheaperAt = breakEven + 1;
-  
-  return getCoreProAdvantageText(locale, {
-    cheaperAt,
-    breakEven,
-    proPrice: coreTiers.pro.additionalLocationPrice as number,
-    litePrice: coreTiers.lite.additionalLocationPrice as number,
-  });
-}
+  const pkg = corePackages[packageId];
+  const total = calculateBandedTotal(pkg, units);
+  const average = Math.round(total / units);
+  const nextUnit = marginalRateForNextUnit(pkg, units);
 
-/**
- * Calculate total monthly cost for a tier
- */
-export function calculateTierCost(
-  basePrice: number,
-  perLocationPrice: number,
-  locations: number
-): number {
-  if (locations <= 0) return 0;
-  if (locations === 1) return basePrice;
-  return basePrice + (perLocationPrice * (locations - 1));
-}
-
-/**
- * Get the recommended tier based on location count
- */
-export function getRecommendedCoreTier(locations: number): 'lite' | 'pro' {
-  const breakEven = calculateCoreProBreakEven();
-  
-  if (locations >= breakEven + 1) {
-    return 'pro'; // Pro is cheaper
-  }
-  
-  return 'lite';
+  const base = `At ${units} locations, ${pkg.name} totals $${total.toLocaleString()}/mo — an average of $${average.toLocaleString()} per location.`;
+  return nextUnit === null
+    ? base
+    : `${base} Your next location is priced at $${nextUnit.toLocaleString()}, and adding it does not reprice the locations you already have.`;
 }

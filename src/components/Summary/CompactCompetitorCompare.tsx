@@ -29,14 +29,14 @@ function EmojiIcon({ emoji, className }: { emoji: string; className?: string }) 
 export function CompactCompetitorCompare() {
   const { locale } = useLocale();
   const copy = getCompetitorCompareCopy(locale as PricingUiLocale);
-  const { layer, tier, locations, modules: selectedModules, watchtowerModules } = useConfiguration();
-  const pricing = usePriceCalculation(layer, tier, locations, selectedModules, watchtowerModules);
+  const { layer, corePackage, locations, addOns, watchtowerModules } = useConfiguration();
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
   
   const [expandedCompetitor, setExpandedCompetitor] = useState<string | null>(null);
   const [showAssumptions, setShowAssumptions] = useState(false);
   
   // Calculate all competitor comparisons using new system
-  const allModules = [...selectedModules, `${layer}-${tier}`];
+  const allModules = [...addOns, `${layer}-${corePackage}`];
   const comparisons = calculateAllComparisons(locations, allModules, pricing.total);
   
   // Split into savings vs costs more

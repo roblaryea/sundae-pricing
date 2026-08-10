@@ -52,30 +52,38 @@ describe('Live pricing catalog resolution', () => {
   });
 });
 
-describe('Live pricing catalog normalization', () => {
-  it('accepts the app route bundle array shape', () => {
+describe('Live pricing catalog normalization (price book v1.7)', () => {
+  it('passes through the v1.7 SKU families', () => {
     const normalized = normalizeLiveCatalogResponse({
-      bundles: [
-        { id: 'ops_suite', moduleIds: ['labor', 'inventory'], discountPercent: 10 },
+      corePackages: [{ id: 'core_foundation', firstUnitPrice: 1195 }],
+      foresightAction: { id: 'foresight_action', firstUnitPrice: 495 },
+      concepts: [{ id: 'concept_catering', monthlyPrice: 349 }],
+      watchtower: [{ id: 'competitive', basePrice: 549 }],
+    });
+
+    expect(normalized.corePackages).toEqual([{ id: 'core_foundation', firstUnitPrice: 1195 }]);
+    expect(normalized.foresightAction).toEqual({ id: 'foresight_action', firstUnitPrice: 495 });
+    expect(normalized.concepts).toEqual([{ id: 'concept_catering', monthlyPrice: 349 }]);
+    expect(normalized.watchtower).toEqual([{ id: 'competitive', basePrice: 549 }]);
+  });
+
+  it('DROPS retired catalog ids so a published price cannot resurrect them', () => {
+    const normalized = normalizeLiveCatalogResponse({
+      corePackages: [
+        { id: 'core_lite', firstUnitPrice: 279 },
+        { id: 'report_pro', firstUnitPrice: 159 },
+        { id: 'core_growth', firstUnitPrice: 1925 },
       ],
     });
 
-    expect(normalized.bundles).toEqual([
-      { id: 'ops_suite', moduleIds: ['labor', 'inventory'], discountPercent: 10 },
-    ]);
+    expect(normalized.corePackages.map((row) => row.id)).toEqual(['core_growth']);
   });
 
-  it('accepts the legacy grouped bundle shape', () => {
-    const normalized = normalizeLiveCatalogResponse({
-      bundles: {
-        modules: [
-          { id: 'ops_suite', moduleIds: ['labor', 'inventory'], discountPercent: 10 },
-        ],
-      },
-    });
-
-    expect(normalized.bundles).toEqual([
-      { id: 'ops_suite', moduleIds: ['labor', 'inventory'], discountPercent: 10 },
-    ]);
+  it('defaults every family to empty when the payload omits it', () => {
+    const normalized = normalizeLiveCatalogResponse({});
+    expect(normalized.corePackages).toEqual([]);
+    expect(normalized.concepts).toEqual([]);
+    expect(normalized.watchtower).toEqual([]);
+    expect(normalized.foresightAction).toBeNull();
   });
 });

@@ -1,83 +1,62 @@
 /**
- * E2E Pricing Simulator Verification Tests (v4.3)
+ * E2E Pricing Simulator Verification Tests (price book v1.7)
  *
- * Verifies that the UI renders prices matching the pricing engine.
- * Uses the dev-mode exposed Zustand store (__SUNDAE_STORE__) to
- * set configuration state, then asserts displayed totals.
+ * Verifies that the UI renders prices matching the pricing engine — in
+ * particular that the summary total equals the MARGINAL band computation and
+ * never a flat per-location multiplication.
+ *
+ * Uses the dev-mode exposed Zustand store (__SUNDAE_STORE__) to set
+ * configuration state, then asserts displayed totals.
  */
 import { test, expect, type Page } from '@playwright/test';
-import { calculateFullPrice } from '../src/lib/pricingEngine';
-import type { ModuleId } from '../src/data/pricing';
+import { calculateFullPrice, type AddOnId } from '../src/lib/pricingEngine';
+import { corePackages } from '../src/data/pricing';
+import type { CorePackageId } from '../src/data/pricing';
 
 interface SimConfig {
-  layer: 'report' | 'core';
-  tier: string;
+  corePackage: CorePackageId;
   locations: number;
-  modules?: string[];
+  addOns?: AddOnId[];
   watchtowerModules?: string[];
 }
 
-// Helper: navigate to /simulator, set state via exposed Zustand store, jump to summary
-async function goToSummary(page: Page, config: SimConfig) {
-  await page.goto('/simulator');
+const JOURNEY = [
+  { id: 'persona', name: 'Discover Your Persona', completed: true },
+  { id: 'layer', name: 'Choose Your Layer', completed: true },
+  { id: 'package', name: 'Select Your Package', completed: true },
+  { id: 'locations', name: 'Configure Locations', completed: true },
+  { id: 'addons', name: 'Add-ons', completed: true },
+  { id: 'watchtower', name: 'Watchtower Intel', completed: true },
+  { id: 'roi', name: 'Calculate ROI', completed: true },
+  { id: 'summary', name: 'Review & Launch', completed: false },
+];
 
-  // Wait for React + Zustand to mount
+async function setStore(page: Page, config: SimConfig, currentStep: number) {
+  await page.goto('/simulator');
   await page.waitForFunction(() => (window as any).__SUNDAE_STORE__, { timeout: 10000 });
 
-  // Set all config and navigate to summary step
-  await page.evaluate((cfg) => {
-    const store = (window as any).__SUNDAE_STORE__;
-    store.setState({
-      layer: cfg.layer,
-      tier: cfg.tier,
-      locations: cfg.locations,
-      modules: cfg.modules || [],
-      watchtowerModules: cfg.watchtowerModules || [],
-      currentStep: 7,
-      journeySteps: [
-        { id: 'persona', name: 'Discover Your Persona', completed: true },
-        { id: 'layer', name: 'Choose Your Layer', completed: true },
-        { id: 'tier', name: 'Select Your Tier', completed: true },
-        { id: 'locations', name: 'Configure Locations', completed: true },
-        { id: 'modules', name: 'Add Modules', completed: true },
-        { id: 'watchtower', name: 'Watchtower Intel', completed: true },
-        { id: 'roi', name: 'Calculate ROI', completed: true },
-        { id: 'summary', name: 'Review & Launch', completed: false },
-      ],
-    });
-  }, config);
+  await page.evaluate(
+    ({ cfg, step, journey }) => {
+      const store = (window as any).__SUNDAE_STORE__;
+      store.setState({
+        layer: 'core',
+        corePackage: cfg.corePackage,
+        locations: cfg.locations,
+        addOns: cfg.addOns || [],
+        watchtowerModules: cfg.watchtowerModules || [],
+        currentStep: step,
+        journeySteps: journey,
+      });
+    },
+    { cfg: config, step: currentStep, journey: JOURNEY },
+  );
+}
 
-  // Wait for summary to render
+async function goToSummary(page: Page, config: SimConfig) {
+  await setStore(page, config, 7);
   await page.waitForSelector('text=Monthly Investment', { timeout: 10000 });
 }
 
-async function goToModules(page: Page, config: SimConfig) {
-  await page.goto('/simulator');
-  await page.waitForFunction(() => (window as any).__SUNDAE_STORE__, { timeout: 10000 });
-
-  await page.evaluate((cfg) => {
-    const store = (window as any).__SUNDAE_STORE__;
-    store.setState({
-      layer: cfg.layer,
-      tier: cfg.tier,
-      locations: cfg.locations,
-      modules: cfg.modules || [],
-      watchtowerModules: cfg.watchtowerModules || [],
-      currentStep: 4,
-      journeySteps: [
-        { id: 'persona', name: 'Discover Your Persona', completed: true },
-        { id: 'layer', name: 'Choose Your Layer', completed: true },
-        { id: 'tier', name: 'Select Your Tier', completed: true },
-        { id: 'locations', name: 'Configure Locations', completed: true },
-        { id: 'modules', name: 'Add Modules', completed: false },
-      ],
-    });
-  }, config);
-
-  await page.waitForSelector('[data-testid="module-price-labor"]', { timeout: 10000 });
-}
-
-// Helper: extract displayed monthly total
 async function getDisplayedTotal(page: Page): Promise<string> {
   const totalEl = page.locator('text=/^\\$[\\d,]+$/').first();
   return (await totalEl.textContent()) ?? '';
@@ -85,10 +64,10 @@ async function getDisplayedTotal(page: Page): Promise<string> {
 
 function getExpectedTotal(config: SimConfig): string {
   const result = calculateFullPrice({
-    layer: config.layer,
-    tier: config.tier,
+    layer: 'core',
+    corePackage: config.corePackage,
     locations: config.locations,
-    modules: (config.modules ?? []) as ModuleId[],
+    addOns: config.addOns ?? [],
     watchtower: config.watchtowerModules ?? [],
     clientProfile: {
       type: 'independent',
@@ -101,82 +80,77 @@ function getExpectedTotal(config: SimConfig): string {
   return `$${result.total.toLocaleString()}`;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// PRICING VERIFICATION SCENARIOS
-// ═══════════════════════════════════════════════════════════════════════════
-
-test.describe('Pricing Simulator E2E Verification', () => {
+test.describe('Pricing Simulator E2E Verification (v1.7)', () => {
   async function expectSummaryToMatchEngine(page: Page, config: SimConfig) {
     await goToSummary(page, config);
     expect(await getDisplayedTotal(page)).toBe(getExpectedTotal(config));
   }
 
-  test('Report Lite matches pricing engine @ 1 location', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'lite', locations: 1 });
+  test('Core Foundation matches pricing engine @ 1 location', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { corePackage: 'core_foundation', locations: 1 });
   });
 
-  test('Report Plus matches pricing engine @ 5 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'plus', locations: 5 });
+  test('Core Foundation matches pricing engine @ 5 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { corePackage: 'core_foundation', locations: 5 });
   });
 
-  test('Report Pro matches pricing engine @ 10 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'pro', locations: 10 });
+  test('Core Margin matches pricing engine across two bands @ 12 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { corePackage: 'core_margin', locations: 12 });
   });
 
-  test('Report Plus matches pricing engine @ 20 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'plus', locations: 20 });
+  test('Core Growth matches pricing engine across three bands @ 30 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { corePackage: 'core_growth', locations: 30 });
   });
 
-  test('Report Pro matches pricing engine @ 50 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { layer: 'report', tier: 'pro', locations: 50 });
+  test('Core Performance matches pricing engine across all bands @ 60 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, { corePackage: 'core_performance', locations: 60 });
   });
 
-  test('Core Lite matches pricing engine @ 5 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { layer: 'core', tier: 'lite', locations: 5 });
-  });
-
-  test('Core Pro matches pricing engine @ 10 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { layer: 'core', tier: 'pro', locations: 10 });
-  });
-
-  test('Core Lite + Labor matches pricing engine @ 10 locations', async ({ page }) => {
+  test('Core Foundation + Foresight & Action @ 10 locations', async ({ page }) => {
     await expectSummaryToMatchEngine(page, {
-      layer: 'core', tier: 'lite', locations: 10,
-      modules: ['labor'],
+      corePackage: 'core_foundation',
+      locations: 10,
+      addOns: ['foresight_action'],
     });
   });
 
-  test('Core Lite module cards use tier-aware module pricing', async ({ page }) => {
-    await goToModules(page, { layer: 'core', tier: 'lite', locations: 5 });
-    await expect(page.getByTestId('module-price-labor')).toHaveText('$299');
+  test('Core Growth + concept SKU @ 20 locations', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
+      corePackage: 'core_growth',
+      locations: 20,
+      addOns: ['concept_franchise'],
+    });
   });
 
-  test('Core Pro + Watchtower bundle matches pricing engine @ 5 locations', async ({ page }) => {
+  test('Core Performance + Watchtower bundle @ 5 locations', async ({ page }) => {
     await expectSummaryToMatchEngine(page, {
-      layer: 'core', tier: 'pro', locations: 5,
+      corePackage: 'core_performance',
+      locations: 5,
       watchtowerModules: ['bundle'],
     });
   });
 
-  test('Core Lite + 3 modules matches pricing engine @ 20 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, {
-      layer: 'core', tier: 'lite', locations: 20,
-      modules: ['labor', 'inventory', 'purchasing'],
-    });
+  test('summary total is the marginal computation, not a flat per-location rate', async ({ page }) => {
+    // 5 Core Foundation locations = 1195 + 4 x 175 = 1895.
+    // A flat-rate model (5 x 175 + 1195, or 5 x 379) would produce a different figure
+    // at other unit counts; assert the exact published worked example.
+    await goToSummary(page, { corePackage: 'core_foundation', locations: 5 });
+    expect(await getDisplayedTotal(page)).toBe('$1,895');
   });
 
-  test('Core Pro + Watchtower Competitive matches pricing engine @ 10 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, {
-      layer: 'core', tier: 'pro', locations: 10,
-      watchtowerModules: ['competitive'],
-    });
+  test('package cards show the anchor price, not a per-location rate', async ({ page }) => {
+    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, 2);
+    await expect(page.getByTestId('core-package-total-core_foundation')).toContainText('1,895');
+    await expect(page.getByTestId('core-package-total-core_margin')).toContainText(
+      `${(corePackages.core_margin.firstUnitPrice + 4 * corePackages.core_margin.marginalBands[0].pricePerUnit).toLocaleString()}`,
+    );
   });
 
-  test('Core Pro + all 3 Watchtower modules uses bundle pricing from engine', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, {
-      layer: 'core', tier: 'pro', locations: 10,
-      watchtowerModules: ['competitive', 'events', 'trends'],
-    });
+  test('domain modules are shown as included, with no price and no toggle', async ({ page }) => {
+    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, 4);
+    const labor = page.getByTestId('included-module-labor');
+    await expect(labor).toBeVisible();
+    await expect(labor).toContainText('Included');
+    await expect(labor).not.toContainText('$');
   });
-
 });

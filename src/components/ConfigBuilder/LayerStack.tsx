@@ -24,6 +24,57 @@ const watchtowerCheapestPrice = Math.min(
 // Get product icons from centralized mapping
 const { core: Zap, watchtower: Castle, crew: UsersIcon } = PRODUCT_ICONS;
 
+/** A layer card's copy, with every field guaranteed present. */
+type LayerCopy = PricingCopy['core'];
+
+function resolveLayerCard(
+  base: LayerCopy,
+  override: Partial<LayerCopy> | undefined,
+): LayerCopy {
+  if (!override) return base;
+  return {
+    name: override.name ?? base.name,
+    tagline: override.tagline ?? base.tagline,
+    startingPrice: override.startingPrice ?? base.startingPrice,
+    features:
+      Array.isArray(override.features) && override.features.length > 0
+        ? override.features
+        : base.features,
+  };
+}
+
+/**
+ * Resolve layer-stack copy for a locale, field by field, over the English base.
+ * Hand-written packs win, then the generated packs, then English.
+ */
+function resolveLayerStackCopy(locale: string): PricingCopy {
+  const base = localizedLayerStackCopy.en;
+  const handWritten = (
+    localizedLayerStackCopy as Record<string, PricingCopy | undefined>
+  )[locale];
+  const generated = (
+    generatedAuxiliaryLocalePacks.layerStackCopy as unknown as Record<
+      string,
+      Partial<PricingCopy> | undefined
+    >
+  )[locale];
+  const pack: Partial<PricingCopy> | undefined = handWritten ?? generated;
+  if (!pack) return base;
+
+  return {
+    title: pack.title ?? base.title,
+    subtitle: pack.subtitle ?? base.subtitle,
+    report: resolveLayerCard(base.report, pack.report),
+    core: resolveLayerCard(base.core, pack.core),
+    watchtower: resolveLayerCard(base.watchtower, pack.watchtower),
+    crew: resolveLayerCard(base.crew, pack.crew),
+    recommended: pack.recommended ?? base.recommended,
+    select: pack.select ?? base.select,
+    proTip: pack.proTip ?? base.proTip,
+    upgradeLater: pack.upgradeLater ?? base.upgradeLater,
+  };
+}
+
 type PricingCopy = {
   title: string;
   subtitle: string;
@@ -188,16 +239,21 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
   },
 };
 
-type LocalizedLayerStackLocale = keyof typeof localizedLayerStackCopy;
-type GeneratedLayerStackLocale = keyof typeof generatedAuxiliaryLocalePacks.layerStackCopy;
 
 export function LayerStack() {
   const { setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
   const { locale } = useLocale();
-  const copy =
-    localizedLayerStackCopy[locale as LocalizedLayerStackLocale] ??
-    generatedAuxiliaryLocalePacks.layerStackCopy[locale as GeneratedLayerStackLocale] ??
-    localizedLayerStackCopy.en;
+  // The `??` chain used to pick ONE pack wholesale. When that pack was
+  // shape-incomplete the whole subtree beneath it went undefined - the
+  // generated packs carried a retired `report` layer and no `crew`, so
+  // `copy.crew` was undefined and `layerItem.copy.name` threw, taking the
+  // entire simulator to the ErrorBoundary in 18 of 22 locales. tsc could not
+  // see it because the index lookups are typed non-optional.
+  //
+  // Resolving per FIELD over the English base makes a missing key structurally
+  // impossible: a partial translation now degrades to English for that field
+  // only, which is what a missing translation should ever cost.
+  const copy = resolveLayerStackCopy(locale);
 
   const handleLayerSelect = (layerId: 'core' | 'crew') => {
     setLayer(layerId);

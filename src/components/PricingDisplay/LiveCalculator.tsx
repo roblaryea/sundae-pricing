@@ -150,7 +150,7 @@ export function LiveCalculator() {
               <div className="text-right">
                 {/* DERIVED AVERAGE (total / units) — bands are marginal, so
                     this is never a per-location rate card. */}
-                <div className="text-xs text-sundae-muted">Avg · {copy.perLocation}</div>
+                <div className="text-xs text-sundae-muted">{copy.avgPerLocation}</div>
                 <div className="text-lg font-bold tabular-nums">
                   ${pricing.perLocation.toFixed(0)}
                 </div>

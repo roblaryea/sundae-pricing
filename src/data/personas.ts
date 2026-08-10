@@ -119,6 +119,71 @@ export const quizQuestions: QuizQuestion[] = [
     ]
   },
   {
+    // Asked SECOND, right after estate size, because it changes what the rest of
+    // the journey should even offer. Operating model decides which concept packs
+    // are relevant (franchise / hotel F&B / cloud kitchen / catering /
+    // commissary) and which per-object overlays apply — revenue centres,
+    // virtual brands, commissary tenants, external production sites. Asking it
+    // at the end, after a package has been chosen, is how a franchisor ends up
+    // quoted a single-brand configuration.
+    id: "operating_model",
+    question: "How is your business actually run?",
+    subtitle: "This decides which concept pathways apply to your quote",
+    helperText: "Pick every model that applies — many groups run more than one.",
+    multiSelect: true,
+    options: [
+      {
+        id: "single_brand",
+        value: "single_brand",
+        label: "One brand, multiple sites",
+        emoji: "store",
+        weight: { explorer: 6, optimizer: 8, commander: 4, strategist: 0 }
+      },
+      {
+        id: "multi_brand",
+        value: "multi_brand",
+        label: "Several brands under one group",
+        emoji: "layers",
+        weight: { explorer: 0, optimizer: 3, commander: 9, strategist: 6 }
+      },
+      {
+        id: "franchise",
+        value: "franchise",
+        label: "Franchise network (franchisor or franchisee)",
+        emoji: "network",
+        weight: { explorer: 0, optimizer: 2, commander: 8, strategist: 9 }
+      },
+      {
+        id: "hotel_fb",
+        value: "hotel_fb",
+        label: "Hotel or resort F&B",
+        emoji: "hotel",
+        weight: { explorer: 0, optimizer: 4, commander: 7, strategist: 5 }
+      },
+      {
+        id: "cloud_kitchen",
+        value: "cloud_kitchen",
+        label: "Cloud kitchen or virtual brands",
+        emoji: "rocket",
+        weight: { explorer: 3, optimizer: 7, commander: 5, strategist: 3 }
+      },
+      {
+        id: "catering",
+        value: "catering",
+        label: "Catering and events",
+        emoji: "calendar",
+        weight: { explorer: 2, optimizer: 6, commander: 5, strategist: 2 }
+      },
+      {
+        id: "production",
+        value: "production",
+        label: "Central production or commissary",
+        emoji: "factory",
+        weight: { explorer: 0, optimizer: 8, commander: 6, strategist: 4 }
+      }
+    ]
+  },
+  {
     id: "pain",
     question: "What keeps you up at night?",
     subtitle: "Your biggest operational challenges",
@@ -256,6 +321,76 @@ export const quizQuestions: QuizQuestion[] = [
         emoji: "bot",
         value: "ai",
         weight: { explorer: 3, optimizer: 5, commander: 10, strategist: 10 }
+      }
+    ]
+  },
+  {
+    // v1.7 section 7 charges implementation ONCE, at the highest class in the
+    // selection. Nothing in the journey used to ask what a launch would
+    // actually involve, so every quote fell back to "scoped at contract" and
+    // the buyer left without the one-time number — the single largest
+    // unmodelled line in the deal.
+    id: "tech_stack",
+    question: "What would we be connecting to?",
+    subtitle: "Your systems decide the one-time implementation, not your size",
+    helperText: "Pick everything we would need to read from. Pre-built connectors cost less to launch than custom work.",
+    multiSelect: true,
+    options: [
+      {
+        id: "pos_standard",
+        value: "pos_standard",
+        label: "A POS we already connect to",
+        emoji: "check",
+        weight: { explorer: 6, optimizer: 5, commander: 2, strategist: 0 }
+      },
+      {
+        id: "pos_multiple",
+        value: "pos_multiple",
+        label: "More than one POS across the estate",
+        emoji: "layers",
+        weight: { explorer: 0, optimizer: 5, commander: 8, strategist: 4 }
+      },
+      {
+        id: "accounting",
+        value: "accounting",
+        label: "Accounting or ERP",
+        emoji: "calculator",
+        weight: { explorer: 2, optimizer: 6, commander: 5, strategist: 3 }
+      },
+      {
+        id: "payroll_hr",
+        value: "payroll_hr",
+        label: "Payroll or HR system",
+        emoji: "users",
+        weight: { explorer: 2, optimizer: 6, commander: 6, strategist: 2 }
+      },
+      {
+        id: "inventory_supply",
+        value: "inventory_supply",
+        label: "Inventory, purchasing or supplier systems",
+        emoji: "package",
+        weight: { explorer: 1, optimizer: 8, commander: 5, strategist: 2 }
+      },
+      {
+        id: "delivery_reservations",
+        value: "delivery_reservations",
+        label: "Delivery aggregators or reservations",
+        emoji: "truck",
+        weight: { explorer: 3, optimizer: 6, commander: 5, strategist: 3 }
+      },
+      {
+        id: "custom_legacy",
+        value: "custom_legacy",
+        label: "Something custom, legacy or on-premise",
+        emoji: "wrench",
+        weight: { explorer: 0, optimizer: 2, commander: 6, strategist: 8 }
+      },
+      {
+        id: "not_sure",
+        value: "not_sure",
+        label: "Not sure yet",
+        emoji: "help",
+        weight: { explorer: 8, optimizer: 2, commander: 0, strategist: 0 }
       }
     ]
   },

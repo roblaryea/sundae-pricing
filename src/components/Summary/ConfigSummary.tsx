@@ -12,7 +12,7 @@ import {
   modules as coreDomainModules,
 } from '../../data/pricing';
 import confetti from 'canvas-confetti';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PDFExportButton } from './PDFExport';
 import { EmailQuoteButton } from './EmailQuoteButton';
 import { BookDemoButton } from './BookDemoButton';
@@ -35,8 +35,23 @@ export function ConfigSummary() {
   useLivePricingCatalog();
   const {
     layer, corePackage, locations, addOns, watchtowerModules,
-    crossIntelligence: crossIntelSelection, markStepCompleted, crewSkus: selectedCrewSkus
+    crossIntelligence: crossIntelSelection, markStepCompleted, crewSkus: selectedCrewSkus,
+    operatingModels, techStack
   } = useConfiguration();
+
+  // The discovery answers resolve the one-time implementation class and the
+  // per-object overlays. Both are omitted entirely when the visitor skipped the
+  // systems question — a blank is honest, an invented fee is not.
+  const stackEstimate = useMemo(
+    () =>
+      techStack.length > 0
+        ? resolveImplementationClass(techStack, operatingModels, {
+            crewPayrollSelected: selectedCrewSkus.includes('crew_payroll'),
+          })
+        : null,
+    [techStack, operatingModels, selectedCrewSkus],
+  );
+  const overlays = useMemo(() => objectOverlaysFor(operatingModels), [operatingModels]);
 
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules, undefined, crossIntelSelection);
   void getLocalizedTierCatalog(locale);
@@ -268,16 +283,53 @@ export function ConfigSummary() {
                     <span className="font-medium">${item.price.toLocaleString(locale)}</span>
                   </div>
                 ))}
+                {/* Implementation is the largest one-time line in the deal, and
+                    it used to read "Scoped at contract" for every visitor
+                    because nothing in the journey asked what a launch would
+                    involve. The systems answer now resolves a real class, and
+                    the drivers are shown so the number is not a mystery. */}
                 <div className="flex justify-between pt-2 mt-2 border-t border-white/10">
                   <span className="text-sundae-muted">Implementation (one-time)</span>
                   <span className="font-medium">
-                    {pricing.implementation.requiresScoping
-                      ? 'Scoped at contract'
-                      : pricing.implementation.fee === 0
-                        ? 'Self-service · $0'
-                        : `${pricing.implementation.isFloor ? 'from ' : ''}$${pricing.implementation.fee.toLocaleString(locale)}`}
+                    {stackEstimate
+                      ? `${stackEstimate.isFloor ? 'from ' : ''}$${stackEstimate.fee.toLocaleString(locale)}`
+                      : pricing.implementation.requiresScoping
+                        ? 'Scoped at contract'
+                        : pricing.implementation.fee === 0
+                          ? 'Self-service · $0'
+                          : `${pricing.implementation.isFloor ? 'from ' : ''}$${pricing.implementation.fee.toLocaleString(locale)}`}
                   </span>
                 </div>
+                {stackEstimate && stackEstimate.drivers.length > 0 && (
+                  <ul className="space-y-0.5 pl-0.5">
+                    {stackEstimate.drivers.map((d) => (
+                      <li key={d} className="text-[10px] text-sundae-muted/80">
+                        · {d}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {stackEstimate?.isIndicative && (
+                  <p className="text-[10px] text-sundae-muted/80">
+                    Indicative only — confirm your systems and we will scope the exact class.
+                  </p>
+                )}
+                {overlays.length > 0 && (
+                  <div className="pt-2 mt-2 border-t border-white/10 space-y-1">
+                    <span className="text-sundae-muted text-xs">Billed per active object</span>
+                    {overlays.map((o) => (
+                      <div key={o.object} className="flex justify-between text-xs">
+                        <span className="text-sundae-muted">
+                          {o.object}s beyond {o.includedPerLocation} per location
+                        </span>
+                        <span className="font-medium">${o.ratePerObject} each</span>
+                      </div>
+                    ))}
+                    <p className="text-[10px] text-sundae-muted/80">
+                      Charged only while the object is active, and never discounted.
+                    </p>
+                  </div>
+                )}
                 <p className="text-[10px] text-sundae-muted/80">
                   Charged once at the highest implementation class in your selection — never summed
                   per module.
@@ -544,6 +596,7 @@ export function ConfigSummary() {
 import { computeCrewQuote } from '../../lib/crewPricing';
 import { CrewQuoteButtons } from './CrewQuoteButtons';
 import type { CrewSkuId } from '../../types/configuration';
+import { objectOverlaysFor, resolveImplementationClass } from '../../lib/discoveryEngine';
 
 interface CrewSummaryBodyProps {
   selectedSkus: CrewSkuId[];

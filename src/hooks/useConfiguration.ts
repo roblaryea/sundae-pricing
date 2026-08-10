@@ -9,6 +9,7 @@ import type { ROIInputs } from './useROICalculation';
 import type { Persona } from '../data/personas';
 import type { Achievement } from '../data/personas';
 import { achievements } from '../data/personas';
+import type { OperatingModelId, TechStackId } from '../lib/discoveryEngine';
 
 type E2EStoreWindow = Window & {
   __SUNDAE_STORE__?: typeof useConfiguration;
@@ -27,6 +28,15 @@ export interface ConfigurationState extends Configuration {
   
   // Quiz state
   quizAnswers: Record<string, string>;
+  /**
+   * Multi-select discovery answers, kept OUT of `quizAnswers` because that map
+   * is single-answer. `operating_model` decides which concept pathways apply
+   * and which per-object overlays are billed; `tech_stack` resolves the
+   * one-time implementation class. Both are asked before a package is chosen —
+   * asking after is how a franchisor gets quoted a single-brand configuration.
+   */
+  operatingModels: OperatingModelId[];
+  techStack: TechStackId[];
   persona: Persona | null;
   personaConfidence: number;
   
@@ -59,6 +69,7 @@ export interface ConfigurationState extends Configuration {
   
   // Quiz actions
   setQuizAnswer: (questionId: string, answerId: string) => void;
+  setDiscoveryAnswers: (operatingModels: OperatingModelId[], techStack: TechStackId[]) => void;
   setPersona: (persona: Persona | null, confidence: number) => void;
   
   // ROI actions
@@ -108,6 +119,8 @@ const initialState = {
   
   // Quiz
   quizAnswers: {},
+  operatingModels: [],
+  techStack: [],
   persona: null,
   personaConfidence: 0,
   
@@ -342,6 +355,10 @@ export const useConfiguration = create<ConfigurationState>()(
         },
 
         // Quiz actions
+        setDiscoveryAnswers: (operatingModels, techStack) => {
+          set({ operatingModels, techStack });
+        },
+
         setQuizAnswer: (questionId, answerId) => {
           const quizAnswers = { ...get().quizAnswers, [questionId]: answerId };
           set({ quizAnswers });
@@ -491,6 +508,8 @@ export const useConfiguration = create<ConfigurationState>()(
           crewSkus: state.crewSkus,
           competitors: state.competitors,
           quizAnswers: state.quizAnswers,
+          operatingModels: state.operatingModels,
+          techStack: state.techStack,
           persona: state.persona,
           roiInputs: state.roiInputs,
           unlockedAchievements: state.unlockedAchievements,

@@ -209,6 +209,8 @@ const messages = {
       perAdditionalLocation: '+${price} per additional location',
       pricingSuffix: '{label} pricing',
       aiCredits: 'AI Credits',
+      intelligenceSeats: 'Intelligence seats',
+      aiCreditsBasis: 'Base + per location',
       visuals: 'Visuals',
       dataRefresh: 'Data Refresh',
       selectTier: 'Select {tier}',
@@ -248,6 +250,8 @@ const messages = {
         perAdditionalLocation: '+${price} per additional location',
         pricingSuffix: '{label} pricing',
         aiCredits: 'AI Credits',
+        intelligenceSeats: 'Intelligence seats',
+        aiCreditsBasis: 'Base + per location',
         visuals: 'Visuals',
         dataRefresh: 'Data Refresh',
         benchmark: 'Benchmark',
@@ -530,6 +534,8 @@ const messages = {
         perAdditionalLocation: '+${price} لكل موقع اضافي',
         pricingSuffix: 'تسعير {label}',
         aiCredits: 'ارصدة الذكاء الاصطناعي',
+        intelligenceSeats: 'مقاعد الذكاء',
+        aiCreditsBasis: 'الأساس + لكل موقع',
         visuals: 'المرئيات',
         dataRefresh: 'تحديث البيانات',
         benchmark: 'المعيار',
@@ -812,6 +818,8 @@ const messages = {
         perAdditionalLocation: '+${price} par site supplementaire',
         pricingSuffix: 'Tarification {label}',
         aiCredits: 'Credits IA',
+        intelligenceSeats: 'Sieges intelligence',
+        aiCreditsBasis: 'Base + par site',
         visuals: 'Visuels',
         dataRefresh: 'Rafraichissement des donnees',
         benchmark: 'Benchmark',
@@ -1094,6 +1102,8 @@ const messages = {
         perAdditionalLocation: '+${price} por local adicional',
         pricingSuffix: 'Precio {label}',
         aiCredits: 'Creditos de IA',
+        intelligenceSeats: 'Puestos de inteligencia',
+        aiCreditsBasis: 'Base + por local',
         visuals: 'Visuales',
         dataRefresh: 'Actualizacion de datos',
         benchmark: 'Benchmark',
@@ -1226,15 +1236,49 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
         setLocaleState(normalized)
       },
       dir: localeDirection[locale],
-      messages:
-        messages[locale as keyof typeof messages] ??
-        generatedPricingMessages[locale as keyof typeof generatedPricingMessages] ??
-        messages.en,
+      messages: resolveMessages(locale),
     }),
     [locale]
   )
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
+}
+
+/**
+ * CTL-13: message resolution used to pick ONE pack wholesale with `??`. Every
+ * key the chosen pack lacked resolved to `undefined` and rendered blank — and
+ * the checked-in generated packs drift from the English source because nothing
+ * in this repo regenerates them. This governs EVERY string on the site for the
+ * 18 generated locales, and it is the third place the same whole-pack fallback
+ * appeared (see layerStackCopy, which crashed the simulator outright, and
+ * resolvePricingUiCopy).
+ *
+ * Deep-merging over the English tree makes a missing key impossible: a partial
+ * translation degrades to English for that key alone, and a new copy key can be
+ * added without waiting for eighteen packs to catch up.
+ */
+function deepMergeMessages<T>(base: T, override: unknown): T {
+  if (override === undefined || override === null) return base
+  if (typeof base !== 'object' || base === null || Array.isArray(base)) {
+    if (typeof override === 'string' && override.length === 0) return base
+    return override as T
+  }
+  const out: Record<string, unknown> = { ...(base as Record<string, unknown>) }
+  const src = override as Record<string, unknown>
+  for (const key of Object.keys(base as Record<string, unknown>)) {
+    if (!(key in src)) continue
+    out[key] = deepMergeMessages((base as Record<string, unknown>)[key], src[key])
+  }
+  return out as T
+}
+
+function resolveMessages(locale: string): typeof messages.en {
+  const handWritten = messages[locale as keyof typeof messages]
+  if (handWritten) return handWritten as typeof messages.en
+  const generated =
+    generatedPricingMessages[locale as keyof typeof generatedPricingMessages]
+  if (!generated) return messages.en
+  return deepMergeMessages(messages.en, generated)
 }
 
 export function useLocale() {

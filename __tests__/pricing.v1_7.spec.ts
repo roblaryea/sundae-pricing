@@ -544,7 +544,14 @@ describe('calculateFullPrice', () => {
     expect(result.subtotal).toBe(1895);
     expect(result.total).toBe(1895);
     expect(result.perLocation).toBe(379);
-    expect(result.aiCreditsTotal).toBe(14000);
+    // Included credits scale with EVERY licensed location (price book v1.7
+    // section 8.1), so five locations is 14,000 + 5 x 2,800. This assertion
+    // previously expected the bare 14,000 base wallet, encoding the bug that
+    // showed an 8-location buyer 14,000 credits against a real 36,400.
+    expect(result.aiCreditsTotal).toBe(14000 + 5 * 2800);
+    expect(result.aiCreditsBase).toBe(14000);
+    // 4 included + ceil(5 / 5).
+    expect(result.intelligenceSeats).toBe(5);
   });
 
   it('adds Foresight & Action with its own bands', () => {

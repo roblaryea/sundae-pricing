@@ -9,7 +9,12 @@ import { Check, Star, TrendingUp, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { corePackages, CORE_PACKAGE_IDS, modules as coreDomainModules } from '../../data/pricing';
 import type { CorePackageId } from '../../data/pricing';
-import { calculateBandedTotal, calculateBandLines } from '../../lib/pricingEngine';
+import {
+  calculateAiCredits,
+  calculateBandLines,
+  calculateBandedTotal,
+  calculateIntelligenceSeats,
+} from '../../lib/pricingEngine';
 import { suggestOptimalCorePackage } from '../../hooks/usePriceCalculation';
 import { useLivePricingCatalog } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
@@ -169,10 +174,30 @@ export function TierSelector() {
                 </div>
 
                 <div className="space-y-2 mb-4">
+                  {/* Credits scale with EVERY licensed location (price book
+                      v1.7 section 8.1). This used to render the BASE wallet
+                      raw, understating an 8-location Foundation buyer by
+                      22,400 credits — directly beneath a line that already
+                      said "8 locations". */}
                   <div className="flex justify-between text-sm">
                     <span className="text-sundae-muted">{copy.aiCredits}</span>
                     <span className="font-semibold tabular-nums">
-                      {pkg.aiCreditWallet.toLocaleString(locale)}
+                      {calculateAiCredits(pkg, locations).toLocaleString(locale)}
+                    </span>
+                  </div>
+                  {locations > 1 && (
+                    <div className="flex justify-between text-xs text-sundae-muted">
+                      <span>{copy.aiCreditsBasis}</span>
+                      <span className="tabular-nums">
+                        {pkg.aiCreditWallet.toLocaleString(locale)} +{' '}
+                        {locations} × {pkg.aiCreditsPerLocation.toLocaleString(locale)}
+                      </span>
+                    </div>
+                  )}
+                  <div className="flex justify-between text-sm">
+                    <span className="text-sundae-muted">{copy.intelligenceSeats}</span>
+                    <span className="font-semibold tabular-nums">
+                      {calculateIntelligenceSeats(pkg, locations).toLocaleString(locale)}
                     </span>
                   </div>
                   <div className="flex items-start gap-2 text-sm">
@@ -247,7 +272,15 @@ export function TierSelector() {
                 <td className="py-3 px-4">{copy.aiCredits}</td>
                 {packages.map((pkg) => (
                   <td key={pkg.id} className="text-center py-3 px-4 tabular-nums">
-                    {pkg.aiCreditWallet.toLocaleString(locale)}
+                    {calculateAiCredits(pkg, locations).toLocaleString(locale)}
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td className="py-3 px-4">{copy.intelligenceSeats}</td>
+                {packages.map((pkg) => (
+                  <td key={pkg.id} className="text-center py-3 px-4 tabular-nums">
+                    {calculateIntelligenceSeats(pkg, locations).toLocaleString(locale)}
                   </td>
                 ))}
               </tr>

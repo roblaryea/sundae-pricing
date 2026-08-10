@@ -246,8 +246,26 @@ function band(fromUnit: number, toUnit: number | null, pricePerUnit: number): Ma
 export interface CorePackage extends BandedSku {
   id: CorePackageId;
   tagline: string;
-  /** Monthly AI credit wallet included with the package. */
+  /**
+   * BASE monthly AI credit wallet. This is NOT the customer's wallet — the
+   * included allowance scales with every licensed location. Use
+   * `calculateAiCredits()`; rendering this field raw understates a 10-location
+   * Core Foundation wallet by 20,000 credits.
+   */
   aiCreditWallet: number;
+  /**
+   * Credits added per LICENSED LOCATION, including the first. Price book v1.7
+   * section 8.1; matches `billing_service.ts` (`base + perLocation * locations`)
+   * and the note in `pricing_engine.ts` that credits "scale with EVERY licensed
+   * location, not additional-after-first".
+   */
+  aiCreditsPerLocation: number;
+  /** Active-intelligence seats included before per-location scaling. */
+  seatsIncluded: number;
+  /** One further seat per this many licensed locations. */
+  seatsPerLocations: number;
+  /** Unused BASE credits that roll over for one month (25% of base). */
+  creditRolloverCap: number;
   /** Every Core package ships all eleven domain modules. */
   includesDomainModules: readonly ModuleId[];
   bestFor: string;
@@ -270,6 +288,10 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     firstUnitPrice: 1195,
     marginalBands: [band(2, 10, 175), band(11, 25, 150), band(26, 50, 125), band(51, null, 105)],
     aiCreditWallet: 14000,
+    aiCreditsPerLocation: 2800,
+    seatsIncluded: 4,
+    seatsPerLocations: 5,
+    creditRolloverCap: 3500,
     includesDomainModules: CORE_DOMAIN_MODULE_IDS,
     bestFor: 'Operators starting on the Core decision layer',
     implementationClass: null,
@@ -281,6 +303,10 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     firstUnitPrice: 1650,
     marginalBands: [band(2, 10, 245), band(11, 25, 210), band(26, 50, 175), band(51, null, 145)],
     aiCreditWallet: 16000,
+    aiCreditsPerLocation: 3200,
+    seatsIncluded: 5,
+    seatsPerLocations: 4,
+    creditRolloverCap: 4000,
     includesDomainModules: CORE_DOMAIN_MODULE_IDS,
     bestFor: 'Operators whose priority is cost and leakage control',
     implementationClass: null,
@@ -292,6 +318,10 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     firstUnitPrice: 1925,
     marginalBands: [band(2, 10, 260), band(11, 25, 225), band(26, 50, 190), band(51, null, 155)],
     aiCreditWallet: 18000,
+    aiCreditsPerLocation: 3600,
+    seatsIncluded: 6,
+    seatsPerLocations: 3,
+    creditRolloverCap: 4500,
     includesDomainModules: CORE_DOMAIN_MODULE_IDS,
     bestFor: 'Operators in expansion who need demand and channel signal',
     implementationClass: null,
@@ -303,6 +333,10 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     firstUnitPrice: 2980,
     marginalBands: [band(2, 10, 409), band(11, 25, 348), band(26, 50, 290), band(51, null, 236)],
     aiCreditWallet: 24000,
+    aiCreditsPerLocation: 4800,
+    seatsIncluded: 8,
+    seatsPerLocations: 2,
+    creditRolloverCap: 6000,
     includesDomainModules: CORE_DOMAIN_MODULE_IDS,
     bestFor: 'Multi-brand and multi-region portfolios',
     implementationClass: null,

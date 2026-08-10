@@ -29,7 +29,15 @@ export interface Configuration {
    * The Report layer was retired with price book v1.7 and is not selectable.
    * 'core' is the analytics path; 'crew' is the operational substrate path.
    */
-  layer: 'core' | 'crew' | null;
+  /**
+   * Which commercial pathway the visitor is buying.
+   *
+   * 'both' matters commercially: Core (decision intelligence) and Crew
+   * (operational substrate) are separate rails that most real groups buy
+   * TOGETHER, and the summary used to early-return on the Crew branch — so the
+   * single most common deal could not be quoted at all.
+   */
+  layer: 'core' | 'crew' | 'both' | null;
   /** Which of the four v1.7 Core packages the visitor picked. */
   corePackage: CorePackageId;
   locations: number;

@@ -102,6 +102,13 @@ type PricingCopy = {
     startingPrice: string;
     features: string[];
   };
+  /** Optional: locales may override the combined pathway card. */
+  both?: {
+    name: string;
+    tagline: string;
+    startingPrice: string;
+    features: string[];
+  };
   recommended: string;
   select: string;
   proTip: string;
@@ -255,7 +262,7 @@ export function LayerStack() {
   // only, which is what a missing translation should ever cost.
   const copy = resolveLayerStackCopy(locale);
 
-  const handleLayerSelect = (layerId: 'core' | 'crew') => {
+  const handleLayerSelect = (layerId: 'core' | 'crew' | 'both') => {
     setLayer(layerId);
     markStepCompleted('layer');
     setCurrentStep(2);
@@ -273,6 +280,29 @@ export function LayerStack() {
     // The Report layer was retired with price book v1.7 and is no longer
     // offered. Its localized copy stays in the pack only so the translation
     // bundles keep their shape; nothing renders it.
+    {
+      // Core + Crew is the deal most multi-site groups actually sign: decision
+      // intelligence on one rail, the operational substrate on the other. The
+      // layer step was an either/or, so it could not be configured at all.
+      id: 'both' as const,
+      icon: Layers,
+      color: '#8B5CF6',
+      borderColor: 'violet',
+      copy: {
+        name: 'CORE + CREW',
+        tagline: copy.both?.tagline ?? 'Run the business and see it, on one contract',
+        startingPrice:
+          copy.both?.startingPrice ?? `From $${corePrice.toLocaleString()} + $99/month`,
+        features:
+          copy.both?.features ?? [
+            'Everything in Core',
+            'Everything in Crew',
+            'One contract, one implementation',
+            'Workforce signal feeds Labour Intelligence',
+          ],
+      },
+      recommended: false as boolean,
+    },
     {
       id: 'crew' as const,
       icon: UsersIcon,

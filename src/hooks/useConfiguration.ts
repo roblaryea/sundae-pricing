@@ -53,7 +53,7 @@ export interface ConfigurationState extends Configuration {
   isAnimating: boolean;
   
   // Actions
-  setLayer: (layer: 'core' | 'crew' | null) => void;
+  setLayer: (layer: 'core' | 'crew' | 'both' | null) => void;
   setCorePackage: (corePackage: CorePackageId) => void;
   // Crew multi-select API. `toggle` flips a single SKU and auto-resolves
   // prerequisites + mutual exclusions. `set` replaces the entire set (used

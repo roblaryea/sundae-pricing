@@ -72,7 +72,8 @@ export function ROISimulator() {
   const activeDomains = CORE_DOMAIN_MODULE_IDS as readonly string[];
   const roi = useROICalculation(
     {
-      layer: layer === 'crew' ? null : layer,
+      // ROI models the Core decision layer; 'both' contributes its Core side.
+      layer: layer === 'core' || layer === 'both' ? 'core' : null,
       corePackage,
       locations,
       activeDomains: [...activeDomains],

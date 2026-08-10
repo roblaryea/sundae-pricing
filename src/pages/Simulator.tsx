@@ -130,14 +130,20 @@ export function Simulator() {
   // locations + price preview into one step and routes directly to the
   // shared ConfigSummary on submit.
   const isCrewPath = layer === 'crew';
+  // On the combined pathway the visitor walks the full Core journey and then
+  // picks Crew SKUs, so CrewBuilder takes the ROI slot rather than replacing
+  // the Core steps. Core and Crew are separate rails; the summary sums them.
+  const isCombinedPath = layer === 'both';
   const renderStep = () => {
     const node =
       isCrewPath && currentStep >= 2 && currentStep < 7
         ? <CrewBuilder />
-        : (stepComponents[currentStep] ?? <PathwaySelector />);
+        : isCombinedPath && currentStep === 6
+          ? <CrewBuilder />
+          : (stepComponents[currentStep] ?? <PathwaySelector />);
     return (
       <motion.div
-        key={`step-${isCrewPath && currentStep >= 2 && currentStep < 7 ? 'crew-builder' : currentStep}`}
+        key={`step-${(isCrewPath && currentStep >= 2 && currentStep < 7) || (isCombinedPath && currentStep === 6) ? 'crew-builder' : currentStep}`}
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: -20 }}

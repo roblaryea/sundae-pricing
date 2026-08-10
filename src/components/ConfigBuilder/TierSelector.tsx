@@ -27,7 +27,7 @@ const PACKAGE_COLORS: Record<CorePackageId, string> = {
 };
 
 export function TierSelector() {
-  const { layer, setCorePackage, locations, setCurrentStep } = useConfiguration();
+  const { layer, setCorePackage, locations, setLocations, setCurrentStep } = useConfiguration();
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
   const copy = messages.builder.tierSelector;
@@ -43,7 +43,12 @@ export function TierSelector() {
 
   const handleSelect = (packageId: CorePackageId) => {
     setCorePackage(packageId);
-    setCurrentStep(3);
+    // Step 3 was a standalone "How Many Locations?" slider — a second ask for
+    // something the opening question already collected, on a screen with no
+    // packages to compare it against. The estate control now lives on this
+    // screen, where every price moves as it changes, so the journey goes
+    // straight to add-ons.
+    setCurrentStep(4);
   };
 
   const fmt = (value: number) => `$${value.toLocaleString(locale)}`;
@@ -59,6 +64,48 @@ export function TierSelector() {
       >
         <h1 className="text-4xl font-bold mb-4">{copy.chooseCoreTier}</h1>
         <p className="text-xl text-sundae-muted">{copy.coreSubtitle}</p>
+      </motion.div>
+
+      {/* Estate size lives HERE, not on a step of its own: every figure below
+          moves as it changes, so the buyer sees the curve behave instead of
+          being told about it on a separate screen. */}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="mb-8 mx-auto max-w-3xl rounded-2xl border border-white/10 bg-sundae-surface/60 p-5 backdrop-blur"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <label htmlFor="estate-size" className="block text-sm font-semibold text-white">
+              {copy.estateSizeLabel ?? 'How many locations?'}
+            </label>
+            <p className="text-xs text-sundae-muted mt-0.5">
+              {copy.estateSizeHint ?? 'Every price below updates as you move this.'}
+            </p>
+          </div>
+          <div className="flex items-baseline gap-2">
+            <span className="font-display text-4xl font-bold tabular-nums text-white">
+              {locations}
+            </span>
+            <span className="text-sm text-sundae-muted">
+              {locations === 1 ? 'location' : 'locations'}
+            </span>
+          </div>
+        </div>
+        <input
+          id="estate-size"
+          type="range"
+          min={1}
+          max={100}
+          value={Math.min(locations, 100)}
+          onChange={(e) => setLocations(Number(e.target.value))}
+          aria-label={copy.estateSizeLabel ?? 'How many locations?'}
+          className="mt-4 w-full accent-[#FF5C4D] cursor-pointer"
+        />
+        <div className="mt-1 flex justify-between text-[10px] text-sundae-muted">
+          <span>1</span><span>10</span><span>25</span><span>50</span><span>100+</span>
+        </div>
       </motion.div>
 
       {/* Marginal-band explainer — the single most misread mechanic in the book */}

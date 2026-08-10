@@ -45,8 +45,11 @@ function toEngineConfig(
 export function usePriceCalculation(
   // 'crew' is accepted on the type level for caller compatibility but the
   // engine treats it as a no-op: Crew pricing is computed in CrewBuilder +
-  // CrewSummaryBody, not by this Core engine.
-  layer: 'core' | 'crew' | null,
+  // CrewSummaryBody, not by this Core engine. 'both' is a Core quote here —
+  // the Crew rail is priced alongside it by `computeCrewQuote` and the two are
+  // summed in the summary, because Core and Crew are separate rails that most
+  // groups buy together.
+  layer: 'core' | 'crew' | 'both' | null,
   corePackage: CorePackageId,
   locations: number,
   addOns: AddOnId[] = [],

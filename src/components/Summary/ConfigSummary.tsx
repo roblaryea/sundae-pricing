@@ -57,7 +57,7 @@ export function ConfigSummary() {
   void getLocalizedTierCatalog(locale);
   // Layer label is rendered in the Report/Core branch only; coerce Crew to
   // null for the helper signature (Crew branch returns early below).
-  const layerLabel = getLocalizedLayerName(locale, layer === 'crew' ? null : layer);
+  const layerLabel = getLocalizedLayerName(locale, layer === 'core' || layer === 'both' ? 'core' : null);
   
   // Collapsible states
   const [whatsIncludedOpen, setWhatsIncludedOpen] = useState(true);
@@ -93,6 +93,15 @@ export function ConfigSummary() {
   if (layer === 'crew') {
     return <CrewSummaryBody selectedSkus={selectedCrewSkus} locations={locations} />;
   }
+
+  // Core + Crew is the most common real deal — decision intelligence on one
+  // rail, the operational substrate on the other — and it could not be quoted
+  // at all while this branch was an either/or. The two rails are priced
+  // separately (they have separate unit economics) and presented together.
+  const crewRail =
+    layer === 'both' && selectedCrewSkus.length > 0
+      ? computeCrewQuote(selectedCrewSkus, locations)
+      : null;
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -283,6 +292,22 @@ export function ConfigSummary() {
                     <span className="font-medium">${item.price.toLocaleString(locale)}</span>
                   </div>
                 ))}
+                {crewRail && (
+                  <div className="flex justify-between pt-2 mt-2 border-t border-white/10">
+                    <span className="text-sundae-muted">Crew (operational substrate)</span>
+                    <span className="font-medium">
+                      ${crewRail.monthly.toLocaleString(locale)}
+                    </span>
+                  </div>
+                )}
+                {crewRail && (
+                  <div className="flex justify-between pt-2 mt-2 border-t border-white/20 text-base">
+                    <span className="font-semibold">Combined monthly</span>
+                    <span className="font-bold">
+                      ${(pricing.total + crewRail.monthly).toLocaleString(locale)}
+                    </span>
+                  </div>
+                )}
                 {/* Implementation is the largest one-time line in the deal, and
                     it used to read "Scoped at contract" for every visitor
                     because nothing in the journey asked what a launch would
@@ -593,10 +618,10 @@ export function ConfigSummary() {
 // Book Demo CTAs in the same row Core/Report use, so the Crew path
 // reaches feature-parity with the analytics path.
 
-import { computeCrewQuote } from '../../lib/crewPricing';
 import { CrewQuoteButtons } from './CrewQuoteButtons';
 import type { CrewSkuId } from '../../types/configuration';
 import { objectOverlaysFor, resolveImplementationClass } from '../../lib/discoveryEngine';
+import { computeCrewQuote } from '../../lib/crewPricing';
 
 interface CrewSummaryBodyProps {
   selectedSkus: CrewSkuId[];

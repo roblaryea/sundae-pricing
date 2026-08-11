@@ -78,6 +78,26 @@ export function ROISimulator() {
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
+  // The ROI denominator must contain exactly what the numerator credits.
+  //
+  // `pricing.total` carries the add-ons, Watchtower and Cross-Intelligence, and
+  // `SAVINGS_ASSUMPTIONS` has a rate for none of them — nine domain rates, and
+  // nothing for Watchtower, Foresight & Action or any concept SKU. So every
+  // incremental purchase entered the model as pure cost against zero benefit
+  // and mechanically LOWERED the return: a Core Performance single site at
+  // $100k/month went from +$378/mo net to -$521/mo simply by ticking Watchtower
+  // Complete, and the verdict flipped to "does not pay for itself". The
+  // configurator was arguing against its own upsell.
+  //
+  // Charging something in the denominator while refusing it a numerator is an
+  // arithmetic error, not conservatism. The two honest repairs are to give each
+  // rail a reasoned savings line or to model the return on the rail we can
+  // actually evidence. An evidence review rejected five separate attempts to
+  // raise or invent savings rates, so inventing one for Watchtower is not
+  // available — the ROI is modelled on the Core package, and the screen says so
+  // and names what it left out. The full monthly investment is still totalled on
+  // the quote summary.
+  const corePricing = usePriceCalculation(layer, corePackage, locations, [], []);
   // Identical resolution order to ConfigSummary and CompactCompetitorCompare:
   // the discovery answers override the per-SKU classes when the visitor told us
   // what they run. A blank is honest when they skipped it; an invented fee is
@@ -108,6 +128,10 @@ export function ROISimulator() {
       ? computeCrewQuote(selectedCrewSkus, locations).monthly
       : 0;
 
+  // What the model charges, and what it deliberately does not.
+  const coreOnlyMonthly = corePricing.total;
+  const excludedFromRoi = Math.max(0, pricing.total + crewMonthly - coreOnlyMonthly);
+
   const roi = useROICalculation(
     {
       // ROI models the Core decision layer; 'both' contributes its Core side.
@@ -118,9 +142,15 @@ export function ROISimulator() {
       watchtowerModules,
     },
     roiInputs,
-    // The recurring cost must include the Crew rail on the combined pathway —
-    // omitting it understated monthly cost and flattered both ROI and payback.
-    pricing.total + crewMonthly,
+    // The Core rail alone, priced under the same discount rules.
+    //
+    // This previously read `pricing.total + crewMonthly`, added so the combined
+    // pathway did not understate monthly cost. That fixed a real understatement
+    // but produced the mirror error: Crew has no savings line either, so the
+    // combined quote charged two rails against one rail's benefit. Matching the
+    // scope on BOTH sides is the repair that is right in both directions, and
+    // the excluded spend is named on screen rather than dropped quietly.
+    coreOnlyMonthly,
     // And payback must clear the one-time implementation the quote charges.
     //
     // This read `pricing.implementation` alone, which collects the class of each
@@ -411,6 +441,17 @@ export function ROISimulator() {
             {generateROIDescription(roi, locale as PricingUiLocale)}
           </p>
         </div>
+
+        {/* Naming the excluded spend is what makes modelling the Core rail
+            alone honest rather than flattering. Without this line the return
+            would simply look better for reasons the buyer cannot see. */}
+        {excludedFromRoi > 0 && (
+          <p className="mt-3 text-xs text-sundae-muted text-center">
+            {formatMessage(copy.roiBasisNote, {
+              excluded: `$${Math.round(excludedFromRoi).toLocaleString(locale)}`,
+            })}
+          </p>
+        )}
       </motion.div>
 
       {roi.savingsLines.length > 0 && (

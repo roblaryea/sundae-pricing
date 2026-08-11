@@ -1,6 +1,6 @@
 // ROI calculator component with dynamic module-based savings
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   type LucideIcon,
@@ -22,6 +22,7 @@ import {
 } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
+import { resolveImplementationClass } from '../../lib/discoveryEngine';
 import {
   useROICalculation,
   generateROIDescription,
@@ -69,12 +70,27 @@ export function ROISimulator() {
     setROIInputs,
     setCurrentStep,
     crewSkus: selectedCrewSkus,
+    techStack,
+    operatingModels,
   } = useConfiguration();
 
   const q = getQuoteSummaryCopy(locale);
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
+  // Identical resolution order to ConfigSummary and CompactCompetitorCompare:
+  // the discovery answers override the per-SKU classes when the visitor told us
+  // what they run. A blank is honest when they skipped it; an invented fee is
+  // not.
+  const stackEstimate = useMemo(
+    () =>
+      techStack.length > 0
+        ? resolveImplementationClass(techStack, operatingModels, {
+            crewPayrollSelected: selectedCrewSkus.includes('crew_payroll'),
+          })
+        : null,
+    [techStack, operatingModels, selectedCrewSkus],
+  );
   // Credit ONLY the domains the selected package actually grants.
   //
   // This passed all eleven regardless of package, on the belief that every Core
@@ -106,7 +122,25 @@ export function ROISimulator() {
     // omitting it understated monthly cost and flattered both ROI and payback.
     pricing.total + crewMonthly,
     // And payback must clear the one-time implementation the quote charges.
-    pricing.implementation.requiresScoping ? 0 : pricing.implementation.fee,
+    //
+    // This read `pricing.implementation` alone, which collects the class of each
+    // selected SKU — and every Core package publishes `implementationClass:
+    // null`. One null forces `requiresScoping`, so the fee resolved to 0 on
+    // EVERY Core quote, payback fell to the 14-day floor, and the tile printed
+    // "14 days" on 100% of paying configurations: the same answer for a
+    // $1,195/mo single site and a $78,576/mo hundred-site estate.
+    //
+    // The buyer has usually already told us. The discovery step asks which
+    // systems they run and `resolveImplementationClass` grades that into a real
+    // class — the same resolution ConfigSummary and the competitor card use to
+    // quote the fee. Payback now clears the fee we actually quote. When the
+    // systems question was skipped there is genuinely nothing to charge, and it
+    // stays scoped at contract.
+    stackEstimate
+      ? stackEstimate.fee
+      : pricing.implementation.requiresScoping
+        ? 0
+        : pricing.implementation.fee,
   );
 
   // The configuration store is persisted, so a visitor who set $50,000 before

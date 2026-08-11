@@ -31,6 +31,7 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 
 import {
+  comparisonAmount,
   COMPETITOR_ASSUMPTIONS,
   COMPETITOR_PRICING,
   CORE_PACKAGE_SELECTION_ID,
@@ -336,18 +337,39 @@ describe("implementation is never claimed to be free", () => {
     expect(c.savings.firstYear).toBe(c.competitorCost.firstYear - (57168 + 7500));
   });
 
-  it("leads on the recurring basis, which is like-for-like on both sides", () => {
+  it("leads on recurring only while OUR implementation is still scoped", () => {
+    // This is the guard against the reverse defect: counting a competitor's
+    // setup fee against a Sundae figure that excludes ours.
     const [c] = calculateAllComparisons(10, SELECTION, basis(), undefined, AS_OF);
-    // The headline excludes their setup fee AND our implementation.
+    expect(c.savings.firstYearComparable).toBe(false);
+    expect(comparisonAmount(c)).toBe(c.savings.ongoing);
     expect(c.savings.ongoing).toBe(c.competitorCost.ongoing - c.sundaeCost.annual);
     expect(c.competitorCost.ongoing + c.competitorCost.setupFee).toBe(c.competitorCost.firstYear);
-    expect(CARD_SRC).toContain("savings.ongoing");
   });
 
-  it("sorts by the basis it displays", () => {
-    const all = calculateAllComparisons(10, SELECTION, basis(), undefined, AS_OF);
-    const sorted = [...all].sort((a, b) => b.savings.ongoing - a.savings.ongoing);
-    expect(all.map((c) => c.competitor.id)).toEqual(sorted.map((c) => c.competitor.id));
+  it("leads on FIRST YEAR once our implementation is a number", () => {
+    // Recurring-only silently gave every competitor their setup fee for free —
+    // Tenzo charges $1,050 a location, Power BI $15,000-$50,000 to build. The
+    // discovery answers now resolve our class, so both sides are knowable and
+    // the honest basis is the one that includes them.
+    const [c] = calculateAllComparisons(
+      10,
+      SELECTION,
+      basis({ implementationScoped: false, implementationFee: 7500 }),
+      undefined,
+      AS_OF,
+    );
+    expect(c.savings.firstYearComparable).toBe(true);
+    expect(comparisonAmount(c)).toBe(c.savings.firstYear);
+    expect(comparisonAmount(c)).not.toBe(c.savings.ongoing);
+  });
+
+  it("sorts by the basis it displays, on either basis", () => {
+    for (const b of [basis(), basis({ implementationScoped: false, implementationFee: 7500 })]) {
+      const all = calculateAllComparisons(10, SELECTION, b, undefined, AS_OF);
+      const sorted = [...all].sort((x, y) => comparisonAmount(y) - comparisonAmount(x));
+      expect(all.map((c) => c.competitor.id)).toEqual(sorted.map((c) => c.competitor.id));
+    }
   });
 
   it("keeps the PDF path's arithmetic when handed a bare monthly number", () => {

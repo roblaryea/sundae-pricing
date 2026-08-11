@@ -36,6 +36,7 @@ import {
   type ComparisonResult,
   type SundaeQuoteBasis,
 } from '../../data/competitorPricing';
+import { comparisonAmount } from '../../data/competitorPricing';
 import { PACKAGE_DOMAIN_GRANTS, modules as coreDomainModules } from '../../data/pricing';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import { resolveImplementationFee } from '../../lib/pricingEngine';
@@ -206,8 +207,8 @@ export function CompactCompetitorCompare() {
     );
   }
 
-  const cheaper = comparisons.filter((c) => c.savings.ongoing > 0);
-  const costsMore = comparisons.filter((c) => c.savings.ongoing <= 0);
+  const cheaper = comparisons.filter((c) => comparisonAmount(c) > 0);
+  const costsMore = comparisons.filter((c) => comparisonAmount(c) <= 0);
   const bestSavings = cheaper[0];
 
   return (
@@ -311,9 +312,13 @@ export function CompactCompetitorCompare() {
             </div>
             <div className="text-right">
               <div className="font-display text-2xl font-bold text-green-400 tabular-nums">
-                {money(bestSavings.savings.ongoing)}
+                {money(comparisonAmount(bestSavings))}
               </div>
-              <div className="text-xs text-slate-400">{copy.ongoingAnnualSavings}</div>
+              <div className="text-xs text-slate-400">
+                {bestSavings.savings.firstYearComparable
+                  ? copy.firstYearSavings
+                  : copy.ongoingAnnualSavings}
+              </div>
             </div>
           </div>
         </div>
@@ -366,7 +371,7 @@ interface ComparisonCardProps {
 function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy, money }: ComparisonCardProps) {
   const competitor = COMPETITOR_PRICING[comparison.competitor.id];
   const { effectiveVerification: badge, lastVerified } = comparison.competitor;
-  const cheaperThanSundae = comparison.savings.ongoing <= 0;
+  const cheaperThanSundae = comparisonAmount(comparison) <= 0;
 
   // Generic label lookup: returns a translation when one exists and the English
   // string otherwise. New labels therefore ship readable and pick up a
@@ -423,7 +428,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
             {cheaperThanSundae ? (
               <>
                 <div className="text-slate-300 font-bold whitespace-nowrap tabular-nums">
-                  {money(Math.abs(comparison.savings.ongoing))}
+                  {money(Math.abs(comparisonAmount(comparison)))}
                 </div>
                 <div className="text-xs text-slate-400 whitespace-nowrap">cheaper per year</div>
               </>
@@ -431,7 +436,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
               <>
                 <div className="text-green-400 font-bold whitespace-nowrap">
                   {formatMessage(copy.saveVsCompetitor, {
-                    amount: Math.round(comparison.savings.ongoing).toLocaleString(locale),
+                    amount: Math.round(comparisonAmount(comparison)).toLocaleString(locale),
                   })}
                 </div>
                 <div className="text-xs text-slate-400 whitespace-nowrap">
@@ -563,7 +568,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                   )}
                 >
                   {cheaperThanSundae ? '-' : ''}
-                  {money(Math.abs(comparison.savings.ongoing))}
+                  {money(Math.abs(comparisonAmount(comparison)))}
                 </span>
               </div>
 

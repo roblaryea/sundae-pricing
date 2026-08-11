@@ -909,6 +909,26 @@ export function calculateCompetitorComparison(
   };
 }
 
+/**
+ * The basis a comparison is argued on — one definition, used by both the sort
+ * here and every figure the card renders.
+ *
+ * First year (recurring plus one-time on BOTH sides) is the honest basis when
+ * our own implementation is knowable, because every competitor here charges
+ * real setup: Tenzo $350 per module per location, Power BI $15,000-$50,000 to
+ * build. Recurring-only silently gave them those fees for free.
+ *
+ * It is used only when `firstYearComparable` is true. That flag is false while
+ * Sundae's implementation is still scoped at contract, and counting a
+ * competitor's setup fee against a Sundae figure that excludes ours is the same
+ * defect pointing the other way — which is exactly why an earlier fix moved
+ * this sort onto `ongoing`. The asymmetry is gone once the discovery answers
+ * resolve our class, so the basis can follow the data again.
+ */
+export function comparisonAmount(c: ComparisonResult): number {
+  return c.savings.firstYearComparable ? c.savings.firstYear : c.savings.ongoing;
+}
+
 export function calculateAllComparisons(
   locations: number,
   modules: string[],
@@ -932,10 +952,9 @@ export function calculateAllComparisons(
       return true;
     });
 
-  // Largest recurring-annual saving first. The old sort keyed on `firstYear`,
-  // which counted the competitor's setup fee against a Sundae figure that
-  // excluded our implementation entirely.
-  return comparisons.sort((a, b) => b.savings.ongoing - a.savings.ongoing);
+  // Sorted on the SAME basis the card renders, so the ranking can never
+  // disagree with the number beside it.
+  return comparisons.sort((a, b) => comparisonAmount(b) - comparisonAmount(a));
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

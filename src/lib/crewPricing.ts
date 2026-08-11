@@ -16,6 +16,17 @@
 // Bundle prices are NAMED NET prices, never a percentage off the components.
 // Any saving shown is DERIVED here as (component sum − net price); it is
 // never an input to the price.
+//
+// A published net bundle price is a CEILING, not a label that only fires on an
+// exact set match. If a bundle delivers everything the visitor asked for, the
+// visitor can simply buy that bundle, so no selection may ever be quoted above
+// it. Quoting by exact-set-equality broke that: Manage+Pay ($528),
+// Manage+Time+People ($747) and Manage+Pay+People ($777) are all reachable in
+// the builder and were each quoted ABOVE the very bundle that covers them
+// (Crew Operating $499 / Crew Complete $699) — a sales-blocking overcharge on
+// the printed quote and the emailed PDF. `cheapestPlan` therefore prices the
+// cheapest legal way to DELIVER the selection, choosing freely between
+// individual SKUs and any combination of published bundles.
 
 import { crewSkus, crewBundles, type CrewBundle } from '../data/pricing';
 import { resolveImplementationFee, type ImplementationResult } from './pricingEngine';
@@ -30,15 +41,31 @@ export interface CrewQuoteLine {
 
 export interface CrewQuote {
   selectedSkus: CrewSkuId[];
-  /** Auto-detected when the SKU set matches a canonical bundle exactly. */
+  /**
+   * Set when ONE published bundle is the cheapest way to deliver the whole
+   * selection — which includes, but is no longer limited to, an exact set
+   * match. Consumers (CrewBuilder, CrewSummaryBody, the PDF, the mailto body)
+   * rely on `lines[0]` being that bundle line whenever this is non-null.
+   */
   detectedBundleId: CrewBundleId | null;
   lines: CrewQuoteLine[];
   monthly: number;
   annual: number;
   /** ONE implementation charge for the whole stack — never a per-SKU sum. */
   implementation: ImplementationResult;
-  /** Derived: component sum − the bundle's published net price. */
+  /** Derived: component sum − the quoted price. Display only, never an input. */
   bundleSavingsMonthly: number;
+  /**
+   * Employees per location included before overage — ONE allowance for the
+   * whole stack, never the sum of each component's allowance. Every Crew SKU
+   * publishes the same 15/location soft cap, so a Manage+Time+Pay buyer is
+   * entitled to 15 per location, NOT 45; anything that added them up would
+   * hand a bundle buyer three times the headroom the price book grants.
+   * `null` when nothing is selected. The per-employee overage RATE is
+   * deliberately absent: it is published per SKU, and collapsing three
+   * different rates into one stack rate would be inventing a price.
+   */
+  employeeAllowancePerLocation: number | null;
   /** Whether the visitor is on the Lite SMB path (caps locations at 5). */
   isLiteOnly: boolean;
   /**
@@ -49,27 +76,81 @@ export interface CrewQuote {
   locations: number;
 }
 
-function sameSet(a: CrewSkuId[], b: CrewSkuId[]): boolean {
-  if (a.length !== b.length) return false;
-  const setB = new Set(b);
-  return a.every((id) => setB.has(id));
+/**
+ * What buying `skus` actually entitles you to. Crew Manage carries the Crew
+ * Schedule entitlement, and the bundle definitions omit Schedule for exactly
+ * that reason — so a bundle listing Manage still covers a visitor who has the
+ * Schedule tile ticked (the builder auto-ticks it at $0 next to Manage).
+ * Without this expansion every Manage-based bundle would look like it fails to
+ * cover the very selection the builder produces.
+ */
+function entitlementsOf(skus: readonly CrewSkuId[]): Set<CrewSkuId> {
+  const granted = new Set<CrewSkuId>(skus);
+  if (granted.has('crew_operations')) granted.add('crew_scheduling');
+  return granted;
 }
 
-// Bundle definitions don't list `crew_scheduling` because Operations
-// already includes it. The UI keeps Scheduling visible in the selection
-// set when Operations is present (so the tile reads as "auto-included
-// at $0"), so detection normalizes by stripping Scheduling when
-// Operations is in the set before matching.
-function detectBundle(skus: CrewSkuId[]): CrewBundleId | null {
-  const normalized = skus.includes('crew_operations')
-    ? skus.filter((s) => s !== 'crew_scheduling')
-    : skus;
-  for (const [bundleId, bundle] of Object.entries(crewBundles)) {
-    if (sameSet(normalized, bundle.skus as CrewSkuId[])) {
-      return bundleId as CrewBundleId;
+/**
+ * Standalone monthly for one SKU in the context of a selection. Schedule bills
+ * $0 while Manage is in the set — it stays a visible line so the quote matches
+ * the builder tile's "selected · included" state, but it must never be summed.
+ */
+function standalonePrice(id: CrewSkuId, selection: ReadonlySet<CrewSkuId>): number {
+  return id === 'crew_scheduling' && selection.has('crew_operations')
+    ? 0
+    : crewSkus[id].orgLicensePrice;
+}
+
+interface CrewPlan {
+  /** Published bundles bought outright, at their net list price. */
+  bundleIds: CrewBundleId[];
+  /** Selected SKUs no chosen bundle covers, billed individually. */
+  standalone: CrewSkuId[];
+  monthly: number;
+}
+
+/**
+ * The cheapest legal way to deliver the selection.
+ *
+ * Exhaustive over every combination of published bundles (2^3 = 8 today) plus
+ * the individually-billed remainder. Exhaustive rather than "find the one
+ * bundle whose SKU list is equal / is a superset" because the two together are
+ * what makes the ceiling airtight: a partial-cover plan (a bundle plus a
+ * leftover SKU) can beat both the raw component sum and any single covering
+ * bundle, and a greedy search would miss it. With three bundles the search is
+ * eight iterations — cheap enough to be certain instead of clever.
+ *
+ * A bundle that covers nothing in the selection can never win: every bundle
+ * costs more than $0, so dropping it always yields a strictly cheaper plan.
+ * That is why there is no explicit "don't upsell" guard here.
+ */
+function cheapestPlan(selectedSkus: CrewSkuId[]): CrewPlan {
+  const selection = new Set(selectedSkus);
+  const bundleIds = Object.keys(crewBundles) as CrewBundleId[];
+  let best: CrewPlan | null = null;
+
+  for (let mask = 0; mask < 1 << bundleIds.length; mask += 1) {
+    const chosen = bundleIds.filter((_, index) => mask & (1 << index));
+    const covered = new Set<CrewSkuId>();
+    for (const bundleId of chosen) {
+      for (const sku of entitlementsOf(crewBundles[bundleId].skus)) covered.add(sku);
     }
+    const standalone = selectedSkus.filter((id) => !covered.has(id));
+    const monthly =
+      chosen.reduce((sum, id) => sum + crewBundles[id].basePrice, 0) +
+      standalone.reduce((sum, id) => sum + standalonePrice(id, selection), 0);
+
+    // Tie-break toward the fewest bundles so an equal-priced quote shows what
+    // the visitor actually configured rather than a product they never picked.
+    const wins =
+      best === null ||
+      monthly < best.monthly ||
+      (monthly === best.monthly && chosen.length < best.bundleIds.length);
+    if (wins) best = { bundleIds: chosen, standalone, monthly };
   }
-  return null;
+
+  // mask 0 always runs, so `best` is assigned on the first iteration.
+  return best as CrewPlan;
 }
 
 interface LineOptions {
@@ -90,54 +171,55 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
   const isLiteOnly = selectedSkus.length === 1 && selectedSkus[0] === 'crew_lite';
   // Lite cap: 5 locations max. Defensive — useConfiguration also clamps.
   const effectiveLocations = isLiteOnly ? Math.min(locations, 5) : locations;
-  const detectedBundleId = detectBundle(selectedSkus);
+  const selection = new Set(selectedSkus);
 
-  if (detectedBundleId) {
-    const bundle = crewBundles[detectedBundleId];
-    const bundleMonthly = bundle.basePrice;
-    // Savings vs the sum of the standalone SKUs. Strip Scheduling from the
-    // standalone calc when Operations is present so the comparison isn't
-    // inflated by a line that is already $0. DERIVED only — the bundle price
-    // above is the published net figure, not a discount off this sum.
-    const hasOps = selectedSkus.includes('crew_operations');
-    const standaloneMonthly = selectedSkus
-      .filter((id) => !(id === 'crew_scheduling' && hasOps))
-      .map((id) => lineForSku(id).monthly)
-      .reduce((sum, m) => sum + m, 0);
-    return {
-      selectedSkus,
-      detectedBundleId,
-      lines: [{ id: detectedBundleId, label: bundle.name, monthly: bundleMonthly }],
-      monthly: bundleMonthly,
-      annual: bundleMonthly * 12,
-      implementation: resolveImplementationFee([bundle.implementationClass]),
-      bundleSavingsMonthly: Math.max(0, standaloneMonthly - bundleMonthly),
-      isLiteOnly: false,
-      locations: effectiveLocations,
-    };
-  }
+  const plan = cheapestPlan(selectedSkus);
 
-  // No bundle — sum the individual SKUs. Scheduling is rendered at $0
-  // when Operations is in the set (Operations entitlement includes
-  // Scheduling), but stays visible as a line so the UI matches the
-  // Scheduling tile's "selected at $0" state.
-  const hasOperations = selectedSkus.includes('crew_operations');
-  const lines = selectedSkus.map((id) =>
-    lineForSku(id, { includedFree: id === 'crew_scheduling' && hasOperations }),
-  );
-  const monthly = lines.reduce((sum, line) => sum + line.monthly, 0);
+  // Bundle lines first, then whatever the bundles don't cover. A SKU a bundle
+  // covers gets NO line of its own — it is already inside the net price, and a
+  // second line would read as a second charge.
+  const lines: CrewQuoteLine[] = [
+    ...plan.bundleIds.map((id) => ({
+      id,
+      label: crewBundles[id].name,
+      monthly: crewBundles[id].basePrice,
+    })),
+    ...plan.standalone.map((id) =>
+      lineForSku(id, { includedFree: standalonePrice(id, selection) === 0 }),
+    ),
+  ];
+  const monthly = plan.monthly;
+
+  // Savings are DERIVED for display: what the same delivery would have cost
+  // billed SKU-by-SKU, minus what we actually quote. The net bundle price is
+  // the published figure — it is never this sum minus a discount, and this
+  // number is never subtracted from `monthly`, or the net price would take a
+  // second bundle discount on top of itself.
+  const componentSum = selectedSkus.reduce((sum, id) => sum + standalonePrice(id, selection), 0);
+
+  // The whole selection sits inside a single published bundle: consumers show
+  // its name as the headline and the "net bundle price" badge. A plan that
+  // mixes a bundle with leftover SKUs is not one named product, so it stays
+  // null and the UI falls back to the "N SKUs selected" headline.
+  const detectedBundleId =
+    plan.bundleIds.length === 1 && plan.standalone.length === 0 ? plan.bundleIds[0] : null;
 
   return {
     selectedSkus,
-    detectedBundleId: null,
+    detectedBundleId,
     lines,
     monthly,
     annual: monthly * 12,
-    // Charged ONCE at the highest class in the selection. Never summed.
-    implementation: resolveImplementationFee(
-      selectedSkus.map((id) => crewSkus[id].implementationClass),
-    ),
-    bundleSavingsMonthly: 0,
+    // Charged ONCE at the highest class in the selection. Never summed — and
+    // the bundle's own class counts, since a bundle is what gets implemented.
+    implementation: resolveImplementationFee([
+      ...plan.bundleIds.map((id) => crewBundles[id].implementationClass),
+      ...plan.standalone.map((id) => crewSkus[id].implementationClass),
+    ]),
+    bundleSavingsMonthly: Math.max(0, componentSum - monthly),
+    employeeAllowancePerLocation: selectedSkus.length
+      ? Math.min(...selectedSkus.map((id) => crewSkus[id].caps.maxEmployeesPerLocation))
+      : null,
     isLiteOnly,
     locations: effectiveLocations,
   };

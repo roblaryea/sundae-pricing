@@ -489,18 +489,32 @@ describe('Billing-cycle discounts', () => {
 });
 
 describe('Combined discount cap', () => {
-  it('allows volume and billing to stack', () => {
-    expect(DISCOUNT_RULES.stackingAllowed).toBe(true);
+  it('gives the LARGER of volume and billing, never their sum', () => {
+    // Price book v1.7 section 2.1: mutually exclusive. This test previously
+    // asserted 5% + 10% = 15%, encoding a discount the billing system will not
+    // honour — worth $2,092/mo on a 240-location annual quote.
+    expect(DISCOUNT_RULES.stackingAllowed).toBe(false);
     const combined = calculateCombinedDiscount(100, 'annual');
     expect(combined.volumePercent).toBe(5);
     expect(combined.billingPercent).toBe(10);
-    expect(combined.totalPercent).toBe(15);
+    expect(combined.totalPercent).toBe(10);
+    expect(combined.appliedBillingPercent).toBe(10);
+    expect(combined.appliedVolumePercent).toBe(0);
+  });
+
+  it('gives volume when volume is the larger of the two', () => {
+    const combined = calculateCombinedDiscount(240, 'monthly');
+    expect(combined.totalPercent).toBe(7);
+    expect(combined.appliedVolumePercent).toBe(7);
   });
 
   it('caps the combination at 15%', () => {
-    const combined = calculateCombinedDiscount(200, 'two_year'); // 7 + 15 = 22
+    // Exclusive selection already lands on 15 here (max(7, 15)); the cap is a
+    // ceiling on the early-adopter stack, not the mechanism that produces this.
+    const combined = calculateCombinedDiscount(200, 'two_year');
     expect(combined.totalPercent).toBe(15);
-    expect(combined.capped).toBe(true);
+    expect(calculateCombinedDiscount(200, 'two_year', true).totalPercent).toBe(15);
+    expect(calculateCombinedDiscount(200, 'two_year', true).capped).toBe(true);
     expect(DISCOUNT_RULES.maxDiscountPercent).toBe(15);
   });
 
@@ -655,7 +669,7 @@ describe('Combined calculated-discount cap', () => {
     expect(effective).not.toBeCloseTo(32, 5);
   });
 
-  it('emits ONE combined discount line, not a stack', () => {
+  it('itemises each concession, and the lines reconcile to the total charged', () => {
     const result = calculateFullPrice({
       layer: 'core',
       corePackage: 'core_margin',
@@ -664,8 +678,24 @@ describe('Combined calculated-discount cap', () => {
       watchtower: [],
       clientProfile: { ...earlyAdopter, billingCycle: 'annual' },
     });
-    expect(result.discountsApplied).toHaveLength(1);
-    expect(result.discountsApplied[0].percent).toBe(DISCOUNT_RULES.maxDiscountPercent);
+    // A single "Combined discount" line meant a reader could not check the
+    // total against its parts, or tell WHICH concession they had been given —
+    // and volume and billing cycle are negotiated separately. Each applied
+    // concession is now its own line.
+    const money = result.discountsApplied.filter((d) => d.amount !== 0);
+    expect(money.length).toBeGreaterThan(1);
+
+    // The parts must sum EXACTLY to the difference the buyer is charged, even
+    // after the 15% cap bites and after rounding.
+    const summed = result.discountsApplied.reduce((t, d) => t + d.amount, 0);
+    expect(result.subtotal + summed).toBeCloseTo(result.total, 2);
+
+    // The effective rate still respects the published ceiling.
+    const effective = ((result.subtotal - result.total) / result.subtotal) * 100;
+    expect(effective).toBeCloseTo(DISCOUNT_RULES.maxDiscountPercent, 6);
+
+    // And the term that lost the exclusive choice is stated, not dropped.
+    expect(result.discountsApplied.some((d) => /not applied/.test(d.name))).toBe(true);
   });
 });
 

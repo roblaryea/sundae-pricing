@@ -99,6 +99,27 @@ export function objectOverlaysFor(models: OperatingModelId[]): ObjectOverlay[] {
   return models.map((m) => OVERLAYS[m]).filter((o): o is ObjectOverlay => Boolean(o));
 }
 
+/** Reverse of CONCEPT_FOR_MODEL, so a purchase can name the model it prices. */
+const MODEL_FOR_CONCEPT = Object.fromEntries(
+  Object.entries(CONCEPT_FOR_MODEL).map(([model, concept]) => [concept, model as OperatingModelId]),
+) as Record<string, OperatingModelId | undefined>;
+
+/**
+ * Overlays for what the buyer is ACTUALLY BUYING.
+ *
+ * `objectOverlaysFor` keys off the quiz answer, which describes the business
+ * rather than the purchase — so a hotel group that answered "hotel F&B" but did
+ * not add the Hotel pathway was still shown revenue-centre billing, and a group
+ * that added a pathway without having said so at question two was shown none.
+ * An overlay is a consequence of the SKU on the quote, not of a survey answer.
+ */
+export function objectOverlaysForPurchased(purchasedConceptIds: string[]): ObjectOverlay[] {
+  const models = purchasedConceptIds
+    .map((id) => MODEL_FOR_CONCEPT[id])
+    .filter((m): m is OperatingModelId => Boolean(m));
+  return objectOverlaysFor(models);
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // IMPLEMENTATION CLASS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -158,11 +179,24 @@ export function resolveImplementationClass(
     drivers.push('More than one POS to reconcile into one standard');
   }
 
-  // Multi-concept work has to be sequenced, which is Class C by definition.
-  const conceptModels = models.filter((m) => m !== 'single_brand');
-  if (conceptModels.length >= 2) {
+  // Multi-concept work has to be sequenced — but this was far too blunt.
+  // "How is your business actually run?" invites picking every model that
+  // applies, and a group that ticks "one brand, multiple sites" alongside
+  // "franchise network" is describing ONE launch, not two. Jumping straight to
+  // Class C on the second tick swung the one-time fee from $1,500 to $7,500 on
+  // a question that explicitly asks for all that apply, which punishes an
+  // honest answer.
+  //
+  // Only models that carry their OWN concept pathway add sequencing work, and
+  // it takes three of those before the programme genuinely needs controlled
+  // sequencing rather than a standard launch.
+  const conceptBearing = models.filter((m) => CONCEPT_FOR_MODEL[m] !== undefined);
+  if (conceptBearing.length >= 3) {
     rank = Math.max(rank, 3);
-    drivers.push('Multiple operating models to sequence');
+    drivers.push(`${conceptBearing.length} concept pathways to sequence`);
+  } else if (conceptBearing.length === 2) {
+    rank = Math.max(rank, 2);
+    drivers.push('A second concept pathway to launch alongside the first');
   }
 
   if (has('custom_legacy')) {

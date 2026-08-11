@@ -28,6 +28,7 @@ import {
 import { recommendedConceptSkus } from '../../lib/discoveryEngine';
 import type { AddOnId } from '../../lib/pricingEngine';
 import { stepIndex } from '../../lib/journey';
+import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 export function ModulePicker() {
   const {
@@ -40,6 +41,8 @@ export function ModulePicker() {
     operatingModels,
   } = useConfiguration();
   const { locale, messages } = useLocale();
+  const reduced = useReducedMotionSafe();
+  const card = selectableCard(reduced);
   const copy = messages.builder.modulePicker;
   const moduleCatalog = messages.catalog.modules;
 
@@ -71,8 +74,9 @@ export function ModulePicker() {
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={fadeUp(reduced)}
+        initial="hidden"
+        animate="visible"
         className="text-center mb-10"
       >
         <h1 className="text-4xl font-bold mb-4">{copy.title}</h1>
@@ -81,8 +85,9 @@ export function ModulePicker() {
 
       {/* ── 1. Included with the package (NOT purchasable) ───────────────── */}
       <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={fadeUp(reduced, 0.04)}
+        initial="hidden"
+        animate="visible"
         className="mb-12 p-6 rounded-xl border border-white/10 bg-sundae-surface"
       >
         <div className="flex items-start gap-3 mb-5">
@@ -131,14 +136,24 @@ export function ModulePicker() {
         Sold alongside your Core package. Nothing here is required.
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+      {/* One stagger container for the whole add-on grid. The lift and the
+          press live in `selectableCard`, whose tween replaces framer's default
+          spring — the default is under-damped and every one of these cards
+          overshot its resting size before settling back. */}
+      <motion.div
+        variants={staggerChildren(reduced, orderedConceptIds.length + 1)}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"
+      >
         {/* Foresight & Action — banded */}
         <motion.button
           onClick={() => toggleAddOn('foresight_action')}
           aria-pressed={isSelected('foresight_action')}
           data-testid="addon-foresight_action"
-          whileHover={{ y: -4 }}
-          className={`w-full h-full p-6 rounded-xl border-2 transition-all text-left relative ${
+          variants={fadeUp(reduced)}
+          {...card}
+          className={`w-full h-full p-6 rounded-xl border-2 transition-colors text-left relative ${
             isSelected('foresight_action')
               ? 'bg-gradient-to-br from-sundae-accent/20 to-[#FF5C4D]/20 border-sundae-accent/50'
               : 'bg-sundae-surface border-white/10 hover:border-white/30'
@@ -203,8 +218,9 @@ export function ModulePicker() {
               onClick={() => toggleAddOn(conceptId)}
               aria-pressed={isSelected(conceptId)}
               data-testid={`addon-${conceptId}`}
-              whileHover={{ y: -4 }}
-              className={`w-full h-full p-6 rounded-xl border-2 transition-all text-left relative ${
+              variants={fadeUp(reduced)}
+              {...card}
+              className={`w-full h-full p-6 rounded-xl border-2 transition-colors text-left relative ${
                 isSelected(conceptId)
                   ? 'bg-gradient-to-br from-sundae-accent/20 to-[#FF5C4D]/20 border-sundae-accent/50'
                   : 'bg-sundae-surface border-white/10 hover:border-white/30'
@@ -250,12 +266,13 @@ export function ModulePicker() {
             </motion.button>
           );
         })}
-      </div>
+      </motion.div>
 
       {/* Cross-Intelligence: always on with a Core package */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        variants={fadeUp(reduced, 0.04)}
+        initial="hidden"
+        animate="visible"
         className="mb-6 p-4 bg-gradient-to-r from-[#E9A24A]/20 to-[#FF7E6F]/20 rounded-lg border border-[#E9A24A]/30"
       >
         <div className="flex items-center gap-3">
@@ -269,11 +286,12 @@ export function ModulePicker() {
         </div>
       </motion.div>
 
-      {/* Running total */}
+      {/* Running total — the number the visitor is on this screen for, so it
+          does not queue behind the cards it is summing. */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+        variants={fadeUp(reduced, 0.06)}
+        initial="hidden"
+        animate="visible"
         className="mb-8 p-6 bg-gradient-to-br from-sundae-surface to-sundae-surface/50 rounded-xl border border-white/10"
       >
         <div className="flex items-center justify-between">
@@ -308,11 +326,12 @@ export function ModulePicker() {
         </div>
       </motion.div>
 
-      {/* Navigation */}
+      {/* Navigation — a 400ms delay on the only way forward was the clearest
+          case of decoration blocking content on this step. */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
+        variants={fadeUp(reduced, 0.06)}
+        initial="hidden"
+        animate="visible"
         className="mb-32 flex items-center justify-between relative z-50"
       >
         <button

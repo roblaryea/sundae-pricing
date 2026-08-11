@@ -23,6 +23,7 @@ import { crewSkus } from '../../data/pricing';
 import { computeCrewQuote, CREW_PRESETS, CREW_SKU_LIST } from '../../lib/crewPricing';
 import type { CrewSkuId } from '../../types/configuration';
 import { stepIndex } from '../../lib/journey';
+import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 // Crew Lite hard location cap (mirrors crewSkus.crew_lite.caps.maxLocations).
 const LITE_LOCATION_CAP = 5;
@@ -37,6 +38,12 @@ export function CrewBuilder() {
     setCurrentStep,
     markStepCompleted,
   } = useConfiguration();
+
+  const reduced = useReducedMotionSafe();
+  const card = selectableCard(reduced);
+  // A locked SKU tile must not lift or press. Offering the feedback of an
+  // interaction the click handler then refuses reads as a broken control.
+  const cardIf = (enabled: boolean) => (enabled ? card : { transition: card.transition });
 
   const quote = useMemo(
     () => computeCrewQuote(selectedSkus, locations),
@@ -107,8 +114,9 @@ export function CrewBuilder() {
   return (
     <div className="max-w-5xl mx-auto">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={fadeUp(reduced)}
+        initial="hidden"
+        animate="visible"
         className="text-center mb-8"
       >
         <div className="flex items-center justify-center gap-3 mb-2">
@@ -127,16 +135,21 @@ export function CrewBuilder() {
         <p className="text-xs uppercase tracking-wider text-sundae-muted font-semibold mb-3">
           Quick presets
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <motion.div
+          variants={staggerChildren(reduced, CREW_PRESETS.length)}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-1 md:grid-cols-3 gap-3"
+        >
           {CREW_PRESETS.map((preset) => {
             const isActive = activePresetId === preset.id;
             return (
               <motion.button
                 key={preset.id}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
+                variants={fadeUp(reduced)}
+                {...card}
                 onClick={() => handlePresetClick(preset.skus)}
-                className={`text-left p-4 rounded-xl border-2 transition-all ${
+                className={`text-left p-4 rounded-xl border-2 transition-colors ${
                   isActive
                     ? 'bg-[#FF7E6F]/15 border-[#FF7E6F]'
                     : 'bg-sundae-surface border-white/10 hover:border-[#FF7E6F]/40'
@@ -156,7 +169,7 @@ export function CrewBuilder() {
               </motion.button>
             );
           })}
-        </div>
+        </motion.div>
       </div>
 
       {/* Or build your own */}
@@ -169,18 +182,23 @@ export function CrewBuilder() {
             Dependencies auto-attach · Net bundle price applied automatically when matched
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <motion.div
+          variants={staggerChildren(reduced, CREW_SKU_LIST.length)}
+          initial="hidden"
+          animate="visible"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
+        >
           {CREW_SKU_LIST.map((id) => {
             const sku = crewSkus[id];
             const state = skuState(id);
             return (
               <motion.button
                 key={id}
-                whileHover={state.isDisabled ? undefined : { y: -2 }}
-                whileTap={state.isDisabled ? undefined : { scale: 0.98 }}
+                variants={fadeUp(reduced)}
+                {...cardIf(!state.isDisabled)}
                 onClick={() => !state.isDisabled && toggleCrewSku(id)}
                 disabled={state.isDisabled}
-                className={`relative text-left p-4 rounded-xl border-2 transition-all ${
+                className={`relative text-left p-4 rounded-xl border-2 transition-colors ${
                   state.isSelected
                     ? 'bg-[#FF7E6F]/10 border-[#FF7E6F]'
                     : state.isDisabled
@@ -235,7 +253,7 @@ export function CrewBuilder() {
               </motion.button>
             );
           })}
-        </div>
+        </motion.div>
       </div>
 
       {/* Locations slider */}
@@ -359,11 +377,10 @@ export function CrewBuilder() {
       {/* Continue */}
       <div className="flex justify-end">
         <motion.button
-          whileHover={selectedSkus.length === 0 ? undefined : { scale: 1.02 }}
-          whileTap={selectedSkus.length === 0 ? undefined : { scale: 0.98 }}
+          {...cardIf(selectedSkus.length > 0)}
           onClick={handleContinue}
           disabled={selectedSkus.length === 0}
-          className={`px-6 py-3 font-bold rounded-xl flex items-center gap-2 shadow-lg transition-all ${
+          className={`px-6 py-3 font-bold rounded-xl flex items-center gap-2 shadow-lg transition-colors ${
             selectedSkus.length === 0
               ? 'bg-sundae-surface text-sundae-muted cursor-not-allowed opacity-50'
               : 'bg-gradient-primary text-white shadow-[#FF7E6F]/20'

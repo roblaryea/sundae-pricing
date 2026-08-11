@@ -426,7 +426,16 @@ export const quizQuestions: QuizQuestion[] = [
 ];
 
 // Calculate persona match based on quiz answers
-export function calculatePersonaMatch(answers: Record<string, string>, locale: PersonasLocale = 'en'): {
+/**
+ * `answers` accepts an array for multi-select questions. It used to take one
+ * string per question, so a visitor who ticked three pain points had two of
+ * them thrown away before scoring — the persona was matched on whichever
+ * option they happened to tap FIRST.
+ */
+export function calculatePersonaMatch(
+  answers: Record<string, string | string[]>,
+  locale: PersonasLocale = 'en',
+): {
   persona: Persona;
   scores: Record<string, number>;
   confidence: number;
@@ -438,17 +447,28 @@ export function calculatePersonaMatch(answers: Record<string, string>, locale: P
     strategist: 0
   };
   
-  // Calculate weighted scores
-  Object.entries(answers).forEach(([questionId, answerId]) => {
+  // Calculate weighted scores.
+  //
+  // A multi-select question contributes the AVERAGE of its selected options
+  // rather than their sum: every selection is heard, but a question does not
+  // gain influence simply because the visitor ticked more boxes. Summing would
+  // let "what keeps you up at night" outweigh every other question three to
+  // one; taking only the first selection — the previous behaviour — threw the
+  // rest away entirely.
+  Object.entries(answers).forEach(([questionId, answer]) => {
     const question = quizQuestions.find(q => q.id === questionId);
-    if (question) {
-      const option = question.options.find(o => o.id === answerId);
-      if (option) {
-        Object.entries(option.weight).forEach(([personaId, weight]) => {
-          scores[personaId] += weight;
-        });
-      }
-    }
+    if (!question) return;
+
+    const selectedIds = Array.isArray(answer) ? answer : [answer];
+    const options = selectedIds
+      .map(id => question.options.find(o => o.id === id))
+      .filter((o): o is QuizOption => Boolean(o));
+    if (options.length === 0) return;
+
+    Object.keys(scores).forEach(personaId => {
+      const total = options.reduce((sum, o) => sum + (o.weight[personaId] ?? 0), 0);
+      scores[personaId] += total / options.length;
+    });
   });
   
   // Find the highest scoring persona

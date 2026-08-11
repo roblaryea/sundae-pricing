@@ -338,6 +338,9 @@ export interface CombinedDiscount {
   billingPercent: number;
   earlyAdopterPercent: number;
   /** volume + billing + early adopter, clamped to the combined cap. */
+  /** The concession that actually applied; zero for the term that lost. */
+  appliedVolumePercent: number;
+  appliedBillingPercent: number;
   totalPercent: number;
   capped: boolean;
 }
@@ -350,12 +353,27 @@ export function calculateCombinedDiscount(
   const volumePercent = getVolumeDiscount(locations);
   const billingPercent = billingCycle ? billingDiscounts[billingCycle] : 0;
   const earlyAdopterPercent = isEarlyAdopter ? EARLY_ADOPTER_TERMS.discountPercent : 0;
-  const raw = volumePercent + billingPercent + earlyAdopterPercent;
+
+  // Volume and billing cycle are MUTUALLY EXCLUSIVE — the buyer gets whichever
+  // is larger, never both. This used to ADD them and lean on the 15% cap to
+  // hide the difference, which quoted a discount the billing system will not
+  // honour: a 240-location group on annual billing was promised 15% against a
+  // real 10%, or $2,092/mo of discount that does not exist. The cap is a
+  // ceiling, not the rule.
+  const commitmentPercent = Math.max(volumePercent, billingPercent);
+
+  // The early-adopter concession is a separate grant rather than a commitment
+  // term, so it stacks — but inside the same published ceiling.
+  const raw = commitmentPercent + earlyAdopterPercent;
   const totalPercent = Math.min(raw, DISCOUNT_RULES.maxDiscountPercent);
   return {
     volumePercent,
     billingPercent,
     earlyAdopterPercent,
+    /** The one that actually applied. Zero for the term that lost. */
+    appliedVolumePercent: commitmentPercent === volumePercent ? volumePercent : 0,
+    appliedBillingPercent:
+      commitmentPercent === volumePercent && volumePercent >= billingPercent ? 0 : billingPercent,
     totalPercent,
     capped: raw > totalPercent,
   };
@@ -379,17 +397,55 @@ export function applyDiscounts(
   if (combined.totalPercent > 0 && rules?.pricingModel !== 'enterprise') {
     const amt = running * (combined.totalPercent / 100);
     running -= amt;
-    const parts: string[] = [];
-    if (combined.volumePercent > 0) parts.push(`volume ${combined.volumePercent}%`);
-    if (combined.billingPercent > 0) parts.push(`billing ${combined.billingPercent}%`);
-    if (combined.earlyAdopterPercent > 0) parts.push('early adopter');
-    discounts.push({
-      name: combined.capped
-        ? `Combined discount (${parts.join(' + ')}, capped at ${DISCOUNT_RULES.maxDiscountPercent}%)`
-        : `Combined discount (${parts.join(' + ')})`,
-      amount: -amt,
-      percent: combined.totalPercent,
+
+    // ITEMISED, so the line items reconcile to the number the buyer sees. A
+    // single "Combined discount" line meant a reader could not check the total
+    // against its parts, and could not tell WHICH concession they had been
+    // given — the two are negotiated separately.
+    const applied: Array<{ label: string; percent: number }> = [];
+    if (combined.appliedVolumePercent > 0) {
+      applied.push({ label: `Volume (${locations} locations)`, percent: combined.appliedVolumePercent });
+    }
+    if (combined.appliedBillingPercent > 0) {
+      applied.push({ label: 'Commitment term', percent: combined.appliedBillingPercent });
+    }
+    if (combined.earlyAdopterPercent > 0) {
+      applied.push({ label: 'Early adopter', percent: combined.earlyAdopterPercent });
+    }
+
+    // Split the money across the applied concessions in proportion to their
+    // rates, so the parts sum EXACTLY to the amount charged even after the cap
+    // bites. Rounding is absorbed by the last line rather than left to drift.
+    const rateSum = applied.reduce((t, a) => t + a.percent, 0) || 1;
+    let assigned = 0;
+    applied.forEach((a, i) => {
+      const isLast = i === applied.length - 1;
+      const share = isLast ? amt - assigned : Math.round(amt * (a.percent / rateSum) * 100) / 100;
+      assigned += share;
+      discounts.push({
+        name: combined.capped && isLast
+          ? `${a.label} — ${a.percent}% (capped at ${DISCOUNT_RULES.maxDiscountPercent}% combined)`
+          : `${a.label} — ${a.percent}%`,
+        amount: -share,
+        percent: a.percent,
+      });
     });
+
+    // The term that lost the exclusive choice is stated, not silently dropped,
+    // so a buyer can see the trade rather than wonder where it went.
+    if (combined.volumePercent > 0 && combined.appliedVolumePercent === 0) {
+      discounts.push({
+        name: `Volume ${combined.volumePercent}% not applied — commitment term is larger`,
+        amount: 0,
+        percent: 0,
+      });
+    } else if (combined.billingPercent > 0 && combined.appliedBillingPercent === 0) {
+      discounts.push({
+        name: `Commitment term ${combined.billingPercent}% not applied — volume is larger`,
+        amount: 0,
+        percent: 0,
+      });
+    }
   }
 
   // Custom negotiated (stacks on remainder)
@@ -560,8 +616,31 @@ export const enterpriseCardCopy = coreTiers.enterprise;
 // COMPETITOR COMPARISON
 // ═══════════════════════════════════════════════════════════════════════════
 
+/**
+ * How many modules Tenzo actually sells.
+ *
+ * `src/data/competitorPricing.ts` (verified against tenzo.io/pricing, last
+ * checked 2026-01-01) lists sales, labor and inventory as available and
+ * marketing, purchasing, reservations and watchtower as NOT available.
+ */
+export const TENZO_SELLABLE_MODULES = 3;
+
+/**
+ * Tenzo's price for a like-for-like purchase.
+ *
+ * This was called with `moduleCount = 11` — Sundae's domain count — which
+ * invoiced Tenzo for eight modules they do not sell and inflated them 3.7x
+ * ($6,600/mo against a real $1,800 at eight locations). The resulting "save 43%
+ * vs Tenzo" badge was an artefact of pricing a configuration the competitor
+ * cannot supply.
+ *
+ * The honest comparison is not price at equal module count — it is that Sundae
+ * covers eleven domains and Tenzo covers three. Clamping here means no caller
+ * can reproduce the inflated figure.
+ */
 export function calculateTenzoPrice(locations: number, moduleCount: number) {
-  const monthly = locations * moduleCount * 75;
-  const setup = locations * moduleCount * 350;
-  return { monthly, setup, firstYear: monthly * 12 + setup };
+  const billable = Math.min(Math.max(0, moduleCount), TENZO_SELLABLE_MODULES);
+  const monthly = locations * billable * 75;
+  const setup = locations * billable * 350;
+  return { monthly, setup, firstYear: monthly * 12 + setup, modulesPriced: billable };
 }

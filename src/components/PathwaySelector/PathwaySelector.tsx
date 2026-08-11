@@ -32,14 +32,24 @@ export function PathwaySelector() {
   // Get current selections for multi-select questions
   const currentSelections = multiSelections[question?.id] || [];
 
-  const completeQuiz = useCallback((allAnswers: Record<string, string>) => {
+  const completeQuiz = useCallback((allAnswers: Record<string, string | string[]>) => {
+    // Every multi-select answer, not just the one stored in the single-valued
+    // map, so the persona reflects the whole set.
+    const scoringAnswers: Record<string, string | string[]> = {
+      ...allAnswers,
+      ...multiSelections,
+    };
     // Calculate persona match
-    const result = calculatePersonaMatch(allAnswers, locale);
+    const result = calculatePersonaMatch(scoringAnswers, locale);
     setPersona(result.persona, result.confidence);
     
     // Calculate module recommendations using the engine
-    const locationAnswer = allAnswers.locations || 'small';
-    const appetiteAnswer = allAnswers.appetite || 'ready';
+    // `allAnswers` now carries arrays for multi-select questions. These two are
+    // single-select, so narrow them rather than widen every downstream caller.
+    const single = (v: string | string[] | undefined, fallback: string) =>
+      (Array.isArray(v) ? v[0] : v) || fallback;
+    const locationAnswer = single(allAnswers.locations, 'small');
+    const appetiteAnswer = single(allAnswers.appetite, 'ready');
     const painSelections = multiSelections.pain || [];
     
     const moduleRec = calculateModuleRecommendations(
@@ -119,14 +129,18 @@ export function PathwaySelector() {
       // Store multi-select answers as comma-separated for persona calculation
       // But also store as array for module engine
       const selections = multiSelections[question.id] || [];
+      // The store's answer map is single-valued, so it keeps the first
+      // selection for compatibility — but persona scoring now receives the FULL
+      // set, because matching a persona on whichever option was tapped first
+      // discarded everything else the visitor told us.
       if (selections.length > 0) {
-        setQuizAnswer(question.id, selections[0]); // Store first for persona calc
+        setQuizAnswer(question.id, selections[0]);
       }
 
       if (currentQuestion < totalQuestions - 1) {
         setCurrentQuestion(currentQuestion + 1);
       } else {
-        completeQuiz({ ...quizAnswers, [question.id]: selections[0] || '' });
+        completeQuiz({ ...quizAnswers, [question.id]: selections });
       }
     }
   }, [completeQuiz, currentQuestion, isMultiSelect, multiSelections, question, quizAnswers, setQuizAnswer, totalQuestions]);

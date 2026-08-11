@@ -1274,8 +1274,16 @@ export const billingDiscounts: Record<BillingCycle, number> = {
 };
 
 export const DISCOUNT_RULES = {
-  /** v1.7: calculated discounts combine. */
-  stackingAllowed: true,
+  /**
+   * Volume and billing cycle are MUTUALLY EXCLUSIVE under price book v1.7
+   * section 2.1 — the buyer gets whichever is larger, never the sum. This said
+   * `true` and the engine added the two, leaning on the 15% cap to hide the
+   * difference; a 240-location group on annual billing was quoted 15% against a
+   * real 10%, promising $2,092/mo of discount the billing system would not
+   * honour. The early-adopter concession is a separate grant and does stack,
+   * inside the same ceiling.
+   */
+  stackingAllowed: false,
   /**
    * Combined ceiling across EVERY calculated discount — volume, billing cycle
    * and the early-adopter programme rate. Nothing published may be applied on

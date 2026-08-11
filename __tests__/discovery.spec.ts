@@ -90,10 +90,21 @@ describe("resolveImplementationClass", () => {
     expect(r(["pos_standard", "payroll_hr"]).classId).toBe("class_b");
   });
 
-  it("escalates when several operating models must be sequenced", () => {
-    const out = r(["pos_standard"], ["franchise", "hotel_fb"]);
-    expect(out.classId).toBe("class_c");
-    expect(out.drivers.join(" ")).toMatch(/operating models/i);
+  it("escalates on the NUMBER of concept pathways, not on ticking a second box", () => {
+    // "How is your business actually run?" invites picking every model that
+    // applies, so jumping to Class C on the second tick swung the one-time fee
+    // from $1,500 to $7,500 and punished an honest answer. Only models carrying
+    // their own concept pathway add sequencing work.
+    expect(r(["pos_standard"], ["single_brand", "franchise"]).classId).toBe("class_a");
+    expect(r(["pos_standard"], ["single_brand", "multi_brand"]).classId).toBe("class_a");
+
+    const two = r(["pos_standard"], ["franchise", "hotel_fb"]);
+    expect(two.classId).toBe("class_b");
+    expect(two.drivers.join(" ")).toMatch(/second concept pathway/i);
+
+    const three = r(["pos_standard"], ["franchise", "hotel_fb", "cloud_kitchen"]);
+    expect(three.classId).toBe("class_c");
+    expect(three.drivers.join(" ")).toMatch(/concept pathways/i);
   });
 
   it("marks an unknown stack indicative rather than inventing a precise fee", () => {

@@ -1,14 +1,12 @@
 // Live price calculator component that appears during configuration
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { DollarSign, TrendingDown, ChevronDown, ChevronUp } from 'lucide-react';
+import { DollarSign, ChevronDown, ChevronUp } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
-import { competitors } from '../../data/competitors';
 import { useEffect, useRef, useState } from 'react';
 import { useLocale } from '../../contexts/LocaleContext';
 import {
-  formatMessage,
   getLiveCalculatorCopy,
   type PricingUiLocale,
 } from '../../lib/pricingUiCopy';
@@ -16,12 +14,8 @@ import {
 export function LiveCalculator() {
   const { locale } = useLocale();
   const copy = getLiveCalculatorCopy(locale as PricingUiLocale);
-  const { layer, corePackage, locations, addOns, watchtowerModules, competitors: configCompetitors } = useConfiguration();
+  const { layer, corePackage, locations, addOns, watchtowerModules } = useConfiguration();
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
-  
-  // Get dynamic competitor name (defaults to Tenzo for backwards compatibility)
-  const primaryCompetitor = configCompetitors?.primaryComparison || 'tenzo';
-  const competitorName = competitors[primaryCompetitor]?.name || 'Tenzo';
   
   const barRef = useRef<HTMLDivElement>(null);
   const [isCollapsed, setIsCollapsed] = useState(() => {
@@ -154,28 +148,25 @@ export function LiveCalculator() {
                 <div className="text-lg font-bold tabular-nums">
                   ${pricing.perLocation.toFixed(0)}
                 </div>
-                {(() => {
-                  const tenzoMonthly = pricing.savings.tenzo.monthly;
-                  const ourMonthly = pricing.total;
-                  const monthlySavings = tenzoMonthly - ourMonthly;
-                  const savingsPercent = tenzoMonthly > 0 ? (monthlySavings / tenzoMonthly) * 100 : 0;
-                  
-                  return monthlySavings > 0 ? (
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="flex items-center gap-1 text-green-400 text-xs mt-1"
-                    >
-                      <TrendingDown className="w-3 h-3" />
-                      <span>
-                        {formatMessage(copy.saveVs, {
-                          percent: Math.round(savingsPercent),
-                          competitor: competitorName,
-                        })}
-                      </span>
-                    </motion.div>
-                  ) : null;
-                })()}
+                {/* A named-competitor savings badge used to sit here, and it
+                    could not survive a commercial review:
+
+                    - It priced the competitor at ELEVEN modules — their most
+                      expensive possible configuration — against a Sundae
+                      package price. Against a realistic three-module purchase
+                      Sundae costs more at every estate size we checked, so the
+                      "saving" was an artefact of choosing the competitor's
+                      worst case.
+                    - It rendered only when `monthlySavings > 0`, so it could
+                      never show Sundae losing. A comparison that can only
+                      return one answer is a boast, not a comparison.
+                    - Neither side included implementation, and the competitor
+                      price carried no source or date anywhere in the repo.
+                    - A one-line badge has nowhere to state any of that.
+
+                    The credible comparison lives on the summary, where
+                    CompactCompetitorCompare shows verification level, source
+                    link and the assumptions behind every figure. */}
               </div>
 
               {/* Minimize button */}

@@ -34,6 +34,20 @@ function resolvePricingUiCopy<T extends Record<FullyLocalizedPricingLocale, unkn
   if (!pack) return copyByLocale.en as T[FullyLocalizedPricingLocale]
   if (pack === base) return copyByLocale.en as T[FullyLocalizedPricingLocale]
 
+  // Not every copy group is an object. Several are flat per-locale STRINGS —
+  // `annualAmountTemplates` is `{ en: '${amount} annually', fr: '...' }`.
+  // Field-merging one spreads the string into an object of character indices,
+  // and the caller then invokes `.replaceAll` on that object. English escaped
+  // through the identity check above, so this crashed the quote screen to the
+  // error boundary in all 21 translated locales while looking fine in dev.
+  // A non-object pack has no fields to merge: return it as it is.
+  if (typeof pack !== 'object' || pack === null || Array.isArray(pack)) {
+    return pack as T[FullyLocalizedPricingLocale]
+  }
+  if (typeof base !== 'object' || base === null || Array.isArray(base)) {
+    return pack as T[FullyLocalizedPricingLocale]
+  }
+
   const merged: Record<string, unknown> = { ...base }
   for (const key of Object.keys(base)) {
     const value = pack[key]

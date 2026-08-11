@@ -350,7 +350,7 @@ const coreFAQ: FAQItem[] = [
   },
   {
     question: 'How do discounts work?',
-    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% for annual and 15% for two-year. Volume and billing-cycle discounts COMBINE, capped at 15% in total. From 250 locations there is no self-serve band and pricing is quoted.'
+    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% for annual and 15% for two-year. Volume and billing-cycle discounts do NOT combine — you get whichever is larger, capped at 15% in total. From 250 locations there is no self-serve band and pricing is quoted.'
   },
   {
     question: "What's the contract term?",
@@ -404,7 +404,7 @@ const generalFAQ: FAQItem[] = [
   },
   {
     question: 'How do discounts work?',
-    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% annual and 15% two-year. The two combine, capped at 15% in total. From 250 locations, pricing is quoted.'
+    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% annual and 15% two-year. The two do not combine — you get whichever is larger, capped at 15% in total. From 250 locations, pricing is quoted.'
   },
   {
     question: 'Are AI credits shared across locations?',

@@ -54,7 +54,17 @@ export function ConfigSummary() {
         : null,
     [techStack, operatingModels, selectedCrewSkus],
   );
-  const overlays = useMemo(() => objectOverlaysFor(operatingModels), [operatingModels]);
+  // Overlays follow the SKU on the quote, not the survey answer.
+  //
+  // Keying off `operatingModels` meant a group that answered "hotel F&B" saw
+  // revenue-centre billing whether or not they bought the Hotel pathway, and a
+  // group that added a concept without having said so at question two saw
+  // none. A CFO put the miss at a plausible $64,800/yr of uncapped,
+  // non-discountable recurring spend that never appeared before signature.
+  const overlays = useMemo(
+    () => objectOverlaysForPurchased(addOns as string[]),
+    [addOns],
+  );
 
 
   // The quote now carries a REAL client profile. `billingCycle` was never set
@@ -832,7 +842,7 @@ export function ConfigSummary() {
 
 import { CrewQuoteButtons } from './CrewQuoteButtons';
 import type { CrewSkuId } from '../../types/configuration';
-import { objectOverlaysFor, resolveImplementationClass } from '../../lib/discoveryEngine';
+import { objectOverlaysForPurchased, resolveImplementationClass } from '../../lib/discoveryEngine';
 import { resolveImplementationFee } from '../../lib/pricingEngine';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import type { DiscountLine } from '../../types/configuration';

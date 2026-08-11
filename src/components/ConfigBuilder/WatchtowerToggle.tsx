@@ -76,6 +76,15 @@ export function WatchtowerToggle() {
   // package does not grant.
   const eligible = packageAllowsWatchtower(corePackage);
 
+  // The banner alone was not a gate. The cards stayed clickable, rendered a
+  // green tick when chosen and priced at $0, while a panel on the same screen
+  // quoted the annual figure — three statements a buyer cannot reconcile, on a
+  // package that cannot have the product at all. Selection now refuses.
+  const selectWatchtower = (moduleId: string) => {
+    if (!eligible) return;
+    toggleWatchtowerModule(moduleId);
+  };
+
   return (
     <div className="max-w-5xl mx-auto">
       {!eligible && (
@@ -136,7 +145,9 @@ export function WatchtowerToggle() {
                 {formatMessage(copy.saveAmount, { amount: Math.round(individualResult.total - bundleResult.total) })}
               </div>
               <button
-                onClick={() => toggleWatchtowerModule('bundle')}
+                onClick={() => selectWatchtower('bundle')}
+                disabled={!eligible}
+                aria-disabled={!eligible}
                 className="mt-2 px-4 py-2 bg-watchtower/20 hover:bg-watchtower/30 text-watchtower border border-watchtower/50 rounded-lg transition-colors"
               >
                 {copy.selectBundle}
@@ -238,7 +249,9 @@ export function WatchtowerToggle() {
           </div>
           
           <button
-            onClick={() => toggleWatchtowerModule('bundle')}
+            onClick={() => selectWatchtower('bundle')}
+                disabled={!eligible}
+                aria-disabled={!eligible}
             aria-pressed={watchtowerModules.includes('bundle')}
             className={`w-full p-6 rounded-xl border-2 transition-colors relative z-10 ${
               watchtowerModules.includes('bundle')

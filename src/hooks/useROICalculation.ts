@@ -259,9 +259,20 @@ export function useROICalculation(
       const localizedLabel = assumptionLabels[moduleId] ?? assumption.label;
       const localizedTooltip = tooltips[moduleId] ?? assumption.tooltip;
       const localizedMissingInput = missingInputs[moduleId] ?? assumption.missingInputMessage;
-      const minAmount = baseAmount * assumption.minPct;
-      const maxAmount = baseAmount * assumption.maxPct;
-      const midAmount = baseAmount * assumption.midPct;
+      // A REVENUE UPLIFT is not a saving. Where an assumption declares
+      // `marginOnLift`, only that share of the incremental revenue reaches the
+      // operator's bottom line.
+      //
+      // `marginOnLift: 0.25` was declared on the reservations line and applied
+      // NOWHERE — the type carried it, the assumption set it, and no code ever
+      // read it. So a 0.5-2.0% table-utilisation uplift was counted as if every
+      // incremental dollar were profit, on the single largest line in the model
+      // (29% of total savings on a default configuration). It overstated that
+      // line four-fold.
+      const margin = assumption.marginOnLift ?? 1;
+      const minAmount = baseAmount * assumption.minPct * margin;
+      const maxAmount = baseAmount * assumption.maxPct * margin;
+      const midAmount = baseAmount * assumption.midPct * margin;
       
       // Apply per-location cap
       const maxCap = GUARDRAILS.maxSavingsPerLocation[moduleId as keyof typeof GUARDRAILS.maxSavingsPerLocation] || 1000;

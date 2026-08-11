@@ -33,6 +33,35 @@ const WATCHTOWER_ICON_MAP = {
   trends: TrendingUp,
 } as const;
 
+/**
+ * Render a discount line in the buyer's language.
+ *
+ * The engine has no locale, so it emits English plus a stable key. Without this
+ * the discount lines — the part of the quote a buyer scrutinises hardest —
+ * stayed English on an otherwise translated screen.
+ */
+function localiseDiscount(
+  d: DiscountLine,
+  q: ReturnType<typeof getQuoteSummaryCopy>,
+  locations: number,
+): string {
+  const pct = `${d.percent}%`;
+  switch (d.key) {
+    case 'volume':
+      return `${q.volumeLabel.replace('{locations}', String(locations))} — ${pct}`;
+    case 'term':
+      return `${q.commitmentTerm} — ${pct}`;
+    case 'earlyAdopter':
+      return `${q.earlyAdopter} — ${pct}`;
+    case 'volumeNotApplied':
+      return q.volumeNotApplied.replace('{percent}', pct);
+    case 'termNotApplied':
+      return q.termNotApplied.replace('{percent}', pct);
+    default:
+      return d.name;
+  }
+}
+
 export function ConfigSummary() {
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
@@ -61,6 +90,11 @@ export function ConfigSummary() {
   // group that added a concept without having said so at question two saw
   // none. A CFO put the miss at a plausible $64,800/yr of uncapped,
   // non-discountable recurring spend that never appeared before signature.
+  // The quote screen is the artefact a buyer forwards; its most important lines
+  // were literal English in JSX, so a German visitor configured in German and
+  // then read the number that decides the deal in English.
+  const q = getQuoteSummaryCopy(locale);
+
   const overlays = useMemo(
     () => objectOverlaysForPurchased(addOns as string[]),
     [addOns],
@@ -453,17 +487,17 @@ export function ConfigSummary() {
                       moves stops the 10% being read against the combined
                       figure printed two lines below. */}
                   <span className="text-sundae-muted text-xs">
-                    Commitment term{crewRail ? ' · applies to the Core rail' : ''}
+                    {q.commitmentTerm}{crewRail ? ` · ${q.coreRail}` : ''}
                   </span>
                   <div
                     className="mt-2 grid grid-cols-3 gap-1.5"
                     role="radiogroup"
-                    aria-label="Commitment term"
+                    aria-label={q.commitmentTerm}
                   >
                     {([
-                      ['monthly', 'Monthly', null],
-                      ['annual', 'Annual', '10%'],
-                      ['two_year', '2 years', '15%'],
+                      ['monthly', q.termMonthly, null],
+                      ['annual', q.termAnnual, '10%'],
+                      ['two_year', q.termTwoYear, '15%'],
                     ] as const).map(([cycle, label, off]) => (
                       <button
                         key={cycle}
@@ -478,7 +512,11 @@ export function ConfigSummary() {
                         }`}
                       >
                         <span className="block font-semibold">{label}</span>
-                        {off && <span className="block text-[10px] opacity-80">save {off}</span>}
+                        {off && (
+                          <span className="block text-[10px] opacity-80">
+                            {q.saveShort.replace('{percent}', off)}
+                          </span>
+                        )}
                       </button>
                     ))}
                   </div>
@@ -486,7 +524,7 @@ export function ConfigSummary() {
                     <div className="mt-2 space-y-1">
                       {pricing.discounts.map((d: DiscountLine) => (
                         <div key={d.name} className="flex justify-between text-xs text-green-400">
-                          <span>{d.name}</span>
+                          <span>{localiseDiscount(d, q, locations)}</span>
                           {/* `amount` is already signed negative; prefixing a
                               minus rendered "-$-562". */}
                           <span>-${Math.abs(Math.round(d.amount)).toLocaleString(locale)}</span>
@@ -518,7 +556,7 @@ export function ConfigSummary() {
                 )}
                 {crewRail && (
                   <div className="flex justify-between pt-2 mt-2 border-t border-white/20 text-base">
-                    <span className="font-semibold">Combined monthly</span>
+                    <span className="font-semibold">{q.combinedMonthly}</span>
                     <span className="font-bold">
                       {isQuotable
                         ? money(combinedMonthly)
@@ -532,7 +570,7 @@ export function ConfigSummary() {
                     involve. The systems answer now resolves a real class, and
                     the drivers are shown so the number is not a mystery. */}
                 <div className="flex justify-between pt-2 mt-2 border-t border-white/10">
-                  <span className="text-sundae-muted">Implementation (one-time)</span>
+                  <span className="text-sundae-muted">{q.implementationOneTime}</span>
                   <span className="font-medium">
                     {stackEstimate
                       ? `${stackEstimate.isFloor ? 'from ' : ''}$${stackEstimate.fee.toLocaleString(locale)}`
@@ -554,12 +592,12 @@ export function ConfigSummary() {
                 )}
                 {stackEstimate?.isIndicative && (
                   <p className="text-[10px] text-sundae-muted/80">
-                    Indicative only — confirm your systems and we will scope the exact class.
+                    {q.indicativeOnly}
                   </p>
                 )}
                 {overlays.length > 0 && (
                   <div className="pt-2 mt-2 border-t border-white/10 space-y-1">
-                    <span className="text-sundae-muted text-xs">Billed per active object</span>
+                    <span className="text-sundae-muted text-xs">{q.billedPerObject}</span>
                     {overlays.map((o) => (
                       <div key={o.object} className="flex justify-between text-xs">
                         <span className="text-sundae-muted">
@@ -569,7 +607,7 @@ export function ConfigSummary() {
                       </div>
                     ))}
                     <p className="text-[10px] text-sundae-muted/80">
-                      Charged only while the object is active, and never discounted.
+                      {q.objectChargeNote}
                     </p>
                   </div>
                 )}
@@ -848,6 +886,7 @@ import { computeCrewQuote } from '../../lib/crewPricing';
 import type { DiscountLine } from '../../types/configuration';
 import { pricingFooter } from '../../data/pricing';
 import { prefersReducedMotion } from '../../lib/motion';
+import { getQuoteSummaryCopy } from '../../lib/quoteSummaryCopy';
 
 interface CrewSummaryBodyProps {
   selectedSkus: CrewSkuId[];
@@ -855,7 +894,9 @@ interface CrewSummaryBodyProps {
 }
 
 function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
-  const { messages } = useLocale();
+  const { locale, messages } = useLocale();
+  // The Crew quote is a quote too — it was entirely English.
+  const q = getQuoteSummaryCopy(locale);
   const quote = computeCrewQuote(selectedSkus, locations);
   const { monthly, annual, implementation, lines, detectedBundleId, bundleSavingsMonthly } = quote;
   const implementationLabel = implementation.requiresScoping
@@ -891,11 +932,11 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
           transition={{ type: 'spring', stiffness: 200 }}
           className="text-4xl md:text-5xl font-bold mb-3 flex items-center justify-center gap-3"
         >
-          Your Crew stack is ready
+          {q.crewStackReady}
           <Sparkles className="w-10 h-10 text-[#FF7E6F]" />
         </motion.h1>
         <p className="text-lg md:text-xl text-sundae-muted">
-          Multi-region payroll readiness, scheduling, and HR ops on one operational substrate.
+          {q.crewSubstrateNote}
         </p>
       </motion.div>
 
@@ -908,7 +949,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           <div>
-            <h3 className="text-lg font-bold mb-4">Your configuration</h3>
+            <h3 className="text-lg font-bold mb-4">{q.yourConfiguration}</h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <Check className="w-5 h-5 text-[#FF7E6F] mt-0.5 flex-shrink-0" />
@@ -926,7 +967,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 <div>
                   <div className="font-semibold">{quote.locations} {quote.locations === 1 ? 'location' : 'locations'}</div>
                   <div className="text-sm text-sundae-muted">
-                    Crew is a flat monthly price — your location count does not change it
+                    {q.crewFlatNote}
                   </div>
                 </div>
               </div>
@@ -956,7 +997,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
 
           {/* Pricing column */}
           <div className="bg-gradient-to-br from-[#FF7E6F]/10 to-teal-600/5 border-2 border-[#FF7E6F]/30 rounded-xl p-6">
-            <p className="text-xs uppercase tracking-wider text-sundae-muted font-semibold mb-2">Monthly investment</p>
+            <p className="text-xs uppercase tracking-wider text-sundae-muted font-semibold mb-2">{q.monthlyInvestment}</p>
             <div className="flex items-baseline gap-1 mb-4">
               <span className="font-display text-5xl font-bold text-white tabular-nums">${monthly}</span>
               <span className="text-lg text-sundae-muted">/mo</span>
@@ -987,7 +1028,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 <span className="text-white tabular-nums">${annual.toLocaleString()}/yr</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-sundae-muted">Implementation (one-time)</span>
+                <span className="text-sundae-muted">{q.implementationOneTime}</span>
                 <span className="text-white tabular-nums">{implementationLabel}</span>
               </div>
               <div className="flex justify-between text-sm pt-2 mt-2 border-t border-[#FF7E6F]/10">

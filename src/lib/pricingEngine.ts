@@ -74,7 +74,12 @@ export interface PriceBreakdown {
 }
 
 export interface DiscountLine {
+  /** English text, kept for the PDF and for callers with no locale. */
   name: string;
+  /** Stable key so a localised surface can render this line in-language. */
+  key?: DiscountKey;
+  /** True when the published combined cap clipped this line. */
+  capped?: boolean;
   amount: number;
   percent: number;
 }
@@ -333,6 +338,13 @@ export function calculateCrossIntelligencePrice(
 // ceiling. Only a hand-negotiated contract term sits outside the ladder.
 // ═══════════════════════════════════════════════════════════════════════════
 
+export type DiscountKey =
+  | 'volume'
+  | 'term'
+  | 'earlyAdopter'
+  | 'volumeNotApplied'
+  | 'termNotApplied';
+
 export interface CombinedDiscount {
   volumePercent: number;
   billingPercent: number;
@@ -402,15 +414,22 @@ export function applyDiscounts(
     // single "Combined discount" line meant a reader could not check the total
     // against its parts, and could not tell WHICH concession they had been
     // given — the two are negotiated separately.
-    const applied: Array<{ label: string; percent: number }> = [];
+    // Labels carry a STABLE KEY alongside the English text so the summary can
+    // localise them. The engine has no locale, and emitting only English here
+    // is why the discount lines stayed English on a translated quote.
+    const applied: Array<{ label: string; key: DiscountKey; percent: number }> = [];
     if (combined.appliedVolumePercent > 0) {
-      applied.push({ label: `Volume (${locations} locations)`, percent: combined.appliedVolumePercent });
+      applied.push({
+        label: `Volume (${locations} locations)`,
+        key: 'volume',
+        percent: combined.appliedVolumePercent,
+      });
     }
     if (combined.appliedBillingPercent > 0) {
-      applied.push({ label: 'Commitment term', percent: combined.appliedBillingPercent });
+      applied.push({ label: 'Commitment term', key: 'term', percent: combined.appliedBillingPercent });
     }
     if (combined.earlyAdopterPercent > 0) {
-      applied.push({ label: 'Early adopter', percent: combined.earlyAdopterPercent });
+      applied.push({ label: 'Early adopter', key: 'earlyAdopter', percent: combined.earlyAdopterPercent });
     }
 
     // Split the money across the applied concessions in proportion to their
@@ -426,6 +445,8 @@ export function applyDiscounts(
         name: combined.capped && isLast
           ? `${a.label} — ${a.percent}% (capped at ${DISCOUNT_RULES.maxDiscountPercent}% combined)`
           : `${a.label} — ${a.percent}%`,
+        key: a.key,
+        capped: combined.capped && isLast,
         amount: -share,
         percent: a.percent,
       });
@@ -436,14 +457,16 @@ export function applyDiscounts(
     if (combined.volumePercent > 0 && combined.appliedVolumePercent === 0) {
       discounts.push({
         name: `Volume ${combined.volumePercent}% not applied — commitment term is larger`,
+        key: 'volumeNotApplied',
         amount: 0,
-        percent: 0,
+        percent: combined.volumePercent,
       });
     } else if (combined.billingPercent > 0 && combined.appliedBillingPercent === 0) {
       discounts.push({
         name: `Commitment term ${combined.billingPercent}% not applied — volume is larger`,
+        key: 'termNotApplied',
         amount: 0,
-        percent: 0,
+        percent: combined.billingPercent,
       });
     }
   }

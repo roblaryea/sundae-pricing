@@ -80,10 +80,10 @@ describe('Retired catalog ids', () => {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const EXPECTED_PACKAGES = {
-  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 105], wallet: 14000 },
-  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 145], wallet: 16000 },
-  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 155], wallet: 18000 },
-  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 236], wallet: 24000 },
+  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 105], wallet: 14000, domains: 4 },
+  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 145], wallet: 16000, domains: 6 },
+  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 155], wallet: 18000, domains: 8 },
+  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 236], wallet: 24000, domains: 11 },
 } as const;
 
 describe('Core packages', () => {
@@ -127,9 +127,24 @@ describe('Core packages', () => {
         expect(pkg.aiCreditWallet).toBe(expected.wallet);
       });
 
-      it('includes all eleven Core domain modules', () => {
-        expect(pkg.includesDomainModules).toHaveLength(11);
-        expect([...pkg.includesDomainModules]).toEqual([...CORE_DOMAIN_MODULE_IDS]);
+      it('grants the domains price book v1.7 section 3.1 assigns it', () => {
+        // This asserted all eleven on EVERY package. Section 3.1 grants
+        // Foundation labor/profit/revenue_assurance/pulse and says profit
+        // "reads governed cost signals without granting the full
+        // Inventory/Purchasing experience"; Margin and Performance grant that
+        // experience. Asserting eleven everywhere made the ladder sell nothing
+        // and let the ROI model credit domains the buyer had not purchased.
+        expect(pkg.includesDomainModules.length).toBe(expected.domains);
+        for (const m of pkg.includesDomainModules) {
+          expect(CORE_DOMAIN_MODULE_IDS as readonly string[]).toContain(m);
+        }
+      });
+
+      it('states what it delivers, never what it withholds', () => {
+        // Section 3.1: "a prospect should never hear artificial 'signal but not
+        // experience' withholding language."
+        expect(pkg.includedOutcome).toBeTruthy();
+        expect(pkg.includedOutcome).not.toMatch(/\bof 11\b|not included|without|limited to|only/i);
       });
 
       it('has no "included locations" allowance', () => {

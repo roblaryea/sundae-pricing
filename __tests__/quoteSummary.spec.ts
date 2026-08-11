@@ -145,8 +145,18 @@ describe("what the summary screen renders", () => {
     expect(SUMMARY_SRC).toMatch(/addOnNames/);
   });
 
-  it("keeps every package's module list identical — the package differs by scope, not by module count", () => {
+  it("gives each package a DIFFERENT module list — that difference is what the ladder sells", () => {
+    // This asserted every package granted an identical list, which made Core
+    // Performance at $2,980 indistinguishable from Core Foundation at $1,195.
+    // Price book v1.7 section 3.1 grants 4 / 6 / 8 / 11.
     const lists = Object.values(corePackages).map((p) => [...p.includesDomainModules].sort().join());
-    expect(new Set(lists).size).toBe(1);
+    expect(new Set(lists).size).toBe(Object.keys(corePackages).length);
+  });
+
+  it("describes each package by what it delivers, not by what it withholds", () => {
+    for (const p of Object.values(corePackages)) {
+      expect(p.includedOutcome).toBeTruthy();
+      expect(p.includedOutcome).not.toMatch(/\bof 11\b|not included|without|signal but not/i);
+    }
   });
 });

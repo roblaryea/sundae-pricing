@@ -21,7 +21,6 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { CORE_DOMAIN_MODULE_IDS } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import {
   useROICalculation,
@@ -39,6 +38,7 @@ import {
 } from '../../lib/pricingUiCopy';
 import { stepIndex } from '../../lib/journey';
 import { computeCrewQuote } from '../../lib/crewPricing';
+import { corePackages } from '../../data/pricing';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Users,
@@ -70,9 +70,16 @@ export function ROISimulator() {
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
-  // v1.7: every Core package includes all eleven domain modules, so the ROI
-  // model credits every domain rather than only the ones the visitor ticked.
-  const activeDomains = CORE_DOMAIN_MODULE_IDS as readonly string[];
+  // Credit ONLY the domains the selected package actually grants.
+  //
+  // This passed all eleven regardless of package, on the belief that every Core
+  // package shipped every domain. Price book v1.7 section 3.1 grants four to
+  // Foundation, six to Margin and eight to Growth — so a Foundation buyer was
+  // shown savings from inventory, purchasing, marketing, reservations and guest
+  // domains their package does not include, overstating the case by roughly ten
+  // times ($234,400/mo credited against $24,000 earned at eight locations).
+  const activeDomains = (corePackages[corePackage]?.includesDomainModules ??
+    []) as readonly string[];
   // Crew is a separate rail with its own unit economics, but it is a real cost
   // on the combined pathway and the ROI model must carry it.
   const crewMonthly =

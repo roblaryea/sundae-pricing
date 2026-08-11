@@ -7,7 +7,7 @@
 import { motion } from 'framer-motion';
 import { Check, Star, TrendingUp, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { corePackages, CORE_PACKAGE_IDS, modules as coreDomainModules } from '../../data/pricing';
+import { corePackages, CORE_PACKAGE_IDS } from '../../data/pricing';
 import type { CorePackageId } from '../../data/pricing';
 import {
   calculateAiCredits,
@@ -59,8 +59,6 @@ export function TierSelector() {
   };
 
   const fmt = (value: number) => `$${value.toLocaleString(locale)}`;
-
-  const domainModuleCount = Object.keys(coreDomainModules).length;
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -281,7 +279,16 @@ export function TierSelector() {
                   </div>
                   <div className="flex items-start gap-2 text-sm">
                     <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span>All {domainModuleCount} Core domain modules included</span>
+                    {/* Say what the package DELIVERS, never what it withholds.
+                        The runtime grants differ per package (price book v1.7
+                        section 3.1), but 3.1 is explicit that "a prospect should
+                        never hear artificial 'signal but not experience'
+                        withholding language" — so this states the outcome the
+                        buyer gets rather than a count out of eleven. The card
+                        previously claimed "All 11" on every package, which made
+                        the four indistinguishable and left the ladder with
+                        nothing to sell. */}
+                    <span>{pkg.includedOutcome}</span>
                   </div>
                 </div>
 

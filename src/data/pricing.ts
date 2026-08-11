@@ -223,6 +223,42 @@ export const CORE_DOMAIN_MODULE_IDS = [
   'guest_crm',
 ] as const satisfies readonly ModuleId[];
 
+/**
+ * Which domains each Core package actually grants — price book v1.7 section
+ * 3.1, mirroring CANONICAL_PACKAGE_MODULES in the backend.
+ *
+ * Every package used to point at CORE_DOMAIN_MODULE_IDS, so all four granted
+ * all eleven domains and differed ONLY by price, credits and seats. That made
+ * the ladder irrational — nobody would pay $2,980 for Performance when
+ * Foundation gave the same coverage at $1,195 — and it fed the ROI model, which
+ * credited savings from every domain regardless of package. A Core Foundation
+ * buyer was shown roughly ten times the savings their package can deliver.
+ *
+ * Foundation and Growth deliberately receive the governed labour and cost
+ * SIGNAL needed to compute profit without the full Inventory and Purchasing
+ * experience. That signal-versus-experience boundary is the ladder.
+ *
+ * Site ids differ slightly from the backend's: `revenue` here is the backend's
+ * `revenue_assurance`, and `guest` is `guest_experience`. `foresight` is sold
+ * as the separate Foresight & Action expansion rather than a domain, so it does
+ * not appear in this list.
+ */
+export const PACKAGE_DOMAIN_GRANTS = {
+  core_foundation: ['labor', 'profit', 'revenue', 'pulse'],
+  core_margin: ['labor', 'inventory', 'profit', 'revenue', 'pulse', 'purchasing'],
+  core_growth: [
+    'labor',
+    'profit',
+    'revenue',
+    'pulse',
+    'marketing',
+    'reservations',
+    'guest',
+    'guest_crm',
+  ],
+  core_performance: [...CORE_DOMAIN_MODULE_IDS],
+} as const satisfies Record<CorePackageId, readonly ModuleId[]>;
+
 // ═══════════════════════════════════════════════════════════════════════════
 // CORE PACKAGES (price book v1.7)
 // ═══════════════════════════════════════════════════════════════════════════
@@ -266,8 +302,15 @@ export interface CorePackage extends BandedSku {
   seatsPerLocations: number;
   /** Unused BASE credits that roll over for one month (25% of base). */
   creditRolloverCap: number;
-  /** Every Core package ships all eleven domain modules. */
+  /** The domains this package actually grants — see PACKAGE_DOMAIN_GRANTS. */
   includesDomainModules: readonly ModuleId[];
+  /**
+   * What the buyer GETS, in outcome language. Price book v1.7 section 3.1 is
+   * explicit that a prospect should never hear "signal but not experience"
+   * withholding language, so the cards state the delivered outcome rather than
+   * a module count out of eleven.
+   */
+  includedOutcome: string;
   bestFor: string;
   /**
    * Implementation class for this SKU, or `null` when v1.7 does not publish
@@ -292,7 +335,9 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     seatsIncluded: 4,
     seatsPerLocations: 5,
     creditRolloverCap: 3500,
-    includesDomainModules: CORE_DOMAIN_MODULE_IDS,
+    includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_foundation,
+    includedOutcome:
+      'Connected revenue intelligence, the Recovery workspace and ledger, real-time Pulse, and the labour and cost signals that calculate profit',
     bestFor: 'Operators starting on the Core decision layer',
     implementationClass: null,
   },
@@ -307,7 +352,9 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     seatsIncluded: 5,
     seatsPerLocations: 4,
     creditRolloverCap: 4000,
-    includesDomainModules: CORE_DOMAIN_MODULE_IDS,
+    includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_margin,
+    includedOutcome:
+      'Everything in Foundation, plus the full buying, inventory, waste and recipe cost-control experience',
     bestFor: 'Operators whose priority is cost and leakage control',
     implementationClass: null,
   },
@@ -322,7 +369,9 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     seatsIncluded: 6,
     seatsPerLocations: 3,
     creditRolloverCap: 4500,
-    includesDomainModules: CORE_DOMAIN_MODULE_IDS,
+    includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_growth,
+    includedOutcome:
+      'Everything in Foundation, plus guest behaviour, CRM, reservations, campaigns and reputation, with Watchtower',
     bestFor: 'Operators in expansion who need demand and channel signal',
     implementationClass: null,
   },
@@ -337,7 +386,9 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     seatsIncluded: 8,
     seatsPerLocations: 2,
     creditRolloverCap: 6000,
-    includesDomainModules: CORE_DOMAIN_MODULE_IDS,
+    includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_performance,
+    includedOutcome:
+      'The complete Core estate — every domain, plus Foresight & Action for forecasting and prioritisation',
     bestFor: 'Multi-brand and multi-region portfolios',
     implementationClass: null,
   },

@@ -36,7 +36,7 @@ export function ConfigSummary() {
   const {
     layer, corePackage, locations, addOns, watchtowerModules,
     crossIntelligence: crossIntelSelection, markStepCompleted, crewSkus: selectedCrewSkus,
-    operatingModels, techStack
+    operatingModels, techStack, billingCycle, setBillingCycle
   } = useConfiguration();
 
   // The discovery answers resolve the one-time implementation class and the
@@ -53,7 +53,23 @@ export function ConfigSummary() {
   );
   const overlays = useMemo(() => objectOverlaysFor(operatingModels), [operatingModels]);
 
-  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules, undefined, crossIntelSelection);
+
+  // The quote now carries a REAL client profile. `billingCycle` was never set
+  // by any surface, so the 10% annual and 15% two-year terms — the main lever
+  // in any negotiation — were unreachable, and `isFranchise` stayed false even
+  // though question two asks exactly that.
+  const clientProfile = useMemo(
+    () => ({
+      type: 'independent' as const,
+      isEarlyAdopter: false,
+      isFranchise: operatingModels.includes('franchise'),
+      brandCount: operatingModels.includes('multi_brand') ? 2 : 1,
+      billingCycle,
+    }),
+    [operatingModels, billingCycle],
+  );
+
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules, clientProfile, crossIntelSelection);
   void getLocalizedTierCatalog(locale);
   // Layer label is rendered in the Report/Core branch only; coerce Crew to
   // null for the helper signature (Crew branch returns early below).
@@ -292,6 +308,51 @@ export function ConfigSummary() {
                     <span className="font-medium">${item.price.toLocaleString(locale)}</span>
                   </div>
                 ))}
+                {/* Commitment term. v1.7 gives 10% annual and 15% two-year,
+                    exclusive with the volume ladder and capped at 15% combined.
+                    No surface ever set this, so both were unreachable. */}
+                <div className="pt-3 mt-2 border-t border-white/10">
+                  <span className="text-sundae-muted text-xs">Commitment term</span>
+                  <div
+                    className="mt-2 grid grid-cols-3 gap-1.5"
+                    role="radiogroup"
+                    aria-label="Commitment term"
+                  >
+                    {([
+                      ['monthly', 'Monthly', null],
+                      ['annual', 'Annual', '10%'],
+                      ['two_year', '2 years', '15%'],
+                    ] as const).map(([cycle, label, off]) => (
+                      <button
+                        key={cycle}
+                        type="button"
+                        role="radio"
+                        aria-checked={billingCycle === cycle}
+                        onClick={() => setBillingCycle(cycle)}
+                        className={`rounded-lg border px-2 py-2 text-xs transition-colors ${
+                          billingCycle === cycle
+                            ? 'border-[#FF5C4D] bg-[#FF5C4D]/15 text-white'
+                            : 'border-white/10 bg-sundae-surface text-sundae-muted hover:border-white/30'
+                        }`}
+                      >
+                        <span className="block font-semibold">{label}</span>
+                        {off && <span className="block text-[10px] opacity-80">save {off}</span>}
+                      </button>
+                    ))}
+                  </div>
+                  {pricing.discounts.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      {pricing.discounts.map((d: DiscountLine) => (
+                        <div key={d.name} className="flex justify-between text-xs text-green-400">
+                          <span>{d.name}</span>
+                          {/* `amount` is already signed negative; prefixing a
+                              minus rendered "-$-562". */}
+                          <span>-${Math.abs(Math.round(d.amount)).toLocaleString(locale)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
                 {crewRail && (
                   <div className="flex justify-between pt-2 mt-2 border-t border-white/10">
                     <span className="text-sundae-muted">Crew (operational substrate)</span>
@@ -622,6 +683,7 @@ import { CrewQuoteButtons } from './CrewQuoteButtons';
 import type { CrewSkuId } from '../../types/configuration';
 import { objectOverlaysFor, resolveImplementationClass } from '../../lib/discoveryEngine';
 import { computeCrewQuote } from '../../lib/crewPricing';
+import type { DiscountLine } from '../../types/configuration';
 
 interface CrewSummaryBodyProps {
   selectedSkus: CrewSkuId[];

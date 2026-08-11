@@ -10,6 +10,7 @@ import type { Persona } from '../data/personas';
 import type { Achievement } from '../data/personas';
 import { achievements } from '../data/personas';
 import type { OperatingModelId, TechStackId } from '../lib/discoveryEngine';
+import type { BillingCycle } from '../data/pricing';
 
 type E2EStoreWindow = Window & {
   __SUNDAE_STORE__?: typeof useConfiguration;
@@ -37,6 +38,13 @@ export interface ConfigurationState extends Configuration {
    */
   operatingModels: OperatingModelId[];
   techStack: TechStackId[];
+  /**
+   * Commitment term. v1.7 gives 10% for annual and 15% for two-year, and it is
+   * the main lever in any real negotiation — but nothing in the simulator ever
+   * set it, so `clientProfile.billingCycle` stayed undefined and both discounts
+   * were unreachable.
+   */
+  billingCycle: BillingCycle;
   persona: Persona | null;
   personaConfidence: number;
   
@@ -70,6 +78,7 @@ export interface ConfigurationState extends Configuration {
   // Quiz actions
   setQuizAnswer: (questionId: string, answerId: string) => void;
   setDiscoveryAnswers: (operatingModels: OperatingModelId[], techStack: TechStackId[]) => void;
+  setBillingCycle: (cycle: BillingCycle) => void;
   setPersona: (persona: Persona | null, confidence: number) => void;
   
   // ROI actions
@@ -91,7 +100,7 @@ export interface ConfigurationState extends Configuration {
 
 const initialState = {
   // Configuration
-  layer: null as 'core' | 'crew' | null,
+  layer: null as 'core' | 'crew' | 'both' | null,
   corePackage: 'core_foundation' as CorePackageId,
   locations: 1,
   addOns: [] as AddOnId[],
@@ -110,7 +119,6 @@ const initialState = {
     { id: 'persona', name: 'Discover Your Persona', completed: false },
     { id: 'layer', name: 'Choose Your Layer', completed: false },
     { id: 'tier', name: 'Select Your Tier', completed: false },
-    { id: 'locations', name: 'Configure Locations', completed: false },
     { id: 'addons', name: 'Add-ons', completed: false },
     { id: 'watchtower', name: 'Watchtower Intel', completed: false },
     { id: 'roi', name: 'Calculate ROI', completed: false },
@@ -121,6 +129,7 @@ const initialState = {
   quizAnswers: {},
   operatingModels: [],
   techStack: [],
+  billingCycle: 'monthly' as BillingCycle,
   persona: null,
   personaConfidence: 0,
   
@@ -359,6 +368,10 @@ export const useConfiguration = create<ConfigurationState>()(
           set({ operatingModels, techStack });
         },
 
+        setBillingCycle: (billingCycle) => {
+          set({ billingCycle });
+        },
+
         setQuizAnswer: (questionId, answerId) => {
           const quizAnswers = { ...get().quizAnswers, [questionId]: answerId };
           set({ quizAnswers });
@@ -510,6 +523,7 @@ export const useConfiguration = create<ConfigurationState>()(
           quizAnswers: state.quizAnswers,
           operatingModels: state.operatingModels,
           techStack: state.techStack,
+          billingCycle: state.billingCycle,
           persona: state.persona,
           roiInputs: state.roiInputs,
           unlockedAchievements: state.unlockedAchievements,

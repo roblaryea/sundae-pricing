@@ -25,6 +25,7 @@ import {
   DISCOUNT_RULES,
   crossIntelligence,
   getVolumeDiscount,
+  packageAllowsWatchtower,
   requiresEnterpriseQuote,
 } from '../data/pricing';
 import type {
@@ -447,12 +448,36 @@ export function calculateFullPrice(config: Configuration): PriceResult {
       });
       continue;
     }
+    // Concept pathways price on a MARGINAL curve, exactly like the Core
+    // packages. This used to push `concept.monthlyPrice` with the note "Flat
+    // monthly", which at 25 locations understated Production & Commissary by
+    // $2,055/mo — and asserted the very mechanic that made it wrong.
     const concept = conceptSkus[addOnId];
-    breakdown.push({ item: concept.name, price: concept.monthlyPrice, note: 'Flat monthly' });
+    const conceptPrice = calculateBandedTotal(concept, locations);
+    const conceptLines = calculateBandLines(concept, locations);
+    breakdown.push({
+      item: concept.name,
+      price: conceptPrice,
+      note:
+        locations === 1
+          ? `First unit $${concept.firstUnitPrice.toLocaleString()}`
+          : `First unit $${concept.firstUnitPrice.toLocaleString()} + ${conceptLines
+              .map((l) => `${l.units} @ $${l.band.pricePerUnit}`)
+              .join(' + ')}`,
+    });
   }
 
-  // Watchtower
-  if (config.watchtower.length > 0) {
+  // Watchtower requires Core Growth or above. Without this the engine happily
+  // priced Watchtower onto a Core Foundation quote — selling an entitlement the
+  // package does not grant.
+  if (config.watchtower.length > 0 && !packageAllowsWatchtower(config.corePackage)) {
+    breakdown.push({
+      item: 'Watchtower',
+      price: 0,
+      note: 'Requires Core Growth or above — not included at this package',
+    });
+  }
+  if (config.watchtower.length > 0 && packageAllowsWatchtower(config.corePackage)) {
     const wt = calculateWatchtowerPrice(config.watchtower, locations);
     breakdown.push({
       item: wt.isBundle ? 'Watchtower Bundle' : 'Watchtower',

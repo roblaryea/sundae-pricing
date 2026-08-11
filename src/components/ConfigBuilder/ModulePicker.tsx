@@ -22,8 +22,10 @@ import { MODULE_ICONS } from '../../constants/icons';
 import { useLocale } from '../../contexts/LocaleContext';
 import {
   calculateBandLines,
+  calculateBandedTotal,
   calculateForesightActionPrice,
 } from '../../lib/pricingEngine';
+import { recommendedConceptSkus } from '../../lib/discoveryEngine';
 import type { AddOnId } from '../../lib/pricingEngine';
 
 export function ModulePicker() {
@@ -34,6 +36,7 @@ export function ModulePicker() {
     addOns,
     toggleAddOn,
     setCurrentStep,
+    operatingModels,
   } = useConfiguration();
   const { locale, messages } = useLocale();
   const copy = messages.builder.modulePicker;
@@ -43,6 +46,15 @@ export function ModulePicker() {
   const pkg = corePackages[corePackage];
 
   const fmt = (value: number) => `$${value.toLocaleString(locale)}`;
+
+  // Concept pathways matching the operating model the visitor already gave are
+  // surfaced FIRST and badged. Six unlabelled pathways ask a franchisor to
+  // recognise which one is theirs; the answer was collected at question two.
+  const recommendedConcepts = recommendedConceptSkus(operatingModels);
+  const orderedConceptIds = [
+    ...CONCEPT_SKU_IDS.filter((id) => recommendedConcepts.includes(id)),
+    ...CONCEPT_SKU_IDS.filter((id) => !recommendedConcepts.includes(id)),
+  ];
 
   const handleContinue = () => setCurrentStep(5);
   const handleBack = () => setCurrentStep(3);
@@ -178,8 +190,11 @@ export function ModulePicker() {
         </motion.button>
 
         {/* Concept SKUs — flat monthly */}
-        {CONCEPT_SKU_IDS.map((conceptId) => {
+        {orderedConceptIds.map((conceptId) => {
           const concept = conceptSkus[conceptId];
+          const conceptTotal = calculateBandedTotal(concept, locations);
+          const conceptLines = calculateBandLines(concept, locations);
+          const isRecommended = recommendedConcepts.includes(conceptId);
           return (
             <motion.button
               key={conceptId}
@@ -197,6 +212,14 @@ export function ModulePicker() {
                   <Check className="w-5 h-5 text-white" />
                 </div>
               )}
+              {/* Recommended straight from the operating model the visitor gave
+                  at the start. A franchisor should not have to recognise which
+                  of six pathways is theirs. */}
+              {isRecommended && !isSelected(conceptId) && (
+                <div className="absolute -top-2.5 left-4 rounded-full bg-[#E9A24A] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-black">
+                  Matches your operating model
+                </div>
+              )}
               <h3 className="font-bold text-lg mb-2">{concept.name}</h3>
               <div className="mb-3">
                 <div className="flex items-baseline gap-2">
@@ -204,11 +227,21 @@ export function ModulePicker() {
                     className="font-display text-2xl font-bold tabular-nums"
                     data-testid={`addon-price-${conceptId}`}
                   >
-                    {fmt(concept.monthlyPrice)}
+                    {fmt(conceptTotal)}
                   </span>
                   <span className="text-sm text-sundae-muted">{copy.perMonth}</span>
                 </div>
-                <p className="text-xs text-sundae-muted mt-1">Flat monthly — not per location</p>
+                {/* Concept pathways are BANDED, not flat. The old copy said
+                    "Flat monthly — not per location", which understated a
+                    25-location estate by up to $2,055/mo while asserting the
+                    mechanic that made it wrong. */}
+                <p className="text-xs text-sundae-muted mt-1">
+                  {locations === 1
+                    ? `First location ${fmt(concept.firstUnitPrice)}`
+                    : `${fmt(concept.firstUnitPrice)} + ${conceptLines
+                        .map((l) => `${l.units}×${fmt(l.band.pricePerUnit)}`)
+                        .join(' + ')}`}
+                </p>
               </div>
               <p className="text-xs text-sundae-muted">{concept.description}</p>
             </motion.button>

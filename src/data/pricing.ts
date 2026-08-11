@@ -385,9 +385,18 @@ export const foresightAction: BandedSku & {
 // Flat monthly concept extensions. v1.7 publishes a single price per concept;
 // no per-unit band is published, so none is modelled here.
 
-export interface ConceptSku {
+export interface ConceptSku extends BandedSku {
   id: ConceptSkuId;
-  name: string;
+  /**
+   * DEPRECATED as a price. Concept pathways price on a MARGINAL curve exactly
+   * like the Core packages — this field is the first-unit anchor only, kept for
+   * callers that render a headline.
+   *
+   * It used to be the whole price, and the picker told buyers "Flat monthly —
+   * not per location". At 25 locations that understated Production &
+   * Commissary by $2,055/mo and Hotel F&B by $1,845/mo, while asserting the
+   * mechanic that made it wrong. Use `calculateBandedTotal(concept, units)`.
+   */
   monthlyPrice: number;
   description: string;
   /** Not published under v1.7 — scoped at contract. See `CorePackage`. */
@@ -398,6 +407,8 @@ export const conceptSkus: Record<ConceptSkuId, ConceptSku> = {
   concept_franchise: {
     id: 'concept_franchise',
     name: 'Franchise',
+    firstUnitPrice: 595,
+    marginalBands: [band(2, 10, 75), band(11, 25, 65), band(26, 50, 55), band(51, null, 45)],
     monthlyPrice: 595,
     description: 'Franchisor / franchisee split reporting, royalty visibility, and network health.',
     implementationClass: null,
@@ -405,6 +416,8 @@ export const conceptSkus: Record<ConceptSkuId, ConceptSku> = {
   concept_hotel_fb: {
     id: 'concept_hotel_fb',
     name: 'Hotel F&B',
+    firstUnitPrice: 395,
+    marginalBands: [band(2, 10, 85), band(11, 25, 72), band(26, 50, 60), band(51, null, 48)],
     monthlyPrice: 395,
     description: 'Outlet-level F&B economics inside a hotel P&L, including banqueting and in-room.',
     implementationClass: null,
@@ -412,6 +425,8 @@ export const conceptSkus: Record<ConceptSkuId, ConceptSku> = {
   concept_cloud_kitchen: {
     id: 'concept_cloud_kitchen',
     name: 'Cloud Kitchen',
+    firstUnitPrice: 395,
+    marginalBands: [band(2, 10, 69), band(11, 25, 59), band(26, 50, 49), band(51, null, 39)],
     monthlyPrice: 395,
     description: 'Virtual-brand and delivery-only economics across shared kitchen capacity.',
     implementationClass: null,
@@ -419,6 +434,8 @@ export const conceptSkus: Record<ConceptSkuId, ConceptSku> = {
   concept_catering: {
     id: 'concept_catering',
     name: 'Catering',
+    firstUnitPrice: 349,
+    marginalBands: [band(2, 10, 69), band(11, 25, 59), band(26, 50, 59), band(51, null, 49)],
     monthlyPrice: 349,
     description: 'Event and contract catering: quote-to-actual margin, event costing, and pipeline.',
     implementationClass: null,
@@ -426,6 +443,8 @@ export const conceptSkus: Record<ConceptSkuId, ConceptSku> = {
   concept_production: {
     id: 'concept_production',
     name: 'Production',
+    firstUnitPrice: 595,
+    marginalBands: [band(2, 10, 95), band(11, 25, 80), band(26, 50, 65), band(51, null, 50)],
     monthlyPrice: 595,
     description: 'Central production and commissary output: yield, batch cost, and transfer pricing.',
     implementationClass: null,
@@ -433,6 +452,8 @@ export const conceptSkus: Record<ConceptSkuId, ConceptSku> = {
   concept_rental_commissary: {
     id: 'concept_rental_commissary',
     name: 'Rental Commissary',
+    firstUnitPrice: 395,
+    marginalBands: [band(2, 10, 75), band(11, 25, 65), band(26, 50, 55), band(51, null, 45)],
     monthlyPrice: 395,
     description: 'Commissary space let to third parties: tenant utilisation, billing, and recovery.',
     implementationClass: null,
@@ -457,6 +478,21 @@ export interface ImplementationClass {
   isFloor: boolean;
   /** Ordering rank — the highest rank in a selection is the one charged. */
   rank: number;
+}
+
+/**
+ * Watchtower requires Core Growth or above. `allowsWatchtower` is FALSE on
+ * Foundation and Margin in the backend's pricing_master, but the simulator had
+ * no gate at all — in the data model, the UI or the engine — so a Core
+ * Foundation buyer could add Watchtower and be quoted for something their
+ * package does not grant.
+ */
+export const WATCHTOWER_MIN_PACKAGE: CorePackageId = 'core_growth';
+
+const WATCHTOWER_ALLOWED: readonly CorePackageId[] = ['core_growth', 'core_performance'];
+
+export function packageAllowsWatchtower(id: CorePackageId): boolean {
+  return WATCHTOWER_ALLOWED.includes(id);
 }
 
 export const implementationClasses: Record<ImplementationClassId, ImplementationClass> = {

@@ -6,7 +6,8 @@
  * flat per-location rates, `baseIncludesLocations: 3`, a per-module
  * setup-fee ladder, and non-stacking discounts. All of that is gone.
  */
-import { describe, expect, it } from 'vitest';
+import {
+  calculateBandedTotal, describe, expect, it } from 'vitest';
 import {
   corePackages,
   CORE_PACKAGE_IDS,
@@ -566,7 +567,7 @@ describe('calculateFullPrice', () => {
     expect(result.subtotal).toBe(1895 + 755);
   });
 
-  it('adds a concept SKU at its flat price, not per location', () => {
+  it('adds a concept SKU on its own marginal curve, not a flat fee', () => {
     const withConcept = calculateFullPrice({
       layer: 'core',
       corePackage: 'core_foundation',
@@ -583,7 +584,10 @@ describe('calculateFullPrice', () => {
       watchtower: [],
       clientProfile: baseProfile,
     });
-    expect(withConcept.subtotal - withoutConcept.subtotal).toBe(349);
+    // Catering: $349 anchor + 9 x $69 (units 2-10) + 10 x $59 (units 11-25).
+    // This previously asserted a flat 349 at TWENTY locations — encoding the
+    // bug that understated the pathway by $1,160/mo at this size.
+    expect(withConcept.subtotal - withoutConcept.subtotal).toBe(349 + 9 * 69 + 10 * 59);
   });
 
   it('flags the Enterprise-only band instead of inventing a discount', () => {
@@ -610,7 +614,9 @@ describe('calculateFullPrice', () => {
     const expected =
       calculateCorePackagePrice('core_growth', 3) +
       calculateForesightActionPrice(3) +
-      conceptSkus.concept_franchise.monthlyPrice;
+      // The concept is banded like everything else; `monthlyPrice` is only the
+      // first-unit anchor, so summing it here understated a 3-site quote.
+      calculateBandedTotal(conceptSkus.concept_franchise, 3);
     expect(result.subtotal).toBe(expected);
   });
 });

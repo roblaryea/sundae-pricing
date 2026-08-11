@@ -18,6 +18,7 @@ import {
 import { suggestOptimalCorePackage } from '../../hooks/usePriceCalculation';
 import { useLivePricingCatalog } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
+import { AnimatedNumber } from '../shared/AnimatedNumber';
 
 const PACKAGE_COLORS: Record<CorePackageId, string> = {
   core_foundation: '#E9A24A',
@@ -201,7 +202,7 @@ export function TierSelector() {
                       className="font-semibold tabular-nums"
                       data-testid={`core-package-total-${pkg.id}`}
                     >
-                      {fmt(total)}
+                      <AnimatedNumber value={total} format={fmt} />
                       {copy.perMonth}
                     </span>
                   </div>
@@ -228,9 +229,11 @@ export function TierSelector() {
                       said "8 locations". */}
                   <div className="flex justify-between text-sm">
                     <span className="text-sundae-muted">{copy.aiCredits}</span>
-                    <span className="font-semibold tabular-nums">
-                      {calculateAiCredits(pkg, locations).toLocaleString(locale)}
-                    </span>
+                    <AnimatedNumber
+                      value={calculateAiCredits(pkg, locations)}
+                      format={(n) => Math.round(n).toLocaleString(locale)}
+                      className="font-semibold tabular-nums"
+                    />
                   </div>
                   {locations > 1 && (
                     <div className="flex justify-between text-xs text-sundae-muted">
@@ -243,9 +246,11 @@ export function TierSelector() {
                   )}
                   <div className="flex justify-between text-sm">
                     <span className="text-sundae-muted">{copy.intelligenceSeats}</span>
-                    <span className="font-semibold tabular-nums">
-                      {calculateIntelligenceSeats(pkg, locations).toLocaleString(locale)}
-                    </span>
+                    <AnimatedNumber
+                      value={calculateIntelligenceSeats(pkg, locations)}
+                      format={(n) => Math.round(n).toLocaleString(locale)}
+                      className="font-semibold tabular-nums"
+                    />
                   </div>
                   <div className="flex items-start gap-2 text-sm">
                     <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />

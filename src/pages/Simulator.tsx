@@ -19,11 +19,13 @@ import { ProgressIndicator } from '../components/shared/ProgressIndicator';
 import { AchievementNotification } from '../components/shared/AchievementNotification';
 import { useLivePricingCatalog } from '../data/livePricing';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
+import { stepTransition, useReducedMotionSafe } from '../lib/motion';
 
 export function Simulator() {
   const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer, addOns } = useConfiguration();
   const livePricing = useLivePricingCatalog();
   const { locale } = useLocale();
+  const reducedMotion = useReducedMotionSafe();
   // Where "Back" goes from each step, honoring path-specific skips (Crew collapses
   // to one builder step; Report skips modules/watchtower/ROI before the summary).
   const backTarget =
@@ -144,10 +146,7 @@ export function Simulator() {
     return (
       <motion.div
         key={`step-${(isCrewPath && currentStep >= 2 && currentStep < 7) || (isCombinedPath && currentStep === 6) ? 'crew-builder' : currentStep}`}
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -20 }}
-        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        {...stepTransition(reducedMotion)}
       >
         {node}
       </motion.div>

@@ -12,6 +12,7 @@ import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocal
 // pricing audit previously flagged as drift risks.
 import { corePackages, watchtower } from '../../data/pricing';
 import { stepIndex } from '../../lib/journey';
+import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 // v1.7: the entry point into Core is the Core Foundation FIRST-UNIT anchor.
 // It is not a per-location rate and it includes no location allowance.
@@ -251,6 +252,8 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
 export function LayerStack() {
   const { layer, setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
   const { locale } = useLocale();
+  const reduced = useReducedMotionSafe();
+  const card = selectableCard(reduced);
   // The `??` chain used to pick ONE pack wholesale. When that pack was
   // shape-incomplete the whole subtree beneath it went undefined - the
   // generated packs carried a retired `report` layer and no `crew`, so
@@ -319,8 +322,9 @@ export function LayerStack() {
   return (
     <div className="max-w-5xl mx-auto">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={fadeUp(reduced)}
+        initial="hidden"
+        animate="visible"
         className="text-center mb-12"
       >
         <h1 className="text-4xl font-bold mb-4">{copy.title}</h1>
@@ -328,13 +332,19 @@ export function LayerStack() {
       </motion.div>
 
       <div className="mb-12">
-        <div className="relative flex flex-col items-center gap-4 max-w-2xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className="w-full relative z-10"
-          >
+        {/* The stack reveals top-down as one sequence. Each tile used to time
+            itself — the Watchtower banner on a flat 0.4s, the layer cards on
+            `index * 0.06` after a 0.2s head start — and because framer treats a
+            component's `transition` prop as the default for EVERY animation it
+            runs, that entrance delay was also being applied to the hover lift.
+            Sequencing on the container leaves interaction untouched. */}
+        <motion.div
+          variants={staggerChildren(reduced, cards.length + 1)}
+          initial="hidden"
+          animate="visible"
+          className="relative flex flex-col items-center gap-4 max-w-2xl mx-auto"
+        >
+          <motion.div variants={fadeUp(reduced)} className="w-full relative z-10">
             <div className="p-4 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-xl border border-red-500/30 backdrop-blur">
               <div className="flex items-center gap-3">
                 <Castle className="w-6 h-6 text-red-400 flex-shrink-0" />
@@ -374,18 +384,19 @@ export function LayerStack() {
             return (
               <motion.div
                 key={layerItem.id}
-                initial={{ opacity: 0, y: index === 0 ? -10 : 0 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index === 0 ? 0.2 : index * 0.06 }}
+                variants={fadeUp(reduced)}
                 className="w-full relative"
                 style={{ zIndex: 30 - index }}
               >
                 <motion.button
-                  whileHover={{ scale: 1.02, y: -4 }}
-                  whileTap={{ scale: 0.98 }}
+                  {...card}
                   onClick={() => handleLayerSelect(layerItem.id)}
                   aria-pressed={layer === layerItem.id}
-                  className={`w-full p-6 bg-gradient-to-br rounded-xl border-2 backdrop-blur transition-all group text-left ${styling.card}`}
+                  /* `transition-all` here meant the browser was easing the very
+                     transform framer writes each frame, so the lift arrived as
+                     a fraction of itself. Only the border colour changes on
+                     hover. */
+                  className={`w-full p-6 bg-gradient-to-br rounded-xl border-2 backdrop-blur transition-colors group text-left ${styling.card}`}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -409,19 +420,20 @@ export function LayerStack() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
 
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        variants={staggerChildren(reduced, cards.length)}
+        initial="hidden"
+        animate="visible"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
       >
         {cards.map((layerItem) => (
           <motion.div
             key={layerItem.id}
-            whileHover={{ y: -5 }}
+            variants={fadeUp(reduced)}
+            {...card}
             className="p-6 bg-sundae-surface rounded-xl border border-white/10"
           >
             <div className="flex items-start gap-3 mb-4">
@@ -444,11 +456,15 @@ export function LayerStack() {
                 </li>
               ))}
             </ul>
+            {/* The lift belongs to the card the pointer is over; a second one
+                on the button inside it produced two competing translations of
+                the same element. The press stays, because a button should
+                acknowledge being pressed. */}
             <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={card.whileTap}
+              transition={card.transition}
               onClick={() => handleLayerSelect(layerItem.id)}
-              className="w-full mt-4 py-2 px-4 bg-gradient-to-r from-white/10 to-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-all"
+              className="w-full mt-4 py-2 px-4 bg-gradient-to-r from-white/10 to-white/5 rounded-lg border border-white/10 hover:border-white/20 transition-colors"
               style={{ borderColor: `${layerItem.color}30` }}
             >
               {copy.select} {layerItem.copy.name}
@@ -458,9 +474,9 @@ export function LayerStack() {
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6 }}
+        variants={fadeUp(reduced, 0.08)}
+        initial="hidden"
+        animate="visible"
         className="mt-8 p-4 bg-sundae-accent/10 rounded-lg border border-sundae-accent/30"
       >
         <p className="text-sm flex items-start gap-2">

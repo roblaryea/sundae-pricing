@@ -81,7 +81,16 @@ export interface PriceBreakdown {
 }
 
 export interface DiscountLine {
+  /** English text, kept for the PDF and for callers with no locale. */
   name: string;
+  /**
+   * Stable key so a localised surface can render this line in the buyer's
+   * language. The engine has no locale, so emitting only `name` left every
+   * discount line in English on a translated quote.
+   */
+  key?: 'volume' | 'term' | 'earlyAdopter' | 'volumeNotApplied' | 'termNotApplied';
+  /** True when the published combined cap clipped this line. */
+  capped?: boolean;
   amount: number;
   percent: number;
 }

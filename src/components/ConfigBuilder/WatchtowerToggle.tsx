@@ -11,10 +11,16 @@ import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '..
 import { useLocale } from '../../contexts/LocaleContext';
 import { corePackages, packageAllowsWatchtower } from '../../data/pricing';
 import { stepIndex } from '../../lib/journey';
+import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 export function WatchtowerToggle() {
   const { layer, corePackage, locations, addOns, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep, recommendsWatchtower } = useConfiguration();
   const { locale, messages } = useLocale();
+  const reduced = useReducedMotionSafe();
+  const card = selectableCard(reduced);
+  // A card the bundle has locked out must not lift or press — motion that
+  // promises an interaction the click handler refuses is worse than none.
+  const cardIf = (enabled: boolean) => (enabled ? card : { transition: card.transition });
   const copy = messages.builder.watchtowerToggle;
   const watchtowerCatalog = messages.catalog.watchtower;
   const crossCatalog = messages.catalog.crossIntelligence;
@@ -70,6 +76,15 @@ export function WatchtowerToggle() {
   // package does not grant.
   const eligible = packageAllowsWatchtower(corePackage);
 
+  // The banner alone was not a gate. The cards stayed clickable, rendered a
+  // green tick when chosen and priced at $0, while a panel on the same screen
+  // quoted the annual figure — three statements a buyer cannot reconcile, on a
+  // package that cannot have the product at all. Selection now refuses.
+  const selectWatchtower = (moduleId: string) => {
+    if (!eligible) return;
+    toggleWatchtowerModule(moduleId);
+  };
+
   return (
     <div className="max-w-5xl mx-auto">
       {!eligible && (
@@ -92,8 +107,9 @@ export function WatchtowerToggle() {
         </div>
       )}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={fadeUp(reduced)}
+        initial="hidden"
+        animate="visible"
         className="text-center mb-12"
       >
         <h1 className="text-4xl font-bold mb-4">
@@ -107,11 +123,14 @@ export function WatchtowerToggle() {
         </p>
       </motion.div>
 
-      {/* Bundle suggestion */}
+      {/* Bundle suggestion. This grew in from scale 0.95 — exactly the kind of
+          movement `prefers-reduced-motion` asks us to drop, and a raw
+          initial/animate pair had no way to honour it. */}
       {shouldSuggestBundle && individualResult && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+          variants={fadeUp(reduced)}
+          initial="hidden"
+          animate="visible"
           className="mb-8 p-6 bg-gradient-to-r from-watchtower/10 to-red-500/10 rounded-xl border border-watchtower/30"
         >
           <div className="flex items-center justify-between">
@@ -126,8 +145,10 @@ export function WatchtowerToggle() {
                 {formatMessage(copy.saveAmount, { amount: Math.round(individualResult.total - bundleResult.total) })}
               </div>
               <button
-                onClick={() => toggleWatchtowerModule('bundle')}
-                className="mt-2 px-4 py-2 bg-watchtower/20 hover:bg-watchtower/30 text-watchtower border border-watchtower/50 rounded-lg transition-all"
+                onClick={() => selectWatchtower('bundle')}
+                disabled={!eligible}
+                aria-disabled={!eligible}
+                className="mt-2 px-4 py-2 bg-watchtower/20 hover:bg-watchtower/30 text-watchtower border border-watchtower/50 rounded-lg transition-colors"
               >
                 {copy.selectBundle}
               </button>
@@ -137,7 +158,12 @@ export function WatchtowerToggle() {
       )}
 
       {/* Module cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 overflow-visible">
+      <motion.div
+        variants={staggerChildren(reduced, Object.keys(watchtower).length)}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 overflow-visible"
+      >
         {/* Individual modules */}
         {Object.entries(watchtower).filter(([id]) => id !== 'bundle').map(([moduleId, module]) => {
           const isSelected = watchtowerModules.includes(moduleId);
@@ -151,9 +177,8 @@ export function WatchtowerToggle() {
           return (
             <motion.div
               key={moduleId}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ y: isDisabledByBundle ? 0 : -5 }}
+              variants={fadeUp(reduced)}
+              {...cardIf(!isDisabledByBundle)}
             >
               <button
                 onClick={() => {
@@ -165,7 +190,7 @@ export function WatchtowerToggle() {
                     toggleWatchtowerModule(moduleId);
                   }
                 }}
-                className={`w-full p-6 rounded-xl border-2 transition-all relative ${
+                className={`w-full p-6 rounded-xl border-2 transition-colors relative ${
                   isSelected || isDisabledByBundle
                     ? 'bg-gradient-to-br from-watchtower/20 to-red-500/20 border-watchtower/50'
                     : 'bg-sundae-surface border-white/10 hover:border-white/30'
@@ -214,9 +239,8 @@ export function WatchtowerToggle() {
 
         {/* Bundle card */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          whileHover={{ y: -5, scale: 1.02 }}
+          variants={fadeUp(reduced)}
+          {...card}
           className="md:col-span-2 relative mt-6 isolate"
         >
           {/* Badge positioned above card with proper spacing */}
@@ -225,9 +249,11 @@ export function WatchtowerToggle() {
           </div>
           
           <button
-            onClick={() => toggleWatchtowerModule('bundle')}
+            onClick={() => selectWatchtower('bundle')}
+                disabled={!eligible}
+                aria-disabled={!eligible}
             aria-pressed={watchtowerModules.includes('bundle')}
-            className={`w-full p-6 rounded-xl border-2 transition-all relative z-10 ${
+            className={`w-full p-6 rounded-xl border-2 transition-colors relative z-10 ${
               watchtowerModules.includes('bundle')
                 ? 'bg-gradient-to-br from-watchtower/30 to-red-500/30 border-watchtower'
                 : 'bg-gradient-to-br from-watchtower/10 to-red-500/10 border-watchtower/50 hover:border-watchtower'
@@ -279,14 +305,14 @@ export function WatchtowerToggle() {
             </div>
           </button>
         </motion.div>
-      </div>
+      </motion.div>
 
       {/* Cross-Intelligence Section */}
       {crossIntelEligible && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
+          variants={fadeUp(reduced, 0.06)}
+          initial="hidden"
+          animate="visible"
           className="mb-8"
         >
           <div className="text-center mb-6">
@@ -303,10 +329,12 @@ export function WatchtowerToggle() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Base tier - Auto-included */}
+            {/* Base tier - Auto-included. Nothing to click, so it lifts on
+                hover but takes no press state. */}
             <motion.div
-              whileHover={{ y: -3 }}
-              className={`p-6 rounded-xl border-2 transition-all ${
+              whileHover={card.whileHover}
+              transition={card.transition}
+              className={`p-6 rounded-xl border-2 transition-colors ${
                 crossIntelSelection === 'base'
                   ? 'bg-gradient-to-br from-[#E9A24A]/15 to-[#FF7E6F]/15 border-[#E9A24A]/50'
                   : 'bg-sundae-surface border-white/10'
@@ -331,12 +359,10 @@ export function WatchtowerToggle() {
             </motion.div>
 
             {/* Pro tier - Upgrade option */}
-            <motion.div
-              whileHover={{ y: -5, scale: 1.01 }}
-            >
+            <motion.div {...card}>
               <button
                 onClick={() => setCrossIntelligence(crossIntelSelection === 'pro' ? 'base' : 'pro')}
-                className={`w-full h-full text-left p-6 rounded-xl border-2 transition-all ${
+                className={`w-full h-full text-left p-6 rounded-xl border-2 transition-colors ${
                   crossIntelSelection === 'pro'
                     ? 'bg-gradient-to-br from-[#E9A24A]/25 to-[#FF7E6F]/25 border-[#E9A24A]'
                     : 'bg-gradient-to-br from-[#E9A24A]/5 to-[#FF7E6F]/5 border-[#E9A24A]/30 hover:border-[#E9A24A]/60'
@@ -388,9 +414,9 @@ export function WatchtowerToggle() {
 
       {/* Current total */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
+        variants={fadeUp(reduced, 0.06)}
+        initial="hidden"
+        animate="visible"
         className="mb-8 p-6 bg-gradient-to-br from-sundae-surface to-sundae-surface/50 rounded-xl border border-white/10"
       >
         <div className="flex items-center justify-between">
@@ -411,9 +437,9 @@ export function WatchtowerToggle() {
 
       {/* Navigation buttons */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
+        variants={fadeUp(reduced, 0.06)}
+        initial="hidden"
+        animate="visible"
         className="mb-32 flex items-center justify-between relative z-50"
       >
         <button

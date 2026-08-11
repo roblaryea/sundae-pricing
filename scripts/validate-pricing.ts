@@ -149,7 +149,11 @@ check('volume @ 249', 7, getVolumeDiscount(249));
 check('ENTERPRISE_ONLY_FROM_UNITS', 250, ENTERPRISE_ONLY_FROM_UNITS);
 check('billingDiscounts.annual', 10, billingDiscounts.annual);
 check('billingDiscounts.two_year', 15, billingDiscounts.two_year);
-check('DISCOUNT_RULES.stackingAllowed', true, DISCOUNT_RULES.stackingAllowed);
+// Price book v1.7 section 2.1: volume and billing cycle are MUTUALLY
+// EXCLUSIVE — whichever is larger, never the sum. This asserted `true`, which
+// is why the engine's additive rule survived: the guard was calibrated to the
+// bug. A 240-location annual quote was promised 15% against a real 10%.
+check('DISCOUNT_RULES.stackingAllowed', false, DISCOUNT_RULES.stackingAllowed);
 check('DISCOUNT_RULES.maxDiscountPercent', 15, DISCOUNT_RULES.maxDiscountPercent);
 
 // ── Domain modules must stay unpriced package components ──────────────────

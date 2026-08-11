@@ -60,8 +60,12 @@ export interface ROICalculation {
   monthlySavings: number;
   annualSavings: number;
   roi: number;
+  /** True when the published cap clipped the result — render as "Nx+". */
+  roiCapped: boolean;
   roiPercent: number;
   paybackDays: number;
+  /** False when the monthly saving never overtakes the monthly cost. */
+  paysBack: boolean;
   savingsLines: SavingsLineItem[];
   breakdowns: Record<string, number>;
   projectedImprovements: Record<string, number>;
@@ -170,6 +174,15 @@ export const SAVINGS_ASSUMPTIONS: Record<string, SavingsAssumption> = {
 };
 
 // Guardrails to prevent unrealistic ROI projections
+/**
+ * The cost ratios the published savings rates are expressed against. A buyer
+ * reporting a different ratio rescales the base those rates apply to.
+ */
+export const TYPICAL_COST_RATIOS = {
+  labor: 30,
+  food: 30,
+} as const;
+
 const GUARDRAILS = {
   maxSavingsPerLocation: {
     labor: 2500,
@@ -190,7 +203,9 @@ const GUARDRAILS = {
 export function useROICalculation(
   config: Configuration,
   inputs: ROIInputs,
-  platformCost: number
+  platformCost: number,
+  /** One-time implementation charged by the same quote. */
+  oneTimeCost = 0
 ): ROICalculation {
   const { locale } = useLocale();
 
@@ -199,18 +214,36 @@ export function useROICalculation(
     const assumptionLabels = copy.assumptionLabels as Record<string, string>;
     const tooltips = copy.tooltips as Record<string, string>;
     const missingInputs = copy.missingInput as Record<string, string>;
-    const { 
-      monthlyRevenue, 
-      // laborPercent and foodCostPercent are collected for context but savings are calculated as % of revenue
-      laborPercent: _laborPercent, 
-      foodCostPercent: _foodCostPercent, 
+    const {
+      monthlyRevenue,
+      laborPercent,
+      foodCostPercent,
       marketingSpend = 0,
       deliveryRevenuePct = 0,
       hasReviewData = false
     } = inputs;
-    void _laborPercent; void _foodCostPercent; // Collected for future use
-    
+
     const totalMonthlyRevenue = monthlyRevenue * config.locations;
+
+    // Labour and food-cost savings scale with the SPEND they optimise, not with
+    // revenue alone.
+    //
+    // Both sliders were read and then explicitly discarded ("Collected for
+    // future use"), so dragging "Current Labor Cost %" from 20% to 40% changed
+    // nothing at all — which is the first thing a numerate buyer tries, and the
+    // fastest way to lose them. An operator running 40% labour has materially
+    // more labour to optimise than one running 20%, and a model that cannot see
+    // that is not modelling their business.
+    //
+    // The published rates are expressed against revenue at a typical cost
+    // ratio, so the ratio the buyer actually reports rescales the base. Bounded
+    // so an extreme entry cannot run away with the answer.
+    const scaleToActual = (reported: number | undefined, typical: number) => {
+      if (!reported || reported <= 0) return 1;
+      return Math.min(2, Math.max(0.5, reported / typical));
+    };
+    const laborBase = totalMonthlyRevenue * scaleToActual(laborPercent, TYPICAL_COST_RATIOS.labor);
+    const foodBase = totalMonthlyRevenue * scaleToActual(foodCostPercent, TYPICAL_COST_RATIOS.food);
     const savingsLines: SavingsLineItem[] = [];
     const breakdowns: Record<string, number> = {};
     const projectedImprovements: Record<string, number> = {};
@@ -226,9 +259,20 @@ export function useROICalculation(
       const localizedLabel = assumptionLabels[moduleId] ?? assumption.label;
       const localizedTooltip = tooltips[moduleId] ?? assumption.tooltip;
       const localizedMissingInput = missingInputs[moduleId] ?? assumption.missingInputMessage;
-      const minAmount = baseAmount * assumption.minPct;
-      const maxAmount = baseAmount * assumption.maxPct;
-      const midAmount = baseAmount * assumption.midPct;
+      // A REVENUE UPLIFT is not a saving. Where an assumption declares
+      // `marginOnLift`, only that share of the incremental revenue reaches the
+      // operator's bottom line.
+      //
+      // `marginOnLift: 0.25` was declared on the reservations line and applied
+      // NOWHERE — the type carried it, the assumption set it, and no code ever
+      // read it. So a 0.5-2.0% table-utilisation uplift was counted as if every
+      // incremental dollar were profit, on the single largest line in the model
+      // (29% of total savings on a default configuration). It overstated that
+      // line four-fold.
+      const margin = assumption.marginOnLift ?? 1;
+      const minAmount = baseAmount * assumption.minPct * margin;
+      const maxAmount = baseAmount * assumption.maxPct * margin;
+      const midAmount = baseAmount * assumption.midPct * margin;
       
       // Apply per-location cap
       const maxCap = GUARDRAILS.maxSavingsPerLocation[moduleId as keyof typeof GUARDRAILS.maxSavingsPerLocation] || 1000;
@@ -263,12 +307,12 @@ export function useROICalculation(
     
     // Labor Intelligence
     if (config.activeDomains.includes('labor')) {
-      totalSavings += addSavingsLine('labor', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.labor);
+      totalSavings += addSavingsLine('labor', laborBase, SAVINGS_ASSUMPTIONS.labor);
     }
     
     // Inventory Connect
     if (config.activeDomains.includes('inventory')) {
-      totalSavings += addSavingsLine('inventory', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.inventory);
+      totalSavings += addSavingsLine('inventory', foodBase, SAVINGS_ASSUMPTIONS.inventory);
     }
     
     // Purchasing Analytics
@@ -358,17 +402,43 @@ export function useROICalculation(
     
     // Calculate ROI
     let roi = platformCost > 0 ? totalSavings / platformCost : 0;
+    // The cap keeps the headline from claiming an absurd multiple, but it also
+    // makes every strong configuration print the SAME "15x" — so the number
+    // stops discriminating between packages and reads as a constant rather than
+    // a result. Flag it so the UI can show it as a floor.
+    let roiCapped = false;
     if (roi > GUARDRAILS.maxROIMultiple) {
       roi = GUARDRAILS.maxROIMultiple;
+      roiCapped = true;
     }
     
-    // Calculate payback with floor guardrail
-    let paybackDays = platformCost > 0 && totalSavings > 0
-      ? Math.ceil((platformCost / totalSavings) * 30)
-      : 0;
-    
-    // Apply minimum payback floor to avoid unrealistic claims
-    if (paybackDays > 0 && paybackDays < GUARDRAILS.minPaybackDays) {
+    // Payback must clear the ONE-TIME cost as well as the recurring one.
+    //
+    // This computed `platformCost / totalSavings * 30` — how many days of
+    // savings cover a single month of subscription — and ignored the
+    // implementation fee the same quote charges, which is the largest one-time
+    // line in the deal ($1,500 to $12,500). A CFO reconciling the two screens
+    // would find the payback claim excluded a cost the quote itself listed.
+    //
+    // The honest form solves for the day the cumulative saving overtakes the
+    // cumulative cost: implementation + monthlyCost x (d/30) = savings x (d/30),
+    // so d = 30 x implementation / (savings - monthlyCost). If the monthly
+    // saving does not exceed the monthly cost, it never pays back — and the
+    // model must be able to say so.
+    const monthlyNet = totalSavings - platformCost;
+    let paybackDays = 0;
+    let paysBack = false;
+    if (totalSavings > 0 && monthlyNet > 0) {
+      paysBack = true;
+      paybackDays = oneTimeCost > 0
+        ? Math.ceil((oneTimeCost / monthlyNet) * 30)
+        : GUARDRAILS.minPaybackDays;
+    }
+
+    // The floor stays: it exists to stop the model claiming a payback faster
+    // than anyone could actually realise, and it makes the answer WORSE, not
+    // better.
+    if (paysBack && paybackDays < GUARDRAILS.minPaybackDays) {
       paybackDays = GUARDRAILS.minPaybackDays;
     }
     
@@ -376,13 +446,15 @@ export function useROICalculation(
       monthlySavings: Math.round(totalSavings),
       annualSavings: Math.round(annualSavings),
       roi: Math.round(roi * 10) / 10,
+      roiCapped,
       roiPercent: Math.round(roi * 100),
       paybackDays,
+      paysBack,
       savingsLines,
       breakdowns,
       projectedImprovements
     };
-  }, [config, inputs, locale, platformCost]);
+  }, [config, inputs, locale, platformCost, oneTimeCost]);
 }
 
 // Helper function to generate ROI description

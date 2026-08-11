@@ -7,7 +7,7 @@
 import { motion } from 'framer-motion';
 import { Check, Star, TrendingUp, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { corePackages, CORE_PACKAGE_IDS, modules as coreDomainModules } from '../../data/pricing';
+import { corePackages, CORE_PACKAGE_IDS } from '../../data/pricing';
 import type { CorePackageId } from '../../data/pricing';
 import {
   calculateAiCredits,
@@ -20,6 +20,7 @@ import { useLivePricingCatalog } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
 import { AnimatedNumber } from '../shared/AnimatedNumber';
 import { stepIndex } from '../../lib/journey';
+import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 const PACKAGE_COLORS: Record<CorePackageId, string> = {
   core_foundation: '#E9A24A',
@@ -32,6 +33,10 @@ export function TierSelector() {
   const { layer, setCorePackage, locations, setLocations, setCurrentStep } = useConfiguration();
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
+  // Must be read above the `!layer` bail-out below: hooks cannot sit behind an
+  // early return, and this component has one.
+  const reduced = useReducedMotionSafe();
+  const card = selectableCard(reduced);
   const copy = messages.builder.tierSelector;
 
   if (!layer) {
@@ -55,13 +60,12 @@ export function TierSelector() {
 
   const fmt = (value: number) => `$${value.toLocaleString(locale)}`;
 
-  const domainModuleCount = Object.keys(coreDomainModules).length;
-
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        variants={fadeUp(reduced)}
+        initial="hidden"
+        animate="visible"
         className="text-center mb-8"
       >
         <h1 className="text-4xl font-bold mb-4">{copy.chooseCoreTier}</h1>
@@ -72,9 +76,9 @@ export function TierSelector() {
           moves as it changes, so the buyer sees the curve behave instead of
           being told about it on a separate screen. */}
       <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.05 }}
+        variants={fadeUp(reduced, 0.05)}
+        initial="hidden"
+        animate="visible"
         className="mb-8 mx-auto max-w-3xl rounded-2xl border border-white/10 bg-sundae-surface/60 p-5 backdrop-blur"
       >
         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -123,9 +127,23 @@ export function TierSelector() {
         </p>
       </div>
 
-      {/* Package cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
-        {packages.map((pkg, index) => {
+      {/* Package cards.
+
+          Sequencing belongs to the CONTAINER, not to each card. The cards used
+          to carry `transition={{ delay: index * 0.08 }}`, and in framer that
+          `transition` prop is the component's default for EVERY animation it
+          runs — including `whileHover`. So the fourth card, the most expensive
+          one, sat for its entrance delay again before it would even begin to
+          acknowledge a pointer. `staggerChildren` puts the delay on the parent
+          where it can only ever affect entrance, and caps the total so a long
+          grid never makes its last card wait. */}
+      <motion.div
+        variants={staggerChildren(reduced, packages.length)}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12"
+      >
+        {packages.map((pkg) => {
           const isOptimal = pkg.id === optimalPackage;
           const color = PACKAGE_COLORS[pkg.id];
           const total = calculateBandedTotal(pkg, locations);
@@ -135,10 +153,8 @@ export function TierSelector() {
           return (
             <motion.div
               key={pkg.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.08 }}
-              whileHover={{ y: -8 }}
+              variants={fadeUp(reduced)}
+              {...card}
               className="relative"
             >
               {isOptimal && (
@@ -153,7 +169,12 @@ export function TierSelector() {
               <motion.button
                 onClick={() => handleSelect(pkg.id)}
                 data-testid={`core-package-${pkg.id}`}
-                className={`w-full h-full p-6 rounded-xl border-2 transition-all text-left ${
+                /* `transition-all` is a trap on any card framer is animating:
+                   `all` includes `transform`, so the browser re-eases every
+                   transform frame framer writes and most of the movement is
+                   swallowed. Only the border colour changes on hover, so only
+                   the border colour needs a CSS transition. */
+                className={`w-full h-full p-6 rounded-xl border-2 transition-colors text-left ${
                   isOptimal
                     ? 'bg-gradient-to-br from-white/10 to-white/5 border-white/30 hover:border-white/50'
                     : 'bg-sundae-surface border-white/10 hover:border-white/30'
@@ -258,7 +279,16 @@ export function TierSelector() {
                   </div>
                   <div className="flex items-start gap-2 text-sm">
                     <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                    <span>All {domainModuleCount} Core domain modules included</span>
+                    {/* Say what the package DELIVERS, never what it withholds.
+                        The runtime grants differ per package (price book v1.7
+                        section 3.1), but 3.1 is explicit that "a prospect should
+                        never hear artificial 'signal but not experience'
+                        withholding language" — so this states the outcome the
+                        buyer gets rather than a count out of eleven. The card
+                        previously claimed "All 11" on every package, which made
+                        the four indistinguishable and left the ladder with
+                        nothing to sell. */}
+                    <span>{pkg.includedOutcome}</span>
                   </div>
                 </div>
 
@@ -273,13 +303,16 @@ export function TierSelector() {
             </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
-      {/* Side-by-side comparison at the selected unit count */}
+      {/* Side-by-side comparison at the selected unit count.
+
+          This waited 400ms on nothing. It is the table a buyer scrolls to in
+          order to decide, not decoration, so it settles with everything else. */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4 }}
+        variants={fadeUp(reduced, 0.08)}
+        initial="hidden"
+        animate="visible"
         className="bg-sundae-surface rounded-xl p-6"
       >
         <h3 className="text-lg font-bold mb-4 flex items-center gap-2">

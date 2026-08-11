@@ -2,7 +2,12 @@
 // Uses the centralized pricing engine for all calculations.
 
 import { useMemo } from 'react';
-import { calculateFullPrice, calculateTenzoPrice, calculateBandedTotal } from '../lib/pricingEngine';
+import {
+  calculateBandedTotal,
+  calculateFullPrice,
+  calculateTenzoPrice,
+  TENZO_SELLABLE_MODULES,
+} from '../lib/pricingEngine';
 import type { PriceResult, ClientProfile, AddOnId } from '../lib/pricingEngine';
 import type { CorePackageId, CrossIntelligenceTier } from '../data/pricing';
 import { corePackages, CORE_PACKAGE_IDS } from '../data/pricing';
@@ -99,9 +104,11 @@ export function usePriceCalculation(
       name: localizeDiscountName(discount.name, locale as PricingLocale),
     }));
 
-    // Tenzo prices per module per location; every Core package ships the
-    // eleven domain modules, so compare against all eleven.
-    const tenzoComparison = calculateTenzoPrice(locations, 11);
+    // Tenzo prices per module per location, but only sells three of the eleven
+    // domains Sundae covers. Asking for eleven billed them for eight modules
+    // they do not offer and produced a saving that could not be substantiated;
+    // the engine now clamps to what they actually sell.
+    const tenzoComparison = calculateTenzoPrice(locations, TENZO_SELLABLE_MODULES);
 
     return {
       total: result.total,

@@ -21,7 +21,6 @@ import {
   AlertCircle,
 } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { CORE_DOMAIN_MODULE_IDS } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import {
   useROICalculation,
@@ -38,6 +37,9 @@ import {
   type PricingUiLocale,
 } from '../../lib/pricingUiCopy';
 import { stepIndex } from '../../lib/journey';
+import { computeCrewQuote } from '../../lib/crewPricing';
+import { corePackages } from '../../data/pricing';
+import { getQuoteSummaryCopy } from '../../lib/quoteSummaryCopy';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Users,
@@ -63,14 +65,30 @@ export function ROISimulator() {
     roiInputs,
     setROIInputs,
     setCurrentStep,
+    crewSkus: selectedCrewSkus,
   } = useConfiguration();
 
+  const q = getQuoteSummaryCopy(locale);
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
-  // v1.7: every Core package includes all eleven domain modules, so the ROI
-  // model credits every domain rather than only the ones the visitor ticked.
-  const activeDomains = CORE_DOMAIN_MODULE_IDS as readonly string[];
+  // Credit ONLY the domains the selected package actually grants.
+  //
+  // This passed all eleven regardless of package, on the belief that every Core
+  // package shipped every domain. Price book v1.7 section 3.1 grants four to
+  // Foundation, six to Margin and eight to Growth — so a Foundation buyer was
+  // shown savings from inventory, purchasing, marketing, reservations and guest
+  // domains their package does not include, overstating the case by roughly ten
+  // times ($234,400/mo credited against $24,000 earned at eight locations).
+  const activeDomains = (corePackages[corePackage]?.includesDomainModules ??
+    []) as readonly string[];
+  // Crew is a separate rail with its own unit economics, but it is a real cost
+  // on the combined pathway and the ROI model must carry it.
+  const crewMonthly =
+    layer === 'both' && selectedCrewSkus.length > 0
+      ? computeCrewQuote(selectedCrewSkus, locations).monthly
+      : 0;
+
   const roi = useROICalculation(
     {
       // ROI models the Core decision layer; 'both' contributes its Core side.
@@ -81,7 +99,11 @@ export function ROISimulator() {
       watchtowerModules,
     },
     roiInputs,
-    pricing.total
+    // The recurring cost must include the Crew rail on the combined pathway —
+    // omitting it understated monthly cost and flattered both ROI and payback.
+    pricing.total + crewMonthly,
+    // And payback must clear the one-time implementation the quote charges.
+    pricing.implementation.requiresScoping ? 0 : pricing.implementation.fee,
   );
 
   const handleInputChange = (field: keyof typeof roiInputs, value: number | boolean) => {
@@ -117,6 +139,21 @@ export function ROISimulator() {
         <h1 className="text-4xl font-bold mb-4">{copy.title}</h1>
         <p className="text-xl text-sundae-muted">{copy.subtitle}</p>
       </motion.div>
+
+      {/* The model has no published evidence behind its rates. The defensible
+
+          posture is not to invent a source but to stop presenting a planning
+
+          model as a measurement — and to show the basis on every line. */}
+
+      <div className="mb-6 rounded-xl border border-[#E9A24A]/40 bg-[#E9A24A]/10 p-4">
+
+        <p className="text-sm font-semibold text-[#E9A24A]">{q.modelledHeading}</p>
+
+        <p className="mt-1 text-xs text-sundae-muted">{q.modelledNote}</p>
+
+      </div>
+
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
@@ -296,12 +333,23 @@ export function ROISimulator() {
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.roiMultiple}</div>
-            <div className="font-display text-3xl font-bold text-green-400">{roi.roi}x</div>
+            {/* Show the cap as a floor. Printing a bare "15x" for every strong
+                configuration made the headline read as a constant rather than a
+                result, and hid the difference between packages. */}
+            <div className="font-display text-3xl font-bold text-green-400">
+              {roi.roi}x{roi.roiCapped ? '+' : ''}
+            </div>
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.paybackPeriod}</div>
-            <div className="font-display text-3xl font-bold text-green-400">
-              {formatMessage(copy.days, { count: roi.paybackDays })}
+            {/* A model that can only ever say "yes" is a brochure. When the
+                monthly saving does not overtake the monthly cost, say so. */}
+            <div
+              className={`font-display text-3xl font-bold ${roi.paysBack ? 'text-green-400' : 'text-sundae-muted'}`}
+            >
+              {roi.paysBack
+                ? formatMessage(copy.days, { count: roi.paybackDays })
+                : copy.noPaybackAtTheseInputs ?? 'Not at these inputs'}
             </div>
           </div>
         </div>
@@ -384,8 +432,12 @@ export function ROISimulator() {
           <div className="text-center px-8">
             <Clock className="w-8 h-8 mx-auto mb-2 text-sundae-accent" />
             <div className="text-sm text-sundae-muted">{copy.paysForItselfIn}</div>
-            <div className="font-display text-xl font-bold text-green-400">
-              {formatMessage(copy.days, { count: roi.paybackDays })}
+            <div
+              className={`font-display text-xl font-bold ${roi.paysBack ? 'text-green-400' : 'text-sundae-muted'}`}
+            >
+              {roi.paysBack
+                ? formatMessage(copy.days, { count: roi.paybackDays })
+                : copy.noPaybackAtTheseInputs ?? 'Not at these inputs'}
             </div>
           </div>
           <div className="text-right">

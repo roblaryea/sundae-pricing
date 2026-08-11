@@ -472,3 +472,45 @@
 .light {
   color-scheme: light;
 }
+
+
+/* ── Touch-sized range sliders ─────────────────────────────────────────────
+   The ROI sliders were an 8px-tall hit target — effectively undraggable on a
+   phone, on the step that builds the savings case. The input now occupies a
+   44px touch box while the visible track stays 8px, drawn from the `--track`
+   custom property the component sets. */
+input[type='range'].touch-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 44px;
+  background: transparent;
+}
+input[type='range'].touch-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 8px;
+  background: var(--track, #2a231c);
+}
+input[type='range'].touch-slider::-moz-range-track {
+  height: 8px;
+  border-radius: 8px;
+  background: var(--track, #2a231c);
+}
+input[type='range'].touch-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  margin-top: -7px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid #ff5c4d;
+  cursor: pointer;
+}
+input[type='range'].touch-slider::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid #ff5c4d;
+  cursor: pointer;
+}

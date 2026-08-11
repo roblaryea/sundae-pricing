@@ -909,13 +909,20 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
 //   • crew_payroll (15)                     — depends on crew_operations (employee records + pay rates)
 //   • crew_people_intelligence (16)         — depends on crew_operations
 
-// Price book v1.7 publishes ONE monthly price per Crew SKU (Starter $99,
-// Schedule $179, Manage $399, Time $99, Pay $129, People $249) and gives Crew
-// no marginal bands and no per-location component. The v1.6 `perLocationPrice`
-// and `baseIncludesLocations` fields were therefore DELETED rather than
-// zeroed: the "base covers 3 locations, then $X per extra location" mechanic
-// is retired everywhere in the book, and a field that does not exist cannot be
-// summed into a quote by accident.
+// Crew prices on a MARGINAL CURVE, exactly like Core.
+//
+// This comment previously asserted that "v1.7 gives Crew no marginal bands and
+// no per-location component", and the quote charged the first-unit anchor no
+// matter how many locations were configured. Price book v1.7 section 4.1
+// publishes a full band table for every Crew SKU — Crew Manage $399 then
+// 79/71/63/55, Crew Time $99 then 19/17/15/13, and so on — so a ten-location
+// Manage + Time selection was quoted $498 against a real $1,380, and at a
+// hundred locations $498 against $8,050. Crew was being given away.
+//
+// What v1.7 DID retire is the v1.6 "base covers 3 locations, then $X per extra
+// location" allowance: bands are marginal and nothing is bundled into the
+// anchor. That is why `perLocationPrice` and `baseIncludesLocations` stay
+// deleted while `marginalBands` is added.
 //
 // The per-module setup-fee ladder ($199/$299/$399/$499) is likewise gone.
 // Implementation is a single charge at the HIGHEST `implementationClass` in
@@ -932,6 +939,8 @@ export const crewSkus = {
     name: 'Crew Starter',
     icon: 'sparkles',
     backendId: 'crew_lite',
+    firstUnitPrice: 99,
+    marginalBands: [band(2, 5, 19)],
     orgLicensePrice: 99,
     implementationClass: 'self_service' as ImplementationClassId | null,
     implementationIncludes: 'Self-serve onboarding',
@@ -964,6 +973,8 @@ export const crewSkus = {
     name: 'Crew Schedule',
     icon: 'calendar-days',
     backendId: 'crew_scheduling',
+    firstUnitPrice: 179,
+    marginalBands: [band(2, 10, 39), band(11, 25, 35), band(26, 50, 31), band(51, null, 27)],
     orgLicensePrice: 179,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Initial schedule template setup',
@@ -996,6 +1007,8 @@ export const crewSkus = {
     name: 'Crew Manage',
     icon: 'users',
     backendId: 'crew_operations',
+    firstUnitPrice: 399,
+    marginalBands: [band(2, 10, 79), band(11, 25, 71), band(26, 50, 63), band(51, null, 55)],
     orgLicensePrice: 399,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'HR operations + credentials + assets setup',
@@ -1029,6 +1042,8 @@ export const crewSkus = {
     name: 'Crew Time',
     icon: 'clock',
     backendId: 'crew_tna',
+    firstUnitPrice: 99,
+    marginalBands: [band(2, 10, 19), band(11, 25, 17), band(26, 50, 15), band(51, null, 13)],
     orgLicensePrice: 99,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'T&A clock-in configuration + geofencing setup',
@@ -1067,6 +1082,8 @@ export const crewSkus = {
     name: 'Crew Pay',
     icon: 'wallet',
     backendId: 'crew_payroll',
+    firstUnitPrice: 129,
+    marginalBands: [band(2, 10, 29), band(11, 25, 26), band(26, 50, 23), band(51, null, 20)],
     orgLicensePrice: 129,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Country pack activation + statutory export configuration',
@@ -1100,6 +1117,8 @@ export const crewSkus = {
     name: 'Crew People',
     icon: 'brain',
     backendId: 'crew_people_intelligence',
+    firstUnitPrice: 249,
+    marginalBands: [band(2, 10, 39), band(11, 25, 35), band(26, 50, 31), band(51, null, 27)],
     orgLicensePrice: 249,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Performance / talent / comp data ingestion',
@@ -1145,7 +1164,8 @@ export const crewSkus = {
 // and both belonged to the retired "base covers 3, then $X per extra" ladder.
 // Implementation follows the same class rule as the individual SKUs.
 
-export interface CrewBundle {
+export interface CrewBundle extends BandedSku {
+  /** Price book v1.7 section 4.1 — Crew prices on a marginal curve. */
   id: CrewBundleId;
   name: string;
   skus: CrewSkuId[];
@@ -1161,6 +1181,8 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     id: 'crew_schedule_time_bundle',
     name: 'Schedule & Time',
     skus: ['crew_scheduling', 'crew_tna'],
+    firstUnitPrice: 249,
+    marginalBands: [band(2, 10, 49), band(11, 25, 45), band(26, 50, 41), band(51, null, 37)],
     basePrice: 249,
     description: 'Crew Schedule + Crew Time bundled. The scheduling-plus-attendance entry point for operators who are not replacing payroll yet.',
     implementationClass: null,
@@ -1169,6 +1191,8 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     id: 'crew_suite_bundle',
     name: 'Crew Operating',
     skus: ['crew_operations', 'crew_tna', 'crew_payroll'],
+    firstUnitPrice: 499,
+    marginalBands: [band(2, 10, 99), band(11, 25, 89), band(26, 50, 79), band(51, null, 69)],
     basePrice: 499,
     description: 'Crew Manage + Crew Time + Crew Pay bundled. Acquisition-friendly bundle for operators replacing or augmenting an existing HR/payroll stack.',
     implementationClass: null,
@@ -1177,6 +1201,8 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     id: 'crew_complete_bundle',
     name: 'Crew Complete',
     skus: ['crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
+    firstUnitPrice: 699,
+    marginalBands: [band(2, 10, 129), band(11, 25, 115), band(26, 50, 102), band(51, null, 89)],
     basePrice: 699,
     description: 'Crew Manage + Crew Time + Crew Pay + Crew People bundled. Full workforce stack with the intelligence layer on top.',
     implementationClass: null,

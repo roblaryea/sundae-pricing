@@ -967,7 +967,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 <div>
                   <div className="font-semibold">{quote.locations} {quote.locations === 1 ? 'location' : 'locations'}</div>
                   <div className="text-sm text-sundae-muted">
-                    {q.crewFlatNote}
+                    {q.crewCurveNote}
                   </div>
                 </div>
               </div>

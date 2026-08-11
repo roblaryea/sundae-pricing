@@ -21,6 +21,17 @@ import { describe, expect, it } from 'vitest';
 import { computeCrewQuote, CREW_SKU_LIST, CREW_PRESETS } from '../src/lib/crewPricing';
 import { crewSkus, crewBundles } from '../src/data/pricing';
 import type { CrewSkuId, CrewBundleId } from '../src/types/configuration';
+import { calculateBandedTotal } from "../src/lib/pricingEngine";
+
+
+// NOTE: Crew now prices on a MARGINAL CURVE (price book v1.7 section 4.1).
+// These assertions originally compared a quote at N locations against a
+// bundle's FIRST-UNIT anchor, which was correct only while every Crew price was
+// flat. The ceiling property is unchanged — a covering bundle is still the most
+// a buyer can be asked to pay — but both sides must now be evaluated at the
+// SAME estate size, or the comparison is apples to oranges.
+const bundleAt = (id: keyof typeof crewBundles, locations: number) =>
+  calculateBandedTotal(crewBundles[id], Math.max(1, locations));
 
 const BUNDLE_IDS = Object.keys(crewBundles) as CrewBundleId[];
 
@@ -69,12 +80,14 @@ const SELECTIONS = reachableSelections();
 const key = (skus: CrewSkuId[]) => [...skus].sort().join('+');
 
 /** Standalone monthly, with Schedule at $0 whenever Manage is in the set. */
-function componentSum(skus: CrewSkuId[]): number {
+function componentSum(skus: CrewSkuId[], locations: number): number {
   const set = new Set(skus);
   return skus.reduce(
     (sum, id) =>
       sum +
-      (id === 'crew_scheduling' && set.has('crew_operations') ? 0 : crewSkus[id].orgLicensePrice),
+      (id === 'crew_scheduling' && set.has('crew_operations')
+        ? 0
+        : calculateBandedTotal(crewSkus[id], Math.max(1, locations))),
     0,
   );
 }
@@ -84,13 +97,13 @@ function componentSum(skus: CrewSkuId[]): number {
  * it is not the engine's algorithm restated. Anything the engine quotes above
  * this is money the visitor did not have to spend.
  */
-function cheapestDelivery(skus: CrewSkuId[], bundles: CrewBundleId[] = BUNDLE_IDS): number {
-  if (bundles.length === 0) return componentSum(skus);
+function cheapestDelivery(skus: CrewSkuId[], locations: number, bundles: CrewBundleId[] = BUNDLE_IDS): number {
+  if (bundles.length === 0) return componentSum(skus, locations);
   const [head, ...rest] = bundles;
-  const without = cheapestDelivery(skus, rest);
+  const without = cheapestDelivery(skus, locations, rest);
   const covered = entitlements(crewBundles[head].skus);
   const withHead =
-    crewBundles[head].basePrice + cheapestDelivery(skus.filter((id) => !covered.has(id)), rest);
+    bundleAt(head, locations) + cheapestDelivery(skus.filter((id) => !covered.has(id)), locations, rest);
   return Math.min(without, withHead);
 }
 
@@ -117,14 +130,16 @@ describe('a net bundle is a price ceiling', () => {
   it.each(SELECTIONS.map((skus) => [key(skus), skus] as const))(
     'quotes %s at or below every bundle that covers it',
     (_label, skus) => {
-      const quote = computeCrewQuote(skus, 7);
+      const LOCATIONS = 7;
+      const quote = computeCrewQuote(skus, LOCATIONS);
       for (const bundleId of BUNDLE_IDS) {
         const covered = entitlements(crewBundles[bundleId].skus);
         if (!skus.every((id) => covered.has(id))) continue;
+        const ceiling = bundleAt(bundleId, LOCATIONS);
         expect(
           quote.monthly,
-          `${key(skus)} quoted $${quote.monthly} above ${crewBundles[bundleId].name} $${crewBundles[bundleId].basePrice}`,
-        ).toBeLessThanOrEqual(crewBundles[bundleId].basePrice);
+          `${key(skus)} quoted $${quote.monthly} above ${crewBundles[bundleId].name} $${ceiling} at ${LOCATIONS} locations`,
+        ).toBeLessThanOrEqual(ceiling);
       }
     },
   );
@@ -132,7 +147,10 @@ describe('a net bundle is a price ceiling', () => {
   it.each(SELECTIONS.map((skus) => [key(skus), skus] as const))(
     'quotes %s at the cheapest legal delivery, never above it',
     (_label, skus) => {
-      expect(computeCrewQuote(skus, 3).monthly).toBe(cheapestDelivery(skus));
+      const LOCATIONS = 3;
+      expect(computeCrewQuote(skus, LOCATIONS).monthly).toBe(
+        cheapestDelivery(skus, LOCATIONS),
+      );
     },
   );
 
@@ -170,16 +188,48 @@ describe('quoted price per reachable selection', () => {
     'crew_operations+crew_payroll+crew_people_intelligence+crew_scheduling+crew_tna': 699,
   };
 
-  it.each(SELECTIONS.map((skus) => [key(skus), skus] as const))('prices %s', (label, skus) => {
-    expect(EXPECTED[label], `no expected price recorded for ${label}`).toBeDefined();
-    expect(computeCrewQuote(skus, 12).monthly).toBe(EXPECTED[label]);
+  it.each(SELECTIONS.map((skus) => [key(skus), skus] as const))(
+    'prices %s at the first location',
+    (label, skus) => {
+      expect(EXPECTED[label], `no expected price recorded for ${label}`).toBeDefined();
+      expect(computeCrewQuote(skus, 1).monthly).toBe(EXPECTED[label]);
+    },
+  );
+
+  it('rises with estate size — Crew is banded, never flat', () => {
+    // Price book v1.7 section 4.1 publishes a marginal band table for every
+    // Crew SKU and net bundle. This test previously asserted the opposite, and
+    // the builder quoted one estate-independent figure: a ten-location operator
+    // and a one-location operator were shown the same monthly price.
+    for (const skus of SELECTIONS) {
+      // Crew Starter is only sellable at 2-5 locations, so its curve
+      // deliberately plateaus at that eligibility ceiling rather than running on.
+      const eligibilityCeiling = skus.includes('crew_lite') ? 5 : Number.POSITIVE_INFINITY;
+      let prev = computeCrewQuote(skus, 1).monthly;
+      for (const locations of [2, 5, 50, 250]) {
+        const at = computeCrewQuote(skus, locations).monthly;
+        if (locations <= eligibilityCeiling) {
+          expect(at, `${key(skus)} did not rise at ${locations} locations`).toBeGreaterThan(prev);
+        } else {
+          expect(at, `${key(skus)} fell after its eligibility ceiling`).toBeGreaterThanOrEqual(prev);
+        }
+        prev = at;
+      }
+    }
   });
 
-  it('holds every reachable price flat across estate size', () => {
+  it('charges each additional location no more than the one before it', () => {
+    // A marginal band curve steps DOWN; a later location must never cost more
+    // than an earlier one, or the bands were entered out of order.
     for (const skus of SELECTIONS) {
-      const one = computeCrewQuote(skus, 1).monthly;
-      for (const locations of [5, 50, 250]) {
-        expect(computeCrewQuote(skus, locations).monthly).toBe(one);
+      let previousStep = Infinity;
+      for (let n = 2; n <= 60; n += 1) {
+        const step = computeCrewQuote(skus, n).monthly - computeCrewQuote(skus, n - 1).monthly;
+        expect(
+          step,
+          `${key(skus)} charges more for location ${n} than for ${n - 1}`,
+        ).toBeLessThanOrEqual(previousStep + 0.001);
+        previousStep = step;
       }
     }
   });
@@ -187,16 +237,24 @@ describe('quoted price per reachable selection', () => {
 
 describe('bundle presentation stays truthful', () => {
   it('names the bundle when one covers the whole selection', () => {
-    const quote = computeCrewQuote(['crew_operations', 'crew_scheduling', 'crew_payroll'], 3);
+    const LOCATIONS = 3;
+    const quote = computeCrewQuote(['crew_operations', 'crew_scheduling', 'crew_payroll'], LOCATIONS);
     expect(quote.detectedBundleId).toBe('crew_suite_bundle');
     // Every consumer reads lines[0].label as the headline when a bundle is
     // detected, so the bundle line must come first and must be the only line.
-    expect(quote.lines).toEqual([{ id: 'crew_suite_bundle', label: 'Crew Operating', monthly: 499 }]);
+    expect(quote.lines).toEqual([
+      {
+        id: 'crew_suite_bundle',
+        label: 'Crew Operating',
+        monthly: bundleAt('crew_suite_bundle', LOCATIONS),
+      },
+    ]);
   });
 
   it('does not claim a bundle when the parts are cheaper', () => {
-    const quote = computeCrewQuote(['crew_operations', 'crew_scheduling', 'crew_tna'], 3);
-    expect(quote.monthly).toBe(498);
+    const LOCATIONS = 3;
+    const quote = computeCrewQuote(['crew_operations', 'crew_scheduling', 'crew_tna'], LOCATIONS);
+    expect(quote.monthly).toBe(componentSum(['crew_operations', 'crew_scheduling', 'crew_tna'], LOCATIONS));
     expect(quote.detectedBundleId).toBeNull();
     expect(quote.lines.map((l) => l.id)).toEqual([
       'crew_operations',
@@ -207,44 +265,48 @@ describe('bundle presentation stays truthful', () => {
 
   it('keeps lines[0] as the bundle line wherever a bundle is detected', () => {
     for (const skus of SELECTIONS) {
-      const quote = computeCrewQuote(skus, 3);
+      const LOCATIONS = 3;
+      const quote = computeCrewQuote(skus, LOCATIONS);
       if (!quote.detectedBundleId) continue;
       expect(quote.lines[0].id).toBe(quote.detectedBundleId);
-      expect(quote.lines[0].monthly).toBe(crewBundles[quote.detectedBundleId].basePrice);
+      expect(quote.lines[0].monthly).toBe(bundleAt(quote.detectedBundleId, LOCATIONS));
     }
   });
 
   it('never discounts a net bundle a second time', () => {
     for (const skus of SELECTIONS) {
-      const quote = computeCrewQuote(skus, 3);
+      const LOCATIONS = 3;
+      const quote = computeCrewQuote(skus, LOCATIONS);
       if (!quote.detectedBundleId) continue;
       // The named net price is the price. `bundleSavingsMonthly` is a display
       // figure derived from the component sum — subtracting it from `monthly`
       // would discount a price that is already the discount.
-      expect(quote.monthly).toBe(crewBundles[quote.detectedBundleId].basePrice);
-      expect(quote.monthly + quote.bundleSavingsMonthly).toBe(componentSum(skus));
+      expect(quote.monthly).toBe(bundleAt(quote.detectedBundleId, LOCATIONS));
+      expect(quote.monthly + quote.bundleSavingsMonthly).toBe(componentSum(skus, LOCATIONS));
       expect(quote.annual).toBe(quote.monthly * 12);
     }
   });
 
   it('reports savings only where the quote actually beats the parts', () => {
     for (const skus of SELECTIONS) {
-      const quote = computeCrewQuote(skus, 3);
-      expect(quote.bundleSavingsMonthly).toBe(componentSum(skus) - quote.monthly);
+      const LOCATIONS = 3;
+      const quote = computeCrewQuote(skus, LOCATIONS);
+      expect(quote.bundleSavingsMonthly).toBe(componentSum(skus, LOCATIONS) - quote.monthly);
       expect(quote.bundleSavingsMonthly).toBeGreaterThanOrEqual(0);
     }
   });
 
   it('prices every quick preset at its advertised net figure', () => {
     for (const preset of CREW_PRESETS) {
-      const quote = computeCrewQuote(preset.skus, 6);
-      expect(quote.monthly).toBe(cheapestDelivery(preset.skus));
+      const LOCATIONS = 6;
+      const quote = computeCrewQuote(preset.skus, LOCATIONS);
+      expect(quote.monthly).toBe(cheapestDelivery(preset.skus, LOCATIONS));
     }
     expect(computeCrewQuote(CREW_PRESETS[1].skus, 6).monthly).toBe(
-      crewBundles.crew_suite_bundle.basePrice,
+      bundleAt('crew_suite_bundle', 6),
     );
     expect(computeCrewQuote(CREW_PRESETS[2].skus, 6).monthly).toBe(
-      crewBundles.crew_complete_bundle.basePrice,
+      bundleAt('crew_complete_bundle', 6),
     );
   });
 });

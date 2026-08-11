@@ -11,6 +11,7 @@ import { cn } from '../../utils/cn';
 import { useLocale } from '../../contexts/LocaleContext';
 import confetti from 'canvas-confetti';
 import type { OperatingModelId, TechStackId } from '../../lib/discoveryEngine';
+import { stepIndex } from '../../lib/journey';
 
 export function PathwaySelector() {
   const { messages, locale } = useLocale();
@@ -139,7 +140,7 @@ export function PathwaySelector() {
     if (showPersona) {
       const result = calculatePersonaMatch(quizAnswers, locale);
       loadFromPersona(result.persona);
-      setCurrentStep(1);
+      setCurrentStep(stepIndex('layer'));
     }
   }, [locale, loadFromPersona, quizAnswers, setCurrentStep, showPersona]);
 

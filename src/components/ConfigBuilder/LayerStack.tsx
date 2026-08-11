@@ -11,6 +11,7 @@ import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocal
 // This eliminates the hard-coded "Starting at $XXX/month" strings that the
 // pricing audit previously flagged as drift risks.
 import { corePackages, watchtower } from '../../data/pricing';
+import { stepIndex } from '../../lib/journey';
 
 // v1.7: the entry point into Core is the Core Foundation FIRST-UNIT anchor.
 // It is not a per-location rate and it includes no location allowance.
@@ -265,7 +266,7 @@ export function LayerStack() {
   const handleLayerSelect = (layerId: 'core' | 'crew' | 'both') => {
     setLayer(layerId);
     markStepCompleted('layer');
-    setCurrentStep(2);
+    setCurrentStep(stepIndex('tier'));
   };
 
   const cards = [

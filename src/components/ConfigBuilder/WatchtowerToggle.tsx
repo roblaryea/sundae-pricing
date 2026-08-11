@@ -10,6 +10,7 @@ import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/wat
 import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '../../lib/pricingEngine';
 import { useLocale } from '../../contexts/LocaleContext';
 import { corePackages, packageAllowsWatchtower } from '../../data/pricing';
+import { stepIndex } from '../../lib/journey';
 
 export function WatchtowerToggle() {
   const { layer, corePackage, locations, addOns, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep, recommendsWatchtower } = useConfiguration();
@@ -30,11 +31,11 @@ export function WatchtowerToggle() {
   const handleContinue = () => {
     // The ROI step is always meaningful now: every Core package includes the
     // labour / inventory / marketing domains the ROI model draws on.
-    setCurrentStep(6);
+    setCurrentStep(stepIndex('roi'));
   };
 
   const handleBack = () => {
-    setCurrentStep(4);
+    setCurrentStep(stepIndex('addons'));
   };
 
   const getModuleIcon = (moduleId: string) => {

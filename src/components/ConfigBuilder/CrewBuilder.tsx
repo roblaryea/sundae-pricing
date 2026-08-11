@@ -22,6 +22,7 @@ import { useConfiguration } from '../../hooks/useConfiguration';
 import { crewSkus } from '../../data/pricing';
 import { computeCrewQuote, CREW_PRESETS, CREW_SKU_LIST } from '../../lib/crewPricing';
 import type { CrewSkuId } from '../../types/configuration';
+import { stepIndex } from '../../lib/journey';
 
 // Crew Lite hard location cap (mirrors crewSkus.crew_lite.caps.maxLocations).
 const LITE_LOCATION_CAP = 5;
@@ -87,7 +88,7 @@ export function CrewBuilder() {
     markStepCompleted('modules');
     markStepCompleted('watchtower');
     markStepCompleted('roi');
-    setCurrentStep(7);
+    setCurrentStep(stepIndex('summary'));
   };
 
   // Match a preset id by exact SKU-set comparison.

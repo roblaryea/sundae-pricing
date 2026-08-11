@@ -37,6 +37,7 @@ import {
   getRoiCopy,
   type PricingUiLocale,
 } from '../../lib/pricingUiCopy';
+import { stepIndex } from '../../lib/journey';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Users,
@@ -88,11 +89,11 @@ export function ROISimulator() {
   };
 
   const handleContinue = () => {
-    setCurrentStep(7);
+    setCurrentStep(stepIndex('summary'));
   };
 
   const handleBack = () => {
-    setCurrentStep(5);
+    setCurrentStep(stepIndex('watchtower'));
   };
 
   // Per-location helper + small locale labels (localized across all 22 locales via tMicro).

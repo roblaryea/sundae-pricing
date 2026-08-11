@@ -9,7 +9,6 @@ import { CORE_PACKAGE_IDS } from '../data/pricing';
 import { PathwaySelector } from '../components/PathwaySelector/PathwaySelector';
 import { LayerStack } from '../components/ConfigBuilder/LayerStack';
 import { TierSelector } from '../components/ConfigBuilder/TierSelector';
-import { LocationSlider } from '../components/ConfigBuilder/LocationSlider';
 import { ModulePicker } from '../components/ConfigBuilder/ModulePicker';
 import { WatchtowerToggle } from '../components/ConfigBuilder/WatchtowerToggle';
 import { ROISimulator } from '../components/PricingDisplay/ROISimulator';
@@ -20,21 +19,24 @@ import { AchievementNotification } from '../components/shared/AchievementNotific
 import { useLivePricingCatalog } from '../data/livePricing';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
 import { stepTransition, useReducedMotionSafe } from '../lib/motion';
+import { stepAt, stepIndex, type JourneyStepId } from '../lib/journey';
 
 export function Simulator() {
-  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer, addOns } = useConfiguration();
+  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer } = useConfiguration();
   const livePricing = useLivePricingCatalog();
   const { locale } = useLocale();
   const reducedMotion = useReducedMotionSafe();
   // Where "Back" goes from each step, honoring path-specific skips (Crew collapses
   // to one builder step; Report skips modules/watchtower/ROI before the summary).
+  // Back from the summary must land on the step the visitor actually came
+  // from, which differs per pathway: Crew collapses its middle steps into one
+  // builder, and the combined path ends on that builder rather than the ROI
+  // step. Getting this wrong made the Crew SKU picker unreachable.
   const backTarget =
-    currentStep === 7
+    stepAt(currentStep) === 'summary'
       ? layer === 'crew'
-        ? 2
-        : addOns.length > 0
-          ? 6
-          : 5
+        ? stepIndex('tier')
+        : stepIndex('roi')
       : Math.max(0, currentStep - 1);
   const backLabel = tMicro(locale, 'back');
 
@@ -106,7 +108,7 @@ export function Simulator() {
       // Mark the journey complete so the summary renders fully, then jump to it.
       (['persona', 'layer', 'package', 'locations', 'addons', 'watchtower', 'roi'] as const)
         .forEach((id) => s.markStepCompleted(id));
-      s.setCurrentStep(7); // Review & Launch summary
+      s.setCurrentStep(stepIndex('summary'));
     } catch {
       // Malformed cfg — fall through to the normal first-run flow.
     } finally {
@@ -115,16 +117,20 @@ export function Simulator() {
     }
   }, []);
 
-  const stepComponents = [
-    <PathwaySelector />,
-    <LayerStack />,
-    <TierSelector />,
-    <LocationSlider />,
-    <ModulePicker />,
-    <WatchtowerToggle />,
-    <ROISimulator />,
-    <ConfigSummary />,
-  ];
+  // Keyed BY STEP NAME, so the render map and the progress rail cannot drift
+  // out of alignment. The previous positional array still carried the retired
+  // standalone locations screen, which pushed every later index one place out:
+  // "Review & Launch" rendered the ROI calculator, and the orphaned locations
+  // screen was reachable through the "Add-ons" dot.
+  const stepComponents: Record<JourneyStepId, React.ReactNode> = {
+    persona: <PathwaySelector />,
+    layer: <LayerStack />,
+    tier: <TierSelector />,
+    addons: <ModulePicker />,
+    watchtower: <WatchtowerToggle />,
+    roi: <ROISimulator />,
+    summary: <ConfigSummary />,
+  };
 
   // Crew is the parallel operational substrate path. It bypasses the
   // Report/Core-specific tier → modules → watchtower → ROI flow because
@@ -137,15 +143,16 @@ export function Simulator() {
   // the Core steps. Core and Crew are separate rails; the summary sums them.
   const isCombinedPath = layer === 'both';
   const renderStep = () => {
+    const stepId = stepAt(currentStep);
     const node =
-      isCrewPath && currentStep >= 2 && currentStep < 7
+      isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')
         ? <CrewBuilder />
-        : isCombinedPath && currentStep === 6
+        : isCombinedPath && stepId === 'roi'
           ? <CrewBuilder />
-          : (stepComponents[currentStep] ?? <PathwaySelector />);
+          : (stepId ? stepComponents[stepId] : <PathwaySelector />);
     return (
       <motion.div
-        key={`step-${(isCrewPath && currentStep >= 2 && currentStep < 7) || (isCombinedPath && currentStep === 6) ? 'crew-builder' : currentStep}`}
+        key={`step-${(isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')) || (isCombinedPath && stepAt(currentStep) === 'roi') ? 'crew-builder' : currentStep}`}
         {...stepTransition(reducedMotion)}
       >
         {node}

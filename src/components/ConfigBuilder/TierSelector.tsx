@@ -19,6 +19,7 @@ import { suggestOptimalCorePackage } from '../../hooks/usePriceCalculation';
 import { useLivePricingCatalog } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
 import { AnimatedNumber } from '../shared/AnimatedNumber';
+import { stepIndex } from '../../lib/journey';
 
 const PACKAGE_COLORS: Record<CorePackageId, string> = {
   core_foundation: '#E9A24A',
@@ -35,7 +36,7 @@ export function TierSelector() {
 
   if (!layer) {
     // Shouldn't happen, but handle gracefully
-    setCurrentStep(1);
+    setCurrentStep(stepIndex('layer'));
     return null;
   }
 
@@ -49,7 +50,7 @@ export function TierSelector() {
     // packages to compare it against. The estate control now lives on this
     // screen, where every price moves as it changes, so the journey goes
     // straight to add-ons.
-    setCurrentStep(4);
+    setCurrentStep(stepIndex('addons'));
   };
 
   const fmt = (value: number) => `$${value.toLocaleString(locale)}`;

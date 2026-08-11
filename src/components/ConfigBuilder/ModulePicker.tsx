@@ -27,6 +27,7 @@ import {
 } from '../../lib/pricingEngine';
 import { recommendedConceptSkus } from '../../lib/discoveryEngine';
 import type { AddOnId } from '../../lib/pricingEngine';
+import { stepIndex } from '../../lib/journey';
 
 export function ModulePicker() {
   const {
@@ -56,8 +57,8 @@ export function ModulePicker() {
     ...CONCEPT_SKU_IDS.filter((id) => !recommendedConcepts.includes(id)),
   ];
 
-  const handleContinue = () => setCurrentStep(5);
-  const handleBack = () => setCurrentStep(3);
+  const handleContinue = () => setCurrentStep(stepIndex('watchtower'));
+  const handleBack = () => setCurrentStep(stepIndex('tier'));
 
   const getModuleIcon = (moduleId: string) =>
     MODULE_ICONS[moduleId as keyof typeof MODULE_ICONS] || MODULE_ICONS.labor;

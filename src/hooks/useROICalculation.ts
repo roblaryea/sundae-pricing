@@ -183,22 +183,76 @@ export const TYPICAL_COST_RATIOS = {
   food: 30,
 } as const;
 
-const GUARDRAILS = {
-  maxSavingsPerLocation: {
-    labor: 2500,
-    inventory: 1500,
-    purchasing: 1500,
-    reservations: 1500,
-    marketing: 1000,
-    profit: 1200,
-    revenue: 500,
-    delivery: 800,
-    guest: 300
+/**
+ * The revenue-per-location the original flat-dollar ceilings were calibrated
+ * at. Kept explicit so the conversion below is auditable rather than magic.
+ */
+export const GUARDRAIL_REFERENCE_REVENUE = 100_000;
+
+export const GUARDRAILS = {
+  /**
+   * Plausibility ceilings as a SHARE OF REVENUE per location, not flat dollars.
+   *
+   * These were absolute dollars — labour $2,500, inventory $1,500, a total of
+   * $8,000 — inside a model whose every line is a percentage of revenue. One
+   * flat $8,000 is 16% of revenue at a $50k/month site and 1.6% at a $500k/month
+   * site: a single constant enforcing two irreconcilable standards of
+   * plausibility. Above roughly $250k/site the ceilings stopped being guardrails
+   * and became the model — at $400k/site every per-line ceiling bound on 100% of
+   * reachable configurations, and the $8,000 total bound on Core Performance
+   * ALONE, so the most expensive package was the only one the guardrail
+   * penalised. A $6M site was silently modelled at half the rate of a $1.2M site
+   * with no evidentiary basis for the difference.
+   *
+   * Each share is the old dollar figure over the $100k/location month it was
+   * calibrated at, so nothing moves for a typical site — the ceilings simply
+   * stop tightening as the operator gets larger.
+   */
+  maxSavingsShareOfRevenue: {
+    labor: 0.025,
+    inventory: 0.015,
+    purchasing: 0.015,
+    reservations: 0.015,
+    marketing: 0.01,
+    profit: 0.012,
+    revenue: 0.005,
+    delivery: 0.008,
+    guest: 0.003
   },
-  maxTotalSavingsPerLocation: 8000,
+  maxTotalShareOfRevenue: 0.08,
   maxROIMultiple: 15,
   minPaybackDays: 14, // Floor at 14 days to avoid unrealistic claims
 };
+
+/**
+ * A guardrail exists to catch an implausible INPUT, never to contradict the
+ * evidence. The published min/mid/max band already IS the plausibility bound,
+ * so a ceiling is only ever allowed to bite ABOVE that band's own maximum.
+ * Without this floor, re-denominating against revenue would newly clip lines
+ * measured on a different base — marketing is a share of marketing SPEND, so a
+ * site spending heavily against modest revenue would have had a legitimate,
+ * in-band figure cut by a revenue-denominated ceiling.
+ */
+export function plausibilityCeiling(
+  moduleId: string,
+  monthlyRevenuePerLocation: number,
+  locations: number,
+  bandMaximum: number
+): number {
+  const share =
+    GUARDRAILS.maxSavingsShareOfRevenue[
+      moduleId as keyof typeof GUARDRAILS.maxSavingsShareOfRevenue
+    ];
+  if (share === undefined) {
+    // A silent `|| 1000` fallback meant any newly-added domain inherited an
+    // arbitrary ceiling nobody chose. Fail loudly instead.
+    throw new Error(
+      `No plausibility ceiling defined for savings domain "${moduleId}". ` +
+        `Add one to GUARDRAILS.maxSavingsShareOfRevenue with a stated basis.`
+    );
+  }
+  return Math.max(share * monthlyRevenuePerLocation * locations, bandMaximum);
+}
 
 export function useROICalculation(
   config: Configuration,
@@ -274,9 +328,10 @@ export function useROICalculation(
       const maxAmount = baseAmount * assumption.maxPct * margin;
       const midAmount = baseAmount * assumption.midPct * margin;
       
-      // Apply per-location cap
-      const maxCap = GUARDRAILS.maxSavingsPerLocation[moduleId as keyof typeof GUARDRAILS.maxSavingsPerLocation] || 1000;
-      const cappedAmount = Math.min(midAmount, maxCap * config.locations);
+      // Apply the per-location plausibility ceiling. It is a share of revenue,
+      // and it can never cut below the top of this line's own evidenced band.
+      const maxCap = plausibilityCeiling(moduleId, monthlyRevenue, config.locations, maxAmount);
+      const cappedAmount = Math.min(midAmount, maxCap);
       
       const line: SavingsLineItem = {
         moduleId,
@@ -285,7 +340,7 @@ export function useROICalculation(
         icon: assumption.icon,
         amount: missingInput ? 0 : Math.round(cappedAmount),
         rangeMin: Math.round(minAmount),
-        rangeMax: Math.round(Math.min(maxAmount, maxCap * config.locations)),
+        rangeMax: Math.round(Math.min(maxAmount, maxCap)),
         tooltip: localizedTooltip,
         isCountedInTotal: isCountedInTotal && !missingInput,
         requiresInput: assumption.requiresInput,
@@ -385,7 +440,11 @@ export function useROICalculation(
     // APPLY GLOBAL GUARDRAILS
     // ═══════════════════════════════════════════════════════════════════
     
-    const maxTotal = GUARDRAILS.maxTotalSavingsPerLocation * config.locations;
+    // A share of revenue, so it scales with the estate instead of acting as a
+    // second flat haircut on top of the per-line ceilings. As a flat $8,000 it
+    // bound on Core Performance and on no other package — the ladder's top rung
+    // was the only one the global guardrail punished.
+    const maxTotal = GUARDRAILS.maxTotalShareOfRevenue * totalMonthlyRevenue;
     if (totalSavings > maxTotal) {
       const scaleFactor = maxTotal / totalSavings;
       totalSavings = maxTotal;

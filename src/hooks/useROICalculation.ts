@@ -18,6 +18,35 @@ interface Configuration {
   watchtowerModules: string[];
 }
 
+/**
+ * The revenue-per-location range the ROI step will model.
+ *
+ * The floor was $50,000. Core Foundation costs $1,195 for a single location and
+ * breaks even at roughly $73,000 of monthly revenue per site, so every position
+ * between the old floor and that break-even modelled a purchase that cannot pay
+ * for itself — a dead end reachable in one drag of the first control on the
+ * step. Raising the floor to $75,000 puts the whole slider inside the range
+ * where a Core package is a rational purchase.
+ *
+ * This is a bound on what the SIMULATOR models, not a statement that smaller
+ * operators are unwelcome: below this, the fitting products are Profit Snapshot
+ * and Crew Starter rather than a Core package.
+ */
+export const MIN_MONTHLY_REVENUE_PER_LOCATION = 75_000;
+export const MAX_MONTHLY_REVENUE_PER_LOCATION = 500_000;
+
+/** Keeps a persisted or hand-passed figure inside the modelled range. */
+export function clampMonthlyRevenue(value: number): number {
+  // Only NaN is unorderable and has to fall back; the infinities clamp
+  // correctly on their own, and sending +Infinity to the FLOOR would be the
+  // wrong end of the range.
+  if (Number.isNaN(value)) return MIN_MONTHLY_REVENUE_PER_LOCATION;
+  return Math.min(
+    MAX_MONTHLY_REVENUE_PER_LOCATION,
+    Math.max(MIN_MONTHLY_REVENUE_PER_LOCATION, value)
+  );
+}
+
 export interface ROIInputs {
   monthlyRevenue: number;
   laborPercent: number;

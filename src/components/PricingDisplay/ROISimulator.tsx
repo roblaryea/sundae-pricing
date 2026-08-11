@@ -1,6 +1,6 @@
 // ROI calculator component with dynamic module-based savings
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   type LucideIcon,
@@ -26,6 +26,9 @@ import {
   useROICalculation,
   generateROIDescription,
   getTopSavingsCategories,
+  clampMonthlyRevenue,
+  MIN_MONTHLY_REVENUE_PER_LOCATION,
+  MAX_MONTHLY_REVENUE_PER_LOCATION,
 } from '../../hooks/useROICalculation';
 import type { SavingsLineItem } from '../../hooks/useROICalculation';
 import { cn } from '../../utils/cn';
@@ -106,6 +109,21 @@ export function ROISimulator() {
     pricing.implementation.requiresScoping ? 0 : pricing.implementation.fee,
   );
 
+  // The configuration store is persisted, so a visitor who set $50,000 before
+  // the floor moved would otherwise keep modelling a figure the slider can no
+  // longer express — and the ROI beneath it would not match the track.
+  const revenueForSlider = clampMonthlyRevenue(roiInputs.monthlyRevenue);
+  const revenueTrackPct =
+    ((revenueForSlider - MIN_MONTHLY_REVENUE_PER_LOCATION) /
+      (MAX_MONTHLY_REVENUE_PER_LOCATION - MIN_MONTHLY_REVENUE_PER_LOCATION)) *
+    100;
+
+  useEffect(() => {
+    if (roiInputs.monthlyRevenue !== revenueForSlider) {
+      setROIInputs({ monthlyRevenue: revenueForSlider });
+    }
+  }, [roiInputs.monthlyRevenue, revenueForSlider, setROIInputs]);
+
   const handleInputChange = (field: keyof typeof roiInputs, value: number | boolean) => {
     setROIInputs({ [field]: value });
   };
@@ -167,20 +185,20 @@ export function ROISimulator() {
             <div className="flex justify-between mb-2">
               <label className="text-sm font-medium">{copy.monthlyRevenuePerLocation}</label>
               <span className="text-lg font-bold tabular-nums">
-                ${roiInputs.monthlyRevenue.toLocaleString(locale)}
+                ${revenueForSlider.toLocaleString(locale)}
               </span>
             </div>
             <input
               aria-label={copy.monthlyRevenuePerLocation}
               type="range"
-              min="50000"
-              max="500000"
+              min={MIN_MONTHLY_REVENUE_PER_LOCATION}
+              max={MAX_MONTHLY_REVENUE_PER_LOCATION}
               step="10000"
-              value={roiInputs.monthlyRevenue}
+              value={revenueForSlider}
               onChange={(e) => handleInputChange('monthlyRevenue', parseInt(e.target.value))}
               className="touch-slider w-full cursor-pointer"
               style={{
-                ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C 100%)`,
+                ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${revenueTrackPct}%, #2A231C ${revenueTrackPct}%, #2A231C 100%)`,
               }}
             />
           </div>

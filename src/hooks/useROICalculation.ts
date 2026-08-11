@@ -60,6 +60,8 @@ export interface ROICalculation {
   monthlySavings: number;
   annualSavings: number;
   roi: number;
+  /** True when the published cap clipped the result — render as "Nx+". */
+  roiCapped: boolean;
   roiPercent: number;
   paybackDays: number;
   /** False when the monthly saving never overtakes the monthly cost. */
@@ -172,6 +174,15 @@ export const SAVINGS_ASSUMPTIONS: Record<string, SavingsAssumption> = {
 };
 
 // Guardrails to prevent unrealistic ROI projections
+/**
+ * The cost ratios the published savings rates are expressed against. A buyer
+ * reporting a different ratio rescales the base those rates apply to.
+ */
+export const TYPICAL_COST_RATIOS = {
+  labor: 30,
+  food: 30,
+} as const;
+
 const GUARDRAILS = {
   maxSavingsPerLocation: {
     labor: 2500,
@@ -203,18 +214,36 @@ export function useROICalculation(
     const assumptionLabels = copy.assumptionLabels as Record<string, string>;
     const tooltips = copy.tooltips as Record<string, string>;
     const missingInputs = copy.missingInput as Record<string, string>;
-    const { 
-      monthlyRevenue, 
-      // laborPercent and foodCostPercent are collected for context but savings are calculated as % of revenue
-      laborPercent: _laborPercent, 
-      foodCostPercent: _foodCostPercent, 
+    const {
+      monthlyRevenue,
+      laborPercent,
+      foodCostPercent,
       marketingSpend = 0,
       deliveryRevenuePct = 0,
       hasReviewData = false
     } = inputs;
-    void _laborPercent; void _foodCostPercent; // Collected for future use
-    
+
     const totalMonthlyRevenue = monthlyRevenue * config.locations;
+
+    // Labour and food-cost savings scale with the SPEND they optimise, not with
+    // revenue alone.
+    //
+    // Both sliders were read and then explicitly discarded ("Collected for
+    // future use"), so dragging "Current Labor Cost %" from 20% to 40% changed
+    // nothing at all — which is the first thing a numerate buyer tries, and the
+    // fastest way to lose them. An operator running 40% labour has materially
+    // more labour to optimise than one running 20%, and a model that cannot see
+    // that is not modelling their business.
+    //
+    // The published rates are expressed against revenue at a typical cost
+    // ratio, so the ratio the buyer actually reports rescales the base. Bounded
+    // so an extreme entry cannot run away with the answer.
+    const scaleToActual = (reported: number | undefined, typical: number) => {
+      if (!reported || reported <= 0) return 1;
+      return Math.min(2, Math.max(0.5, reported / typical));
+    };
+    const laborBase = totalMonthlyRevenue * scaleToActual(laborPercent, TYPICAL_COST_RATIOS.labor);
+    const foodBase = totalMonthlyRevenue * scaleToActual(foodCostPercent, TYPICAL_COST_RATIOS.food);
     const savingsLines: SavingsLineItem[] = [];
     const breakdowns: Record<string, number> = {};
     const projectedImprovements: Record<string, number> = {};
@@ -267,12 +296,12 @@ export function useROICalculation(
     
     // Labor Intelligence
     if (config.activeDomains.includes('labor')) {
-      totalSavings += addSavingsLine('labor', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.labor);
+      totalSavings += addSavingsLine('labor', laborBase, SAVINGS_ASSUMPTIONS.labor);
     }
     
     // Inventory Connect
     if (config.activeDomains.includes('inventory')) {
-      totalSavings += addSavingsLine('inventory', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.inventory);
+      totalSavings += addSavingsLine('inventory', foodBase, SAVINGS_ASSUMPTIONS.inventory);
     }
     
     // Purchasing Analytics
@@ -362,8 +391,14 @@ export function useROICalculation(
     
     // Calculate ROI
     let roi = platformCost > 0 ? totalSavings / platformCost : 0;
+    // The cap keeps the headline from claiming an absurd multiple, but it also
+    // makes every strong configuration print the SAME "15x" — so the number
+    // stops discriminating between packages and reads as a constant rather than
+    // a result. Flag it so the UI can show it as a floor.
+    let roiCapped = false;
     if (roi > GUARDRAILS.maxROIMultiple) {
       roi = GUARDRAILS.maxROIMultiple;
+      roiCapped = true;
     }
     
     // Payback must clear the ONE-TIME cost as well as the recurring one.
@@ -400,6 +435,7 @@ export function useROICalculation(
       monthlySavings: Math.round(totalSavings),
       annualSavings: Math.round(annualSavings),
       roi: Math.round(roi * 10) / 10,
+      roiCapped,
       roiPercent: Math.round(roi * 100),
       paybackDays,
       paysBack,

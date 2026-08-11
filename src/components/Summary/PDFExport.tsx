@@ -3,17 +3,31 @@
 import { useState } from 'react';
 import { Download, Loader2, CheckCircle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { useLocale } from '../../contexts/LocaleContext';
+import type { PriceCalculation } from '../../types/configuration';
 import { getPricingPdfCopy, type PricingLocale } from '../../lib/pricingI18n';
 
-export function PDFExportButton() {
+/**
+ * The exported artefact must be the SAME deal the screen showed.
+ *
+ * This re-derived the quote with `usePriceCalculation(layer, corePackage,
+ * locations, addOns, watchtowerModules)` — no client profile, so no commitment
+ * term, and no Crew rail. The screen applied the term the buyer selected and
+ * the PDF did not, so a two-year quote read $18,568.25 on screen and $21,845 in
+ * the document, with the discount silently replaced by the volume band and the
+ * term never named. That document is the one a board actually reads.
+ *
+ * The quote is now passed in, computed once by the summary.
+ */
+export function PDFExportButton({ pricing, crewMonthly = 0 }: {
+  pricing: PriceCalculation;
+  crewMonthly?: number;
+}) {
   const { locale, messages } = useLocale();
   const [isGenerating, setIsGenerating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   
   const { layer, corePackage, locations, addOns, watchtowerModules } = useConfiguration();
-  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
   
   const handleDownload = async () => {
     setIsGenerating(true);
@@ -28,7 +42,10 @@ export function PDFExportButton() {
         locations,
         addOns,
         watchtowerModules,
-        pricing,
+        // The Crew rail is part of the deal on the combined pathway; a
+        // document that omits it describes a cheaper agreement than the one
+        // the buyer configured.
+        { ...pricing, total: pricing.total + crewMonthly, annualTotal: (pricing.total + crewMonthly) * 12 },
         locale
       );
       

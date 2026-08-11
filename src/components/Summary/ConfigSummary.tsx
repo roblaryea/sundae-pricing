@@ -754,8 +754,8 @@ export function ConfigSummary() {
         transition={{ delay: 0.4 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
       >
-        <EmailQuoteButton />
-        <PDFExportButton />
+        <EmailQuoteButton pricing={pricing} crewMonthly={crewRail?.monthly ?? 0} />
+        <PDFExportButton pricing={pricing} crewMonthly={crewRail?.monthly ?? 0} />
         <BookDemoButton />
       </motion.div>
 

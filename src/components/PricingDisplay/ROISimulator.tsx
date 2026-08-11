@@ -316,7 +316,12 @@ export function ROISimulator() {
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.roiMultiple}</div>
-            <div className="font-display text-3xl font-bold text-green-400">{roi.roi}x</div>
+            {/* Show the cap as a floor. Printing a bare "15x" for every strong
+                configuration made the headline read as a constant rather than a
+                result, and hid the difference between packages. */}
+            <div className="font-display text-3xl font-bold text-green-400">
+              {roi.roi}x{roi.roiCapped ? '+' : ''}
+            </div>
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.paybackPeriod}</div>

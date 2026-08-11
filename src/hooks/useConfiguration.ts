@@ -45,6 +45,8 @@ export interface ConfigurationState extends Configuration {
    * were unreachable.
    */
   billingCycle: BillingCycle;
+  /** Persona suggested Watchtower. A suggestion, never a silent selection. */
+  recommendsWatchtower: boolean;
   persona: Persona | null;
   personaConfidence: number;
   
@@ -130,6 +132,7 @@ const initialState = {
   operatingModels: [],
   techStack: [],
   billingCycle: 'monthly' as BillingCycle,
+  recommendsWatchtower: false,
   persona: null,
   personaConfidence: 0,
   
@@ -492,14 +495,19 @@ export const useConfiguration = create<ConfigurationState>()(
           else if (path.includes('growth')) corePackage = 'core_growth';
           else if (path.includes('margin')) corePackage = 'core_margin';
 
-          const watchtowerModules = path.includes('watchtower') ? ['bundle'] : [];
+          // A persona is a RECOMMENDATION, not a purchase. This used to set
+          // `watchtowerModules: ['bundle']` whenever the persona's path
+          // mentioned Watchtower, so finishing the quiz as a Strategist
+          // silently added the paid Watchtower Complete bundle — $899 + $109
+          // per location, never chosen, and appearing in the total as though
+          // the buyer had asked for it. The suggestion is now surfaced on the
+          // Watchtower step instead, where it can be accepted or ignored.
+          const recommendsWatchtower = path.includes('watchtower');
 
-          // Only set layer, package, and Watchtower — add-ons are pre-selected
-          // by the recommendation engine based on quiz answers.
           set({
             layer: 'core',
             corePackage,
-            watchtowerModules
+            recommendsWatchtower,
           });
 
           get().markStepCompleted('layer');
@@ -524,6 +532,7 @@ export const useConfiguration = create<ConfigurationState>()(
           operatingModels: state.operatingModels,
           techStack: state.techStack,
           billingCycle: state.billingCycle,
+          recommendsWatchtower: state.recommendsWatchtower,
           persona: state.persona,
           roiInputs: state.roiInputs,
           unlockedAchievements: state.unlockedAchievements,

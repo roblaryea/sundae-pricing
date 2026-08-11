@@ -662,7 +662,7 @@ export function ConfigSummary() {
         className="pt-6 border-t border-white/10 text-center text-xs text-sundae-muted space-y-2"
       >
         <p>
-          {messages.summary.pricingFooterNote.replace('{date}', new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date('2026-02-26T00:00:00Z')))}
+          {messages.summary.pricingFooterNote.replace('{date}', pricingFooter.effectiveDate)}
         </p>
         <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
         <p className="text-[10px] opacity-70">{messages.summary.locationPricingNote}</p>
@@ -684,6 +684,7 @@ import type { CrewSkuId } from '../../types/configuration';
 import { objectOverlaysFor, resolveImplementationClass } from '../../lib/discoveryEngine';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import type { DiscountLine } from '../../types/configuration';
+import { pricingFooter } from '../../data/pricing';
 
 interface CrewSummaryBodyProps {
   selectedSkus: CrewSkuId[];
@@ -691,7 +692,7 @@ interface CrewSummaryBodyProps {
 }
 
 function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
-  const { locale, messages } = useLocale();
+  const { messages } = useLocale();
   const quote = computeCrewQuote(selectedSkus, locations);
   const { monthly, annual, implementation, lines, detectedBundleId, bundleSavingsMonthly } = quote;
   const implementationLabel = implementation.requiresScoping
@@ -859,7 +860,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
         className="pt-6 border-t border-white/10 text-center text-xs text-sundae-muted space-y-2"
       >
         <p>
-          {messages.summary.pricingFooterNote.replace('{date}', new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date('2026-02-26T00:00:00Z')))}
+          {messages.summary.pricingFooterNote.replace('{date}', pricingFooter.effectiveDate)}
         </p>
         <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
         <p className="text-[10px] opacity-70">

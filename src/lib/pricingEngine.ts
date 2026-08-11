@@ -25,11 +25,13 @@ import {
   DISCOUNT_RULES,
   crossIntelligence,
   getVolumeDiscount,
+  packageAllowsWatchtower,
   requiresEnterpriseQuote,
 } from '../data/pricing';
 import type {
   BandedSku,
   MarginalBand,
+  CorePackage,
   CorePackageId,
   ConceptSkuId,
   ImplementationClassId,
@@ -77,6 +79,34 @@ export interface DiscountLine {
   percent: number;
 }
 
+/**
+ * Included AI credits for a package at a given estate size.
+ *
+ * Price book v1.7 section 8.1. The included allowance scales with EVERY
+ * licensed location, including the first — the same rule the backend applies in
+ * `billing_service.ts` (`base + perLocation * activeLocations`) and documents in
+ * `pricing_engine.ts` ("credits scale with EVERY licensed location, not
+ * additional-after-first").
+ *
+ * The simulator previously rendered `pkg.aiCreditWallet` raw, so an 8-location
+ * Core Foundation buyer was shown 14,000 credits against a real 36,400 — the
+ * card printed "8 locations · $2,420/mo" directly above it, so it had the unit
+ * count and still quoted the base.
+ */
+export function calculateAiCredits(pkg: CorePackage, locations: number): number {
+  const units = Math.max(1, Math.floor(locations));
+  return pkg.aiCreditWallet + pkg.aiCreditsPerLocation * units;
+}
+
+/**
+ * Active-intelligence seats: `seatsIncluded + ceil(units / seatsPerLocations)`.
+ * Price book v1.7 section 8.1.
+ */
+export function calculateIntelligenceSeats(pkg: CorePackage, locations: number): number {
+  const units = Math.max(1, Math.floor(locations));
+  return pkg.seatsIncluded + Math.ceil(units / pkg.seatsPerLocations);
+}
+
 export interface PriceResult {
   subtotal: number;
   discountsApplied: DiscountLine[];
@@ -84,7 +114,14 @@ export interface PriceResult {
   /** Derived AVERAGE per unit (total ÷ units) — never a per-location rate card. */
   perLocation: number;
   annualTotal: number;
+  /** Included monthly credits at THIS estate size — base plus per-location. */
   aiCreditsTotal: number;
+  /** Base wallet alone, for the "of which rolls over" line. */
+  aiCreditsBase: number;
+  /** Unused base credits that roll over for one month. */
+  aiCreditsRolloverCap: number;
+  /** Active-intelligence seats included at this estate size. */
+  intelligenceSeats: number;
   breakdown: PriceBreakdown[];
   /** True past the self-serve volume ladder (250+ units) — the deal is quoted. */
   requiresEnterpriseQuote: boolean;
@@ -392,7 +429,7 @@ export function calculateFullPrice(config: Configuration): PriceResult {
             .join(' + ')}`,
   });
 
-  let aiCredits = pkg.aiCreditWallet;
+  let aiCredits = calculateAiCredits(pkg, locations);
 
   // Add-ons
   for (const addOnId of config.addOns) {
@@ -411,12 +448,36 @@ export function calculateFullPrice(config: Configuration): PriceResult {
       });
       continue;
     }
+    // Concept pathways price on a MARGINAL curve, exactly like the Core
+    // packages. This used to push `concept.monthlyPrice` with the note "Flat
+    // monthly", which at 25 locations understated Production & Commissary by
+    // $2,055/mo — and asserted the very mechanic that made it wrong.
     const concept = conceptSkus[addOnId];
-    breakdown.push({ item: concept.name, price: concept.monthlyPrice, note: 'Flat monthly' });
+    const conceptPrice = calculateBandedTotal(concept, locations);
+    const conceptLines = calculateBandLines(concept, locations);
+    breakdown.push({
+      item: concept.name,
+      price: conceptPrice,
+      note:
+        locations === 1
+          ? `First unit $${concept.firstUnitPrice.toLocaleString()}`
+          : `First unit $${concept.firstUnitPrice.toLocaleString()} + ${conceptLines
+              .map((l) => `${l.units} @ $${l.band.pricePerUnit}`)
+              .join(' + ')}`,
+    });
   }
 
-  // Watchtower
-  if (config.watchtower.length > 0) {
+  // Watchtower requires Core Growth or above. Without this the engine happily
+  // priced Watchtower onto a Core Foundation quote — selling an entitlement the
+  // package does not grant.
+  if (config.watchtower.length > 0 && !packageAllowsWatchtower(config.corePackage)) {
+    breakdown.push({
+      item: 'Watchtower',
+      price: 0,
+      note: 'Requires Core Growth or above — not included at this package',
+    });
+  }
+  if (config.watchtower.length > 0 && packageAllowsWatchtower(config.corePackage)) {
     const wt = calculateWatchtowerPrice(config.watchtower, locations);
     breakdown.push({
       item: wt.isBundle ? 'Watchtower Bundle' : 'Watchtower',
@@ -456,6 +517,9 @@ export function calculateFullPrice(config: Configuration): PriceResult {
     perLocation: Math.round((total / locations) * 100) / 100,
     annualTotal: Math.round(total * 12 * 100) / 100,
     aiCreditsTotal: aiCredits,
+    aiCreditsBase: pkg.aiCreditWallet,
+    aiCreditsRolloverCap: pkg.creditRolloverCap,
+    intelligenceSeats: calculateIntelligenceSeats(pkg, locations),
     breakdown,
     requiresEnterpriseQuote: requiresEnterpriseQuote(locations),
     implementation: resolveCoreImplementation(config),

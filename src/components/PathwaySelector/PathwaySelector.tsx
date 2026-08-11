@@ -10,6 +10,9 @@ import { getIconByEmoji } from '../../lib/iconMap';
 import { cn } from '../../utils/cn';
 import { useLocale } from '../../contexts/LocaleContext';
 import confetti from 'canvas-confetti';
+import type { OperatingModelId, TechStackId } from '../../lib/discoveryEngine';
+import { stepIndex } from '../../lib/journey';
+import { prefersReducedMotion } from '../../lib/motion';
 
 export function PathwaySelector() {
   const { messages, locale } = useLocale();
@@ -19,7 +22,7 @@ export function PathwaySelector() {
   const [showPersona, setShowPersona] = useState(false);
   const [multiSelections, setMultiSelections] = useState<Record<string, string[]>>({});
   const [showMaxToast, setShowMaxToast] = useState(false);
-  const { quizAnswers, setQuizAnswer, setPersona, loadFromPersona, setCurrentStep, setLocations } = useConfiguration();
+  const { quizAnswers, setQuizAnswer, setPersona, loadFromPersona, setCurrentStep, setLocations, setDiscoveryAnswers } = useConfiguration();
 
   const question = quizQuestions[currentQuestion];
   const totalQuestions = quizQuestions.length;
@@ -56,16 +59,24 @@ export function PathwaySelector() {
       setLocations(locationOption.value);
     }
     
+    // Persist the two discovery answers that shape the QUOTE, not the persona:
+    // operating model decides which concept pathways and per-object overlays
+    // apply, and the systems answer resolves the one-time implementation class.
+    setDiscoveryAnswers(
+      (multiSelections.operating_model ?? []) as OperatingModelId[],
+      (multiSelections.tech_stack ?? []) as TechStackId[],
+    );
+
     setShowPersona(true);
     
     // Trigger confetti
-    confetti({
+    if (!prefersReducedMotion()) confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
       colors: [result.persona.color, '#ffffff', '#FF5C4D']
     });
-  }, [locale, multiSelections, setLocations, setPersona, quizQuestions]);
+  }, [locale, multiSelections, setLocations, setPersona, quizQuestions, setDiscoveryAnswers]);
 
   const handleOptionClick = useCallback((optionId: string) => {
     if (isMultiSelect) {
@@ -130,7 +141,7 @@ export function PathwaySelector() {
     if (showPersona) {
       const result = calculatePersonaMatch(quizAnswers, locale);
       loadFromPersona(result.persona);
-      setCurrentStep(1);
+      setCurrentStep(stepIndex('layer'));
     }
   }, [locale, loadFromPersona, quizAnswers, setCurrentStep, showPersona]);
 

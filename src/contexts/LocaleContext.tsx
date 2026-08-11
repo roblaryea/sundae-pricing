@@ -174,12 +174,12 @@ const messages = {
       competitorComparison: 'View Full Competitor Comparison',
       watchtowerValueTitle: 'Watchtower Strategic Value',
       readyTitle: 'Ready to Get Started?',
-      readyDescription: 'Join hundreds of restaurants already using Sundae to make smarter decisions',
+      readyDescription: 'Every figure here comes straight from the published price book. Take it to a working session and we will validate it against your data.',
       startTrial: 'Start Free Trial',
-      noCard: 'No credit card required • 14-day free trial • Cancel anytime',
+      noCard: '14-day trial on Core packages • Implementation is quoted separately • Cancel anytime',
       questions: 'Questions?',
       contactUs: 'Click here to contact us',
-      successManager: 'Your dedicated Customer Success Manager will help you get started',
+      successManager: 'Guided onboarding is included with every launch. A dedicated Customer Success Manager comes with Enterprise.',
       pricingEffective: 'Pricing effective',
       allPricesIn: 'All prices in',
       pricingFooterNote: 'Pricing effective {date}',
@@ -209,6 +209,8 @@ const messages = {
       perAdditionalLocation: '+${price} per additional location',
       pricingSuffix: '{label} pricing',
       aiCredits: 'AI Credits',
+      intelligenceSeats: 'Intelligence seats',
+      aiCreditsBasis: 'Base + per location',
       visuals: 'Visuals',
       dataRefresh: 'Data Refresh',
       selectTier: 'Select {tier}',
@@ -248,6 +250,10 @@ const messages = {
         perAdditionalLocation: '+${price} per additional location',
         pricingSuffix: '{label} pricing',
         aiCredits: 'AI Credits',
+        estateSizeLabel: 'How many locations?',
+        estateSizeHint: 'Every price below updates as you move this.',
+        intelligenceSeats: 'Intelligence seats',
+        aiCreditsBasis: 'Base + per location',
         visuals: 'Visuals',
         dataRefresh: 'Data Refresh',
         benchmark: 'Benchmark',
@@ -456,12 +462,12 @@ const messages = {
       competitorComparison: 'عرض مقارنة المنافسين الكاملة',
       watchtowerValueTitle: 'القيمة الاستراتيجية لـ Watchtower',
       readyTitle: 'هل أنت مستعد للبدء؟',
-      readyDescription: 'انضم إلى مئات المطاعم التي تستخدم Sundae لاتخاذ قرارات أذكى',
+      readyDescription: 'كل رقم هنا مأخوذ مباشرة من دليل الأسعار المنشور. خذه إلى جلسة عمل وسنتحقق منه مقابل بياناتك.',
       startTrial: 'ابدأ الفترة التجريبية',
-      noCard: 'لا حاجة إلى بطاقة ائتمان • تجربة مجانية لمدة 14 يوماً • يمكنك الإلغاء في أي وقت',
+      noCard: 'تجربة 14 يوماً على باقات Core • التنفيذ يُسعّر بشكل منفصل • إلغاء في أي وقت',
       questions: 'أسئلة؟',
       contactUs: 'اضغط هنا للتواصل معنا',
-      successManager: 'سيساعدك مدير نجاح العملاء المخصص لديك على البدء',
+      successManager: 'الإعداد الموجّه مشمول مع كل إطلاق. ومدير نجاح العملاء المخصص يأتي مع Enterprise.',
       pricingEffective: 'السعر سارٍ اعتباراً من',
       allPricesIn: 'جميع الأسعار بعملة',
       pricingFooterNote: 'السعر سارٍ اعتباراً من {date}',
@@ -530,6 +536,10 @@ const messages = {
         perAdditionalLocation: '+${price} لكل موقع اضافي',
         pricingSuffix: 'تسعير {label}',
         aiCredits: 'ارصدة الذكاء الاصطناعي',
+        estateSizeLabel: 'كم عدد المواقع؟',
+        estateSizeHint: 'كل سعر أدناه يتحدث مع تحريكك لهذا.',
+        intelligenceSeats: 'مقاعد الذكاء',
+        aiCreditsBasis: 'الأساس + لكل موقع',
         visuals: 'المرئيات',
         dataRefresh: 'تحديث البيانات',
         benchmark: 'المعيار',
@@ -738,12 +748,12 @@ const messages = {
       competitorComparison: 'Voir la comparaison complete des concurrents',
       watchtowerValueTitle: 'Valeur strategique de Watchtower',
       readyTitle: 'Pret a commencer ?',
-      readyDescription: 'Rejoignez des centaines de restaurants qui utilisent deja Sundae pour mieux decider',
+      readyDescription: 'Chaque chiffre provient directement du bareme publie. Presentez-le en session de travail et nous le validerons avec vos donnees.',
       startTrial: 'Commencer l essai gratuit',
-      noCard: 'Aucune carte bancaire requise • Essai gratuit 14 jours • Resiliable a tout moment',
+      noCard: 'Essai de 14 jours sur les offres Core • La mise en oeuvre est chiffree separement • Resiliable a tout moment',
       questions: 'Des questions ?',
       contactUs: 'Cliquez ici pour nous contacter',
-      successManager: 'Votre Customer Success Manager dedie vous aidera a demarrer',
+      successManager: 'Un accompagnement guide est inclus a chaque lancement. Un Customer Success Manager dedie est fourni avec Enterprise.',
       pricingEffective: 'Tarifs en vigueur a partir du',
       allPricesIn: 'Tous les prix en',
       pricingFooterNote: 'Tarifs en vigueur a partir du {date}',
@@ -812,6 +822,10 @@ const messages = {
         perAdditionalLocation: '+${price} par site supplementaire',
         pricingSuffix: 'Tarification {label}',
         aiCredits: 'Credits IA',
+        estateSizeLabel: 'Combien de sites ?',
+        estateSizeHint: 'Chaque prix ci-dessous se met a jour quand vous le deplacez.',
+        intelligenceSeats: 'Sieges intelligence',
+        aiCreditsBasis: 'Base + par site',
         visuals: 'Visuels',
         dataRefresh: 'Rafraichissement des donnees',
         benchmark: 'Benchmark',
@@ -1020,12 +1034,12 @@ const messages = {
       competitorComparison: 'Ver comparacion completa de competidores',
       watchtowerValueTitle: 'Valor estrategico de Watchtower',
       readyTitle: 'Listo para comenzar?',
-      readyDescription: 'Unete a cientos de restaurantes que ya usan Sundae para tomar decisiones mas inteligentes',
+      readyDescription: 'Cada cifra procede directamente del tarifario publicado. Llevala a una sesion de trabajo y la validaremos con tus datos.',
       startTrial: 'Comenzar prueba gratis',
-      noCard: 'No se requiere tarjeta • Prueba gratis de 14 dias • Cancela cuando quieras',
+      noCard: 'Prueba de 14 dias en los paquetes Core • La implementacion se cotiza aparte • Cancela cuando quieras',
       questions: 'Preguntas?',
       contactUs: 'Haz clic aqui para contactarnos',
-      successManager: 'Tu Customer Success Manager dedicado te ayudara a comenzar',
+      successManager: 'La incorporacion guiada se incluye en cada lanzamiento. Un Customer Success Manager dedicado viene con Enterprise.',
       pricingEffective: 'Precios vigentes a partir de',
       allPricesIn: 'Todos los precios en',
       pricingFooterNote: 'Precios vigentes a partir de {date}',
@@ -1094,6 +1108,10 @@ const messages = {
         perAdditionalLocation: '+${price} por local adicional',
         pricingSuffix: 'Precio {label}',
         aiCredits: 'Creditos de IA',
+        estateSizeLabel: '¿Cuantas ubicaciones?',
+        estateSizeHint: 'Cada precio de abajo se actualiza al moverlo.',
+        intelligenceSeats: 'Puestos de inteligencia',
+        aiCreditsBasis: 'Base + por local',
         visuals: 'Visuales',
         dataRefresh: 'Actualizacion de datos',
         benchmark: 'Benchmark',
@@ -1226,15 +1244,49 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
         setLocaleState(normalized)
       },
       dir: localeDirection[locale],
-      messages:
-        messages[locale as keyof typeof messages] ??
-        generatedPricingMessages[locale as keyof typeof generatedPricingMessages] ??
-        messages.en,
+      messages: resolveMessages(locale),
     }),
     [locale]
   )
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
+}
+
+/**
+ * CTL-13: message resolution used to pick ONE pack wholesale with `??`. Every
+ * key the chosen pack lacked resolved to `undefined` and rendered blank — and
+ * the checked-in generated packs drift from the English source because nothing
+ * in this repo regenerates them. This governs EVERY string on the site for the
+ * 18 generated locales, and it is the third place the same whole-pack fallback
+ * appeared (see layerStackCopy, which crashed the simulator outright, and
+ * resolvePricingUiCopy).
+ *
+ * Deep-merging over the English tree makes a missing key impossible: a partial
+ * translation degrades to English for that key alone, and a new copy key can be
+ * added without waiting for eighteen packs to catch up.
+ */
+function deepMergeMessages<T>(base: T, override: unknown): T {
+  if (override === undefined || override === null) return base
+  if (typeof base !== 'object' || base === null || Array.isArray(base)) {
+    if (typeof override === 'string' && override.length === 0) return base
+    return override as T
+  }
+  const out: Record<string, unknown> = { ...(base as Record<string, unknown>) }
+  const src = override as Record<string, unknown>
+  for (const key of Object.keys(base as Record<string, unknown>)) {
+    if (!(key in src)) continue
+    out[key] = deepMergeMessages((base as Record<string, unknown>)[key], src[key])
+  }
+  return out as T
+}
+
+function resolveMessages(locale: string): typeof messages.en {
+  const handWritten = messages[locale as keyof typeof messages]
+  if (handWritten) return handWritten as typeof messages.en
+  const generated =
+    generatedPricingMessages[locale as keyof typeof generatedPricingMessages]
+  if (!generated) return messages.en
+  return deepMergeMessages(messages.en, generated)
 }
 
 export function useLocale() {

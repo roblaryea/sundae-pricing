@@ -452,3 +452,23 @@
     transform: translateX(20px);
   }
 }
+
+
+/* ── Focus visibility ──────────────────────────────────────────────────────
+   The app defined no focus style at all, so a keyboard user had no indication
+   of position anywhere in the journey. `:focus-visible` keeps the ring off for
+   pointer users while guaranteeing it for keyboard and AT users. */
+:focus-visible {
+  outline: 2px solid #FF5C4D;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Native controls (the estate slider, selects) must follow the active theme,
+   or they render with a dark UA scheme on a light page. */
+:root {
+  color-scheme: dark;
+}
+.light {
+  color-scheme: light;
+}

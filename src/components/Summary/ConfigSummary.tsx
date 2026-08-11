@@ -12,7 +12,7 @@ import {
   modules as coreDomainModules,
 } from '../../data/pricing';
 import confetti from 'canvas-confetti';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { PDFExportButton } from './PDFExport';
 import { EmailQuoteButton } from './EmailQuoteButton';
 import { BookDemoButton } from './BookDemoButton';
@@ -35,14 +35,45 @@ export function ConfigSummary() {
   useLivePricingCatalog();
   const {
     layer, corePackage, locations, addOns, watchtowerModules,
-    crossIntelligence: crossIntelSelection, markStepCompleted, crewSkus: selectedCrewSkus
+    crossIntelligence: crossIntelSelection, markStepCompleted, crewSkus: selectedCrewSkus,
+    operatingModels, techStack, billingCycle, setBillingCycle
   } = useConfiguration();
 
-  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules, undefined, crossIntelSelection);
+  // The discovery answers resolve the one-time implementation class and the
+  // per-object overlays. Both are omitted entirely when the visitor skipped the
+  // systems question — a blank is honest, an invented fee is not.
+  const stackEstimate = useMemo(
+    () =>
+      techStack.length > 0
+        ? resolveImplementationClass(techStack, operatingModels, {
+            crewPayrollSelected: selectedCrewSkus.includes('crew_payroll'),
+          })
+        : null,
+    [techStack, operatingModels, selectedCrewSkus],
+  );
+  const overlays = useMemo(() => objectOverlaysFor(operatingModels), [operatingModels]);
+
+
+  // The quote now carries a REAL client profile. `billingCycle` was never set
+  // by any surface, so the 10% annual and 15% two-year terms — the main lever
+  // in any negotiation — were unreachable, and `isFranchise` stayed false even
+  // though question two asks exactly that.
+  const clientProfile = useMemo(
+    () => ({
+      type: 'independent' as const,
+      isEarlyAdopter: false,
+      isFranchise: operatingModels.includes('franchise'),
+      brandCount: operatingModels.includes('multi_brand') ? 2 : 1,
+      billingCycle,
+    }),
+    [operatingModels, billingCycle],
+  );
+
+  const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules, clientProfile, crossIntelSelection);
   void getLocalizedTierCatalog(locale);
   // Layer label is rendered in the Report/Core branch only; coerce Crew to
   // null for the helper signature (Crew branch returns early below).
-  const layerLabel = getLocalizedLayerName(locale, layer === 'crew' ? null : layer);
+  const layerLabel = getLocalizedLayerName(locale, layer === 'core' || layer === 'both' ? 'core' : null);
   
   // Collapsible states
   const [whatsIncludedOpen, setWhatsIncludedOpen] = useState(true);
@@ -54,7 +85,7 @@ export function ConfigSummary() {
     // Mark summary as viewed and trigger confetti
     markStepCompleted('summary');
     
-    confetti({
+    if (!prefersReducedMotion()) confetti({
       particleCount: 200,
       spread: 70,
       origin: { y: 0.6 },
@@ -78,6 +109,15 @@ export function ConfigSummary() {
   if (layer === 'crew') {
     return <CrewSummaryBody selectedSkus={selectedCrewSkus} locations={locations} />;
   }
+
+  // Core + Crew is the most common real deal — decision intelligence on one
+  // rail, the operational substrate on the other — and it could not be quoted
+  // at all while this branch was an either/or. The two rails are priced
+  // separately (they have separate unit economics) and presented together.
+  const crewRail =
+    layer === 'both' && selectedCrewSkus.length > 0
+      ? computeCrewQuote(selectedCrewSkus, locations)
+      : null;
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -268,16 +308,114 @@ export function ConfigSummary() {
                     <span className="font-medium">${item.price.toLocaleString(locale)}</span>
                   </div>
                 ))}
+                {/* Commitment term. v1.7 gives 10% annual and 15% two-year,
+                    exclusive with the volume ladder and capped at 15% combined.
+                    No surface ever set this, so both were unreachable. */}
+                <div className="pt-3 mt-2 border-t border-white/10">
+                  <span className="text-sundae-muted text-xs">Commitment term</span>
+                  <div
+                    className="mt-2 grid grid-cols-3 gap-1.5"
+                    role="radiogroup"
+                    aria-label="Commitment term"
+                  >
+                    {([
+                      ['monthly', 'Monthly', null],
+                      ['annual', 'Annual', '10%'],
+                      ['two_year', '2 years', '15%'],
+                    ] as const).map(([cycle, label, off]) => (
+                      <button
+                        key={cycle}
+                        type="button"
+                        role="radio"
+                        aria-checked={billingCycle === cycle}
+                        onClick={() => setBillingCycle(cycle)}
+                        className={`rounded-lg border px-2 py-2 text-xs transition-colors ${
+                          billingCycle === cycle
+                            ? 'border-[#FF5C4D] bg-[#FF5C4D]/15 text-white'
+                            : 'border-white/10 bg-sundae-surface text-sundae-muted hover:border-white/30'
+                        }`}
+                      >
+                        <span className="block font-semibold">{label}</span>
+                        {off && <span className="block text-[10px] opacity-80">save {off}</span>}
+                      </button>
+                    ))}
+                  </div>
+                  {pricing.discounts.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      {pricing.discounts.map((d: DiscountLine) => (
+                        <div key={d.name} className="flex justify-between text-xs text-green-400">
+                          <span>{d.name}</span>
+                          {/* `amount` is already signed negative; prefixing a
+                              minus rendered "-$-562". */}
+                          <span>-${Math.abs(Math.round(d.amount)).toLocaleString(locale)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                {crewRail && (
+                  <div className="flex justify-between pt-2 mt-2 border-t border-white/10">
+                    <span className="text-sundae-muted">Crew (operational substrate)</span>
+                    <span className="font-medium">
+                      ${crewRail.monthly.toLocaleString(locale)}
+                    </span>
+                  </div>
+                )}
+                {crewRail && (
+                  <div className="flex justify-between pt-2 mt-2 border-t border-white/20 text-base">
+                    <span className="font-semibold">Combined monthly</span>
+                    <span className="font-bold">
+                      ${(pricing.total + crewRail.monthly).toLocaleString(locale)}
+                    </span>
+                  </div>
+                )}
+                {/* Implementation is the largest one-time line in the deal, and
+                    it used to read "Scoped at contract" for every visitor
+                    because nothing in the journey asked what a launch would
+                    involve. The systems answer now resolves a real class, and
+                    the drivers are shown so the number is not a mystery. */}
                 <div className="flex justify-between pt-2 mt-2 border-t border-white/10">
                   <span className="text-sundae-muted">Implementation (one-time)</span>
                   <span className="font-medium">
-                    {pricing.implementation.requiresScoping
-                      ? 'Scoped at contract'
-                      : pricing.implementation.fee === 0
-                        ? 'Self-service · $0'
-                        : `${pricing.implementation.isFloor ? 'from ' : ''}$${pricing.implementation.fee.toLocaleString(locale)}`}
+                    {stackEstimate
+                      ? `${stackEstimate.isFloor ? 'from ' : ''}$${stackEstimate.fee.toLocaleString(locale)}`
+                      : pricing.implementation.requiresScoping
+                        ? 'Scoped at contract'
+                        : pricing.implementation.fee === 0
+                          ? 'Self-service · $0'
+                          : `${pricing.implementation.isFloor ? 'from ' : ''}$${pricing.implementation.fee.toLocaleString(locale)}`}
                   </span>
                 </div>
+                {stackEstimate && stackEstimate.drivers.length > 0 && (
+                  <ul className="space-y-0.5 pl-0.5">
+                    {stackEstimate.drivers.map((d) => (
+                      <li key={d} className="text-[10px] text-sundae-muted/80">
+                        · {d}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {stackEstimate?.isIndicative && (
+                  <p className="text-[10px] text-sundae-muted/80">
+                    Indicative only — confirm your systems and we will scope the exact class.
+                  </p>
+                )}
+                {overlays.length > 0 && (
+                  <div className="pt-2 mt-2 border-t border-white/10 space-y-1">
+                    <span className="text-sundae-muted text-xs">Billed per active object</span>
+                    {overlays.map((o) => (
+                      <div key={o.object} className="flex justify-between text-xs">
+                        <span className="text-sundae-muted">
+                          {o.object}s beyond {o.includedPerLocation} per location
+                        </span>
+                        <span className="font-medium">${o.ratePerObject} each</span>
+                      </div>
+                    ))}
+                    <p className="text-[10px] text-sundae-muted/80">
+                      Charged only while the object is active, and never discounted.
+                    </p>
+                  </div>
+                )}
                 <p className="text-[10px] text-sundae-muted/80">
                   Charged once at the highest implementation class in your selection — never summed
                   per module.
@@ -524,7 +662,7 @@ export function ConfigSummary() {
         className="pt-6 border-t border-white/10 text-center text-xs text-sundae-muted space-y-2"
       >
         <p>
-          {messages.summary.pricingFooterNote.replace('{date}', new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date('2026-02-26T00:00:00Z')))}
+          {messages.summary.pricingFooterNote.replace('{date}', pricingFooter.effectiveDate)}
         </p>
         <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
         <p className="text-[10px] opacity-70">{messages.summary.locationPricingNote}</p>
@@ -541,9 +679,13 @@ export function ConfigSummary() {
 // Book Demo CTAs in the same row Core/Report use, so the Crew path
 // reaches feature-parity with the analytics path.
 
-import { computeCrewQuote } from '../../lib/crewPricing';
 import { CrewQuoteButtons } from './CrewQuoteButtons';
 import type { CrewSkuId } from '../../types/configuration';
+import { objectOverlaysFor, resolveImplementationClass } from '../../lib/discoveryEngine';
+import { computeCrewQuote } from '../../lib/crewPricing';
+import type { DiscountLine } from '../../types/configuration';
+import { pricingFooter } from '../../data/pricing';
+import { prefersReducedMotion } from '../../lib/motion';
 
 interface CrewSummaryBodyProps {
   selectedSkus: CrewSkuId[];
@@ -551,7 +693,7 @@ interface CrewSummaryBodyProps {
 }
 
 function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
-  const { locale, messages } = useLocale();
+  const { messages } = useLocale();
   const quote = computeCrewQuote(selectedSkus, locations);
   const { monthly, annual, implementation, lines, detectedBundleId, bundleSavingsMonthly } = quote;
   const implementationLabel = implementation.requiresScoping
@@ -566,7 +708,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
       : `${selectedSkus.length}-SKU Crew stack`;
 
   useEffect(() => {
-    confetti({
+    if (!prefersReducedMotion()) confetti({
       particleCount: 200,
       spread: 70,
       origin: { y: 0.6 },
@@ -719,7 +861,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
         className="pt-6 border-t border-white/10 text-center text-xs text-sundae-muted space-y-2"
       >
         <p>
-          {messages.summary.pricingFooterNote.replace('{date}', new Intl.DateTimeFormat(locale, { dateStyle: 'long' }).format(new Date('2026-02-26T00:00:00Z')))}
+          {messages.summary.pricingFooterNote.replace('{date}', pricingFooter.effectiveDate)}
         </p>
         <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
         <p className="text-[10px] opacity-70">

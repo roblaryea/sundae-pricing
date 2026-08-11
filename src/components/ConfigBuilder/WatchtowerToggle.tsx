@@ -9,9 +9,11 @@ import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/watchtowerEngine';
 import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '../../lib/pricingEngine';
 import { useLocale } from '../../contexts/LocaleContext';
+import { corePackages, packageAllowsWatchtower } from '../../data/pricing';
+import { stepIndex } from '../../lib/journey';
 
 export function WatchtowerToggle() {
-  const { layer, corePackage, locations, addOns, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep } = useConfiguration();
+  const { layer, corePackage, locations, addOns, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep, recommendsWatchtower } = useConfiguration();
   const { locale, messages } = useLocale();
   const copy = messages.builder.watchtowerToggle;
   const watchtowerCatalog = messages.catalog.watchtower;
@@ -29,11 +31,11 @@ export function WatchtowerToggle() {
   const handleContinue = () => {
     // The ROI step is always meaningful now: every Core package includes the
     // labour / inventory / marketing domains the ROI model draws on.
-    setCurrentStep(6);
+    setCurrentStep(stepIndex('roi'));
   };
 
   const handleBack = () => {
-    setCurrentStep(4);
+    setCurrentStep(stepIndex('addons'));
   };
 
   const getModuleIcon = (moduleId: string) => {
@@ -63,8 +65,32 @@ export function WatchtowerToggle() {
       template,
     );
 
+  // Watchtower requires Core Growth or above. The step used to let a Core
+  // Foundation buyer select modules and be quoted for an entitlement their
+  // package does not grant.
+  const eligible = packageAllowsWatchtower(corePackage);
+
   return (
     <div className="max-w-5xl mx-auto">
+      {!eligible && (
+        <div className="mb-8 rounded-xl border border-[#E9A24A]/40 bg-[#E9A24A]/10 p-4 text-sm">
+          <span className="font-semibold text-[#E9A24A]">
+            Watchtower needs Core Growth or above.
+          </span>{' '}
+          <span className="text-sundae-muted">
+            {corePackages[corePackage].name} does not include it. Move up a package to add it —
+            nothing here is added to your quote.
+          </span>
+        </div>
+      )}
+      {eligible && recommendsWatchtower && watchtowerModules.length === 0 && (
+        <div className="mb-8 rounded-xl border border-white/15 bg-sundae-surface p-4 text-sm">
+          <span className="font-semibold text-white">Suggested for how you answered.</span>{' '}
+          <span className="text-sundae-muted">
+            Competitive pressure came through in your answers. Nothing is added until you choose it.
+          </span>
+        </div>
+      )}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -200,6 +226,7 @@ export function WatchtowerToggle() {
           
           <button
             onClick={() => toggleWatchtowerModule('bundle')}
+            aria-pressed={watchtowerModules.includes('bundle')}
             className={`w-full p-6 rounded-xl border-2 transition-all relative z-10 ${
               watchtowerModules.includes('bundle')
                 ? 'bg-gradient-to-br from-watchtower/30 to-red-500/30 border-watchtower'

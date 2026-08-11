@@ -9,6 +9,8 @@ import type { ROIInputs } from './useROICalculation';
 import type { Persona } from '../data/personas';
 import type { Achievement } from '../data/personas';
 import { achievements } from '../data/personas';
+import type { OperatingModelId, TechStackId } from '../lib/discoveryEngine';
+import type { BillingCycle } from '../data/pricing';
 
 type E2EStoreWindow = Window & {
   __SUNDAE_STORE__?: typeof useConfiguration;
@@ -27,6 +29,24 @@ export interface ConfigurationState extends Configuration {
   
   // Quiz state
   quizAnswers: Record<string, string>;
+  /**
+   * Multi-select discovery answers, kept OUT of `quizAnswers` because that map
+   * is single-answer. `operating_model` decides which concept pathways apply
+   * and which per-object overlays are billed; `tech_stack` resolves the
+   * one-time implementation class. Both are asked before a package is chosen —
+   * asking after is how a franchisor gets quoted a single-brand configuration.
+   */
+  operatingModels: OperatingModelId[];
+  techStack: TechStackId[];
+  /**
+   * Commitment term. v1.7 gives 10% for annual and 15% for two-year, and it is
+   * the main lever in any real negotiation — but nothing in the simulator ever
+   * set it, so `clientProfile.billingCycle` stayed undefined and both discounts
+   * were unreachable.
+   */
+  billingCycle: BillingCycle;
+  /** Persona suggested Watchtower. A suggestion, never a silent selection. */
+  recommendsWatchtower: boolean;
   persona: Persona | null;
   personaConfidence: number;
   
@@ -43,7 +63,7 @@ export interface ConfigurationState extends Configuration {
   isAnimating: boolean;
   
   // Actions
-  setLayer: (layer: 'core' | 'crew' | null) => void;
+  setLayer: (layer: 'core' | 'crew' | 'both' | null) => void;
   setCorePackage: (corePackage: CorePackageId) => void;
   // Crew multi-select API. `toggle` flips a single SKU and auto-resolves
   // prerequisites + mutual exclusions. `set` replaces the entire set (used
@@ -59,6 +79,8 @@ export interface ConfigurationState extends Configuration {
   
   // Quiz actions
   setQuizAnswer: (questionId: string, answerId: string) => void;
+  setDiscoveryAnswers: (operatingModels: OperatingModelId[], techStack: TechStackId[]) => void;
+  setBillingCycle: (cycle: BillingCycle) => void;
   setPersona: (persona: Persona | null, confidence: number) => void;
   
   // ROI actions
@@ -80,7 +102,7 @@ export interface ConfigurationState extends Configuration {
 
 const initialState = {
   // Configuration
-  layer: null as 'core' | 'crew' | null,
+  layer: null as 'core' | 'crew' | 'both' | null,
   corePackage: 'core_foundation' as CorePackageId,
   locations: 1,
   addOns: [] as AddOnId[],
@@ -99,7 +121,6 @@ const initialState = {
     { id: 'persona', name: 'Discover Your Persona', completed: false },
     { id: 'layer', name: 'Choose Your Layer', completed: false },
     { id: 'tier', name: 'Select Your Tier', completed: false },
-    { id: 'locations', name: 'Configure Locations', completed: false },
     { id: 'addons', name: 'Add-ons', completed: false },
     { id: 'watchtower', name: 'Watchtower Intel', completed: false },
     { id: 'roi', name: 'Calculate ROI', completed: false },
@@ -108,6 +129,10 @@ const initialState = {
   
   // Quiz
   quizAnswers: {},
+  operatingModels: [],
+  techStack: [],
+  billingCycle: 'monthly' as BillingCycle,
+  recommendsWatchtower: false,
   persona: null,
   personaConfidence: 0,
   
@@ -342,6 +367,14 @@ export const useConfiguration = create<ConfigurationState>()(
         },
 
         // Quiz actions
+        setDiscoveryAnswers: (operatingModels, techStack) => {
+          set({ operatingModels, techStack });
+        },
+
+        setBillingCycle: (billingCycle) => {
+          set({ billingCycle });
+        },
+
         setQuizAnswer: (questionId, answerId) => {
           const quizAnswers = { ...get().quizAnswers, [questionId]: answerId };
           set({ quizAnswers });
@@ -462,14 +495,19 @@ export const useConfiguration = create<ConfigurationState>()(
           else if (path.includes('growth')) corePackage = 'core_growth';
           else if (path.includes('margin')) corePackage = 'core_margin';
 
-          const watchtowerModules = path.includes('watchtower') ? ['bundle'] : [];
+          // A persona is a RECOMMENDATION, not a purchase. This used to set
+          // `watchtowerModules: ['bundle']` whenever the persona's path
+          // mentioned Watchtower, so finishing the quiz as a Strategist
+          // silently added the paid Watchtower Complete bundle — $899 + $109
+          // per location, never chosen, and appearing in the total as though
+          // the buyer had asked for it. The suggestion is now surfaced on the
+          // Watchtower step instead, where it can be accepted or ignored.
+          const recommendsWatchtower = path.includes('watchtower');
 
-          // Only set layer, package, and Watchtower — add-ons are pre-selected
-          // by the recommendation engine based on quiz answers.
           set({
             layer: 'core',
             corePackage,
-            watchtowerModules
+            recommendsWatchtower,
           });
 
           get().markStepCompleted('layer');
@@ -491,6 +529,10 @@ export const useConfiguration = create<ConfigurationState>()(
           crewSkus: state.crewSkus,
           competitors: state.competitors,
           quizAnswers: state.quizAnswers,
+          operatingModels: state.operatingModels,
+          techStack: state.techStack,
+          billingCycle: state.billingCycle,
+          recommendsWatchtower: state.recommendsWatchtower,
           persona: state.persona,
           roiInputs: state.roiInputs,
           unlockedAchievements: state.unlockedAchievements,

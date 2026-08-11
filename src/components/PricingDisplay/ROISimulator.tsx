@@ -37,6 +37,7 @@ import {
   getRoiCopy,
   type PricingUiLocale,
 } from '../../lib/pricingUiCopy';
+import { stepIndex } from '../../lib/journey';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Users,
@@ -72,7 +73,8 @@ export function ROISimulator() {
   const activeDomains = CORE_DOMAIN_MODULE_IDS as readonly string[];
   const roi = useROICalculation(
     {
-      layer: layer === 'crew' ? null : layer,
+      // ROI models the Core decision layer; 'both' contributes its Core side.
+      layer: layer === 'core' || layer === 'both' ? 'core' : null,
       corePackage,
       locations,
       activeDomains: [...activeDomains],
@@ -87,11 +89,11 @@ export function ROISimulator() {
   };
 
   const handleContinue = () => {
-    setCurrentStep(7);
+    setCurrentStep(stepIndex('summary'));
   };
 
   const handleBack = () => {
-    setCurrentStep(5);
+    setCurrentStep(stepIndex('watchtower'));
   };
 
   // Per-location helper + small locale labels (localized across all 22 locales via tMicro).
@@ -132,6 +134,7 @@ export function ROISimulator() {
               </span>
             </div>
             <input
+              aria-label={copy.monthlyRevenuePerLocation}
               type="range"
               min="50000"
               max="500000"
@@ -151,6 +154,7 @@ export function ROISimulator() {
               <span className="text-lg font-bold tabular-nums">{roiInputs.laborPercent}%</span>
             </div>
             <input
+              aria-label={copy.currentLaborCost}
               type="range"
               min="20"
               max="40"
@@ -169,6 +173,7 @@ export function ROISimulator() {
               <span className="text-lg font-bold tabular-nums">{roiInputs.foodCostPercent}%</span>
             </div>
             <input
+              aria-label={copy.currentFoodCost}
               type="range"
               min="20"
               max="40"
@@ -190,7 +195,8 @@ export function ROISimulator() {
                 </span>
               </div>
               <input
-                type="range"
+                aria-label={copy.monthlyMarketingSpend}
+              type="range"
                 min="0"
                 max="10000"
                 step="500"
@@ -217,7 +223,8 @@ export function ROISimulator() {
                 <span className="text-lg font-bold tabular-nums">{roiInputs.deliveryRevenuePct || 0}%</span>
               </div>
               <input
-                type="range"
+                aria-label={copy.deliveryRevenuePct}
+              type="range"
                 min="0"
                 max="50"
                 step="5"

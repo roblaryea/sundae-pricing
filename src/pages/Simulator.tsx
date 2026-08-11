@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../hooks/useConfiguration';
@@ -9,7 +9,6 @@ import { CORE_PACKAGE_IDS } from '../data/pricing';
 import { PathwaySelector } from '../components/PathwaySelector/PathwaySelector';
 import { LayerStack } from '../components/ConfigBuilder/LayerStack';
 import { TierSelector } from '../components/ConfigBuilder/TierSelector';
-import { LocationSlider } from '../components/ConfigBuilder/LocationSlider';
 import { ModulePicker } from '../components/ConfigBuilder/ModulePicker';
 import { WatchtowerToggle } from '../components/ConfigBuilder/WatchtowerToggle';
 import { ROISimulator } from '../components/PricingDisplay/ROISimulator';
@@ -19,20 +18,25 @@ import { ProgressIndicator } from '../components/shared/ProgressIndicator';
 import { AchievementNotification } from '../components/shared/AchievementNotification';
 import { useLivePricingCatalog } from '../data/livePricing';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
+import { stepTransition, useReducedMotionSafe } from '../lib/motion';
+import { stepAt, stepIndex, type JourneyStepId } from '../lib/journey';
 
 export function Simulator() {
-  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer, addOns } = useConfiguration();
+  const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer } = useConfiguration();
   const livePricing = useLivePricingCatalog();
   const { locale } = useLocale();
+  const reducedMotion = useReducedMotionSafe();
   // Where "Back" goes from each step, honoring path-specific skips (Crew collapses
   // to one builder step; Report skips modules/watchtower/ROI before the summary).
+  // Back from the summary must land on the step the visitor actually came
+  // from, which differs per pathway: Crew collapses its middle steps into one
+  // builder, and the combined path ends on that builder rather than the ROI
+  // step. Getting this wrong made the Crew SKU picker unreachable.
   const backTarget =
-    currentStep === 7
+    stepAt(currentStep) === 'summary'
       ? layer === 'crew'
-        ? 2
-        : addOns.length > 0
-          ? 6
-          : 5
+        ? stepIndex('tier')
+        : stepIndex('roi')
       : Math.max(0, currentStep - 1);
   const backLabel = tMicro(locale, 'back');
 
@@ -53,8 +57,16 @@ export function Simulator() {
   // Open each step at the top. Without this, navigating next/back keeps the prior
   // scroll position (usually the bottom, where the CTA was), so the new step
   // appears scrolled to its bottom and the user has to scroll back up.
+  //
+  // Focus moves with it. A step change swaps the entire main region, which drops
+  // focus to <body> — a keyboard user is returned to the top of the document and
+  // a screen-reader user is told nothing happened at all. Moving focus to the
+  // step container announces the new step and puts the next Tab in the right
+  // place. `tabIndex={-1}` makes it focusable without adding a tab stop.
+  const stepRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
+    stepRef.current?.focus({ preventScroll: true });
   }, [currentStep]);
 
   useEffect(() => {
@@ -104,7 +116,7 @@ export function Simulator() {
       // Mark the journey complete so the summary renders fully, then jump to it.
       (['persona', 'layer', 'package', 'locations', 'addons', 'watchtower', 'roi'] as const)
         .forEach((id) => s.markStepCompleted(id));
-      s.setCurrentStep(7); // Review & Launch summary
+      s.setCurrentStep(stepIndex('summary'));
     } catch {
       // Malformed cfg — fall through to the normal first-run flow.
     } finally {
@@ -113,16 +125,20 @@ export function Simulator() {
     }
   }, []);
 
-  const stepComponents = [
-    <PathwaySelector />,
-    <LayerStack />,
-    <TierSelector />,
-    <LocationSlider />,
-    <ModulePicker />,
-    <WatchtowerToggle />,
-    <ROISimulator />,
-    <ConfigSummary />,
-  ];
+  // Keyed BY STEP NAME, so the render map and the progress rail cannot drift
+  // out of alignment. The previous positional array still carried the retired
+  // standalone locations screen, which pushed every later index one place out:
+  // "Review & Launch" rendered the ROI calculator, and the orphaned locations
+  // screen was reachable through the "Add-ons" dot.
+  const stepComponents: Record<JourneyStepId, React.ReactNode> = {
+    persona: <PathwaySelector />,
+    layer: <LayerStack />,
+    tier: <TierSelector />,
+    addons: <ModulePicker />,
+    watchtower: <WatchtowerToggle />,
+    roi: <ROISimulator />,
+    summary: <ConfigSummary />,
+  };
 
   // Crew is the parallel operational substrate path. It bypasses the
   // Report/Core-specific tier → modules → watchtower → ROI flow because
@@ -130,18 +146,22 @@ export function Simulator() {
   // locations + price preview into one step and routes directly to the
   // shared ConfigSummary on submit.
   const isCrewPath = layer === 'crew';
+  // On the combined pathway the visitor walks the full Core journey and then
+  // picks Crew SKUs, so CrewBuilder takes the ROI slot rather than replacing
+  // the Core steps. Core and Crew are separate rails; the summary sums them.
+  const isCombinedPath = layer === 'both';
   const renderStep = () => {
+    const stepId = stepAt(currentStep);
     const node =
-      isCrewPath && currentStep >= 2 && currentStep < 7
+      isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')
         ? <CrewBuilder />
-        : (stepComponents[currentStep] ?? <PathwaySelector />);
+        : isCombinedPath && stepId === 'roi'
+          ? <CrewBuilder />
+          : (stepId ? stepComponents[stepId] : <PathwaySelector />);
     return (
       <motion.div
-        key={`step-${isCrewPath && currentStep >= 2 && currentStep < 7 ? 'crew-builder' : currentStep}`}
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -20 }}
-        transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+        key={`step-${(isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')) || (isCombinedPath && stepAt(currentStep) === 'roi') ? 'crew-builder' : currentStep}`}
+        {...stepTransition(reducedMotion)}
       >
         {node}
       </motion.div>
@@ -175,11 +195,19 @@ export function Simulator() {
       )}
 
       {/* Journey content */}
-      <main className="max-w-7xl mx-auto p-4 md:p-8 pt-6 md:pt-8">
+      {/* Layout already renders the page's <main>; a second one nested inside
+          it gives the document two main landmarks. This is the step region. */}
+      <div
+        ref={stepRef}
+        tabIndex={-1}
+        role="region"
+        aria-label={backLabel === 'Back' ? 'Configuration step' : backLabel}
+        className="max-w-7xl mx-auto p-4 md:p-8 pt-6 md:pt-8 focus:outline-none"
+      >
         <AnimatePresence mode="wait">
           {renderStep()}
         </AnimatePresence>
-      </main>
+      </div>
 
       {/* Achievement notifications */}
       <AnimatePresence>

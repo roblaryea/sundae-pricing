@@ -11,6 +11,7 @@ import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocal
 // This eliminates the hard-coded "Starting at $XXX/month" strings that the
 // pricing audit previously flagged as drift risks.
 import { corePackages, watchtower } from '../../data/pricing';
+import { stepIndex } from '../../lib/journey';
 
 // v1.7: the entry point into Core is the Core Foundation FIRST-UNIT anchor.
 // It is not a per-location rate and it includes no location allowance.
@@ -97,6 +98,13 @@ type PricingCopy = {
     features: string[];
   };
   crew: {
+    name: string;
+    tagline: string;
+    startingPrice: string;
+    features: string[];
+  };
+  /** Optional: locales may override the combined pathway card. */
+  both?: {
     name: string;
     tagline: string;
     startingPrice: string;
@@ -241,7 +249,7 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
 
 
 export function LayerStack() {
-  const { setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
+  const { layer, setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
   const { locale } = useLocale();
   // The `??` chain used to pick ONE pack wholesale. When that pack was
   // shape-incomplete the whole subtree beneath it went undefined - the
@@ -255,10 +263,10 @@ export function LayerStack() {
   // only, which is what a missing translation should ever cost.
   const copy = resolveLayerStackCopy(locale);
 
-  const handleLayerSelect = (layerId: 'core' | 'crew') => {
+  const handleLayerSelect = (layerId: 'core' | 'crew' | 'both') => {
     setLayer(layerId);
     markStepCompleted('layer');
-    setCurrentStep(2);
+    setCurrentStep(stepIndex('tier'));
   };
 
   const cards = [
@@ -273,6 +281,29 @@ export function LayerStack() {
     // The Report layer was retired with price book v1.7 and is no longer
     // offered. Its localized copy stays in the pack only so the translation
     // bundles keep their shape; nothing renders it.
+    {
+      // Core + Crew is the deal most multi-site groups actually sign: decision
+      // intelligence on one rail, the operational substrate on the other. The
+      // layer step was an either/or, so it could not be configured at all.
+      id: 'both' as const,
+      icon: Layers,
+      color: '#8B5CF6',
+      borderColor: 'violet',
+      copy: {
+        name: 'CORE + CREW',
+        tagline: copy.both?.tagline ?? 'Run the business and see it, on one contract',
+        startingPrice:
+          copy.both?.startingPrice ?? `From $${corePrice.toLocaleString()} + $99/month`,
+        features:
+          copy.both?.features ?? [
+            'Everything in Core',
+            'Everything in Crew',
+            'One contract, one implementation',
+            'Workforce signal feeds Labour Intelligence',
+          ],
+      },
+      recommended: false as boolean,
+    },
     {
       id: 'crew' as const,
       icon: UsersIcon,
@@ -353,6 +384,7 @@ export function LayerStack() {
                   whileHover={{ scale: 1.02, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleLayerSelect(layerItem.id)}
+                  aria-pressed={layer === layerItem.id}
                   className={`w-full p-6 bg-gradient-to-br rounded-xl border-2 backdrop-blur transition-all group text-left ${styling.card}`}
                 >
                   <div className="flex items-center justify-between gap-4">

@@ -29,14 +29,17 @@ export function WatchtowerToggle() {
   // Calculate pricing with current configuration
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules, undefined, crossIntelSelection);
 
-  // v1.7: every Core package ships all eleven domain modules, so the
-  // correlation engine is always eligible on the Core path.
+  // The correlation engine ships with every Core package, so it is always
+  // eligible on the Core path. (It is the ENGINE that is universal, not the
+  // domain grant — packages grant four to eleven domains, and an earlier
+  // comment here claimed all eleven for every package.)
   const crossIntelEligible = isCrossIntelligenceEligible(layer === 'core');
   const crossIntelProPrice = calculateCrossIntelligencePrice('pro', locations);
 
   const handleContinue = () => {
-    // The ROI step is always meaningful now: every Core package includes the
-    // labour / inventory / marketing domains the ROI model draws on.
+    // The ROI step is meaningful for every package, but the domains it may
+    // credit differ: Foundation grants labour without inventory or marketing,
+    // so the model scores each package against ITS OWN grant.
     setCurrentStep(stepIndex('roi'));
   };
 

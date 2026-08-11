@@ -129,7 +129,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
     core: [
       {
         question: 'Quels sont les quatre forfaits Core ?',
-        answer: "Core Foundation, Core Margin, Core Growth et Core Performance. Chaque forfait inclut les onze modules de domaine Core, le moteur de corrélation Cross-Intelligence et Sundae Intelligence. Ils diffèrent par leur périmètre et par la taille du portefeuille mensuel de crédits IA ; le configurateur affiche toujours les chiffres publiés en vigueur.",
+        answer: "Core Foundation, Core Margin, Core Growth et Core Performance. Ils diffèrent par le nombre de modules de domaine Core accordés parmi les onze — quatre pour Foundation, six pour Margin, huit pour Growth, les onze pour Performance — et par la taille du portefeuille mensuel de crédits IA. Chaque forfait inclut le moteur de corrélation Cross-Intelligence et Sundae Intelligence ; le configurateur affiche toujours les chiffres publiés en vigueur.",
       },
       {
         question: 'Comment fonctionne la tarification par site ?',
@@ -225,7 +225,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
     core: [
       {
         question: '¿Cuáles son los cuatro paquetes Core?',
-        answer: 'Core Foundation, Core Margin, Core Growth y Core Performance. Cada paquete incluye los once módulos de dominio de Core, el motor de correlación Cross-Intelligence y Sundae Intelligence. Se diferencian en el alcance y en el tamaño de la cartera mensual de créditos de IA; el configurador siempre muestra las cifras publicadas vigentes.',
+        answer: 'Core Foundation, Core Margin, Core Growth y Core Performance. Se diferencian en cuántos de los once módulos de dominio de Core conceden —Foundation cuatro, Margin seis, Growth ocho y Performance los once— y en el tamaño de la cartera mensual de créditos de IA. Cada paquete incluye el motor de correlación Cross-Intelligence y Sundae Intelligence; el configurador siempre muestra las cifras publicadas vigentes.',
       },
       {
         question: '¿Cómo funciona el precio por local?',
@@ -322,7 +322,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
 const coreFAQ: FAQItem[] = [
   {
     question: 'What are the four Core packages?',
-    answer: 'Core Foundation, Core Margin, Core Growth, and Core Performance. Every package includes all eleven Core domain modules, the Cross-Intelligence correlation engine, and Sundae Intelligence. They differ in scope and in the size of the monthly AI credit wallet; the configurator always shows the current published figures.'
+    answer: 'Core Foundation, Core Margin, Core Growth, and Core Performance. They differ in how many of the eleven Core domain modules they grant — Foundation four, Margin six, Growth eight, Performance all eleven — and in the size of the monthly AI credit wallet. Every package includes the Cross-Intelligence correlation engine and Sundae Intelligence; the configurator always shows the current published figures.'
   },
   {
     question: 'How does per-location pricing work?',

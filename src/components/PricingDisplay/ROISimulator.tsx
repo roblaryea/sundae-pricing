@@ -39,6 +39,7 @@ import {
 import { stepIndex } from '../../lib/journey';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import { corePackages } from '../../data/pricing';
+import { getQuoteSummaryCopy } from '../../lib/quoteSummaryCopy';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Users,
@@ -67,6 +68,7 @@ export function ROISimulator() {
     crewSkus: selectedCrewSkus,
   } = useConfiguration();
 
+  const q = getQuoteSummaryCopy(locale);
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
@@ -137,6 +139,21 @@ export function ROISimulator() {
         <h1 className="text-4xl font-bold mb-4">{copy.title}</h1>
         <p className="text-xl text-sundae-muted">{copy.subtitle}</p>
       </motion.div>
+
+      {/* The model has no published evidence behind its rates. The defensible
+
+          posture is not to invent a source but to stop presenting a planning
+
+          model as a measurement — and to show the basis on every line. */}
+
+      <div className="mb-6 rounded-xl border border-[#E9A24A]/40 bg-[#E9A24A]/10 p-4">
+
+        <p className="text-sm font-semibold text-[#E9A24A]">{q.modelledHeading}</p>
+
+        <p className="mt-1 text-xs text-sundae-muted">{q.modelledNote}</p>
+
+      </div>
+
 
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}

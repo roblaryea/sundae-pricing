@@ -315,9 +315,9 @@ const roiCopy = {
     },
     roiDescriptions: {
       strong:
-        'Strong ROI potential: {roi}x return with {weeks}-week payback period.',
-      solid: 'Solid returns with {roi}x ROI and {weeks}-week payback.',
-      positive: 'Positive ROI with measurable impact on your operations.',
+        'Modelled at these inputs: {roi}x return, {weeks}-week payback.',
+      solid: 'Modelled at these inputs: {roi}x return, {weeks}-week payback.',
+      positive: 'Modelled positive return at these inputs.',
       value: 'Value builds as you optimize operations over time.',
       longTerm: 'Long-term investment in operational intelligence.',
     },

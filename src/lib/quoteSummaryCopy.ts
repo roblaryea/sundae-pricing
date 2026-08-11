@@ -41,6 +41,10 @@ export interface QuoteSummaryCopy {
   crewStackReady: string;
   crewFlatNote: string;
   crewSubstrateNote: string;
+  /** ROI framing — the model is a planning aid, never a measured outcome. */
+  modelledHeading: string;
+  modelledNote: string;
+  basisLabel: string;
 }
 
 export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
@@ -67,6 +71,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew is a flat monthly price — your location count does not change it',
     crewSubstrateNote:
       'Multi-region payroll readiness, scheduling, and HR ops on one operational substrate.',
+    modelledHeading: 'Modelled estimate — not a measured outcome',
+    modelledNote:
+      'Every figure here is a planning model built from published assumption ranges, shown per line below. Sundae has not yet published verified customer results, so treat this as a way to frame the conversation with your own numbers — not as a forecast.',
+    basisLabel: 'Basis',
   },
   ar: {
     yourConfiguration: 'إعدادك',
@@ -91,6 +99,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew بسعر شهري ثابت — عدد مواقعك لا يغيّره',
     crewSubstrateNote:
       'جاهزية الرواتب متعددة المناطق والجدولة وعمليات الموارد البشرية على أساس تشغيلي واحد.',
+    modelledHeading: 'تقدير نموذجي — وليس نتيجة مقيسة',
+    modelledNote:
+      'كل رقم هنا نموذج تخطيطي مبني على نطاقات افتراضية منشورة، معروضة لكل بند أدناه. لم تنشر Sundae بعد نتائج عملاء موثقة، لذا استخدمه لتأطير النقاش بأرقامك أنت — لا كتوقّع.',
+    basisLabel: 'الأساس',
   },
   fr: {
     yourConfiguration: 'Votre configuration',
@@ -115,6 +127,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew est un tarif mensuel fixe — votre nombre de sites ne le modifie pas',
     crewSubstrateNote:
       'Préparation de la paie multi-pays, planification et RH sur un seul socle opérationnel.',
+    modelledHeading: 'Estimation modélisée — pas un résultat mesuré',
+    modelledNote:
+      "Chaque chiffre est un modèle de planification construit à partir de fourchettes d'hypothèses publiées, détaillées ligne par ligne ci-dessous. Sundae n'a pas encore publié de résultats clients vérifiés : utilisez-le pour cadrer la discussion avec vos propres chiffres, pas comme une prévision.",
+    basisLabel: 'Base',
   },
   es: {
     yourConfiguration: 'Tu configuración',
@@ -139,6 +155,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew tiene precio mensual fijo: tu número de locales no lo cambia',
     crewSubstrateNote:
       'Preparación de nóminas multipaís, turnos y operaciones de RR. HH. sobre una única base operativa.',
+    modelledHeading: 'Estimación modelada, no un resultado medido',
+    modelledNote:
+      'Cada cifra es un modelo de planificación construido con rangos de supuestos publicados, detallados línea por línea abajo. Sundae aún no ha publicado resultados verificados de clientes, así que úsalo para encuadrar la conversación con tus propios números, no como un pronóstico.',
+    basisLabel: 'Base',
   },
   de: {
     yourConfiguration: 'Ihre Konfiguration',
@@ -163,6 +183,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew hat einen festen Monatspreis — Ihre Standortzahl ändert ihn nicht',
     crewSubstrateNote:
       'Lohnbereitschaft für mehrere Regionen, Dienstplanung und HR-Betrieb auf einer operativen Basis.',
+    modelledHeading: 'Modellrechnung — kein gemessenes Ergebnis',
+    modelledNote:
+      'Jede Zahl hier ist eine Planungsrechnung auf Basis veröffentlichter Annahmebandbreiten, unten je Position ausgewiesen. Sundae hat noch keine verifizierten Kundenergebnisse veröffentlicht: Nutzen Sie sie, um das Gespräch mit Ihren eigenen Zahlen zu rahmen, nicht als Prognose.',
+    basisLabel: 'Grundlage',
   },
   nl: {
     yourConfiguration: 'Uw configuratie',
@@ -187,6 +211,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew heeft een vast maandtarief — uw aantal locaties verandert dat niet',
     crewSubstrateNote:
       'Loonklaar in meerdere regio\'s, roosters en HR-operatie op één operationele basis.',
+    modelledHeading: 'Modelmatige schatting — geen gemeten uitkomst',
+    modelledNote:
+      'Elk bedrag hier is een planningsmodel op basis van gepubliceerde aannamebandbreedtes, hieronder per regel getoond. Sundae heeft nog geen geverifieerde klantresultaten gepubliceerd: gebruik dit om het gesprek met uw eigen cijfers te kaderen, niet als prognose.',
+    basisLabel: 'Grondslag',
   },
   pt: {
     yourConfiguration: 'A sua configuração',
@@ -211,6 +239,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'O Crew tem preço mensal fixo — o número de locais não o altera',
     crewSubstrateNote:
       'Prontidão de folha em várias regiões, escalas e operações de RH numa única base operacional.',
+    modelledHeading: 'Estimativa modelada — não um resultado medido',
+    modelledNote:
+      'Cada valor aqui é um modelo de planeamento construído a partir de intervalos de pressupostos publicados, apresentados linha a linha abaixo. A Sundae ainda não publicou resultados verificados de clientes: use isto para enquadrar a conversa com os seus próprios números, não como previsão.',
+    basisLabel: 'Base',
   },
   hi: {
     yourConfiguration: 'आपका कॉन्फ़िगरेशन',
@@ -235,6 +267,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew का मासिक मूल्य निश्चित है — लोकेशन की संख्या इसे नहीं बदलती',
     crewSubstrateNote:
       'एक ही परिचालन आधार पर बहु-क्षेत्रीय पेरोल तैयारी, शेड्यूलिंग और HR संचालन।',
+    modelledHeading: 'मॉडल आधारित अनुमान — मापा गया परिणाम नहीं',
+    modelledNote:
+      'यहाँ हर आंकड़ा प्रकाशित अनुमान-सीमाओं पर बना एक योजना मॉडल है, नीचे प्रति पंक्ति दिखाया गया। Sundae ने अभी सत्यापित ग्राहक परिणाम प्रकाशित नहीं किए हैं — इसे अपने आंकड़ों के साथ बातचीत की रूपरेखा मानें, पूर्वानुमान नहीं।',
+    basisLabel: 'आधार',
   },
   ur: {
     yourConfiguration: 'آپ کی کنفیگریشن',
@@ -259,6 +295,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew کی ماہانہ قیمت مقرر ہے — مقامات کی تعداد اسے تبدیل نہیں کرتی',
     crewSubstrateNote:
       'ایک ہی آپریشنل بنیاد پر کثیر خطہ پے رول تیاری، شیڈولنگ اور HR آپریشنز۔',
+    modelledHeading: 'ماڈل پر مبنی تخمینہ — ماپا گیا نتیجہ نہیں',
+    modelledNote:
+      'یہاں ہر عدد شائع شدہ مفروضہ حدود پر بنایا گیا منصوبہ بندی ماڈل ہے، نیچے فی سطر دکھایا گیا۔ Sundae نے ابھی تصدیق شدہ کسٹمر نتائج شائع نہیں کیے — اسے اپنے اعداد کے ساتھ گفتگو کی بنیاد سمجھیں، پیش گوئی نہیں۔',
+    basisLabel: 'بنیاد',
   },
   it: {
     yourConfiguration: 'La tua configurazione',
@@ -283,6 +323,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew ha un prezzo mensile fisso — il numero di sedi non lo modifica',
     crewSubstrateNote:
       'Buste paga pronte in più aree, turni e operazioni HR su un’unica base operativa.',
+    modelledHeading: 'Stima modellata — non un risultato misurato',
+    modelledNote:
+      'Ogni cifra è un modello di pianificazione costruito su intervalli di ipotesi pubblicati, mostrati voce per voce qui sotto. Sundae non ha ancora pubblicato risultati verificati dei clienti: usalo per impostare la conversazione con i tuoi numeri, non come previsione.',
+    basisLabel: 'Base',
   },
   pl: {
     yourConfiguration: 'Twoja konfiguracja',
@@ -307,6 +351,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew ma stałą cenę miesięczną — liczba lokalizacji jej nie zmienia',
     crewSubstrateNote:
       'Gotowość płacowa w wielu regionach, grafiki i operacje HR na jednej podstawie operacyjnej.',
+    modelledHeading: 'Szacunek modelowy — nie zmierzony wynik',
+    modelledNote:
+      'Każda kwota to model planistyczny oparty na opublikowanych zakresach założeń, pokazanych poniżej dla każdej pozycji. Sundae nie opublikowało jeszcze zweryfikowanych wyników klientów: potraktuj to jako ramę do rozmowy o własnych liczbach, nie jako prognozę.',
+    basisLabel: 'Podstawa',
   },
   tr: {
     yourConfiguration: 'Yapılandırmanız',
@@ -331,6 +379,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew sabit aylık fiyatlıdır — lokasyon sayınız bunu değiştirmez',
     crewSubstrateNote:
       'Tek bir operasyonel temelde çok bölgeli bordro hazırlığı, vardiya ve İK operasyonu.',
+    modelledHeading: 'Modellenmiş tahmin — ölçülmüş bir sonuç değil',
+    modelledNote:
+      'Buradaki her rakam, yayımlanmış varsayım aralıklarından kurulmuş bir planlama modelidir ve aşağıda satır satır gösterilir. Sundae henüz doğrulanmış müşteri sonuçları yayımlamadı: bunu kendi rakamlarınızla konuşmayı çerçevelemek için kullanın, bir öngörü olarak değil.',
+    basisLabel: 'Dayanak',
   },
   'zh-Hans': {
     yourConfiguration: '您的配置',
@@ -354,6 +406,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewStackReady: '您的 Crew 配置已就绪',
     crewFlatNote: 'Crew 为固定月费——门店数量不会改变它',
     crewSubstrateNote: '在同一运营底座上完成多地区薪酬就绪、排班与人力资源运营。',
+    modelledHeading: '模型测算——并非实测结果',
+    modelledNote:
+      '此处每个数字都是基于公开假设区间构建的规划模型，下方按项列出。Sundae 尚未公布经核实的客户成果，请将其作为结合您自身数据展开讨论的起点，而非预测。',
+    basisLabel: '依据',
   },
   ja: {
     yourConfiguration: 'ご利用構成',
@@ -377,6 +433,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewStackReady: 'Crew の構成が整いました',
     crewFlatNote: 'Crew は月額定額です。店舗数によって変わりません',
     crewSubstrateNote: '多地域の給与対応、シフト管理、HR業務を単一のオペレーション基盤で。',
+    modelledHeading: 'モデル試算です。実測値ではありません',
+    modelledNote:
+      'ここに表示される数値は、公開された前提レンジから組み立てた計画モデルで、下に項目ごとの根拠を示しています。Sundae は検証済みの顧客成果をまだ公表していません。予測としてではなく、御社の数値で議論を組み立てるための出発点としてご利用ください。',
+    basisLabel: '根拠',
   },
   ko: {
     yourConfiguration: '고객님의 구성',
@@ -400,6 +460,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewStackReady: 'Crew 구성이 준비되었습니다',
     crewFlatNote: 'Crew는 월 정액입니다 — 지점 수에 따라 달라지지 않습니다',
     crewSubstrateNote: '하나의 운영 기반에서 다지역 급여 준비, 근무 일정, HR 운영을 처리합니다.',
+    modelledHeading: '모델 추정치 — 측정된 결과가 아닙니다',
+    modelledNote:
+      '여기의 모든 수치는 공개된 가정 범위로 구성한 계획 모델이며, 아래에 항목별 근거를 표시했습니다. Sundae는 아직 검증된 고객 성과를 공개하지 않았습니다. 예측이 아니라 고객사의 숫자로 논의를 시작하는 출발점으로 사용해 주세요.',
+    basisLabel: '근거',
   },
   id: {
     yourConfiguration: 'Konfigurasi Anda',
@@ -424,6 +488,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew berharga tetap per bulan — jumlah lokasi tidak mengubahnya',
     crewSubstrateNote:
       'Kesiapan penggajian multi-wilayah, penjadwalan, dan operasi HR dalam satu fondasi operasional.',
+    modelledHeading: 'Estimasi model — bukan hasil terukur',
+    modelledNote:
+      'Setiap angka di sini adalah model perencanaan yang dibangun dari rentang asumsi yang dipublikasikan, ditampilkan per baris di bawah. Sundae belum memublikasikan hasil pelanggan terverifikasi, jadi gunakan ini untuk membingkai percakapan dengan angka Anda sendiri, bukan sebagai ramalan.',
+    basisLabel: 'Dasar',
   },
   vi: {
     yourConfiguration: 'Cấu hình của bạn',
@@ -448,6 +516,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew có giá cố định hằng tháng — số địa điểm không làm thay đổi',
     crewSubstrateNote:
       'Sẵn sàng tính lương đa khu vực, xếp lịch và vận hành nhân sự trên một nền tảng duy nhất.',
+    modelledHeading: 'Ước tính theo mô hình — không phải kết quả đo được',
+    modelledNote:
+      'Mọi con số ở đây là mô hình lập kế hoạch dựng từ các khoảng giả định đã công bố, hiển thị theo từng dòng bên dưới. Sundae chưa công bố kết quả khách hàng đã kiểm chứng, vì vậy hãy dùng nó để định khung trao đổi bằng số liệu của bạn, không phải như một dự báo.',
+    basisLabel: 'Cơ sở',
   },
   ro: {
     yourConfiguration: 'Configurația ta',
@@ -472,6 +544,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew are preț lunar fix — numărul de locații nu îl schimbă',
     crewSubstrateNote:
       'Pregătire salarizare multi-regiune, programare și operațiuni HR pe o singură bază operațională.',
+    modelledHeading: 'Estimare modelată — nu un rezultat măsurat',
+    modelledNote:
+      'Fiecare cifră de aici este un model de planificare construit din intervale de ipoteze publicate, afișate pe fiecare rând mai jos. Sundae nu a publicat încă rezultate verificate ale clienților: folosește-l pentru a încadra discuția cu propriile cifre, nu ca pe o prognoză.',
+    basisLabel: 'Bază',
   },
   sv: {
     yourConfiguration: 'Din konfiguration',
@@ -496,6 +572,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew har fast månadspris — antalet platser ändrar det inte',
     crewSubstrateNote:
       'Löneberedskap i flera regioner, schemaläggning och HR-drift på en operativ bas.',
+    modelledHeading: 'Modellberäkning — inte ett uppmätt utfall',
+    modelledNote:
+      'Varje siffra här är en planeringsmodell byggd på publicerade antagandeintervall, redovisade per rad nedan. Sundae har ännu inte publicerat verifierade kundresultat: använd det för att rama in samtalet med era egna siffror, inte som en prognos.',
+    basisLabel: 'Underlag',
   },
   bn: {
     yourConfiguration: 'আপনার কনফিগারেশন',
@@ -520,6 +600,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew-এর মাসিক মূল্য নির্দিষ্ট — লোকেশন সংখ্যা তা বদলায় না',
     crewSubstrateNote:
       'একই পরিচালন ভিত্তিতে বহু-অঞ্চল বেতন প্রস্তুতি, সময়সূচি ও HR পরিচালনা।',
+    modelledHeading: 'মডেল-ভিত্তিক অনুমান — পরিমাপ করা ফল নয়',
+    modelledNote:
+      'এখানে প্রতিটি সংখ্যা প্রকাশিত অনুমান-পরিসর থেকে গড়া একটি পরিকল্পনা মডেল, নিচে প্রতি লাইনে দেখানো। Sundae এখনও যাচাই করা গ্রাহক-ফল প্রকাশ করেনি — এটিকে পূর্বাভাস নয়, বরং নিজের সংখ্যা দিয়ে আলোচনা সাজানোর সূচনা হিসেবে ধরুন।',
+    basisLabel: 'ভিত্তি',
   },
   th: {
     yourConfiguration: 'การกำหนดค่าของคุณ',
@@ -544,6 +628,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew คิดค่าบริการรายเดือนคงที่ จำนวนสาขาไม่ทำให้เปลี่ยน',
     crewSubstrateNote:
       'ความพร้อมด้านเงินเดือนหลายภูมิภาค การจัดตารางงาน และงาน HR บนฐานปฏิบัติการเดียว',
+    modelledHeading: 'ตัวเลขจากแบบจำลอง ไม่ใช่ผลที่วัดได้จริง',
+    modelledNote:
+      'ทุกตัวเลขที่นี่คือแบบจำลองเพื่อการวางแผน สร้างจากช่วงสมมติฐานที่เผยแพร่ไว้ และแสดงที่มาแยกรายบรรทัดด้านล่าง Sundae ยังไม่ได้เผยแพร่ผลลัพธ์ลูกค้าที่ผ่านการตรวจสอบ จึงควรใช้เป็นจุดตั้งต้นในการคุยด้วยตัวเลขของคุณเอง ไม่ใช่การพยากรณ์',
+    basisLabel: 'ที่มา',
   },
   ms: {
     yourConfiguration: 'Konfigurasi anda',
@@ -568,6 +656,10 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewFlatNote: 'Crew berharga tetap sebulan — bilangan lokasi tidak mengubahnya',
     crewSubstrateNote:
       'Kesediaan gaji pelbagai wilayah, penjadualan dan operasi HR atas satu asas operasi.',
+    modelledHeading: 'Anggaran model — bukan hasil yang diukur',
+    modelledNote:
+      'Setiap angka di sini ialah model perancangan yang dibina daripada julat andaian yang diterbitkan, ditunjukkan setiap baris di bawah. Sundae belum menerbitkan hasil pelanggan yang disahkan, jadi gunakannya untuk merangka perbualan dengan angka anda sendiri, bukan sebagai ramalan.',
+    basisLabel: 'Asas',
   },
 };
 

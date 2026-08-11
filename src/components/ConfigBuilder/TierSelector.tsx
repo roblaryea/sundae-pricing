@@ -103,7 +103,10 @@ export function TierSelector() {
           value={Math.min(locations, 100)}
           onChange={(e) => setLocations(Number(e.target.value))}
           aria-label={copy.estateSizeLabel ?? 'How many locations?'}
-          className="mt-4 w-full accent-[#FF5C4D] cursor-pointer"
+          style={{
+            ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((Math.min(locations, 100) - 1) / 99) * 100}%, #2A231C ${((Math.min(locations, 100) - 1) / 99) * 100}%, #2A231C 100%)`,
+          }}
+          className="touch-slider mt-4 w-full cursor-pointer"
         />
         <div className="mt-1 flex justify-between text-[10px] text-sundae-muted">
           <span>1</span><span>10</span><span>25</span><span>50</span><span>100+</span>
@@ -284,11 +287,19 @@ export function TierSelector() {
           {copy.detailedFeatureComparison}
         </h3>
 
+        {/* `w-full` made the table COMPRESS into the viewport instead of
+            scrolling, so on a phone two of the four packages were squeezed out
+            of sight with nothing to indicate more existed. A min-width forces
+            the scroll the wrapper was already prepared for, and the feature
+            column sticks so a scrolled row still says what it is measuring. */}
+        <p className="mb-2 text-xs text-sundae-muted md:hidden">
+          Scroll sideways to compare all four packages.
+        </p>
         <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+          <table className="w-full min-w-[46rem] text-sm">
             <thead>
               <tr className="border-b border-white/10">
-                <th className="text-left py-2 px-4">{copy.feature}</th>
+                <th className="sticky left-0 z-10 bg-sundae-surface text-left py-2 px-4">{copy.feature}</th>
                 {packages.map((pkg) => (
                   <th
                     key={pkg.id}
@@ -322,7 +333,7 @@ export function TierSelector() {
                 </tr>
               ))}
               <tr>
-                <td className="py-3 px-4">{copy.aiCredits}</td>
+                <td className="sticky left-0 z-10 bg-sundae-surface py-3 px-4">{copy.aiCredits}</td>
                 {packages.map((pkg) => (
                   <td key={pkg.id} className="text-center py-3 px-4 tabular-nums">
                     {calculateAiCredits(pkg, locations).toLocaleString(locale)}
@@ -330,7 +341,7 @@ export function TierSelector() {
                 ))}
               </tr>
               <tr>
-                <td className="py-3 px-4">{copy.intelligenceSeats}</td>
+                <td className="sticky left-0 z-10 bg-sundae-surface py-3 px-4">{copy.intelligenceSeats}</td>
                 {packages.map((pkg) => (
                   <td key={pkg.id} className="text-center py-3 px-4 tabular-nums">
                     {calculateIntelligenceSeats(pkg, locations).toLocaleString(locale)}

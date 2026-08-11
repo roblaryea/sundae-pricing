@@ -29,7 +29,10 @@ export function AchievementNotification({ achievement }: AchievementNotification
       initial={{ opacity: 0, y: -50, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -50, scale: 0.9 }}
-      className="fixed top-4 right-4 z-50 max-w-sm"
+      // The toast sat at `top-4 z-50`, the same stacking level as the sticky
+      // header and directly underneath it, so the reward moment showed as a
+      // sliver behind the chrome. It now clears the header and outranks it.
+      className="fixed top-24 right-4 z-[60] max-w-sm md:top-28"
     >
       <div className="bg-gradient-to-br from-sundae-surface to-sundae-dark rounded-xl shadow-2xl border border-white/20 p-6 relative overflow-hidden">
         {/* Background decoration */}

@@ -141,9 +141,9 @@ export function ROISimulator() {
               step="10000"
               value={roiInputs.monthlyRevenue}
               onChange={(e) => handleInputChange('monthlyRevenue', parseInt(e.target.value))}
-              className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
+              className="touch-slider w-full cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C 100%)`,
+                ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C 100%)`,
               }}
             />
           </div>
@@ -160,9 +160,9 @@ export function ROISimulator() {
               max="40"
               value={roiInputs.laborPercent}
               onChange={(e) => handleInputChange('laborPercent', parseInt(e.target.value))}
-              className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
+              className="touch-slider w-full cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.laborPercent - 20) / 20) * 100}%, #2A231C ${((roiInputs.laborPercent - 20) / 20) * 100}%, #2A231C 100%)`,
+                ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.laborPercent - 20) / 20) * 100}%, #2A231C ${((roiInputs.laborPercent - 20) / 20) * 100}%, #2A231C 100%)`,
               }}
             />
           </div>
@@ -179,9 +179,9 @@ export function ROISimulator() {
               max="40"
               value={roiInputs.foodCostPercent}
               onChange={(e) => handleInputChange('foodCostPercent', parseInt(e.target.value))}
-              className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
+              className="touch-slider w-full cursor-pointer"
               style={{
-                background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.foodCostPercent - 20) / 20) * 100}%, #2A231C ${((roiInputs.foodCostPercent - 20) / 20) * 100}%, #2A231C 100%)`,
+                ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.foodCostPercent - 20) / 20) * 100}%, #2A231C ${((roiInputs.foodCostPercent - 20) / 20) * 100}%, #2A231C 100%)`,
               }}
             />
           </div>
@@ -202,9 +202,9 @@ export function ROISimulator() {
                 step="500"
                 value={roiInputs.marketingSpend || 0}
                 onChange={(e) => handleInputChange('marketingSpend', parseInt(e.target.value))}
-                className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
+                className="touch-slider w-full cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.marketingSpend || 0) / 10000) * 100}%, #2A231C ${((roiInputs.marketingSpend || 0) / 10000) * 100}%, #2A231C 100%)`,
+                  ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.marketingSpend || 0) / 10000) * 100}%, #2A231C ${((roiInputs.marketingSpend || 0) / 10000) * 100}%, #2A231C 100%)`,
                 }}
               />
               {(roiInputs.marketingSpend || 0) === 0 && (
@@ -230,9 +230,9 @@ export function ROISimulator() {
                 step="5"
                 value={roiInputs.deliveryRevenuePct || 0}
                 onChange={(e) => handleInputChange('deliveryRevenuePct', parseInt(e.target.value))}
-                className="w-full h-2 bg-sundae-surface-hover rounded-lg appearance-none cursor-pointer"
+                className="touch-slider w-full cursor-pointer"
                 style={{
-                  background: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.deliveryRevenuePct || 0) / 50) * 100}%, #2A231C ${((roiInputs.deliveryRevenuePct || 0) / 50) * 100}%, #2A231C 100%)`,
+                  ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.deliveryRevenuePct || 0) / 50) * 100}%, #2A231C ${((roiInputs.deliveryRevenuePct || 0) / 50) * 100}%, #2A231C 100%)`,
                 }}
               />
               {(roiInputs.deliveryRevenuePct || 0) === 0 && (

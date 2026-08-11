@@ -30,5 +30,6 @@ test-results/
 
 # Throwaway audit/click-test scripts (agents and click-tests write these).
 _audit_*.mjs
+_audit_*.mjs.bak
 _sim*.mjs
 _dbg*.mjs

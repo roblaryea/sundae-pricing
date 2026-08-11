@@ -37,8 +37,41 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
     }
   };
 
+  const total = steps.length;
+  const position = Math.min(currentStep + 1, total);
+  const current = steps[Math.min(currentStep, total - 1)];
+
   return (
-    <div className="hidden md:flex items-center gap-2">
+    <>
+      {/* Mobile had NO progress indicator at all, while still paying for the
+          sticky bar that exists to hold one — the visitor could not tell where
+          they were or how much was left. The dot rail does not fit a phone, so
+          mobile gets the same information as text plus a fill bar. */}
+      <div className="flex w-full flex-col gap-1.5 md:hidden">
+        <div className="flex items-baseline justify-between text-xs">
+          <span className="font-semibold text-white">
+            {getStepLabel(current?.id ?? '')}
+          </span>
+          <span className="text-sundae-muted tabular-nums">
+            {position}/{total}
+          </span>
+        </div>
+        <div
+          className="h-1 w-full overflow-hidden rounded-full bg-sundae-surface-hover"
+          role="progressbar"
+          aria-valuemin={1}
+          aria-valuemax={total}
+          aria-valuenow={position}
+          aria-label={getStepLabel(current?.id ?? '')}
+        >
+          <div
+            className="h-full rounded-full bg-[#FF5C4D] transition-[width] duration-300"
+            style={{ width: `${(position / total) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      <div className="hidden md:flex items-center gap-2">
       {steps.map((step, index) => {
         // Check if this step should be shown for the current tier
         const isAvailable = shouldShowStep(index, layer);
@@ -131,5 +164,6 @@ export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressI
         );
       })}
     </div>
+    </>
   );
 }

@@ -38,6 +38,7 @@ import {
   type PricingUiLocale,
 } from '../../lib/pricingUiCopy';
 import { stepIndex } from '../../lib/journey';
+import { computeCrewQuote } from '../../lib/crewPricing';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Users,
@@ -63,6 +64,7 @@ export function ROISimulator() {
     roiInputs,
     setROIInputs,
     setCurrentStep,
+    crewSkus: selectedCrewSkus,
   } = useConfiguration();
 
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
@@ -71,6 +73,13 @@ export function ROISimulator() {
   // v1.7: every Core package includes all eleven domain modules, so the ROI
   // model credits every domain rather than only the ones the visitor ticked.
   const activeDomains = CORE_DOMAIN_MODULE_IDS as readonly string[];
+  // Crew is a separate rail with its own unit economics, but it is a real cost
+  // on the combined pathway and the ROI model must carry it.
+  const crewMonthly =
+    layer === 'both' && selectedCrewSkus.length > 0
+      ? computeCrewQuote(selectedCrewSkus, locations).monthly
+      : 0;
+
   const roi = useROICalculation(
     {
       // ROI models the Core decision layer; 'both' contributes its Core side.
@@ -81,7 +90,11 @@ export function ROISimulator() {
       watchtowerModules,
     },
     roiInputs,
-    pricing.total
+    // The recurring cost must include the Crew rail on the combined pathway —
+    // omitting it understated monthly cost and flattered both ROI and payback.
+    pricing.total + crewMonthly,
+    // And payback must clear the one-time implementation the quote charges.
+    pricing.implementation.requiresScoping ? 0 : pricing.implementation.fee,
   );
 
   const handleInputChange = (field: keyof typeof roiInputs, value: number | boolean) => {
@@ -300,8 +313,14 @@ export function ROISimulator() {
           </div>
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.paybackPeriod}</div>
-            <div className="font-display text-3xl font-bold text-green-400">
-              {formatMessage(copy.days, { count: roi.paybackDays })}
+            {/* A model that can only ever say "yes" is a brochure. When the
+                monthly saving does not overtake the monthly cost, say so. */}
+            <div
+              className={`font-display text-3xl font-bold ${roi.paysBack ? 'text-green-400' : 'text-sundae-muted'}`}
+            >
+              {roi.paysBack
+                ? formatMessage(copy.days, { count: roi.paybackDays })
+                : copy.noPaybackAtTheseInputs ?? 'Not at these inputs'}
             </div>
           </div>
         </div>
@@ -384,8 +403,12 @@ export function ROISimulator() {
           <div className="text-center px-8">
             <Clock className="w-8 h-8 mx-auto mb-2 text-sundae-accent" />
             <div className="text-sm text-sundae-muted">{copy.paysForItselfIn}</div>
-            <div className="font-display text-xl font-bold text-green-400">
-              {formatMessage(copy.days, { count: roi.paybackDays })}
+            <div
+              className={`font-display text-xl font-bold ${roi.paysBack ? 'text-green-400' : 'text-sundae-muted'}`}
+            >
+              {roi.paysBack
+                ? formatMessage(copy.days, { count: roi.paybackDays })
+                : copy.noPaybackAtTheseInputs ?? 'Not at these inputs'}
             </div>
           </div>
           <div className="text-right">

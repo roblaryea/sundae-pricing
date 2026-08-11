@@ -62,6 +62,8 @@ export interface ROICalculation {
   roi: number;
   roiPercent: number;
   paybackDays: number;
+  /** False when the monthly saving never overtakes the monthly cost. */
+  paysBack: boolean;
   savingsLines: SavingsLineItem[];
   breakdowns: Record<string, number>;
   projectedImprovements: Record<string, number>;
@@ -190,7 +192,9 @@ const GUARDRAILS = {
 export function useROICalculation(
   config: Configuration,
   inputs: ROIInputs,
-  platformCost: number
+  platformCost: number,
+  /** One-time implementation charged by the same quote. */
+  oneTimeCost = 0
 ): ROICalculation {
   const { locale } = useLocale();
 
@@ -362,13 +366,33 @@ export function useROICalculation(
       roi = GUARDRAILS.maxROIMultiple;
     }
     
-    // Calculate payback with floor guardrail
-    let paybackDays = platformCost > 0 && totalSavings > 0
-      ? Math.ceil((platformCost / totalSavings) * 30)
-      : 0;
-    
-    // Apply minimum payback floor to avoid unrealistic claims
-    if (paybackDays > 0 && paybackDays < GUARDRAILS.minPaybackDays) {
+    // Payback must clear the ONE-TIME cost as well as the recurring one.
+    //
+    // This computed `platformCost / totalSavings * 30` — how many days of
+    // savings cover a single month of subscription — and ignored the
+    // implementation fee the same quote charges, which is the largest one-time
+    // line in the deal ($1,500 to $12,500). A CFO reconciling the two screens
+    // would find the payback claim excluded a cost the quote itself listed.
+    //
+    // The honest form solves for the day the cumulative saving overtakes the
+    // cumulative cost: implementation + monthlyCost x (d/30) = savings x (d/30),
+    // so d = 30 x implementation / (savings - monthlyCost). If the monthly
+    // saving does not exceed the monthly cost, it never pays back — and the
+    // model must be able to say so.
+    const monthlyNet = totalSavings - platformCost;
+    let paybackDays = 0;
+    let paysBack = false;
+    if (totalSavings > 0 && monthlyNet > 0) {
+      paysBack = true;
+      paybackDays = oneTimeCost > 0
+        ? Math.ceil((oneTimeCost / monthlyNet) * 30)
+        : GUARDRAILS.minPaybackDays;
+    }
+
+    // The floor stays: it exists to stop the model claiming a payback faster
+    // than anyone could actually realise, and it makes the answer WORSE, not
+    // better.
+    if (paysBack && paybackDays < GUARDRAILS.minPaybackDays) {
       paybackDays = GUARDRAILS.minPaybackDays;
     }
     
@@ -378,11 +402,12 @@ export function useROICalculation(
       roi: Math.round(roi * 10) / 10,
       roiPercent: Math.round(roi * 100),
       paybackDays,
+      paysBack,
       savingsLines,
       breakdowns,
       projectedImprovements
     };
-  }, [config, inputs, locale, platformCost]);
+  }, [config, inputs, locale, platformCost, oneTimeCost]);
 }
 
 // Helper function to generate ROI description

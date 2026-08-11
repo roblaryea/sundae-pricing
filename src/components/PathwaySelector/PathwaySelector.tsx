@@ -12,6 +12,7 @@ import { useLocale } from '../../contexts/LocaleContext';
 import confetti from 'canvas-confetti';
 import type { OperatingModelId, TechStackId } from '../../lib/discoveryEngine';
 import { stepIndex } from '../../lib/journey';
+import { prefersReducedMotion } from '../../lib/motion';
 
 export function PathwaySelector() {
   const { messages, locale } = useLocale();
@@ -69,7 +70,7 @@ export function PathwaySelector() {
     setShowPersona(true);
     
     // Trigger confetti
-    confetti({
+    if (!prefersReducedMotion()) confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },

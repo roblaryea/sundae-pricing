@@ -249,7 +249,7 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
 
 
 export function LayerStack() {
-  const { setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
+  const { layer, setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
   const { locale } = useLocale();
   // The `??` chain used to pick ONE pack wholesale. When that pack was
   // shape-incomplete the whole subtree beneath it went undefined - the
@@ -384,6 +384,7 @@ export function LayerStack() {
                   whileHover={{ scale: 1.02, y: -4 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handleLayerSelect(layerItem.id)}
+                  aria-pressed={layer === layerItem.id}
                   className={`w-full p-6 bg-gradient-to-br rounded-xl border-2 backdrop-blur transition-all group text-left ${styling.card}`}
                 >
                   <div className="flex items-center justify-between gap-4">

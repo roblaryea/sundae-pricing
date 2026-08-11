@@ -103,3 +103,12 @@ export function selectableCard(reduced: boolean) {
     transition: TRANSITION.instant,
   };
 }
+
+/**
+ * Non-hook reader, for motion fired from callbacks (confetti) rather than
+ * render. `useReducedMotion` cannot be called from an event handler.
+ */
+export function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined' || !window.matchMedia) return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}

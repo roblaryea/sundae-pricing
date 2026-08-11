@@ -135,6 +135,7 @@ export function ModulePicker() {
         {/* Foresight & Action — banded */}
         <motion.button
           onClick={() => toggleAddOn('foresight_action')}
+          aria-pressed={isSelected('foresight_action')}
           data-testid="addon-foresight_action"
           whileHover={{ y: -4 }}
           className={`w-full h-full p-6 rounded-xl border-2 transition-all text-left relative ${
@@ -200,6 +201,7 @@ export function ModulePicker() {
             <motion.button
               key={conceptId}
               onClick={() => toggleAddOn(conceptId)}
+              aria-pressed={isSelected(conceptId)}
               data-testid={`addon-${conceptId}`}
               whileHover={{ y: -4 }}
               className={`w-full h-full p-6 rounded-xl border-2 transition-all text-left relative ${

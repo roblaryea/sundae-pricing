@@ -226,6 +226,7 @@ export function WatchtowerToggle() {
           
           <button
             onClick={() => toggleWatchtowerModule('bundle')}
+            aria-pressed={watchtowerModules.includes('bundle')}
             className={`w-full p-6 rounded-xl border-2 transition-all relative z-10 ${
               watchtowerModules.includes('bundle')
                 ? 'bg-gradient-to-br from-watchtower/30 to-red-500/30 border-watchtower'

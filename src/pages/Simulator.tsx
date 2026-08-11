@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft } from 'lucide-react';
 import { useConfiguration } from '../hooks/useConfiguration';
@@ -57,8 +57,16 @@ export function Simulator() {
   // Open each step at the top. Without this, navigating next/back keeps the prior
   // scroll position (usually the bottom, where the CTA was), so the new step
   // appears scrolled to its bottom and the user has to scroll back up.
+  //
+  // Focus moves with it. A step change swaps the entire main region, which drops
+  // focus to <body> — a keyboard user is returned to the top of the document and
+  // a screen-reader user is told nothing happened at all. Moving focus to the
+  // step container announces the new step and puts the next Tab in the right
+  // place. `tabIndex={-1}` makes it focusable without adding a tab stop.
+  const stepRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
+    stepRef.current?.focus({ preventScroll: true });
   }, [currentStep]);
 
   useEffect(() => {
@@ -187,11 +195,19 @@ export function Simulator() {
       )}
 
       {/* Journey content */}
-      <main className="max-w-7xl mx-auto p-4 md:p-8 pt-6 md:pt-8">
+      {/* Layout already renders the page's <main>; a second one nested inside
+          it gives the document two main landmarks. This is the step region. */}
+      <div
+        ref={stepRef}
+        tabIndex={-1}
+        role="region"
+        aria-label={backLabel === 'Back' ? 'Configuration step' : backLabel}
+        className="max-w-7xl mx-auto p-4 md:p-8 pt-6 md:pt-8 focus:outline-none"
+      >
         <AnimatePresence mode="wait">
           {renderStep()}
         </AnimatePresence>
-      </main>
+      </div>
 
       {/* Achievement notifications */}
       <AnimatePresence>

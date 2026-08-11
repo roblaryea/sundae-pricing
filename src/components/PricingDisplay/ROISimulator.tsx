@@ -134,6 +134,7 @@ export function ROISimulator() {
               </span>
             </div>
             <input
+              aria-label={copy.monthlyRevenuePerLocation}
               type="range"
               min="50000"
               max="500000"
@@ -153,6 +154,7 @@ export function ROISimulator() {
               <span className="text-lg font-bold tabular-nums">{roiInputs.laborPercent}%</span>
             </div>
             <input
+              aria-label={copy.currentLaborCost}
               type="range"
               min="20"
               max="40"
@@ -171,6 +173,7 @@ export function ROISimulator() {
               <span className="text-lg font-bold tabular-nums">{roiInputs.foodCostPercent}%</span>
             </div>
             <input
+              aria-label={copy.currentFoodCost}
               type="range"
               min="20"
               max="40"
@@ -192,7 +195,8 @@ export function ROISimulator() {
                 </span>
               </div>
               <input
-                type="range"
+                aria-label={copy.monthlyMarketingSpend}
+              type="range"
                 min="0"
                 max="10000"
                 step="500"
@@ -219,7 +223,8 @@ export function ROISimulator() {
                 <span className="text-lg font-bold tabular-nums">{roiInputs.deliveryRevenuePct || 0}%</span>
               </div>
               <input
-                type="range"
+                aria-label={copy.deliveryRevenuePct}
+              type="range"
                 min="0"
                 max="50"
                 step="5"

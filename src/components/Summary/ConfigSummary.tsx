@@ -85,7 +85,7 @@ export function ConfigSummary() {
     // Mark summary as viewed and trigger confetti
     markStepCompleted('summary');
     
-    confetti({
+    if (!prefersReducedMotion()) confetti({
       particleCount: 200,
       spread: 70,
       origin: { y: 0.6 },
@@ -685,6 +685,7 @@ import { objectOverlaysFor, resolveImplementationClass } from '../../lib/discove
 import { computeCrewQuote } from '../../lib/crewPricing';
 import type { DiscountLine } from '../../types/configuration';
 import { pricingFooter } from '../../data/pricing';
+import { prefersReducedMotion } from '../../lib/motion';
 
 interface CrewSummaryBodyProps {
   selectedSkus: CrewSkuId[];
@@ -707,7 +708,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
       : `${selectedSkus.length}-SKU Crew stack`;
 
   useEffect(() => {
-    confetti({
+    if (!prefersReducedMotion()) confetti({
       particleCount: 200,
       spread: 70,
       origin: { y: 0.6 },

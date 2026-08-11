@@ -319,7 +319,7 @@ const roiCopy = {
       solid: 'Modelled at these inputs: {roi}x return, {weeks}-week payback.',
       positive: 'Modelled positive return at these inputs.',
       value: 'Value builds as you optimize operations over time.',
-      longTerm: 'Long-term investment in operational intelligence.',
+      longTerm: 'At these inputs this configuration does not pay for itself. A smaller package may fit better.',
     },
   },
   ar: {
@@ -398,7 +398,7 @@ const roiCopy = {
       solid: 'عائد قوي بمضاعف {roi}x وفترة استرداد {weeks} أسابيع.',
       positive: 'عائد إيجابي مع أثر ملموس على عملياتك.',
       value: 'تزداد القيمة مع تحسين العمليات بمرور الوقت.',
-      longTerm: 'استثمار طويل الأجل في الذكاء التشغيلي.',
+      longTerm: 'بهذه المدخلات لا تغطي هذه التهيئة تكلفتها. قد تكون باقة أصغر أنسب لك.',
     },
   },
   fr: {
@@ -482,7 +482,7 @@ const roiCopy = {
       solid: 'Retours solides avec {roi}x de ROI et {weeks} semaines de retour.',
       positive: 'ROI positif avec un impact mesurable sur vos operations.',
       value: 'La valeur augmente a mesure que vous optimisez vos operations.',
-      longTerm: 'Investissement de long terme dans l intelligence operationnelle.',
+      longTerm: 'Avec ces hypothèses, cette configuration ne se rembourse pas. Un forfait plus petit conviendrait mieux.',
     },
   },
   es: {
@@ -566,7 +566,7 @@ const roiCopy = {
       solid: 'Retornos sólidos con {roi}x de ROI y recuperación en {weeks} semanas.',
       positive: 'ROI positivo con impacto medible en tus operaciones.',
       value: 'El valor crece a medida que optimizas tus operaciones.',
-      longTerm: 'Inversión a largo plazo en inteligencia operativa.',
+      longTerm: 'Con estos datos, esta configuración no se paga sola. Un paquete más pequeño puede encajar mejor.',
     },
   },
 } as const satisfies Record<FullyLocalizedPricingLocale, object>

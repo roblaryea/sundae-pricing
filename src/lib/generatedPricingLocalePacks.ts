@@ -12909,7 +12909,7 @@ export const generatedPricingUiCopy = {
         "solid": "Solide Renditen mit {roi}x ROI und {weeks}-wöchiger Amortisation.",
         "positive": "Positives ROI mit messbarem Einfluss auf Ihre Abläufe.",
         "value": "Wert steigt, während Sie die Abläufe im Laufe der Zeit optimieren.",
-        "longTerm": "Langfristige Investition in betriebliche Intelligenz."
+        "longTerm": "Mit diesen Angaben trägt sich diese Konfiguration nicht selbst. Ein kleineres Paket passt womöglich besser."
       }
     },
     "nl": {
@@ -12977,7 +12977,7 @@ export const generatedPricingUiCopy = {
         "solid": "Solide rendementen met {roi}x ROI en {weeks}-week terugverdientijd.",
         "positive": "Positieve ROI met meetbare impact op je operaties.",
         "value": "Waarde groeit naarmate je de operaties in de loop van de tijd optimaliseert.",
-        "longTerm": "Langdurige investering in operationele intelligentie."
+        "longTerm": "Met deze invoer verdient deze configuratie zichzelf niet terug. Een kleiner pakket past waarschijnlijk beter."
       }
     },
     "pt": {
@@ -13045,7 +13045,7 @@ export const generatedPricingUiCopy = {
         "solid": "Retornos sólidos com ROI de {roi}x e período de retorno de {weeks} semanas.",
         "positive": "ROI positivo com impacto mensurável em suas operações.",
         "value": "O valor aumenta à medida que você otimiza as operações ao longo do tempo.",
-        "longTerm": "Investimento de longo prazo em inteligência operacional."
+        "longTerm": "Com estes dados, esta configuração não se paga. Um pacote menor pode servir melhor."
       }
     },
     "hi": {
@@ -13113,7 +13113,7 @@ export const generatedPricingUiCopy = {
         "solid": "मजबूत रिटर्न {roi}x ROI और {weeks}-सप्ताह चुकता के साथ।",
         "positive": "सकारात्मक ROI आपके संचालन पर मापने योग्य प्रभाव के साथ।",
         "value": "जैसे-जैसे आप समय के साथ संचालन को अनुकूलित करते हैं, मूल्य बढ़ता है।",
-        "longTerm": "संचालन बुद्धिमत्ता में दीर्घकालिक निवेश।"
+        "longTerm": "इन आँकड़ों पर यह कॉन्फ़िगरेशन अपनी लागत नहीं निकाल पाता। छोटा पैकेज बेहतर बैठ सकता है।"
       }
     },
     "ur": {
@@ -13181,7 +13181,7 @@ export const generatedPricingUiCopy = {
         "solid": "مضبوط واپسی {roi}x ROI اور {weeks}-ہفتے کی ادائیگی کے ساتھ۔",
         "positive": "مثبت ROI آپ کی کارروائیوں پر قابل پیمائش اثر کے ساتھ۔",
         "value": "وقت کے ساتھ آپریشنز کو بہتر بنانے کے ساتھ قیمت بڑھتی ہے۔",
-        "longTerm": "عملی ذہانت میں طویل مدتی سرمایہ کاری۔"
+        "longTerm": "ان اعداد و شمار پر یہ کنفیگریشن اپنی لاگت پوری نہیں کرتی۔ چھوٹا پیکیج بہتر رہ سکتا ہے۔"
       }
     },
     "it": {
@@ -13249,7 +13249,7 @@ export const generatedPricingUiCopy = {
         "solid": "Ritorni solidi con {roi}x ROI e periodo di rimborso di {weeks} settimane.",
         "positive": "ROI positivo con impatto misurabile sulle tue operazioni.",
         "value": "Il valore cresce man mano che ottimizzi le operazioni nel tempo.",
-        "longTerm": "Investimento a lungo termine in intelligenza operativa."
+        "longTerm": "Con questi dati questa configurazione non si ripaga. Un pacchetto più piccolo potrebbe essere più adatto."
       }
     },
     "pl": {
@@ -13317,7 +13317,7 @@ export const generatedPricingUiCopy = {
         "solid": "Solidne zwroty z {roi}x ROI i {weeks}-tygodniowym okresem zwrotu.",
         "positive": "Pozytywne ROI z mierzalnym wpływem na Twoje operacje.",
         "value": "Wartość rośnie w miarę optymalizacji operacji w czasie.",
-        "longTerm": "Długoterminowa inwestycja w inteligencję operacyjną."
+        "longTerm": "Przy tych danych ta konfiguracja się nie zwraca. Mniejszy pakiet może pasować lepiej."
       }
     },
     "tr": {
@@ -13385,7 +13385,7 @@ export const generatedPricingUiCopy = {
         "solid": "Sağlam getiriler ile {roi}x ROI ve {weeks}-haftalık geri ödeme.",
         "positive": "Operasyonlarınız üzerinde ölçülebilir etki ile pozitif ROI.",
         "value": "Değer, zamanla operasyonları optimize ettikçe artar.",
-        "longTerm": "Operasyonel zekaya uzun vadeli yatırım."
+        "longTerm": "Bu girdilerle bu yapılandırma kendini amorti etmiyor. Daha küçük bir paket daha uygun olabilir."
       }
     },
     "zh-Hans": {
@@ -13453,7 +13453,7 @@ export const generatedPricingUiCopy = {
         "solid": "稳定的回报，{roi}倍投资回报和 {weeks} 周回本。",
         "positive": "正的投资回报，对您的运营有可测量的影响。",
         "value": "随着您优化运营，价值不断增加。",
-        "longTerm": "对运营智能的长期投资。"
+        "longTerm": "按当前数据，此配置无法收回成本。更小的套餐可能更合适。"
       }
     },
     "ja": {
@@ -13521,7 +13521,7 @@ export const generatedPricingUiCopy = {
         "solid": "{roi}倍のROIと{weeks}週間の回収で堅実なリターン。",
         "positive": "運用に対する測定可能な影響を持つポジティブなROI。",
         "value": "運用を最適化するにつれて価値が増します。",
-        "longTerm": "運用インテリジェンスへの長期的な投資。"
+        "longTerm": "この条件では、この構成は費用を回収できません。より小さいパッケージのほうが適している可能性があります。"
       }
     },
     "ko": {
@@ -13589,7 +13589,7 @@ export const generatedPricingUiCopy = {
         "solid": "견고한 수익: {roi}배 ROI 및 {weeks}주 회수.",
         "positive": "긍정적인 ROI로 운영에 측정 가능한 영향.",
         "value": "운영 최적화가 진행됨에 따라 가치가 증가합니다.",
-        "longTerm": "운영 지능에 대한 장기 투자."
+        "longTerm": "현재 입력값으로는 이 구성이 비용을 회수하지 못합니다. 더 작은 패키지가 더 적합할 수 있습니다."
       }
     },
     "id": {
@@ -13657,7 +13657,7 @@ export const generatedPricingUiCopy = {
         "solid": "Pengembalian solid dengan ROI {roi}x dan periode pengembalian {weeks} minggu.",
         "positive": "ROI positif dengan dampak terukur pada operasi Anda.",
         "value": "Nilai meningkat seiring Anda mengoptimalkan operasi dari waktu ke waktu.",
-        "longTerm": "Investasi jangka panjang dalam kecerdasan operasional."
+        "longTerm": "Dengan angka ini, konfigurasi tersebut belum menutup biayanya. Paket yang lebih kecil mungkin lebih cocok."
       }
     },
     "vi": {
@@ -13725,7 +13725,7 @@ export const generatedPricingUiCopy = {
         "solid": "Lợi nhuận vững chắc với {roi}x ROI và thời gian hoàn vốn {weeks} tuần.",
         "positive": "ROI tích cực với tác động đo lường đến hoạt động của bạn.",
         "value": "Giá trị tăng lên khi bạn tối ưu hóa hoạt động theo thời gian.",
-        "longTerm": "Đầu tư dài hạn vào trí tuệ hoạt động."
+        "longTerm": "Với các số liệu này, cấu hình hiện tại chưa hoàn được vốn. Một gói nhỏ hơn có thể phù hợp hơn."
       }
     },
     "ro": {
@@ -13793,7 +13793,7 @@ export const generatedPricingUiCopy = {
         "solid": "Randament solid cu {roi}x ROI și o perioadă de amortizare de {weeks} săptămâni.",
         "positive": "ROI pozitiv cu impact măsurabil asupra operațiunilor dvs.",
         "value": "Valoarea crește pe măsură ce optimizați operațiunile în timp.",
-        "longTerm": "Investiție pe termen lung în inteligența operațională."
+        "longTerm": "Cu aceste date, această configurație nu se amortizează. Un pachet mai mic s-ar potrivi mai bine."
       }
     },
     "sv": {
@@ -13861,7 +13861,7 @@ export const generatedPricingUiCopy = {
         "solid": "Solida avkastningar med {roi}x ROI och {weeks}-veckors återbetalning.",
         "positive": "Positiv ROI med mätbar påverkan på dina operationer.",
         "value": "Värde byggs upp när du optimerar operationerna över tid.",
-        "longTerm": "Långsiktig investering i operationell intelligens."
+        "longTerm": "Med de här siffrorna betalar den här konfigurationen inte av sig. Ett mindre paket passar troligen bättre."
       }
     },
     "bn": {
@@ -13929,7 +13929,7 @@ export const generatedPricingUiCopy = {
         "solid": "মজবুত ফেরত {roi}x ROI এবং {weeks}-সপ্তাহের ফেরত সহ।",
         "positive": "পজিটিভ ROI আপনার কার্যক্রমে পরিমাপযোগ্য প্রভাব সহ।",
         "value": "আপনার কার্যক্রম সময়ের সাথে সাথে অপ্টিমাইজ করার সাথে সাথে মূল্য বৃদ্ধি পায়।",
-        "longTerm": "অপারেশনাল বুদ্ধিমত্তায় দীর্ঘমেয়াদী বিনিয়োগ।"
+        "longTerm": "এই তথ্যে এই কনফিগারেশন নিজের খরচ তুলতে পারছে না। ছোট প্যাকেজ বেশি মানানসই হতে পারে।"
       }
     },
     "th": {
@@ -13997,7 +13997,7 @@ export const generatedPricingUiCopy = {
         "solid": "ผลตอบแทนที่มั่นคงด้วย ROI {roi}x และระยะเวลาคืนทุน {weeks} สัปดาห์.",
         "positive": "ROI เชิงบวกที่มีผลกระทบที่วัดได้ต่อการดำเนินงานของคุณ.",
         "value": "มูลค่าเพิ่มขึ้นเมื่อคุณเพิ่มประสิทธิภาพการดำเนินงานตามเวลา.",
-        "longTerm": "การลงทุนระยะยาวในข้อมูลเชิงลึกด้านการดำเนินงาน."
+        "longTerm": "ด้วยตัวเลขนี้ การตั้งค่านี้ยังไม่คุ้มค่าใช้จ่าย แพ็กเกจที่เล็กกว่าอาจเหมาะกว่า"
       }
     },
     "ms": {
@@ -14065,7 +14065,7 @@ export const generatedPricingUiCopy = {
         "solid": "Pulangan yang kukuh dengan ROI {roi}x dan tempoh bayaran balik {weeks} minggu.",
         "positive": "ROI positif dengan impak yang boleh diukur pada operasi anda.",
         "value": "Nilai meningkat apabila anda mengoptimumkan operasi dari semasa ke semasa.",
-        "longTerm": "Pelaburan jangka panjang dalam kepintaran operasi."
+        "longTerm": "Dengan angka ini, konfigurasi ini belum menampung kosnya. Pakej yang lebih kecil mungkin lebih sesuai."
       }
     }
   },

@@ -313,8 +313,8 @@ export function calculateWatchtowerPrice(
 // ═══════════════════════════════════════════════════════════════════════════
 
 /**
- * v1.7: every Core package ships all eleven domain modules, so the correlation
- * engine's "3+ active domains" condition is satisfied by any Core package.
+ * v1.7: the base correlation engine is a platform capability included with
+ * every Core package. Its usefulness scales with the domains that package grants.
  */
 export function isCrossIntelligenceEligible(hasCorePackage: boolean): boolean {
   return hasCorePackage;

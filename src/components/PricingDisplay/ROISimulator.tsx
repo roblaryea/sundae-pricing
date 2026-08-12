@@ -30,6 +30,7 @@ import {
   clampMonthlyRevenue,
   MIN_MONTHLY_REVENUE_PER_LOCATION,
   MAX_MONTHLY_REVENUE_PER_LOCATION,
+  REVENUE_SLIDER_STEP,
 } from '../../hooks/useROICalculation';
 import type { SavingsLineItem } from '../../hooks/useROICalculation';
 import { cn } from '../../utils/cn';
@@ -257,7 +258,7 @@ export function ROISimulator() {
               type="range"
               min={MIN_MONTHLY_REVENUE_PER_LOCATION}
               max={MAX_MONTHLY_REVENUE_PER_LOCATION}
-              step="10000"
+              step={REVENUE_SLIDER_STEP}
               value={revenueForSlider}
               onChange={(e) => handleInputChange('monthlyRevenue', parseInt(e.target.value))}
               className="touch-slider w-full cursor-pointer"
@@ -265,6 +266,52 @@ export function ROISimulator() {
                 ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${revenueTrackPct}%, #2A231C ${revenueTrackPct}%, #2A231C 100%)`,
               }}
             />
+          </div>
+
+          <div className="pt-6 border-t border-white/10">
+            <h4 className="font-semibold mb-1">Cost avoidance (optional)</h4>
+            <p className="text-xs text-sundae-muted mb-4">
+              Use only costs you can validate. Replaceable system spend is counted in the funding
+              case; time capacity is disclosed separately and never treated as automatic cash.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <label className="text-sm">
+                <span className="block text-sundae-muted mb-2">Replaceable tools / month</span>
+                <input
+                  aria-label="Replaceable tools per month"
+                  type="number"
+                  min="0"
+                  step="100"
+                  value={roiInputs.replaceableSystemsSpend || 0}
+                  onChange={(e) => handleInputChange('replaceableSystemsSpend', Math.max(0, Number(e.target.value)))}
+                  className="w-full rounded-lg border border-white/10 bg-sundae-dark px-3 py-2 tabular-nums"
+                />
+              </label>
+              <label className="text-sm">
+                <span className="block text-sundae-muted mb-2">Manual reporting hours / week</span>
+                <input
+                  aria-label="Manual reporting hours per week"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={roiInputs.manualReportingHoursPerWeek || 0}
+                  onChange={(e) => handleInputChange('manualReportingHoursPerWeek', Math.max(0, Number(e.target.value)))}
+                  className="w-full rounded-lg border border-white/10 bg-sundae-dark px-3 py-2 tabular-nums"
+                />
+              </label>
+              <label className="text-sm">
+                <span className="block text-sundae-muted mb-2">Loaded hourly cost</span>
+                <input
+                  aria-label="Loaded hourly cost"
+                  type="number"
+                  min="0"
+                  step="5"
+                  value={roiInputs.loadedHourlyRate || 0}
+                  onChange={(e) => handleInputChange('loadedHourlyRate', Math.max(0, Number(e.target.value)))}
+                  className="w-full rounded-lg border border-white/10 bg-sundae-dark px-3 py-2 tabular-nums"
+                />
+              </label>
+            </div>
           </div>
 
           <div>
@@ -392,24 +439,24 @@ export function ROISimulator() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           <div>
-            <div className="text-sm text-sundae-muted mb-1">{copy.monthlySavings}</div>
+            <div className="text-sm text-sundae-muted mb-1">Monthly funding case</div>
             <div className="font-display text-3xl font-bold text-green-400">
-              ${roi.monthlySavings.toLocaleString(locale)}
+              ${roi.monthlyFunding.toLocaleString(locale)}
             </div>
             {locations > 1 && (
               <div className="text-xs text-sundae-muted mt-1">
-                ${perLoc(roi.monthlySavings).toLocaleString(locale)} {perLocationLabel}
+                ${perLoc(roi.monthlyFunding).toLocaleString(locale)} {perLocationLabel}
               </div>
             )}
           </div>
           <div>
-            <div className="text-sm text-sundae-muted mb-1">{copy.annualSavings}</div>
+            <div className="text-sm text-sundae-muted mb-1">Annual funding case</div>
             <div className="font-display text-3xl font-bold text-green-400">
-              ${roi.annualSavings.toLocaleString(locale)}
+              ${roi.annualFunding.toLocaleString(locale)}
             </div>
             {locations > 1 && (
               <div className="text-xs text-sundae-muted mt-1">
-                ${perLoc(roi.annualSavings).toLocaleString(locale)} {perLocationLabel}
+                ${perLoc(roi.annualFunding).toLocaleString(locale)} {perLocationLabel}
               </div>
             )}
           </div>
@@ -452,6 +499,40 @@ export function ROISimulator() {
             })}
           </p>
         )}
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+        className="mb-8 border-y border-white/10 py-6"
+      >
+        <h3 className="text-lg font-bold mb-4">What can fund Sundae</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <div className="text-xs uppercase tracking-wide text-sundae-muted">Profit recovery</div>
+            <div className="mt-1 text-2xl font-bold text-green-400 tabular-nums">
+              ${roi.monthlySavings.toLocaleString(locale)}/mo
+            </div>
+            <p className="mt-1 text-xs text-sundae-muted">Only recovery producers granted by this Core package.</p>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wide text-sundae-muted">Cash cost avoidance</div>
+            <div className="mt-1 text-2xl font-bold tabular-nums">
+              ${roi.replaceableSystemsSavings.toLocaleString(locale)}/mo
+            </div>
+            <p className="mt-1 text-xs text-sundae-muted">Buyer-entered spend expected to be retired.</p>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wide text-sundae-muted">Redeployable capacity</div>
+            <div className="mt-1 text-2xl font-bold tabular-nums">
+              ${roi.capacityValue.toLocaleString(locale)}/mo
+            </div>
+            <p className="mt-1 text-xs text-sundae-muted">
+              {roi.capacityFte.toLocaleString(locale)} FTE-equivalent; shown separately, not counted as cash.
+            </p>
+          </div>
+        </div>
       </motion.div>
 
       {roi.savingsLines.length > 0 && (
@@ -538,11 +619,11 @@ export function ROISimulator() {
             <div
               className={cn(
                 'text-2xl font-bold',
-                roi.monthlySavings - pricing.total > 0 ? 'text-green-400' : 'text-sundae-muted'
+                roi.monthlyFunding - pricing.total > 0 ? 'text-green-400' : 'text-sundae-muted'
               )}
             >
-              {roi.monthlySavings - pricing.total > 0 ? '+' : ''}
-              ${(roi.monthlySavings - pricing.total).toLocaleString(locale)}
+              {roi.monthlyFunding - pricing.total > 0 ? '+' : ''}
+              ${(roi.monthlyFunding - pricing.total).toLocaleString(locale)}
             </div>
           </div>
         </div>

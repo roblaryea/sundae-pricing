@@ -222,9 +222,8 @@ export interface CompetitorPricing {
  * Sundae Core package".
  *
  * Price book v1.7 retired `core-lite` / `core-pro`, so nothing may key on a
- * tier id any more — a Core PACKAGE (Foundation / Margin / Growth /
- * Performance) includes all eleven domain modules, which is what actually
- * determines competitor overlap. Callers pass this marker plus the domain
+ * tier id any more. The selected Core PACKAGE grants a defined domain set,
+ * which is what actually determines competitor overlap. Callers pass this marker plus the domain
  * module ids; competitor calculators must never test for a retired tier id.
  */
 export const CORE_PACKAGE_SELECTION_ID = 'core_package';
@@ -1178,9 +1177,9 @@ export function calculateAllComparisons(
 
 export const COMPETITOR_ASSUMPTIONS = {
   tenzo: {
-    source: 'tenzo.io/pricing (verified)',
-    notes: '$75/location/module/month + $350 setup per module per location',
-    lastVerified: 'August 2026'
+    source: 'gotenzo.com published range + Sundae unit-model estimate',
+    notes: 'Tenzo states that pricing starts at $75/month and averages $175-$250 per location. The comparison models $75 per overlapping selected domain and retains the former $350 setup figure; those unit assumptions are estimates, not a current Tenzo rate card.',
+    lastVerified: 'First-party range checked August 11, 2026; unit model not verified'
   },
   nory: {
     source: 'Industry estimates (pricing not public)',
@@ -1195,7 +1194,7 @@ export const COMPETITOR_ASSUMPTIONS = {
   },
   spreadsheets: {
     source: 'Industry labor cost estimates',
-    notes: `${'{locations * 2}'} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr, plus 0.2% of YOUR entered revenue for errors (omitted if you enter none)`,
+    notes: `{hours} hours/week analyst @ $${SPREADSHEETS_LABOR_RATE_USD}/hr, plus 0.2% of YOUR entered revenue for errors (omitted if you enter none)`,
     lastVerified: 'January 2026'
   },
   restaurant365: {

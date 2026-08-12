@@ -198,16 +198,16 @@ export const pricingChangelog: PricingChange[] = [
       'selection ($0 self-service / $1,500 A / $2,500 B / $7,500 C / from $12,500 D). Foresight & Action became its own ' +
       'banded layer ($495 first unit, then 65/55/45/35). Crew bundles repriced (Schedule & Time $249 added, Crew ' +
       'Operating $499, Crew Complete $699). Volume ladder is now 0% under 50, 2.5% at 50-99, 5% at 100-199, 7% at ' +
-      '200-249, Enterprise-only at 250+. Volume and billing-cycle discounts now combine, capped at 15% total.'
+      '200-249, Enterprise-only at 250+. Volume and billing-cycle discounts are mutually exclusive: the larger applies. ' +
+      'Early-adopter concessions share the 15% calculated-discount cap.'
   }
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CORE DOMAIN MODULES — the eleven package components
 // ═══════════════════════════════════════════════════════════════════════════
-// Every Core package includes all eleven. They are NOT sold separately, so
-// they carry no price. Listing them here lets the UI show what a package
-// contains without implying an a-la-carte purchase.
+// These eleven are the Core domain catalogue. They are NOT sold separately;
+// each package grants the outcome set declared in PACKAGE_DOMAIN_GRANTS.
 
 export const CORE_DOMAIN_MODULE_IDS = [
   'labor',
@@ -371,7 +371,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     creditRolloverCap: 4500,
     includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_growth,
     includedOutcome:
-      'Everything in Foundation, plus guest behaviour, CRM, reservations, campaigns and reputation, with Watchtower',
+      'Everything in Foundation, plus guest behaviour, CRM, reservations, campaigns and reputation, with access to add Watchtower',
     bestFor: 'Operators in expansion who need demand and channel signal',
     implementationClass: null,
   },
@@ -388,7 +388,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     creditRolloverCap: 6000,
     includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_performance,
     includedOutcome:
-      'The complete Core estate — every domain, plus Foresight & Action for forecasting and prioritisation',
+      'The complete Core estate — every outcome domain, ready to extend with Foresight & Action',
     bestFor: 'Multi-brand and multi-region portfolios',
     implementationClass: null,
   },
@@ -688,8 +688,8 @@ export const coreTiers = {
 // ═══════════════════════════════════════════════════════════════════════════
 // CORE DOMAIN MODULES — descriptors only, NO prices
 // ═══════════════════════════════════════════════════════════════════════════
-// Under price book v1.7 these eleven are PACKAGE COMPONENTS: every Core
-// package includes all of them. They are never offered a la carte, so the
+// Under price book v1.7 these eleven are PACKAGE COMPONENTS. Packages grant
+// different outcome sets and none is offered a la carte, so the
 // commercial fields (orgLicensePrice / perLocationPrice /
 // baseIncludesLocations / setupFee / pricingByTier) have been REMOVED rather
 // than zeroed — a missing field cannot be accidentally summed into a quote.
@@ -705,8 +705,8 @@ export interface CoreDomainModule {
   description: string;
   features: string[];
   roiPotential: string;
-  /** Always true — these ship inside every Core package. */
-  includedInEveryCorePackage: true;
+  /** Always true — sold only as a component of a Core package. */
+  packageComponent: true;
   note?: string;
   /** Domain modules whose data this one reads. Informational, not a purchase gate. */
   dataDependencies?: ModuleId[];
@@ -718,7 +718,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Labor Intelligence',
     icon: 'users',
     backendId: 'labor',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Labor cost %, sales per labor hour, actual vs scheduled variance, overtime analysis, break compliance, benchmarking, predictive staffing, demand-based scheduling, shift performance, server rankings',
     features: [
       'Labor cost % by location/day part',
@@ -741,7 +741,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Inventory Connect',
     icon: 'package',
     backendId: 'inventory',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'COGS tracking, recipe costing, theoretical vs actual variance, menu engineering, waste tracking, menu item profitability, price optimization, portion cost, inventory turnover, supplier performance',
     features: [
       'COGS tracking by category',
@@ -764,7 +764,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Purchasing Analytics',
     icon: 'cart',
     backendId: 'purchasing',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Spend analysis by supplier, price variance alerts, supplier performance, contract compliance, consolidation opportunities, volume discount analysis, order frequency optimization, delivery cost, contract renewal alerts',
     features: [
       'Spend analysis by supplier',
@@ -786,7 +786,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Marketing Performance',
     icon: 'megaphone',
     backendId: 'marketing',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Meta/Facebook Ads, Google Ads integration, campaign performance, multi-touch attribution, CAC, channel ROI by location, budget allocation, new vs returning customers, lifetime value estimation',
     features: [
       'Meta/Facebook Ads integration',
@@ -808,7 +808,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Reservations Intelligence',
     icon: 'calendar',
     backendId: 'reservations',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Booked vs actual, no-show rate tracking, booking channel attribution, table utilization, revenue per reservation, optimal booking pace, cancellation pattern analysis',
     features: [
       'Covers booked vs actual',
@@ -829,7 +829,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Profit Intelligence',
     icon: 'profit',
     backendId: 'profit',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     dataDependencies: ['labor', 'inventory'],
     description: 'See true unit economics. Complete P&L visibility, profit margin analysis, cost allocation, break-even analysis, and profitability forecasting by location.',
     features: [
@@ -851,8 +851,8 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Revenue Assurance',
     icon: 'revenue',
     backendId: 'revenue_assurance',
-    includedInEveryCorePackage: true,
-    description: 'Catch 1-2% leakage. Identify revenue loss from voids, comps, discounts, theft patterns, and transaction anomalies before they impact your bottom line.',
+    packageComponent: true,
+    description: 'Identify and quantify revenue loss from voids, comps, discounts, theft patterns, and transaction anomalies before they impact your bottom line.',
     features: [
       'Revenue leakage detection',
       'Void pattern analysis',
@@ -863,7 +863,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
       'Shrinkage quantification',
       'Monthly Revenue Assurance Report'
     ],
-    roiPotential: 'Catch 1-2% leakage'
+    roiPotential: 'Identify and track revenue leakage'
   },
 
   delivery: {
@@ -871,7 +871,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Delivery Economics',
     icon: 'delivery',
     backendId: 'delivery',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'True delivery profitability. Platform-by-platform margin analysis, delivery vs dine-in comparison, commission impact, and channel optimization insights.',
     features: [
       'True delivery profitability',
@@ -892,7 +892,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Guest Experience',
     icon: 'guest',
     backendId: 'guest_experience',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Why customers leave. Aggregate review sentiment, rating trends, guest feedback patterns, and experience correlation to identify what drives satisfaction.',
     features: [
       'Aggregate review sentiment',
@@ -912,7 +912,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Pulse',
     icon: 'pulse',
     backendId: 'pulse',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Real-time operational pulse. Live monitoring, instant alerts, cross-system correlation, and proactive anomaly detection across all your operations.',
     features: [
       'Real-time operational monitoring',
@@ -932,7 +932,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Guest CRM Intelligence',
     icon: 'guest',
     backendId: 'guest_crm',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Who your guests are and what brings them back. Segmentation, visit cadence, lifetime value, win-back candidates, and campaign-ready audiences.',
     features: [
       'Guest segmentation and cohorts',
@@ -1381,7 +1381,7 @@ export const watchtower = {
 // Volume ladder: 0% under 50 · 2.5% 50-99 · 5% 100-199 · 7% 200-249 ·
 // 250+ Enterprise only (no self-serve band).
 // Billing cycle: annual 10% · 2-year 15%.
-// Volume and billing-cycle discounts COMBINE, capped at 15% in total.
+// Volume and billing-cycle discounts are mutually exclusive: the larger applies.
 
 export interface VolumeDiscountTier {
   min: number;
@@ -1425,7 +1425,7 @@ export const DISCOUNT_RULES = {
    * top of this cap.
    */
   maxDiscountPercent: 15,
-  note: 'Volume, billing-cycle and early-adopter discounts combine, capped at 15% in total'
+  note: 'The larger of volume or billing-cycle discount applies; early-adopter concessions share the 15% calculated-discount cap'
 };
 
 /** The unit count at and above which only Enterprise (quoted) pricing applies. */

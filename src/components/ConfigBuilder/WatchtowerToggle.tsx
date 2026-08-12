@@ -4,7 +4,7 @@
 import { motion } from 'framer-motion';
 import { Eye, TrendingUp, Calendar, Target, ChevronRight, ChevronLeft, Castle, Sparkles, Zap, GitBranch, BarChart3, Radar, Activity, AlertTriangle, Search, type LucideIcon } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { watchtower, crossIntelligence, getLocalizedAddOnDisplay, CORE_DOMAIN_MODULE_IDS } from '../../data/pricing';
+import { watchtower, crossIntelligence, getLocalizedAddOnDisplay } from '../../data/pricing';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
 import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/watchtowerEngine';
 import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '../../lib/pricingEngine';
@@ -96,8 +96,8 @@ export function WatchtowerToggle() {
             Watchtower needs Core Growth or above.
           </span>{' '}
           <span className="text-sundae-muted">
-            {corePackages[corePackage].name} does not include it. Move up a package to add it —
-            nothing here is added to your quote.
+            {corePackages[corePackage].name} does not include it. Choose Core Growth or Core
+            Performance to add Watchtower. Cross-Intelligence remains available below.
           </span>
         </div>
       )}
@@ -122,7 +122,9 @@ export function WatchtowerToggle() {
           {copy.subtitle}
         </p>
         <p className="text-sm text-sundae-muted mt-2">
-          {formatMessage(copy.baseCoverage, { price: watchtower.bundle.perLocationPrice })}
+          Bundle: ${watchtower.bundle.basePrice.toLocaleString(locale)} for the first market +{' '}
+          ${watchtower.bundle.perLocationPrice.toLocaleString(locale)} for each additional market.
+          Individual modules use their own published anchors.
         </p>
       </motion.div>
 
@@ -171,6 +173,7 @@ export function WatchtowerToggle() {
         {Object.entries(watchtower).filter(([id]) => id !== 'bundle').map(([moduleId, module]) => {
           const isSelected = watchtowerModules.includes(moduleId);
           const isDisabledByBundle = watchtowerModules.includes('bundle');
+          const isUnavailable = !eligible || isDisabledByBundle;
           const Icon = getModuleIcon(moduleId);
           const localizedModule = watchtowerCatalog[moduleId as keyof typeof watchtowerCatalog];
 
@@ -181,10 +184,11 @@ export function WatchtowerToggle() {
             <motion.div
               key={moduleId}
               variants={fadeUp(reduced)}
-              {...cardIf(!isDisabledByBundle)}
+              {...cardIf(!isUnavailable)}
             >
               <button
                 onClick={() => {
+                  if (!eligible) return;
                   if (isDisabledByBundle) {
                     // If bundle is selected, deselect it and select this individual module
                     toggleWatchtowerModule('bundle'); // Deselect bundle
@@ -193,11 +197,14 @@ export function WatchtowerToggle() {
                     toggleWatchtowerModule(moduleId);
                   }
                 }}
+                disabled={isUnavailable}
+                aria-disabled={isUnavailable}
+                aria-pressed={isSelected}
                 className={`w-full p-6 rounded-xl border-2 transition-colors relative ${
                   isSelected || isDisabledByBundle
                     ? 'bg-gradient-to-br from-watchtower/20 to-red-500/20 border-watchtower/50'
                     : 'bg-sundae-surface border-white/10 hover:border-white/30'
-                } ${isDisabledByBundle ? 'opacity-50 cursor-not-allowed' : ''}`}
+                } ${isUnavailable ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 {isDisabledByBundle && (
                   <div className="absolute top-2 right-2 text-xs bg-watchtower/20 text-watchtower px-2 py-1 rounded">
@@ -322,12 +329,12 @@ export function WatchtowerToggle() {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#E9A24A]/20 to-[#FF7E6F]/20 border border-[#E9A24A]/30 rounded-full mb-4">
               <Sparkles className="w-4 h-4 text-[#E9A24A]" />
               <span className="text-sm font-semibold text-[#E9A24A]">
-                {formatMessage(copy.unlockedWithModules, { count: CORE_DOMAIN_MODULE_IDS.length })}
+                Included with {corePackages[corePackage].name}
               </span>
             </div>
             <h2 className="text-2xl font-bold mb-2">{copy.crossTitle}</h2>
             <p className="text-sundae-muted">
-              {copy.crossSubtitle}
+              Correlates the outcome domains granted by your selected Core package.
             </p>
           </div>
 
@@ -430,7 +437,7 @@ export function WatchtowerToggle() {
             </div>
           </div>
           <div className="text-right">
-            <div className="text-sm text-sundae-muted mb-1">{copy.perLocation}</div>
+            <div className="text-sm text-sundae-muted mb-1">Average per location</div>
             <div className="font-display text-2xl font-bold">
               ${pricing.perLocation.toFixed(0)}{copy.perMonth}
             </div>

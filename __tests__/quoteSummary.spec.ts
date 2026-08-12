@@ -146,8 +146,8 @@ describe("what the summary screen renders", () => {
   });
 
   it("says outright that the domain modules are not sold separately", () => {
-    expect(SUMMARY_SRC).toMatch(/Core domain modules included/);
-    expect(SUMMARY_SRC).toMatch(/never sold\s+separately/);
+    expect(SUMMARY_SRC).toMatch(/Core outcome domains included/);
+    expect(SUMMARY_SRC).toMatch(/no standalone price/);
     // Add-ons are the only Core-side purchase, and they get published names —
     // `addOns.join(', ')` printed raw ids like `concept_hotel_fb` on a quote.
     expect(SUMMARY_SRC).not.toMatch(/addOns\.join\(/);

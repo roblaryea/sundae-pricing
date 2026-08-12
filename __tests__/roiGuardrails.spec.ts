@@ -124,24 +124,17 @@ describe("the total ceiling does not single out one package", () => {
     // It must sit above what the model actually produces, or the ceiling is the
     // model rather than a backstop.
     //
-    // Only the revenue-denominated lines may be summed here. Marketing is a
-    // share of marketing SPEND and delivery a share of DELIVERY revenue, so
-    // adding their percentages to the others sums quantities measured on three
-    // different bases — an error that produces a nonsense total (13.7%) against
-    // the ~3.3% these lines really contribute.
-    const REVENUE_DENOMINATED = [
-      "labor",
-      "inventory",
-      "purchasing",
-      "reservations",
-      "profit",
-      "revenue",
-      "guest",
-    ];
-    const midSum = REVENUE_DENOMINATED.reduce((sum, id) => {
-      const a = SAVINGS_ASSUMPTIONS[id];
-      return sum + a.midPct * (a.marginOnLift ?? 1);
-    }, 0);
+    // Normalise each line onto revenue before summing it. Labour is a share of
+    // labour spend; inventory and purchasing are shares of food/purchase spend;
+    // reservations is a revenue lift whose contribution margin is counted.
+    const midSum =
+      SAVINGS_ASSUMPTIONS.labor.midPct * 0.30 +
+      SAVINGS_ASSUMPTIONS.inventory.midPct * 0.30 +
+      SAVINGS_ASSUMPTIONS.purchasing.midPct * 0.30 +
+      SAVINGS_ASSUMPTIONS.reservations.midPct * (SAVINGS_ASSUMPTIONS.reservations.marginOnLift ?? 1) +
+      SAVINGS_ASSUMPTIONS.profit.midPct +
+      SAVINGS_ASSUMPTIONS.revenue.midPct +
+      SAVINGS_ASSUMPTIONS.guest.midPct;
     expect(midSum).toBeLessThan(0.05); // sanity: the model is a low-single-digit % of revenue
     expect(GUARDRAILS.maxTotalShareOfRevenue).toBeGreaterThan(midSum);
   });

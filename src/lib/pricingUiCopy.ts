@@ -244,7 +244,7 @@ const liveCalculatorCopy = {
 const roiCopy = {
   en: {
     title: 'Calculate Your ROI',
-    subtitle: 'See how quickly Sundae pays for itself through operational savings',
+    subtitle: 'Build a funding case from operational recovery and validated cost avoidance',
     businessTitle: 'Tell us about your business',
     monthlyRevenuePerLocation: 'Monthly Revenue per Location',
     currentLaborCost: 'Current Labor Cost %',
@@ -264,7 +264,7 @@ const roiCopy = {
     days: '{count} days',
     savingsBreakdown: 'Savings Breakdown',
     savingsNote:
-      'Estimates use conservative midpoint assumptions. Hover over each line for range details. Actual results depend on execution and baseline metrics.',
+      'Operational lines use illustrative midpoints within the disclosed planning ranges. Actual results depend on baseline conditions and execution.',
     noModulesSelected: 'No Modules Selected',
     noModulesBody: 'Add modules to your stack to see projected ROI savings.',
     biggestWins: 'Your Biggest Wins',
@@ -284,24 +284,24 @@ const roiCopy = {
       purchasing: 'Purchasing Savings',
       reservations: 'Table Utilization',
       marketing: 'Marketing Efficiency',
-      profit: 'Profit Intelligence Uplift',
+      profit: 'Profit Intelligence Measurement',
       revenue: 'Revenue Leakage Recovery',
       delivery: 'Delivery Margin Protection',
       guest: 'Reputation & Retention Lift',
     },
     tooltips: {
       labor:
-        'Reduces labor cost by 0.5-1.5% of revenue through better scheduling and productivity insights',
+        'Models 1-3% of labour cost through scheduling and productivity improvements',
       inventory:
-        'Reduces food cost by 0.3-1.0% of revenue through waste reduction and recipe optimization',
+        'Models 0.5-2% of food cost through waste and recipe controls',
       purchasing:
-        'Saves 0.2-0.8% of revenue through better supplier pricing and contract management',
+        'Models 2-5% of purchasing spend; food cost is the planning proxy until purchasing spend is supplied',
       reservations:
         'Revenue uplift of 0.5-2.0% through improved table utilization. Assumes demand exists.',
       marketing:
         'Improves marketing efficiency by 5-15% of marketing spend through better attribution and targeting',
       profit:
-        'Uncovers 0.2-0.8% of revenue in margin leakage and menu/mix optimization. Assumes execution on insights.',
+        'Measures and attributes the recovery lines above; no separate uplift is added to avoid double counting.',
       revenue:
         'Recovers 0.05-0.25% of revenue from voids, comps, and discount leakage. Depends on baseline leakage.',
       delivery:
@@ -372,17 +372,17 @@ const roiCopy = {
     },
     tooltips: {
       labor:
-        'يخفض تكلفة العمالة بنسبة 0.5-1.5% من الإيرادات عبر تحسين الجدولة والرؤى الإنتاجية',
+        'يقدّر 1-3% من قاعدة تكلفة العمالة عبر تحسين الجدولة والإنتاجية',
       inventory:
-        'يخفض تكلفة الطعام بنسبة 0.3-1.0% من الإيرادات عبر تقليل الهدر وتحسين الوصفات',
+        'يقدّر 0.5-2% من قاعدة تكلفة الطعام عبر الحد من الهدر وضبط الوصفات',
       purchasing:
-        'يوفر 0.2-0.8% من الإيرادات عبر تحسين أسعار الموردين وإدارة العقود',
+        'يقدّر 2-5% من إنفاق المشتريات؛ تُستخدم تكلفة الطعام كبديل تخطيطي حتى إدخال إنفاق المشتريات',
       reservations:
         'يرفع الإيرادات بنسبة 0.5-2.0% عبر تحسين استغلال الطاولات. يفترض وجود طلب.',
       marketing:
         'يحسن كفاءة التسويق بنسبة 5-15% من الإنفاق التسويقي عبر إسناد أفضل واستهداف أدق',
       profit:
-        'يكشف 0.2-0.8% من الإيرادات المفقودة بسبب التسرب في الهامش وتحسين المزيج. يفترض تنفيذ الرؤى.',
+        'يقيس وينسب بنود الاسترداد أعلاه؛ لا تُضاف زيادة منفصلة لتجنب الاحتساب المزدوج.',
       revenue:
         'يسترد 0.05-0.25% من الإيرادات من الإلغاءات والتعويضات وتسرب الخصومات بحسب خط الأساس.',
       delivery:
@@ -456,17 +456,17 @@ const roiCopy = {
     },
     tooltips: {
       labor:
-        "Réduit le coût du travail de 0,5-1,5% du chiffre d'affaires grâce à un meilleur planning et à des insights de productivité",
+        "Modélise 1 à 3 % de la masse salariale grâce à un meilleur planning et à des gains de productivité",
       inventory:
-        "Réduit le coût alimentaire de 0,3-1,0% du chiffre d'affaires grâce à la baisse du gaspillage et à l'optimisation des recettes",
+        "Modélise 0,5 à 2 % du coût alimentaire grâce à la baisse du gaspillage et au contrôle des recettes",
       purchasing:
-        "Économise 0,2-0,8% du chiffre d'affaires grâce à de meilleurs prix fournisseurs et à la gestion des contrats",
+        "Modélise 2 à 5 % des achats ; le coût alimentaire sert de proxy jusqu'à la saisie des dépenses d'achat",
       reservations:
         "Génère 0,5-2,0% de revenu supplémentaire grâce à une meilleure utilisation des tables. Suppose qu'il existe une demande.",
       marketing:
         "Améliore l'efficacité marketing de 5-15% de la dépense marketing grâce à une meilleure attribution et un meilleur ciblage",
       profit:
-        "Met au jour 0,2-0,8% du chiffre d'affaires en fuite de marge et optimisation du mix. Suppose une exécution des insights.",
+        "Mesure et attribue les leviers de récupération ci-dessus ; aucun gain distinct n'est ajouté afin d'éviter le double comptage.",
       revenue:
         "Récupère 0,05-0,25% du chiffre d'affaires sur les annulations, gestes commerciaux et remises. Dépend de la fuite initiale.",
       delivery:
@@ -541,17 +541,17 @@ const roiCopy = {
     },
     tooltips: {
       labor:
-        'Reduce el costo laboral entre 0,5% y 1,5% de los ingresos gracias a mejor programación y productividad',
+        'Modela entre el 1% y el 3% de la base de costo laboral mediante mejor programación y productividad',
       inventory:
-        'Reduce el costo de alimentos entre 0,3% y 1,0% de los ingresos mediante menor desperdicio y mejor receta',
+        'Modela entre el 0,5% y el 2% de la base de costo de alimentos mediante menor desperdicio y control de recetas',
       purchasing:
-        'Ahorra 0,2-0,8% de los ingresos gracias a mejores precios de proveedores y gestión de contratos',
+        'Modela entre el 2% y el 5% del gasto de compras; usa el costo de alimentos como referencia hasta que se indique ese gasto',
       reservations:
         'Aumenta los ingresos 0,5-2,0% gracias a una mejor utilización de mesas. Supone demanda existente.',
       marketing:
         'Mejora la eficiencia de marketing entre 5% y 15% del gasto gracias a mejor atribución y segmentación',
       profit:
-        'Destapa 0,2-0,8% de los ingresos en fugas de margen y optimización del mix. Supone ejecución de los insights.',
+        'Mide y atribuye las líneas de recuperación anteriores; no añade otra mejora para evitar el doble conteo.',
       revenue:
         'Recupera 0,05-0,25% de los ingresos por voids, comps y fugas de descuentos. Depende del nivel de fuga actual.',
       delivery:

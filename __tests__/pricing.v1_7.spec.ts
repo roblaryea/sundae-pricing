@@ -258,7 +258,8 @@ describe('Core domain modules', () => {
       expect(module).not.toHaveProperty('baseIncludesLocations');
       expect(module).not.toHaveProperty('setupFee');
       expect(module).not.toHaveProperty('pricingByTier');
-      expect(module.includedInEveryCorePackage).toBe(true);
+      expect(module.packageComponent).toBe(true);
+      expect(module).not.toHaveProperty('includedInEveryCorePackage');
     }
   });
 

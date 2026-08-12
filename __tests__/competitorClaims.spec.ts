@@ -130,11 +130,34 @@ describe("every competitor figure carries provenance", () => {
 
 describe("no unqualified competitor claim renders in the persistent calculator", () => {
   const SRC = readFileSync("src/components/PricingDisplay/LiveCalculator.tsx", "utf8");
+  const MODULE_PICKER_SRC = readFileSync("src/components/ConfigBuilder/ModulePicker.tsx", "utf8");
 
   it("carries no savings badge", () => {
     // The always-on widget has no room to state a basis, a source or a date, so
     // it must not assert a comparison at all. The summary does it properly.
     expect(SRC).not.toMatch(/saveVs/);
     expect(SRC).not.toMatch(/savingsPercent/);
+    expect(MODULE_PICKER_SRC).not.toMatch(/pricing\.savings\.tenzo/);
+    expect(MODULE_PICKER_SRC).not.toMatch(/monthlySavings/);
+  });
+});
+
+describe("the comparison evidence drawer uses the same basis as the cards", () => {
+  const SRC = readFileSync("src/components/Summary/CompactCompetitorCompare.tsx", "utf8");
+
+  it("resolves portfolio-dependent spreadsheet hours instead of printing a formula", () => {
+    expect(COMPETITOR_ASSUMPTIONS.spreadsheets.notes).toContain("{hours}");
+    expect(COMPETITOR_ASSUMPTIONS.spreadsheets.notes).not.toContain("locations * 2");
+    expect(SRC).toMatch(/hours:\s*locations\s*\*\s*2/);
+  });
+
+  it("labels the best comparison on the recurring annual basis it ranks", () => {
+    expect(SRC).toMatch(/\{copy\.ongoingAnnualSavings\}/);
+    expect(SRC).not.toMatch(/bestSavings\.savings\.firstYearComparable[\s\S]{0,120}copy\.firstYearSavings/);
+  });
+
+  it("does not claim Tenzo's model is a current verified rate card", () => {
+    expect(COMPETITOR_ASSUMPTIONS.tenzo.source).toMatch(/estimate/i);
+    expect(COMPETITOR_ASSUMPTIONS.tenzo.notes).toMatch(/estimates, not a current Tenzo rate card/i);
   });
 });

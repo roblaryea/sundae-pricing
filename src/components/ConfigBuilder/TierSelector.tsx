@@ -31,7 +31,7 @@ const PACKAGE_COLORS: Record<CorePackageId, string> = {
 };
 
 export function TierSelector() {
-  const { layer, setCorePackage, locations, setLocations, setCurrentStep } = useConfiguration();
+  const { layer, corePackage, setCorePackage, locations, setLocations, setCurrentStep } = useConfiguration();
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
   // Must be read above the `!layer` bail-out below: hooks cannot sit behind an
@@ -47,7 +47,11 @@ export function TierSelector() {
   }
 
   const packages = CORE_PACKAGE_IDS.map((id) => corePackages[id]);
-  const optimalPackage = suggestOptimalCorePackage(locations);
+  // Discovery has already selected the package that covers the buyer's stated
+  // needs. Preserve it here. A location-only badge made a cost-control buyer
+  // see "Core Margin" on the reveal screen and "RECOMMENDED" over Foundation
+  // one click later.
+  const recommendedPackage = corePackage ?? suggestOptimalCorePackage(locations);
 
   const handleSelect = (packageId: CorePackageId) => {
     setCorePackage(packageId);
@@ -168,7 +172,7 @@ export function TierSelector() {
         className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-12"
       >
         {packages.map((pkg) => {
-          const isOptimal = pkg.id === optimalPackage;
+          const isOptimal = pkg.id === recommendedPackage;
           const color = PACKAGE_COLORS[pkg.id];
           const total = calculateBandedTotal(pkg, locations);
           const bandLines = calculateBandLines(pkg, locations);

@@ -3,7 +3,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { AddOnId, Configuration, CorePackageId, CrewSkuId } from '../types/configuration';
-import { crewSkus } from '../data/pricing';
+import { corePackages, crewSkus, packageAllowsWatchtower } from '../data/pricing';
 import type { CompetitorId } from '../data/competitors';
 import type { ROIInputs } from './useROICalculation';
 import type { Persona } from '../data/personas';
@@ -142,7 +142,10 @@ const initialState = {
     laborPercent: 32,
     foodCostPercent: 29,
     marketingSpend: 2000,
-    reservationNoShowRate: 15
+    reservationNoShowRate: 15,
+    replaceableSystemsSpend: 0,
+    manualReportingHoursPerWeek: 0,
+    loadedHourlyRate: 50,
   },
   
   // Achievements
@@ -277,11 +280,16 @@ export const useConfiguration = create<ConfigurationState>()(
           get().checkAchievements();
         },
         
-        // v1.7: all four Core packages carry the same add-on and Watchtower
-        // eligibility (every package ships all eleven domain modules), so
-        // switching package never has to strip a selection.
         setCorePackage: (corePackage) => {
-          set({ corePackage });
+          set({
+            corePackage,
+            // A package change can make a previously valid Watchtower choice
+            // unavailable. Clear it rather than carrying a priced-looking line
+            // that the engine silently drops from the total.
+            watchtowerModules: packageAllowsWatchtower(corePackage)
+              ? get().watchtowerModules
+              : [],
+          });
           get().markStepCompleted('package');
           get().checkAchievements();
         },
@@ -459,9 +467,11 @@ export const useConfiguration = create<ConfigurationState>()(
             state.unlockAchievement('intelligence-commander');
           }
 
-          // Every Core package ships all eleven domain modules, so the
-          // labour + inventory pairing is satisfied by any package.
-          if (state.corePackage && !state.unlockedAchievements.includes('efficiency-expert')) {
+          const packageDomains = state.corePackage
+            ? corePackages[state.corePackage].includesDomainModules
+            : [];
+          if (packageDomains.includes('labor') && packageDomains.includes('inventory') &&
+              !state.unlockedAchievements.includes('efficiency-expert')) {
             state.unlockAchievement('efficiency-expert');
           }
 

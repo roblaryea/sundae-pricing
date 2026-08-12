@@ -264,7 +264,10 @@ export function CompactCompetitorCompare() {
               {Object.entries(COMPETITOR_ASSUMPTIONS).map(([id, data]) => (
                 <p key={id}>
                   <strong className="text-slate-300 capitalize">{id}:</strong>{' '}
-                  {getLocalizedCompetitorNote(uiLocale, data.notes)}
+                  {formatMessage(getLocalizedCompetitorNote(uiLocale, data.notes), {
+                    locations,
+                    hours: locations * 2,
+                  })}
                   <span className="text-slate-500">
                     {' '}
                     ({getLocalizedCompetitorSource(uiLocale, data.source)} · {data.lastVerified})
@@ -315,9 +318,7 @@ export function CompactCompetitorCompare() {
                 {money(comparisonAmount(bestSavings))}
               </div>
               <div className="text-xs text-slate-400">
-                {bestSavings.savings.firstYearComparable
-                  ? copy.firstYearSavings
-                  : copy.ongoingAnnualSavings}
+                {copy.ongoingAnnualSavings}
               </div>
             </div>
           </div>

@@ -21,6 +21,7 @@ import { readFileSync } from "node:fs";
 import {
   MAX_MONTHLY_REVENUE_PER_LOCATION,
   MIN_MONTHLY_REVENUE_PER_LOCATION,
+  REVENUE_SLIDER_STEP,
   clampMonthlyRevenue,
 } from "../src/hooks/useROICalculation";
 import { calculateCorePackagePrice } from "../src/lib/pricingEngine";
@@ -48,6 +49,14 @@ describe("the modelled revenue range", () => {
     expect(MAX_MONTHLY_REVENUE_PER_LOCATION).toBeGreaterThan(
       MIN_MONTHLY_REVENUE_PER_LOCATION * 5,
     );
+  });
+
+  it("keeps the displayed $100k default on a valid native slider step", () => {
+    expect((100_000 - MIN_MONTHLY_REVENUE_PER_LOCATION) % REVENUE_SLIDER_STEP).toBe(0);
+    expect(
+      (MAX_MONTHLY_REVENUE_PER_LOCATION - MIN_MONTHLY_REVENUE_PER_LOCATION) %
+        REVENUE_SLIDER_STEP,
+    ).toBe(0);
   });
 });
 
@@ -94,5 +103,6 @@ describe("the slider reads its bounds from the constants", () => {
   it("binds the input to the exported constants", () => {
     expect(SRC).toMatch(/min=\{MIN_MONTHLY_REVENUE_PER_LOCATION\}/);
     expect(SRC).toMatch(/max=\{MAX_MONTHLY_REVENUE_PER_LOCATION\}/);
+    expect(SRC).toMatch(/step=\{REVENUE_SLIDER_STEP\}/);
   });
 });

@@ -3,14 +3,13 @@
  *
  * Deterministic answer → Core DOMAIN module relevance ranking.
  *
- * Under price book v1.7 the eleven domain modules are PACKAGE COMPONENTS —
- * every Core package includes all of them. This engine therefore no longer
- * drives a purchase: it ranks which included domains speak to the operator's
- * stated pains, so the UI can say "here is what your package already covers".
- * It must never be used to preselect a chargeable line item.
+ * Under price book v1.7 the eleven domain modules are PACKAGE COMPONENTS, not
+ * a-la-carte purchases. Packages grant different outcome sets, so this engine
+ * ranks the operator's needs and recommends the package whose grant actually
+ * covers them. It must never preselect a chargeable add-on.
  */
 
-import type { ModuleId } from '../data/pricing';
+import type { CorePackageId, ModuleId } from '../data/pricing';
 
 // Pain point to module mapping
 export const PAIN_TO_MODULES: Record<string, {
@@ -36,7 +35,7 @@ export const PAIN_TO_MODULES: Record<string, {
   revenue_leakage: {
     primary: ['revenue'],
     secondary: ['profit'],
-    rationale: 'Revenue Assurance catches 1-2% leakage from voids, comps, and discounts'
+    rationale: 'Revenue Assurance identifies and quantifies leakage from voids, comps, and discounts'
   },
   delivery_profitability: {
     primary: ['delivery'],
@@ -209,4 +208,56 @@ export function getRecommendationSummary(result: RecommendationResult): string {
   if (count === 0) return 'No specific modules recommended yet';
   if (count === 1) return `1 module recommended: ${result.recommended[0].moduleId}`;
   return `${count} modules recommended based on your priorities`;
+}
+
+const COST_SIDE_PAINS = new Set(['food_waste', 'supplier_prices']);
+const DEMAND_SIDE_PAINS = new Set([
+  'table_utilization',
+  'marketing_roi',
+  'guest_complaints',
+  'competition',
+]);
+const PERFORMANCE_ONLY_PAINS = new Set(['delivery_profitability']);
+
+export interface CorePackageRecommendation {
+  packageId: CorePackageId;
+  reason: string;
+}
+
+/**
+ * Recommend the smallest package that covers the stated economic priorities.
+ *
+ * Margin and Growth are a fork, not sequential editions: Margin owns the food
+ * and buying side, Growth owns demand and guest growth, and Performance joins
+ * both. Estate size changes price, never the outcome set the operator needs.
+ */
+export function recommendCorePackage(selectedPains: string[]): CorePackageRecommendation {
+  const hasCostSide = selectedPains.some((pain) => COST_SIDE_PAINS.has(pain));
+  const hasDemandSide = selectedPains.some((pain) => DEMAND_SIDE_PAINS.has(pain));
+  const needsPerformance = selectedPains.some((pain) => PERFORMANCE_ONLY_PAINS.has(pain));
+
+  if (needsPerformance || (hasCostSide && hasDemandSide)) {
+    return {
+      packageId: 'core_performance',
+      reason: needsPerformance
+        ? 'Covers delivery economics alongside the connected Core estate.'
+        : 'Joins margin control and demand growth in one package.',
+    };
+  }
+  if (hasCostSide) {
+    return {
+      packageId: 'core_margin',
+      reason: 'Adds the inventory, waste, recipe and purchasing controls behind your priorities.',
+    };
+  }
+  if (hasDemandSide) {
+    return {
+      packageId: 'core_growth',
+      reason: 'Adds guest, reservations, marketing and demand intelligence behind your priorities.',
+    };
+  }
+  return {
+    packageId: 'core_foundation',
+    reason: 'Covers revenue, profit, leakage, labour signal and real-time Pulse without unused domains.',
+  };
 }

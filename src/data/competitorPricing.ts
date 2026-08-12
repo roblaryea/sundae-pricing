@@ -237,7 +237,17 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   // https://tenzo.io/pricing serves a 114-byte stub that JavaScript-redirects
   // to /lander, which resolves to forsale.godaddy.com/forsale/tenzo.io — the
   // domain is for sale. Tenzo's live site is gotenzo.com, and
-  // https://www.gotenzo.com/pricing returns 404: they publish no pricing page.
+  // https://www.gotenzo.com/pricing returns 404 — but "no pricing page" is NOT
+  // "no published prices", and an earlier version of this comment said the
+  // latter. Verified first-party 2026-08-11, gotenzo.com/solutions-finance/
+  // states in an FAQ accordion: "Our prices start at £55 or $75 per month and
+  // increase by module and by location", and "on average customers pay
+  // £150-200 or $175-$250 per location per month".
+  //
+  // So $75 is a published FLOOR, not a per-module unit rate. Billing it as
+  // modules x $75 is OUR model laid over their floor; at three modules it
+  // yields $225/location, which sits inside their own published average band,
+  // but the mechanism is ours and the source string must say so.
   //
   // Note the failure mode. `curl -o /dev/null -w %{http_code}` returns 200 for
   // tenzo.io/pricing, because the parking stub IS served successfully; only
@@ -265,7 +275,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     // module they would never buy, while Tenzo's real sales/revenue coverage
     // went uncredited. One list drove the price and a different one drove the
     // argument.
-    coversDomains: ['revenue', 'labor', 'inventory'],
+    coversDomains: ['revenue', 'labor', 'inventory', 'reservations'],
 
     pricing: {
       perLocationPerModule: 75,  // $75/location/module/month
@@ -277,7 +287,10 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
         inventory: { available: true, price: 75 },
         marketing: { available: false, price: null },
         purchasing: { available: false, price: null },
-        reservations: { available: false, price: null },
+        // Verified first-party 2026-08-11 at
+        // gotenzo.com/modules-breakdown-partners/, which enumerates Sales,
+        // Labour, Inventory, Reservations, Social and Forecasting.
+        reservations: { available: true, price: 75 },
         watchtower: { available: false, price: null }
       }
     },
@@ -286,7 +299,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       // The three products Tenzo actually sells, in Sundae's domain ids.
       // Sundae's domain id for sales is `revenue`; 'sales' matched no domain
       // in the buyer's selection, so this filter silently dropped it.
-      const TENZO_DOMAINS = ['revenue', 'labor', 'inventory'];
+      const TENZO_DOMAINS = ['revenue', 'labor', 'inventory', 'reservations'];
 
       // Bill only the modules that overlap what the buyer actually bought.
       //
@@ -346,7 +359,12 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       // sourced on any of the five entries that carried it, and Tenzo
       // publishes monthly market-level like-for-like sales for several hundred
       // London and South-East sites.
-      'Three modules only — the other domains are not sold at any price',
+      // REMOVED: "Three modules only — the other domains are not sold at any
+      // price". I added that in the fork commit and it is FALSE. Verified
+      // first-party 2026-08-11 at gotenzo.com/modules-breakdown-partners/:
+      // Tenzo ships SIX modules — Sales, Labour, Inventory, Reservations,
+      // Social and Forecasting. Our module map asserting reservations
+      // unavailable is wrong too, and is corrected below.
       'Setup fees per module per location'
     ]
   },
@@ -745,16 +763,19 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     name: 'MarketMan',
     category: 'Inventory & purchasing',
     icon: 'package',
-    verification: 'verified' as VerificationLevel,
-    sourceUrl: 'https://www.marketman.com/pricing',
+    verification: 'estimated' as VerificationLevel,
+    sourceUrl: 'https://www.marketman.com/pricing-for-restaurant-inventory-management-system',
     lastVerified: '2026-08-11',
     coversDomains: ['inventory', 'purchasing'],
 
     pricing: {
       publishedMonthly: {
-        starter: 199,
-        growth: 249,
-        enterprise: null,  // "Custom" — not quotable
+        // Re-read first-party 2026-08-11. Our stored /pricing 301s to the
+        // canonical URL above. The old figures here were wrong by one rung:
+        // $199 does not appear anywhere on the page.
+        starter: 249,
+        growth: 299,
+        enterprise: null,  // published as "From $449" — a floor, not a quotable price
       },
       /** Advertised free on the pricing page ("FREE setup ($1,500 Value)"). */
       setupFee: 0,
@@ -763,24 +784,37 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     },
 
     calculate: (locations: number) => {
-      const growthMonthly = 249;
+      // MarketMan publishes a FLAT subscription. It does not publish a
+      // per-location multiplier, and multiplying by location count was our
+      // invention — it billed a 20-site operator $59,760/yr against a published
+      // Enterprise floor of $5,388, an 11x overstatement of a named competitor.
+      // That is the single largest error found in this comparison, and it ran
+      // in Sundae's favour.
+      //
+      // Verified first-party 2026-08-11 on the canonical pricing URL, under two
+      // user agents: Starter $249/monthly ("For independent operators"), Growth
+      // $299/monthly ("For growing multi-unit operators"), Enterprise "From
+      // $449" ("For established chains and franchises"). Their SaaS agreement
+      // states the monthly rate carries "at least a twelve-month commitment
+      // period". Setup is advertised free ("$1,500 Value"), so setupFee stays 0.
       const multiSite = locations > 1;
+      const monthly = multiSite ? 449 : 249;
 
       return summarise(
         [
           {
-            label: 'Monthly licenses',
-            amount: growthMonthly * locations * 12,
+            label: 'Subscription',
+            amount: monthly * 12,
             kind: 'recurring',
             verification: multiSite ? 'estimated' : 'verified',
             source: multiSite
-              ? `$249/month Growth plan (published, marketman.com/pricing) x ${locations} locations. The per-location multiplier is NOT published — one subscription per location is our assumption.`
-              : '$249/month Growth plan — published on marketman.com/pricing.',
+              ? `$449/month — the published Enterprise FLOOR ("From $449"), MarketMan's own designated multi-site tier. Flat, not per location: a per-location multiplier is NOT published anywhere on the page — no per-location, per-site or per-user rate exists in the markup. Scaling above the floor is unpublished, and HQ (their multi-location dashboard) and Advanced Reports are unpriced add-ons. 12-month minimum commitment. Read 2026-08-11.`
+              : '$249/month Starter, "For independent operators" — published, 12-month minimum commitment. Read 2026-08-11.',
           },
         ],
         multiSite
-          ? 'Inventory & purchasing only. $249/mo Growth plan is published; the multi-site multiplier is our assumption, not MarketMan\'s.'
-          : 'Inventory & purchasing only. Growth plan, published price. Setup is advertised free.',
+          ? 'Inventory & purchasing only. Priced at MarketMan\'s published Enterprise floor; they publish no multi-site scaling basis, and the HQ multi-location dashboard is an unpriced add-on, so this is likely an understatement.'
+          : 'Inventory & purchasing only. Starter plan, published price. Setup is advertised free.',
         multiSite ? 'low' : 'high',
       );
     },
@@ -810,34 +844,51 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     category: 'Labor & scheduling',
     icon: 'users',
     verification: 'verified' as VerificationLevel,
-    sourceUrl: 'https://www.7shifts.com/pricing',
-    lastVerified: '2026-01-01',
+    sourceUrl: 'https://www.7shifts.com/pricing/',
+    lastVerified: '2026-08-11',
     coversDomains: ['labor'],
 
     pricing: {
       // Per location pricing
+      // Re-verified 2026-08-11 in a real browser: the page is client-rendered
+      // Next.js and contains no price strings in the markup, so WebFetch and
+      // curl both return nothing. THREE of our four tier names no longer exist
+      // — "Entrée", "The Works" and "Gourmet" were all retired, and nothing is
+      // priced at $34.99, $76.99 or $150. "The Works" survives only in stale
+      // JSON-LD; the rendered FAQ now offers a trial of the "Pro" plan.
+      //
+      // Prices below are the ANNUAL-billing basis, which is what the page shows
+      // by default ("Save 10% with Annual Billing"). Monthly billing is higher:
+      // Essentials $44.99, Pro $89.99, Premium $149.99.
       perLocationMonthly: {
         comp: 0,         // Free tier
-        entrée: 34.99,   // Basic
-        theWorks: 76.99, // Full features
-        gourmet: 150     // Enterprise
+        essentials: 39.99, // up to 30 employees
+        pro: 79.99,        // up to 60 employees
+        premium: 134.99    // unlimited; adds $6/employee ONLY with 7shifts Payroll
       }
     },
 
     calculate: (locations: number) => {
-      const perLoc = 76.99;  // The Works tier for comparison
+      // Pro tier on annual billing — the closest comparable to a Core package.
+      //
+      // NOT applying the $6/employee component that Premium advertises: the
+      // card's own footnote reads "Only applies if you pay your team via
+      // 7shifts Payroll", and that add-on is USA-only. Multiplying $6 by
+      // headcount across an estate would have been the largest single
+      // overstatement in this comparison.
+      const perLoc = 79.99;
 
       return summarise(
         [
           {
-            label: 'Monthly licenses (The Works tier)',
+            label: 'Monthly licenses (Pro tier, annual billing)',
             amount: Math.round(perLoc * locations * 12),
             kind: 'recurring',
             verification: 'verified',
-            source: `$76.99/location/month, The Works tier x ${locations} location(s) — 7shifts.com/pricing`,
+            source: `$79.99/location/month, Pro tier on annual billing (monthly billing is $89.99) x ${locations} location(s) — 7shifts.com/pricing/, read 2026-08-11. Excludes paid add-ons, including Operations Overview, their only multi-location reporting surface, so this understates a real estate.`,
           },
         ],
-        'Labor & scheduling only. The Works tier used for comparison.',
+        'Labor & scheduling only. Pro tier, annual billing, used for comparison; paid add-ons excluded.',
         'high',
       );
     },
@@ -1129,7 +1180,7 @@ export const COMPETITOR_ASSUMPTIONS = {
   tenzo: {
     source: 'tenzo.io/pricing (verified)',
     notes: '$75/location/module/month + $350 setup per module per location',
-    lastVerified: 'January 2026'
+    lastVerified: 'August 2026'
   },
   nory: {
     source: 'Industry estimates (pricing not public)',
@@ -1153,13 +1204,13 @@ export const COMPETITOR_ASSUMPTIONS = {
     lastVerified: 'January 2026'
   },
   marketman: {
-    source: 'marketman.com/pricing',
-    notes: '$249/month Growth plan, setup advertised free. Multi-site multiplier is not published — one subscription per location is our assumption.',
+    source: 'marketman.com/pricing-for-restaurant-inventory-management-system',
+    notes: '$249/month Starter (single site) or the published "From $449" Enterprise floor (multi-site). Setup advertised free; 12-month minimum commitment. A per-location multiplier is not published — the previous model multiplied a flat subscription by location count and overstated them roughly 11x at 20 sites.',
     lastVerified: 'August 2026'
   },
   '7shifts': {
-    source: '7shifts.com/pricing',
-    notes: '$76.99/location for The Works tier',
+    source: '7shifts.com/pricing/',
+    notes: '$79.99/location/month, Pro tier on annual billing (monthly is $89.99). The tiers we previously named — Entrée, The Works, Gourmet — were all retired; nothing is priced at $76.99. The $6/employee component applies ONLY with 7shifts Payroll and is USA-only, so it is deliberately not modelled. Excludes paid add-ons including Operations Overview, their only multi-location reporting surface.',
     lastVerified: 'January 2026'
   }
 };

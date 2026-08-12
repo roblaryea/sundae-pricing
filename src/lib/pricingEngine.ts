@@ -646,7 +646,13 @@ export const enterpriseCardCopy = coreTiers.enterprise;
  * checked 2026-01-01) lists sales, labor and inventory as available and
  * marketing, purchasing, reservations and watchtower as NOT available.
  */
-export const TENZO_SELLABLE_MODULES = 3;
+// Four of Tenzo's six shipped modules map to a Sundae domain. Verified
+// first-party 2026-08-11 at gotenzo.com/modules-breakdown-partners/, which
+// enumerates Sales, Labour, Inventory, Reservations, Social and Forecasting.
+// Reservations was previously marked unavailable here and in the module map,
+// which understated Tenzo's coverage AND its price. Social and Forecasting have
+// no Core domain equivalent, so they are not counted.
+export const TENZO_SELLABLE_MODULES = 4;
 
 /**
  * Tenzo's price for a like-for-like purchase.

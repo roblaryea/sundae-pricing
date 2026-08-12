@@ -743,8 +743,13 @@ describe('Competitor comparison', () => {
 
   it('still costs a competitor out for a v1.7 Core package', () => {
     const tenzo = COMPETITOR_PRICING.tenzo.calculate(10, selection);
-    // 3 comparable products x 10 locations x $75.
-    expect(tenzo.monthly).toBe(2250);
+    // Comparable products x 10 locations x $75, derived from the verified
+    // module map rather than a literal — the literal was 2250 and went stale
+    // the moment Reservations was confirmed as a shipped Tenzo module.
+    const comparable = COMPETITOR_PRICING.tenzo.coversDomains.filter((d) =>
+      selection.includes(d),
+    ).length;
+    expect(tenzo.monthly).toBe(comparable * 10 * 75);
     expect(tenzo.firstYear).toBeGreaterThan(0);
   });
 

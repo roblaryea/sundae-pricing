@@ -92,10 +92,12 @@ describe("Tenzo is billed for what the buyer would actually need", () => {
     );
   });
 
-  it("charges the same to two packages with the same overlap", () => {
-    // Margin and Performance both grant inventory, labour and revenue.
-    expect(tenzoAt("core_margin").competitorCost.monthly).toBe(
-      tenzoAt("core_performance").competitorCost.monthly,
+  it("charges more to a package that overlaps Tenzo more", () => {
+    // Performance grants reservations as well as inventory, labour and
+    // revenue; Margin does not. Tenzo ships a Reservations module, so the
+    // Performance buyer would need one more Tenzo product.
+    expect(tenzoAt("core_performance").competitorCost.monthly).toBeGreaterThan(
+      tenzoAt("core_margin").competitorCost.monthly,
     );
   });
 
@@ -113,7 +115,7 @@ describe("Tenzo is billed for what the buyer would actually need", () => {
     // The calculator's list and the coverage list disagreed: one drove the
     // price, the other drove the argument.
     expect([...COMPETITOR_PRICING.tenzo.coversDomains].sort()).toEqual(
-      ["inventory", "labor", "revenue"].sort(),
+      ["inventory", "labor", "reservations", "revenue"].sort(),
     );
   });
 });

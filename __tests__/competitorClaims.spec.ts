@@ -40,12 +40,14 @@ describe("the competitor price reflects what they actually sell", () => {
 
   it("refuses to price modules the competitor does not offer", () => {
     const at11 = calculateTenzoPrice(8, 11);
-    const at3 = calculateTenzoPrice(8, 3);
+    const atSellable = calculateTenzoPrice(8, TENZO_SELLABLE_MODULES);
     expect(at11.modulesPriced).toBe(TENZO_SELLABLE_MODULES);
-    expect(at11.monthly).toBe(at3.monthly);
+    expect(at11.monthly).toBe(atSellable.monthly);
     // The figure the old badge used, which must now be unreachable.
     expect(at11.monthly).not.toBe(6600);
-    expect(at11.monthly).toBe(1800);
+    // Derived from the verified module count rather than a literal, which went
+    // stale the moment Reservations was confirmed as a shipped Tenzo module.
+    expect(at11.monthly).toBe(TENZO_SELLABLE_MODULES * 75 * 8);
   });
 
   it("never invents a larger competitor bill by asking for more modules", () => {
@@ -64,14 +66,36 @@ describe("the competitor price reflects what they actually sell", () => {
 });
 
 describe("the comparison is allowed to be unfavourable", () => {
-  it("shows Sundae costing MORE than three Tenzo modules, because it does", () => {
+  it("shows Sundae costing MORE than Tenzo's sellable modules, because it does", () => {
     // This is the honest position at these sizes, and the old badge hid it by
     // rendering only when the saving was positive. Sundae's argument here is
-    // eleven domains against three, not a lower price.
-    for (const n of [8, 25, 50]) {
+    // coverage, not a lower price — and the coverage gap is narrower than we
+    // used to claim: Tenzo ships six modules, four of which map to a Core
+    // domain, not three.
+    // Small estates: Sundae costs more, and the card must be able to say so.
+    for (const n of [1, 8, 25]) {
       const sundae = calculateCorePackagePrice("core_growth", n);
       const tenzo = calculateTenzoPrice(n, TENZO_SELLABLE_MODULES).monthly;
-      expect(sundae).toBeGreaterThan(tenzo);
+      expect(sundae, `Growth at ${n} locations`).toBeGreaterThan(tenzo);
+    }
+  });
+
+  it("crosses over at a real estate size rather than never", () => {
+    // Correcting Tenzo's module count from three to the verified four moved
+    // this: Sundae now overtakes Tenzo on price at 9 locations on Foundation,
+    // 20 on Margin, 27 on Growth and 115 on Performance. Asserting the
+    // crossover EXISTS, rather than a fixed number, keeps this honest if either
+    // side reprices.
+    for (const pkg of ["core_foundation", "core_margin", "core_growth"] as const) {
+      let crossover: number | null = null;
+      for (let n = 1; n <= 250; n += 1) {
+        if (calculateCorePackagePrice(pkg, n) <= calculateTenzoPrice(n, TENZO_SELLABLE_MODULES).monthly) {
+          crossover = n;
+          break;
+        }
+      }
+      expect(crossover, `${pkg} never becomes cheaper than Tenzo`).not.toBeNull();
+      expect(crossover!).toBeGreaterThan(1);
     }
   });
 });

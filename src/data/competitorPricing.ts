@@ -233,16 +233,30 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
 
   // ─────────────────────────────────────────────────────────────────────────
   // TENZO
-  // Source: tenzo.io/pricing (last first-party read: 2026-01-01)
-  // ─────────────────────────────────────────────────────────────────────────
+  // Source: NO LIVE FIRST-PARTY PRICE EXISTS. Verified by hand 2026-08-11:
+  // https://tenzo.io/pricing serves a 114-byte stub that JavaScript-redirects
+  // to /lander, which resolves to forsale.godaddy.com/forsale/tenzo.io — the
+  // domain is for sale. Tenzo's live site is gotenzo.com, and
+  // https://www.gotenzo.com/pricing returns 404: they publish no pricing page.
+  //
+  // Note the failure mode. `curl -o /dev/null -w %{http_code}` returns 200 for
+  // tenzo.io/pricing, because the parking stub IS served successfully; only
+  // reading the body reveals it. A status-code check would have renewed this
+  // badge indefinitely.
+  //
+  // The $75/module/location and $350/module/location setup figures are retained
+  // because they are the best information we have and were first-party once,
+  // but they can no longer be called verified, and the card must not link a
+  // buyer to a domain-sale page. Downgraded to 'estimated' rather than deleted:
+  // removing Tenzo entirely would hide the competitor we lose to most often.
   tenzo: {
     id: 'tenzo',
     name: 'Tenzo',
     category: 'Restaurant analytics platform',
     icon: 'chart',
-    verification: 'verified' as VerificationLevel,
-    sourceUrl: 'https://tenzo.io/pricing',
-    lastVerified: '2026-01-01',
+    verification: 'estimated' as VerificationLevel,
+    sourceUrl: null,
+    lastVerified: null,
     // These are the SAME three modules `calculate` bills for, in Sundae's own
     // domain ids. They disagreed: the calculator charges for
     // ['sales', 'labor', 'inventory'] while the coverage rail scored
@@ -300,15 +314,15 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
             label: 'Monthly licenses',
             amount: monthly * 12,
             kind: 'recurring',
-            verification: 'verified',
-            source: `${moduleCount} module(s) x ${locations} location(s) x $75/month — tenzo.io/pricing`,
+            verification: 'estimated',
+            source: `${moduleCount} module(s) x ${locations} location(s) x $75/month. Last first-party read 2026-01-01; tenzo.io now resolves to a domain-sale page and gotenzo.com publishes no pricing, so this figure can no longer be verified.`,
           },
           {
             label: 'Setup fees',
             amount: setupFee,
             kind: 'one_time',
-            verification: 'verified',
-            source: `$350 per module per location — tenzo.io/pricing`,
+            verification: 'estimated',
+            source: `$350 per module per location. Same provenance as the licence line: no live first-party source since tenzo.io was put up for sale.`,
           },
         ],
         // Static and always true. This used to be a dynamic "covers N of M

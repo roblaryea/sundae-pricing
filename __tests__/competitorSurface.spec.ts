@@ -215,8 +215,13 @@ describe("a competitor total reconciles with its breakdown", () => {
 
   it("charges the Power BI analyst once, not twice", () => {
     const cost = COMPETITOR_PRICING.powerbi.calculate(10, SELECTION);
-    // 15 Premium seats x $20 x 12 = 3,600; build 30,000; support 20,000.
-    expect(cost.firstYear).toBe(53600);
+    // 15 Premium seats x the published PPU rate x 12, plus a 30,000 build and
+    // 20,000 support. Derived from the rate rather than hardcoded: the seat
+    // price is a Microsoft list figure that moves (it went $20 -> $24 in the
+    // 2025 reprice, which silently invalidated the literal that used to be
+    // here).
+    const ppu = COMPETITOR_PRICING.powerbi.pricing.licenses.premiumPerUser;
+    expect(cost.firstYear).toBe(15 * ppu * 12 + 30000 + 20000);
     // The printed total that its own breakdown contradicted.
     expect(cost.firstYear).not.toBe(88600);
     expect(cost.lines.map((l) => l.label)).toEqual([
@@ -378,7 +383,10 @@ describe("implementation is never claimed to be free", () => {
     const legacy = calculateCompetitorComparison("powerbi", 10, SELECTION, 4265, undefined, AS_OF);
     expect(legacy?.sundaeCost.annual).toBe(51180);
     expect(legacy?.sundaeCost.crewMonthly).toBe(0);
-    expect(legacy?.savings.firstYear).toBe(53600 - 51180);
+    // Against the competitor's own computed first year, not a literal that goes
+    // stale the next time Microsoft reprices a seat.
+    const powerbiFirstYear = COMPETITOR_PRICING.powerbi.calculate(10, SELECTION).firstYear;
+    expect(legacy?.savings.firstYear).toBe(powerbiFirstYear - 51180);
   });
 });
 

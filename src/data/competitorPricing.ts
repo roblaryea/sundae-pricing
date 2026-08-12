@@ -420,10 +420,12 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     coversDomains: [],
 
     pricing: {
-      // Power BI Premium Per User: $20/user/month (Microsoft list price)
+      // Microsoft list prices, re-fetched from the pricing page 2026-08-11.
+      // Both figures here were stale: Pro was $10 and PPU $20 before the 2025
+      // reprice.
       licenses: {
-        proPerUser: 10,
-        premiumPerUser: 20,
+        proPerUser: 14,
+        premiumPerUser: 24,
         typicalUsers: (locations: number) => Math.max(5, Math.ceil(locations * 1.5))
       },
 
@@ -446,7 +448,14 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
 
     calculate: (locations: number) => {
       const users = Math.max(5, Math.ceil(locations * 1.5));
-      const licenseCost = users * 20 * 12;  // Premium Per User
+      // Premium Per User at the current $24 list price (was hardcoded at the
+      // stale $20). PPU rather than Pro is an ASSUMPTION and is declared as one
+      // in COMPETITOR_ASSUMPTIONS: Microsoft caps shared capacity at eight
+      // scheduled semantic-model refreshes a day, which a multi-site group
+      // running intraday sales dashboards exceeds. A group reporting once a day
+      // fits inside Pro at $14, and this line then overstates them by $120 per
+      // seat per year.
+      const licenseCost = users * 24 * 12;
 
       let implementation: number;
       let support: number;
@@ -492,9 +501,16 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     },
 
     limitations: [
+      // "No AI insights included" used to sit in this list and is false.
+      // Power BI ships ETS forecasting and anomaly detection in the Analytics
+      // pane, what-if parameters, and Copilot grounded in the semantic model.
+      // It is the easiest claim on the card for a buyer to disprove in the
+      // room, and losing that line costs far less than being caught making it.
+      // The honest version of each gap is "narrower", not "none".
       'Requires technical expertise to build',
       'No pre-built restaurant analytics',
-      'No AI insights included',
+      'Forecasting is a chart-level trend line, not a P&L forecast with scenarios',
+      'Copilot requires paid Fabric capacity, not a Pro or PPU seat alone',
       'No benchmark data',
       'Ongoing development required',
       'No competitive intelligence'
@@ -539,11 +555,24 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
 
       const lines: CompetitorCostLine[] = [
         {
-          label: `Labor (${hoursPerWeek} hrs/week @ $${SPREADSHEETS_LABOR_RATE_USD}/hr)`,
+          // Named as time, not as an invoice.
+          //
+          // This is the single largest line in the only comparison Sundae
+          // consistently wins — the status quo took the "best savings" badge in
+          // 316 of 316 sampled configurations — and it is imputed: nobody writes
+          // a cheque for it. Labelled "Labor" beside two cash costs it read as
+          // an invoice, and a CFO who strikes it flips roughly 3,400 of 8,700
+          // "Sundae is cheaper" cells the other way.
+          //
+          // It is NOT deleted. The time is genuinely spent and every credible
+          // TCO comparison counts staff time. What was wrong was presenting it
+          // as cash without saying so, which is the one thing that does not
+          // survive the question "do we actually pay that?".
+          label: `Manager time (${hoursPerWeek} hrs/week @ $${SPREADSHEETS_LABOR_RATE_USD}/hr)`,
           amount: laborCost,
           kind: 'recurring',
           verification: 'estimated',
-          source: `${hoursPerWeek} hrs/week x ${weeksPerYear} weeks x $${SPREADSHEETS_LABOR_RATE_USD}/hr — industry analyst labour rate.`,
+          source: `${hoursPerWeek} hrs/week x ${weeksPerYear} weeks x $${SPREADSHEETS_LABOR_RATE_USD}/hr. This is the VALUE OF TIME already being spent, not an invoice you receive — if that time is not redeployed, the cash saving is the software line alone.`,
         },
         {
           label: 'Software',
@@ -666,7 +695,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   // 7SHIFTS
   // Source: 7shifts.com/pricing (last first-party read: 2026-01-01)
   // ─────────────────────────────────────────────────────────────────────────
-  sevenShifts: {
+  '7shifts': {
     id: '7shifts',
     name: '7shifts',
     category: 'Labor & scheduling',
@@ -936,7 +965,14 @@ export function calculateAllComparisons(
   context?: CompetitorCalcContext,
   asOf: Date = new Date(),
 ): ComparisonResult[] {
-  const competitorIds = ['tenzo', 'nory', 'powerbi', 'spreadsheets', 'restaurant365', 'marketman', 'sevenShifts'];
+  // Derived from the catalogue itself. The hand-maintained list carried
+  // 'sevenShifts' — the RECORD KEY — while the lookup below reads
+  // `COMPETITOR_PRICING[c.competitor.id]` and that record's id is '7shifts'.
+  // The lookup returned undefined and the row was filtered out of every
+  // comparison on screen, while the Assumptions panel went on printing
+  // "sevenShifts: $76.99/location". It was the only entry whose key and id
+  // disagreed, and it was the cheapest rival on the board.
+  const competitorIds = Object.keys(COMPETITOR_PRICING);
 
   const comparisons = competitorIds
     .map(id => calculateCompetitorComparison(id, locations, modules, sundae, context, asOf))
@@ -973,9 +1009,10 @@ export const COMPETITOR_ASSUMPTIONS = {
     lastVerified: 'January 2026'
   },
   powerbi: {
-    source: 'Microsoft pricing + industry estimates',
-    notes: '$20/user Premium licenses + one-time build + ongoing development and support (the ~0.5 FTE, counted once)',
-    lastVerified: 'January 2026'
+    source: 'powerbi.microsoft.com/pricing (list prices re-checked 2026-08-11) + our own estimates',
+    notes:
+      'Pro $14/user/month, Premium Per User $24/user/month — both were stale here at $10 and $20. We model PPU because Microsoft caps shared capacity at eight scheduled semantic-model refreshes a day; a group reporting once daily fits inside Pro, and this line then overstates them by $120 per seat per year. Seat count, one-time build and ongoing support (the ~0.5 FTE, counted once) are our estimates, not published prices.',
+    lastVerified: 'August 2026'
   },
   spreadsheets: {
     source: 'Industry labor cost estimates',
@@ -992,7 +1029,7 @@ export const COMPETITOR_ASSUMPTIONS = {
     notes: '$249/month Growth plan, setup advertised free. Multi-site multiplier is not published — one subscription per location is our assumption.',
     lastVerified: 'August 2026'
   },
-  sevenShifts: {
+  '7shifts': {
     source: '7shifts.com/pricing',
     notes: '$76.99/location for The Works tier',
     lastVerified: 'January 2026'

@@ -244,7 +244,7 @@ const liveCalculatorCopy = {
 const roiCopy = {
   en: {
     title: 'Calculate Your ROI',
-    subtitle: 'See how quickly Sundae pays for itself through operational savings',
+    subtitle: 'Build a funding case from operational recovery and validated cost avoidance',
     businessTitle: 'Tell us about your business',
     monthlyRevenuePerLocation: 'Monthly Revenue per Location',
     currentLaborCost: 'Current Labor Cost %',
@@ -264,7 +264,7 @@ const roiCopy = {
     days: '{count} days',
     savingsBreakdown: 'Savings Breakdown',
     savingsNote:
-      'Estimates use conservative midpoint assumptions. Hover over each line for range details. Actual results depend on execution and baseline metrics.',
+      'Operational lines use illustrative midpoints within the disclosed planning ranges. Actual results depend on baseline conditions and execution.',
     noModulesSelected: 'No Modules Selected',
     noModulesBody: 'Add modules to your stack to see projected ROI savings.',
     biggestWins: 'Your Biggest Wins',
@@ -272,6 +272,7 @@ const roiCopy = {
     monthlyPlatformCost: 'Monthly Platform Cost',
     paysForItselfIn: 'Pays for itself in',
     noPaybackAtTheseInputs: 'Not at these inputs',
+    roiBasisNote: 'Return is modelled on your Core package only. {excluded}/mo of Watchtower, add-ons and Crew is in your quote but earns no savings line here.',
     netMonthlyBenefit: 'Net Monthly Benefit',
     viewSummary: 'View Summary',
     rangeLabel: 'Range',
@@ -283,24 +284,24 @@ const roiCopy = {
       purchasing: 'Purchasing Savings',
       reservations: 'Table Utilization',
       marketing: 'Marketing Efficiency',
-      profit: 'Profit Intelligence Uplift',
+      profit: 'Profit Intelligence Measurement',
       revenue: 'Revenue Leakage Recovery',
       delivery: 'Delivery Margin Protection',
       guest: 'Reputation & Retention Lift',
     },
     tooltips: {
       labor:
-        'Reduces labor cost by 0.5-1.5% of revenue through better scheduling and productivity insights',
+        'Models 1-3% of labour cost through scheduling and productivity improvements',
       inventory:
-        'Reduces food cost by 0.3-1.0% of revenue through waste reduction and recipe optimization',
+        'Models 0.5-2% of food cost through waste and recipe controls',
       purchasing:
-        'Saves 0.2-0.8% of revenue through better supplier pricing and contract management',
+        'Models 2-5% of purchasing spend; food cost is the planning proxy until purchasing spend is supplied',
       reservations:
         'Revenue uplift of 0.5-2.0% through improved table utilization. Assumes demand exists.',
       marketing:
         'Improves marketing efficiency by 5-15% of marketing spend through better attribution and targeting',
       profit:
-        'Uncovers 0.2-0.8% of revenue in margin leakage and menu/mix optimization. Assumes execution on insights.',
+        'Measures and attributes the recovery lines above; no separate uplift is added to avoid double counting.',
       revenue:
         'Recovers 0.05-0.25% of revenue from voids, comps, and discount leakage. Depends on baseline leakage.',
       delivery:
@@ -319,7 +320,7 @@ const roiCopy = {
       solid: 'Modelled at these inputs: {roi}x return, {weeks}-week payback.',
       positive: 'Modelled positive return at these inputs.',
       value: 'Value builds as you optimize operations over time.',
-      longTerm: 'Long-term investment in operational intelligence.',
+      longTerm: 'At these inputs this configuration does not pay for itself. A smaller package may fit better.',
     },
   },
   ar: {
@@ -352,6 +353,7 @@ const roiCopy = {
     monthlyPlatformCost: 'التكلفة الشهرية للمنصة',
     paysForItselfIn: 'تغطي تكلفتها خلال',
     noPaybackAtTheseInputs: 'ليس عند هذه المدخلات',
+    roiBasisNote: 'يُحتسب العائد على باقة Core وحدها. مبلغ {excluded} شهريًا من Watchtower والإضافات وCrew مدرج في عرض السعر لكنه لا يُحتسب ضمن الوفورات هنا.',
     netMonthlyBenefit: 'صافي الفائدة الشهرية',
     viewSummary: 'عرض الملخص',
     rangeLabel: 'النطاق',
@@ -370,17 +372,17 @@ const roiCopy = {
     },
     tooltips: {
       labor:
-        'يخفض تكلفة العمالة بنسبة 0.5-1.5% من الإيرادات عبر تحسين الجدولة والرؤى الإنتاجية',
+        'يقدّر 1-3% من قاعدة تكلفة العمالة عبر تحسين الجدولة والإنتاجية',
       inventory:
-        'يخفض تكلفة الطعام بنسبة 0.3-1.0% من الإيرادات عبر تقليل الهدر وتحسين الوصفات',
+        'يقدّر 0.5-2% من قاعدة تكلفة الطعام عبر الحد من الهدر وضبط الوصفات',
       purchasing:
-        'يوفر 0.2-0.8% من الإيرادات عبر تحسين أسعار الموردين وإدارة العقود',
+        'يقدّر 2-5% من إنفاق المشتريات؛ تُستخدم تكلفة الطعام كبديل تخطيطي حتى إدخال إنفاق المشتريات',
       reservations:
         'يرفع الإيرادات بنسبة 0.5-2.0% عبر تحسين استغلال الطاولات. يفترض وجود طلب.',
       marketing:
         'يحسن كفاءة التسويق بنسبة 5-15% من الإنفاق التسويقي عبر إسناد أفضل واستهداف أدق',
       profit:
-        'يكشف 0.2-0.8% من الإيرادات المفقودة بسبب التسرب في الهامش وتحسين المزيج. يفترض تنفيذ الرؤى.',
+        'يقيس وينسب بنود الاسترداد أعلاه؛ لا تُضاف زيادة منفصلة لتجنب الاحتساب المزدوج.',
       revenue:
         'يسترد 0.05-0.25% من الإيرادات من الإلغاءات والتعويضات وتسرب الخصومات بحسب خط الأساس.',
       delivery:
@@ -398,7 +400,7 @@ const roiCopy = {
       solid: 'عائد قوي بمضاعف {roi}x وفترة استرداد {weeks} أسابيع.',
       positive: 'عائد إيجابي مع أثر ملموس على عملياتك.',
       value: 'تزداد القيمة مع تحسين العمليات بمرور الوقت.',
-      longTerm: 'استثمار طويل الأجل في الذكاء التشغيلي.',
+      longTerm: 'بهذه المدخلات لا تغطي هذه التهيئة تكلفتها. قد تكون باقة أصغر أنسب لك.',
     },
   },
   fr: {
@@ -435,6 +437,7 @@ const roiCopy = {
     monthlyPlatformCost: 'Coût mensuel de la plateforme',
     paysForItselfIn: "S'amortit en",
     noPaybackAtTheseInputs: 'Pas avec ces valeurs',
+    roiBasisNote: 'Le retour est modélisé sur votre forfait Core uniquement. Les {excluded}/mois de Watchtower, options et Crew figurent dans votre devis mais ne génèrent aucune ligne d\'économies ici.',
     netMonthlyBenefit: 'Bénéfice mensuel net',
     viewSummary: 'Voir le résumé',
     rangeLabel: 'Fourchette',
@@ -453,17 +456,17 @@ const roiCopy = {
     },
     tooltips: {
       labor:
-        "Réduit le coût du travail de 0,5-1,5% du chiffre d'affaires grâce à un meilleur planning et à des insights de productivité",
+        "Modélise 1 à 3 % de la masse salariale grâce à un meilleur planning et à des gains de productivité",
       inventory:
-        "Réduit le coût alimentaire de 0,3-1,0% du chiffre d'affaires grâce à la baisse du gaspillage et à l'optimisation des recettes",
+        "Modélise 0,5 à 2 % du coût alimentaire grâce à la baisse du gaspillage et au contrôle des recettes",
       purchasing:
-        "Économise 0,2-0,8% du chiffre d'affaires grâce à de meilleurs prix fournisseurs et à la gestion des contrats",
+        "Modélise 2 à 5 % des achats ; le coût alimentaire sert de proxy jusqu'à la saisie des dépenses d'achat",
       reservations:
         "Génère 0,5-2,0% de revenu supplémentaire grâce à une meilleure utilisation des tables. Suppose qu'il existe une demande.",
       marketing:
         "Améliore l'efficacité marketing de 5-15% de la dépense marketing grâce à une meilleure attribution et un meilleur ciblage",
       profit:
-        "Met au jour 0,2-0,8% du chiffre d'affaires en fuite de marge et optimisation du mix. Suppose une exécution des insights.",
+        "Mesure et attribue les leviers de récupération ci-dessus ; aucun gain distinct n'est ajouté afin d'éviter le double comptage.",
       revenue:
         "Récupère 0,05-0,25% du chiffre d'affaires sur les annulations, gestes commerciaux et remises. Dépend de la fuite initiale.",
       delivery:
@@ -482,7 +485,7 @@ const roiCopy = {
       solid: 'Retours solides avec {roi}x de ROI et {weeks} semaines de retour.',
       positive: 'ROI positif avec un impact mesurable sur vos operations.',
       value: 'La valeur augmente a mesure que vous optimisez vos operations.',
-      longTerm: 'Investissement de long terme dans l intelligence operationnelle.',
+      longTerm: 'Avec ces hypothèses, cette configuration ne se rembourse pas. Un forfait plus petit conviendrait mieux.',
     },
   },
   es: {
@@ -519,6 +522,7 @@ const roiCopy = {
     monthlyPlatformCost: 'Costo mensual de la plataforma',
     paysForItselfIn: 'Se paga solo en',
     noPaybackAtTheseInputs: 'No con estos valores',
+    roiBasisNote: 'El retorno se modela solo sobre tu paquete Core. Los {excluded}/mes de Watchtower, complementos y Crew están en tu presupuesto pero no generan ahorro aquí.',
     netMonthlyBenefit: 'Beneficio mensual neto',
     viewSummary: 'Ver resumen',
     rangeLabel: 'Rango',
@@ -537,17 +541,17 @@ const roiCopy = {
     },
     tooltips: {
       labor:
-        'Reduce el costo laboral entre 0,5% y 1,5% de los ingresos gracias a mejor programación y productividad',
+        'Modela entre el 1% y el 3% de la base de costo laboral mediante mejor programación y productividad',
       inventory:
-        'Reduce el costo de alimentos entre 0,3% y 1,0% de los ingresos mediante menor desperdicio y mejor receta',
+        'Modela entre el 0,5% y el 2% de la base de costo de alimentos mediante menor desperdicio y control de recetas',
       purchasing:
-        'Ahorra 0,2-0,8% de los ingresos gracias a mejores precios de proveedores y gestión de contratos',
+        'Modela entre el 2% y el 5% del gasto de compras; usa el costo de alimentos como referencia hasta que se indique ese gasto',
       reservations:
         'Aumenta los ingresos 0,5-2,0% gracias a una mejor utilización de mesas. Supone demanda existente.',
       marketing:
         'Mejora la eficiencia de marketing entre 5% y 15% del gasto gracias a mejor atribución y segmentación',
       profit:
-        'Destapa 0,2-0,8% de los ingresos en fugas de margen y optimización del mix. Supone ejecución de los insights.',
+        'Mide y atribuye las líneas de recuperación anteriores; no añade otra mejora para evitar el doble conteo.',
       revenue:
         'Recupera 0,05-0,25% de los ingresos por voids, comps y fugas de descuentos. Depende del nivel de fuga actual.',
       delivery:
@@ -566,7 +570,7 @@ const roiCopy = {
       solid: 'Retornos sólidos con {roi}x de ROI y recuperación en {weeks} semanas.',
       positive: 'ROI positivo con impacto medible en tus operaciones.',
       value: 'El valor crece a medida que optimizas tus operaciones.',
-      longTerm: 'Inversión a largo plazo en inteligencia operativa.',
+      longTerm: 'Con estos datos, esta configuración no se paga sola. Un paquete más pequeño puede encajar mejor.',
     },
   },
 } as const satisfies Record<FullyLocalizedPricingLocale, object>
@@ -591,6 +595,13 @@ const competitorCompareCopy = {
     missingOffer: "What {name} doesn't offer:",
     viewPricing: 'View {name} pricing ->',
     ongoingAnnualSavings: 'Ongoing annual savings',
+    cheaperPerYear: 'cheaper per year',
+    competitorCostsLess: '{name} costs less per year',
+    dayOneLabel: 'Working on day one',
+    dayOneDomains: '{count} of your {total} domains',
+    buildFirst: 'after a {amount} build',
+    cannotBuyLabel: 'Not available from {name} at any price',
+    firstYearSavings: 'First-year savings',
     vsName: 'vs {name}',
     plusMore: '+{count} more',
     verified: 'Verified',
@@ -630,6 +641,13 @@ const competitorCompareCopy = {
     missingOffer: 'ما الذي لا يقدمه {name}:',
     viewPricing: 'عرض تسعير {name} ->',
     ongoingAnnualSavings: 'التوفير السنوي المستمر',
+    cheaperPerYear: 'أرخص سنويًا',
+    competitorCostsLess: '‏{name} أقل تكلفة سنويًا',
+    dayOneLabel: 'جاهز من اليوم الأول',
+    dayOneDomains: '{count} من مجالاتك الـ{total}',
+    buildFirst: 'بعد إنشاء بقيمة {amount}',
+    cannotBuyLabel: 'غير متاح من {name} بأي سعر',
+    firstYearSavings: 'وفورات السنة الأولى',
     vsName: 'مقابل {name}',
     plusMore: '+{count} أخرى',
     verified: 'موثّق',
@@ -669,6 +687,13 @@ const competitorCompareCopy = {
     missingOffer: 'Ce que {name} ne propose pas :',
     viewPricing: 'Voir les tarifs de {name} ->',
     ongoingAnnualSavings: 'Economies annuelles continues',
+    cheaperPerYear: 'moins cher par an',
+    competitorCostsLess: '{name} coûte moins par an',
+    dayOneLabel: 'Opérationnel dès le premier jour',
+    dayOneDomains: '{count} de vos {total} domaines',
+    buildFirst: 'après un chantier de {amount}',
+    cannotBuyLabel: 'Indisponible chez {name} à tout prix',
+    firstYearSavings: 'Économies la première année',
     vsName: 'vs {name}',
     plusMore: '+{count} de plus',
     verified: 'Verifie',
@@ -708,6 +733,13 @@ const competitorCompareCopy = {
     missingOffer: 'Lo que {name} no ofrece:',
     viewPricing: 'Ver precios de {name} ->',
     ongoingAnnualSavings: 'Ahorro anual continuo',
+    cheaperPerYear: 'más barato al año',
+    competitorCostsLess: '{name} cuesta menos al año',
+    dayOneLabel: 'Operativo desde el primer día',
+    dayOneDomains: '{count} de tus {total} dominios',
+    buildFirst: 'tras una implantación de {amount}',
+    cannotBuyLabel: 'No disponible en {name} a ningún precio',
+    firstYearSavings: 'Ahorro del primer año',
     vsName: 'vs {name}',
     plusMore: '+{count} más',
     verified: 'Verificado',

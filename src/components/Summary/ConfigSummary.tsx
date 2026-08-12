@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Check, Rocket, ChevronDown, Sparkles, Castle, GitBranch, Zap, Calendar, Search, TrendingUp } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
+import { useROICalculation } from '../../hooks/useROICalculation';
 import {
   watchtower,
   getLocalizedTierCatalog,
   corePackages,
-  CORE_DOMAIN_MODULE_IDS,
   modules as coreDomainModules,
   foresightAction,
   conceptSkus,
@@ -68,7 +68,7 @@ export function ConfigSummary() {
   const {
     layer, corePackage, locations, addOns, watchtowerModules,
     crossIntelligence: crossIntelSelection, markStepCompleted, crewSkus: selectedCrewSkus,
-    operatingModels, techStack, billingCycle, setBillingCycle
+    operatingModels, techStack, billingCycle, setBillingCycle, roiInputs
   } = useConfiguration();
 
   // The discovery answers resolve the one-time implementation class and the
@@ -140,8 +140,8 @@ export function ConfigSummary() {
     });
   }, [markStepCompleted]);
 
-  // v1.7: the Core PACKAGE is the thing being summarised. Its "what's
-  // included" list is the eleven domain modules, which ship with every package.
+  // The Core PACKAGE is the thing being summarised. Its "what's included"
+  // list must use this package's actual grants, never the global catalogue.
   //
   // The Core rail is present on BOTH the Core-only and the Core+Crew pathways,
   // and gating this on `layer === 'core'` alone meant that ADDING Crew — a
@@ -152,7 +152,7 @@ export function ConfigSummary() {
   const hasCoreRail = layer === 'core' || layer === 'both';
   const packageDetails = hasCoreRail ? corePackages[corePackage] : null;
   const includedFeatures = packageDetails
-    ? CORE_DOMAIN_MODULE_IDS.map((moduleId) => coreDomainModules[moduleId].name)
+    ? packageDetails.includesDomainModules.map((moduleId) => coreDomainModules[moduleId].name)
     : [];
   // Add-ons are the only Core-side line items a buyer actually purchases, so
   // they get their published names. Rendering the raw ids put `foresight_action`
@@ -160,6 +160,37 @@ export function ConfigSummary() {
   // a thing anyone agreed to pay for.
   const addOnNames = addOns.map((id) =>
     id === 'foresight_action' ? foresightAction.name : conceptSkus[id].name,
+  );
+
+  // Carry the value case to the decision screen. The ROI step previously
+  // disappeared entirely at summary, leaving a buyer to decide from price and
+  // competitor cards alone after they had just built a funding case.
+  // Recalculate against the Core rail only, matching the scope shown on the
+  // ROI step: add-ons and Crew are quoted, but earn no unsubstantiated saving.
+  const coreOnlyPricing = usePriceCalculation(
+    layer,
+    corePackage,
+    locations,
+    [],
+    [],
+    clientProfile,
+    'base',
+  );
+  const summaryRoi = useROICalculation(
+    {
+      layer: hasCoreRail ? 'core' : null,
+      corePackage,
+      locations,
+      activeDomains: packageDetails ? [...packageDetails.includesDomainModules] : [],
+      watchtowerModules,
+    },
+    roiInputs,
+    coreOnlyPricing.total,
+    stackEstimate
+      ? stackEstimate.fee
+      : pricing.implementation.requiresScoping
+        ? 0
+        : pricing.implementation.fee,
   );
 
   // Crew is the parallel operational substrate path — it doesn't use
@@ -308,18 +339,17 @@ export function ConfigSummary() {
               {/* Modules */}
               {/* Included domain modules — a package component, not a purchase.
                   The quote has to say so outright: elsewhere in the journey the
-                  same eleven names sit next to prices, and a buyer who reads
+                  same domain names sit next to prices, and a buyer who reads
                   "modules" as a line item asks to drop the ones they don't want. */}
               {packageDetails && (
                 <div className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <div className="font-semibold">
-                      All {CORE_DOMAIN_MODULE_IDS.length} Core domain modules included
+                      {packageDetails.includesDomainModules.length} Core outcome domains included
                     </div>
                     <div className="text-sm text-sundae-muted">
-                      Components of {packageDetails.name} — no standalone price, never sold
-                      separately.
+                      {packageDetails.includedOutcome}. Package components have no standalone price.
                     </div>
                   </div>
                 </div>
@@ -422,8 +452,8 @@ export function ConfigSummary() {
                     <div className="text-sm text-sundae-muted">{crewSkuNames.join(' · ')}</div>
                     <div className="text-[10px] text-sundae-muted/80">
                       {crewRail.detectedBundleId
-                        ? 'Published net bundle price — a flat monthly figure, not a discount off the SKUs'
-                        : 'Flat monthly price per SKU — your location count does not change it'}
+                        ? 'Published net bundle price at your estate size — not a percentage discount off the SKUs'
+                        : 'First-location anchor plus lower marginal location bands'}
                     </div>
                   </div>
                 </div>
@@ -446,7 +476,7 @@ export function ConfigSummary() {
                   {messages.summary.monthlyInvestment}
                   {crewRail ? ' · Core + Crew' : ''}
                 </div>
-                <div className="text-4xl md:text-5xl font-bold mb-1">
+                <div className="text-4xl md:text-5xl font-bold mb-1" data-testid="summary-monthly-total">
                   {isQuotable
                     ? money(combinedMonthly)
                     : messages.summary.customPricing}
@@ -621,7 +651,75 @@ export function ConfigSummary() {
         </div>
       </motion.div>
 
-      {/* 2. What's Included - COLLAPSIBLE */}
+      {/* 2. Funding case — the value side of the decision, carried forward
+          from the ROI step with exactly the same inputs and scope. */}
+      {hasCoreRail && isQuotable && (
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18 }}
+          className="rounded-xl border border-[#E9A24A]/30 bg-gradient-to-br from-[#E9A24A]/10 to-sundae-surface p-6 md:p-8 mb-6"
+          aria-labelledby="funding-case-title"
+        >
+          <div className="flex flex-col gap-2 md:flex-row md:items-end md:justify-between mb-5">
+            <div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#E9A24A]">
+                Value at your inputs
+              </div>
+              <h3 id="funding-case-title" className="mt-1 text-2xl font-bold">
+                What can fund this Core investment
+              </h3>
+              <p className="mt-1 max-w-2xl text-sm text-sundae-muted">
+                A planning model, not a measured outcome. Operational recovery uses the disclosed
+                midpoints; cash avoidance includes only spend you entered as replaceable.
+              </p>
+            </div>
+            <div className="text-left md:text-right">
+              <div className="text-sm text-sundae-muted">Monthly funding case</div>
+              <div className="font-display text-3xl font-bold tabular-nums text-white">
+                {money(summaryRoi.monthlyFunding)}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
+            <div className="rounded-lg border border-white/10 bg-sundae-dark/40 p-4">
+              <div className="text-xs text-sundae-muted">Profit recovery</div>
+              <div className="mt-1 text-xl font-bold tabular-nums">
+                {money(summaryRoi.monthlySavings)}<span className="text-xs text-sundae-muted">/mo</span>
+              </div>
+              <p className="mt-1 text-[10px] text-sundae-muted">Only domains granted by {packageDetails?.name}.</p>
+            </div>
+            <div className="rounded-lg border border-white/10 bg-sundae-dark/40 p-4">
+              <div className="text-xs text-sundae-muted">Cash cost avoidance</div>
+              <div className="mt-1 text-xl font-bold tabular-nums">
+                {money(summaryRoi.replaceableSystemsSavings)}<span className="text-xs text-sundae-muted">/mo</span>
+              </div>
+              <p className="mt-1 text-[10px] text-sundae-muted">Buyer-entered replaceable systems only.</p>
+            </div>
+            <div className="rounded-lg border border-white/10 bg-sundae-dark/40 p-4">
+              <div className="text-xs text-sundae-muted">Redeployable capacity</div>
+              <div className="mt-1 text-xl font-bold tabular-nums">
+                {money(summaryRoi.capacityValue)}<span className="text-xs text-sundae-muted">/mo</span>
+              </div>
+              <p className="mt-1 text-[10px] text-sundae-muted">
+                {summaryRoi.capacityFte.toLocaleString(locale, { maximumFractionDigits: 1 })} FTE-equivalent; not counted as cash.
+              </p>
+            </div>
+            <div className="rounded-lg border border-green-400/25 bg-green-400/5 p-4">
+              <div className="text-xs text-sundae-muted">Net after Core</div>
+              <div className="mt-1 text-xl font-bold tabular-nums text-green-400">
+                {money(summaryRoi.monthlyFunding - coreOnlyPricing.total)}<span className="text-xs">/mo</span>
+              </div>
+              <p className="mt-1 text-[10px] text-sundae-muted">
+                {summaryRoi.roiCapped ? `${summaryRoi.roi.toFixed(1)}x+` : `${summaryRoi.roi.toFixed(1)}x`} modelled return; add-ons excluded.
+              </p>
+            </div>
+          </div>
+        </motion.section>
+      )}
+
+      {/* 3. What's Included - COLLAPSIBLE */}
       {packageDetails && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -967,7 +1065,7 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 <div>
                   <div className="font-semibold">{quote.locations} {quote.locations === 1 ? 'location' : 'locations'}</div>
                   <div className="text-sm text-sundae-muted">
-                    {q.crewFlatNote}
+                    {q.crewCurveNote}
                   </div>
                 </div>
               </div>
@@ -999,7 +1097,12 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
           <div className="bg-gradient-to-br from-[#FF7E6F]/10 to-teal-600/5 border-2 border-[#FF7E6F]/30 rounded-xl p-6">
             <p className="text-xs uppercase tracking-wider text-sundae-muted font-semibold mb-2">{q.monthlyInvestment}</p>
             <div className="flex items-baseline gap-1 mb-4">
-              <span className="font-display text-5xl font-bold text-white tabular-nums">${monthly}</span>
+              <span
+                className="font-display text-5xl font-bold text-white tabular-nums"
+                data-testid="summary-monthly-total"
+              >
+                ${monthly.toLocaleString(locale)}
+              </span>
               <span className="text-lg text-sundae-muted">/mo</span>
             </div>
             <div className="space-y-2 pt-4 border-t border-[#FF7E6F]/20">
@@ -1068,8 +1171,8 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
         </p>
         <p>{messages.summary.taxNote} • {messages.summary.changeNotice}</p>
         <p className="text-[10px] opacity-70">
-          Crew SKUs and bundles are a flat monthly price. Implementation is charged once, at the
-          highest class in your selection.
+          Crew uses a first-location anchor plus lower marginal location bands. Implementation is
+          charged once, at the highest class in your selection.
         </p>
       </motion.div>
     </div>

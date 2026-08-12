@@ -1,6 +1,6 @@
 // ROI calculator component with dynamic module-based savings
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   type LucideIcon,
@@ -22,10 +22,15 @@ import {
 } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { usePriceCalculation } from '../../hooks/usePriceCalculation';
+import { resolveImplementationClass } from '../../lib/discoveryEngine';
 import {
   useROICalculation,
   generateROIDescription,
   getTopSavingsCategories,
+  clampMonthlyRevenue,
+  MIN_MONTHLY_REVENUE_PER_LOCATION,
+  MAX_MONTHLY_REVENUE_PER_LOCATION,
+  REVENUE_SLIDER_STEP,
 } from '../../hooks/useROICalculation';
 import type { SavingsLineItem } from '../../hooks/useROICalculation';
 import { cn } from '../../utils/cn';
@@ -66,12 +71,47 @@ export function ROISimulator() {
     setROIInputs,
     setCurrentStep,
     crewSkus: selectedCrewSkus,
+    techStack,
+    operatingModels,
   } = useConfiguration();
 
   const q = getQuoteSummaryCopy(locale);
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
   const pricing = usePriceCalculation(layer, corePackage, locations, addOns, watchtowerModules);
+  // The ROI denominator must contain exactly what the numerator credits.
+  //
+  // `pricing.total` carries the add-ons, Watchtower and Cross-Intelligence, and
+  // `SAVINGS_ASSUMPTIONS` has a rate for none of them — nine domain rates, and
+  // nothing for Watchtower, Foresight & Action or any concept SKU. So every
+  // incremental purchase entered the model as pure cost against zero benefit
+  // and mechanically LOWERED the return: a Core Performance single site at
+  // $100k/month went from +$378/mo net to -$521/mo simply by ticking Watchtower
+  // Complete, and the verdict flipped to "does not pay for itself". The
+  // configurator was arguing against its own upsell.
+  //
+  // Charging something in the denominator while refusing it a numerator is an
+  // arithmetic error, not conservatism. The two honest repairs are to give each
+  // rail a reasoned savings line or to model the return on the rail we can
+  // actually evidence. An evidence review rejected five separate attempts to
+  // raise or invent savings rates, so inventing one for Watchtower is not
+  // available — the ROI is modelled on the Core package, and the screen says so
+  // and names what it left out. The full monthly investment is still totalled on
+  // the quote summary.
+  const corePricing = usePriceCalculation(layer, corePackage, locations, [], []);
+  // Identical resolution order to ConfigSummary and CompactCompetitorCompare:
+  // the discovery answers override the per-SKU classes when the visitor told us
+  // what they run. A blank is honest when they skipped it; an invented fee is
+  // not.
+  const stackEstimate = useMemo(
+    () =>
+      techStack.length > 0
+        ? resolveImplementationClass(techStack, operatingModels, {
+            crewPayrollSelected: selectedCrewSkus.includes('crew_payroll'),
+          })
+        : null,
+    [techStack, operatingModels, selectedCrewSkus],
+  );
   // Credit ONLY the domains the selected package actually grants.
   //
   // This passed all eleven regardless of package, on the belief that every Core
@@ -89,6 +129,10 @@ export function ROISimulator() {
       ? computeCrewQuote(selectedCrewSkus, locations).monthly
       : 0;
 
+  // What the model charges, and what it deliberately does not.
+  const coreOnlyMonthly = corePricing.total;
+  const excludedFromRoi = Math.max(0, pricing.total + crewMonthly - coreOnlyMonthly);
+
   const roi = useROICalculation(
     {
       // ROI models the Core decision layer; 'both' contributes its Core side.
@@ -99,12 +143,51 @@ export function ROISimulator() {
       watchtowerModules,
     },
     roiInputs,
-    // The recurring cost must include the Crew rail on the combined pathway —
-    // omitting it understated monthly cost and flattered both ROI and payback.
-    pricing.total + crewMonthly,
+    // The Core rail alone, priced under the same discount rules.
+    //
+    // This previously read `pricing.total + crewMonthly`, added so the combined
+    // pathway did not understate monthly cost. That fixed a real understatement
+    // but produced the mirror error: Crew has no savings line either, so the
+    // combined quote charged two rails against one rail's benefit. Matching the
+    // scope on BOTH sides is the repair that is right in both directions, and
+    // the excluded spend is named on screen rather than dropped quietly.
+    coreOnlyMonthly,
     // And payback must clear the one-time implementation the quote charges.
-    pricing.implementation.requiresScoping ? 0 : pricing.implementation.fee,
+    //
+    // This read `pricing.implementation` alone, which collects the class of each
+    // selected SKU — and every Core package publishes `implementationClass:
+    // null`. One null forces `requiresScoping`, so the fee resolved to 0 on
+    // EVERY Core quote, payback fell to the 14-day floor, and the tile printed
+    // "14 days" on 100% of paying configurations: the same answer for a
+    // $1,195/mo single site and a $78,576/mo hundred-site estate.
+    //
+    // The buyer has usually already told us. The discovery step asks which
+    // systems they run and `resolveImplementationClass` grades that into a real
+    // class — the same resolution ConfigSummary and the competitor card use to
+    // quote the fee. Payback now clears the fee we actually quote. When the
+    // systems question was skipped there is genuinely nothing to charge, and it
+    // stays scoped at contract.
+    stackEstimate
+      ? stackEstimate.fee
+      : pricing.implementation.requiresScoping
+        ? 0
+        : pricing.implementation.fee,
   );
+
+  // The configuration store is persisted, so a visitor who set $50,000 before
+  // the floor moved would otherwise keep modelling a figure the slider can no
+  // longer express — and the ROI beneath it would not match the track.
+  const revenueForSlider = clampMonthlyRevenue(roiInputs.monthlyRevenue);
+  const revenueTrackPct =
+    ((revenueForSlider - MIN_MONTHLY_REVENUE_PER_LOCATION) /
+      (MAX_MONTHLY_REVENUE_PER_LOCATION - MIN_MONTHLY_REVENUE_PER_LOCATION)) *
+    100;
+
+  useEffect(() => {
+    if (roiInputs.monthlyRevenue !== revenueForSlider) {
+      setROIInputs({ monthlyRevenue: revenueForSlider });
+    }
+  }, [roiInputs.monthlyRevenue, revenueForSlider, setROIInputs]);
 
   const handleInputChange = (field: keyof typeof roiInputs, value: number | boolean) => {
     setROIInputs({ [field]: value });
@@ -167,22 +250,68 @@ export function ROISimulator() {
             <div className="flex justify-between mb-2">
               <label className="text-sm font-medium">{copy.monthlyRevenuePerLocation}</label>
               <span className="text-lg font-bold tabular-nums">
-                ${roiInputs.monthlyRevenue.toLocaleString(locale)}
+                ${revenueForSlider.toLocaleString(locale)}
               </span>
             </div>
             <input
               aria-label={copy.monthlyRevenuePerLocation}
               type="range"
-              min="50000"
-              max="500000"
-              step="10000"
-              value={roiInputs.monthlyRevenue}
+              min={MIN_MONTHLY_REVENUE_PER_LOCATION}
+              max={MAX_MONTHLY_REVENUE_PER_LOCATION}
+              step={REVENUE_SLIDER_STEP}
+              value={revenueForSlider}
               onChange={(e) => handleInputChange('monthlyRevenue', parseInt(e.target.value))}
               className="touch-slider w-full cursor-pointer"
               style={{
-                ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C ${((roiInputs.monthlyRevenue - 50000) / (500000 - 50000)) * 100}%, #2A231C 100%)`,
+                ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${revenueTrackPct}%, #2A231C ${revenueTrackPct}%, #2A231C 100%)`,
               }}
             />
+          </div>
+
+          <div className="pt-6 border-t border-white/10">
+            <h4 className="font-semibold mb-1">Cost avoidance (optional)</h4>
+            <p className="text-xs text-sundae-muted mb-4">
+              Use only costs you can validate. Replaceable system spend is counted in the funding
+              case; time capacity is disclosed separately and never treated as automatic cash.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <label className="text-sm">
+                <span className="block text-sundae-muted mb-2">Replaceable tools / month</span>
+                <input
+                  aria-label="Replaceable tools per month"
+                  type="number"
+                  min="0"
+                  step="100"
+                  value={roiInputs.replaceableSystemsSpend || 0}
+                  onChange={(e) => handleInputChange('replaceableSystemsSpend', Math.max(0, Number(e.target.value)))}
+                  className="w-full rounded-lg border border-white/10 bg-sundae-dark px-3 py-2 tabular-nums"
+                />
+              </label>
+              <label className="text-sm">
+                <span className="block text-sundae-muted mb-2">Manual reporting hours / week</span>
+                <input
+                  aria-label="Manual reporting hours per week"
+                  type="number"
+                  min="0"
+                  step="1"
+                  value={roiInputs.manualReportingHoursPerWeek || 0}
+                  onChange={(e) => handleInputChange('manualReportingHoursPerWeek', Math.max(0, Number(e.target.value)))}
+                  className="w-full rounded-lg border border-white/10 bg-sundae-dark px-3 py-2 tabular-nums"
+                />
+              </label>
+              <label className="text-sm">
+                <span className="block text-sundae-muted mb-2">Loaded hourly cost</span>
+                <input
+                  aria-label="Loaded hourly cost"
+                  type="number"
+                  min="0"
+                  step="5"
+                  value={roiInputs.loadedHourlyRate || 0}
+                  onChange={(e) => handleInputChange('loadedHourlyRate', Math.max(0, Number(e.target.value)))}
+                  className="w-full rounded-lg border border-white/10 bg-sundae-dark px-3 py-2 tabular-nums"
+                />
+              </label>
+            </div>
           </div>
 
           <div>
@@ -310,24 +439,24 @@ export function ROISimulator() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
           <div>
-            <div className="text-sm text-sundae-muted mb-1">{copy.monthlySavings}</div>
+            <div className="text-sm text-sundae-muted mb-1">Monthly funding case</div>
             <div className="font-display text-3xl font-bold text-green-400">
-              ${roi.monthlySavings.toLocaleString(locale)}
+              ${roi.monthlyFunding.toLocaleString(locale)}
             </div>
             {locations > 1 && (
               <div className="text-xs text-sundae-muted mt-1">
-                ${perLoc(roi.monthlySavings).toLocaleString(locale)} {perLocationLabel}
+                ${perLoc(roi.monthlyFunding).toLocaleString(locale)} {perLocationLabel}
               </div>
             )}
           </div>
           <div>
-            <div className="text-sm text-sundae-muted mb-1">{copy.annualSavings}</div>
+            <div className="text-sm text-sundae-muted mb-1">Annual funding case</div>
             <div className="font-display text-3xl font-bold text-green-400">
-              ${roi.annualSavings.toLocaleString(locale)}
+              ${roi.annualFunding.toLocaleString(locale)}
             </div>
             {locations > 1 && (
               <div className="text-xs text-sundae-muted mt-1">
-                ${perLoc(roi.annualSavings).toLocaleString(locale)} {perLocationLabel}
+                ${perLoc(roi.annualFunding).toLocaleString(locale)} {perLocationLabel}
               </div>
             )}
           </div>
@@ -358,6 +487,51 @@ export function ROISimulator() {
           <p className="text-center text-lg">
             {generateROIDescription(roi, locale as PricingUiLocale)}
           </p>
+        </div>
+
+        {/* Naming the excluded spend is what makes modelling the Core rail
+            alone honest rather than flattering. Without this line the return
+            would simply look better for reasons the buyer cannot see. */}
+        {excludedFromRoi > 0 && (
+          <p className="mt-3 text-xs text-sundae-muted text-center">
+            {formatMessage(copy.roiBasisNote, {
+              excluded: `$${Math.round(excludedFromRoi).toLocaleString(locale)}`,
+            })}
+          </p>
+        )}
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.25 }}
+        className="mb-8 border-y border-white/10 py-6"
+      >
+        <h3 className="text-lg font-bold mb-4">What can fund Sundae</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <div className="text-xs uppercase tracking-wide text-sundae-muted">Profit recovery</div>
+            <div className="mt-1 text-2xl font-bold text-green-400 tabular-nums">
+              ${roi.monthlySavings.toLocaleString(locale)}/mo
+            </div>
+            <p className="mt-1 text-xs text-sundae-muted">Only recovery producers granted by this Core package.</p>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wide text-sundae-muted">Cash cost avoidance</div>
+            <div className="mt-1 text-2xl font-bold tabular-nums">
+              ${roi.replaceableSystemsSavings.toLocaleString(locale)}/mo
+            </div>
+            <p className="mt-1 text-xs text-sundae-muted">Buyer-entered spend expected to be retired.</p>
+          </div>
+          <div>
+            <div className="text-xs uppercase tracking-wide text-sundae-muted">Redeployable capacity</div>
+            <div className="mt-1 text-2xl font-bold tabular-nums">
+              ${roi.capacityValue.toLocaleString(locale)}/mo
+            </div>
+            <p className="mt-1 text-xs text-sundae-muted">
+              {roi.capacityFte.toLocaleString(locale)} FTE-equivalent; shown separately, not counted as cash.
+            </p>
+          </div>
         </div>
       </motion.div>
 
@@ -445,11 +619,11 @@ export function ROISimulator() {
             <div
               className={cn(
                 'text-2xl font-bold',
-                roi.monthlySavings - pricing.total > 0 ? 'text-green-400' : 'text-sundae-muted'
+                roi.monthlyFunding - pricing.total > 0 ? 'text-green-400' : 'text-sundae-muted'
               )}
             >
-              {roi.monthlySavings - pricing.total > 0 ? '+' : ''}
-              ${(roi.monthlySavings - pricing.total).toLocaleString(locale)}
+              {roi.monthlyFunding - pricing.total > 0 ? '+' : ''}
+              ${(roi.monthlyFunding - pricing.total).toLocaleString(locale)}
             </div>
           </div>
         </div>

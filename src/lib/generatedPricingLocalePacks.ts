@@ -179,7 +179,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Wählen Sie Ihre Berichtsstufe",
-        "chooseCoreTier": "Wählen Sie Ihre Kernstufe",
+        "chooseCoreTier": "Wählen Sie Ihre Kernstufe", "shapeFoundation": "Hier starten", "shapeMargin": "Marge schützen", "shapeGrowth": "Nachfrage steigern", "shapePerformance": "Beide Seiten", "notALadder": "Margin und Growth sind keine Ausbaustufen, sondern zwei unterschiedliche Ausrichtungen: Margin setzt an der Kostenseite an, Growth an der Nachfrageseite, Performance an beiden.", "growthOmits": "Ohne die Module Inventar und Einkauf. Wenn Sie Wareneinsatz und Lieferanten steuern wollen, wählen Sie Margin oder Performance.", "marginOmits": "Ohne die Module Marketing, Reservierungen und Gäste. Wenn Sie die Nachfrageseite abdecken wollen, wählen Sie Growth oder Performance.", "selectPackage": "{name} wählen",
         "reportSubtitle": "Kostenlos starten oder mehr Analyseleistung freischalten",
         "coreSubtitle": "Echtzeitintelligenz, die auf Ihre Größe zugeschnitten ist",
         "recommended": "EMPFOHLEN",
@@ -551,7 +551,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Kies Jouw Report-niveau",
-        "chooseCoreTier": "Kies Jouw Core Niveau",
+        "chooseCoreTier": "Kies Jouw Core Niveau", "shapeFoundation": "Begin hier", "shapeMargin": "Marge beschermen", "shapeGrowth": "Vraag stimuleren", "shapePerformance": "Beide kanten", "notALadder": "Margin en Growth zijn geen stappen omhoog, maar twee richtingen. Margin richt zich op de kostenkant, Growth op de vraagkant en Performance op allebei.", "growthOmits": "Geen Voorraad of Inkoop. Kies Margin of Performance als je grip wilt houden op foodcost en leveranciers.", "marginOmits": "Geen Marketing, Reserveringen of Gasten. Kies Growth of Performance als je aan de vraagkant wilt werken.", "selectPackage": "{name} kiezen",
         "reportSubtitle": "Begin gratis of ontgrendel meer analytische kracht",
         "coreSubtitle": "Realtime intelligentie afgestemd op jouw schaal",
         "recommended": "AANBEVOLEN",
@@ -923,7 +923,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Escolha Seu Nível Report",
-        "chooseCoreTier": "Escolha Seu Nível Core",
+        "chooseCoreTier": "Escolha Seu Nível Core", "shapeFoundation": "Comece aqui", "shapeMargin": "Proteger a margem", "shapeGrowth": "Aumentar a demanda", "shapePerformance": "Os dois lados", "notALadder": "Margin e Growth são caminhos diferentes, não degraus da mesma escada. Margin atua no lado dos custos, Growth no lado da demanda e Performance cobre os dois.", "growthOmits": "Não inclui Inventário nem Compras. Escolha Margin ou Performance se precisar gerenciar custo de alimentos e fornecedores.", "marginOmits": "Não inclui Marketing, Reservas nem Clientes. Escolha Growth ou Performance se precisar trabalhar o lado da demanda.", "selectPackage": "Escolher {name}",
         "reportSubtitle": "Comece grátis ou desbloqueie mais poder analítico",
         "coreSubtitle": "Inteligência em tempo real adaptada à sua escala",
         "recommended": "RECOMENDADO",
@@ -1295,7 +1295,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "अपनी Report श्रेणी का चयन करें",
-        "chooseCoreTier": "अपनी Core श्रेणी का चयन करें",
+        "chooseCoreTier": "अपनी Core श्रेणी का चयन करें", "shapeFoundation": "यहाँ से शुरू करें", "shapeMargin": "मुनाफ़ा बचाएँ", "shapeGrowth": "मांग बढ़ाएँ", "shapePerformance": "दोनों पक्ष", "notALadder": "Margin और Growth दो अलग रास्ते हैं, ऊपर की सीढ़ी नहीं। Margin लागत पक्ष पर काम करता है, Growth मांग पक्ष पर, और Performance दोनों पर।", "growthOmits": "इसमें इन्वेंटरी और खरीद वाले मॉड्यूल नहीं हैं। फ़ूड कॉस्ट और सप्लायर संभालने हों तो Margin या Performance चुनें।", "marginOmits": "इसमें मार्केटिंग, रिज़र्वेशन और गेस्ट वाले मॉड्यूल नहीं हैं। मांग पक्ष पर काम करना हो तो Growth या Performance चुनें।", "selectPackage": "{name} चुनें",
         "reportSubtitle": "मुफ्त शुरू करें या अधिक विश्लेषणात्मक शक्ति अनलॉक करें",
         "coreSubtitle": "आपके पैमाने के लिए अनुकूलित वास्तविक समय की बुद्धिमत्ता",
         "recommended": "अनुशंसित",
@@ -1667,7 +1667,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "اپنی Report کی سطح منتخب کریں",
-        "chooseCoreTier": "اپنی Core کی سطح منتخب کریں",
+        "chooseCoreTier": "اپنی Core کی سطح منتخب کریں", "shapeFoundation": "یہیں سے شروع کریں", "shapeMargin": "مارجن بچائیں", "shapeGrowth": "طلب بڑھائیں", "shapePerformance": "دونوں پہلو", "notALadder": "Margin اور Growth ایک ہی سیڑھی کے زینے نہیں بلکہ دو الگ راستے ہیں۔ Margin لاگت کے پہلو پر کام کرتا ہے، Growth طلب کے پہلو پر، اور Performance دونوں پر۔", "growthOmits": "اس میں انوینٹری اور خریداری کے ماڈیول شامل نہیں۔ کھانے کی لاگت اور سپلائرز سنبھالنے ہوں تو Margin یا Performance منتخب کریں۔", "marginOmits": "اس میں مارکیٹنگ، ریزرویشنز اور گیسٹ کے ماڈیول شامل نہیں۔ طلب کا پہلو درکار ہو تو Growth یا Performance منتخب کریں۔", "selectPackage": "{name} منتخب کریں",
         "reportSubtitle": "مفت شروع کریں یا مزید تجزیاتی طاقت کو انلاک کریں",
         "coreSubtitle": "آپ کے پیمانے کے مطابق حقیقی وقت کی ذہانت",
         "recommended": "تجویز کردہ",
@@ -2039,7 +2039,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Scegli il tuo Tier di Report",
-        "chooseCoreTier": "Scegli il tuo Tier Core",
+        "chooseCoreTier": "Scegli il tuo Tier Core", "shapeFoundation": "Inizia da qui", "shapeMargin": "Proteggi il margine", "shapeGrowth": "Aumenta la domanda", "shapePerformance": "Entrambi i fronti", "notALadder": "Margin e Growth non sono due gradini della stessa scala: coprono aree diverse. Margin lavora sul fronte dei costi, Growth su quello della domanda, Performance su entrambi.", "growthOmits": "Non include Inventario e Acquisti. Se devi gestire food cost e fornitori, scegli Margin o Performance.", "marginOmits": "Non include Marketing, Prenotazioni e Ospiti. Se devi lavorare sulla domanda, scegli Growth o Performance.", "selectPackage": "Scegli {name}",
         "reportSubtitle": "Inizia gratuitamente o sblocca più potenza analitica",
         "coreSubtitle": "Intelligenza in tempo reale su misura per la tua scala",
         "recommended": "RACCOMANDATO",
@@ -2411,7 +2411,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Wybierz Swój Poziom Report",
-        "chooseCoreTier": "Wybierz Swój Poziom Core",
+        "chooseCoreTier": "Wybierz Swój Poziom Core", "shapeFoundation": "Zacznij tutaj", "shapeMargin": "Chroń marżę", "shapeGrowth": "Zwiększaj sprzedaż", "shapePerformance": "Obie strony", "notALadder": "Margin i Growth to nie kolejne szczeble, tylko dwa różne kierunki. Margin pracuje po stronie kosztów, Growth po stronie sprzedaży, a Performance po obu stronach.", "growthOmits": "Growth nie obejmuje modułów Magazyn i Zakupy. Jeśli chcesz kontrolować koszt surowca i ceny od dostawców, wybierz Margin lub Performance.", "marginOmits": "Margin nie obejmuje modułów Marketing, Rezerwacje i Goście. Jeśli potrzebujesz narzędzi po stronie sprzedaży, wybierz Growth lub Performance.", "selectPackage": "Wybierz {name}",
         "reportSubtitle": "Rozpocznij za darmo lub odblokuj więcej mocy analitycznej",
         "coreSubtitle": "Inteligencja w czasie rzeczywistym dostosowana do Twojej skali",
         "recommended": "ZALECANE",
@@ -2783,7 +2783,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Report Katmanınızı Seçin",
-        "chooseCoreTier": "Core Katmanınızı Seçin",
+        "chooseCoreTier": "Core Katmanınızı Seçin", "shapeFoundation": "Buradan başlayın", "shapeMargin": "Marjı koruyun", "shapeGrowth": "Talebi artırın", "shapePerformance": "İki taraf birden", "notALadder": "Margin ve Growth birbirinin üst basamağı değil, iki farklı yaklaşımdır. Margin maliyet tarafına, Growth talep tarafına odaklanır; Performance ikisini birden kapsar.", "growthOmits": "Stok ve Satın Alma bu pakete dahil değildir. Yiyecek maliyetini ve tedarikçi fiyatlarını yönetmeniz gerekiyorsa Margin ya da Performance paketini seçin.", "marginOmits": "Pazarlama, Rezervasyon ve Misafir modülleri bu pakete dahil değildir. Talep tarafını yönetmeniz gerekiyorsa Growth ya da Performance paketini seçin.", "selectPackage": "{name} seçin",
         "reportSubtitle": "Ücretsiz başlayın veya daha fazla analiz gücünü açın",
         "coreSubtitle": "Ölçeğinize göre özelleştirilmiş gerçek zamanlı zeka",
         "recommended": "ÖNERİLEN",
@@ -3155,7 +3155,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "选择您的报告级别",
-        "chooseCoreTier": "选择您的核心级别",
+        "chooseCoreTier": "选择您的核心级别", "shapeFoundation": "从这里开始", "shapeMargin": "守住毛利", "shapeGrowth": "拉动客流", "shapePerformance": "两端兼顾", "notALadder": "Margin 和 Growth 是两种不同的方向，不是升级关系。Margin 管成本端，Growth 管需求端，Performance 两端都管。", "growthOmits": "不含库存与采购模块。如需管控食材成本和供应商价格，请选择 Margin 或 Performance。", "marginOmits": "不含营销、预订与顾客模块。如需覆盖需求端，请选择 Growth 或 Performance。", "selectPackage": "选择 {name}",
         "reportSubtitle": "免费开始或解锁更多分析能力",
         "coreSubtitle": "实时智能，量身定制以适应您的规模",
         "recommended": "推荐",
@@ -3527,7 +3527,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Report ティアを選択",
-        "chooseCoreTier": "Core ティアを選択",
+        "chooseCoreTier": "Core ティアを選択", "shapeFoundation": "まずはここから", "shapeMargin": "利益率を守る", "shapeGrowth": "集客を伸ばす", "shapePerformance": "両面をカバー", "notALadder": "MarginとGrowthは上下の段階ではなく、カバーする領域が違います。Marginはコスト面、Growthは集客面、Performanceはその両方をカバーします。", "growthOmits": "在庫と購買は含まれません。食材原価や仕入先を管理する必要がある場合は、MarginまたはPerformanceをお選びください。", "marginOmits": "マーケティング・予約・ゲスト管理は含まれません。集客面の機能が必要な場合は、GrowthまたはPerformanceをお選びください。", "selectPackage": "{name} を選ぶ",
         "reportSubtitle": "無料で始めるか、より多くの分析力を解放",
         "coreSubtitle": "スケールに合わせたリアルタイムインテリジェンス",
         "recommended": "推奨",
@@ -3899,7 +3899,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Report 티어 선택하기",
-        "chooseCoreTier": "Core 티어 선택하기",
+        "chooseCoreTier": "Core 티어 선택하기", "shapeFoundation": "여기서 시작", "shapeMargin": "마진 방어", "shapeGrowth": "수요 확대", "shapePerformance": "양쪽 모두", "notALadder": "Margin과 Growth는 위아래 등급이 아니라 방향이 다른 패키지입니다. Margin은 원가를 관리하고, Growth는 수요를 키우며, Performance는 둘 다 다룹니다.", "growthOmits": "재고·구매 모듈은 포함되지 않습니다. 식자재 원가와 공급업체를 관리해야 한다면 Margin 또는 Performance를 선택하세요.", "marginOmits": "마케팅·예약·고객 모듈은 포함되지 않습니다. 수요를 키워야 한다면 Growth 또는 Performance를 선택하세요.", "selectPackage": "{name} 선택",
         "reportSubtitle": "무료로 시작하거나 더 많은 분석 기능을 잠금 해제하세요",
         "coreSubtitle": "귀하의 규모에 맞춘 실시간 인텔리전스",
         "recommended": "추천",
@@ -4271,7 +4271,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Pilih Tingkatan Report Anda",
-        "chooseCoreTier": "Pilih Tingkatan Core Anda",
+        "chooseCoreTier": "Pilih Tingkatan Core Anda", "shapeFoundation": "Mulai di sini", "shapeMargin": "Jaga margin", "shapeGrowth": "Dorong permintaan", "shapePerformance": "Kedua sisi", "notALadder": "Margin dan Growth bukan tingkatan, melainkan dua pendekatan berbeda. Margin fokus pada sisi biaya, Growth pada sisi permintaan, dan Performance mencakup keduanya.", "growthOmits": "Tidak termasuk modul Inventori maupun Pembelian. Pilih Margin atau Performance jika Anda perlu mengelola food cost dan pemasok.", "marginOmits": "Tidak termasuk modul Pemasaran, Reservasi, maupun Tamu. Pilih Growth atau Performance jika Anda perlu menggarap sisi permintaan.", "selectPackage": "Pilih {name}",
         "reportSubtitle": "Mulai gratis atau buka lebih banyak kekuatan analitik",
         "coreSubtitle": "Kecerdasan waktu nyata yang disesuaikan dengan skala Anda",
         "recommended": "DIREKOMENDASIKAN",
@@ -4643,7 +4643,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Chọn Cấp Report của Bạn",
-        "chooseCoreTier": "Chọn Cấp Core của Bạn",
+        "chooseCoreTier": "Chọn Cấp Core của Bạn", "shapeFoundation": "Bắt đầu từ đây", "shapeMargin": "Giữ biên lợi nhuận", "shapeGrowth": "Tăng lượng khách", "shapePerformance": "Cả hai mặt", "notALadder": "Margin và Growth là hai hướng khác nhau, không phải hai bậc nâng cấp. Margin lo phần chi phí, Growth lo phần khách hàng, còn Performance lo cả hai.", "growthOmits": "Không bao gồm Tồn kho và Mua hàng. Chọn Margin hoặc Performance nếu bạn cần quản lý giá vốn nguyên liệu và nhà cung cấp.", "marginOmits": "Không bao gồm Tiếp thị, Đặt bàn và Khách hàng. Chọn Growth hoặc Performance nếu bạn cần kéo khách và giữ khách.", "selectPackage": "Chọn {name}",
         "reportSubtitle": "Bắt đầu miễn phí hoặc mở khóa sức mạnh phân tích nhiều hơn",
         "coreSubtitle": "Trí tuệ thời gian thực phù hợp với quy mô của bạn",
         "recommended": "ĐƯỢC KHUYẾN NGHỊ",
@@ -5015,7 +5015,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Alege Nivelul Tău Report",
-        "chooseCoreTier": "Alege Nivelul Tău Core",
+        "chooseCoreTier": "Alege Nivelul Tău Core", "shapeFoundation": "Începe aici", "shapeMargin": "Protejează marja", "shapeGrowth": "Crește cererea", "shapePerformance": "Ambele laturi", "notALadder": "Margin și Growth nu sunt trepte, ci două direcții diferite. Margin se ocupă de latura costurilor, Growth de latura cererii, iar Performance le acoperă pe amândouă.", "growthOmits": "Nu include Stocuri și Achiziții. Alege Margin sau Performance dacă trebuie să gestionezi costul alimentelor și furnizorii.", "marginOmits": "Nu include Marketing, Rezervări și Clienți. Alege Growth sau Performance dacă vrei să lucrezi pe latura cererii.", "selectPackage": "Alege {name}",
         "reportSubtitle": "Începe gratuit sau deblochează mai multă putere analitică",
         "coreSubtitle": "Inteligență în timp real adaptată la scala ta",
         "recommended": "RECOMANDAT",
@@ -5387,7 +5387,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Välj din Report-nivå",
-        "chooseCoreTier": "Välj din Core-nivå",
+        "chooseCoreTier": "Välj din Core-nivå", "shapeFoundation": "Börja här", "shapeMargin": "Skydda marginalen", "shapeGrowth": "Öka efterfrågan", "shapePerformance": "Båda sidorna", "notALadder": "Margin och Growth är två olika inriktningar, inte två nivåer. Margin täcker kostnadssidan, Growth efterfrågesidan och Performance båda.", "growthOmits": "Lager och Inköp ingår inte. Välj Margin eller Performance om du behöver styra råvarukostnad och leverantörer.", "marginOmits": "Marknadsföring, Bokningar och Gäst ingår inte. Välj Growth eller Performance om du behöver arbeta med efterfrågesidan.", "selectPackage": "Välj {name}",
         "reportSubtitle": "Börja gratis eller lås upp mer analyskraft",
         "coreSubtitle": "Intelligens i realtid anpassad till din skala",
         "recommended": "REKOMMENDERAD",
@@ -5759,7 +5759,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "আপনার Report স্তর নির্বাচন করুন",
-        "chooseCoreTier": "আপনার Core স্তর নির্বাচন করুন",
+        "chooseCoreTier": "আপনার Core স্তর নির্বাচন করুন", "shapeFoundation": "এখান থেকে শুরু", "shapeMargin": "মার্জিন বাঁচান", "shapeGrowth": "চাহিদা বাড়ান", "shapePerformance": "দুই দিকই", "notALadder": "Margin আর Growth উপরের ধাপ নয়, আলাদা দুই ধরনের প্যাকেজ। Margin খরচের দিক সামলায়, Growth চাহিদার দিক, আর Performance দুটোই।", "growthOmits": "এতে ইনভেন্টরি বা ক্রয় মডিউল নেই। খাবারের খরচ ও সরবরাহকারী সামলাতে হলে Margin বা Performance বেছে নিন।", "marginOmits": "এতে মার্কেটিং, রিজার্ভেশন বা অতিথি মডিউল নেই। চাহিদার দিক দরকার হলে Growth বা Performance বেছে নিন।", "selectPackage": "{name} বেছে নিন",
         "reportSubtitle": "ফ্রি শুরু করুন অথবা আরও বিশ্লেষণাত্মক শক্তি আনলক করুন",
         "coreSubtitle": "আপনার স্কেলের জন্য উপযোগী রিয়েল-টাইম বুদ্ধিমত্তা",
         "recommended": "সুপারিশকৃত",
@@ -6131,7 +6131,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "เลือกระดับ Report ของคุณ",
-        "chooseCoreTier": "เลือกระดับ Core ของคุณ",
+        "chooseCoreTier": "เลือกระดับ Core ของคุณ", "shapeFoundation": "เริ่มต้นที่นี่", "shapeMargin": "รักษากำไร", "shapeGrowth": "เพิ่มลูกค้า", "shapePerformance": "ครบทั้งสองด้าน", "notALadder": "Margin กับ Growth เป็นคนละแบบ ไม่ใช่การอัปเกรดต่อกัน Margin ดูแลฝั่งต้นทุน Growth ดูแลฝั่งลูกค้าและยอดขาย ส่วน Performance ดูแลทั้งสองฝั่ง", "growthOmits": "Growth ไม่รวมโมดูลสต๊อกและการจัดซื้อ หากต้องคุมต้นทุนอาหารและดูแลซัพพลายเออร์ ให้เลือก Margin หรือ Performance", "marginOmits": "Margin ไม่รวมโมดูลการตลาด การจอง และลูกค้า หากต้องดูแลฝั่งลูกค้าและยอดขาย ให้เลือก Growth หรือ Performance", "selectPackage": "เลือก {name}",
         "reportSubtitle": "เริ่มฟรีหรือปลดล็อกพลังการวิเคราะห์เพิ่มเติม",
         "coreSubtitle": "ข้อมูลเชิงลึกแบบเรียลไทม์ที่ปรับให้เหมาะกับขนาดของคุณ",
         "recommended": "แนะนำ",
@@ -6503,7 +6503,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Pilih Tahap Report Anda",
-        "chooseCoreTier": "Pilih Tahap Core Anda",
+        "chooseCoreTier": "Pilih Tahap Core Anda", "shapeFoundation": "Mula di sini", "shapeMargin": "Lindungi margin", "shapeGrowth": "Tingkatkan permintaan", "shapePerformance": "Kedua-dua sisi", "notALadder": "Margin dan Growth ialah dua pendekatan berbeza, bukan tahap yang satu lebih tinggi daripada yang lain. Margin menangani sisi kos, Growth menangani sisi permintaan, dan Performance merangkumi kedua-duanya.", "growthOmits": "Tiada modul Inventori atau Pembelian. Pilih Margin atau Performance jika anda perlu mengurus kos makanan dan pembekal.", "marginOmits": "Tiada modul Pemasaran, Tempahan atau Tetamu. Pilih Growth atau Performance jika fokus anda pada sisi permintaan.", "selectPackage": "Pilih {name}",
         "reportSubtitle": "Mula percuma atau buka lebih banyak kuasa analitik",
         "coreSubtitle": "Kecerdasan masa nyata yang disesuaikan dengan skala anda",
         "recommended": "DISYARANKAN",
@@ -12871,7 +12871,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Ihre größten Erfolge",
       "biggestWinsBody": "Konzentrieren Sie sich auf {categories} für maximale Wirkung",
       "monthlyPlatformCost": "Monatliche Plattformkosten",
-      "paysForItselfIn": "Amortisiert sich in",
+      "paysForItselfIn": "Amortisiert sich in", "roiBasisNote": "Die Rendite wird nur auf Ihr Core-Paket gerechnet. {excluded}/Monat für Watchtower, Zusatzmodule und Crew stehen im Angebot, erzeugen hier aber keine Einsparposition.",
       "netMonthlyBenefit": "Netto monatlicher Nutzen",
       "viewSummary": "Zusammenfassung anzeigen",
       "rangeLabel": "Bereich",
@@ -12909,7 +12909,7 @@ export const generatedPricingUiCopy = {
         "solid": "Solide Renditen mit {roi}x ROI und {weeks}-wöchiger Amortisation.",
         "positive": "Positives ROI mit messbarem Einfluss auf Ihre Abläufe.",
         "value": "Wert steigt, während Sie die Abläufe im Laufe der Zeit optimieren.",
-        "longTerm": "Langfristige Investition in betriebliche Intelligenz."
+        "longTerm": "Mit diesen Angaben trägt sich diese Konfiguration nicht selbst. Ein kleineres Paket passt womöglich besser."
       }
     },
     "nl": {
@@ -12939,7 +12939,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Je Grootste Overwinningen",
       "biggestWinsBody": "Focus op {categories} voor maximale impact",
       "monthlyPlatformCost": "Maandelijkse Platformkosten",
-      "paysForItselfIn": "Betaalt zichzelf terug in",
+      "paysForItselfIn": "Betaalt zichzelf terug in", "roiBasisNote": "Het rendement is alleen op uw Core-pakket berekend. {excluded}/maand aan Watchtower, add-ons en Crew staat in uw offerte maar levert hier geen besparingsregel op.",
       "netMonthlyBenefit": "Netto Maandvoordeel",
       "viewSummary": "Bekijk Samenvatting",
       "rangeLabel": "Bereik",
@@ -12977,7 +12977,7 @@ export const generatedPricingUiCopy = {
         "solid": "Solide rendementen met {roi}x ROI en {weeks}-week terugverdientijd.",
         "positive": "Positieve ROI met meetbare impact op je operaties.",
         "value": "Waarde groeit naarmate je de operaties in de loop van de tijd optimaliseert.",
-        "longTerm": "Langdurige investering in operationele intelligentie."
+        "longTerm": "Met deze invoer verdient deze configuratie zichzelf niet terug. Een kleiner pakket past waarschijnlijk beter."
       }
     },
     "pt": {
@@ -13007,7 +13007,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Suas Maiores Vitórias",
       "biggestWinsBody": "Concentre-se em {categories} para máximo impacto",
       "monthlyPlatformCost": "Custo Mensal da Plataforma",
-      "paysForItselfIn": "Se paga em",
+      "paysForItselfIn": "Se paga em", "roiBasisNote": "O retorno é modelado apenas no seu pacote Core. Os {excluded}/mês de Watchtower, complementos e Crew constam do orçamento mas não geram poupança aqui.",
       "netMonthlyBenefit": "Benefício Mensal Líquido",
       "viewSummary": "Ver Resumo",
       "rangeLabel": "Intervalo",
@@ -13045,7 +13045,7 @@ export const generatedPricingUiCopy = {
         "solid": "Retornos sólidos com ROI de {roi}x e período de retorno de {weeks} semanas.",
         "positive": "ROI positivo com impacto mensurável em suas operações.",
         "value": "O valor aumenta à medida que você otimiza as operações ao longo do tempo.",
-        "longTerm": "Investimento de longo prazo em inteligência operacional."
+        "longTerm": "Com estes dados, esta configuração não se paga. Um pacote menor pode servir melhor."
       }
     },
     "hi": {
@@ -13075,7 +13075,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "आपकी सबसे बड़ी जीत",
       "biggestWinsBody": "अधिकतम प्रभाव के लिए {categories} पर ध्यान केंद्रित करें",
       "monthlyPlatformCost": "मासिक प्लेटफ़ॉर्म लागत",
-      "paysForItselfIn": "खुद को चुकता करता है",
+      "paysForItselfIn": "खुद को चुकता करता है", "roiBasisNote": "रिटर्न केवल आपके Core पैकेज पर आँका गया है। Watchtower, ऐड-ऑन और Crew के {excluded}/माह आपके कोटेशन में हैं पर यहाँ बचत में नहीं गिने गए।",
       "netMonthlyBenefit": "नेट मासिक लाभ",
       "viewSummary": "सारांश देखें",
       "rangeLabel": "रेंज",
@@ -13113,7 +13113,7 @@ export const generatedPricingUiCopy = {
         "solid": "मजबूत रिटर्न {roi}x ROI और {weeks}-सप्ताह चुकता के साथ।",
         "positive": "सकारात्मक ROI आपके संचालन पर मापने योग्य प्रभाव के साथ।",
         "value": "जैसे-जैसे आप समय के साथ संचालन को अनुकूलित करते हैं, मूल्य बढ़ता है।",
-        "longTerm": "संचालन बुद्धिमत्ता में दीर्घकालिक निवेश।"
+        "longTerm": "इन आँकड़ों पर यह कॉन्फ़िगरेशन अपनी लागत नहीं निकाल पाता। छोटा पैकेज बेहतर बैठ सकता है।"
       }
     },
     "ur": {
@@ -13143,7 +13143,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "آپ کی سب سے بڑی کامیابیاں",
       "biggestWinsBody": "زیادہ سے زیادہ اثر کے لیے {categories} پر توجہ مرکوز کریں",
       "monthlyPlatformCost": "ماہانہ پلیٹ فارم کی قیمت",
-      "paysForItselfIn": "اپنے آپ کو ادا کرتا ہے",
+      "paysForItselfIn": "اپنے آپ کو ادا کرتا ہے", "roiBasisNote": "ریٹرن صرف آپ کے Core پیکیج پر لگایا گیا ہے۔ Watchtower، ایڈ آنز اور Crew کے {excluded}/ماہ آپ کے کوٹیشن میں ہیں مگر یہاں بچت میں شامل نہیں۔",
       "netMonthlyBenefit": "خالص ماہانہ فائدہ",
       "viewSummary": "خلاصہ دیکھیں",
       "rangeLabel": "رینج",
@@ -13181,7 +13181,7 @@ export const generatedPricingUiCopy = {
         "solid": "مضبوط واپسی {roi}x ROI اور {weeks}-ہفتے کی ادائیگی کے ساتھ۔",
         "positive": "مثبت ROI آپ کی کارروائیوں پر قابل پیمائش اثر کے ساتھ۔",
         "value": "وقت کے ساتھ آپریشنز کو بہتر بنانے کے ساتھ قیمت بڑھتی ہے۔",
-        "longTerm": "عملی ذہانت میں طویل مدتی سرمایہ کاری۔"
+        "longTerm": "ان اعداد و شمار پر یہ کنفیگریشن اپنی لاگت پوری نہیں کرتی۔ چھوٹا پیکیج بہتر رہ سکتا ہے۔"
       }
     },
     "it": {
@@ -13211,7 +13211,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "I Tuoi Maggiori Successi",
       "biggestWinsBody": "Concentrati su {categories} per il massimo impatto",
       "monthlyPlatformCost": "Costo Mensile della Piattaforma",
-      "paysForItselfIn": "Si ripaga in",
+      "paysForItselfIn": "Si ripaga in", "roiBasisNote": "Il ritorno è calcolato solo sul pacchetto Core. I {excluded}/mese di Watchtower, componenti aggiuntivi e Crew sono nel preventivo ma qui non generano risparmio.",
       "netMonthlyBenefit": "Beneficio Mensile Netto",
       "viewSummary": "Visualizza Riepilogo",
       "rangeLabel": "Intervallo",
@@ -13249,7 +13249,7 @@ export const generatedPricingUiCopy = {
         "solid": "Ritorni solidi con {roi}x ROI e periodo di rimborso di {weeks} settimane.",
         "positive": "ROI positivo con impatto misurabile sulle tue operazioni.",
         "value": "Il valore cresce man mano che ottimizzi le operazioni nel tempo.",
-        "longTerm": "Investimento a lungo termine in intelligenza operativa."
+        "longTerm": "Con questi dati questa configurazione non si ripaga. Un pacchetto più piccolo potrebbe essere più adatto."
       }
     },
     "pl": {
@@ -13279,7 +13279,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Twoje największe wygrane",
       "biggestWinsBody": "Skup się na {categories} dla maksymalnego wpływu",
       "monthlyPlatformCost": "Miesięczny koszt platformy",
-      "paysForItselfIn": "Zwraca się w",
+      "paysForItselfIn": "Zwraca się w", "roiBasisNote": "Zwrot policzono wyłącznie dla pakietu Core. {excluded}/mies. za Watchtower, dodatki i Crew jest w ofercie, ale nie tworzy tu pozycji oszczędności.",
       "netMonthlyBenefit": "Netto miesięczny zysk",
       "viewSummary": "Zobacz podsumowanie",
       "rangeLabel": "Zakres",
@@ -13317,7 +13317,7 @@ export const generatedPricingUiCopy = {
         "solid": "Solidne zwroty z {roi}x ROI i {weeks}-tygodniowym okresem zwrotu.",
         "positive": "Pozytywne ROI z mierzalnym wpływem na Twoje operacje.",
         "value": "Wartość rośnie w miarę optymalizacji operacji w czasie.",
-        "longTerm": "Długoterminowa inwestycja w inteligencję operacyjną."
+        "longTerm": "Przy tych danych ta konfiguracja się nie zwraca. Mniejszy pakiet może pasować lepiej."
       }
     },
     "tr": {
@@ -13347,7 +13347,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "En Büyük Kazançlarınız",
       "biggestWinsBody": "Maksimum etki için {categories} üzerine odaklanın",
       "monthlyPlatformCost": "Aylık Platform Maliyeti",
-      "paysForItselfIn": "Kendini öder",
+      "paysForItselfIn": "Kendini öder", "roiBasisNote": "Getiri yalnızca Core paketiniz üzerinden hesaplanır. Watchtower, ek modüller ve Crew için aylık {excluded} teklifinizde yer alır ancak burada tasarruf satırı oluşturmaz.",
       "netMonthlyBenefit": "Net Aylık Fayda",
       "viewSummary": "Özeti Görüntüle",
       "rangeLabel": "Aralık",
@@ -13385,7 +13385,7 @@ export const generatedPricingUiCopy = {
         "solid": "Sağlam getiriler ile {roi}x ROI ve {weeks}-haftalık geri ödeme.",
         "positive": "Operasyonlarınız üzerinde ölçülebilir etki ile pozitif ROI.",
         "value": "Değer, zamanla operasyonları optimize ettikçe artar.",
-        "longTerm": "Operasyonel zekaya uzun vadeli yatırım."
+        "longTerm": "Bu girdilerle bu yapılandırma kendini amorti etmiyor. Daha küçük bir paket daha uygun olabilir."
       }
     },
     "zh-Hans": {
@@ -13415,7 +13415,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "您的最大胜利",
       "biggestWinsBody": "专注于 {categories} 以获得最大影响",
       "monthlyPlatformCost": "每月平台费用",
-      "paysForItselfIn": "在内",
+      "paysForItselfIn": "在内", "roiBasisNote": "回报仅按您的 Core 套餐测算。报价中每月 {excluded} 的 Watchtower、加购项与 Crew 在此不计入节省。",
       "netMonthlyBenefit": "净每月收益",
       "viewSummary": "查看总结",
       "rangeLabel": "范围",
@@ -13453,7 +13453,7 @@ export const generatedPricingUiCopy = {
         "solid": "稳定的回报，{roi}倍投资回报和 {weeks} 周回本。",
         "positive": "正的投资回报，对您的运营有可测量的影响。",
         "value": "随着您优化运营，价值不断增加。",
-        "longTerm": "对运营智能的长期投资。"
+        "longTerm": "按当前数据，此配置无法收回成本。更小的套餐可能更合适。"
       }
     },
     "ja": {
@@ -13483,7 +13483,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "最大の効果が見込める領域",
       "biggestWinsBody": "最大の影響を与えるために{categories}に焦点を当ててください",
       "monthlyPlatformCost": "月間プラットフォームコスト",
-      "paysForItselfIn": "元を取るまでの期間",
+      "paysForItselfIn": "元を取るまでの期間", "roiBasisNote": "投資回収は Core パッケージのみで試算しています。見積に含まれる Watchtower・追加オプション・Crew の月額 {excluded} は、ここでは削減額に計上していません。",
       "netMonthlyBenefit": "月間の純利益",
       "viewSummary": "サマリーを表示",
       "rangeLabel": "範囲",
@@ -13521,7 +13521,7 @@ export const generatedPricingUiCopy = {
         "solid": "{roi}倍のROIと{weeks}週間の回収で堅実なリターン。",
         "positive": "運用に対する測定可能な影響を持つポジティブなROI。",
         "value": "運用を最適化するにつれて価値が増します。",
-        "longTerm": "運用インテリジェンスへの長期的な投資。"
+        "longTerm": "この条件では、この構成は費用を回収できません。より小さいパッケージのほうが適している可能性があります。"
       }
     },
     "ko": {
@@ -13551,7 +13551,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "가장 큰 성과",
       "biggestWinsBody": "최대 영향을 위해 {categories}에 집중하세요",
       "monthlyPlatformCost": "월간 플랫폼 비용",
-      "paysForItselfIn": "비용 회수 기간",
+      "paysForItselfIn": "비용 회수 기간", "roiBasisNote": "수익률은 Core 패키지만으로 산정했습니다. 견적에 포함된 Watchtower, 추가 모듈, Crew의 월 {excluded}은 여기서 절감액으로 계산되지 않습니다.",
       "netMonthlyBenefit": "순 월간 이익",
       "viewSummary": "요약 보기",
       "rangeLabel": "범위",
@@ -13589,7 +13589,7 @@ export const generatedPricingUiCopy = {
         "solid": "견고한 수익: {roi}배 ROI 및 {weeks}주 회수.",
         "positive": "긍정적인 ROI로 운영에 측정 가능한 영향.",
         "value": "운영 최적화가 진행됨에 따라 가치가 증가합니다.",
-        "longTerm": "운영 지능에 대한 장기 투자."
+        "longTerm": "현재 입력값으로는 이 구성이 비용을 회수하지 못합니다. 더 작은 패키지가 더 적합할 수 있습니다."
       }
     },
     "id": {
@@ -13619,7 +13619,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Kemenangan Terbesar Anda",
       "biggestWinsBody": "Fokus pada {categories} untuk dampak maksimal",
       "monthlyPlatformCost": "Biaya Platform Bulanan",
-      "paysForItselfIn": "Membayar dirinya sendiri dalam",
+      "paysForItselfIn": "Membayar dirinya sendiri dalam", "roiBasisNote": "Imbal hasil dihitung hanya atas paket Core Anda. {excluded}/bulan untuk Watchtower, add-on, dan Crew ada dalam penawaran tetapi tidak menghasilkan baris penghematan di sini.",
       "netMonthlyBenefit": "Manfaat Bulanan Bersih",
       "viewSummary": "Lihat Ringkasan",
       "rangeLabel": "Rentang",
@@ -13657,7 +13657,7 @@ export const generatedPricingUiCopy = {
         "solid": "Pengembalian solid dengan ROI {roi}x dan periode pengembalian {weeks} minggu.",
         "positive": "ROI positif dengan dampak terukur pada operasi Anda.",
         "value": "Nilai meningkat seiring Anda mengoptimalkan operasi dari waktu ke waktu.",
-        "longTerm": "Investasi jangka panjang dalam kecerdasan operasional."
+        "longTerm": "Dengan angka ini, konfigurasi tersebut belum menutup biayanya. Paket yang lebih kecil mungkin lebih cocok."
       }
     },
     "vi": {
@@ -13687,7 +13687,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Những Chiến Thắng Lớn Nhất Của Bạn",
       "biggestWinsBody": "Tập trung vào {categories} để có tác động tối đa",
       "monthlyPlatformCost": "Chi phí nền tảng hàng tháng",
-      "paysForItselfIn": "Hoàn vốn trong",
+      "paysForItselfIn": "Hoàn vốn trong", "roiBasisNote": "Lợi ích được tính chỉ trên gói Core của bạn. Khoản {excluded}/tháng cho Watchtower, tiện ích bổ sung và Crew có trong báo giá nhưng không tạo dòng tiết kiệm ở đây.",
       "netMonthlyBenefit": "Lợi ích ròng hàng tháng",
       "viewSummary": "Xem Tóm tắt",
       "rangeLabel": "Phạm vi",
@@ -13725,7 +13725,7 @@ export const generatedPricingUiCopy = {
         "solid": "Lợi nhuận vững chắc với {roi}x ROI và thời gian hoàn vốn {weeks} tuần.",
         "positive": "ROI tích cực với tác động đo lường đến hoạt động của bạn.",
         "value": "Giá trị tăng lên khi bạn tối ưu hóa hoạt động theo thời gian.",
-        "longTerm": "Đầu tư dài hạn vào trí tuệ hoạt động."
+        "longTerm": "Với các số liệu này, cấu hình hiện tại chưa hoàn được vốn. Một gói nhỏ hơn có thể phù hợp hơn."
       }
     },
     "ro": {
@@ -13755,7 +13755,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Cele Mai Mari Câștiguri",
       "biggestWinsBody": "Concentrați-vă pe {categories} pentru un impact maxim",
       "monthlyPlatformCost": "Cost Lunar al Platformei",
-      "paysForItselfIn": "Se amortizează în",
+      "paysForItselfIn": "Se amortizează în", "roiBasisNote": "Randamentul este calculat doar pe pachetul Core. Cei {excluded}/lună pentru Watchtower, module suplimentare și Crew apar în ofertă, dar nu generează economii aici.",
       "netMonthlyBenefit": "Beneficiul Lunar Net",
       "viewSummary": "Vizualizați Rezumatul",
       "rangeLabel": "Interval",
@@ -13793,7 +13793,7 @@ export const generatedPricingUiCopy = {
         "solid": "Randament solid cu {roi}x ROI și o perioadă de amortizare de {weeks} săptămâni.",
         "positive": "ROI pozitiv cu impact măsurabil asupra operațiunilor dvs.",
         "value": "Valoarea crește pe măsură ce optimizați operațiunile în timp.",
-        "longTerm": "Investiție pe termen lung în inteligența operațională."
+        "longTerm": "Cu aceste date, această configurație nu se amortizează. Un pachet mai mic s-ar potrivi mai bine."
       }
     },
     "sv": {
@@ -13823,7 +13823,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Dina Största Vinster",
       "biggestWinsBody": "Fokusera på {categories} för maximal påverkan",
       "monthlyPlatformCost": "Månatlig Plattformskostnad",
-      "paysForItselfIn": "Betalar sig själv på",
+      "paysForItselfIn": "Betalar sig själv på", "roiBasisNote": "Avkastningen beräknas enbart på ditt Core-paket. {excluded}/mån för Watchtower, tillägg och Crew finns i offerten men ger ingen besparingsrad här.",
       "netMonthlyBenefit": "Nettomånatlig Fördel",
       "viewSummary": "Visa Sammanfattning",
       "rangeLabel": "Intervall",
@@ -13861,7 +13861,7 @@ export const generatedPricingUiCopy = {
         "solid": "Solida avkastningar med {roi}x ROI och {weeks}-veckors återbetalning.",
         "positive": "Positiv ROI med mätbar påverkan på dina operationer.",
         "value": "Värde byggs upp när du optimerar operationerna över tid.",
-        "longTerm": "Långsiktig investering i operationell intelligens."
+        "longTerm": "Med de här siffrorna betalar den här konfigurationen inte av sig. Ett mindre paket passar troligen bättre."
       }
     },
     "bn": {
@@ -13891,7 +13891,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "আপনার সবচেয়ে বড় জয়",
       "biggestWinsBody": "সর্বাধিক প্রভাবের জন্য {categories} এ মনোযোগ দিন",
       "monthlyPlatformCost": "মাসিক প্ল্যাটফর্ম খরচ",
-      "paysForItselfIn": "নিজের খরচ তুলে নেয়",
+      "paysForItselfIn": "নিজের খরচ তুলে নেয়", "roiBasisNote": "রিটার্ন কেবল আপনার Core প্যাকেজের উপর হিসাব করা। Watchtower, অ্যাড-অন ও Crew-এর {excluded}/মাস আপনার কোটেশনে আছে, তবে এখানে সাশ্রয় হিসেবে ধরা হয়নি।",
       "netMonthlyBenefit": "নেট মাসিক সুবিধা",
       "viewSummary": "সারসংক্ষেপ দেখুন",
       "rangeLabel": "পরিসীমা",
@@ -13929,7 +13929,7 @@ export const generatedPricingUiCopy = {
         "solid": "মজবুত ফেরত {roi}x ROI এবং {weeks}-সপ্তাহের ফেরত সহ।",
         "positive": "পজিটিভ ROI আপনার কার্যক্রমে পরিমাপযোগ্য প্রভাব সহ।",
         "value": "আপনার কার্যক্রম সময়ের সাথে সাথে অপ্টিমাইজ করার সাথে সাথে মূল্য বৃদ্ধি পায়।",
-        "longTerm": "অপারেশনাল বুদ্ধিমত্তায় দীর্ঘমেয়াদী বিনিয়োগ।"
+        "longTerm": "এই তথ্যে এই কনফিগারেশন নিজের খরচ তুলতে পারছে না। ছোট প্যাকেজ বেশি মানানসই হতে পারে।"
       }
     },
     "th": {
@@ -13959,7 +13959,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "ชัยชนะที่ใหญ่ที่สุดของคุณ",
       "biggestWinsBody": "มุ่งเน้นไปที่ {categories} เพื่อผลกระทบสูงสุด",
       "monthlyPlatformCost": "ค่าใช้จ่ายแพลตฟอร์มรายเดือน",
-      "paysForItselfIn": "คืนทุนใน",
+      "paysForItselfIn": "คืนทุนใน", "roiBasisNote": "ผลตอบแทนคำนวณจากแพ็กเกจ Core เท่านั้น ยอด {excluded}/เดือน ของ Watchtower ส่วนเสริม และ Crew อยู่ในใบเสนอราคาแต่ไม่นับเป็นการประหยัดตรงนี้",
       "netMonthlyBenefit": "ผลประโยชน์สุทธิรายเดือน",
       "viewSummary": "ดูสรุป",
       "rangeLabel": "ช่วง",
@@ -13997,7 +13997,7 @@ export const generatedPricingUiCopy = {
         "solid": "ผลตอบแทนที่มั่นคงด้วย ROI {roi}x และระยะเวลาคืนทุน {weeks} สัปดาห์.",
         "positive": "ROI เชิงบวกที่มีผลกระทบที่วัดได้ต่อการดำเนินงานของคุณ.",
         "value": "มูลค่าเพิ่มขึ้นเมื่อคุณเพิ่มประสิทธิภาพการดำเนินงานตามเวลา.",
-        "longTerm": "การลงทุนระยะยาวในข้อมูลเชิงลึกด้านการดำเนินงาน."
+        "longTerm": "ด้วยตัวเลขนี้ การตั้งค่านี้ยังไม่คุ้มค่าใช้จ่าย แพ็กเกจที่เล็กกว่าอาจเหมาะกว่า"
       }
     },
     "ms": {
@@ -14027,7 +14027,7 @@ export const generatedPricingUiCopy = {
       "biggestWins": "Kemenangan Terbesar Anda",
       "biggestWinsBody": "Fokus pada {categories} untuk impak maksimum",
       "monthlyPlatformCost": "Kos Platform Bulanan",
-      "paysForItselfIn": "Membayar dirinya dalam",
+      "paysForItselfIn": "Membayar dirinya dalam", "roiBasisNote": "Pulangan dikira atas pakej Core anda sahaja. {excluded}/bulan bagi Watchtower, tambahan dan Crew ada dalam sebut harga tetapi tidak menjana baris penjimatan di sini.",
       "netMonthlyBenefit": "Manfaat Bulanan Bersih",
       "viewSummary": "Lihat Ringkasan",
       "rangeLabel": "Julat",
@@ -14065,7 +14065,7 @@ export const generatedPricingUiCopy = {
         "solid": "Pulangan yang kukuh dengan ROI {roi}x dan tempoh bayaran balik {weeks} minggu.",
         "positive": "ROI positif dengan impak yang boleh diukur pada operasi anda.",
         "value": "Nilai meningkat apabila anda mengoptimumkan operasi dari semasa ke semasa.",
-        "longTerm": "Pelaburan jangka panjang dalam kepintaran operasi."
+        "longTerm": "Dengan angka ini, konfigurasi ini belum menampung kosnya. Pakej yang lebih kecil mungkin lebih sesuai."
       }
     }
   },
@@ -14086,7 +14086,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Keine Einrichtungsgebühren",
       "missingOffer": "Was {name} nicht bietet:",
       "viewPricing": "Preise von {name} anzeigen ->",
-      "ongoingAnnualSavings": "Laufende jährliche Einsparungen",
+      "ongoingAnnualSavings": "Laufende jährliche Einsparungen", "cheaperPerYear": "günstiger pro Jahr", "competitorCostsLess": "{name} kostet pro Jahr weniger", "dayOneLabel": "Ab Tag eins nutzbar", "dayOneDomains": "{count} Ihrer {total} Bereiche", "buildFirst": "nach einem Aufbau für {amount}", "cannotBuyLabel": "Bei {name} zu keinem Preis erhältlich", "firstYearSavings": "Ersparnis im ersten Jahr",
       "vsName": "vs {name}",
       "plusMore": "+{count} mehr",
       "verified": "Verifiziert",
@@ -14123,7 +14123,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Geen opstartkosten",
       "missingOffer": "Wat {name} niet biedt:",
       "viewPricing": "Bekijk {name} prijzen ->",
-      "ongoingAnnualSavings": "Doorlopende jaarlijkse besparingen",
+      "ongoingAnnualSavings": "Doorlopende jaarlijkse besparingen", "cheaperPerYear": "goedkoper per jaar", "competitorCostsLess": "{name} kost minder per jaar", "dayOneLabel": "Werkt vanaf dag één", "dayOneDomains": "{count} van uw {total} domeinen", "buildFirst": "na een bouwtraject van {amount}", "cannotBuyLabel": "Bij {name} voor geen enkele prijs te krijgen", "firstYearSavings": "Besparing in het eerste jaar",
       "vsName": "vs {name}",
       "plusMore": "+{count} meer",
       "verified": "Geverifieerd",
@@ -14160,7 +14160,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Sem taxas de configuração",
       "missingOffer": "O que {name} não oferece:",
       "viewPricing": "Ver preços de {name} ->",
-      "ongoingAnnualSavings": "Economias anuais contínuas",
+      "ongoingAnnualSavings": "Economias anuais contínuas", "cheaperPerYear": "mais barato por ano", "competitorCostsLess": "{name} custa menos por ano", "dayOneLabel": "A funcionar no primeiro dia", "dayOneDomains": "{count} dos seus {total} domínios", "buildFirst": "após uma construção de {amount}", "cannotBuyLabel": "Indisponível na {name} a qualquer preço", "firstYearSavings": "Economia no primeiro ano",
       "vsName": "vs {name}",
       "plusMore": "+{count} mais",
       "verified": "Verificado",
@@ -14197,7 +14197,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "कोई सेटअप शुल्क नहीं",
       "missingOffer": "{name} क्या नहीं देता:",
       "viewPricing": "{name} मूल्य निर्धारण देखें ->",
-      "ongoingAnnualSavings": "निरंतर वार्षिक बचत",
+      "ongoingAnnualSavings": "निरंतर वार्षिक बचत", "cheaperPerYear": "प्रति वर्ष सस्ता", "competitorCostsLess": "{name} की सालाना लागत कम है", "dayOneLabel": "पहले ही दिन चालू", "dayOneDomains": "आपके {total} में से {count} डोमेन", "buildFirst": "{amount} के निर्माण के बाद", "cannotBuyLabel": "{name} से किसी भी कीमत पर उपलब्ध नहीं", "firstYearSavings": "पहले साल की बचत",
       "vsName": "vs {name}",
       "plusMore": "+{count} और",
       "verified": "सत्यापित",
@@ -14234,7 +14234,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "کوئی سیٹ اپ فیس نہیں",
       "missingOffer": "{name} کیا پیش نہیں کرتا:",
       "viewPricing": "{name} کی قیمت دیکھیں ->",
-      "ongoingAnnualSavings": "جاری سالانہ بچت",
+      "ongoingAnnualSavings": "جاری سالانہ بچت", "cheaperPerYear": "سالانہ کم قیمت", "competitorCostsLess": "{name} کی سالانہ لاگت کم ہے", "dayOneLabel": "پہلے دن سے فعال", "dayOneDomains": "آپ کے {total} میں سے {count} ڈومین", "buildFirst": "{amount} کی تعمیر کے بعد", "cannotBuyLabel": "{name} سے کسی بھی قیمت پر دستیاب نہیں", "firstYearSavings": "پہلے سال کی بچت",
       "vsName": "مقابلے میں {name}",
       "plusMore": "+{count} مزید",
       "verified": "تصدیق شدہ",
@@ -14271,7 +14271,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Nessun costo di configurazione",
       "missingOffer": "Cosa non offre {name}:",
       "viewPricing": "Visualizza i prezzi di {name} ->",
-      "ongoingAnnualSavings": "Risparmi annuali continuativi",
+      "ongoingAnnualSavings": "Risparmi annuali continuativi", "cheaperPerYear": "più economico all'anno", "competitorCostsLess": "{name} costa meno all'anno", "dayOneLabel": "Operativo dal primo giorno", "dayOneDomains": "{count} dei tuoi {total} ambiti", "buildFirst": "dopo una realizzazione da {amount}", "cannotBuyLabel": "Non disponibile da {name} a nessun prezzo", "firstYearSavings": "Risparmio del primo anno",
       "vsName": "vs {name}",
       "plusMore": "+{count} di più",
       "verified": "Verificato",
@@ -14308,7 +14308,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Brak opłat za konfigurację",
       "missingOffer": "Czego {name} nie oferuje:",
       "viewPricing": "Zobacz ceny {name} ->",
-      "ongoingAnnualSavings": "Trwałe roczne oszczędności",
+      "ongoingAnnualSavings": "Trwałe roczne oszczędności", "cheaperPerYear": "taniej rocznie", "competitorCostsLess": "{name} kosztuje mniej rocznie", "dayOneLabel": "Działa od pierwszego dnia", "dayOneDomains": "{count} z Twoich {total} obszarów", "buildFirst": "po wdrożeniu za {amount}", "cannotBuyLabel": "Niedostępne w {name} za żadną cenę", "firstYearSavings": "Oszczędności w pierwszym roku",
       "vsName": "vs {name}",
       "plusMore": "+{count} więcej",
       "verified": "Zweryfikowane",
@@ -14345,7 +14345,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Kurulum ücreti yok",
       "missingOffer": "{name}'in sunmadığı:",
       "viewPricing": "{name} fiyatlandırmasını görüntüle ->",
-      "ongoingAnnualSavings": "Sürekli yıllık tasarruflar",
+      "ongoingAnnualSavings": "Sürekli yıllık tasarruflar", "cheaperPerYear": "yılda daha ucuz", "competitorCostsLess": "{name} yılda daha az tutuyor", "dayOneLabel": "İlk günden çalışır", "dayOneDomains": "{total} alanınızdan {count} tanesi", "buildFirst": "{amount} tutarında bir kurulumdan sonra", "cannotBuyLabel": "{name} tarafından hiçbir fiyata sunulmuyor", "firstYearSavings": "İlk yıl tasarrufu",
       "vsName": "vs {name}",
       "plusMore": "+{count} daha",
       "verified": "Doğrulanmış",
@@ -14382,7 +14382,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "无设置费用",
       "missingOffer": "{name} 不提供的内容：",
       "viewPricing": "查看 {name} 定价 ->",
-      "ongoingAnnualSavings": "持续的年度节省",
+      "ongoingAnnualSavings": "持续的年度节省", "cheaperPerYear": "每年更便宜", "competitorCostsLess": "{name} 每年费用更低", "dayOneLabel": "首日即可使用", "dayOneDomains": "{total} 个领域中的 {count} 个", "buildFirst": "且需先投入 {amount} 搭建", "cannotBuyLabel": "{name} 无论出价多少都无法提供", "firstYearSavings": "首年节省",
       "vsName": "与 {name} 对比",
       "plusMore": "+{count} 更多",
       "verified": "已验证",
@@ -14419,7 +14419,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "設定費用なし",
       "missingOffer": "{name}が提供していないもの：",
       "viewPricing": "{name}の価格を表示 ->",
-      "ongoingAnnualSavings": "継続的な年間節約",
+      "ongoingAnnualSavings": "継続的な年間節約", "cheaperPerYear": "年間で安価", "competitorCostsLess": "{name} のほうが年間費用は安価です", "dayOneLabel": "初日から使えます", "dayOneDomains": "{total} 領域のうち {count}", "buildFirst": "{amount} の構築を経て", "cannotBuyLabel": "{name} ではいくら払っても得られません", "firstYearSavings": "初年度の削減額",
       "vsName": "vs {name}",
       "plusMore": "+{count}件以上",
       "verified": "確認済み",
@@ -14456,7 +14456,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "설치 비용 없음",
       "missingOffer": "{name}에서 제공하지 않는 것:",
       "viewPricing": "{name} 가격 보기 ->",
-      "ongoingAnnualSavings": "지속적인 연간 절감액",
+      "ongoingAnnualSavings": "지속적인 연간 절감액", "cheaperPerYear": "연간 더 저렴", "competitorCostsLess": "{name}이(가) 연간 비용이 더 낮습니다", "dayOneLabel": "첫날부터 작동", "dayOneDomains": "{total}개 영역 중 {count}개", "buildFirst": "{amount} 규모의 구축 후", "cannotBuyLabel": "{name}에서는 어떤 가격에도 제공되지 않음", "firstYearSavings": "첫해 절감액",
       "vsName": "vs {name}",
       "plusMore": "+{count}개 더",
       "verified": "검증됨",
@@ -14493,7 +14493,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Tidak ada biaya pengaturan",
       "missingOffer": "Apa yang tidak ditawarkan {name}:",
       "viewPricing": "Lihat harga {name} ->",
-      "ongoingAnnualSavings": "Penghematan tahunan yang berkelanjutan",
+      "ongoingAnnualSavings": "Penghematan tahunan yang berkelanjutan", "cheaperPerYear": "lebih murah per tahun", "competitorCostsLess": "{name} lebih murah per tahun", "dayOneLabel": "Berfungsi sejak hari pertama", "dayOneDomains": "{count} dari {total} domain Anda", "buildFirst": "setelah pembangunan senilai {amount}", "cannotBuyLabel": "Tidak tersedia dari {name} dengan harga berapa pun", "firstYearSavings": "Penghematan tahun pertama",
       "vsName": "vs {name}",
       "plusMore": "+{count} lebih",
       "verified": "Terverifikasi",
@@ -14530,7 +14530,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Không có phí thiết lập",
       "missingOffer": "Những gì {name} không cung cấp:",
       "viewPricing": "Xem giá {name} ->",
-      "ongoingAnnualSavings": "Tiết kiệm hàng năm liên tục",
+      "ongoingAnnualSavings": "Tiết kiệm hàng năm liên tục", "cheaperPerYear": "rẻ hơn mỗi năm", "competitorCostsLess": "{name} rẻ hơn mỗi năm", "dayOneLabel": "Dùng được ngay ngày đầu", "dayOneDomains": "{count} trên {total} lĩnh vực của bạn", "buildFirst": "sau khi xây dựng hết {amount}", "cannotBuyLabel": "{name} không cung cấp ở bất kỳ mức giá nào", "firstYearSavings": "Tiết kiệm năm đầu",
       "vsName": "so với {name}",
       "plusMore": "+{count} hơn",
       "verified": "Đã xác minh",
@@ -14567,7 +14567,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Fără taxe de configurare",
       "missingOffer": "Ce nu oferă {name}:",
       "viewPricing": "Vizualizați prețurile {name} ->",
-      "ongoingAnnualSavings": "Economii anuale continue",
+      "ongoingAnnualSavings": "Economii anuale continue", "cheaperPerYear": "mai ieftin pe an", "competitorCostsLess": "{name} costă mai puțin pe an", "dayOneLabel": "Funcțional din prima zi", "dayOneDomains": "{count} din cele {total} domenii", "buildFirst": "după o construcție de {amount}", "cannotBuyLabel": "Indisponibil de la {name} la orice preț", "firstYearSavings": "Economii în primul an",
       "vsName": "vs {name}",
       "plusMore": "+{count} mai mult",
       "verified": "Verificat",
@@ -14604,7 +14604,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Inga installationsavgifter",
       "missingOffer": "Vad {name} inte erbjuder:",
       "viewPricing": "Visa {name} prissättning ->",
-      "ongoingAnnualSavings": "Löpande årliga besparingar",
+      "ongoingAnnualSavings": "Löpande årliga besparingar", "cheaperPerYear": "billigare per år", "competitorCostsLess": "{name} kostar mindre per år", "dayOneLabel": "Igång dag ett", "dayOneDomains": "{count} av dina {total} områden", "buildFirst": "efter ett bygge på {amount}", "cannotBuyLabel": "Går inte att köpa av {name} till något pris", "firstYearSavings": "Besparing första året",
       "vsName": "vs {name}",
       "plusMore": "+{count} mer",
       "verified": "Verifierad",
@@ -14641,7 +14641,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "কোন সেটআপ ফি নেই",
       "missingOffer": "{name} কি অফার করে না:",
       "viewPricing": "{name} এর মূল্য দেখুন ->",
-      "ongoingAnnualSavings": "চলমান বার্ষিক সঞ্চয়",
+      "ongoingAnnualSavings": "চলমান বার্ষিক সঞ্চয়", "cheaperPerYear": "বছরে কম খরচ", "competitorCostsLess": "{name} বছরে কম খরচ", "dayOneLabel": "প্রথম দিন থেকেই সচল", "dayOneDomains": "আপনার {total}টির মধ্যে {count}টি ডোমেইন", "buildFirst": "{amount} খরচে গড়ে তোলার পর", "cannotBuyLabel": "{name} থেকে কোনো দামেই পাওয়া যায় না", "firstYearSavings": "প্রথম বছরের সাশ্রয়",
       "vsName": "বিপরীতে {name}",
       "plusMore": "+{count} আরও",
       "verified": "যাচাইকৃত",
@@ -14678,7 +14678,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "ไม่มีค่าติดตั้ง",
       "missingOffer": "สิ่งที่ {name} ไม่มี:",
       "viewPricing": "ดูราคา {name} ->",
-      "ongoingAnnualSavings": "การประหยัดประจำปีอย่างต่อเนื่อง",
+      "ongoingAnnualSavings": "การประหยัดประจำปีอย่างต่อเนื่อง", "cheaperPerYear": "ถูกกว่าต่อปี", "competitorCostsLess": "{name} มีค่าใช้จ่ายต่อปีต่ำกว่า", "dayOneLabel": "ใช้งานได้ตั้งแต่วันแรก", "dayOneDomains": "{count} จาก {total} ด้านของคุณ", "buildFirst": "หลังการสร้างมูลค่า {amount}", "cannotBuyLabel": "{name} ไม่มีให้ไม่ว่าราคาใด", "firstYearSavings": "ประหยัดปีแรก",
       "vsName": "เทียบกับ {name}",
       "plusMore": "+{count} รายการเพิ่มเติม",
       "verified": "ได้รับการตรวจสอบแล้ว",
@@ -14715,7 +14715,7 @@ export const generatedPricingUiCopy = {
       "noSetupFees": "Tiada yuran penyediaan",
       "missingOffer": "Apa yang tidak ditawarkan oleh {name}:",
       "viewPricing": "Lihat harga {name} ->",
-      "ongoingAnnualSavings": "Penjimatan tahunan berterusan",
+      "ongoingAnnualSavings": "Penjimatan tahunan berterusan", "cheaperPerYear": "lebih murah setahun", "competitorCostsLess": "{name} lebih murah setahun", "dayOneLabel": "Berfungsi pada hari pertama", "dayOneDomains": "{count} daripada {total} domain anda", "buildFirst": "selepas pembinaan bernilai {amount}", "cannotBuyLabel": "Tidak tersedia daripada {name} pada sebarang harga", "firstYearSavings": "Penjimatan tahun pertama",
       "vsName": "vs {name}",
       "plusMore": "+{count} lagi",
       "verified": "Disahkan",

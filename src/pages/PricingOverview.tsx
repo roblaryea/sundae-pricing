@@ -254,9 +254,7 @@ export function PricingOverview() {
                         <ul className="space-y-2 mb-6">
                           <li className="flex items-start gap-2 text-sm">
                             <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
-                            <span className="text-white">
-                              All {Object.keys(coreDomainModules).length} Core domain modules
-                            </span>
+                            <span className="text-white">{pkg.includedOutcome}</span>
                           </li>
                           <li className="flex items-start gap-2 text-sm">
                             <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
@@ -304,19 +302,20 @@ export function PricingOverview() {
                 </div>
               </div>
 
-              {/* What every Core package INCLUDES — no prices, no purchase */}
+              {/* Domain catalogue — packaged by outcome, never sold a la carte */}
               <div className="mb-8 p-6 rounded-xl border-2 border-[#C2410C]/30 bg-gradient-to-br from-[#C2410C]/10 to-[#E9A24A]/10">
                 <div className="text-center mb-6">
                   <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#C2410C]/20 rounded-full border border-[#C2410C]/30 mb-4">
                     <Lock className="w-4 h-4 text-[#C2410C]" />
-                    <span className="text-sm font-semibold text-[#C2410C]">INCLUDED IN EVERY CORE PACKAGE</span>
+                    <span className="text-sm font-semibold text-[#C2410C]">PACKAGED BY BUSINESS OUTCOME</span>
                   </div>
                   <h3 className="text-2xl font-bold mb-2 text-white">
-                    The {Object.keys(coreDomainModules).length} Core domain modules
+                    The {Object.keys(coreDomainModules).length} Core outcome domains
                   </h3>
                   <p className="text-sundae-muted max-w-3xl mx-auto">
-                    These are components of your Core package, not separate purchases. There is no
-                    a-la-carte price for them and nothing to add on.
+                    These domains are package components, never separate purchases. Foundation
+                    establishes the decision layer; Margin and Growth branch into different needs;
+                    Performance combines the complete estate.
                   </p>
                 </div>
 
@@ -333,12 +332,18 @@ export function PricingOverview() {
                           <span className="font-semibold text-white">
                             {localizedModule?.name ?? module.name}
                           </span>
-                          <span className="text-[10px] uppercase tracking-wider text-green-400 flex-shrink-0">
-                            Included
-                          </span>
+                          <span className="text-[10px] uppercase tracking-wider text-green-400 flex-shrink-0">Package component</span>
                         </div>
                         <p className="text-xs text-[#C2410C]">
                           {localizedModule?.roi ?? module.roiPotential}
+                        </p>
+                        <p className="mt-2 text-[10px] text-sundae-muted">
+                          In{' '}
+                          {CORE_PACKAGE_IDS.filter((packageId) =>
+                            (corePackages[packageId].includesDomainModules as readonly string[]).includes(moduleId),
+                          )
+                            .map((packageId) => corePackages[packageId].name.replace('Core ', ''))
+                            .join(' · ')}
                         </p>
                       </div>
                     );
@@ -511,8 +516,8 @@ export function PricingOverview() {
                       </li>
                     </ul>
                     <p className="text-xs text-sundae-muted mt-3">
-                      Volume and billing-cycle discounts combine, capped at{' '}
-                      {DISCOUNT_RULES.maxDiscountPercent}% in total.
+                      You receive the larger of the volume or billing-cycle discount. Early-adopter
+                      concessions share the {DISCOUNT_RULES.maxDiscountPercent}% calculated-discount cap.
                     </p>
                   </div>
                 </div>
@@ -722,6 +727,7 @@ export function PricingOverview() {
                 <AlertCircle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
                 <div className="text-sm text-sundae-muted">
                   <strong className="text-white">{overview.strategicValueTitle}</strong>{' '}
+                  Watchtower requires Core Growth or Core Performance.{' '}
                   {overview.strategicValueDisclaimer}
                 </div>
               </div>

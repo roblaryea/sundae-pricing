@@ -258,7 +258,8 @@ describe('Core domain modules', () => {
       expect(module).not.toHaveProperty('baseIncludesLocations');
       expect(module).not.toHaveProperty('setupFee');
       expect(module).not.toHaveProperty('pricingByTier');
-      expect(module.includedInEveryCorePackage).toBe(true);
+      expect(module.packageComponent).toBe(true);
+      expect(module).not.toHaveProperty('includedInEveryCorePackage');
     }
   });
 
@@ -377,12 +378,28 @@ describe('Crew SKUs', () => {
     });
   }
 
-  it('prices Crew independently of location count', () => {
+  it('prices Crew on the published marginal band curve, not a flat fee', () => {
+    // Price book v1.7 section 4.1 publishes a band table for every Crew SKU.
+    // This test asserted the opposite invariant, which is what allowed the
+    // builder to quote one figure regardless of estate size.
     for (const id of Object.keys(expected) as CrewSkuId[]) {
+      if (id === 'crew_lite') continue; // Crew Starter is sellable at 2-5 locations only.
       const one = computeCrewQuote([id], 1).monthly;
       const fifty = computeCrewQuote([id], 50).monthly;
-      expect(fifty).toBe(one);
+      expect(fifty, `${id} is still quoted flat across estate size`).toBeGreaterThan(one);
     }
+  });
+
+  it('walks Crew Manage down its published bands: $399 then 79 / 71 / 63 / 55', () => {
+    const at = (n: number) => computeCrewQuote(['crew_operations'], n).monthly;
+    expect(at(1)).toBe(399);
+    expect(at(2)).toBe(399 + 79);
+    expect(at(10)).toBe(399 + 9 * 79);
+    expect(at(11)).toBe(399 + 9 * 79 + 71);
+    expect(at(25)).toBe(399 + 9 * 79 + 15 * 71);
+    expect(at(26)).toBe(399 + 9 * 79 + 15 * 71 + 63);
+    expect(at(50)).toBe(399 + 9 * 79 + 15 * 71 + 25 * 63);
+    expect(at(51)).toBe(399 + 9 * 79 + 15 * 71 + 25 * 63 + 55);
   });
 });
 
@@ -419,10 +436,14 @@ describe('Crew bundles', () => {
     expect(crewBundleSavings(crewBundles.crew_complete_bundle)).toBe(876 - 699);
   });
 
-  it('holds the bundle price flat across location counts', () => {
+  it('bands the net bundle too: Crew Operating $499 then 99 / 89 / 79 / 69', () => {
     const skus: CrewSkuId[] = ['crew_operations', 'crew_tna', 'crew_payroll'];
-    expect(computeCrewQuote(skus, 1).monthly).toBe(499);
-    expect(computeCrewQuote(skus, 40).monthly).toBe(499);
+    const at = (n: number) => computeCrewQuote(skus, n).monthly;
+    expect(at(1)).toBe(499);
+    expect(at(2)).toBe(499 + 99);
+    expect(at(10)).toBe(499 + 9 * 99);
+    expect(at(11)).toBe(499 + 9 * 99 + 89);
+    expect(at(40)).toBe(499 + 9 * 99 + 15 * 89 + 15 * 79);
   });
 });
 
@@ -723,8 +744,13 @@ describe('Competitor comparison', () => {
 
   it('still costs a competitor out for a v1.7 Core package', () => {
     const tenzo = COMPETITOR_PRICING.tenzo.calculate(10, selection);
-    // 3 comparable products x 10 locations x $75.
-    expect(tenzo.monthly).toBe(2250);
+    // Comparable products x 10 locations x $75, derived from the verified
+    // module map rather than a literal — the literal was 2250 and went stale
+    // the moment Reservations was confirmed as a shipped Tenzo module.
+    const comparable = COMPETITOR_PRICING.tenzo.coversDomains.filter((d) =>
+      selection.includes(d),
+    ).length;
+    expect(tenzo.monthly).toBe(comparable * 10 * 75);
     expect(tenzo.firstYear).toBeGreaterThan(0);
   });
 

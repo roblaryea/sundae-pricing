@@ -1,7 +1,8 @@
 // PDF Export functionality - Now uses shared PDF generator
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Download, Loader2, CheckCircle } from 'lucide-react';
+import { resolveImplementationClass } from '../../lib/discoveryEngine';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { useLocale } from '../../contexts/LocaleContext';
 import type { PriceCalculation } from '../../types/configuration';
@@ -27,7 +28,20 @@ export function PDFExportButton({ pricing, crewMonthly = 0 }: {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   
-  const { layer, corePackage, locations, addOns, watchtowerModules } = useConfiguration();
+  const {
+    layer, corePackage, locations, addOns, watchtowerModules,
+    techStack, operatingModels, crewSkus, roiInputs,
+  } = useConfiguration();
+  // Identical resolution to ConfigSummary, the ROI step and the comparison card.
+  const stackEstimate = useMemo(
+    () =>
+      techStack.length > 0
+        ? resolveImplementationClass(techStack, operatingModels, {
+            crewPayrollSelected: crewSkus.includes('crew_payroll'),
+          })
+        : null,
+    [techStack, operatingModels, crewSkus],
+  );
   
   const handleDownload = async () => {
     setIsGenerating(true);
@@ -46,7 +60,22 @@ export function PDFExportButton({ pricing, crewMonthly = 0 }: {
         // document that omits it describes a cheaper agreement than the one
         // the buyer configured.
         { ...pricing, total: pricing.total + crewMonthly, annualTotal: (pricing.total + crewMonthly) * 12 },
-        locale
+        locale,
+        // Same comparison inputs as the on-screen card, so the document and the
+        // screen cannot answer differently. Without the revenue context the
+        // status quo loses its error/rework line; without the basis our own
+        // implementation is missing from a first-year figure that includes
+        // theirs.
+        {
+          basis: {
+            coreMonthly: pricing.total,
+            crewMonthly,
+            implementationFee: stackEstimate ? stackEstimate.fee : 0,
+            implementationScoped: !stackEstimate,
+            implementationIsFloor: stackEstimate ? stackEstimate.isFloor : false,
+          },
+          context: { monthlyRevenuePerLocation: roiInputs.monthlyRevenue },
+        },
       );
       
       // Convert blob to file and download

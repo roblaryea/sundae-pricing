@@ -143,7 +143,7 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
       name: 'CREW',
       tagline: 'Operational substrate: people, schedule, payroll',
       startingPrice: 'Starting at $99/month',
-      features: ['Scheduling + T&A', 'Multi-region payroll readiness', 'HR casework + Ask-HR', 'Free employee portal'],
+      features: ['Scheduling + T&A', 'Native payroll across 36 countries', 'HR casework + Ask-HR', 'Free employee portal'],
     },
     recommended: 'RECOMMENDED',
     select: 'Select',

@@ -163,7 +163,7 @@ const messages = {
       crossIntelligencePro: 'Cross-Intelligence Pro',
       crossIntelligence: 'Cross-Intelligence',
       crossIntelligenceProDesc: 'Full correlation engine with attribution & cannibalization detection',
-      crossIntelligenceDesc: 'Auto-enabled correlation insights (included with 3+ modules)',
+      crossIntelligenceDesc: 'Correlation insights across the domains granted by every Core package',
       aiCreditsPerMonth: 'AI Credits/month',
       aiCreditsDescription: 'For insights and automation',
       investmentTitle: 'Investment Summary',
@@ -189,7 +189,7 @@ const messages = {
     },
     overview: {
       heroTitle: 'Simple, Transparent Pricing',
-      heroSubtitle: 'Start free, scale as you grow. No hidden fees, no surprises.',
+      heroSubtitle: 'See the package anchor, every marginal location band, implementation basis, and modelled value before you decide.',
       reportTab: 'Report',
       coreTab: 'Core',
       watchtowerTab: 'Watchtower',
@@ -245,6 +245,17 @@ const messages = {
         chooseCoreTier: 'Choose Your Core Tier',
         reportSubtitle: 'Start free or unlock more analytics power',
         coreSubtitle: 'Real-time intelligence tailored to your scale',
+        shapeFoundation: 'Start here',
+        shapeMargin: 'Protect margin',
+        shapeGrowth: 'Grow demand',
+        shapePerformance: 'Both sides',
+        notALadder:
+          'Margin and Growth are different shapes, not steps up. Margin works the cost side, Growth works the demand side, and Performance does both.',
+        growthOmits:
+          'No Inventory or Purchasing. Choose Margin or Performance if you need to manage food cost and suppliers.',
+        marginOmits:
+          'No Marketing, Reservations or Guest. Choose Growth or Performance if you need the demand side.',
+        selectPackage: 'Select {name}',
         recommended: 'RECOMMENDED',
         perMonth: '/mo',
         perAdditionalLocation: '+${price} per additional location',
@@ -291,7 +302,7 @@ const messages = {
       watchtowerToggle: {
         title: 'Unlock Market Intelligence',
         subtitle: 'See what your competitors cannot with Watchtower competitive intel',
-        baseCoverage: 'Base price covers your first location, then ${price}/location for additional markets',
+        baseCoverage: 'Each module has its own first-market anchor; the bundle adds ${price} for each additional market',
         bundleSaveTitle: 'Bundle & Save!',
         bundleSaveDescription: 'Get all three Watchtower modules for ${total}/mo',
         saveAmount: 'Save ${amount}',
@@ -328,7 +339,7 @@ const messages = {
         marketing: { name: 'Marketing Performance', description: 'Channel performance, attribution, CAC, ROI by location, allocation, and customer mix', roi: '10-20% marketing efficiency improvement' },
         reservations: { name: 'Reservations Intelligence', description: 'Bookings vs actuals, no-show trends, channel attribution, utilization, and cancellation analysis', roi: '5-10% table utilization improvement' },
         profit: { name: 'Profit Intelligence', description: 'Unit economics, P&L visibility, margin analysis, break-even views, and profitability forecasting', roi: 'See true unit economics' },
-        revenue: { name: 'Revenue Assurance', description: 'Detect leakage from voids, comps, discounts, theft patterns, and transaction anomalies', roi: 'Catch 1-2% leakage' },
+        revenue: { name: 'Revenue Assurance', description: 'Detect leakage from voids, comps, discounts, theft patterns, and transaction anomalies', roi: 'Identify and track revenue leakage' },
         delivery: { name: 'Delivery Economics', description: 'Platform profitability, delivery vs dine-in, commission impact, and channel optimization', roi: 'True delivery profitability' },
         guest: { name: 'Guest Experience', description: 'Review sentiment, rating trends, guest feedback patterns, and satisfaction drivers', roi: 'Why customers leave' },
         pulse: { name: 'Pulse', description: 'Real-time monitoring, alerts, correlation, and proactive anomaly detection across operations', roi: 'Real-time operational awareness' }
@@ -451,7 +462,7 @@ const messages = {
       crossIntelligencePro: 'Cross-Intelligence Pro',
       crossIntelligence: 'Cross-Intelligence',
       crossIntelligenceProDesc: 'محرك ترابط كامل مع تتبع الإسناد وكشف الإزاحة',
-      crossIntelligenceDesc: 'رؤى ترابط مفعلة تلقائياً (مشمولة مع 3 وحدات أو أكثر)',
+      crossIntelligenceDesc: 'رؤى ترابط عبر النطاقات التي تمنحها كل باقة Core',
       aiCreditsPerMonth: 'رصيد ذكاء اصطناعي/شهر',
       aiCreditsDescription: 'للرؤى والأتمتة',
       investmentTitle: 'ملخص الاستثمار',
@@ -531,6 +542,14 @@ const messages = {
         chooseCoreTier: 'اختر فئة Core الخاصة بك',
         reportSubtitle: 'ابدأ مجانا او افتح المزيد من قوة التحليلات',
         coreSubtitle: 'ذكاء لحظي مصمم ليناسب حجمك',
+        shapeFoundation: 'ابدأ من هنا',
+        shapeMargin: 'حماية هامش الربح',
+        shapeGrowth: 'تنمية الطلب',
+        shapePerformance: 'الجانبان معًا',
+        notALadder: '‏Margin و‏Growth مساران مختلفان، وليسا درجتين في سلّم واحد. ‏Margin يركّز على جانب التكلفة، و‏Growth على جانب الطلب، و‏Performance يغطّي الجانبين.',
+        growthOmits: 'لا يشمل المخزون ولا المشتريات. اختر ‏Margin أو ‏Performance إذا كنت بحاجة إلى إدارة تكلفة الطعام والموردين.',
+        marginOmits: 'لا يشمل التسويق ولا الحجوزات ولا وحدات الضيوف. اختر ‏Growth أو ‏Performance إذا كان تركيزك على جانب الطلب.',
+        selectPackage: 'اختر {name}',
         recommended: 'موصى به',
         perMonth: '/شهريا',
         perAdditionalLocation: '+${price} لكل موقع اضافي',
@@ -577,7 +596,7 @@ const messages = {
       watchtowerToggle: {
         title: 'افتح ذكاء السوق',
         subtitle: 'شاهد ما لا يستطيع منافسوك رؤيته مع ذكاء Watchtower التنافسي',
-        baseCoverage: 'يغطي السعر الاساسي موقعك الاول ثم ${price}/للموقع لكل سوق اضافي',
+        baseCoverage: 'لكل وحدة سعر ارتكاز للسوق الأول؛ وتضيف الباقة ${price} لكل سوق إضافي',
         bundleSaveTitle: 'اختر الباقة ووفر!',
         bundleSaveDescription: 'احصل على وحدات Watchtower الثلاث مقابل ${total}/شهريا',
         saveAmount: 'وفر ${amount}',
@@ -614,7 +633,7 @@ const messages = {
         marketing: { name: 'Marketing Performance', description: 'اداء القنوات والاسناد وتكلفة الاكتساب والعائد حسب الموقع وتوزيع الميزانية ومزيج العملاء', roi: 'تحسين كفاءة التسويق بنسبة 10-20%' },
         reservations: { name: 'Reservations Intelligence', description: 'الحجوزات مقابل الفعلي وعدم الحضور ونسب القنوات والاستغلال وتحليل الالغاءات', roi: 'تحسين استغلال الطاولات بنسبة 5-10%' },
         profit: { name: 'Profit Intelligence', description: 'اقتصاديات الوحدة ورؤية الربح والخسارة وتحليل الهامش ونقطة التعادل وتوقع الربحية', roi: 'اكتشف اقتصاديات الوحدة الحقيقية' },
-        revenue: { name: 'Revenue Assurance', description: 'اكتشف التسرب من الالغاءات والتعويضات والخصومات والسرقة والشذوذات في المعاملات', roi: 'التقط 1-2% من التسرب' },
+        revenue: { name: 'Revenue Assurance', description: 'اكتشف التسرب من الالغاءات والتعويضات والخصومات والسرقة والشذوذات في المعاملات', roi: 'حدّد تسرب الإيرادات وتابعه' },
         delivery: { name: 'Delivery Economics', description: 'ربحية المنصات والتوصيل مقابل داخل المطعم واثر العمولة وتحسين القنوات', roi: 'ربحية التوصيل الحقيقية' },
         guest: { name: 'Guest Experience', description: 'مشاعر المراجعات واتجاهات التقييم وانماط ملاحظات الضيوف ودوافع الرضا', roi: 'اعرف لماذا يغادر العملاء' },
         pulse: { name: 'Pulse', description: 'مراقبة لحظية وتنبيهات وترابط وكشف استباقي للشذوذ عبر العمليات', roi: 'وعي تشغيلي لحظي' }
@@ -737,7 +756,7 @@ const messages = {
       crossIntelligencePro: 'Cross-Intelligence Pro',
       crossIntelligence: 'Cross-Intelligence',
       crossIntelligenceProDesc: 'Moteur de correlation complet avec attribution et detection de cannibalisation',
-      crossIntelligenceDesc: 'Insights de correlation activees automatiquement (inclues avec 3 modules ou plus)',
+      crossIntelligenceDesc: 'Insights de corrélation sur les domaines accordés par chaque forfait Core',
       aiCreditsPerMonth: 'credits IA/mois',
       aiCreditsDescription: 'Pour les insights et l automatisation',
       investmentTitle: 'Resume de l investissement',
@@ -817,6 +836,14 @@ const messages = {
         chooseCoreTier: 'Choisissez votre niveau Core',
         reportSubtitle: 'Commencez gratuitement ou debloquez plus de puissance analytique',
         coreSubtitle: 'Une intelligence en temps reel adaptee a votre echelle',
+        shapeFoundation: 'Commencez ici',
+        shapeMargin: 'Protéger la marge',
+        shapeGrowth: 'Développer la demande',
+        shapePerformance: 'Les deux côtés',
+        notALadder: 'Margin et Growth ne sont pas deux paliers, mais deux approches différentes. Margin agit sur les coûts, Growth sur la demande, et Performance sur les deux.',
+        growthOmits: 'Sans Stocks ni Achats. Choisissez Margin ou Performance si vous devez piloter votre coût matière et vos prix fournisseurs.',
+        marginOmits: 'Sans Marketing, Réservations ni CRM Clients. Choisissez Growth ou Performance si vous devez agir sur la demande.',
+        selectPackage: 'Choisir {name}',
         recommended: 'RECOMMANDE',
         perMonth: '/mois',
         perAdditionalLocation: '+${price} par site supplementaire',
@@ -863,7 +890,7 @@ const messages = {
       watchtowerToggle: {
         title: 'Debloquez l intelligence marche',
         subtitle: 'Voyez ce que vos concurrents ne peuvent pas voir avec l intelligence concurrentielle Watchtower',
-        baseCoverage: 'Le prix de base couvre votre premier site puis ${price}/site pour les marches supplementaires',
+        baseCoverage: 'Chaque module a son propre prix d’ancrage pour le premier marché ; le bundle ajoute ${price} par marché supplémentaire',
         bundleSaveTitle: 'Pack et economie !',
         bundleSaveDescription: 'Obtenez les trois modules Watchtower pour ${total}/mois',
         saveAmount: 'Economisez ${amount}',
@@ -900,7 +927,7 @@ const messages = {
         marketing: { name: 'Marketing Performance', description: 'Performance des canaux, attribution, CAC, ROI par site, allocation budget et mix clients', roi: '10-20% d amelioration de l efficacite marketing' },
         reservations: { name: 'Reservations Intelligence', description: 'Reservations vs reel, no-show, attribution canal, utilisation des tables et annulations', roi: '5-10% d amelioration de l utilisation des tables' },
         profit: { name: 'Profit Intelligence', description: 'Economique unitaire, visibilite P&L, analyse de marge, seuil de rentabilite et previsions', roi: 'Voyez la vraie economie unitaire' },
-        revenue: { name: 'Revenue Assurance', description: 'Detectez les pertes dues aux annulations, remises, vols et anomalies transactionnelles', roi: 'Recuperez 1-2% de fuite' },
+        revenue: { name: 'Revenue Assurance', description: 'Detectez les pertes dues aux annulations, remises, vols et anomalies transactionnelles', roi: 'Identifiez et suivez les fuites de revenu' },
         delivery: { name: 'Delivery Economics', description: 'Rentabilite des plateformes, delivery vs salle, impact commissions et optimisation des canaux', roi: 'La vraie rentabilite delivery' },
         guest: { name: 'Guest Experience', description: 'Sentiment des avis, tendances de note, patterns de feedback et moteurs de satisfaction', roi: 'Comprenez pourquoi les clients partent' },
         pulse: { name: 'Pulse', description: 'Monitoring temps reel, alertes, correlation et detection proactive des anomalies', roi: 'Visibilite operationnelle en temps reel' }
@@ -1023,7 +1050,7 @@ const messages = {
       crossIntelligencePro: 'Cross-Intelligence Pro',
       crossIntelligence: 'Cross-Intelligence',
       crossIntelligenceProDesc: 'Motor de correlacion completo con atribucion y deteccion de canibalizacion',
-      crossIntelligenceDesc: 'Insights de correlacion activados automaticamente (incluidos con 3+ modulos)',
+      crossIntelligenceDesc: 'Insights de correlación sobre los dominios incluidos en cada paquete Core',
       aiCreditsPerMonth: 'creditos de IA/mes',
       aiCreditsDescription: 'Para insights y automatizacion',
       investmentTitle: 'Resumen de inversion',
@@ -1103,6 +1130,14 @@ const messages = {
         chooseCoreTier: 'Elige tu nivel Core',
         reportSubtitle: 'Empieza gratis o desbloquea mas potencia analitica',
         coreSubtitle: 'Inteligencia en tiempo real adaptada a tu escala',
+        shapeFoundation: 'Empieza aquí',
+        shapeMargin: 'Protege el margen',
+        shapeGrowth: 'Impulsa la demanda',
+        shapePerformance: 'Costes y demanda',
+        notALadder: 'Margin y Growth no son escalones, son enfoques distintos: Margin actúa sobre los costes, Growth sobre la demanda y Performance sobre ambos.',
+        growthOmits: 'No incluye Inventario ni Compras. Elige Margin o Performance si necesitas gestionar el coste de la materia prima y los proveedores.',
+        marginOmits: 'No incluye Marketing, Reservas ni Clientes. Elige Growth o Performance si tu prioridad es la demanda.',
+        selectPackage: 'Elegir {name}',
         recommended: 'RECOMENDADO',
         perMonth: '/mes',
         perAdditionalLocation: '+${price} por local adicional',
@@ -1149,7 +1184,7 @@ const messages = {
       watchtowerToggle: {
         title: 'Desbloquea inteligencia de mercado',
         subtitle: 'Ve lo que tus competidores no pueden ver con la inteligencia competitiva de Watchtower',
-        baseCoverage: 'El precio base cubre tu primer local y luego ${price}/local para mercados adicionales',
+        baseCoverage: 'Cada módulo tiene su propio precio ancla para el primer mercado; el bundle añade ${price} por mercado adicional',
         bundleSaveTitle: 'Paquete y ahorro!',
         bundleSaveDescription: 'Obtiene los tres modulos Watchtower por ${total}/mes',
         saveAmount: 'Ahorra ${amount}',
@@ -1186,7 +1221,7 @@ const messages = {
         marketing: { name: 'Marketing Performance', description: 'Desempeno por canal, atribucion, CAC, ROI por local, asignacion de presupuesto y mezcla de clientes', roi: '10-20% de mejora en eficiencia de marketing' },
         reservations: { name: 'Reservations Intelligence', description: 'Reservado vs real, no-show, atribucion de canal, utilizacion y cancelaciones', roi: '5-10% de mejora en utilizacion de mesas' },
         profit: { name: 'Profit Intelligence', description: 'Economia unitaria, visibilidad P&L, analisis de margen, punto de equilibrio y pronosticos de rentabilidad', roi: 'Ve la verdadera economia unitaria' },
-        revenue: { name: 'Revenue Assurance', description: 'Detecta fugas por anulaciones, descuentos, robo y anomalias transaccionales', roi: 'Recupera 1-2% de fuga' },
+        revenue: { name: 'Revenue Assurance', description: 'Detecta fugas por anulaciones, descuentos, robo y anomalias transaccionales', roi: 'Identifica y controla las fugas de ingresos' },
         delivery: { name: 'Delivery Economics', description: 'Rentabilidad por plataforma, delivery vs salon, impacto de comisiones y optimizacion de canales', roi: 'Rentabilidad real del delivery' },
         guest: { name: 'Guest Experience', description: 'Sentimiento de resenas, tendencias de calificacion, patrones de feedback y motores de satisfaccion', roi: 'Descubre por que se van los clientes' },
         pulse: { name: 'Pulse', description: 'Monitoreo en tiempo real, alertas, correlacion y deteccion proactiva de anomalias', roi: 'Visibilidad operativa en tiempo real' }
@@ -1280,7 +1315,7 @@ function deepMergeMessages<T>(base: T, override: unknown): T {
   return out as T
 }
 
-function resolveMessages(locale: string): typeof messages.en {
+export function resolveMessages(locale: string): typeof messages.en {
   const handWritten = messages[locale as keyof typeof messages]
   if (handWritten) return handWritten as typeof messages.en
   const generated =

@@ -24,16 +24,15 @@ type FAQCategory = 'core' | 'watchtower' | 'crew' | 'general';
 //
 // The previous packs were written for v5.1 and stated retired facts that the
 // retired-NAME filter below could not catch: modules sold a la carte with
-// per-location pricing, a per-module setup fee, "volume and billing discounts
-// do NOT combine — you get the larger", the 30-99/100-200 volume ladder, and a
-// 30-location Enterprise threshold. All of that is wrong under v1.7, so it was
+// per-location pricing, a per-module setup fee, the 30-99/100-200 volume
+// ladder, and a 30-location Enterprise threshold. Those are wrong under v1.7, so they were
 // rewritten rather than left to a name filter that would never fire on it.
 const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<FAQCategory, FAQItem[]>>>> = {
   ar: {
     core: [
       {
         question: 'ما هي باقات Core الأربع؟',
-        answer: 'Core Foundation و Core Margin و Core Growth و Core Performance. كل باقة تتضمن وحدات Core المجالية الإحدى عشرة كاملةً، ومحرك الترابط Cross-Intelligence، و Sundae Intelligence. تختلف الباقات في النطاق وفي حجم محفظة أرصدة الذكاء الاصطناعي الشهرية، والمحاكي يعرض دائماً الأرقام المنشورة الحالية.',
+        answer: 'Core Foundation و Core Margin و Core Growth و Core Performance. تمنح الباقات مجموعات مختلفة من وحدات Core — أربعاً لـ Foundation وستاً لـ Margin وثمانياً لـ Growth وإحدى عشرة لـ Performance. وتشمل جميعها محرك Cross-Intelligence و Sundae Intelligence.',
       },
       {
         question: 'كيف يعمل التسعير حسب عدد المواقع؟',
@@ -45,7 +44,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'هل يمكنني شراء الوحدات المجالية منفردة؟',
-        answer: 'لا. العمالة والمخزون والمشتريات والتسويق والحجوزات والربحية وضمان الإيرادات والتوصيل وتجربة الضيف و Pulse و Guest CRM هي مكوّنات داخل كل باقة Core. ليس لها سعر مستقل ولا تُضاف كإضافات.',
+        answer: 'لا. الوحدات المجالية مكوّنات داخل باقات Core وليست مشتريات منفصلة. تمنح كل باقة المجموعة المنشورة الخاصة بها؛ اختر الباقة التي تغطي نتائجك المطلوبة.',
       },
       {
         question: 'ما هي Foresight & Action؟',
@@ -61,7 +60,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'كيف تعمل الخصومات؟',
-        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 10% للسنوي و15% لسنتين. الخصمان يُجمعان معاً بحد أقصى 15% إجمالاً. ومن 250 موقعاً لا توجد شريحة ذاتية الخدمة، ويصبح التسعير بعرض سعر مخصص.',
+        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 10% للسنوي و15% لسنتين. يُطبّق الخصم الأكبر من خصم الحجم أو دورة الفوترة، ولا يُجمعان. ومن 250 موقعاً لا توجد شريحة ذاتية الخدمة، ويصبح التسعير بعرض سعر مخصص.',
       },
       {
         question: 'ما مدة العقد؟',
@@ -83,7 +82,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'هل يتطلب Watchtower اشتراك Core؟',
-        answer: 'نعم. Watchtower متاح حصرياً لمشتركي Core — أي باقة Core (Foundation أو Margin أو Growth أو Performance) أو Enterprise.',
+        answer: 'نعم. يتطلب Watchtower باقة Core Growth أو Core Performance، أو عرض Enterprise مخصص.',
       },
       {
         question: 'كيف يتدرج تسعير Watchtower مع عدد المواقع؟',
@@ -113,7 +112,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'كيف تعمل الخصومات؟',
-        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 10% سنوي و15% لسنتين. الخصمان يُجمعان معاً بحد أقصى 15% إجمالاً. ومن 250 موقعاً يكون التسعير بعرض سعر مخصص.',
+        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 10% سنوي و15% لسنتين. يُطبّق الخصم الأكبر من خصم الحجم أو دورة الفوترة، ولا يُجمعان. ومن 250 موقعاً يكون التسعير بعرض سعر مخصص.',
       },
       {
         question: 'هل أرصدة الذكاء الاصطناعي مشتركة بين المواقع؟',
@@ -129,7 +128,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
     core: [
       {
         question: 'Quels sont les quatre forfaits Core ?',
-        answer: "Core Foundation, Core Margin, Core Growth et Core Performance. Chaque forfait inclut les onze modules de domaine Core, le moteur de corrélation Cross-Intelligence et Sundae Intelligence. Ils diffèrent par leur périmètre et par la taille du portefeuille mensuel de crédits IA ; le configurateur affiche toujours les chiffres publiés en vigueur.",
+        answer: "Core Foundation, Core Margin, Core Growth et Core Performance. Ils diffèrent par le nombre de modules de domaine Core accordés parmi les onze — quatre pour Foundation, six pour Margin, huit pour Growth, les onze pour Performance — et par la taille du portefeuille mensuel de crédits IA. Chaque forfait inclut le moteur de corrélation Cross-Intelligence et Sundae Intelligence ; le configurateur affiche toujours les chiffres publiés en vigueur.",
       },
       {
         question: 'Comment fonctionne la tarification par site ?',
@@ -141,7 +140,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'Puis-je acheter les modules de domaine séparément ?',
-        answer: "Non. Travail, Stocks, Achats, Marketing, Réservations, Rentabilité, Garantie de revenu, Livraison, Expérience client, Pulse et Guest CRM sont des composants de chaque forfait Core. Ils n'ont pas de prix autonome et ne s'ajoutent pas en option.",
+        answer: "Non. Les modules de domaine sont des composants de forfait, jamais des achats séparés. Chaque forfait accorde l'ensemble publié qui correspond à son résultat ; choisissez le forfait qui couvre vos priorités.",
       },
       {
         question: "Qu'est-ce que Foresight & Action ?",
@@ -179,7 +178,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'Watchtower nécessite-t-il un abonnement Core ?',
-        answer: "Oui. Watchtower est réservé aux abonnés Core — n'importe quel forfait Core (Foundation, Margin, Growth ou Performance) ou Enterprise.",
+        answer: "Oui. Watchtower nécessite Core Growth ou Core Performance, ou un devis Enterprise personnalisé.",
       },
       {
         question: 'Comment le prix Watchtower évolue-t-il selon les sites ?',
@@ -209,7 +208,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'Comment fonctionnent les remises ?',
-        answer: "Les remises volume sont de 0 % en dessous de 50 sites, 2,5 % de 50 à 99, 5 % de 100 à 199 et 7 % de 200 à 249. Les remises de cycle de facturation sont de 10 % en annuel et 15 % sur deux ans. Les deux se cumulent, dans la limite de 15 % au total. À partir de 250 sites, le prix est établi sur devis.",
+        answer: "Les remises volume sont de 0 % en dessous de 50 sites, 2,5 % de 50 à 99, 5 % de 100 à 199 et 7 % de 200 à 249. Les remises de cycle de facturation sont de 10 % en annuel et 15 % sur deux ans. La remise la plus élevée entre le volume et le cycle de facturation s'applique ; elles ne se cumulent pas. À partir de 250 sites, le prix est établi sur devis.",
       },
       {
         question: 'Les crédits IA sont-ils partagés entre les sites ?',
@@ -225,7 +224,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
     core: [
       {
         question: '¿Cuáles son los cuatro paquetes Core?',
-        answer: 'Core Foundation, Core Margin, Core Growth y Core Performance. Cada paquete incluye los once módulos de dominio de Core, el motor de correlación Cross-Intelligence y Sundae Intelligence. Se diferencian en el alcance y en el tamaño de la cartera mensual de créditos de IA; el configurador siempre muestra las cifras publicadas vigentes.',
+        answer: 'Core Foundation, Core Margin, Core Growth y Core Performance. Se diferencian en cuántos de los once módulos de dominio de Core conceden —Foundation cuatro, Margin seis, Growth ocho y Performance los once— y en el tamaño de la cartera mensual de créditos de IA. Cada paquete incluye el motor de correlación Cross-Intelligence y Sundae Intelligence; el configurador siempre muestra las cifras publicadas vigentes.',
       },
       {
         question: '¿Cómo funciona el precio por local?',
@@ -237,7 +236,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: '¿Puedo comprar los módulos de dominio por separado?',
-        answer: 'No. Personal, Inventario, Compras, Marketing, Reservas, Rentabilidad, Revenue Assurance, Delivery, Experiencia del cliente, Pulse y Guest CRM son componentes de cada paquete Core. No tienen precio independiente ni se añaden como extras.',
+        answer: 'No. Los módulos de dominio son componentes de paquete, nunca compras separadas. Cada paquete concede el conjunto publicado que corresponde a su resultado; elige el paquete que cubra tus prioridades.',
       },
       {
         question: '¿Qué es Foresight & Action?',
@@ -253,7 +252,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: '¿Cómo funcionan los descuentos?',
-        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 10 % anual y del 15 % a dos años. Ambos SE COMBINAN, con un tope del 15 % en total. A partir de 250 locales no hay tramo de autoservicio y el precio se presupuesta.',
+        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 10 % anual y del 15 % a dos años. Se aplica el mayor entre el descuento por volumen y el del ciclo de facturación; no se acumulan. A partir de 250 locales no hay tramo de autoservicio y el precio se presupuesta.',
       },
       {
         question: '¿Cuál es el plazo del contrato?',
@@ -275,7 +274,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: '¿Watchtower requiere una suscripción Core?',
-        answer: 'Sí. Watchtower está disponible exclusivamente para suscriptores de Core: cualquier paquete Core (Foundation, Margin, Growth o Performance) o Enterprise.',
+        answer: 'Sí. Watchtower requiere Core Growth o Core Performance, o una propuesta Enterprise personalizada.',
       },
       {
         question: '¿Cómo escala el precio de Watchtower con los locales?',
@@ -305,7 +304,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: '¿Cómo funcionan los descuentos?',
-        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 10 % anual y del 15 % a dos años. Ambos se combinan, con un tope del 15 % en total. A partir de 250 locales el precio se presupuesta.',
+        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 10 % anual y del 15 % a dos años. Se aplica el mayor entre el descuento por volumen y el del ciclo de facturación; no se acumulan. A partir de 250 locales el precio se presupuesta.',
       },
       {
         question: '¿Los créditos de IA se comparten entre locales?',
@@ -322,7 +321,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
 const coreFAQ: FAQItem[] = [
   {
     question: 'What are the four Core packages?',
-    answer: 'Core Foundation, Core Margin, Core Growth, and Core Performance. Every package includes all eleven Core domain modules, the Cross-Intelligence correlation engine, and Sundae Intelligence. They differ in scope and in the size of the monthly AI credit wallet; the configurator always shows the current published figures.'
+    answer: 'Core Foundation, Core Margin, Core Growth, and Core Performance. They differ in how many of the eleven Core domain modules they grant — Foundation four, Margin six, Growth eight, Performance all eleven — and in the size of the monthly AI credit wallet. Every package includes the Cross-Intelligence correlation engine and Sundae Intelligence; the configurator always shows the current published figures.'
   },
   {
     question: 'How does per-location pricing work?',
@@ -334,7 +333,7 @@ const coreFAQ: FAQItem[] = [
   },
   {
     question: 'Can I buy the domain modules individually?',
-    answer: 'No. Labor, Inventory, Purchasing, Marketing, Reservations, Profit, Revenue Assurance, Delivery, Guest Experience, Pulse and Guest CRM are components of every Core package. They have no standalone price and nothing to add on.'
+    answer: 'No. Domain modules are package components, never separate purchases. Each package grants its published outcome set — four domains in Foundation, six in Margin, eight in Growth, and all eleven in Performance. Choose the package that covers the outcomes you need.'
   },
   {
     question: 'What is Foresight & Action?',
@@ -342,7 +341,7 @@ const coreFAQ: FAQItem[] = [
   },
   {
     question: 'What is the Cross-Intelligence Engine?',
-    answer: `Cross-Intelligence surfaces hidden correlations between your data sources — for example how weather moves both labour scheduling and inventory waste. The base engine is included with every Core package at no extra cost. Cross-Intelligence Pro ($${CI_PRO_MONTHLY}/mo + $${CI_PRO_PER_LOC}/location) adds the full correlation matrix, revenue attribution, spend efficiency radar, campaign pulse monitoring, and cannibalization detection.`
+    answer: `Cross-Intelligence surfaces hidden correlations between your data sources — for example how weather moves both labour scheduling and inventory waste. The base engine is included with every Core package at no extra cost. Cross-Intelligence Pro ($${CI_PRO_MONTHLY}/mo + $${CI_PRO_PER_LOC} per additional location from location #2) adds the full correlation matrix, revenue attribution, spend efficiency radar, campaign pulse monitoring, and cannibalization detection.`
   },
   {
     question: 'How much is implementation?',
@@ -350,7 +349,7 @@ const coreFAQ: FAQItem[] = [
   },
   {
     question: 'How do discounts work?',
-    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% for annual and 15% for two-year. Volume and billing-cycle discounts do NOT combine — you get whichever is larger, capped at 15% in total. From 250 locations there is no self-serve band and pricing is quoted.'
+    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% for annual and 15% for two-year. You receive the larger of the volume or billing-cycle discount; they do not stack. From 250 locations there is no self-serve band and pricing is quoted.'
   },
   {
     question: "What's the contract term?",
@@ -373,7 +372,7 @@ const watchtowerFAQ: FAQItem[] = [
   },
   {
     question: 'Does Watchtower require Core tier?',
-    answer: 'Yes. Watchtower is available exclusively to Core subscribers — any Core package (Foundation, Margin, Growth or Performance) or Enterprise.'
+    answer: 'Yes. Watchtower requires Core Growth or Core Performance, or a custom Enterprise quote.'
   },
   {
     question: 'How does Watchtower pricing scale with locations?',
@@ -404,7 +403,7 @@ const generalFAQ: FAQItem[] = [
   },
   {
     question: 'How do discounts work?',
-    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% annual and 15% two-year. The two do not combine — you get whichever is larger, capped at 15% in total. From 250 locations, pricing is quoted.'
+    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% annual and 15% two-year. You receive the larger of the volume or billing-cycle discount; they do not stack. From 250 locations, pricing is quoted.'
   },
   {
     question: 'Are AI credits shared across locations?',
@@ -443,10 +442,9 @@ function mentionsRetiredCatalog(text: string): boolean {
 
 // A name filter cannot catch a retired RULE. The machine-generated packs were
 // translated from the v5.1 English source and still assert, in eighteen
-// languages, that "volume and billing discounts do not combine — you get the
-// larger", that the volume ladder runs 5% at 30-99 / 7% at 100-200, and that
-// Enterprise starts at 30 locations or $10,000/month. Every one of those is
-// wrong under v1.7 and none of them names a retired product.
+// languages, that the volume ladder runs 5% at 30-99 / 7% at 100-200, and that
+// Enterprise starts at 30 locations or $10,000/month. Those claims are wrong
+// under v1.7 and none of them names a retired product.
 //
 // Pattern-matching that prose across eighteen languages cannot be shown to be
 // complete — a first attempt here missed Turkish "%5" (percent leading), German

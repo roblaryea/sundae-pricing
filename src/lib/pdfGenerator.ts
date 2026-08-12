@@ -2,8 +2,13 @@
 // Returns PDF as Blob for download or email attachment
 
 import jsPDF from 'jspdf';
-import { calculateAllComparisons } from '../data/competitorPricing';
-import { corePackages } from '../data/pricing';
+import {
+  CORE_PACKAGE_SELECTION_ID,
+  calculateAllComparisons,
+  comparisonAmount,
+} from '../data/competitorPricing';
+import type { CompetitorCalcContext, SundaeQuoteBasis } from '../data/competitorPricing';
+import { PACKAGE_DOMAIN_GRANTS, corePackages } from '../data/pricing';
 import type { CorePackageId } from '../data/pricing';
 import { LEGAL } from '../config/legal';
 import {
@@ -126,7 +131,15 @@ export async function generateQuotePDF(
   addOns: string[],
   watchtowerModules: string[],
   pricing: PricingData,
-  locale: PricingLocale = 'en'
+  locale: PricingLocale = 'en',
+  /**
+   * The same comparison inputs the on-screen card uses. Omitted, the document
+   * silently answers a different question than the screen the buyer just read.
+   */
+  comparison?: {
+    basis?: SundaeQuoteBasis;
+    context?: CompetitorCalcContext;
+  },
 ): Promise<Blob> {
   const doc = new jsPDF();
   const copy = getPricingPdfCopy(locale);
@@ -137,10 +150,39 @@ export async function generateQuotePDF(
   doc.setR2L(isRtl);
   await ensurePdfFont(doc, locale);
 
-  // Calculate competitor comparisons
-  const allModules = [...addOns, `${layer}-${corePackage}`];
-  const comparisons = calculateAllComparisons(locations, allModules, pricing.total);
-  const savingsComparisons = comparisons.filter((c) => c.savings.firstYear > 0).slice(0, 3);
+  // Calculate competitor comparisons — on the SAME inputs as the screen.
+  //
+  // Three defects lived in these three lines.
+  //
+  // `[...addOns, `${layer}-${corePackage}`]` produced "core-core_performance",
+  // which is neither CORE_PACKAGE_SELECTION_ID nor any domain id. Tenzo's
+  // calculator therefore found no Core package and no domains, priced ZERO
+  // modules, and every PDF ever generated quoted Tenzo at $0 — a competitor
+  // shown as free in a document the buyer forwards.
+  //
+  // No CompetitorCalcContext was passed, so the status quo lost its
+  // error/rework line and the document disagreed with the screen it was
+  // exported from — the same quote, two numbers.
+  //
+  // And the list was filtered to `savings.firstYear > 0`: only competitors
+  // Sundae beats. The buyer's real alternative was dropped from 407 of 996
+  // configurations, and 279 got no comparison section at all. A comparison that
+  // can only print wins is a brochure.
+  const grantedDomains = corePackage
+    ? ((PACKAGE_DOMAIN_GRANTS[corePackage as CorePackageId] ?? []) as readonly string[])
+    : [];
+  const allModules = [...addOns, CORE_PACKAGE_SELECTION_ID, ...grantedDomains];
+  const comparisons = calculateAllComparisons(
+    locations,
+    allModules,
+    comparison?.basis ?? pricing.total,
+    comparison?.context,
+  );
+  // Ranked on the basis the card displays, and NOT filtered to wins. Losing
+  // comparisons are the ones a buyer checks.
+  const savingsComparisons = [...comparisons]
+    .sort((a, b) => comparisonAmount(b) - comparisonAmount(a))
+    .slice(0, 3);
 
   // Generate quote ID
   const quoteId = `SUN-${Date.now().toString(36).toUpperCase()}`;
@@ -366,7 +408,7 @@ export async function generateQuotePDF(
       setPdfFont(doc, locale, 'bold');
       renderPdfText(
         doc,
-        `${copy.bestSavingsLabel}: $${savingsComparisons[0].savings.firstYear.toLocaleString(locale)}/${copy.perYearLabel} ${copy.vsLabel} ${savingsComparisons[0].competitor.name}`,
+        `${copy.bestSavingsLabel}: $${comparisonAmount(savingsComparisons[0]).toLocaleString(locale)}/${copy.perYearLabel} ${copy.vsLabel} ${savingsComparisons[0].competitor.name}`,
         pageWidth / 2,
         yPos + 7,
         locale,

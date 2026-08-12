@@ -83,7 +83,7 @@ export function ModulePicker() {
         <p className="text-xl text-sundae-muted">{copy.subtitle}</p>
       </motion.div>
 
-      {/* ── 1. Included with the package (NOT purchasable) ───────────────── */}
+      {/* ── 1. Granted by this package (NOT purchasable) ─────────────────── */}
       <motion.section
         variants={fadeUp(reduced, 0.04)}
         initial="hidden"
@@ -93,16 +93,18 @@ export function ModulePicker() {
         <div className="flex items-start gap-3 mb-5">
           <Check className="w-6 h-6 text-green-400 flex-shrink-0 mt-0.5" />
           <div>
-            <h2 className="text-xl font-bold">Included in {pkg.name}</h2>
+            <h2 className="text-xl font-bold">What {pkg.name} unlocks</h2>
             <p className="text-sm text-sundae-muted">
-              All {Object.keys(coreDomainModules).length} Core domain modules ship with every Core
-              package. They are components of the package, not separate purchases.
+              {pkg.includesDomainModules.length} outcome domains are included as package components.
+              They have no a-la-carte price; choose a different package when you need a different
+              outcome set.
             </p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {Object.entries(coreDomainModules).map(([moduleId, module]) => {
+          {pkg.includesDomainModules.map((moduleId) => {
+            const module = coreDomainModules[moduleId];
             const localizedModule = moduleCatalog[moduleId as keyof typeof moduleCatalog];
             const IconComponent = getModuleIcon(moduleId);
             return (
@@ -280,7 +282,7 @@ export function ModulePicker() {
           <div>
             <span className="font-semibold text-[#E9A24A]">{copy.crossUnlocked}</span>
             <span className="ml-2 text-sm text-sundae-muted">
-              The correlation engine is included with every Core package.
+              The correlation engine works across the domains granted by {pkg.name}.
             </span>
           </div>
         </div>
@@ -306,23 +308,6 @@ export function ModulePicker() {
             </div>
           </div>
 
-          {(() => {
-            const tenzoMonthly = pricing.savings.tenzo.monthly;
-            const monthlySavings = tenzoMonthly - pricing.total;
-            const savingsPercent = tenzoMonthly > 0 ? (monthlySavings / tenzoMonthly) * 100 : 0;
-
-            return monthlySavings > 0 ? (
-              <div className="text-right">
-                <div className="text-sm text-sundae-muted mb-1">{copy.vsTenzo}</div>
-                <div className="font-display text-2xl font-bold text-green-400">
-                  {fmt(Math.round(monthlySavings))}
-                </div>
-                <div className="text-sm text-green-400">
-                  {Math.round(savingsPercent)}% less
-                </div>
-              </div>
-            ) : null;
-          })()}
         </div>
       </motion.div>
 

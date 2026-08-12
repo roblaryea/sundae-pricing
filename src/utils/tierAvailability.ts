@@ -1,9 +1,8 @@
 // Step availability rules for the configurator (price book v1.7).
 //
-// The Report layer was retired, and with it the "this tier cannot buy modules
-// or Watchtower" branch: all four Core packages carry identical add-on and
-// Watchtower eligibility, because every package ships all eleven Core domain
-// modules. Crew has its own consolidated builder step.
+// The Report layer was retired. Core packages share the same journey shape;
+// package-specific Watchtower eligibility is enforced inside the selector and
+// pricing engine. Crew has its own consolidated builder step.
 
 export interface StepFeatures {
   addOns: boolean;

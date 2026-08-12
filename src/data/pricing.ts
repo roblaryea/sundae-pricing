@@ -198,16 +198,16 @@ export const pricingChangelog: PricingChange[] = [
       'selection ($0 self-service / $1,500 A / $2,500 B / $7,500 C / from $12,500 D). Foresight & Action became its own ' +
       'banded layer ($495 first unit, then 65/55/45/35). Crew bundles repriced (Schedule & Time $249 added, Crew ' +
       'Operating $499, Crew Complete $699). Volume ladder is now 0% under 50, 2.5% at 50-99, 5% at 100-199, 7% at ' +
-      '200-249, Enterprise-only at 250+. Volume and billing-cycle discounts now combine, capped at 15% total.'
+      '200-249, Enterprise-only at 250+. Volume and billing-cycle discounts are mutually exclusive: the larger applies. ' +
+      'Early-adopter concessions share the 15% calculated-discount cap.'
   }
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════
 // CORE DOMAIN MODULES — the eleven package components
 // ═══════════════════════════════════════════════════════════════════════════
-// Every Core package includes all eleven. They are NOT sold separately, so
-// they carry no price. Listing them here lets the UI show what a package
-// contains without implying an a-la-carte purchase.
+// These eleven are the Core domain catalogue. They are NOT sold separately;
+// each package grants the outcome set declared in PACKAGE_DOMAIN_GRANTS.
 
 export const CORE_DOMAIN_MODULE_IDS = [
   'labor',
@@ -371,7 +371,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     creditRolloverCap: 4500,
     includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_growth,
     includedOutcome:
-      'Everything in Foundation, plus guest behaviour, CRM, reservations, campaigns and reputation, with Watchtower',
+      'Everything in Foundation, plus guest behaviour, CRM, reservations, campaigns and reputation, with access to add Watchtower',
     bestFor: 'Operators in expansion who need demand and channel signal',
     implementationClass: null,
   },
@@ -388,13 +388,71 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     creditRolloverCap: 6000,
     includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_performance,
     includedOutcome:
-      'The complete Core estate — every domain, plus Foresight & Action for forecasting and prioritisation',
+      'The complete Core estate — every outcome domain, ready to extend with Foresight & Action',
     bestFor: 'Multi-brand and multi-region portfolios',
     implementationClass: null,
   },
 };
 
 export const CORE_PACKAGE_IDS = Object.keys(corePackages) as CorePackageId[];
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PACKAGE SHAPE — which side of the business a package works
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * The four Core packages are NOT four rungs of one ladder, and presenting them
+ * as one misleads the buyer in a way that costs them capability.
+ *
+ * Core Growth is $275/month more than Core Margin and does not include the
+ * Inventory or Purchasing modules that Margin has — it trades them for
+ * Marketing, Reservations, Guest and Guest CRM. So a buyer who "upgrades" from
+ * Margin to Growth LOSES the ability to manage food cost and supplier pricing,
+ * and the ROI model correctly shows their modelled savings FALL as they pay
+ * more (-$615/mo at one location, -$12,317/mo at twenty), because inventory and
+ * purchasing carry two of the best-evidenced savings rates in the model.
+ *
+ * Nothing here changes what a package grants — price book v1.7 section 3.1 is
+ * untouched. This is the vocabulary the UI needs so it can present Margin and
+ * Growth as a FORK rather than as steps, which is the only description of the
+ * catalogue that is actually true.
+ */
+export const COST_SIDE_DOMAINS = ['inventory', 'purchasing'] as const;
+export const DEMAND_SIDE_DOMAINS = ['marketing', 'reservations', 'guest', 'guest_crm'] as const;
+
+export type PackageShape = 'entry' | 'cost_side' | 'demand_side' | 'both_sides';
+
+/**
+ * Derived from the grants rather than hand-declared, so a package cannot claim
+ * a shape its module list does not support.
+ */
+export function packageShape(id: CorePackageId): PackageShape {
+  const granted = new Set(PACKAGE_DOMAIN_GRANTS[id] as readonly string[]);
+  const cost = COST_SIDE_DOMAINS.some((d) => granted.has(d));
+  const demand = DEMAND_SIDE_DOMAINS.some((d) => granted.has(d));
+  if (cost && demand) return 'both_sides';
+  if (cost) return 'cost_side';
+  if (demand) return 'demand_side';
+  return 'entry';
+}
+
+/**
+ * Domains a rival package grants that this one does not — what the buyer would
+ * GIVE UP by choosing it. Empty for the package that grants everything.
+ */
+export function domainsGivenUp(id: CorePackageId): readonly string[] {
+  const granted = new Set(PACKAGE_DOMAIN_GRANTS[id] as readonly string[]);
+  const elsewhere = new Set<string>();
+  for (const other of Object.keys(PACKAGE_DOMAIN_GRANTS) as CorePackageId[]) {
+    if (other === id) continue;
+    for (const d of PACKAGE_DOMAIN_GRANTS[other] as readonly string[]) {
+      if (!granted.has(d)) elsewhere.add(d);
+    }
+  }
+  return [...elsewhere];
+}
+
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // FORESIGHT & ACTION (price book v1.7)
@@ -630,8 +688,8 @@ export const coreTiers = {
 // ═══════════════════════════════════════════════════════════════════════════
 // CORE DOMAIN MODULES — descriptors only, NO prices
 // ═══════════════════════════════════════════════════════════════════════════
-// Under price book v1.7 these eleven are PACKAGE COMPONENTS: every Core
-// package includes all of them. They are never offered a la carte, so the
+// Under price book v1.7 these eleven are PACKAGE COMPONENTS. Packages grant
+// different outcome sets and none is offered a la carte, so the
 // commercial fields (orgLicensePrice / perLocationPrice /
 // baseIncludesLocations / setupFee / pricingByTier) have been REMOVED rather
 // than zeroed — a missing field cannot be accidentally summed into a quote.
@@ -647,8 +705,8 @@ export interface CoreDomainModule {
   description: string;
   features: string[];
   roiPotential: string;
-  /** Always true — these ship inside every Core package. */
-  includedInEveryCorePackage: true;
+  /** Always true — sold only as a component of a Core package. */
+  packageComponent: true;
   note?: string;
   /** Domain modules whose data this one reads. Informational, not a purchase gate. */
   dataDependencies?: ModuleId[];
@@ -660,7 +718,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Labor Intelligence',
     icon: 'users',
     backendId: 'labor',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Labor cost %, sales per labor hour, actual vs scheduled variance, overtime analysis, break compliance, benchmarking, predictive staffing, demand-based scheduling, shift performance, server rankings',
     features: [
       'Labor cost % by location/day part',
@@ -683,7 +741,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Inventory Connect',
     icon: 'package',
     backendId: 'inventory',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'COGS tracking, recipe costing, theoretical vs actual variance, menu engineering, waste tracking, menu item profitability, price optimization, portion cost, inventory turnover, supplier performance',
     features: [
       'COGS tracking by category',
@@ -706,7 +764,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Purchasing Analytics',
     icon: 'cart',
     backendId: 'purchasing',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Spend analysis by supplier, price variance alerts, supplier performance, contract compliance, consolidation opportunities, volume discount analysis, order frequency optimization, delivery cost, contract renewal alerts',
     features: [
       'Spend analysis by supplier',
@@ -728,7 +786,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Marketing Performance',
     icon: 'megaphone',
     backendId: 'marketing',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Meta/Facebook Ads, Google Ads integration, campaign performance, multi-touch attribution, CAC, channel ROI by location, budget allocation, new vs returning customers, lifetime value estimation',
     features: [
       'Meta/Facebook Ads integration',
@@ -750,7 +808,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Reservations Intelligence',
     icon: 'calendar',
     backendId: 'reservations',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Booked vs actual, no-show rate tracking, booking channel attribution, table utilization, revenue per reservation, optimal booking pace, cancellation pattern analysis',
     features: [
       'Covers booked vs actual',
@@ -771,7 +829,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Profit Intelligence',
     icon: 'profit',
     backendId: 'profit',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     dataDependencies: ['labor', 'inventory'],
     description: 'See true unit economics. Complete P&L visibility, profit margin analysis, cost allocation, break-even analysis, and profitability forecasting by location.',
     features: [
@@ -793,8 +851,8 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Revenue Assurance',
     icon: 'revenue',
     backendId: 'revenue_assurance',
-    includedInEveryCorePackage: true,
-    description: 'Catch 1-2% leakage. Identify revenue loss from voids, comps, discounts, theft patterns, and transaction anomalies before they impact your bottom line.',
+    packageComponent: true,
+    description: 'Identify and quantify revenue loss from voids, comps, discounts, theft patterns, and transaction anomalies before they impact your bottom line.',
     features: [
       'Revenue leakage detection',
       'Void pattern analysis',
@@ -805,7 +863,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
       'Shrinkage quantification',
       'Monthly Revenue Assurance Report'
     ],
-    roiPotential: 'Catch 1-2% leakage'
+    roiPotential: 'Identify and track revenue leakage'
   },
 
   delivery: {
@@ -813,7 +871,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Delivery Economics',
     icon: 'delivery',
     backendId: 'delivery',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'True delivery profitability. Platform-by-platform margin analysis, delivery vs dine-in comparison, commission impact, and channel optimization insights.',
     features: [
       'True delivery profitability',
@@ -834,7 +892,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Guest Experience',
     icon: 'guest',
     backendId: 'guest_experience',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Why customers leave. Aggregate review sentiment, rating trends, guest feedback patterns, and experience correlation to identify what drives satisfaction.',
     features: [
       'Aggregate review sentiment',
@@ -854,7 +912,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Pulse',
     icon: 'pulse',
     backendId: 'pulse',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Real-time operational pulse. Live monitoring, instant alerts, cross-system correlation, and proactive anomaly detection across all your operations.',
     features: [
       'Real-time operational monitoring',
@@ -874,7 +932,7 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
     name: 'Guest CRM Intelligence',
     icon: 'guest',
     backendId: 'guest_crm',
-    includedInEveryCorePackage: true,
+    packageComponent: true,
     description: 'Who your guests are and what brings them back. Segmentation, visit cadence, lifetime value, win-back candidates, and campaign-ready audiences.',
     features: [
       'Guest segmentation and cohorts',
@@ -909,13 +967,20 @@ export const modules: Record<ModuleId, CoreDomainModule> = {
 //   • crew_payroll (15)                     — depends on crew_operations (employee records + pay rates)
 //   • crew_people_intelligence (16)         — depends on crew_operations
 
-// Price book v1.7 publishes ONE monthly price per Crew SKU (Starter $99,
-// Schedule $179, Manage $399, Time $99, Pay $129, People $249) and gives Crew
-// no marginal bands and no per-location component. The v1.6 `perLocationPrice`
-// and `baseIncludesLocations` fields were therefore DELETED rather than
-// zeroed: the "base covers 3 locations, then $X per extra location" mechanic
-// is retired everywhere in the book, and a field that does not exist cannot be
-// summed into a quote by accident.
+// Crew prices on a MARGINAL CURVE, exactly like Core.
+//
+// This comment previously asserted that "v1.7 gives Crew no marginal bands and
+// no per-location component", and the quote charged the first-unit anchor no
+// matter how many locations were configured. Price book v1.7 section 4.1
+// publishes a full band table for every Crew SKU — Crew Manage $399 then
+// 79/71/63/55, Crew Time $99 then 19/17/15/13, and so on — so a ten-location
+// Manage + Time selection was quoted $498 against a real $1,380, and at a
+// hundred locations $498 against $8,050. Crew was being given away.
+//
+// What v1.7 DID retire is the v1.6 "base covers 3 locations, then $X per extra
+// location" allowance: bands are marginal and nothing is bundled into the
+// anchor. That is why `perLocationPrice` and `baseIncludesLocations` stay
+// deleted while `marginalBands` is added.
 //
 // The per-module setup-fee ladder ($199/$299/$399/$499) is likewise gone.
 // Implementation is a single charge at the HIGHEST `implementationClass` in
@@ -932,6 +997,8 @@ export const crewSkus = {
     name: 'Crew Starter',
     icon: 'sparkles',
     backendId: 'crew_lite',
+    firstUnitPrice: 99,
+    marginalBands: [band(2, 5, 19)],
     orgLicensePrice: 99,
     implementationClass: 'self_service' as ImplementationClassId | null,
     implementationIncludes: 'Self-serve onboarding',
@@ -964,6 +1031,8 @@ export const crewSkus = {
     name: 'Crew Schedule',
     icon: 'calendar-days',
     backendId: 'crew_scheduling',
+    firstUnitPrice: 179,
+    marginalBands: [band(2, 10, 39), band(11, 25, 35), band(26, 50, 31), band(51, null, 27)],
     orgLicensePrice: 179,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Initial schedule template setup',
@@ -996,6 +1065,8 @@ export const crewSkus = {
     name: 'Crew Manage',
     icon: 'users',
     backendId: 'crew_operations',
+    firstUnitPrice: 399,
+    marginalBands: [band(2, 10, 79), band(11, 25, 71), band(26, 50, 63), band(51, null, 55)],
     orgLicensePrice: 399,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'HR operations + credentials + assets setup',
@@ -1007,9 +1078,9 @@ export const crewSkus = {
       perEmployeeOverageUsd: 2,
       hardLocationCap: false,
     },
-    description: 'Deep workforce operations. Includes Scheduling and adds HR operations, credentials, assets, attestations, helpdesk, disciplinary, e-sign, onboarding/offboarding, workflows, and partner sync imports.',
+    description: 'Deep workforce operations. Includes Crew Schedule and adds HR operations, credentials, assets, attestations, helpdesk, disciplinary, e-sign, onboarding/offboarding, workflows, and partner sync imports.',
     features: [
-      'Scheduling entitlement included',
+      'Crew Schedule entitlement included',
       'HR operations + employee records',
       'Credentials and certifications tracking',
       'Assets and inventory assignment',
@@ -1029,6 +1100,8 @@ export const crewSkus = {
     name: 'Crew Time',
     icon: 'clock',
     backendId: 'crew_tna',
+    firstUnitPrice: 99,
+    marginalBands: [band(2, 10, 19), band(11, 25, 17), band(26, 50, 15), band(51, null, 13)],
     orgLicensePrice: 99,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'T&A clock-in configuration + geofencing setup',
@@ -1039,7 +1112,7 @@ export const crewSkus = {
     // useConfiguration.toggleCrewSku honors the OR semantics.
     prerequisites: ['crew_scheduling'] as CrewSkuId[],
     prerequisiteAlternatives: ['crew_operations'] as CrewSkuId[],
-    prerequisiteMessage: 'Requires Scheduling or Operations',
+    prerequisiteMessage: 'Requires Crew Schedule or Crew Manage',
     caps: {
       maxLocations: null,
       maxEmployeesPerLocation: 15,
@@ -1067,22 +1140,24 @@ export const crewSkus = {
     name: 'Crew Pay',
     icon: 'wallet',
     backendId: 'crew_payroll',
+    firstUnitPrice: 129,
+    marginalBands: [band(2, 10, 29), band(11, 25, 26), band(26, 50, 23), band(51, null, 20)],
     orgLicensePrice: 129,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Country pack activation + statutory export configuration',
     sortOrder: 15,
     prerequisites: ['crew_operations'] as CrewSkuId[],
-    prerequisiteMessage: 'Requires Crew Operations',
+    prerequisiteMessage: 'Requires Crew Manage',
     caps: {
       maxLocations: null,
       maxEmployeesPerLocation: 15,
       perEmployeeOverageUsd: 2,
       hardLocationCap: false,
     },
-    description: 'Provider-neutral payroll engine with multi-region country packs and statutory exports. Year-end forms, payslips, and employee self-service. New regions added on a rolling basis.',
+    description: 'Native Sundae payroll suite supporting 36 countries, with statutory outputs, payslips, year-end forms, and employee self-service. Integrations remain available when an operator chooses to retain another provider.',
     features: [
-      'Provider-neutral payroll calculation engine',
-      'Multi-region country packs (rolling regional expansion)',
+      'Native Sundae payroll calculation engine',
+      'Country packs across 36 supported markets',
       'Statutory export framework (WPS / NACHA / EFT / RTI / SEPA pattern)',
       'Year-end form generation per jurisdiction',
       'BIK ledger + AI-explained cycle preview',
@@ -1100,12 +1175,14 @@ export const crewSkus = {
     name: 'Crew People',
     icon: 'brain',
     backendId: 'crew_people_intelligence',
+    firstUnitPrice: 249,
+    marginalBands: [band(2, 10, 39), band(11, 25, 35), band(26, 50, 31), band(51, null, 27)],
     orgLicensePrice: 249,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Performance / talent / comp data ingestion',
     sortOrder: 16,
     prerequisites: ['crew_operations'] as CrewSkuId[],
-    prerequisiteMessage: 'Requires Crew Operations',
+    prerequisiteMessage: 'Requires Crew Manage',
     caps: {
       maxLocations: null,
       maxEmployeesPerLocation: 15,
@@ -1145,7 +1222,8 @@ export const crewSkus = {
 // and both belonged to the retired "base covers 3, then $X per extra" ladder.
 // Implementation follows the same class rule as the individual SKUs.
 
-export interface CrewBundle {
+export interface CrewBundle extends BandedSku {
+  /** Price book v1.7 section 4.1 — Crew prices on a marginal curve. */
   id: CrewBundleId;
   name: string;
   skus: CrewSkuId[];
@@ -1161,14 +1239,18 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     id: 'crew_schedule_time_bundle',
     name: 'Schedule & Time',
     skus: ['crew_scheduling', 'crew_tna'],
+    firstUnitPrice: 249,
+    marginalBands: [band(2, 10, 49), band(11, 25, 45), band(26, 50, 41), band(51, null, 37)],
     basePrice: 249,
-    description: 'Crew Schedule + Crew Time bundled. The scheduling-plus-attendance entry point for operators who are not replacing payroll yet.',
+    description: 'Crew Schedule + Crew Time bundled. Keep your existing HR or payroll while Sundae runs scheduling, attendance, and payroll-ready time data.',
     implementationClass: null,
   },
   crew_suite_bundle: {
     id: 'crew_suite_bundle',
     name: 'Crew Operating',
     skus: ['crew_operations', 'crew_tna', 'crew_payroll'],
+    firstUnitPrice: 499,
+    marginalBands: [band(2, 10, 99), band(11, 25, 89), band(26, 50, 79), band(51, null, 69)],
     basePrice: 499,
     description: 'Crew Manage + Crew Time + Crew Pay bundled. Acquisition-friendly bundle for operators replacing or augmenting an existing HR/payroll stack.',
     implementationClass: null,
@@ -1177,6 +1259,8 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     id: 'crew_complete_bundle',
     name: 'Crew Complete',
     skus: ['crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
+    firstUnitPrice: 699,
+    marginalBands: [band(2, 10, 129), band(11, 25, 115), band(26, 50, 102), band(51, null, 89)],
     basePrice: 699,
     description: 'Crew Manage + Crew Time + Crew Pay + Crew People bundled. Full workforce stack with the intelligence layer on top.',
     implementationClass: null,
@@ -1297,7 +1381,7 @@ export const watchtower = {
 // Volume ladder: 0% under 50 · 2.5% 50-99 · 5% 100-199 · 7% 200-249 ·
 // 250+ Enterprise only (no self-serve band).
 // Billing cycle: annual 10% · 2-year 15%.
-// Volume and billing-cycle discounts COMBINE, capped at 15% in total.
+// Volume and billing-cycle discounts are mutually exclusive: the larger applies.
 
 export interface VolumeDiscountTier {
   min: number;
@@ -1341,7 +1425,7 @@ export const DISCOUNT_RULES = {
    * top of this cap.
    */
   maxDiscountPercent: 15,
-  note: 'Volume, billing-cycle and early-adopter discounts combine, capped at 15% in total'
+  note: 'The larger of volume or billing-cycle discount applies; early-adopter concessions share the 15% calculated-discount cap'
 };
 
 /** The unit count at and above which only Enterprise (quoted) pricing applies. */

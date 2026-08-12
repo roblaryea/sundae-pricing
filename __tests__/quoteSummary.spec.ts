@@ -50,18 +50,27 @@ function coreConfig(overrides: Partial<EngineConfig> = {}): EngineConfig {
 describe("combined Core + Crew quote", () => {
   it("bills the sum of both rails, not the Core rail alone", () => {
     const core = calculateFullPrice(coreConfig());
-    const crew = computeCrewQuote(["crew_operations", "crew_tna", "crew_payroll"], 7);
+    const LOCATIONS = 7;
+    const crew = computeCrewQuote(["crew_operations", "crew_tna", "crew_payroll"], LOCATIONS);
 
-    expect(crew.monthly).toBe(crewBundles.crew_suite_bundle.basePrice);
+    // Crew Operating is $499 for the first location then $99 a location to ten
+    // (price book v1.7 section 4.1), so a seven-location estate is not the anchor.
+    expect(crew.monthly).toBe(499 + 6 * 99);
+    expect(crew.monthly).toBeGreaterThan(crewBundles.crew_suite_bundle.basePrice);
     // The number the buyer signs. Anything that prints `core.total` as the
     // monthly investment on this pathway is short by the whole Crew rail.
     expect(core.total + crew.monthly).toBeGreaterThan(core.total);
-    expect(core.total + crew.monthly).toBe(core.total + 499);
+    expect(core.total + crew.monthly).toBe(core.total + 1093);
   });
 
-  it("keeps the Crew rail flat — location count moves Core only", () => {
+  it("moves BOTH rails with location count — Crew is banded, not flat", () => {
+    // This test previously asserted the Crew rail was estate-independent. It is
+    // not: every Crew SKU and net bundle carries a marginal band table, and a
+    // buyer adding locations must see the Crew line move with them.
     const skus = ["crew_operations", "crew_tna", "crew_payroll"] as const;
-    expect(computeCrewQuote([...skus], 1).monthly).toBe(computeCrewQuote([...skus], 40).monthly);
+    expect(computeCrewQuote([...skus], 40).monthly).toBeGreaterThan(
+      computeCrewQuote([...skus], 1).monthly,
+    );
 
     const one = calculateFullPrice(coreConfig({ locations: 1 }));
     const forty = calculateFullPrice(coreConfig({ locations: 40 }));
@@ -137,8 +146,8 @@ describe("what the summary screen renders", () => {
   });
 
   it("says outright that the domain modules are not sold separately", () => {
-    expect(SUMMARY_SRC).toMatch(/Core domain modules included/);
-    expect(SUMMARY_SRC).toMatch(/never sold\s+separately/);
+    expect(SUMMARY_SRC).toMatch(/Core outcome domains included/);
+    expect(SUMMARY_SRC).toMatch(/no standalone price/);
     // Add-ons are the only Core-side purchase, and they get published names —
     // `addOns.join(', ')` printed raw ids like `concept_hotel_fb` on a quote.
     expect(SUMMARY_SRC).not.toMatch(/addOns\.join\(/);

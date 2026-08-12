@@ -39,7 +39,7 @@ export interface QuoteSummaryCopy {
   /** "{percent} not applied — volume is larger" */
   termNotApplied: string;
   crewStackReady: string;
-  crewFlatNote: string;
+  crewCurveNote: string;
   crewSubstrateNote: string;
   /** ROI framing — the model is a planning aid, never a measured outcome. */
   modelledHeading: string;
@@ -68,9 +68,9 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Volume {percent} not applied — the commitment term is larger',
     termNotApplied: 'Commitment term {percent} not applied — volume is larger',
     crewStackReady: 'Your Crew stack is ready',
-    crewFlatNote: 'Crew is a flat monthly price — your location count does not change it',
+    crewCurveNote: 'Crew prices on a declining curve — the first location at the anchor, then each added location cheaper by band',
     crewSubstrateNote:
-      'Multi-region payroll readiness, scheduling, and HR ops on one operational substrate.',
+      'Native payroll across 36 countries, scheduling, and HR operations on one substrate.',
     modelledHeading: 'Modelled estimate — not a measured outcome',
     modelledNote:
       'Every figure here is a planning model built from published assumption ranges, shown per line below. Sundae has not yet published verified customer results, so treat this as a way to frame the conversation with your own numbers — not as a forecast.',
@@ -96,7 +96,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'خصم الحجم {percent} غير مطبّق — مدة الالتزام أكبر',
     termNotApplied: 'خصم مدة الالتزام {percent} غير مطبّق — الحجم أكبر',
     crewStackReady: 'حزمة Crew جاهزة',
-    crewFlatNote: 'Crew بسعر شهري ثابت — عدد مواقعك لا يغيّره',
+    crewCurveNote: 'يُسعَّر Crew على منحنى تنازلي — الموقع الأول بالسعر الأساسي، ثم يقل سعر كل موقع إضافي حسب الشريحة',
     crewSubstrateNote:
       'جاهزية الرواتب متعددة المناطق والجدولة وعمليات الموارد البشرية على أساس تشغيلي واحد.',
     modelledHeading: 'تقدير نموذجي — وليس نتيجة مقيسة',
@@ -124,7 +124,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Remise volume {percent} non appliquée — l’engagement est plus avantageux',
     termNotApplied: 'Remise d’engagement {percent} non appliquée — le volume est plus avantageux',
     crewStackReady: 'Votre configuration Crew est prête',
-    crewFlatNote: 'Crew est un tarif mensuel fixe — votre nombre de sites ne le modifie pas',
+    crewCurveNote: 'Crew suit un barème dégressif — le premier site au tarif d’ancrage, puis chaque site ajouté moins cher par tranche',
     crewSubstrateNote:
       'Préparation de la paie multi-pays, planification et RH sur un seul socle opérationnel.',
     modelledHeading: 'Estimation modélisée — pas un résultat mesuré',
@@ -152,7 +152,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Descuento por volumen {percent} no aplicado: el plazo es mayor',
     termNotApplied: 'Descuento por plazo {percent} no aplicado: el volumen es mayor',
     crewStackReady: 'Tu configuración de Crew está lista',
-    crewFlatNote: 'Crew tiene precio mensual fijo: tu número de locales no lo cambia',
+    crewCurveNote: 'Crew se tarifica en escala decreciente: el primer local al precio ancla y cada local añadido más barato por tramo',
     crewSubstrateNote:
       'Preparación de nóminas multipaís, turnos y operaciones de RR. HH. sobre una única base operativa.',
     modelledHeading: 'Estimación modelada, no un resultado medido',
@@ -180,7 +180,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Mengenrabatt {percent} nicht angewendet — die Laufzeit ist höher',
     termNotApplied: 'Laufzeitrabatt {percent} nicht angewendet — das Volumen ist höher',
     crewStackReady: 'Ihr Crew-Stack steht',
-    crewFlatNote: 'Crew hat einen festen Monatspreis — Ihre Standortzahl ändert ihn nicht',
+    crewCurveNote: 'Crew rechnet auf einer degressiven Staffel ab — der erste Standort zum Ankerpreis, jeder weitere je Stufe günstiger',
     crewSubstrateNote:
       'Lohnbereitschaft für mehrere Regionen, Dienstplanung und HR-Betrieb auf einer operativen Basis.',
     modelledHeading: 'Modellrechnung — kein gemessenes Ergebnis',
@@ -208,7 +208,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Volumekorting {percent} niet toegepast — de looptijd is gunstiger',
     termNotApplied: 'Looptijdkorting {percent} niet toegepast — het volume is gunstiger',
     crewStackReady: 'Uw Crew-stack staat klaar',
-    crewFlatNote: 'Crew heeft een vast maandtarief — uw aantal locaties verandert dat niet',
+    crewCurveNote: 'Crew rekent af op een degressieve staffel — de eerste locatie tegen het ankertarief, elke volgende goedkoper per schijf',
     crewSubstrateNote:
       'Loonklaar in meerdere regio\'s, roosters en HR-operatie op één operationele basis.',
     modelledHeading: 'Modelmatige schatting — geen gemeten uitkomst',
@@ -236,7 +236,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Desconto por volume {percent} não aplicado — o prazo é maior',
     termNotApplied: 'Desconto por prazo {percent} não aplicado — o volume é maior',
     crewStackReady: 'A sua configuração Crew está pronta',
-    crewFlatNote: 'O Crew tem preço mensal fixo — o número de locais não o altera',
+    crewCurveNote: 'O Crew é cobrado numa escala decrescente — o primeiro local ao preço âncora e cada local adicional mais barato por escalão',
     crewSubstrateNote:
       'Prontidão de folha em várias regiões, escalas e operações de RH numa única base operacional.',
     modelledHeading: 'Estimativa modelada — não um resultado medido',
@@ -264,7 +264,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'वॉल्यूम छूट {percent} लागू नहीं — अवधि छूट अधिक है',
     termNotApplied: 'अवधि छूट {percent} लागू नहीं — वॉल्यूम छूट अधिक है',
     crewStackReady: 'आपका Crew स्टैक तैयार है',
-    crewFlatNote: 'Crew का मासिक मूल्य निश्चित है — लोकेशन की संख्या इसे नहीं बदलती',
+    crewCurveNote: 'Crew की कीमत घटती दर पर लगती है — पहला लोकेशन एंकर मूल्य पर, फिर हर अतिरिक्त लोकेशन बैंड के अनुसार सस्ता',
     crewSubstrateNote:
       'एक ही परिचालन आधार पर बहु-क्षेत्रीय पेरोल तैयारी, शेड्यूलिंग और HR संचालन।',
     modelledHeading: 'मॉडल आधारित अनुमान — मापा गया परिणाम नहीं',
@@ -292,7 +292,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'حجم رعایت {percent} لاگو نہیں — مدت کی رعایت زیادہ ہے',
     termNotApplied: 'مدت کی رعایت {percent} لاگو نہیں — حجم کی رعایت زیادہ ہے',
     crewStackReady: 'آپ کا Crew اسٹیک تیار ہے',
-    crewFlatNote: 'Crew کی ماہانہ قیمت مقرر ہے — مقامات کی تعداد اسے تبدیل نہیں کرتی',
+    crewCurveNote: 'Crew کی قیمت گھٹتی شرح پر لگتی ہے — پہلا مقام بنیادی قیمت پر، پھر ہر اضافی مقام بینڈ کے مطابق سستا',
     crewSubstrateNote:
       'ایک ہی آپریشنل بنیاد پر کثیر خطہ پے رول تیاری، شیڈولنگ اور HR آپریشنز۔',
     modelledHeading: 'ماڈل پر مبنی تخمینہ — ماپا گیا نتیجہ نہیں',
@@ -320,7 +320,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Sconto volume {percent} non applicato — la durata è maggiore',
     termNotApplied: 'Sconto durata {percent} non applicato — il volume è maggiore',
     crewStackReady: 'Il tuo stack Crew è pronto',
-    crewFlatNote: 'Crew ha un prezzo mensile fisso — il numero di sedi non lo modifica',
+    crewCurveNote: 'Crew si tariffa su una curva decrescente: la prima sede al prezzo di ancoraggio, poi ogni sede aggiunta più economica per fascia',
     crewSubstrateNote:
       'Buste paga pronte in più aree, turni e operazioni HR su un’unica base operativa.',
     modelledHeading: 'Stima modellata — non un risultato misurato',
@@ -348,7 +348,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Rabat wolumenowy {percent} nieprzyznany — rabat za okres jest wyższy',
     termNotApplied: 'Rabat za okres {percent} nieprzyznany — rabat wolumenowy jest wyższy',
     crewStackReady: 'Twój stack Crew jest gotowy',
-    crewFlatNote: 'Crew ma stałą cenę miesięczną — liczba lokalizacji jej nie zmienia',
+    crewCurveNote: 'Crew rozlicza się według skali degresywnej — pierwsza lokalizacja w cenie bazowej, każda kolejna tańsza według progu',
     crewSubstrateNote:
       'Gotowość płacowa w wielu regionach, grafiki i operacje HR na jednej podstawie operacyjnej.',
     modelledHeading: 'Szacunek modelowy — nie zmierzony wynik',
@@ -376,7 +376,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Hacim indirimi {percent} uygulanmadı — taahhüt indirimi daha yüksek',
     termNotApplied: 'Taahhüt indirimi {percent} uygulanmadı — hacim indirimi daha yüksek',
     crewStackReady: 'Crew yapılandırmanız hazır',
-    crewFlatNote: 'Crew sabit aylık fiyatlıdır — lokasyon sayınız bunu değiştirmez',
+    crewCurveNote: 'Crew azalan bir eğriyle fiyatlanır — ilk lokasyon çıpa fiyatından, sonra eklenen her lokasyon kademeye göre daha ucuz',
     crewSubstrateNote:
       'Tek bir operasyonel temelde çok bölgeli bordro hazırlığı, vardiya ve İK operasyonu.',
     modelledHeading: 'Modellenmiş tahmin — ölçülmüş bir sonuç değil',
@@ -404,7 +404,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: '规模折扣 {percent} 未适用——承诺期折扣更高',
     termNotApplied: '承诺期折扣 {percent} 未适用——规模折扣更高',
     crewStackReady: '您的 Crew 配置已就绪',
-    crewFlatNote: 'Crew 为固定月费——门店数量不会改变它',
+    crewCurveNote: 'Crew 按递减曲线计价——首个门店按锚定价，其后每增加一个门店按band更低',
     crewSubstrateNote: '在同一运营底座上完成多地区薪酬就绪、排班与人力资源运营。',
     modelledHeading: '模型测算——并非实测结果',
     modelledNote:
@@ -431,7 +431,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: '規模割引 {percent} は非適用——契約期間割引の方が大きいため',
     termNotApplied: '契約期間割引 {percent} は非適用——規模割引の方が大きいため',
     crewStackReady: 'Crew の構成が整いました',
-    crewFlatNote: 'Crew は月額定額です。店舗数によって変わりません',
+    crewCurveNote: 'Crew は逓減カーブで課金されます。最初の店舗はアンカー価格、以降は帯ごとに単価が下がります',
     crewSubstrateNote: '多地域の給与対応、シフト管理、HR業務を単一のオペレーション基盤で。',
     modelledHeading: 'モデル試算です。実測値ではありません',
     modelledNote:
@@ -458,7 +458,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: '수량 할인 {percent} 미적용 — 약정 할인이 더 큽니다',
     termNotApplied: '약정 할인 {percent} 미적용 — 수량 할인이 더 큽니다',
     crewStackReady: 'Crew 구성이 준비되었습니다',
-    crewFlatNote: 'Crew는 월 정액입니다 — 지점 수에 따라 달라지지 않습니다',
+    crewCurveNote: 'Crew는 체감 곡선으로 과금됩니다 — 첫 지점은 기준가, 이후 추가 지점은 구간별로 더 저렴해집니다',
     crewSubstrateNote: '하나의 운영 기반에서 다지역 급여 준비, 근무 일정, HR 운영을 처리합니다.',
     modelledHeading: '모델 추정치 — 측정된 결과가 아닙니다',
     modelledNote:
@@ -485,7 +485,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Diskon volume {percent} tidak berlaku — diskon masa komitmen lebih besar',
     termNotApplied: 'Diskon masa komitmen {percent} tidak berlaku — diskon volume lebih besar',
     crewStackReady: 'Konfigurasi Crew Anda siap',
-    crewFlatNote: 'Crew berharga tetap per bulan — jumlah lokasi tidak mengubahnya',
+    crewCurveNote: 'Crew dihitung dengan kurva menurun — lokasi pertama pada harga jangkar, lalu tiap lokasi tambahan lebih murah per band',
     crewSubstrateNote:
       'Kesiapan penggajian multi-wilayah, penjadwalan, dan operasi HR dalam satu fondasi operasional.',
     modelledHeading: 'Estimasi model — bukan hasil terukur',
@@ -513,7 +513,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Chiết khấu quy mô {percent} không áp dụng — chiết khấu cam kết lớn hơn',
     termNotApplied: 'Chiết khấu cam kết {percent} không áp dụng — chiết khấu quy mô lớn hơn',
     crewStackReady: 'Cấu hình Crew của bạn đã sẵn sàng',
-    crewFlatNote: 'Crew có giá cố định hằng tháng — số địa điểm không làm thay đổi',
+    crewCurveNote: 'Crew tính theo đường cong giảm dần — địa điểm đầu tiên theo giá neo, sau đó mỗi địa điểm thêm rẻ hơn theo bậc',
     crewSubstrateNote:
       'Sẵn sàng tính lương đa khu vực, xếp lịch và vận hành nhân sự trên một nền tảng duy nhất.',
     modelledHeading: 'Ước tính theo mô hình — không phải kết quả đo được',
@@ -541,7 +541,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Reducerea de volum {percent} nu se aplică — cea de angajament este mai mare',
     termNotApplied: 'Reducerea de angajament {percent} nu se aplică — cea de volum este mai mare',
     crewStackReady: 'Configurația ta Crew este gata',
-    crewFlatNote: 'Crew are preț lunar fix — numărul de locații nu îl schimbă',
+    crewCurveNote: 'Crew se tarifează pe o curbă descrescătoare — prima locație la prețul de ancoră, apoi fiecare locație adăugată mai ieftină pe tranșă',
     crewSubstrateNote:
       'Pregătire salarizare multi-regiune, programare și operațiuni HR pe o singură bază operațională.',
     modelledHeading: 'Estimare modelată — nu un rezultat măsurat',
@@ -569,7 +569,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Volymrabatt {percent} tillämpas inte — bindningstiden ger mer',
     termNotApplied: 'Bindningsrabatt {percent} tillämpas inte — volymen ger mer',
     crewStackReady: 'Din Crew-uppsättning är klar',
-    crewFlatNote: 'Crew har fast månadspris — antalet platser ändrar det inte',
+    crewCurveNote: 'Crew prissätts på en fallande kurva — första platsen till ankarpriset, därefter varje tillagd plats billigare per skikt',
     crewSubstrateNote:
       'Löneberedskap i flera regioner, schemaläggning och HR-drift på en operativ bas.',
     modelledHeading: 'Modellberäkning — inte ett uppmätt utfall',
@@ -597,7 +597,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'ভলিউম ছাড় {percent} প্রযোজ্য নয় — মেয়াদের ছাড় বেশি',
     termNotApplied: 'মেয়াদের ছাড় {percent} প্রযোজ্য নয় — ভলিউম ছাড় বেশি',
     crewStackReady: 'আপনার Crew স্ট্যাক প্রস্তুত',
-    crewFlatNote: 'Crew-এর মাসিক মূল্য নির্দিষ্ট — লোকেশন সংখ্যা তা বদলায় না',
+    crewCurveNote: 'Crew ক্রমহ্রাসমান বক্ররেখায় মূল্যায়িত হয় — প্রথম লোকেশন অ্যাঙ্কর মূল্যে, এরপর প্রতিটি অতিরিক্ত লোকেশন ব্যান্ড অনুযায়ী সস্তা',
     crewSubstrateNote:
       'একই পরিচালন ভিত্তিতে বহু-অঞ্চল বেতন প্রস্তুতি, সময়সূচি ও HR পরিচালনা।',
     modelledHeading: 'মডেল-ভিত্তিক অনুমান — পরিমাপ করা ফল নয়',
@@ -625,7 +625,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'ส่วนลดตามปริมาณ {percent} ไม่ถูกใช้ เพราะส่วนลดตามระยะเวลาสูงกว่า',
     termNotApplied: 'ส่วนลดตามระยะเวลา {percent} ไม่ถูกใช้ เพราะส่วนลดตามปริมาณสูงกว่า',
     crewStackReady: 'ชุด Crew ของคุณพร้อมแล้ว',
-    crewFlatNote: 'Crew คิดค่าบริการรายเดือนคงที่ จำนวนสาขาไม่ทำให้เปลี่ยน',
+    crewCurveNote: 'Crew คิดราคาแบบขั้นบันไดลดหลั่น สาขาแรกคิดตามราคาตั้งต้น จากนั้นแต่ละสาขาที่เพิ่มจะถูกลงตามช่วง',
     crewSubstrateNote:
       'ความพร้อมด้านเงินเดือนหลายภูมิภาค การจัดตารางงาน และงาน HR บนฐานปฏิบัติการเดียว',
     modelledHeading: 'ตัวเลขจากแบบจำลอง ไม่ใช่ผลที่วัดได้จริง',
@@ -653,7 +653,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     volumeNotApplied: 'Diskaun volum {percent} tidak dikenakan — diskaun tempoh lebih tinggi',
     termNotApplied: 'Diskaun tempoh {percent} tidak dikenakan — diskaun volum lebih tinggi',
     crewStackReady: 'Susunan Crew anda sudah sedia',
-    crewFlatNote: 'Crew berharga tetap sebulan — bilangan lokasi tidak mengubahnya',
+    crewCurveNote: 'Crew dikenakan kadar menurun — lokasi pertama pada harga sauh, kemudian setiap lokasi tambahan lebih murah mengikut jalur',
     crewSubstrateNote:
       'Kesediaan gaji pelbagai wilayah, penjadualan dan operasi HR atas satu asas operasi.',
     modelledHeading: 'Anggaran model — bukan hasil yang diukur',

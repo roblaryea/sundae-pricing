@@ -5,7 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, ChevronLeft, Sparkles, Check, AlertCircle } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { calculatePersonaMatch, getLocalizedQuizQuestions } from '../../data/personas';
-import { calculateModuleRecommendations, getRecommendedModuleIds } from '../../lib/moduleRecommendationEngine';
+import {
+  calculateModuleRecommendations,
+  getRecommendedModuleIds,
+  recommendCorePackage,
+} from '../../lib/moduleRecommendationEngine';
+import { corePackages } from '../../data/pricing';
 import { getIconByEmoji } from '../../lib/iconMap';
 import { cn } from '../../utils/cn';
 import { useLocale } from '../../contexts/LocaleContext';
@@ -22,7 +27,17 @@ export function PathwaySelector() {
   const [showPersona, setShowPersona] = useState(false);
   const [multiSelections, setMultiSelections] = useState<Record<string, string[]>>({});
   const [showMaxToast, setShowMaxToast] = useState(false);
-  const { quizAnswers, setQuizAnswer, setPersona, loadFromPersona, setCurrentStep, setLocations, setDiscoveryAnswers } = useConfiguration();
+  const {
+    quizAnswers,
+    setQuizAnswer,
+    persona: matchedPersona,
+    setPersona,
+    loadFromPersona,
+    setCorePackage,
+    setCurrentStep,
+    setLocations,
+    setDiscoveryAnswers,
+  } = useConfiguration();
 
   const question = quizQuestions[currentQuestion];
   const totalQuestions = quizQuestions.length;
@@ -58,9 +73,9 @@ export function PathwaySelector() {
       appetiteAnswer
     );
     
-    // v1.7: the ranked domain modules are already included in every Core
-    // package, so nothing chargeable is preselected here. The ranking is kept
-    // for the "what your package covers" copy downstream.
+    // Domain modules are package components, not chargeable selections. Keep
+    // the ranking for explanation; the package recommendation below covers the
+    // actual outcome set the operator described.
     void getRecommendedModuleIds(moduleRec);
     
     // Set location count from quiz
@@ -153,16 +168,19 @@ export function PathwaySelector() {
 
   const handleShowConfig = useCallback(() => {
     if (showPersona) {
-      const result = calculatePersonaMatch(quizAnswers, locale);
-      loadFromPersona(result.persona);
+      const persona = matchedPersona ?? calculatePersonaMatch({ ...quizAnswers, ...multiSelections }, locale).persona;
+      loadFromPersona(persona);
+      // Persona is useful framing, but pain coverage decides the commercial
+      // package. A 25-site operator worried about food cost is a Margin buyer,
+      // not automatically a Growth buyer because the estate is large.
+      setCorePackage(recommendCorePackage(multiSelections.pain ?? []).packageId);
       setCurrentStep(stepIndex('layer'));
     }
-  }, [locale, loadFromPersona, quizAnswers, setCurrentStep, showPersona]);
+  }, [locale, loadFromPersona, matchedPersona, multiSelections, quizAnswers, setCorePackage, setCurrentStep, showPersona]);
 
   // Persona reveal screen
   if (showPersona) {
-    const result = calculatePersonaMatch(quizAnswers, locale);
-    const persona = result.persona;
+    const persona = matchedPersona ?? calculatePersonaMatch({ ...quizAnswers, ...multiSelections }, locale).persona;
     const PersonaIcon = getIconByEmoji(persona.emoji);
     
     // Get recommended modules from engine
@@ -170,6 +188,8 @@ export function PathwaySelector() {
     const appetiteAnswer = quizAnswers.appetite || 'ready';
     const painSelections = multiSelections.pain || [];
     const moduleRec = calculateModuleRecommendations(painSelections, locationAnswer, appetiteAnswer);
+    const packageRecommendation = recommendCorePackage(painSelections);
+    const recommendedPackage = corePackages[packageRecommendation.packageId];
 
     return (
       <motion.div
@@ -225,24 +245,24 @@ export function PathwaySelector() {
               </div>
             </div>
             <div>
-              <div className="text-sm text-sundae-muted mb-1">{sim.locationRange}</div>
+              <div className="text-sm text-sundae-muted mb-1">Starting quote size</div>
               <div className="font-semibold">
-                {persona.locationRange.min}-{persona.locationRange.max} {messages.summary.locationLabel.toLowerCase()}
+                {quizQuestions[0].options.find((option) => option.id === locationAnswer)?.value}{' '}
+                {messages.summary.locationLabel.toLowerCase()}
               </div>
             </div>
             <div>
-              <div className="text-sm text-sundae-muted mb-1">{sim.modulesPreselected}</div>
+              <div className="text-sm text-sundae-muted mb-1">Recommended package</div>
               <div className="font-semibold">
-                {moduleRec.recommended.length > 0 
-                  ? sim.basedOnYourPriorities.replace('{count}', String(moduleRec.recommended.length))
-                  : sim.startWithBasics}
+                {recommendedPackage.name}
               </div>
             </div>
           </div>
           {moduleRec.recommended.length > 0 && (
             <div className="mt-4 pt-4 border-t border-white/10">
-              <div className="text-xs text-sundae-accent font-medium">
-                {sim.recommendedForYourPriorities}
+              <div className="text-sm text-left text-sundae-muted">
+                <span className="font-semibold text-sundae-accent">Why this fit:</span>{' '}
+                {packageRecommendation.reason}
               </div>
             </div>
           )}

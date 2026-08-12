@@ -10,12 +10,42 @@ interface Configuration {
   corePackage: string | null;
   locations: number;
   /**
-   * Core DOMAIN modules whose savings apply. Under price book v1.7 every Core
-   * package includes all eleven, so callers pass the full list — the field is
-   * kept so the ROI model stays explicit about which domains it is crediting.
+   * Core DOMAIN modules whose savings apply. Callers pass only the domains the
+   * selected package grants, keeping the value case aligned with entitlement.
    */
   activeDomains: string[];
   watchtowerModules: string[];
+}
+
+/**
+ * The revenue-per-location range the ROI step will model.
+ *
+ * The floor was $50,000. Core Foundation costs $1,195 for a single location and
+ * breaks even at roughly $73,000 of monthly revenue per site, so every position
+ * between the old floor and that break-even modelled a purchase that cannot pay
+ * for itself — a dead end reachable in one drag of the first control on the
+ * step. Raising the floor to $75,000 puts the whole slider inside the range
+ * where a Core package is a rational purchase.
+ *
+ * This is a bound on what the SIMULATOR models, not a statement that smaller
+ * operators are unwelcome: below this, the fitting products are Profit Snapshot
+ * and Crew Starter rather than a Core package.
+ */
+export const MIN_MONTHLY_REVENUE_PER_LOCATION = 75_000;
+export const MAX_MONTHLY_REVENUE_PER_LOCATION = 500_000;
+/** Keeps the $100k default and both endpoints on valid native range values. */
+export const REVENUE_SLIDER_STEP = 5_000;
+
+/** Keeps a persisted or hand-passed figure inside the modelled range. */
+export function clampMonthlyRevenue(value: number): number {
+  // Only NaN is unorderable and has to fall back; the infinities clamp
+  // correctly on their own, and sending +Infinity to the FLOOR would be the
+  // wrong end of the range.
+  if (Number.isNaN(value)) return MIN_MONTHLY_REVENUE_PER_LOCATION;
+  return Math.min(
+    MAX_MONTHLY_REVENUE_PER_LOCATION,
+    Math.max(MIN_MONTHLY_REVENUE_PER_LOCATION, value)
+  );
 }
 
 export interface ROIInputs {
@@ -26,6 +56,25 @@ export interface ROIInputs {
   reservationNoShowRate?: number;
   deliveryRevenuePct?: number; // % of revenue from delivery (0-100)
   hasReviewData?: boolean;     // Whether user has review/NPS data
+  /** Monthly software spend the buyer confirms this quote would replace. */
+  replaceableSystemsSpend?: number;
+  /** Manual reporting/reconciliation effort across the whole estate. */
+  manualReportingHoursPerWeek?: number;
+  /** Fully loaded rate used only to value redeployable capacity. */
+  loadedHourlyRate?: number;
+}
+
+export function calculateCostAvoidance(
+  inputs: Pick<ROIInputs, 'replaceableSystemsSpend' | 'manualReportingHoursPerWeek' | 'loadedHourlyRate'>,
+) {
+  const replaceableSystemsSavings = Math.max(0, inputs.replaceableSystemsSpend || 0);
+  const hours = Math.max(0, inputs.manualReportingHoursPerWeek || 0);
+  const rate = Math.max(0, inputs.loadedHourlyRate || 0);
+  return {
+    replaceableSystemsSavings,
+    capacityValue: hours * rate * (52 / 12),
+    capacityFte: hours / 40,
+  };
 }
 
 // Savings line item with metadata for tooltips
@@ -59,6 +108,14 @@ interface SavingsAssumption {
 export interface ROICalculation {
   monthlySavings: number;
   annualSavings: number;
+  /** Operational recovery plus buyer-entered replaceable system spend. */
+  monthlyFunding: number;
+  annualFunding: number;
+  /** Buyer-entered cashable cost avoidance included in the funding case. */
+  replaceableSystemsSavings: number;
+  /** Redeployable time value, disclosed separately and never added to ROI. */
+  capacityValue: number;
+  capacityFte: number;
   roi: number;
   /** True when the published cap clipped the result — render as "Nx+". */
   roiCapped: boolean;
@@ -76,32 +133,33 @@ export interface ROICalculation {
 // ═══════════════════════════════════════════════════════════════════
 
 export const SAVINGS_ASSUMPTIONS: Record<string, SavingsAssumption> = {
-  // Labor Intelligence: 0.5% to 1.5% of revenue
+  // Labor Intelligence: the published 1-3% of labour cost.
   labor: {
-    minPct: 0.005,  // 0.5%
-    maxPct: 0.015,  // 1.5%
-    midPct: 0.01,   // 1.0% midpoint
-    tooltip: 'Reduces labor cost by 0.5-1.5% of revenue through better scheduling and productivity insights',
+    minPct: 0.01,
+    maxPct: 0.03,
+    midPct: 0.02,
+    tooltip: 'Models 1-3% of the labour-cost base through scheduling and productivity improvements',
     label: 'Labor Optimization',
     icon: 'Users'
   },
   
-  // Inventory Connect: 0.3% to 1.0% of revenue
+  // Inventory Connect: the published 0.5-2% of food cost.
   inventory: {
-    minPct: 0.003,  // 0.3%
-    maxPct: 0.01,   // 1.0%
-    midPct: 0.0065, // 0.65% midpoint
-    tooltip: 'Reduces food cost by 0.3-1.0% of revenue through waste reduction and recipe optimization',
+    minPct: 0.005,
+    maxPct: 0.02,
+    midPct: 0.0125,
+    tooltip: 'Models 0.5-2% of the food-cost base through waste and recipe controls',
     label: 'Food Cost Reduction',
     icon: 'Package'
   },
   
-  // Purchasing Analytics: 0.2% to 0.8% of revenue
+  // Purchasing Analytics: the published 2-5% of purchasing spend. Food cost
+  // is used as the visible proxy until the buyer supplies a separate spend base.
   purchasing: {
-    minPct: 0.002,  // 0.2%
-    maxPct: 0.008,  // 0.8%
-    midPct: 0.005,  // 0.5% midpoint
-    tooltip: 'Saves 0.2-0.8% of revenue through better supplier pricing and contract management',
+    minPct: 0.02,
+    maxPct: 0.05,
+    midPct: 0.035,
+    tooltip: 'Models 2-5% of purchasing spend; food cost is the planning proxy until purchasing spend is supplied',
     label: 'Purchasing Savings',
     icon: 'ShoppingCart'
   },
@@ -129,13 +187,14 @@ export const SAVINGS_ASSUMPTIONS: Record<string, SavingsAssumption> = {
     missingInputMessage: 'Add marketing spend to estimate savings'
   },
   
-  // Profit Intelligence: 0.2% to 0.8% of revenue
+  // Profit Intelligence measures and attributes the recovery producers above.
+  // It is deliberately not assigned a second generic uplift in the total.
   profit: {
-    minPct: 0.002,  // 0.2%
-    maxPct: 0.008,  // 0.8%
-    midPct: 0.005,  // 0.5% midpoint
-    tooltip: 'Uncovers 0.2-0.8% of revenue in margin leakage and menu/mix optimization. Assumes execution on insights.',
-    label: 'Profit Intelligence Uplift',
+    minPct: 0,
+    maxPct: 0,
+    midPct: 0,
+    tooltip: 'Measures and attributes the recovery lines above; no separate uplift is added to avoid double counting',
+    label: 'Profit Intelligence Measurement',
     icon: 'DollarSign'
   },
   
@@ -183,22 +242,76 @@ export const TYPICAL_COST_RATIOS = {
   food: 30,
 } as const;
 
-const GUARDRAILS = {
-  maxSavingsPerLocation: {
-    labor: 2500,
-    inventory: 1500,
-    purchasing: 1500,
-    reservations: 1500,
-    marketing: 1000,
-    profit: 1200,
-    revenue: 500,
-    delivery: 800,
-    guest: 300
+/**
+ * The revenue-per-location the original flat-dollar ceilings were calibrated
+ * at. Kept explicit so the conversion below is auditable rather than magic.
+ */
+export const GUARDRAIL_REFERENCE_REVENUE = 100_000;
+
+export const GUARDRAILS = {
+  /**
+   * Plausibility ceilings as a SHARE OF REVENUE per location, not flat dollars.
+   *
+   * These were absolute dollars — labour $2,500, inventory $1,500, a total of
+   * $8,000 — inside a model whose every line is a percentage of revenue. One
+   * flat $8,000 is 16% of revenue at a $50k/month site and 1.6% at a $500k/month
+   * site: a single constant enforcing two irreconcilable standards of
+   * plausibility. Above roughly $250k/site the ceilings stopped being guardrails
+   * and became the model — at $400k/site every per-line ceiling bound on 100% of
+   * reachable configurations, and the $8,000 total bound on Core Performance
+   * ALONE, so the most expensive package was the only one the guardrail
+   * penalised. A $6M site was silently modelled at half the rate of a $1.2M site
+   * with no evidentiary basis for the difference.
+   *
+   * Each share is the old dollar figure over the $100k/location month it was
+   * calibrated at, so nothing moves for a typical site — the ceilings simply
+   * stop tightening as the operator gets larger.
+   */
+  maxSavingsShareOfRevenue: {
+    labor: 0.025,
+    inventory: 0.015,
+    purchasing: 0.015,
+    reservations: 0.015,
+    marketing: 0.01,
+    profit: 0.012,
+    revenue: 0.005,
+    delivery: 0.008,
+    guest: 0.003
   },
-  maxTotalSavingsPerLocation: 8000,
+  maxTotalShareOfRevenue: 0.08,
   maxROIMultiple: 15,
   minPaybackDays: 14, // Floor at 14 days to avoid unrealistic claims
 };
+
+/**
+ * A guardrail exists to catch an implausible INPUT, never to contradict the
+ * evidence. The published min/mid/max band already IS the plausibility bound,
+ * so a ceiling is only ever allowed to bite ABOVE that band's own maximum.
+ * Without this floor, re-denominating against revenue would newly clip lines
+ * measured on a different base — marketing is a share of marketing SPEND, so a
+ * site spending heavily against modest revenue would have had a legitimate,
+ * in-band figure cut by a revenue-denominated ceiling.
+ */
+export function plausibilityCeiling(
+  moduleId: string,
+  monthlyRevenuePerLocation: number,
+  locations: number,
+  bandMaximum: number
+): number {
+  const share =
+    GUARDRAILS.maxSavingsShareOfRevenue[
+      moduleId as keyof typeof GUARDRAILS.maxSavingsShareOfRevenue
+    ];
+  if (share === undefined) {
+    // A silent `|| 1000` fallback meant any newly-added domain inherited an
+    // arbitrary ceiling nobody chose. Fail loudly instead.
+    throw new Error(
+      `No plausibility ceiling defined for savings domain "${moduleId}". ` +
+        `Add one to GUARDRAILS.maxSavingsShareOfRevenue with a stated basis.`
+    );
+  }
+  return Math.max(share * monthlyRevenuePerLocation * locations, bandMaximum);
+}
 
 export function useROICalculation(
   config: Configuration,
@@ -220,7 +333,10 @@ export function useROICalculation(
       foodCostPercent,
       marketingSpend = 0,
       deliveryRevenuePct = 0,
-      hasReviewData = false
+      hasReviewData = false,
+      replaceableSystemsSpend = 0,
+      manualReportingHoursPerWeek = 0,
+      loadedHourlyRate = 0,
     } = inputs;
 
     const totalMonthlyRevenue = monthlyRevenue * config.locations;
@@ -235,15 +351,8 @@ export function useROICalculation(
     // more labour to optimise than one running 20%, and a model that cannot see
     // that is not modelling their business.
     //
-    // The published rates are expressed against revenue at a typical cost
-    // ratio, so the ratio the buyer actually reports rescales the base. Bounded
-    // so an extreme entry cannot run away with the answer.
-    const scaleToActual = (reported: number | undefined, typical: number) => {
-      if (!reported || reported <= 0) return 1;
-      return Math.min(2, Math.max(0.5, reported / typical));
-    };
-    const laborBase = totalMonthlyRevenue * scaleToActual(laborPercent, TYPICAL_COST_RATIOS.labor);
-    const foodBase = totalMonthlyRevenue * scaleToActual(foodCostPercent, TYPICAL_COST_RATIOS.food);
+    const laborBase = totalMonthlyRevenue * (Math.min(60, Math.max(0, laborPercent || TYPICAL_COST_RATIOS.labor)) / 100);
+    const foodBase = totalMonthlyRevenue * (Math.min(60, Math.max(0, foodCostPercent || TYPICAL_COST_RATIOS.food)) / 100);
     const savingsLines: SavingsLineItem[] = [];
     const breakdowns: Record<string, number> = {};
     const projectedImprovements: Record<string, number> = {};
@@ -274,9 +383,10 @@ export function useROICalculation(
       const maxAmount = baseAmount * assumption.maxPct * margin;
       const midAmount = baseAmount * assumption.midPct * margin;
       
-      // Apply per-location cap
-      const maxCap = GUARDRAILS.maxSavingsPerLocation[moduleId as keyof typeof GUARDRAILS.maxSavingsPerLocation] || 1000;
-      const cappedAmount = Math.min(midAmount, maxCap * config.locations);
+      // Apply the per-location plausibility ceiling. It is a share of revenue,
+      // and it can never cut below the top of this line's own evidenced band.
+      const maxCap = plausibilityCeiling(moduleId, monthlyRevenue, config.locations, maxAmount);
+      const cappedAmount = Math.min(midAmount, maxCap);
       
       const line: SavingsLineItem = {
         moduleId,
@@ -285,7 +395,7 @@ export function useROICalculation(
         icon: assumption.icon,
         amount: missingInput ? 0 : Math.round(cappedAmount),
         rangeMin: Math.round(minAmount),
-        rangeMax: Math.round(Math.min(maxAmount, maxCap * config.locations)),
+        rangeMax: Math.round(Math.min(maxAmount, maxCap)),
         tooltip: localizedTooltip,
         isCountedInTotal: isCountedInTotal && !missingInput,
         requiresInput: assumption.requiresInput,
@@ -317,7 +427,7 @@ export function useROICalculation(
     
     // Purchasing Analytics
     if (config.activeDomains.includes('purchasing')) {
-      totalSavings += addSavingsLine('purchasing', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.purchasing);
+      totalSavings += addSavingsLine('purchasing', foodBase, SAVINGS_ASSUMPTIONS.purchasing);
     }
     
     // Reservations Intelligence
@@ -340,7 +450,11 @@ export function useROICalculation(
     
     // Profit Intelligence
     if (config.activeDomains.includes('profit')) {
-      totalSavings += addSavingsLine('profit', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.profit);
+      addSavingsLine('profit', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.profit, false, true);
+      const profitLine = savingsLines.find((line) => line.moduleId === 'profit');
+      if (profitLine) {
+        profitLine.missingInputMessage = 'Enables measurement; not added again';
+      }
     }
     
     // Revenue Assurance
@@ -385,7 +499,11 @@ export function useROICalculation(
     // APPLY GLOBAL GUARDRAILS
     // ═══════════════════════════════════════════════════════════════════
     
-    const maxTotal = GUARDRAILS.maxTotalSavingsPerLocation * config.locations;
+    // A share of revenue, so it scales with the estate instead of acting as a
+    // second flat haircut on top of the per-line ceilings. As a flat $8,000 it
+    // bound on Core Performance and on no other package — the ladder's top rung
+    // was the only one the global guardrail punished.
+    const maxTotal = GUARDRAILS.maxTotalShareOfRevenue * totalMonthlyRevenue;
     if (totalSavings > maxTotal) {
       const scaleFactor = maxTotal / totalSavings;
       totalSavings = maxTotal;
@@ -399,9 +517,19 @@ export function useROICalculation(
     }
     
     const annualSavings = totalSavings * 12;
+    // Only a number the buyer supplies as genuinely replaceable is cashable.
+    // Manual time is shown separately because time does not become cash unless
+    // the operator can redeploy it or avoid a planned hire.
+    const { replaceableSystemsSavings, capacityValue, capacityFte } = calculateCostAvoidance({
+      replaceableSystemsSpend,
+      manualReportingHoursPerWeek,
+      loadedHourlyRate,
+    });
+    const monthlyFunding = totalSavings + replaceableSystemsSavings;
+    const annualFunding = monthlyFunding * 12;
     
     // Calculate ROI
-    let roi = platformCost > 0 ? totalSavings / platformCost : 0;
+    let roi = platformCost > 0 ? monthlyFunding / platformCost : 0;
     // The cap keeps the headline from claiming an absurd multiple, but it also
     // makes every strong configuration print the SAME "15x" — so the number
     // stops discriminating between packages and reads as a constant rather than
@@ -425,10 +553,10 @@ export function useROICalculation(
     // so d = 30 x implementation / (savings - monthlyCost). If the monthly
     // saving does not exceed the monthly cost, it never pays back — and the
     // model must be able to say so.
-    const monthlyNet = totalSavings - platformCost;
+    const monthlyNet = monthlyFunding - platformCost;
     let paybackDays = 0;
     let paysBack = false;
-    if (totalSavings > 0 && monthlyNet > 0) {
+    if (monthlyFunding > 0 && monthlyNet > 0) {
       paysBack = true;
       paybackDays = oneTimeCost > 0
         ? Math.ceil((oneTimeCost / monthlyNet) * 30)
@@ -445,6 +573,11 @@ export function useROICalculation(
     return {
       monthlySavings: Math.round(totalSavings),
       annualSavings: Math.round(annualSavings),
+      monthlyFunding: Math.round(monthlyFunding),
+      annualFunding: Math.round(annualFunding),
+      replaceableSystemsSavings: Math.round(replaceableSystemsSavings),
+      capacityValue: Math.round(capacityValue),
+      capacityFte: Math.round(capacityFte * 100) / 100,
       roi: Math.round(roi * 10) / 10,
       roiCapped,
       roiPercent: Math.round(roi * 100),

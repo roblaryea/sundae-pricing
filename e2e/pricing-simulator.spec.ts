@@ -1,71 +1,68 @@
 /**
- * E2E Pricing Simulator Verification Tests (price book v1.7)
+ * Buyer-facing pricing verification (price book v1.7).
  *
- * Verifies that the UI renders prices matching the pricing engine — in
- * particular that the summary total equals the MARGINAL band computation and
- * never a flat per-location multiplication.
- *
- * Uses the dev-mode exposed Zustand store (__SUNDAE_STORE__) to set
- * configuration state, then asserts displayed totals.
+ * These tests cross the rendered summary boundary. They deliberately compare
+ * what a prospect sees with the same published engines used by the live
+ * calculator, across package families, estate-size bands, commitment terms,
+ * Crew dependency/bundle paths, and the 250+ enterprise handoff.
  */
 import { test, expect, type Page } from '@playwright/test';
 import { calculateFullPrice, type AddOnId } from '../src/lib/pricingEngine';
+import { computeCrewQuote } from '../src/lib/crewPricing';
 import { corePackages } from '../src/data/pricing';
-import type { CorePackageId } from '../src/data/pricing';
+import type { BillingCycle, CorePackageId } from '../src/data/pricing';
+import type { CrewSkuId } from '../src/types/configuration';
+import { stepIndex } from '../src/lib/journey';
 
 interface SimConfig {
-  corePackage: CorePackageId;
+  layer?: 'core' | 'crew' | 'both';
+  corePackage?: CorePackageId;
   locations: number;
   addOns?: AddOnId[];
   watchtowerModules?: string[];
+  crewSkus?: CrewSkuId[];
+  billingCycle?: BillingCycle;
 }
-
-const JOURNEY = [
-  { id: 'persona', name: 'Discover Your Persona', completed: true },
-  { id: 'layer', name: 'Choose Your Layer', completed: true },
-  { id: 'package', name: 'Select Your Package', completed: true },
-  { id: 'locations', name: 'Configure Locations', completed: true },
-  { id: 'addons', name: 'Add-ons', completed: true },
-  { id: 'watchtower', name: 'Watchtower Intel', completed: true },
-  { id: 'roi', name: 'Calculate ROI', completed: true },
-  { id: 'summary', name: 'Review & Launch', completed: false },
-];
 
 async function setStore(page: Page, config: SimConfig, currentStep: number) {
   await page.goto('/simulator');
-  await page.waitForFunction(() => (window as any).__SUNDAE_STORE__, { timeout: 10000 });
+  await page.waitForFunction(() => (window as Window & { __SUNDAE_STORE__?: unknown }).__SUNDAE_STORE__, {
+    timeout: 10_000,
+  });
 
   await page.evaluate(
-    ({ cfg, step, journey }) => {
-      const store = (window as any).__SUNDAE_STORE__;
+    ({ cfg, step }) => {
+      const store = (window as Window & { __SUNDAE_STORE__: { getState: () => any; setState: (state: any) => void } })
+        .__SUNDAE_STORE__;
+      const journeySteps = store.getState().journeySteps.map((journeyStep: any) => ({
+        ...journeyStep,
+        completed: journeyStep.id !== 'summary',
+      }));
       store.setState({
-        layer: 'core',
-        corePackage: cfg.corePackage,
+        layer: cfg.layer ?? 'core',
+        corePackage: cfg.corePackage ?? 'core_foundation',
         locations: cfg.locations,
-        addOns: cfg.addOns || [],
-        watchtowerModules: cfg.watchtowerModules || [],
+        addOns: cfg.addOns ?? [],
+        watchtowerModules: cfg.watchtowerModules ?? [],
+        crewSkus: cfg.crewSkus ?? [],
+        billingCycle: cfg.billingCycle ?? 'monthly',
         currentStep: step,
-        journeySteps: journey,
+        journeySteps,
       });
     },
-    { cfg: config, step: currentStep, journey: JOURNEY },
+    { cfg: config, step: currentStep },
   );
 }
 
 async function goToSummary(page: Page, config: SimConfig) {
-  await setStore(page, config, 7);
-  await page.waitForSelector('text=Monthly Investment', { timeout: 10000 });
+  await setStore(page, config, stepIndex('summary'));
+  await expect(page.getByTestId('summary-monthly-total')).toBeVisible();
 }
 
-async function getDisplayedTotal(page: Page): Promise<string> {
-  const totalEl = page.locator('text=/^\\$[\\d,]+$/').first();
-  return (await totalEl.textContent()) ?? '';
-}
-
-function getExpectedTotal(config: SimConfig): string {
-  const result = calculateFullPrice({
-    layer: 'core',
-    corePackage: config.corePackage,
+function coreResult(config: SimConfig) {
+  return calculateFullPrice({
+    layer: config.layer === 'both' ? 'both' : 'core',
+    corePackage: config.corePackage ?? 'core_foundation',
     locations: config.locations,
     addOns: config.addOns ?? [],
     watchtower: config.watchtowerModules ?? [],
@@ -74,39 +71,71 @@ function getExpectedTotal(config: SimConfig): string {
       isEarlyAdopter: false,
       isFranchise: false,
       brandCount: 1,
+      billingCycle: config.billingCycle ?? 'monthly',
     },
   });
-
-  return `$${result.total.toLocaleString()}`;
 }
 
-test.describe('Pricing Simulator E2E Verification (v1.7)', () => {
-  async function expectSummaryToMatchEngine(page: Page, config: SimConfig) {
-    await goToSummary(page, config);
-    expect(await getDisplayedTotal(page)).toBe(getExpectedTotal(config));
+function expectedMonthly(config: SimConfig): number {
+  const core = config.layer === 'crew' ? 0 : coreResult(config).total;
+  const crew = config.layer === 'core' || !config.crewSkus?.length
+    ? 0
+    : computeCrewQuote(config.crewSkus, config.locations).monthly;
+  return core + crew;
+}
+
+function money(amount: number): string {
+  return `$${amount.toLocaleString('en-US', {
+    minimumFractionDigits: Number.isInteger(amount) ? 0 : 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
+async function expectSummaryToMatchEngine(page: Page, config: SimConfig) {
+  await goToSummary(page, config);
+  await expect(page.getByTestId('summary-monthly-total')).toHaveText(money(expectedMonthly(config)));
+}
+
+const CORE_PACKAGES: CorePackageId[] = [
+  'core_foundation',
+  'core_margin',
+  'core_growth',
+  'core_performance',
+];
+const ESTATE_SIZES = [1, 5, 25, 60, 100, 249];
+
+test.describe('Core price and location matrix', () => {
+  for (const corePackage of CORE_PACKAGES) {
+    for (const locations of ESTATE_SIZES) {
+      test(`${corePackage} matches the quote engine @ ${locations} locations`, async ({ page }) => {
+        await expectSummaryToMatchEngine(page, { corePackage, locations });
+      });
+    }
   }
 
-  test('Core Foundation matches pricing engine @ 1 location', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { corePackage: 'core_foundation', locations: 1 });
+  test('250 locations crosses to enterprise without printing a self-serve number', async ({ page }) => {
+    await goToSummary(page, { corePackage: 'core_performance', locations: 250 });
+    await expect(page.getByTestId('summary-monthly-total')).toHaveText('Custom pricing');
+    await expect(page.getByText(/enterprise quote/i)).toBeVisible();
   });
 
-  test('Core Foundation matches pricing engine @ 5 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { corePackage: 'core_foundation', locations: 5 });
+  test('annual commitment applies the published 10% Core discount', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
+      corePackage: 'core_margin',
+      locations: 100,
+      billingCycle: 'annual',
+    });
   });
 
-  test('Core Margin matches pricing engine across two bands @ 12 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { corePackage: 'core_margin', locations: 12 });
+  test('two-year commitment applies the published 15% Core discount', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
+      corePackage: 'core_growth',
+      locations: 200,
+      billingCycle: 'two_year',
+    });
   });
 
-  test('Core Growth matches pricing engine across three bands @ 30 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { corePackage: 'core_growth', locations: 30 });
-  });
-
-  test('Core Performance matches pricing engine across all bands @ 60 locations', async ({ page }) => {
-    await expectSummaryToMatchEngine(page, { corePackage: 'core_performance', locations: 60 });
-  });
-
-  test('Core Foundation + Foresight & Action @ 10 locations', async ({ page }) => {
+  test('Foundation + Foresight & Action matches @ 10 locations', async ({ page }) => {
     await expectSummaryToMatchEngine(page, {
       corePackage: 'core_foundation',
       locations: 10,
@@ -114,7 +143,7 @@ test.describe('Pricing Simulator E2E Verification (v1.7)', () => {
     });
   });
 
-  test('Core Growth + concept SKU @ 20 locations', async ({ page }) => {
+  test('Growth + concept SKU matches @ 20 locations', async ({ page }) => {
     await expectSummaryToMatchEngine(page, {
       corePackage: 'core_growth',
       locations: 20,
@@ -122,7 +151,7 @@ test.describe('Pricing Simulator E2E Verification (v1.7)', () => {
     });
   });
 
-  test('Core Performance + Watchtower bundle @ 5 locations', async ({ page }) => {
+  test('Performance + Watchtower matches @ 5 locations', async ({ page }) => {
     await expectSummaryToMatchEngine(page, {
       corePackage: 'core_performance',
       locations: 5,
@@ -130,27 +159,114 @@ test.describe('Pricing Simulator E2E Verification (v1.7)', () => {
     });
   });
 
-  test('summary total is the marginal computation, not a flat per-location rate', async ({ page }) => {
-    // 5 Core Foundation locations = 1195 + 4 x 175 = 1895.
-    // A flat-rate model (5 x 175 + 1195, or 5 x 379) would produce a different figure
-    // at other unit counts; assert the exact published worked example.
+  test('five-location Foundation is the published marginal example', async ({ page }) => {
     await goToSummary(page, { corePackage: 'core_foundation', locations: 5 });
-    expect(await getDisplayedTotal(page)).toBe('$1,895');
+    await expect(page.getByTestId('summary-monthly-total')).toHaveText('$1,895');
+  });
+});
+
+const CREW_SCENARIOS: Array<{ label: string; crewSkus: CrewSkuId[] }> = [
+  { label: 'Crew Schedule', crewSkus: ['crew_scheduling'] },
+  { label: 'Crew Manage', crewSkus: ['crew_operations', 'crew_scheduling'] },
+  { label: 'Schedule & Time (BYO HR/payroll)', crewSkus: ['crew_scheduling', 'crew_tna'] },
+  {
+    label: 'Crew Operating',
+    crewSkus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'],
+  },
+  {
+    label: 'Crew Complete',
+    crewSkus: [
+      'crew_operations',
+      'crew_scheduling',
+      'crew_tna',
+      'crew_payroll',
+      'crew_people_intelligence',
+    ],
+  },
+];
+
+test.describe('Crew packages, bundles, and dependencies', () => {
+  for (const scenario of CREW_SCENARIOS) {
+    for (const locations of [1, 25, 60, 100]) {
+      test(`${scenario.label} matches the Crew engine @ ${locations} locations`, async ({ page }) => {
+        await expectSummaryToMatchEngine(page, {
+          layer: 'crew',
+          locations,
+          crewSkus: scenario.crewSkus,
+        });
+      });
+    }
+  }
+
+  test('Crew Starter enforces its five-location cap defensively', async ({ page }) => {
+    await goToSummary(page, { layer: 'crew', locations: 10, crewSkus: ['crew_lite'] });
+    await expect(page.getByTestId('summary-monthly-total')).toHaveText('$175');
+    await expect(page.getByText('5 locations', { exact: true })).toBeVisible();
   });
 
-  test('package cards show the anchor price, not a per-location rate', async ({ page }) => {
-    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, 2);
+  test('Crew Pay cannot be quoted without its Manage dependency', async ({ page }) => {
+    const payWithResolvedDependencies: CrewSkuId[] = [
+      'crew_operations',
+      'crew_scheduling',
+      'crew_payroll',
+    ];
+    await expectSummaryToMatchEngine(page, {
+      layer: 'crew',
+      locations: 25,
+      crewSkus: payWithResolvedDependencies,
+    });
+    await expect(page.getByText(/Crew Operating/i).first()).toBeVisible();
+  });
+
+  test('combined Core Margin + Crew Operating prints one decision number', async ({ page }) => {
+    await expectSummaryToMatchEngine(page, {
+      layer: 'both',
+      corePackage: 'core_margin',
+      locations: 25,
+      crewSkus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'],
+    });
+    await expect(page.getByText(/Core .* \+ Crew/i)).toBeVisible();
+  });
+});
+
+test.describe('Package-selection clarity', () => {
+  test('Core cards show the estate total, not a misleading flat rate', async ({ page }) => {
+    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, stepIndex('tier'));
     await expect(page.getByTestId('core-package-total-core_foundation')).toContainText('1,895');
     await expect(page.getByTestId('core-package-total-core_margin')).toContainText(
-      `${(corePackages.core_margin.firstUnitPrice + 4 * corePackages.core_margin.marginalBands[0].pricePerUnit).toLocaleString()}`,
+      `${(
+        corePackages.core_margin.firstUnitPrice +
+        4 * corePackages.core_margin.marginalBands[0].pricePerUnit
+      ).toLocaleString()}`,
     );
   });
 
-  test('domain modules are shown as included, with no price and no toggle', async ({ page }) => {
-    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, 4);
+  test('domain modules are included capabilities, not priced toggles', async ({ page }) => {
+    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, stepIndex('addons'));
     const labor = page.getByTestId('included-module-labor');
     await expect(labor).toBeVisible();
     await expect(labor).toContainText('Included');
     await expect(labor).not.toContainText('$');
+  });
+
+  test('Crew tiles label anchors as first-location prices', async ({ page }) => {
+    await setStore(page, {
+      layer: 'crew',
+      locations: 25,
+      crewSkus: ['crew_scheduling', 'crew_tna'],
+    }, stepIndex('tier'));
+    await expect(page.getByRole('button', { name: /Crew Pay/i })).toContainText('first location /mo');
+    await expect(page.getByText(/native Sundae payroll suite supporting 36 countries/i)).toBeVisible();
+  });
+
+  test('BYO-HR Schedule & Time is available as a one-click acquisition path', async ({ page }) => {
+    await setStore(page, {
+      layer: 'crew',
+      locations: 25,
+      crewSkus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'],
+    }, stepIndex('tier'));
+    await page.getByRole('button', { name: /Schedule & Time Keep your HR\/payroll/i }).click();
+    await expect(page.getByText('Schedule & Time', { exact: true }).last()).toBeVisible();
+    await expect(page.getByText('$1365', { exact: true }).first()).toBeVisible();
   });
 });

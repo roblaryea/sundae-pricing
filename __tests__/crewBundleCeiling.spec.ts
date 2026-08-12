@@ -302,10 +302,14 @@ describe('bundle presentation stays truthful', () => {
       const quote = computeCrewQuote(preset.skus, LOCATIONS);
       expect(quote.monthly).toBe(cheapestDelivery(preset.skus, LOCATIONS));
     }
-    expect(computeCrewQuote(CREW_PRESETS[1].skus, 6).monthly).toBe(
+    const operating = CREW_PRESETS.find((preset) => preset.id === 'operating_suite');
+    const complete = CREW_PRESETS.find((preset) => preset.id === 'complete_suite');
+    expect(operating).toBeDefined();
+    expect(complete).toBeDefined();
+    expect(computeCrewQuote(operating!.skus, 6).monthly).toBe(
       bundleAt('crew_suite_bundle', 6),
     );
-    expect(computeCrewQuote(CREW_PRESETS[2].skus, 6).monthly).toBe(
+    expect(computeCrewQuote(complete!.skus, 6).monthly).toBe(
       bundleAt('crew_complete_bundle', 6),
     );
   });

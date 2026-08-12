@@ -79,7 +79,7 @@ export function CrewBuilder() {
         isSelected: true,
         isDisabled: true,
         isIncludedFree: true,
-        note: 'Included with Operations · $0/mo',
+        note: 'Included with Crew Manage · $0/mo',
       };
     }
     return { isSelected, isDisabled: false, isIncludedFree: false, note: null };
@@ -124,9 +124,9 @@ export function CrewBuilder() {
           <h1 className="text-3xl md:text-4xl font-bold">Build your Sundae Crew</h1>
         </div>
         <p className="text-base md:text-lg text-sundae-muted max-w-2xl mx-auto">
-          Pick a preset or build your own. Dependencies auto-resolve — selecting Payroll attaches
-          Operations, selecting T&amp;A attaches Scheduling, and the published net bundle
-          price auto-applies when a set matches.
+          Pick a preset or build your own. Dependencies auto-resolve — selecting Crew Pay attaches
+          Crew Manage, selecting Crew Time attaches Crew Schedule, and the best-value published net
+          bundle is applied automatically.
         </p>
       </motion.div>
 
@@ -139,7 +139,7 @@ export function CrewBuilder() {
           variants={staggerChildren(reduced, CREW_PRESETS.length)}
           initial="hidden"
           animate="visible"
-          className="grid grid-cols-1 md:grid-cols-3 gap-3"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3"
         >
           {CREW_PRESETS.map((preset) => {
             const isActive = activePresetId === preset.id;
@@ -179,7 +179,7 @@ export function CrewBuilder() {
             Or build your own
           </p>
           <p className="text-[10px] text-sundae-muted">
-            Dependencies auto-attach · Net bundle price applied automatically when matched
+            Dependencies auto-attach · Best-value published net bundle applied automatically
           </p>
         </div>
         <motion.div
@@ -233,7 +233,7 @@ export function CrewBuilder() {
                     <span className="text-base font-bold text-white tabular-nums">
                       ${sku.orgLicensePrice}
                     </span>
-                    <span className="text-[11px] text-sundae-muted">/mo</span>
+                    <span className="text-[11px] text-sundae-muted">first location /mo</span>
                   </div>
                 )}
                 {'prerequisiteMessage' in sku && sku.prerequisiteMessage && (

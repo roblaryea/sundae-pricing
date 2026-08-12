@@ -1078,9 +1078,9 @@ export const crewSkus = {
       perEmployeeOverageUsd: 2,
       hardLocationCap: false,
     },
-    description: 'Deep workforce operations. Includes Scheduling and adds HR operations, credentials, assets, attestations, helpdesk, disciplinary, e-sign, onboarding/offboarding, workflows, and partner sync imports.',
+    description: 'Deep workforce operations. Includes Crew Schedule and adds HR operations, credentials, assets, attestations, helpdesk, disciplinary, e-sign, onboarding/offboarding, workflows, and partner sync imports.',
     features: [
-      'Scheduling entitlement included',
+      'Crew Schedule entitlement included',
       'HR operations + employee records',
       'Credentials and certifications tracking',
       'Assets and inventory assignment',
@@ -1112,7 +1112,7 @@ export const crewSkus = {
     // useConfiguration.toggleCrewSku honors the OR semantics.
     prerequisites: ['crew_scheduling'] as CrewSkuId[],
     prerequisiteAlternatives: ['crew_operations'] as CrewSkuId[],
-    prerequisiteMessage: 'Requires Scheduling or Operations',
+    prerequisiteMessage: 'Requires Crew Schedule or Crew Manage',
     caps: {
       maxLocations: null,
       maxEmployeesPerLocation: 15,
@@ -1147,17 +1147,17 @@ export const crewSkus = {
     implementationIncludes: 'Country pack activation + statutory export configuration',
     sortOrder: 15,
     prerequisites: ['crew_operations'] as CrewSkuId[],
-    prerequisiteMessage: 'Requires Crew Operations',
+    prerequisiteMessage: 'Requires Crew Manage',
     caps: {
       maxLocations: null,
       maxEmployeesPerLocation: 15,
       perEmployeeOverageUsd: 2,
       hardLocationCap: false,
     },
-    description: 'Provider-neutral payroll engine with multi-region country packs and statutory exports. Year-end forms, payslips, and employee self-service. New regions added on a rolling basis.',
+    description: 'Native Sundae payroll suite supporting 36 countries, with statutory outputs, payslips, year-end forms, and employee self-service. Integrations remain available when an operator chooses to retain another provider.',
     features: [
-      'Provider-neutral payroll calculation engine',
-      'Multi-region country packs (rolling regional expansion)',
+      'Native Sundae payroll calculation engine',
+      'Country packs across 36 supported markets',
       'Statutory export framework (WPS / NACHA / EFT / RTI / SEPA pattern)',
       'Year-end form generation per jurisdiction',
       'BIK ledger + AI-explained cycle preview',
@@ -1182,7 +1182,7 @@ export const crewSkus = {
     implementationIncludes: 'Performance / talent / comp data ingestion',
     sortOrder: 16,
     prerequisites: ['crew_operations'] as CrewSkuId[],
-    prerequisiteMessage: 'Requires Crew Operations',
+    prerequisiteMessage: 'Requires Crew Manage',
     caps: {
       maxLocations: null,
       maxEmployeesPerLocation: 15,
@@ -1242,7 +1242,7 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     firstUnitPrice: 249,
     marginalBands: [band(2, 10, 49), band(11, 25, 45), band(26, 50, 41), band(51, null, 37)],
     basePrice: 249,
-    description: 'Crew Schedule + Crew Time bundled. The scheduling-plus-attendance entry point for operators who are not replacing payroll yet.',
+    description: 'Crew Schedule + Crew Time bundled. Keep your existing HR or payroll while Sundae runs scheduling, attendance, and payroll-ready time data.',
     implementationClass: null,
   },
   crew_suite_bundle: {

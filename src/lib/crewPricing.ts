@@ -5,12 +5,12 @@
 // file instead of three.
 //
 // ── PRICE BOOK v1.7 ────────────────────────────────────────────────────────
-// Crew is priced as a FLAT monthly price per SKU (Starter $99, Schedule $179,
-// Manage $399, Time $99, Pay $129, People $249) and per bundle (Schedule &
-// Time $249, Crew Operating $499, Crew Complete $699). There is:
-//   • no per-location adder and no "included locations" allowance — the
-//     retired "base covers 3, then $X per extra location" mechanic is gone,
-//     so location count no longer moves the Crew price at all;
+// Crew uses a first-location anchor plus lower marginal location bands for
+// every SKU and bundle. Starter is the sole capped offer (five locations).
+// There is:
+//   • no flat per-location multiplication and no "included locations"
+//     allowance — each extra location is priced at the published marginal
+//     band for the estate size;
 //   • no per-SKU setup fee to sum. Implementation is charged ONCE at the
 //     HIGHEST implementation class in the selection.
 // Bundle prices are NAMED NET prices, never a percentage off the components.
@@ -36,7 +36,7 @@ import { calculateBandedTotal } from './pricingEngine';
 export interface CrewQuoteLine {
   id: CrewSkuId | CrewBundleId;
   label: string;
-  /** Flat published monthly price for this line. */
+  /** Published monthly price at the quoted estate size. */
   monthly: number;
 }
 
@@ -70,9 +70,8 @@ export interface CrewQuote {
   /** Whether the visitor is on the Lite SMB path (caps locations at 5). */
   isLiteOnly: boolean;
   /**
-   * Location count. Retained because `crew_lite` carries a hard 5-location
-   * ENTITLEMENT cap and the quote shows the footprint — it does NOT affect
-   * the Crew price under v1.7.
+   * Quoted location count after entitlement-cap enforcement. Retained so the
+   * buyer sees the footprint that the price and Crew Starter cap apply to.
    */
   locations: number;
 }
@@ -192,7 +191,7 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
   const effectiveLocations = isLiteOnly ? Math.min(locations, 5) : locations;
   const selection = new Set(selectedSkus);
 
-  const plan = cheapestPlan(selectedSkus, locations);
+  const plan = cheapestPlan(selectedSkus, effectiveLocations);
 
   // Bundle lines first, then whatever the bundles don't cover. A SKU a bundle
   // covers gets NO line of its own — it is already inside the net price, and a
@@ -201,10 +200,12 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
     ...plan.bundleIds.map((id) => ({
       id,
       label: crewBundles[id].name,
-      monthly: crewBundleMonthly(id, locations),
+      monthly: crewBundleMonthly(id, effectiveLocations),
     })),
     ...plan.standalone.map((id) =>
-      lineForSku(id, locations, { includedFree: standalonePrice(id, selection, locations) === 0 }),
+      lineForSku(id, effectiveLocations, {
+        includedFree: standalonePrice(id, selection, effectiveLocations) === 0,
+      }),
     ),
   ];
   const monthly = plan.monthly;
@@ -214,7 +215,10 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
   // the published figure — it is never this sum minus a discount, and this
   // number is never subtracted from `monthly`, or the net price would take a
   // second bundle discount on top of itself.
-  const componentSum = selectedSkus.reduce((sum, id) => sum + standalonePrice(id, selection, locations), 0);
+  const componentSum = selectedSkus.reduce(
+    (sum, id) => sum + standalonePrice(id, selection, effectiveLocations),
+    0,
+  );
 
   // The whole selection sits inside a single published bundle: consumers show
   // its name as the headline and the "net bundle price" badge. A plan that
@@ -258,7 +262,7 @@ export function crewBundleSavings(bundle: CrewBundle, locations = 1): number {
 
 // One-click preset SKU sets used by CrewBuilder's "Quick presets" row.
 export const CREW_PRESETS: Array<{
-  id: 'lite' | 'operating_suite' | 'complete_suite';
+  id: 'lite' | 'schedule_time' | 'operating_suite' | 'complete_suite';
   label: string;
   description: string;
   skus: CrewSkuId[];
@@ -270,9 +274,15 @@ export const CREW_PRESETS: Array<{
     skus: ['crew_lite'],
   },
   {
+    id: 'schedule_time',
+    label: 'Schedule & Time',
+    description: `Keep your HR/payroll · from $${crewBundles.crew_schedule_time_bundle.basePrice}/mo first location`,
+    skus: ['crew_scheduling', 'crew_tna'],
+  },
+  {
     id: 'operating_suite',
     label: 'Crew Operating',
-    description: `Manage + Time + Pay · net $${crewBundles.crew_suite_bundle.basePrice}/mo`,
+    description: `Manage + Time + Pay · from $${crewBundles.crew_suite_bundle.basePrice}/mo first location`,
     // Scheduling is included with Operations entitlement (priced at $0
     // in the UI / line items). Bundle detection normalizes this away
     // so the canonical bundle definition still matches.
@@ -281,7 +291,7 @@ export const CREW_PRESETS: Array<{
   {
     id: 'complete_suite',
     label: 'Crew Complete',
-    description: `Operating + People · net $${crewBundles.crew_complete_bundle.basePrice}/mo`,
+    description: `Operating + People · from $${crewBundles.crew_complete_bundle.basePrice}/mo first location`,
     skus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
   },
 ];

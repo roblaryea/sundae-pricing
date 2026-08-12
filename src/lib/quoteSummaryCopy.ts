@@ -70,7 +70,7 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
     crewStackReady: 'Your Crew stack is ready',
     crewCurveNote: 'Crew prices on a declining curve — the first location at the anchor, then each added location cheaper by band',
     crewSubstrateNote:
-      'Multi-region payroll readiness, scheduling, and HR ops on one operational substrate.',
+      'Native payroll across 36 countries, scheduling, and HR operations on one substrate.',
     modelledHeading: 'Modelled estimate — not a measured outcome',
     modelledNote:
       'Every figure here is a planning model built from published assumption ranges, shown per line below. Sundae has not yet published verified customer results, so treat this as a way to frame the conversation with your own numbers — not as a forecast.',

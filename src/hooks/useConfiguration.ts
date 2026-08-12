@@ -4,7 +4,6 @@ import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { AddOnId, Configuration, CorePackageId, CrewSkuId } from '../types/configuration';
 import { corePackages, crewSkus, packageAllowsWatchtower } from '../data/pricing';
-import type { CompetitorId } from '../data/competitors';
 import type { ROIInputs } from './useROICalculation';
 import type { Persona } from '../data/personas';
 import type { Achievement } from '../data/personas';
@@ -109,11 +108,6 @@ const initialState = {
   watchtowerModules: [] as string[],
   crossIntelligence: 'none' as 'none' | 'base' | 'pro',
   crewSkus: [] as CrewSkuId[],
-  competitors: {
-    current: [] as CompetitorId[],
-    evaluating: [] as CompetitorId[],
-    primaryComparison: 'nothing' as CompetitorId
-  },
   
   // Journey
   currentStep: 0,
@@ -537,7 +531,6 @@ export const useConfiguration = create<ConfigurationState>()(
           watchtowerModules: state.watchtowerModules,
           crossIntelligence: state.crossIntelligence,
           crewSkus: state.crewSkus,
-          competitors: state.competitors,
           quizAnswers: state.quizAnswers,
           operatingModels: state.operatingModels,
           techStack: state.techStack,

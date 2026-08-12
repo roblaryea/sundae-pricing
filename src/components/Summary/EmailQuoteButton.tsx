@@ -29,9 +29,18 @@ import {
  *
  * The quote is now passed in, computed once by the summary.
  */
-export function EmailQuoteButton({ pricing, crewMonthly = 0 }: {
+export function EmailQuoteButton({ pricing, crewMonthly = 0, funding }: {
   pricing: PriceCalculation;
   crewMonthly?: number;
+  /** The funding case as the summary computed it, so the PDF cannot disagree. */
+  funding?: {
+    monthlyFunding: number;
+    profitRecovery: number;
+    cashAvoidance: number;
+    capacityValue: number;
+    capacityFte: number;
+    coreMonthly: number;
+  };
 }) {
   const { locale, messages } = useLocale();
   const [isGenerating, setIsGenerating] = useState(false);
@@ -85,6 +94,7 @@ export function EmailQuoteButton({ pricing, crewMonthly = 0 }: {
           },
           context: { monthlyRevenuePerLocation: roiInputs.monthlyRevenue },
         },
+        funding,
       );
       
       // Download PDF

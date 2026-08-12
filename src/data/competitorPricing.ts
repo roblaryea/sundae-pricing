@@ -191,6 +191,23 @@ export interface CompetitorPricing {
    * scope.
    */
   coversDomains: readonly string[];
+  /**
+   * Capabilities this vendor cannot deliver AT ANY SPEND — not "harder", not
+   * "needs work", but structurally unavailable because it depends on data or a
+   * model the buyer does not have.
+   *
+   * Deliberately small and hand-written. Everything derivable is derived:
+   * domain gaps come from `coversDomains`, and day-one coverage comes from the
+   * comparison itself. Only claims with a checkable basis belong here, because
+   * this is the part of the card that argues value rather than price, and an
+   * overclaim here is worth less than silence.
+   *
+   * House rule: phrase every entry as what the VENDOR cannot do, never as
+   * "only Sundae can". Toast Benchmarking already gives Toast merchants peer
+   * comparison at no separate fee, so an exclusivity claim is false the moment
+   * a buyer runs Toast.
+   */
+  cannotDoAtAnyPrice?: ReadonlyArray<{ claim: string; basis: string }>;
   pricing: Record<string, unknown>;
   calculate: (
     locations: number,
@@ -418,6 +435,28 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     sourceUrl: 'https://powerbi.microsoft.com/pricing/',
     lastVerified: '2026-01-01',
     coversDomains: [],
+    cannotDoAtAnyPrice: [
+      {
+        claim: 'No pre-built restaurant connectors',
+        basis:
+          'Power Query ships no production connector for Toast, Square, Lightspeed, Oracle MICROS/Simphony, OpenTable, SevenRooms, DoorDash, Uber Eats or Deliveroo. Fivetran offers Toast only as an SDK template the customer modifies and maintains.',
+      },
+      {
+        claim: 'No restaurant data model — it starts as a blank canvas',
+        basis:
+          "Microsoft's only shipped industry model is a generic Retail schema (Customer / Product / Transaction / Inventory / Promotion). Covers, dayparts, theoretical food cost, recipe yield, void and comp, tender mix and aggregator commission have to be modelled from scratch.",
+      },
+      {
+        claim: 'Peer benchmarking is impossible inside your own tenant',
+        basis:
+          'Benchmarking needs other operators\' data. A Power BI tenant contains only your own, at any licence tier.',
+      },
+      {
+        claim: 'Every viewer needs a paid seat',
+        basis:
+          'Free viewing requires an F64 or larger Fabric capacity (~$60,000/yr). Below that, Microsoft requires each viewer to hold Pro or PPU.',
+      },
+    ],
 
     pricing: {
       // Microsoft list prices, re-fetched from the pricing page 2026-08-11.
@@ -537,6 +576,17 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     sourceUrl: null,
     lastVerified: '2026-01-01',
     coversDomains: [],
+    cannotDoAtAnyPrice: [
+      {
+        claim: 'Nothing updates unless someone updates it',
+        basis:
+          'A spreadsheet has no ingestion. Every figure on it is there because a person exported, pasted and reconciled it, so the analysis is exactly as current as the last time somebody did that work.',
+      },
+      {
+        claim: 'No peer benchmarking',
+        basis: 'A workbook contains only your own numbers; there is nothing to compare against.',
+      },
+    ],
 
     pricing: {
       software: 200,  // Per year, part of existing M365/Google
@@ -843,7 +893,20 @@ export interface ComparisonResult {
     covered: string[];
     missing: string[];
     selectedDomains: number;
+    /**
+     * How many of the buyer's granted domains this vendor answers on DAY ONE.
+     *
+     * For Power BI and for spreadsheets this is zero — our own `coversDomains`
+     * says so — and it is the strongest true statement on the card: the buyer
+     * pays a five-figure build before the first question is answered. It was
+     * computed nowhere and rendered nowhere.
+     */
+    dayOneDomains: number;
+    /** The one-time spend that precedes that day-one figure, if any. */
+    buildBeforeFirstAnswer: number;
   };
+  /** Capabilities unavailable from this vendor at any spend. */
+  cannotDoAtAnyPrice: ReadonlyArray<{ claim: string; basis: string }>;
   notes: string | null;
   confidence: 'high' | 'medium' | 'low' | 'none';
   limitations: string[];
@@ -931,7 +994,10 @@ export function calculateCompetitorComparison(
       covered,
       missing,
       selectedDomains: selectedDomains.length,
+      dayOneDomains: covered.length,
+      buildBeforeFirstAnswer: competitorCost.setupFee ?? 0,
     },
+    cannotDoAtAnyPrice: competitor.cannotDoAtAnyPrice ?? [],
     notes: competitorCost.notes,
     confidence: competitorCost.confidence ?? 'medium',
     limitations: competitor.limitations

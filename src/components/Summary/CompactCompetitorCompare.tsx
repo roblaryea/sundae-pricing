@@ -572,6 +572,53 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                 </span>
               </div>
 
+              {/* The value rail.
+                  Price alone cannot carry this comparison — above roughly 25
+                  locations several rivals are genuinely cheaper and no honest
+                  line changes that. What the card never said is what the buyer
+                  GETS: day-one coverage, the build that precedes it, and the
+                  capabilities the vendor cannot sell at any price. Every figure
+                  here is derived from data already on the comparison; the
+                  capability claims are hand-written and each carries a basis. */}
+              <div className="text-xs mb-3 rounded bg-slate-900/40 px-3 py-2 space-y-2">
+                <div className="flex justify-between gap-2">
+                  <span className="text-slate-400">{copy.dayOneLabel}</span>
+                  <span className="font-medium tabular-nums text-slate-300">
+                    {formatMessage(copy.dayOneDomains, {
+                      count: comparison.coverage.dayOneDomains,
+                      total: comparison.coverage.selectedDomains,
+                    })}
+                    {comparison.coverage.dayOneDomains === 0 &&
+                      comparison.coverage.buildBeforeFirstAnswer > 0 && (
+                        <span className="text-slate-500">
+                          {' '}
+                          {formatMessage(copy.buildFirst, {
+                            amount: money(comparison.coverage.buildBeforeFirstAnswer),
+                          })}
+                        </span>
+                      )}
+                  </span>
+                </div>
+
+                {comparison.cannotDoAtAnyPrice.length > 0 && (
+                  <div>
+                    <div className="text-slate-400 mb-1">
+                      {formatMessage(copy.cannotBuyLabel, {
+                        name: comparison.competitor.name,
+                      })}
+                    </div>
+                    <ul className="space-y-1">
+                      {comparison.cannotDoAtAnyPrice.map((gap) => (
+                        <li key={gap.claim} className="text-slate-300">
+                          <span className="text-slate-500">- </span>
+                          <span title={gap.basis}>{gap.claim}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
               {/* Notes */}
               {comparison.notes && (
                 <div className="flex items-start gap-2 text-xs text-amber-400 bg-amber-900/10 rounded p-2 mb-3">

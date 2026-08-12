@@ -411,12 +411,33 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
               )}
               <VerificationBadge level={badge} copy={copy} lastVerified={lastVerified} />
             </div>
+            {/* The always-visible line. Two things were wrong with it.
+                It was hardcoded English — "covers N of your M domains" — on a
+                row every visitor sees, in a product that ships 22 locales. And
+                it was a bare count: an inventory, not a reason to buy.
+                It now carries the day-one signal, so a buyer who never opens
+                the accordion still sees that a build-your-own option answers
+                nothing on day one and what the build costs first. */}
             <div className="text-xs text-slate-400 mt-0.5 break-words">
               {getLocalizedCompetitorCategory(locale, comparison.competitor.category)}
               {comparison.coverage.selectedDomains > 0 && (
                 <>
                   {' · '}
-                  {`covers ${comparison.coverage.covered.length} of your ${comparison.coverage.selectedDomains} domains`}
+                  {copy.dayOneLabel}
+                  {': '}
+                  {formatMessage(copy.dayOneDomains, {
+                    count: comparison.coverage.dayOneDomains,
+                    total: comparison.coverage.selectedDomains,
+                  })}
+                  {comparison.coverage.dayOneDomains === 0 &&
+                    comparison.coverage.buildBeforeFirstAnswer > 0 && (
+                      <>
+                        {' '}
+                        {formatMessage(copy.buildFirst, {
+                          amount: money(comparison.coverage.buildBeforeFirstAnswer),
+                        })}
+                      </>
+                    )}
                 </>
               )}
             </div>
@@ -430,7 +451,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                 <div className="text-slate-300 font-bold whitespace-nowrap tabular-nums">
                   {money(Math.abs(comparisonAmount(comparison)))}
                 </div>
-                <div className="text-xs text-slate-400 whitespace-nowrap">cheaper per year</div>
+                <div className="text-xs text-slate-400 whitespace-nowrap">{copy.cheaperPerYear}</div>
               </>
             ) : (
               <>
@@ -558,7 +579,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
               <div className="text-xs mb-3 flex justify-between gap-2 rounded bg-slate-900/40 px-3 py-2">
                 <span className="text-slate-400">
                   {cheaperThanSundae
-                    ? `${comparison.competitor.name} costs less per year`
+                    ? formatMessage(copy.competitorCostsLess, { name: comparison.competitor.name })
                     : copy.ongoingAnnualSavings}
                 </span>
                 <span

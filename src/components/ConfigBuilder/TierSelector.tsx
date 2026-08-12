@@ -7,7 +7,8 @@
 import { motion } from 'framer-motion';
 import { Check, Star, TrendingUp, ChevronRight } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
-import { corePackages, CORE_PACKAGE_IDS } from '../../data/pricing';
+import { corePackages, CORE_PACKAGE_IDS, packageShape } from '../../data/pricing';
+import type { PackageShape } from '../../data/pricing';
 import type { CorePackageId } from '../../data/pricing';
 import {
   calculateAiCredits,
@@ -58,6 +59,26 @@ export function TierSelector() {
     setCurrentStep(stepIndex('addons'));
   };
 
+  // The fork vocabulary, resolved once per render.
+  const shapeLabel = (shape: PackageShape) =>
+    ({
+      entry: copy.shapeFoundation,
+      cost_side: copy.shapeMargin,
+      demand_side: copy.shapeGrowth,
+      both_sides: copy.shapePerformance,
+    })[shape];
+
+  // Only the two fork packages carry an omission line. Foundation is the entry
+  // point and Performance grants everything, so neither is a trade.
+  const omissionFor = (id: CorePackageId): string | null => {
+    const shape = packageShape(id);
+    if (shape === 'cost_side') return copy.marginOmits;
+    if (shape === 'demand_side') return copy.growthOmits;
+    return null;
+  };
+
+  const formatSelect = (template: string, name: string) => template.replace('{name}', name);
+
   const fmt = (value: number) => `$${value.toLocaleString(locale)}`;
 
   return (
@@ -70,6 +91,9 @@ export function TierSelector() {
       >
         <h1 className="text-4xl font-bold mb-4">{copy.chooseCoreTier}</h1>
         <p className="text-xl text-sundae-muted">{copy.coreSubtitle}</p>
+        {/* Said once, plainly, before the buyer reads four prices in ascending
+            order and concludes the last one is the most complete. */}
+        <p className="mt-3 text-sm text-sundae-muted max-w-2xl mx-auto">{copy.notALadder}</p>
       </motion.div>
 
       {/* Estate size lives HERE, not on a step of its own: every figure below
@@ -189,6 +213,21 @@ export function TierSelector() {
                     {pkg.name}
                   </h3>
                   <p className="text-sm text-sundae-muted">{pkg.tagline}</p>
+                  {/* Which SIDE of the business this package works.
+                      The four packages were laid out as a ladder, which is not
+                      what they are: Core Growth costs $275/mo more than Core
+                      Margin and does not include Inventory or Purchasing. A
+                      buyer "upgrading" from Margin to Growth loses the ability
+                      to manage food cost and suppliers, and the ROI model
+                      correctly shows their savings FALL as they pay more. The
+                      shape is derived from the grants, so a card cannot claim
+                      a side its module list does not support. */}
+                  <span
+                    className="inline-block mt-2 text-xs px-2 py-0.5 rounded-full border"
+                    style={{ color, borderColor: `${color}60` }}
+                  >
+                    {shapeLabel(packageShape(pkg.id))}
+                  </span>
                 </div>
 
                 {/* First-unit anchor */}
@@ -290,13 +329,18 @@ export function TierSelector() {
                         nothing to sell. */}
                     <span>{pkg.includedOutcome}</span>
                   </div>
+                  {/* Naming the trade is the point of the fork. Without it the
+                      buyer reads a bigger price as a bigger package. */}
+                  {omissionFor(pkg.id) && (
+                    <p className="mt-3 text-xs text-amber-300/80">{omissionFor(pkg.id)}</p>
+                  )}
                 </div>
 
                 <div
                   className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold"
                   style={{ color }}
                 >
-                  Select {pkg.name}
+                  {formatSelect(copy.selectPackage, pkg.name)}
                   <ChevronRight className="w-4 h-4" />
                 </div>
               </motion.button>

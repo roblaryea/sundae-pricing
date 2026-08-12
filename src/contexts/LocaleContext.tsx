@@ -245,6 +245,17 @@ const messages = {
         chooseCoreTier: 'Choose Your Core Tier',
         reportSubtitle: 'Start free or unlock more analytics power',
         coreSubtitle: 'Real-time intelligence tailored to your scale',
+        shapeFoundation: 'Start here',
+        shapeMargin: 'Protect margin',
+        shapeGrowth: 'Grow demand',
+        shapePerformance: 'Both sides',
+        notALadder:
+          'Margin and Growth are different shapes, not steps up. Margin works the cost side, Growth works the demand side, and Performance does both.',
+        growthOmits:
+          'No Inventory or Purchasing. Choose Margin or Performance if you need to manage food cost and suppliers.',
+        marginOmits:
+          'No Marketing, Reservations or Guest. Choose Growth or Performance if you need the demand side.',
+        selectPackage: 'Select {name}',
         recommended: 'RECOMMENDED',
         perMonth: '/mo',
         perAdditionalLocation: '+${price} per additional location',
@@ -531,6 +542,14 @@ const messages = {
         chooseCoreTier: 'اختر فئة Core الخاصة بك',
         reportSubtitle: 'ابدأ مجانا او افتح المزيد من قوة التحليلات',
         coreSubtitle: 'ذكاء لحظي مصمم ليناسب حجمك',
+        shapeFoundation: 'ابدأ من هنا',
+        shapeMargin: 'حماية هامش الربح',
+        shapeGrowth: 'تنمية الطلب',
+        shapePerformance: 'الجانبان معًا',
+        notALadder: '‏Margin و‏Growth مساران مختلفان، وليسا درجتين في سلّم واحد. ‏Margin يركّز على جانب التكلفة، و‏Growth على جانب الطلب، و‏Performance يغطّي الجانبين.',
+        growthOmits: 'لا يشمل المخزون ولا المشتريات. اختر ‏Margin أو ‏Performance إذا كنت بحاجة إلى إدارة تكلفة الطعام والموردين.',
+        marginOmits: 'لا يشمل التسويق ولا الحجوزات ولا وحدات الضيوف. اختر ‏Growth أو ‏Performance إذا كان تركيزك على جانب الطلب.',
+        selectPackage: 'اختر {name}',
         recommended: 'موصى به',
         perMonth: '/شهريا',
         perAdditionalLocation: '+${price} لكل موقع اضافي',
@@ -817,6 +836,14 @@ const messages = {
         chooseCoreTier: 'Choisissez votre niveau Core',
         reportSubtitle: 'Commencez gratuitement ou debloquez plus de puissance analytique',
         coreSubtitle: 'Une intelligence en temps reel adaptee a votre echelle',
+        shapeFoundation: 'Commencez ici',
+        shapeMargin: 'Protéger la marge',
+        shapeGrowth: 'Développer la demande',
+        shapePerformance: 'Les deux côtés',
+        notALadder: 'Margin et Growth ne sont pas deux paliers, mais deux approches différentes. Margin agit sur les coûts, Growth sur la demande, et Performance sur les deux.',
+        growthOmits: 'Sans Stocks ni Achats. Choisissez Margin ou Performance si vous devez piloter votre coût matière et vos prix fournisseurs.',
+        marginOmits: 'Sans Marketing, Réservations ni CRM Clients. Choisissez Growth ou Performance si vous devez agir sur la demande.',
+        selectPackage: 'Choisir {name}',
         recommended: 'RECOMMANDE',
         perMonth: '/mois',
         perAdditionalLocation: '+${price} par site supplementaire',
@@ -1103,6 +1130,14 @@ const messages = {
         chooseCoreTier: 'Elige tu nivel Core',
         reportSubtitle: 'Empieza gratis o desbloquea mas potencia analitica',
         coreSubtitle: 'Inteligencia en tiempo real adaptada a tu escala',
+        shapeFoundation: 'Empieza aquí',
+        shapeMargin: 'Protege el margen',
+        shapeGrowth: 'Impulsa la demanda',
+        shapePerformance: 'Costes y demanda',
+        notALadder: 'Margin y Growth no son escalones, son enfoques distintos: Margin actúa sobre los costes, Growth sobre la demanda y Performance sobre ambos.',
+        growthOmits: 'No incluye Inventario ni Compras. Elige Margin o Performance si necesitas gestionar el coste de la materia prima y los proveedores.',
+        marginOmits: 'No incluye Marketing, Reservas ni Clientes. Elige Growth o Performance si tu prioridad es la demanda.',
+        selectPackage: 'Elegir {name}',
         recommended: 'RECOMENDADO',
         perMonth: '/mes',
         perAdditionalLocation: '+${price} por local adicional',
@@ -1280,7 +1315,7 @@ function deepMergeMessages<T>(base: T, override: unknown): T {
   return out as T
 }
 
-function resolveMessages(locale: string): typeof messages.en {
+export function resolveMessages(locale: string): typeof messages.en {
   const handWritten = messages[locale as keyof typeof messages]
   if (handWritten) return handWritten as typeof messages.en
   const generated =

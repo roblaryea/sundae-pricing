@@ -397,6 +397,64 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
 export const CORE_PACKAGE_IDS = Object.keys(corePackages) as CorePackageId[];
 
 // ═══════════════════════════════════════════════════════════════════════════
+// PACKAGE SHAPE — which side of the business a package works
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * The four Core packages are NOT four rungs of one ladder, and presenting them
+ * as one misleads the buyer in a way that costs them capability.
+ *
+ * Core Growth is $275/month more than Core Margin and does not include the
+ * Inventory or Purchasing modules that Margin has — it trades them for
+ * Marketing, Reservations, Guest and Guest CRM. So a buyer who "upgrades" from
+ * Margin to Growth LOSES the ability to manage food cost and supplier pricing,
+ * and the ROI model correctly shows their modelled savings FALL as they pay
+ * more (-$615/mo at one location, -$12,317/mo at twenty), because inventory and
+ * purchasing carry two of the best-evidenced savings rates in the model.
+ *
+ * Nothing here changes what a package grants — price book v1.7 section 3.1 is
+ * untouched. This is the vocabulary the UI needs so it can present Margin and
+ * Growth as a FORK rather than as steps, which is the only description of the
+ * catalogue that is actually true.
+ */
+export const COST_SIDE_DOMAINS = ['inventory', 'purchasing'] as const;
+export const DEMAND_SIDE_DOMAINS = ['marketing', 'reservations', 'guest', 'guest_crm'] as const;
+
+export type PackageShape = 'entry' | 'cost_side' | 'demand_side' | 'both_sides';
+
+/**
+ * Derived from the grants rather than hand-declared, so a package cannot claim
+ * a shape its module list does not support.
+ */
+export function packageShape(id: CorePackageId): PackageShape {
+  const granted = new Set(PACKAGE_DOMAIN_GRANTS[id] as readonly string[]);
+  const cost = COST_SIDE_DOMAINS.some((d) => granted.has(d));
+  const demand = DEMAND_SIDE_DOMAINS.some((d) => granted.has(d));
+  if (cost && demand) return 'both_sides';
+  if (cost) return 'cost_side';
+  if (demand) return 'demand_side';
+  return 'entry';
+}
+
+/**
+ * Domains a rival package grants that this one does not — what the buyer would
+ * GIVE UP by choosing it. Empty for the package that grants everything.
+ */
+export function domainsGivenUp(id: CorePackageId): readonly string[] {
+  const granted = new Set(PACKAGE_DOMAIN_GRANTS[id] as readonly string[]);
+  const elsewhere = new Set<string>();
+  for (const other of Object.keys(PACKAGE_DOMAIN_GRANTS) as CorePackageId[]) {
+    if (other === id) continue;
+    for (const d of PACKAGE_DOMAIN_GRANTS[other] as readonly string[]) {
+      if (!granted.has(d)) elsewhere.add(d);
+    }
+  }
+  return [...elsewhere];
+}
+
+
+
+// ═══════════════════════════════════════════════════════════════════════════
 // FORESIGHT & ACTION (price book v1.7)
 // ═══════════════════════════════════════════════════════════════════════════
 // The predictive-planning + actuation layer. Its own banded SKU — NOT one of

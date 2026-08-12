@@ -179,7 +179,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Wählen Sie Ihre Berichtsstufe",
-        "chooseCoreTier": "Wählen Sie Ihre Kernstufe",
+        "chooseCoreTier": "Wählen Sie Ihre Kernstufe", "shapeFoundation": "Hier starten", "shapeMargin": "Marge schützen", "shapeGrowth": "Nachfrage steigern", "shapePerformance": "Beide Seiten", "notALadder": "Margin und Growth sind keine Ausbaustufen, sondern zwei unterschiedliche Ausrichtungen: Margin setzt an der Kostenseite an, Growth an der Nachfrageseite, Performance an beiden.", "growthOmits": "Ohne die Module Inventar und Einkauf. Wenn Sie Wareneinsatz und Lieferanten steuern wollen, wählen Sie Margin oder Performance.", "marginOmits": "Ohne die Module Marketing, Reservierungen und Gäste. Wenn Sie die Nachfrageseite abdecken wollen, wählen Sie Growth oder Performance.", "selectPackage": "{name} wählen",
         "reportSubtitle": "Kostenlos starten oder mehr Analyseleistung freischalten",
         "coreSubtitle": "Echtzeitintelligenz, die auf Ihre Größe zugeschnitten ist",
         "recommended": "EMPFOHLEN",
@@ -551,7 +551,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Kies Jouw Report-niveau",
-        "chooseCoreTier": "Kies Jouw Core Niveau",
+        "chooseCoreTier": "Kies Jouw Core Niveau", "shapeFoundation": "Begin hier", "shapeMargin": "Marge beschermen", "shapeGrowth": "Vraag stimuleren", "shapePerformance": "Beide kanten", "notALadder": "Margin en Growth zijn geen stappen omhoog, maar twee richtingen. Margin richt zich op de kostenkant, Growth op de vraagkant en Performance op allebei.", "growthOmits": "Geen Voorraad of Inkoop. Kies Margin of Performance als je grip wilt houden op foodcost en leveranciers.", "marginOmits": "Geen Marketing, Reserveringen of Gasten. Kies Growth of Performance als je aan de vraagkant wilt werken.", "selectPackage": "{name} kiezen",
         "reportSubtitle": "Begin gratis of ontgrendel meer analytische kracht",
         "coreSubtitle": "Realtime intelligentie afgestemd op jouw schaal",
         "recommended": "AANBEVOLEN",
@@ -923,7 +923,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Escolha Seu Nível Report",
-        "chooseCoreTier": "Escolha Seu Nível Core",
+        "chooseCoreTier": "Escolha Seu Nível Core", "shapeFoundation": "Comece aqui", "shapeMargin": "Proteger a margem", "shapeGrowth": "Aumentar a demanda", "shapePerformance": "Os dois lados", "notALadder": "Margin e Growth são caminhos diferentes, não degraus da mesma escada. Margin atua no lado dos custos, Growth no lado da demanda e Performance cobre os dois.", "growthOmits": "Não inclui Inventário nem Compras. Escolha Margin ou Performance se precisar gerenciar custo de alimentos e fornecedores.", "marginOmits": "Não inclui Marketing, Reservas nem Clientes. Escolha Growth ou Performance se precisar trabalhar o lado da demanda.", "selectPackage": "Escolher {name}",
         "reportSubtitle": "Comece grátis ou desbloqueie mais poder analítico",
         "coreSubtitle": "Inteligência em tempo real adaptada à sua escala",
         "recommended": "RECOMENDADO",
@@ -1295,7 +1295,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "अपनी Report श्रेणी का चयन करें",
-        "chooseCoreTier": "अपनी Core श्रेणी का चयन करें",
+        "chooseCoreTier": "अपनी Core श्रेणी का चयन करें", "shapeFoundation": "यहाँ से शुरू करें", "shapeMargin": "मुनाफ़ा बचाएँ", "shapeGrowth": "मांग बढ़ाएँ", "shapePerformance": "दोनों पक्ष", "notALadder": "Margin और Growth दो अलग रास्ते हैं, ऊपर की सीढ़ी नहीं। Margin लागत पक्ष पर काम करता है, Growth मांग पक्ष पर, और Performance दोनों पर।", "growthOmits": "इसमें इन्वेंटरी और खरीद वाले मॉड्यूल नहीं हैं। फ़ूड कॉस्ट और सप्लायर संभालने हों तो Margin या Performance चुनें।", "marginOmits": "इसमें मार्केटिंग, रिज़र्वेशन और गेस्ट वाले मॉड्यूल नहीं हैं। मांग पक्ष पर काम करना हो तो Growth या Performance चुनें।", "selectPackage": "{name} चुनें",
         "reportSubtitle": "मुफ्त शुरू करें या अधिक विश्लेषणात्मक शक्ति अनलॉक करें",
         "coreSubtitle": "आपके पैमाने के लिए अनुकूलित वास्तविक समय की बुद्धिमत्ता",
         "recommended": "अनुशंसित",
@@ -1667,7 +1667,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "اپنی Report کی سطح منتخب کریں",
-        "chooseCoreTier": "اپنی Core کی سطح منتخب کریں",
+        "chooseCoreTier": "اپنی Core کی سطح منتخب کریں", "shapeFoundation": "یہیں سے شروع کریں", "shapeMargin": "مارجن بچائیں", "shapeGrowth": "طلب بڑھائیں", "shapePerformance": "دونوں پہلو", "notALadder": "Margin اور Growth ایک ہی سیڑھی کے زینے نہیں بلکہ دو الگ راستے ہیں۔ Margin لاگت کے پہلو پر کام کرتا ہے، Growth طلب کے پہلو پر، اور Performance دونوں پر۔", "growthOmits": "اس میں انوینٹری اور خریداری کے ماڈیول شامل نہیں۔ کھانے کی لاگت اور سپلائرز سنبھالنے ہوں تو Margin یا Performance منتخب کریں۔", "marginOmits": "اس میں مارکیٹنگ، ریزرویشنز اور گیسٹ کے ماڈیول شامل نہیں۔ طلب کا پہلو درکار ہو تو Growth یا Performance منتخب کریں۔", "selectPackage": "{name} منتخب کریں",
         "reportSubtitle": "مفت شروع کریں یا مزید تجزیاتی طاقت کو انلاک کریں",
         "coreSubtitle": "آپ کے پیمانے کے مطابق حقیقی وقت کی ذہانت",
         "recommended": "تجویز کردہ",
@@ -2039,7 +2039,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Scegli il tuo Tier di Report",
-        "chooseCoreTier": "Scegli il tuo Tier Core",
+        "chooseCoreTier": "Scegli il tuo Tier Core", "shapeFoundation": "Inizia da qui", "shapeMargin": "Proteggi il margine", "shapeGrowth": "Aumenta la domanda", "shapePerformance": "Entrambi i fronti", "notALadder": "Margin e Growth non sono due gradini della stessa scala: coprono aree diverse. Margin lavora sul fronte dei costi, Growth su quello della domanda, Performance su entrambi.", "growthOmits": "Non include Inventario e Acquisti. Se devi gestire food cost e fornitori, scegli Margin o Performance.", "marginOmits": "Non include Marketing, Prenotazioni e Ospiti. Se devi lavorare sulla domanda, scegli Growth o Performance.", "selectPackage": "Scegli {name}",
         "reportSubtitle": "Inizia gratuitamente o sblocca più potenza analitica",
         "coreSubtitle": "Intelligenza in tempo reale su misura per la tua scala",
         "recommended": "RACCOMANDATO",
@@ -2411,7 +2411,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Wybierz Swój Poziom Report",
-        "chooseCoreTier": "Wybierz Swój Poziom Core",
+        "chooseCoreTier": "Wybierz Swój Poziom Core", "shapeFoundation": "Zacznij tutaj", "shapeMargin": "Chroń marżę", "shapeGrowth": "Zwiększaj sprzedaż", "shapePerformance": "Obie strony", "notALadder": "Margin i Growth to nie kolejne szczeble, tylko dwa różne kierunki. Margin pracuje po stronie kosztów, Growth po stronie sprzedaży, a Performance po obu stronach.", "growthOmits": "Growth nie obejmuje modułów Magazyn i Zakupy. Jeśli chcesz kontrolować koszt surowca i ceny od dostawców, wybierz Margin lub Performance.", "marginOmits": "Margin nie obejmuje modułów Marketing, Rezerwacje i Goście. Jeśli potrzebujesz narzędzi po stronie sprzedaży, wybierz Growth lub Performance.", "selectPackage": "Wybierz {name}",
         "reportSubtitle": "Rozpocznij za darmo lub odblokuj więcej mocy analitycznej",
         "coreSubtitle": "Inteligencja w czasie rzeczywistym dostosowana do Twojej skali",
         "recommended": "ZALECANE",
@@ -2783,7 +2783,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Report Katmanınızı Seçin",
-        "chooseCoreTier": "Core Katmanınızı Seçin",
+        "chooseCoreTier": "Core Katmanınızı Seçin", "shapeFoundation": "Buradan başlayın", "shapeMargin": "Marjı koruyun", "shapeGrowth": "Talebi artırın", "shapePerformance": "İki taraf birden", "notALadder": "Margin ve Growth birbirinin üst basamağı değil, iki farklı yaklaşımdır. Margin maliyet tarafına, Growth talep tarafına odaklanır; Performance ikisini birden kapsar.", "growthOmits": "Stok ve Satın Alma bu pakete dahil değildir. Yiyecek maliyetini ve tedarikçi fiyatlarını yönetmeniz gerekiyorsa Margin ya da Performance paketini seçin.", "marginOmits": "Pazarlama, Rezervasyon ve Misafir modülleri bu pakete dahil değildir. Talep tarafını yönetmeniz gerekiyorsa Growth ya da Performance paketini seçin.", "selectPackage": "{name} seçin",
         "reportSubtitle": "Ücretsiz başlayın veya daha fazla analiz gücünü açın",
         "coreSubtitle": "Ölçeğinize göre özelleştirilmiş gerçek zamanlı zeka",
         "recommended": "ÖNERİLEN",
@@ -3155,7 +3155,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "选择您的报告级别",
-        "chooseCoreTier": "选择您的核心级别",
+        "chooseCoreTier": "选择您的核心级别", "shapeFoundation": "从这里开始", "shapeMargin": "守住毛利", "shapeGrowth": "拉动客流", "shapePerformance": "两端兼顾", "notALadder": "Margin 和 Growth 是两种不同的方向，不是升级关系。Margin 管成本端，Growth 管需求端，Performance 两端都管。", "growthOmits": "不含库存与采购模块。如需管控食材成本和供应商价格，请选择 Margin 或 Performance。", "marginOmits": "不含营销、预订与顾客模块。如需覆盖需求端，请选择 Growth 或 Performance。", "selectPackage": "选择 {name}",
         "reportSubtitle": "免费开始或解锁更多分析能力",
         "coreSubtitle": "实时智能，量身定制以适应您的规模",
         "recommended": "推荐",
@@ -3527,7 +3527,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Report ティアを選択",
-        "chooseCoreTier": "Core ティアを選択",
+        "chooseCoreTier": "Core ティアを選択", "shapeFoundation": "まずはここから", "shapeMargin": "利益率を守る", "shapeGrowth": "集客を伸ばす", "shapePerformance": "両面をカバー", "notALadder": "MarginとGrowthは上下の段階ではなく、カバーする領域が違います。Marginはコスト面、Growthは集客面、Performanceはその両方をカバーします。", "growthOmits": "在庫と購買は含まれません。食材原価や仕入先を管理する必要がある場合は、MarginまたはPerformanceをお選びください。", "marginOmits": "マーケティング・予約・ゲスト管理は含まれません。集客面の機能が必要な場合は、GrowthまたはPerformanceをお選びください。", "selectPackage": "{name} を選ぶ",
         "reportSubtitle": "無料で始めるか、より多くの分析力を解放",
         "coreSubtitle": "スケールに合わせたリアルタイムインテリジェンス",
         "recommended": "推奨",
@@ -3899,7 +3899,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Report 티어 선택하기",
-        "chooseCoreTier": "Core 티어 선택하기",
+        "chooseCoreTier": "Core 티어 선택하기", "shapeFoundation": "여기서 시작", "shapeMargin": "마진 방어", "shapeGrowth": "수요 확대", "shapePerformance": "양쪽 모두", "notALadder": "Margin과 Growth는 위아래 등급이 아니라 방향이 다른 패키지입니다. Margin은 원가를 관리하고, Growth는 수요를 키우며, Performance는 둘 다 다룹니다.", "growthOmits": "재고·구매 모듈은 포함되지 않습니다. 식자재 원가와 공급업체를 관리해야 한다면 Margin 또는 Performance를 선택하세요.", "marginOmits": "마케팅·예약·고객 모듈은 포함되지 않습니다. 수요를 키워야 한다면 Growth 또는 Performance를 선택하세요.", "selectPackage": "{name} 선택",
         "reportSubtitle": "무료로 시작하거나 더 많은 분석 기능을 잠금 해제하세요",
         "coreSubtitle": "귀하의 규모에 맞춘 실시간 인텔리전스",
         "recommended": "추천",
@@ -4271,7 +4271,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Pilih Tingkatan Report Anda",
-        "chooseCoreTier": "Pilih Tingkatan Core Anda",
+        "chooseCoreTier": "Pilih Tingkatan Core Anda", "shapeFoundation": "Mulai di sini", "shapeMargin": "Jaga margin", "shapeGrowth": "Dorong permintaan", "shapePerformance": "Kedua sisi", "notALadder": "Margin dan Growth bukan tingkatan, melainkan dua pendekatan berbeda. Margin fokus pada sisi biaya, Growth pada sisi permintaan, dan Performance mencakup keduanya.", "growthOmits": "Tidak termasuk modul Inventori maupun Pembelian. Pilih Margin atau Performance jika Anda perlu mengelola food cost dan pemasok.", "marginOmits": "Tidak termasuk modul Pemasaran, Reservasi, maupun Tamu. Pilih Growth atau Performance jika Anda perlu menggarap sisi permintaan.", "selectPackage": "Pilih {name}",
         "reportSubtitle": "Mulai gratis atau buka lebih banyak kekuatan analitik",
         "coreSubtitle": "Kecerdasan waktu nyata yang disesuaikan dengan skala Anda",
         "recommended": "DIREKOMENDASIKAN",
@@ -4643,7 +4643,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Chọn Cấp Report của Bạn",
-        "chooseCoreTier": "Chọn Cấp Core của Bạn",
+        "chooseCoreTier": "Chọn Cấp Core của Bạn", "shapeFoundation": "Bắt đầu từ đây", "shapeMargin": "Giữ biên lợi nhuận", "shapeGrowth": "Tăng lượng khách", "shapePerformance": "Cả hai mặt", "notALadder": "Margin và Growth là hai hướng khác nhau, không phải hai bậc nâng cấp. Margin lo phần chi phí, Growth lo phần khách hàng, còn Performance lo cả hai.", "growthOmits": "Không bao gồm Tồn kho và Mua hàng. Chọn Margin hoặc Performance nếu bạn cần quản lý giá vốn nguyên liệu và nhà cung cấp.", "marginOmits": "Không bao gồm Tiếp thị, Đặt bàn và Khách hàng. Chọn Growth hoặc Performance nếu bạn cần kéo khách và giữ khách.", "selectPackage": "Chọn {name}",
         "reportSubtitle": "Bắt đầu miễn phí hoặc mở khóa sức mạnh phân tích nhiều hơn",
         "coreSubtitle": "Trí tuệ thời gian thực phù hợp với quy mô của bạn",
         "recommended": "ĐƯỢC KHUYẾN NGHỊ",
@@ -5015,7 +5015,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Alege Nivelul Tău Report",
-        "chooseCoreTier": "Alege Nivelul Tău Core",
+        "chooseCoreTier": "Alege Nivelul Tău Core", "shapeFoundation": "Începe aici", "shapeMargin": "Protejează marja", "shapeGrowth": "Crește cererea", "shapePerformance": "Ambele laturi", "notALadder": "Margin și Growth nu sunt trepte, ci două direcții diferite. Margin se ocupă de latura costurilor, Growth de latura cererii, iar Performance le acoperă pe amândouă.", "growthOmits": "Nu include Stocuri și Achiziții. Alege Margin sau Performance dacă trebuie să gestionezi costul alimentelor și furnizorii.", "marginOmits": "Nu include Marketing, Rezervări și Clienți. Alege Growth sau Performance dacă vrei să lucrezi pe latura cererii.", "selectPackage": "Alege {name}",
         "reportSubtitle": "Începe gratuit sau deblochează mai multă putere analitică",
         "coreSubtitle": "Inteligență în timp real adaptată la scala ta",
         "recommended": "RECOMANDAT",
@@ -5387,7 +5387,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Välj din Report-nivå",
-        "chooseCoreTier": "Välj din Core-nivå",
+        "chooseCoreTier": "Välj din Core-nivå", "shapeFoundation": "Börja här", "shapeMargin": "Skydda marginalen", "shapeGrowth": "Öka efterfrågan", "shapePerformance": "Båda sidorna", "notALadder": "Margin och Growth är två olika inriktningar, inte två nivåer. Margin täcker kostnadssidan, Growth efterfrågesidan och Performance båda.", "growthOmits": "Lager och Inköp ingår inte. Välj Margin eller Performance om du behöver styra råvarukostnad och leverantörer.", "marginOmits": "Marknadsföring, Bokningar och Gäst ingår inte. Välj Growth eller Performance om du behöver arbeta med efterfrågesidan.", "selectPackage": "Välj {name}",
         "reportSubtitle": "Börja gratis eller lås upp mer analyskraft",
         "coreSubtitle": "Intelligens i realtid anpassad till din skala",
         "recommended": "REKOMMENDERAD",
@@ -5759,7 +5759,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "আপনার Report স্তর নির্বাচন করুন",
-        "chooseCoreTier": "আপনার Core স্তর নির্বাচন করুন",
+        "chooseCoreTier": "আপনার Core স্তর নির্বাচন করুন", "shapeFoundation": "এখান থেকে শুরু", "shapeMargin": "মার্জিন বাঁচান", "shapeGrowth": "চাহিদা বাড়ান", "shapePerformance": "দুই দিকই", "notALadder": "Margin আর Growth উপরের ধাপ নয়, আলাদা দুই ধরনের প্যাকেজ। Margin খরচের দিক সামলায়, Growth চাহিদার দিক, আর Performance দুটোই।", "growthOmits": "এতে ইনভেন্টরি বা ক্রয় মডিউল নেই। খাবারের খরচ ও সরবরাহকারী সামলাতে হলে Margin বা Performance বেছে নিন।", "marginOmits": "এতে মার্কেটিং, রিজার্ভেশন বা অতিথি মডিউল নেই। চাহিদার দিক দরকার হলে Growth বা Performance বেছে নিন।", "selectPackage": "{name} বেছে নিন",
         "reportSubtitle": "ফ্রি শুরু করুন অথবা আরও বিশ্লেষণাত্মক শক্তি আনলক করুন",
         "coreSubtitle": "আপনার স্কেলের জন্য উপযোগী রিয়েল-টাইম বুদ্ধিমত্তা",
         "recommended": "সুপারিশকৃত",
@@ -6131,7 +6131,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "เลือกระดับ Report ของคุณ",
-        "chooseCoreTier": "เลือกระดับ Core ของคุณ",
+        "chooseCoreTier": "เลือกระดับ Core ของคุณ", "shapeFoundation": "เริ่มต้นที่นี่", "shapeMargin": "รักษากำไร", "shapeGrowth": "เพิ่มลูกค้า", "shapePerformance": "ครบทั้งสองด้าน", "notALadder": "Margin กับ Growth เป็นคนละแบบ ไม่ใช่การอัปเกรดต่อกัน Margin ดูแลฝั่งต้นทุน Growth ดูแลฝั่งลูกค้าและยอดขาย ส่วน Performance ดูแลทั้งสองฝั่ง", "growthOmits": "Growth ไม่รวมโมดูลสต๊อกและการจัดซื้อ หากต้องคุมต้นทุนอาหารและดูแลซัพพลายเออร์ ให้เลือก Margin หรือ Performance", "marginOmits": "Margin ไม่รวมโมดูลการตลาด การจอง และลูกค้า หากต้องดูแลฝั่งลูกค้าและยอดขาย ให้เลือก Growth หรือ Performance", "selectPackage": "เลือก {name}",
         "reportSubtitle": "เริ่มฟรีหรือปลดล็อกพลังการวิเคราะห์เพิ่มเติม",
         "coreSubtitle": "ข้อมูลเชิงลึกแบบเรียลไทม์ที่ปรับให้เหมาะกับขนาดของคุณ",
         "recommended": "แนะนำ",
@@ -6503,7 +6503,7 @@ export const generatedPricingMessages = {
     "builder": {
       "tierSelector": {
         "chooseReportTier": "Pilih Tahap Report Anda",
-        "chooseCoreTier": "Pilih Tahap Core Anda",
+        "chooseCoreTier": "Pilih Tahap Core Anda", "shapeFoundation": "Mula di sini", "shapeMargin": "Lindungi margin", "shapeGrowth": "Tingkatkan permintaan", "shapePerformance": "Kedua-dua sisi", "notALadder": "Margin dan Growth ialah dua pendekatan berbeza, bukan tahap yang satu lebih tinggi daripada yang lain. Margin menangani sisi kos, Growth menangani sisi permintaan, dan Performance merangkumi kedua-duanya.", "growthOmits": "Tiada modul Inventori atau Pembelian. Pilih Margin atau Performance jika anda perlu mengurus kos makanan dan pembekal.", "marginOmits": "Tiada modul Pemasaran, Tempahan atau Tetamu. Pilih Growth atau Performance jika fokus anda pada sisi permintaan.", "selectPackage": "Pilih {name}",
         "reportSubtitle": "Mula percuma atau buka lebih banyak kuasa analitik",
         "coreSubtitle": "Kecerdasan masa nyata yang disesuaikan dengan skala anda",
         "recommended": "DISYARANKAN",

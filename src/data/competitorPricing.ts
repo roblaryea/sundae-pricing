@@ -243,7 +243,15 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     verification: 'verified' as VerificationLevel,
     sourceUrl: 'https://tenzo.io/pricing',
     lastVerified: '2026-01-01',
-    coversDomains: ['labor', 'inventory', 'pulse'],
+    // These are the SAME three modules `calculate` bills for, in Sundae's own
+    // domain ids. They disagreed: the calculator charges for
+    // ['sales', 'labor', 'inventory'] while the coverage rail scored
+    // ['labor', 'inventory', 'pulse'] — so a Foundation or Growth buyer, whose
+    // package grants no `inventory`, was billed $75/location/month for a Tenzo
+    // module they would never buy, while Tenzo's real sales/revenue coverage
+    // went uncredited. One list drove the price and a different one drove the
+    // argument.
+    coversDomains: ['revenue', 'labor', 'inventory'],
 
     pricing: {
       perLocationPerModule: 75,  // $75/location/module/month
@@ -262,14 +270,24 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
 
     calculate: (locations: number, modules: string[]) => {
       // The three products Tenzo actually sells, in Sundae's domain ids.
-      const TENZO_DOMAINS = ['sales', 'labor', 'inventory'];
+      // Sundae's domain id for sales is `revenue`; 'sales' matched no domain
+      // in the buyer's selection, so this filter silently dropped it.
+      const TENZO_DOMAINS = ['revenue', 'labor', 'inventory'];
 
-      // A v1.7 Core package includes every domain module, so all three of
-      // Tenzo's are in scope whenever a Core package is selected.
-      const hasCorePackage = modules.includes(CORE_PACKAGE_SELECTION_ID);
-      const covered = hasCorePackage
-        ? TENZO_DOMAINS
-        : TENZO_DOMAINS.filter(d => modules.includes(d));
+      // Bill only the modules that overlap what the buyer actually bought.
+      //
+      // This used to short-circuit on "a v1.7 Core package includes every
+      // domain module, so all three of Tenzo's are in scope" — which is false,
+      // and is the same claim removed from the FAQ: packages grant four, six,
+      // eight and eleven domains, not eleven each. A Core Foundation buyer
+      // (labour, profit, revenue, pulse) needs two Tenzo modules, not three, so
+      // we were invoicing a named competitor $75/location/month for an
+      // Inventory product that buyer would never have reason to purchase.
+      //
+      // Correcting it makes Tenzo CHEAPER against Foundation and Growth, which
+      // is worse for us and right. An inflated rival price is the one defect
+      // that cannot survive the buyer opening the rival's pricing page.
+      const covered = TENZO_DOMAINS.filter((d) => modules.includes(d));
       const moduleCount = covered.length;
 
       const monthlyPerLoc = moduleCount * 75;
@@ -303,11 +321,18 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       );
     },
 
+    // Limitations are buyer-facing and get checked. Everything a vendor's own
+    // site disproves has been removed rather than softened — a claim the rep
+    // can refute from their homepage costs more than the claim was worth.
     limitations: [
-      'No marketing analytics',
-      'No purchasing module',
-      'No reservation intelligence',
-      'No competitive intelligence',
+      // REMOVED, each disproved on Tenzo's own properties: "No purchasing
+      // module", "No reservation intelligence" (they ship a Reservations
+      // module with SevenRooms/Tripleseat integrations and a reservations_
+      // schema prefix), and "No competitive intelligence" — which was never
+      // sourced on any of the five entries that carried it, and Tenzo
+      // publishes monthly market-level like-for-like sales for several hundred
+      // London and South-East sites.
+      'Three modules only — the other domains are not sold at any price',
       'Setup fees per module per location'
     ]
   },
@@ -345,11 +370,20 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       };
     },
 
+    // Limitations are buyer-facing and get checked. Everything a vendor's own
+    // site disproves has been removed rather than softened — a claim the rep
+    // can refute from their homepage costs more than the claim was worth.
     limitations: [
-      'Higher price point',
-      'Less granular module selection',
-      'Newer platform, less proven at scale',
-      'No competitive intelligence'
+      // REMOVED, all four. "Higher price point" asserts a comparison against a
+      // price we do not have — this entry is verification: 'unverified' and
+      // showPricing: false, so we cannot claim their price is higher than
+      // anything. "Less granular module selection" and "Newer platform, less
+      // proven at scale" are unsourced opinion. "No competitive intelligence"
+      // was unsourced, and Nory markets peer benchmarking against anonymised
+      // data from hundreds of operators.
+      //
+      // Nothing replaces them: we do not publish a price for Nory, and we have
+      // no sourced limitation. An empty list is the honest state.
     ]
   },
 
@@ -401,11 +435,16 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       );
     },
 
+    // Limitations are buyer-facing and get checked. Everything a vendor's own
+    // site disproves has been removed rather than softened — a claim the rep
+    // can refute from their homepage costs more than the claim was worth.
     limitations: [
-      'Accounting-focused, less analytics depth',
-      'No AI-powered insights',
-      'No competitive intelligence',
-      'No benchmark data'
+      // REMOVED: "No AI-powered insights" (R365 markets R365 AI and an "AI
+      // Advisor" answering cross-domain questions with no report building),
+      // "No benchmark data" (they publish industry benchmarks off roughly
+      // 10,000 US locations and market franchisee-vs-franchisee comparison),
+      // and the unsourced "No competitive intelligence".
+      'Accounting-led: the analytics follow the ledger rather than operations'
     ]
   },
 
@@ -734,10 +773,16 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
 
     limitations: [
       'Inventory-focused only',
-      'No labor analytics',
+      // REMOVED: "No labor analytics". MarketMan's own site markets visibility
+      // into "every dollar spent on labor, food, and supplies" through its Push
+      // Operations partnership, so the claim is refutable from their homepage.
+      // Their real scope limit is already carried by coversDomains.
       'No sales analytics',
       'No AI insights',
-      'No competitive intelligence'
+      // REMOVED: "No competitive intelligence" was never sourced here. It is
+      // defensible for Power BI and spreadsheets, which structurally hold only
+      // the buyer's own data — and it is stated there with a basis. It is not
+      // defensible for a vendor whose own partner directory offers it.
     ]
   },
 
@@ -788,7 +833,10 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       'No inventory analytics',
       'No sales analytics',
       'No AI-powered insights',
-      'No competitive intelligence',
+      // REMOVED: "No competitive intelligence" was never sourced here. It is
+      // defensible for Power BI and spreadsheets, which structurally hold only
+      // the buyer's own data — and it is stated there with a basis. It is not
+      // defensible for a vendor whose own partner directory offers it.
       'Would need to combine with other tools'
     ]
   }

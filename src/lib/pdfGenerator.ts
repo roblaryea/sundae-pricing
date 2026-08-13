@@ -6,6 +6,7 @@ import {
   CORE_PACKAGE_SELECTION_ID,
   calculateAllComparisons,
   comparisonAmount,
+  effectiveVerification,
 } from '../data/competitorPricing';
 import type { CompetitorCalcContext, SundaeQuoteBasis } from '../data/competitorPricing';
 import { PACKAGE_DOMAIN_GRANTS, corePackages } from '../data/pricing';
@@ -139,6 +140,22 @@ export async function generateQuotePDF(
   comparison?: {
     basis?: SundaeQuoteBasis;
     context?: CompetitorCalcContext;
+  },
+  /**
+   * The funding case exactly as the summary screen computed it.
+   *
+   * Without this the PDF carried price and competitors and NOTHING of the value
+   * argument — a buyer read "$19,740/mo funding case, +$16,375 net" on screen,
+   * downloaded the quote, and forwarded a document that made no case at all.
+   * Passed in rather than recomputed so the two can never disagree.
+   */
+  funding?: {
+    monthlyFunding: number;
+    profitRecovery: number;
+    cashAvoidance: number;
+    capacityValue: number;
+    capacityFte: number;
+    coreMonthly: number;
   },
 ): Promise<Blob> {
   const doc = new jsPDF();
@@ -332,6 +349,70 @@ export async function generateQuotePDF(
   }
 
   // Competitor Comparison
+  // ── What can fund this investment ─────────────────────────────────────────
+  if (funding && funding.monthlyFunding > 0) {
+    if (yPos > pageHeight - 70) {
+      doc.addPage();
+      yPos = 25;
+    } else {
+      yPos += 10;
+    }
+
+    doc.setTextColor(30, 41, 59);
+    doc.setFontSize(14);
+    setPdfFont(doc, locale, 'bold');
+    renderPdfText(doc, copy.fundingTitle, 20, yPos, locale);
+    yPos += 7;
+
+    doc.setFontSize(7.5);
+    doc.setTextColor(100, 116, 139);
+    setPdfFont(doc, locale, 'normal');
+    for (const line of doc.splitTextToSize(copy.fundingBasisLabel, pageWidth - 45)) {
+      renderPdfText(doc, line, 20, yPos, locale);
+      yPos += 4;
+    }
+    yPos += 3;
+
+    // Capacity is listed but NOT summed: it is redeployable hours, not cash,
+    // and the screen makes the same distinction.
+    const rows: Array<[string, number, boolean]> = [
+      [copy.profitRecoveryLabel, funding.profitRecovery, true],
+      [copy.cashAvoidanceLabel, funding.cashAvoidance, true],
+      [copy.capacityLabel, funding.capacityValue, false],
+    ];
+    doc.setFontSize(9);
+    for (const [label, amount, isCash] of rows) {
+      doc.setTextColor(isCash ? 30 : 120, isCash ? 41 : 130, isCash ? 59 : 145);
+      setPdfFont(doc, locale, 'normal');
+      renderPdfText(doc, label, 25, yPos, locale);
+      setPdfFont(doc, locale, 'bold');
+      renderPdfText(
+        doc,
+        isCash
+          ? `${formatCurrencyAmount(amount, locale)}`
+          : `${formatCurrencyAmount(amount, locale)} (${funding.capacityFte.toLocaleString(locale, { maximumFractionDigits: 1 })} FTE)`,
+        pageWidth - 30,
+        yPos,
+        locale,
+        { align: 'right' },
+      );
+      yPos += 7;
+    }
+
+    const net = funding.monthlyFunding - funding.coreMonthly;
+    doc.setDrawColor(226, 232, 240);
+    doc.line(25, yPos - 3, pageWidth - 25, yPos - 3);
+    doc.setTextColor(net > 0 ? 22 : 100, net > 0 ? 163 : 116, net > 0 ? 74 : 139);
+    setPdfFont(doc, locale, 'bold');
+    doc.setFontSize(10);
+    renderPdfText(doc, copy.netAfterCoreLabel, 25, yPos + 3, locale);
+    renderPdfText(doc, formatCurrencyAmount(net, locale), pageWidth - 30, yPos + 3, locale, {
+      align: 'right',
+    });
+    yPos += 12;
+    doc.setTextColor(30, 41, 59);
+  }
+
   if (savingsComparisons.length > 0) {
     if (yPos > pageHeight - 80) {
       doc.addPage();
@@ -377,17 +458,49 @@ export async function generateQuotePDF(
       renderPdfText(doc, formatCurrencyAmount(comp.competitorCost.firstYear, locale), 90, yPos, locale);
       renderPdfText(doc, formatCurrencyAmount(comp.sundaeCost.annual, locale), 130, yPos, locale);
 
-      doc.setTextColor(22, 163, 74);
+      // Same basis the card renders, and coloured by sign. This read
+      // `savings.firstYear` in green regardless, so a competitor that beats us
+      // printed a negative number in the colour reserved for a win.
+      const delta = comparisonAmount(comp);
+      if (delta > 0) doc.setTextColor(22, 163, 74);
+      else doc.setTextColor(100, 116, 139);
       setPdfFont(doc, locale, 'bold');
-      renderPdfText(doc, formatCurrencyAmount(comp.savings.firstYear, locale), pageWidth - 30, yPos, locale, { align: 'right' });
+      renderPdfText(
+        doc,
+        delta > 0
+          ? formatCurrencyAmount(delta, locale)
+          : `${formatCurrencyAmount(Math.abs(delta), locale)} ${copy.costsMoreLabel}`,
+        pageWidth - 30,
+        yPos,
+        locale,
+        { align: 'right' },
+      );
 
       yPos += 6;
       doc.setFontSize(7);
       doc.setTextColor(100, 116, 139);
       setPdfFont(doc, locale, 'normal');
+      // The badge is per vendor, and it decays.
+      //
+      // This printed `copy.verifiedLabel` unconditionally, so EVERY competitor
+      // in every PDF ever exported carried "Verified" — including vendors whose
+      // stored badge is 'estimated', and including Tenzo, whose cited source is
+      // now a domain-sale page. On screen the badge is resolved through
+      // `effectiveVerification`; the PDF read no badge at all, and the PDF is
+      // the artefact that reaches people who never saw the configurator.
+      const badgeLevel = effectiveVerification(
+        comp.competitor.verification,
+        comp.competitor.lastVerified,
+      );
+      const badgeLabel =
+        badgeLevel === 'verified'
+          ? copy.verifiedLabel
+          : badgeLevel === 'unverified'
+            ? copy.unverifiedLabel
+            : copy.estimatedLabel;
       renderPdfText(
         doc,
-        `${getLocalizedCompetitorCategory(locale, comp.competitor.category)} • ${copy.verifiedLabel}`,
+        `${getLocalizedCompetitorCategory(locale, comp.competitor.category)} • ${badgeLabel}`,
         25,
         yPos,
         locale
@@ -398,7 +511,13 @@ export async function generateQuotePDF(
       yPos += 8;
     });
 
-    if (savingsComparisons[0]) {
+    // Only claim a saving when there is one.
+    //
+    // This rendered the top-ranked comparison unconditionally, in a green
+    // banner, so a configuration that loses to every competitor printed
+    // "Best Savings: $-980/year vs Spreadsheets" — a negative number under a
+    // heading that says the opposite.
+    if (savingsComparisons[0] && comparisonAmount(savingsComparisons[0]) > 0) {
       yPos += 5;
       doc.setFillColor(220, 252, 231);
       doc.roundedRect(20, yPos - 3, pageWidth - 40, 15, 2, 2, 'F');

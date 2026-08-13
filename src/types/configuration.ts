@@ -1,6 +1,5 @@
 // Shared configuration types for the pricing configurator (price book v1.7)
 
-import type { CompetitorId } from '../data/competitors';
 import type { CorePackageId } from '../data/pricing';
 import type { AddOnId, ImplementationResult } from '../lib/pricingEngine';
 
@@ -64,11 +63,6 @@ export interface Configuration {
    * Enforcement lives in `useConfiguration.toggleCrewSku`.
    */
   crewSkus: CrewSkuId[];
-  competitors: {
-    current: CompetitorId[];      // What they use today (from quiz)
-    evaluating: CompetitorId[];   // What they're considering (from quiz)
-    primaryComparison: CompetitorId; // The main one to show in UI
-  };
 }
 
 export interface PriceBreakdown {

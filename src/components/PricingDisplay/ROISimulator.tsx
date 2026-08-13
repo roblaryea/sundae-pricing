@@ -58,7 +58,11 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Star,
 };
 
-export function ROISimulator() {
+interface ROISimulatorProps {
+  onBack?: () => void;
+}
+
+export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
   const { locale } = useLocale();
   const copy = getRoiCopy(locale as PricingUiLocale);
   const {
@@ -198,6 +202,10 @@ export function ROISimulator() {
   };
 
   const handleBack = () => {
+    if (onBack) {
+      onBack();
+      return;
+    }
     setCurrentStep(stepIndex('watchtower'));
   };
 

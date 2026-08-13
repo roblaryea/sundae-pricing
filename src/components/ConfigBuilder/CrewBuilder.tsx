@@ -28,7 +28,15 @@ import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '.
 // Crew Lite hard location cap (mirrors crewSkus.crew_lite.caps.maxLocations).
 const LITE_LOCATION_CAP = 5;
 
-export function CrewBuilder() {
+interface CrewBuilderProps {
+  onContinue?: () => void;
+  continueLabel?: string;
+}
+
+export function CrewBuilder({
+  onContinue,
+  continueLabel = 'Review summary',
+}: CrewBuilderProps = {}) {
   const {
     crewSkus: selectedSkus,
     toggleCrewSku,
@@ -94,6 +102,10 @@ export function CrewBuilder() {
     markStepCompleted('locations');
     markStepCompleted('modules');
     markStepCompleted('watchtower');
+    if (onContinue) {
+      onContinue();
+      return;
+    }
     markStepCompleted('roi');
     setCurrentStep(stepIndex('summary'));
   };
@@ -386,7 +398,7 @@ export function CrewBuilder() {
               : 'bg-gradient-primary text-white shadow-[#FF7E6F]/20'
           }`}
         >
-          Review summary
+          {continueLabel}
           <ChevronRight className="w-5 h-5" />
         </motion.button>
       </div>

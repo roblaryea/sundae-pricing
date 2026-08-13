@@ -163,6 +163,20 @@ test.describe('Core price and location matrix', () => {
     await goToSummary(page, { corePackage: 'core_foundation', locations: 5 });
     await expect(page.getByTestId('summary-monthly-total')).toHaveText('$1,895');
   });
+
+  test('partial-scope Core competitors are not presented as like-for-like savings', async ({ page }) => {
+    await goToSummary(page, { corePackage: 'core_margin', locations: 25 });
+    await page.getByRole('button', { name: /View Full Competitor Comparison/i }).click();
+    await expect(page.getByTestId('core-comparison-value-bridge')).toContainText(
+      '6 connected outcome domains',
+    );
+    await expect(page.getByRole('button', { name: /vs Tenzo/i })).toContainText(
+      'Not like-for-like',
+    );
+    await expect(page.getByRole('button', { name: /vs Tenzo/i })).toContainText(
+      'partial-scope annual rate',
+    );
+  });
 });
 
 const CREW_SCENARIOS: Array<{ label: string; crewSkus: CrewSkuId[] }> = [
@@ -218,6 +232,59 @@ test.describe('Crew packages, bundles, and dependencies', () => {
     await expect(page.getByText(/Crew Operating/i).first()).toBeVisible();
   });
 
+  test('Crew published net price does not silently earn a Core commitment discount', async ({ page }) => {
+    const crewSkus: CrewSkuId[] = [
+      'crew_operations',
+      'crew_scheduling',
+      'crew_tna',
+      'crew_payroll',
+    ];
+    const monthly = computeCrewQuote(crewSkus, 25).monthly;
+    await goToSummary(page, {
+      layer: 'crew',
+      locations: 25,
+      crewSkus,
+      billingCycle: 'two_year',
+    });
+    await expect(page.getByTestId('summary-monthly-total')).toHaveText(money(monthly));
+    await expect(page.getByTestId('crew-commitment-policy')).toContainText(
+      'No automatic annual or multi-year discount',
+    );
+  });
+
+  test('Crew comparison shows workforce alternatives only and discloses excluded scope', async ({ page }) => {
+    await goToSummary(page, {
+      layer: 'crew',
+      locations: 8,
+      crewSkus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'],
+    });
+    for (const name of ['Homebase', 'Deputy', '7shifts']) {
+      await expect(page.getByRole('button', { name: new RegExp(`vs ${name}`, 'i') })).toBeVisible();
+    }
+    await expect(page.getByRole('button', { name: /vs Power BI/i })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /vs Restaurant365/i })).toHaveCount(0);
+    await expect(page.getByText(/displayed price excludes the US payroll add-on/i)).toBeVisible();
+    await expect(page.getByText(/No Crew commitment discount is assumed/i)).toBeVisible();
+    await expect(page.getByTestId('crew-comparison-value-bridge')).toContainText(
+      'Compare the outcome, not a partial rate',
+    );
+    await expect(page.getByTestId('crew-comparison-value-bridge')).toContainText(
+      'native Sundae payroll across 36 supported countries',
+    );
+    await expect(page.getByText(/partial-scope annual rate/i).first()).toBeVisible();
+    await expect(page.getByText(/cheaper per year/i)).toHaveCount(0);
+    await expect(page.getByText(/· Aug-2026/i).first()).toBeVisible();
+    await expect(page.getByText(/2026-08-12/)).toHaveCount(0);
+
+    await page.getByRole('button', { name: /vs Deputy/i }).click();
+    await expect(page.getByTestId('crew-scope-gap-deputy')).toContainText(
+      'does not price your full selected scope',
+    );
+    await expect(page.getByText('Disclosed partial-scope gap')).toBeVisible();
+    await expect(page.getByText('$1,344', { exact: true })).toBeVisible();
+    await expect(page.getByText(/2026-08-12/)).toHaveCount(0);
+  });
+
   test('combined Core Margin + Crew Operating prints one decision number', async ({ page }) => {
     await expectSummaryToMatchEngine(page, {
       layer: 'both',
@@ -226,6 +293,29 @@ test.describe('Crew packages, bundles, and dependencies', () => {
       crewSkus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'],
     });
     await expect(page.getByText(/Core .* \+ Crew/i)).toBeVisible();
+  });
+
+  test('combined journey configures Crew, then shows the value case before summary', async ({ page }) => {
+    await setStore(page, {
+      layer: 'both',
+      corePackage: 'core_margin',
+      locations: 25,
+      crewSkus: [],
+    }, stepIndex('watchtower'));
+
+    await page.getByRole('button', { name: /Continue to ROI Calculator/i }).click();
+    await expect(page.getByRole('button', { name: /Configure Crew/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Build your Sundae Crew/i })).toBeVisible();
+
+    await page.getByRole('button', { name: /Crew Operating Manage \+ Time \+ Pay/i }).click();
+    await page.getByRole('button', { name: /Continue to value case/i }).click();
+    await expect(page.getByRole('button', { name: /Calculate ROI/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Calculate Your ROI' })).toBeVisible();
+    await expect(page.getByText(/Return is modelled on your Core package only/i)).toBeVisible();
+
+    await page.getByRole('button', { name: /View Summary/i }).click();
+    await expect(page.getByText(/Monthly Investment · Core \+ Crew/i)).toBeVisible();
+    await expect(page.getByText(/Crew and add-ons excluded/i)).toBeVisible();
   });
 });
 

@@ -712,7 +712,7 @@ export function ConfigSummary() {
                 {money(summaryRoi.monthlyFunding - coreOnlyPricing.total)}<span className="text-xs">/mo</span>
               </div>
               <p className="mt-1 text-[10px] text-sundae-muted">
-                {summaryRoi.roiCapped ? `${summaryRoi.roi.toFixed(1)}x+` : `${summaryRoi.roi.toFixed(1)}x`} modelled return; add-ons excluded.
+                {summaryRoi.roiCapped ? `${summaryRoi.roi.toFixed(1)}x+` : `${summaryRoi.roi.toFixed(1)}x`} modelled return; {crewRail ? 'Crew and add-ons' : 'add-ons'} excluded.
               </p>
             </div>
           </div>
@@ -1126,6 +1126,13 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
                 ${monthly.toLocaleString(locale)}
               </span>
               <span className="text-lg text-sundae-muted">/mo</span>
+            </div>
+            <div
+              className="mb-4 rounded-lg border border-white/10 bg-sundae-dark/30 px-3 py-2 text-xs text-sundae-muted"
+              data-testid="crew-commitment-policy"
+            >
+              Published net Crew pricing. No automatic annual or multi-year discount is assumed;
+              enterprise commercial terms are scoped in contract.
             </div>
             <div className="space-y-2 pt-4 border-t border-[#FF7E6F]/20">
               {lines.length > 1 && lines.map((line) => {

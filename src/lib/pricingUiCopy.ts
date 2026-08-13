@@ -587,6 +587,27 @@ const competitorCompareCopy = {
     firstYear: 'first year',
     notePointSolutions:
       'Note: Some point solutions may be cheaper if you only need specific features',
+    crewCompareOutcomeTitle: 'Compare the outcome, not a partial rate',
+    crewCompareOutcomeBody:
+      'Your Sundae quote delivers {scope} on one workforce operating layer. The published rates below price only part of that selected scope.',
+    crewComparePayrollProof:
+      'Crew Pay is native Sundae payroll across 36 supported countries, not a single-market add-on.',
+    crewCompareUnpricedGap:
+      'A full rival total cannot be calculated from public rates without employee count, country coverage, paid add-ons, integrations, and the operating cost of multiple systems. The figures below are entry-price references, not product-parity savings.',
+    coreCompareOutcomeBody:
+      'Your Sundae quote delivers {count} connected outcome domains on one decision layer: {scope}. Lower published rates below cover only part of that selected outcome set.',
+    coreCompareUnpricedGap:
+      'A lower point-solution rate is not a like-for-like alternative until the missing domains, data integration, build effort, and operating cost of multiple systems are priced.',
+    notLikeForLike: 'Not like-for-like',
+    partialScopeAnnualRate: 'partial-scope annual rate',
+    vendorRateDoesNotPriceScope: 'This vendor rate does not price your full selected scope',
+    yourSelectedCrewScope: 'Your selected Sundae Crew scope: {scope}.',
+    yourSelectedCoreScope: 'Your selected Sundae Core scope: {scope}.',
+    fullScopeQuoteRequired:
+      'Treat the difference as an unpriced scope gap—not a saving—until the vendor prices the missing modules, employee-based charges, integrations, and required country coverage.',
+    coreFullScopeQuoteRequired:
+      'Treat the difference as an unpriced scope gap—not a saving—until the missing outcome domains, required data integration, and any build or companion-system costs are priced.',
+    disclosedPartialScopeGap: 'Disclosed partial-scope gap',
     bestSavings: 'Best savings',
     saveVsCompetitor: 'Save ${amount}',
     competitorFirstYear: '{name} First Year',
@@ -635,6 +656,27 @@ const competitorCompareCopy = {
     firstYear: 'السنة الأولى',
     notePointSolutions:
       'ملاحظة: قد تكون بعض الحلول المتخصصة أرخص إذا كنت تحتاج مزايا محددة فقط',
+    crewCompareOutcomeTitle: 'قارن النتيجة، لا سعرًا جزئيًا',
+    crewCompareOutcomeBody:
+      'يشمل عرض Sundae الخاص بك {scope} ضمن طبقة تشغيل واحدة للقوى العاملة. الأسعار المنشورة أدناه تغطي جزءًا فقط من هذا النطاق.',
+    crewComparePayrollProof:
+      'Crew Pay هو نظام رواتب أصلي من Sundae عبر 36 دولة مدعومة، وليس إضافة لسوق واحد.',
+    crewCompareUnpricedGap:
+      'لا يمكن حساب إجمالي منافس مماثل من الأسعار العامة دون عدد الموظفين وتغطية الدول والإضافات المدفوعة والتكاملات وتكلفة تشغيل أنظمة متعددة. الأرقام أدناه مراجع لسعر الدخول وليست وفورات على منتج مماثل.',
+    coreCompareOutcomeBody:
+      'يشمل عرض Sundae الخاص بك {count} مجالات نتائج مترابطة ضمن طبقة قرار واحدة: {scope}. الأسعار الأقل أدناه تغطي جزءًا فقط من هذه النتائج.',
+    coreCompareUnpricedGap:
+      'سعر الحل الجزئي الأقل ليس بديلًا مماثلًا حتى تُسعّر المجالات الناقصة وتكامل البيانات وأعمال البناء وتكلفة تشغيل أنظمة متعددة.',
+    notLikeForLike: 'ليست مقارنة مماثلة',
+    partialScopeAnnualRate: 'سعر سنوي لنطاق جزئي',
+    vendorRateDoesNotPriceScope: 'هذا السعر لا يغطي كامل النطاق الذي اخترته',
+    yourSelectedCrewScope: 'نطاق Sundae Crew المختار: {scope}.',
+    yourSelectedCoreScope: 'نطاق Sundae Core المختار: {scope}.',
+    fullScopeQuoteRequired:
+      'تعامل مع الفرق كنطاق غير مسعّر، وليس كتوفير، حتى يضيف المورد الوحدات الناقصة ورسوم الموظفين والتكاملات وتغطية الدول المطلوبة.',
+    coreFullScopeQuoteRequired:
+      'تعامل مع الفرق كنطاق غير مسعّر، وليس كتوفير، حتى تُسعّر مجالات النتائج الناقصة وتكامل البيانات وأعمال البناء أو الأنظمة المساندة.',
+    disclosedPartialScopeGap: 'فجوة نطاق جزئي معلنة',
     bestSavings: 'أفضل توفير',
     saveVsCompetitor: 'وفّر ${amount}',
     competitorFirstYear: 'تكلفة {name} في السنة الأولى',
@@ -683,6 +725,27 @@ const competitorCompareCopy = {
     firstYear: 'premiere annee',
     notePointSolutions:
       'Note : certaines solutions ponctuelles peuvent etre moins cheres si vous avez seulement besoin de fonctions precises',
+    crewCompareOutcomeTitle: 'Comparez le résultat, pas un tarif partiel',
+    crewCompareOutcomeBody:
+      'Votre offre Sundae fournit {scope} sur une seule couche opérationnelle RH. Les tarifs publiés ci-dessous ne couvrent qu’une partie de ce périmètre.',
+    crewComparePayrollProof:
+      'Crew Pay est la paie native Sundae dans 36 pays pris en charge, et non une option limitée à un seul marché.',
+    crewCompareUnpricedGap:
+      'Un total concurrent réellement comparable ne peut pas être calculé sans effectif, couverture pays, options payantes, intégrations et coût d’exploitation de plusieurs systèmes. Les chiffres ci-dessous sont des repères d’entrée, pas des économies à périmètre égal.',
+    coreCompareOutcomeBody:
+      'Votre offre Sundae fournit {count} domaines de résultats connectés sur une seule couche de décision : {scope}. Les tarifs inférieurs ci-dessous n’en couvrent qu’une partie.',
+    coreCompareUnpricedGap:
+      'Un tarif inférieur de solution ponctuelle n’est pas une alternative comparable tant que les domaines manquants, l’intégration des données, la construction et les systèmes complémentaires ne sont pas chiffrés.',
+    notLikeForLike: 'Périmètres différents',
+    partialScopeAnnualRate: 'tarif annuel à périmètre partiel',
+    vendorRateDoesNotPriceScope: 'Ce tarif ne couvre pas tout le périmètre sélectionné',
+    yourSelectedCrewScope: 'Votre périmètre Sundae Crew : {scope}.',
+    yourSelectedCoreScope: 'Votre périmètre Sundae Core : {scope}.',
+    fullScopeQuoteRequired:
+      'Traitez l’écart comme un périmètre non chiffré, et non comme une économie, jusqu’à ce que le fournisseur chiffre les modules manquants, les frais par employé, les intégrations et les pays requis.',
+    coreFullScopeQuoteRequired:
+      'Traitez l’écart comme un périmètre non chiffré, et non comme une économie, tant que les domaines manquants, l’intégration des données et les coûts de construction ou de systèmes complémentaires ne sont pas chiffrés.',
+    disclosedPartialScopeGap: 'Écart de périmètre partiel déclaré',
     bestSavings: 'Meilleure economie',
     saveVsCompetitor: 'Economisez ${amount}',
     competitorFirstYear: '{name} la premiere annee',
@@ -731,6 +794,27 @@ const competitorCompareCopy = {
     firstYear: 'primer año',
     notePointSolutions:
       'Nota: algunas soluciones puntuales pueden ser más baratas si solo necesitas funciones específicas',
+    crewCompareOutcomeTitle: 'Compara el resultado, no una tarifa parcial',
+    crewCompareOutcomeBody:
+      'Tu propuesta de Sundae entrega {scope} en una sola capa operativa de personal. Las tarifas publicadas de abajo solo cubren una parte de ese alcance.',
+    crewComparePayrollProof:
+      'Crew Pay es la nómina nativa de Sundae en 36 países compatibles, no un complemento de un solo mercado.',
+    crewCompareUnpricedGap:
+      'No se puede calcular un total rival comparable sin empleados, cobertura por país, complementos, integraciones y el coste operativo de varios sistemas. Las cifras siguientes son referencias de entrada, no ahorros con paridad de producto.',
+    coreCompareOutcomeBody:
+      'Tu propuesta de Sundae entrega {count} dominios de resultado conectados en una sola capa de decisión: {scope}. Las tarifas inferiores de abajo solo cubren una parte.',
+    coreCompareUnpricedGap:
+      'Una tarifa inferior de solución puntual no es una alternativa equivalente hasta valorar los dominios ausentes, la integración de datos, el trabajo de construcción y los sistemas complementarios.',
+    notLikeForLike: 'No es equivalente',
+    partialScopeAnnualRate: 'tarifa anual de alcance parcial',
+    vendorRateDoesNotPriceScope: 'Esta tarifa no cubre todo el alcance seleccionado',
+    yourSelectedCrewScope: 'Tu alcance de Sundae Crew: {scope}.',
+    yourSelectedCoreScope: 'Tu alcance de Sundae Core: {scope}.',
+    fullScopeQuoteRequired:
+      'Trata la diferencia como alcance sin cotizar, no como ahorro, hasta que el proveedor valore los módulos ausentes, los cargos por empleado, las integraciones y los países requeridos.',
+    coreFullScopeQuoteRequired:
+      'Trata la diferencia como alcance sin cotizar, no como ahorro, hasta valorar los dominios ausentes, la integración de datos y cualquier coste de construcción o sistema complementario.',
+    disclosedPartialScopeGap: 'Diferencia de alcance parcial declarada',
     bestSavings: 'Mejor ahorro',
     saveVsCompetitor: 'Ahorra ${amount}',
     competitorFirstYear: '{name} primer año',

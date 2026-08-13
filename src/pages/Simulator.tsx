@@ -26,6 +26,17 @@ export function Simulator() {
   const livePricing = useLivePricingCatalog();
   const { locale } = useLocale();
   const reducedMotion = useReducedMotionSafe();
+  const [combinedRoiPhase, setCombinedRoiPhase] = useState<'crew' | 'roi'>('crew');
+
+  // Core + Crew needs both the workforce picker and the value case. They share
+  // the existing ROI stage rather than deleting either experience. Leaving the
+  // stage backwards resets it to Crew; returning from the summary preserves the
+  // ROI view the buyer just completed.
+  useEffect(() => {
+    if (layer !== 'both' || currentStep < stepIndex('roi')) {
+      setCombinedRoiPhase('crew');
+    }
+  }, [layer, currentStep]);
   // Where "Back" goes from each step, honoring path-specific skips (Crew collapses
   // to one builder step; Report skips modules/watchtower/ROI before the summary).
   // Back from the summary must land on the step the visitor actually came
@@ -39,6 +50,17 @@ export function Simulator() {
         : stepIndex('roi')
       : Math.max(0, currentStep - 1);
   const backLabel = tMicro(locale, 'back');
+  const handleStickyBack = () => {
+    if (
+      layer === 'both' &&
+      stepAt(currentStep) === 'roi' &&
+      combinedRoiPhase === 'roi'
+    ) {
+      setCombinedRoiPhase('crew');
+      return;
+    }
+    setCurrentStep(backTarget);
+  };
 
   // The step bar sticks directly below the site header. Measure the header's real
   // height (logo + subtitle; differs mobile vs desktop) instead of a hardcoded
@@ -150,17 +172,34 @@ export function Simulator() {
   // picks Crew SKUs, so CrewBuilder takes the ROI slot rather than replacing
   // the Core steps. Core and Crew are separate rails; the summary sums them.
   const isCombinedPath = layer === 'both';
+  const progressLabelOverrides =
+    isCombinedPath && stepAt(currentStep) === 'roi' && combinedRoiPhase === 'crew'
+      ? { roi: 'Configure Crew' }
+      : undefined;
   const renderStep = () => {
     const stepId = stepAt(currentStep);
     const node =
       isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')
         ? <CrewBuilder />
         : isCombinedPath && stepId === 'roi'
-          ? <CrewBuilder />
+          ? combinedRoiPhase === 'crew'
+            ? (
+              <CrewBuilder
+                onContinue={() => setCombinedRoiPhase('roi')}
+                continueLabel="Continue to value case"
+              />
+            )
+            : <ROISimulator onBack={() => setCombinedRoiPhase('crew')} />
           : (stepId ? stepComponents[stepId] : <PathwaySelector />);
     return (
       <motion.div
-        key={`step-${(isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')) || (isCombinedPath && stepAt(currentStep) === 'roi') ? 'crew-builder' : currentStep}`}
+        key={`step-${
+          isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')
+            ? 'crew-builder'
+            : isCombinedPath && stepId === 'roi'
+              ? combinedRoiPhase
+              : currentStep
+        }`}
         {...stepTransition(reducedMotion)}
       >
         {node}
@@ -178,7 +217,7 @@ export function Simulator() {
             {/* Always-visible (sticky) back, so every step — including the ROI and
                 Review & Launch summary — can navigate to the previous page. */}
             <button
-              onClick={() => setCurrentStep(backTarget)}
+              onClick={handleStickyBack}
               className="absolute left-0 inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-sundae-muted transition-colors hover:bg-sundae-surface hover:text-white"
               aria-label={backLabel}
             >
@@ -189,6 +228,7 @@ export function Simulator() {
               steps={journeySteps}
               onStepClick={setCurrentStep}
               currentStep={currentStep}
+              labelOverrides={progressLabelOverrides}
             />
           </div>
         </div>

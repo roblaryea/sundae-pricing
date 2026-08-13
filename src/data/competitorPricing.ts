@@ -173,6 +173,10 @@ function summarise(
  */
 export interface CompetitorCalcContext {
   monthlyRevenuePerLocation?: number;
+  /** Which acquisition path is being compared. Prevents a Crew buyer from
+   * being shown a POS, BI tool, or inventory product as though it were a
+   * workforce alternative. */
+  comparisonPath?: 'core' | 'crew';
 }
 
 export interface CompetitorPricing {
@@ -184,6 +188,12 @@ export interface CompetitorPricing {
   sourceUrl?: string | null;
   lastVerified?: string | null;
   showPricing?: boolean;
+  /** Paths where this vendor is a plausible shortlist alternative. Omitted
+   * means Core only, preserving the existing analytics comparison. */
+  comparisonPaths?: readonly ('core' | 'crew')[];
+  /** Buyer-facing scope statement for Crew comparisons. A single `labor`
+   * domain is too coarse to distinguish scheduling from HR and payroll. */
+  crewScopeSummary?: string;
   /**
    * Sundae domain ids this vendor sells an equivalent for. Used for the
    * coverage line, never for pricing — the honest argument against a cheaper
@@ -764,7 +774,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     icon: 'package',
     verification: 'estimated' as VerificationLevel,
     sourceUrl: 'https://www.marketman.com/pricing-for-restaurant-inventory-management-system',
-    lastVerified: '2026-08-11',
+    lastVerified: '2026-08-12',
     coversDomains: ['inventory', 'purchasing'],
 
     pricing: {
@@ -839,7 +849,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   // ─────────────────────────────────────────────────────────────────────────
   // ─────────────────────────────────────────────────────────────────────────
   // Homebase — US labour platform. Priced PER LOCATION, so directly comparable.
-  // Source: joinhomebase.com/pricing, read first-party 2026-08-11.
+  // Source: joinhomebase.com/pricing, read first-party 2026-08-12.
   // ─────────────────────────────────────────────────────────────────────────
   homebase: {
     id: 'homebase',
@@ -848,7 +858,9 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     icon: 'users',
     verification: 'verified' as VerificationLevel,
     sourceUrl: 'https://www.joinhomebase.com/pricing',
-    lastVerified: '2026-08-11',
+    lastVerified: '2026-08-12',
+    comparisonPaths: ['core', 'crew'],
+    crewScopeSummary: 'Scheduling, time and HR · displayed price excludes the US payroll add-on',
     coversDomains: ['labor'],
 
     pricing: {
@@ -862,7 +874,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
       //
       // Basic is genuinely $0 but is capped at ONE location and ten employees,
       // so it is not a multi-site option and pricing an estate at zero would be
-      // false. Payroll ($39-49/mo + $6 per employee paid) is excluded: it is an
+      // false. Payroll ($39/mo + $6 per employee paid) is excluded: it is an
       // add-on, US-only, and only bites if they run payroll through Homebase.
       const perLoc = 96;
       return summarise(
@@ -872,7 +884,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
             amount: Math.round(perLoc * locations * 12),
             kind: 'recurring',
             verification: 'verified',
-            source: `$96/location/month, All-in-One on annual billing (monthly billing is $120) x ${locations} location(s) — joinhomebase.com/pricing, read 2026-08-11. Excludes the Payroll add-on ($39-49/mo plus $6 per employee paid) and per-location extras such as Tip Manager ($25) and Task Manager ($13).`,
+            source: `$96/location/month, All-in-One on annual billing (monthly billing is $120) x ${locations} location(s) — joinhomebase.com/pricing, read 2026-08-12. Excludes the US-only Payroll add-on ($39/month plus $6 per active employee) and per-location extras such as Tip Manager and Task Manager.`,
           },
         ],
         'Labor, scheduling and HR only. The free Basic tier is capped at one location and ten employees, so it is not an estate option.',
@@ -883,12 +895,13 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     limitations: [
       'Labor and scheduling only — no food, purchasing or revenue analytics',
       'Free tier limited to one location and ten employees',
+      'Displayed price excludes Homebase Payroll, which is US-only and separately priced',
     ],
   },
 
   // ─────────────────────────────────────────────────────────────────────────
   // Deputy — priced PER USER, not per location. Source: deputy.com/pricing,
-  // read first-party 2026-08-11.
+  // read first-party 2026-08-12.
   // ─────────────────────────────────────────────────────────────────────────
   deputy: {
     id: 'deputy',
@@ -897,7 +910,9 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     icon: 'users',
     verification: 'verified' as VerificationLevel,
     sourceUrl: 'https://www.deputy.com/pricing',
-    lastVerified: '2026-08-11',
+    lastVerified: '2026-08-12',
+    comparisonPaths: ['core', 'crew'],
+    crewScopeSummary: 'Scheduling and time · displayed price excludes HR and US payroll add-ons',
     coversDomains: ['labor'],
 
     pricing: {
@@ -920,7 +935,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
             amount: Math.round(monthly * 12),
             kind: 'recurring',
             verification: 'estimated',
-            source: `$9 per user per month (Pro tier) x ${users} users, assuming ${employeesPerLocation} employees per location across ${locations} location(s) — deputy.com/pricing, read 2026-08-11. The HEADCOUNT is our assumption, matching Crew's own per-location employee cap; Deputy's published rate is not. A $30/month minimum applies. Excludes the Payroll, HR and Analytics+ add-ons.`,
+            source: `$9 per user per month (Pro tier) x ${users} users, assuming ${employeesPerLocation} employees per location across ${locations} location(s) — deputy.com/pricing, read 2026-08-12. The HEADCOUNT is our assumption, matching Crew's own per-location employee cap; Deputy's published rate is not. A $30/month minimum applies. Excludes the separately priced HR and US-only Payroll add-ons; Analytics+ is included in Pro.`,
           },
         ],
         'Labor and scheduling only, priced per user rather than per location — the cost moves with headcount, not sites.',
@@ -931,6 +946,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     limitations: [
       'Labor and scheduling only — no food, purchasing or revenue analytics',
       'Priced per employee, so cost rises with every hire',
+      'Displayed price excludes Deputy HR and the US-only Payroll add-on',
     ],
   },
 
@@ -947,7 +963,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     icon: 'chart',
     verification: 'estimated' as VerificationLevel,
     sourceUrl: 'https://www.foodics.com/pricing/',
-    lastVerified: '2026-08-11',
+    lastVerified: '2026-08-12',
     // NOT a workforce provider. This listed `labor`, which credited Foodics
     // with an HR capability it does not lead on — it is a POS/RMS whose
     // strength is the till, the menu and stock. Overstating a rival's coverage
@@ -1048,6 +1064,8 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     sourceUrl: 'https://www.nostradamus-software.com/',
     lastVerified: '2026-08-11',
     showPricing: false,
+    comparisonPaths: ['crew'],
+    crewScopeSummary: 'Hospitality scheduling, time registration and forecasting · no public rate card',
     coversDomains: ['labor'],
     pricing: {},
     calculate: () =>
@@ -1069,6 +1087,8 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     sourceUrl: 'https://www.bayzat.com/',
     lastVerified: '2026-08-11',
     showPricing: false,
+    comparisonPaths: ['crew'],
+    crewScopeSummary: 'Gulf HR, scheduling, attendance and payroll · no public rate card',
     coversDomains: ['labor'],
     pricing: {},
     calculate: () =>
@@ -1089,6 +1109,8 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     sourceUrl: 'https://www.gulfhr.com/pricing',
     lastVerified: '2026-08-11',
     showPricing: false,
+    comparisonPaths: ['crew'],
+    crewScopeSummary: 'Gulf HR and payroll · no public rate card',
     coversDomains: ['labor'],
     pricing: {},
     calculate: () =>
@@ -1110,6 +1132,8 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     sourceUrl: 'https://uk.fourth.com/',
     lastVerified: '2026-08-11',
     showPricing: false,
+    comparisonPaths: ['core', 'crew'],
+    crewScopeSummary: 'Hospitality HR, payroll, scheduling and time · no public rate card',
     // Fourth spans BOTH sides, which is why it is the most complete rival in
     // this list. Verified from their own product navigation: Applicant
     // Tracking, Onboarding, HR & Payroll, On-Demand Pay, Scheduling, Time and
@@ -1165,12 +1189,15 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     icon: 'users',
     verification: 'verified' as VerificationLevel,
     sourceUrl: 'https://www.7shifts.com/pricing/',
-    lastVerified: '2026-08-11',
+    lastVerified: '2026-08-12',
+    comparisonPaths: ['core', 'crew'],
+    crewScopeSummary: 'Restaurant scheduling and labor tools · displayed price excludes payroll and paid add-ons',
     coversDomains: ['labor'],
 
     pricing: {
       // Per location pricing
-      // Re-verified 2026-08-11 in a real browser: the page is client-rendered
+      // Re-verified 2026-08-12 from current first-party pricing material: the
+      // main pricing page is client-rendered
       // Next.js and contains no price strings in the markup, so WebFetch and
       // curl both return nothing. THREE of our four tier names no longer exist
       // — "Entrée", "The Works" and "Gourmet" were all retired, and nothing is
@@ -1205,7 +1232,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
             amount: Math.round(perLoc * locations * 12),
             kind: 'recurring',
             verification: 'verified',
-            source: `$79.99/location/month, Pro tier on annual billing (monthly billing is $89.99) x ${locations} location(s) — 7shifts.com/pricing/, read 2026-08-11. Excludes paid add-ons, including Operations Overview, their only multi-location reporting surface, so this understates a real estate.`,
+            source: `$79.99/location/month, Pro tier on annual billing (monthly billing is $89.99) x ${locations} location(s) — 7shifts first-party pricing material, read 2026-08-12. Excludes Payroll and paid add-ons, including Operations Overview, so this is not a full Crew Operating scope.`,
           },
         ],
         'Labor & scheduling only. Pro tier, annual billing, used for comparison; paid add-ons excluded.',
@@ -1215,6 +1242,7 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
 
     limitations: [
       'Labor/scheduling only',
+      'Displayed price excludes 7shifts Payroll and paid add-ons',
       'No inventory analytics',
       'No sales analytics',
       'No AI-powered insights',
@@ -1471,11 +1499,12 @@ export function comparisonAmount(c: ComparisonResult): number {
  * what they cover — without a number. Coverage is the honest thing to compare
  * when price is not published.
  */
-export function unpricedCompetitors(): Array<{
+export function unpricedCompetitors(comparisonPath?: 'core' | 'crew'): Array<{
   id: string;
   name: string;
   category: string;
   coversDomains: readonly string[];
+  crewScopeSummary?: string;
   note: string;
 }> {
   // Ordered by how much of the buyer's world each one touches, so the vendor
@@ -1483,12 +1512,17 @@ export function unpricedCompetitors(): Array<{
   // bury Fourth — the broadest rival in the set — below a generic payroll
   // bureau.
   return Object.values(COMPETITOR_PRICING)
-    .filter((c) => c.showPricing === false)
+    .filter((c) => {
+      if (c.showPricing !== false) return false;
+      if (!comparisonPath) return true;
+      return (c.comparisonPaths ?? ['core']).includes(comparisonPath);
+    })
     .map((c) => ({
       id: c.id,
       name: c.name,
       category: c.category,
       coversDomains: c.coversDomains,
+      crewScopeSummary: c.crewScopeSummary,
       note: c.calculate(1, [], undefined).notes ?? '',
     }))
     .sort((a, b) => b.coversDomains.length - a.coversDomains.length || a.name.localeCompare(b.name));
@@ -1521,6 +1555,10 @@ export function calculateAllComparisons(
       if (!competitor) return false;
       if (competitor.verification === 'unverified') return false;
       if (competitor.showPricing === false) return false;
+      if (
+        context?.comparisonPath &&
+        !(competitor.comparisonPaths ?? ['core']).includes(context.comparisonPath)
+      ) return false;
       return true;
     });
 

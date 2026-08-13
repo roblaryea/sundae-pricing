@@ -36,8 +36,12 @@ import {
   type ComparisonResult,
   type SundaeQuoteBasis,
 } from '../../data/competitorPricing';
-import { comparisonAmount, unpricedCompetitors } from '../../data/competitorPricing';
-import { PACKAGE_DOMAIN_GRANTS, modules as coreDomainModules } from '../../data/pricing';
+import { unpricedCompetitors } from '../../data/competitorPricing';
+import {
+  PACKAGE_DOMAIN_GRANTS,
+  crewSkus as crewSkuCatalog,
+  modules as coreDomainModules,
+} from '../../data/pricing';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import { resolveImplementationFee } from '../../lib/pricingEngine';
 import { resolveImplementationClass } from '../../lib/discoveryEngine';
@@ -156,6 +160,7 @@ function useQuotedSundaeCost() {
     corePackage,
     hasCrewRail: crewRail !== null,
     isCrewOnly,
+    selectedCrewSkus,
     requiresEnterpriseQuote: pricing.requiresEnterpriseQuote,
     /** Per-location monthly revenue the buyer entered on the ROI step. */
     monthlyRevenuePerLocation: roiInputs.monthlyRevenue,
@@ -169,7 +174,7 @@ export function CompactCompetitorCompare() {
 
   const {
     basis, locations, addOns, corePackage, hasCrewRail, isCrewOnly,
-    requiresEnterpriseQuote, monthlyRevenuePerLocation,
+    selectedCrewSkus, requiresEnterpriseQuote, monthlyRevenuePerLocation,
   } = useQuotedSundaeCost();
 
   const [expandedCompetitor, setExpandedCompetitor] = useState<string | null>(null);
@@ -184,9 +189,13 @@ export function CompactCompetitorCompare() {
   // buyer bought is workforce, so the comparison is scored on `labor` alone and
   // the CORE_PACKAGE_SELECTION_ID marker is deliberately withheld — passing it
   // would tell every competitor calculator the buyer holds a Core package.
-  const grantedDomains = isCrewOnly
-    ? (['labor'] as const as readonly string[])
-    : (PACKAGE_DOMAIN_GRANTS[corePackage] as readonly string[]);
+  const grantedDomains = useMemo<readonly string[]>(
+    () =>
+      isCrewOnly
+        ? ['labor']
+        : (PACKAGE_DOMAIN_GRANTS[corePackage] as readonly string[]),
+    [isCrewOnly, corePackage],
+  );
   const allModules = useMemo(
     () =>
       isCrewOnly
@@ -199,6 +208,7 @@ export function CompactCompetitorCompare() {
     () =>
       calculateAllComparisons(locations, allModules, basis, {
         monthlyRevenuePerLocation,
+        comparisonPath: isCrewOnly ? 'crew' : 'core',
       }),
     // `basis` is a fresh object each render; its fields are the real inputs.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -210,6 +220,7 @@ export function CompactCompetitorCompare() {
       basis.implementationFee,
       basis.implementationScoped,
       monthlyRevenuePerLocation,
+      isCrewOnly,
     ],
   );
 
@@ -237,14 +248,37 @@ export function CompactCompetitorCompare() {
     );
   }
 
-  const cheaper = comparisons.filter((c) => comparisonAmount(c) > 0);
-  const costsMore = comparisons.filter((c) => comparisonAmount(c) <= 0);
+  const crewHasBroadScope = isCrewOnly && selectedCrewSkus.some((id) =>
+    ['crew_operations', 'crew_payroll', 'crew_people_intelligence'].includes(id),
+  );
+  const crewScopeLabel = selectedCrewSkus
+    .map((id) => crewSkuCatalog[id].name)
+    .filter((name, index, names) => names.indexOf(name) === index)
+    .join(', ');
+  const crewIncludesPayroll = selectedCrewSkus.includes('crew_payroll');
+  const coreScopeLabel = grantedDomains
+    .map((id) => coreDomainModules[id as keyof typeof coreDomainModules]?.name ?? id)
+    .join(', ');
+  const selectedScopeLabel = isCrewOnly ? crewScopeLabel : coreScopeLabel;
+  // This panel explicitly states that implementation is excluded and compares
+  // annual recurring spend. The registry helper may rank on first-year cost
+  // when both setup fees are known, so re-sort and split on recurring savings
+  // here to keep every visible label and number on the stated basis.
+  const recurringComparisons = [...comparisons].sort(
+    (a, b) => b.savings.ongoing - a.savings.ongoing,
+  );
+  const cheaper = recurringComparisons.filter((c) => c.savings.ongoing > 0);
+  const costsMore = recurringComparisons.filter((c) => c.savings.ongoing <= 0);
   const bestSavings = cheaper[0];
+  const hasPartialCoreLoss = !isCrewOnly && costsMore.some(
+    (comparison) =>
+      comparison.coverage.dayOneDomains < comparison.coverage.selectedDomains,
+  );
 
   // Real rivals that publish no rate card. See `unpricedCompetitors`. Not a
   // hook: this sits after an early return, and it is a pure read of a static
   // catalogue, so memoising it would buy nothing and break the hook order.
-  const unpriced = unpricedCompetitors();
+  const unpriced = unpricedCompetitors(isCrewOnly ? 'crew' : 'core');
 
   return (
     <div className="compact-competitor-compare">
@@ -272,10 +306,18 @@ export function CompactCompetitorCompare() {
           <span className="font-medium text-white tabular-nums">{money(basis.coreMonthly * 12 + basis.crewMonthly * 12)}</span>
         </div>
         <div className="text-[11px] text-slate-500">
-          {hasCrewRail
-            ? `Core ${money(basis.coreMonthly)}/mo + Crew ${money(basis.crewMonthly)}/mo — the same total as the investment summary above, after any commitment discount.`
+          {isCrewOnly
+            ? `Crew ${money(basis.crewMonthly)}/mo — published net pricing. No Crew commitment discount is assumed.`
+            : hasCrewRail
+            ? `Core ${money(basis.coreMonthly)}/mo + Crew ${money(basis.crewMonthly)}/mo — the same total as the investment summary above. Any commitment discount applies to Core only.`
             : `${money(basis.coreMonthly)}/mo — the same total as the investment summary above, after any commitment discount.`}
         </div>
+        {isCrewOnly && (
+          <div className="text-[11px] text-slate-500">
+            Published competitor rates may use annual billing. Each row states what its displayed
+            price excludes; a lower partial-scope price is not presented as product parity.
+          </div>
+        )}
         <div className="text-[11px] text-slate-500">
           {basis.implementationScoped
             ? 'Implementation is scoped at contract, so it is excluded here — and so is every competitor setup fee. Comparisons below are recurring-only, on both sides.'
@@ -305,7 +347,7 @@ export function CompactCompetitorCompare() {
                   })}
                   <span className="text-slate-500">
                     {' '}
-                    ({getLocalizedCompetitorSource(uiLocale, data.source)} · {data.lastVerified})
+                    ({getLocalizedCompetitorSource(uiLocale, data.source)} · {formatVerificationMonth(data.lastVerified, uiLocale)})
                   </span>
                 </p>
               ))}
@@ -331,6 +373,8 @@ export function CompactCompetitorCompare() {
               )}
               isBest={comparison === bestSavings}
               locale={uiLocale}
+              isCrewOnly={isCrewOnly}
+              selectedScopeLabel={selectedScopeLabel}
               copy={copy}
               money={money}
             />
@@ -350,7 +394,7 @@ export function CompactCompetitorCompare() {
             </div>
             <div className="text-right">
               <div className="font-display text-2xl font-bold text-green-400 tabular-nums">
-                {money(comparisonAmount(bestSavings))}
+                {money(bestSavings.savings.ongoing)}
               </div>
               <div className="text-xs text-slate-400">
                 {copy.ongoingAnnualSavings}
@@ -366,10 +410,46 @@ export function CompactCompetitorCompare() {
           along with the unflattering number. */}
       {costsMore.length > 0 && (
         <div className="mt-4 space-y-3">
-          <div className="text-xs text-slate-500 flex items-center gap-2">
-            <AlertTriangle className="w-3 h-3" />
-            {copy.notePointSolutions}
-          </div>
+          {crewHasBroadScope ? (
+            <div
+              data-testid="crew-comparison-value-bridge"
+              className="rounded-lg border border-amber-500/30 bg-amber-900/15 p-4"
+            >
+              <div className="text-sm font-semibold text-amber-300">
+                {copy.crewCompareOutcomeTitle}
+              </div>
+              <p className="mt-1 text-xs leading-relaxed text-slate-300">
+                {formatMessage(copy.crewCompareOutcomeBody, { scope: crewScopeLabel })}
+                {crewIncludesPayroll ? ` ${copy.crewComparePayrollProof}` : ''}
+              </p>
+              <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
+                {copy.crewCompareUnpricedGap}
+              </p>
+            </div>
+          ) : hasPartialCoreLoss ? (
+            <div
+              data-testid="core-comparison-value-bridge"
+              className="rounded-lg border border-amber-500/30 bg-amber-900/15 p-4"
+            >
+              <div className="text-sm font-semibold text-amber-300">
+                {copy.crewCompareOutcomeTitle}
+              </div>
+              <p className="mt-1 text-xs leading-relaxed text-slate-300">
+                {formatMessage(copy.coreCompareOutcomeBody, {
+                  count: grantedDomains.length,
+                  scope: coreScopeLabel,
+                })}
+              </p>
+              <p className="mt-2 text-[11px] leading-relaxed text-slate-500">
+                {copy.coreCompareUnpricedGap}
+              </p>
+            </div>
+          ) : (
+            <div className="text-xs text-slate-500 flex items-center gap-2">
+              <AlertTriangle className="w-3 h-3" />
+              {copy.notePointSolutions}
+            </div>
+          )}
           {costsMore.map((comparison) => (
             <ComparisonCard
               key={comparison.competitor.id}
@@ -380,6 +460,9 @@ export function CompactCompetitorCompare() {
               )}
               isBest={false}
               locale={uiLocale}
+              isCrewOnly={isCrewOnly}
+              crewHasBroadScope={crewHasBroadScope}
+              selectedScopeLabel={selectedScopeLabel}
               copy={copy}
               money={money}
             />
@@ -405,10 +488,12 @@ export function CompactCompetitorCompare() {
                 <span className="text-slate-200 font-medium">{vendor.name}</span>
                 <span>{getLocalizedCompetitorCategory(locale, vendor.category)}</span>
                 <span className="text-slate-500">
-                  {formatMessage(copy.dayOneDomains, {
-                    count: vendor.coversDomains.filter((d) => grantedDomains.includes(d)).length,
-                    total: grantedDomains.length,
-                  })}
+                  {isCrewOnly && vendor.crewScopeSummary
+                    ? vendor.crewScopeSummary
+                    : formatMessage(copy.dayOneDomains, {
+                        count: vendor.coversDomains.filter((d) => grantedDomains.includes(d)).length,
+                        total: grantedDomains.length,
+                      })}
                 </span>
               </li>
             ))}
@@ -434,14 +519,34 @@ interface ComparisonCardProps {
   onToggle: () => void;
   isBest: boolean;
   locale: PricingUiLocale;
+  isCrewOnly: boolean;
+  crewHasBroadScope?: boolean;
+  selectedScopeLabel?: string;
   copy: ReturnType<typeof getCompetitorCompareCopy>;
   money: (amount: number) => string;
 }
 
-function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy, money }: ComparisonCardProps) {
+function ComparisonCard({
+  comparison,
+  isExpanded,
+  onToggle,
+  isBest,
+  locale,
+  isCrewOnly,
+  crewHasBroadScope = false,
+  selectedScopeLabel = '',
+  copy,
+  money,
+}: ComparisonCardProps) {
   const competitor = COMPETITOR_PRICING[comparison.competitor.id];
   const { effectiveVerification: badge, lastVerified } = comparison.competitor;
-  const cheaperThanSundae = comparisonAmount(comparison) <= 0;
+  const annualRecurringGap = comparison.savings.ongoing;
+  const cheaperThanSundae = annualRecurringGap <= 0;
+  const hasIncompleteCoreScope =
+    !isCrewOnly &&
+    comparison.coverage.dayOneDomains < comparison.coverage.selectedDomains;
+  const scopeMismatch =
+    cheaperThanSundae && (crewHasBroadScope || hasIncompleteCoreScope);
 
   // Generic label lookup: returns a translation when one exists and the English
   // string otherwise. New labels therefore ship readable and pick up a
@@ -479,7 +584,17 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                   {copy.bestSavings}
                 </span>
               )}
-              <VerificationBadge level={badge} copy={copy} lastVerified={lastVerified} />
+              {scopeMismatch && (
+                <span className="text-xs bg-amber-900/50 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 whitespace-nowrap flex-shrink-0">
+                  {copy.notLikeForLike}
+                </span>
+              )}
+              <VerificationBadge
+                level={badge}
+                copy={copy}
+                lastVerified={lastVerified}
+                locale={locale}
+              />
             </div>
             {/* The always-visible line. Two things were wrong with it.
                 It was hardcoded English — "covers N of your M domains" — on a
@@ -490,7 +605,9 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                 nothing on day one and what the build costs first. */}
             <div className="text-xs text-slate-400 mt-0.5 break-words">
               {getLocalizedCompetitorCategory(locale, comparison.competitor.category)}
-              {comparison.coverage.selectedDomains > 0 && (
+              {isCrewOnly && competitor?.crewScopeSummary ? (
+                <>{' · '}{competitor.crewScopeSummary}</>
+              ) : comparison.coverage.selectedDomains > 0 && (
                 <>
                   {' · '}
                   {copy.dayOneLabel}
@@ -516,10 +633,19 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
 
         <div className="flex items-center gap-4 flex-shrink-0">
           <div className="text-right">
-            {cheaperThanSundae ? (
+            {scopeMismatch ? (
+              <>
+                <div className="text-slate-200 font-bold whitespace-nowrap tabular-nums">
+                  {money(comparison.competitorCost.ongoing)}
+                </div>
+                <div className="text-xs text-amber-300 whitespace-nowrap">
+                  {copy.partialScopeAnnualRate}
+                </div>
+              </>
+            ) : cheaperThanSundae ? (
               <>
                 <div className="text-slate-300 font-bold whitespace-nowrap tabular-nums">
-                  {money(Math.abs(comparisonAmount(comparison)))}
+                  {money(Math.abs(annualRecurringGap))}
                 </div>
                 <div className="text-xs text-slate-400 whitespace-nowrap">{copy.cheaperPerYear}</div>
               </>
@@ -527,7 +653,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
               <>
                 <div className="text-green-400 font-bold whitespace-nowrap">
                   {formatMessage(copy.saveVsCompetitor, {
-                    amount: Math.round(comparisonAmount(comparison)).toLocaleString(locale),
+                    amount: Math.round(annualRecurringGap).toLocaleString(locale),
                   })}
                 </div>
                 <div className="text-xs text-slate-400 whitespace-nowrap">
@@ -555,6 +681,31 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
             className="overflow-hidden"
           >
             <div className="px-4 pb-4 pt-2 border-t border-slate-700/50">
+              {scopeMismatch && (
+                <div
+                  data-testid={`crew-scope-gap-${comparison.competitor.id}`}
+                  className="mb-4 rounded-lg border border-amber-500/25 bg-amber-900/15 p-3 text-xs"
+                >
+                  <div className="font-medium text-amber-300">
+                    {copy.vendorRateDoesNotPriceScope}
+                  </div>
+                  <div className="mt-1 text-slate-300">
+                    {formatMessage(
+                      isCrewOnly ? copy.yourSelectedCrewScope : copy.yourSelectedCoreScope,
+                      { scope: selectedScopeLabel },
+                    )}
+                  </div>
+                  {competitor?.crewScopeSummary && (
+                    <div className="mt-1 text-slate-400">{competitor.crewScopeSummary}</div>
+                  )}
+                  <div className="mt-2 text-[11px] leading-relaxed text-slate-500">
+                    {isCrewOnly
+                      ? copy.fullScopeQuoteRequired
+                      : copy.coreFullScopeQuoteRequired}
+                  </div>
+                </div>
+              )}
+
               {/* Cost breakdown. EVERY line renders and the lines are totalled
                   on screen. The Power BI card used to print $88,600 above three
                   lines summing to $53,600 because the fourth was sliced away. */}
@@ -575,7 +726,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                         </div>
                         <div className="text-[10px] text-slate-500 leading-snug">
                           {line.verification === 'verified' ? '✓ ' : '~ '}
-                          {line.source}
+                          {formatVisibleSource(line.source, locale)}
                         </div>
                       </div>
                     ))}
@@ -593,7 +744,7 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                           </div>
                           <div className="text-[10px] text-slate-500 leading-snug">
                             {line.verification === 'verified' ? '✓ ' : '~ '}
-                            {line.source}
+                            {formatVisibleSource(line.source, locale)}
                           </div>
                         </div>
                       ))}
@@ -649,7 +800,9 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
               <div className="text-xs mb-3 flex justify-between gap-2 rounded bg-slate-900/40 px-3 py-2">
                 <span className="text-slate-400">
                   {cheaperThanSundae
-                    ? formatMessage(copy.competitorCostsLess, { name: comparison.competitor.name })
+                    ? scopeMismatch
+                      ? copy.disclosedPartialScopeGap
+                      : formatMessage(copy.competitorCostsLess, { name: comparison.competitor.name })
                     : copy.ongoingAnnualSavings}
                 </span>
                 <span
@@ -658,8 +811,8 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                     cheaperThanSundae ? 'text-slate-300' : 'text-green-400',
                   )}
                 >
-                  {cheaperThanSundae ? '-' : ''}
-                  {money(Math.abs(comparisonAmount(comparison)))}
+                  {cheaperThanSundae && !scopeMismatch ? '-' : ''}
+                  {money(Math.abs(annualRecurringGap))}
                 </span>
               </div>
 
@@ -765,7 +918,9 @@ function ComparisonCard({ comparison, isExpanded, onToggle, isBest, locale, copy
                     {formatMessage(copy.viewPricing, { name: comparison.competitor.name })}
                   </a>
                   {lastVerified && (
-                    <span className="ml-2 text-slate-600">last read {lastVerified}</span>
+                    <span className="ml-2 text-slate-600">
+                      last read {formatVerificationMonth(lastVerified, locale)}
+                    </span>
                   )}
                 </div>
               )}
@@ -785,9 +940,30 @@ interface VerificationBadgeProps {
   level: 'verified' | 'estimated' | 'unverified';
   copy: ReturnType<typeof getCompetitorCompareCopy>;
   lastVerified: string | null;
+  locale: PricingUiLocale;
 }
 
-function VerificationBadge({ level, copy, lastVerified }: VerificationBadgeProps) {
+/** Customer-facing source freshness is deliberately month-granular. */
+function formatVerificationMonth(date: string, locale: PricingUiLocale): string {
+  const match = /^(\d{4})-(\d{2})-\d{2}$/.exec(date);
+  if (!match) return date;
+  const [, year, month] = match;
+  const monthLabel = new Intl.DateTimeFormat(locale, {
+    month: 'short',
+    timeZone: 'UTC',
+  })
+    .format(new Date(Date.UTC(Number(year), Number(month) - 1, 1)))
+    .replace('.', '');
+  return `${monthLabel}-${year}`;
+}
+
+function formatVisibleSource(source: string, locale: PricingUiLocale): string {
+  return source.replace(/\b\d{4}-\d{2}-\d{2}\b/g, (date) =>
+    formatVerificationMonth(date, locale),
+  );
+}
+
+function VerificationBadge({ level, copy, lastVerified, locale }: VerificationBadgeProps) {
   const config = {
     verified: {
       icon: CheckCircle,
@@ -808,13 +984,14 @@ function VerificationBadge({ level, copy, lastVerified }: VerificationBadgeProps
 
   const Icon = config.icon;
   const age = verificationAgeDays(lastVerified);
+  const displayMonth = lastVerified ? formatVerificationMonth(lastVerified, locale) : null;
   // A green badge asserts the figure is CURRENT, so it has to show what that
   // claim rests on. Past the freshness window the level has already decayed to
   // "estimated"; the title says why.
   const title = lastVerified
-    ? `Read from the vendor pricing page on ${lastVerified}` +
+    ? `Read from the vendor pricing page in ${displayMonth}` +
       (age !== null && age > VERIFICATION_FRESHNESS_DAYS
-        ? ` — ${age} days ago, past the ${VERIFICATION_FRESHNESS_DAYS}-day freshness window, so it is shown as an estimate`
+        ? ` — past the ${VERIFICATION_FRESHNESS_DAYS}-day freshness window, so it is shown as an estimate`
         : '')
     : 'No dated first-party price check on file';
 
@@ -828,7 +1005,7 @@ function VerificationBadge({ level, copy, lastVerified }: VerificationBadgeProps
     >
       <Icon className="w-3 h-3" />
       {config.label}
-      {lastVerified && <span className="opacity-70">· {lastVerified}</span>}
+      {displayMonth && <span className="opacity-70">· {displayMonth}</span>}
     </span>
   );
 }

@@ -12,15 +12,22 @@ interface ProgressIndicatorProps {
   steps: JourneyStep[];
   currentStep: number;
   onStepClick?: (stepIndex: number) => void;
+  labelOverrides?: Partial<Record<string, string>>;
 }
 
-export function ProgressIndicator({ steps, currentStep, onStepClick }: ProgressIndicatorProps) {
+export function ProgressIndicator({
+  steps,
+  currentStep,
+  onStepClick,
+  labelOverrides,
+}: ProgressIndicatorProps) {
   const [hoveredStep, setHoveredStep] = useState<number | null>(null);
   const { layer } = useConfiguration();
   const { messages } = useLocale();
   const stepLabels = messages.simulator.journey;
 
-  const getStepLabel = (stepId: string) => stepLabels[stepId as keyof typeof stepLabels] || stepId;
+  const getStepLabel = (stepId: string) =>
+    labelOverrides?.[stepId] ?? stepLabels[stepId as keyof typeof stepLabels] ?? stepId;
 
   const handleStepClick = (index: number) => {
     // Check if step is available for current tier

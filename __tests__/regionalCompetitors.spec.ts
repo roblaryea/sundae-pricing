@@ -25,7 +25,11 @@ import { describe, expect, it } from "vitest";
 
 import { readFileSync } from "node:fs";
 
-import { COMPETITOR_PRICING, unpricedCompetitors } from "../src/data/competitorPricing";
+import {
+  calculateAllComparisons,
+  COMPETITOR_PRICING,
+  unpricedCompetitors,
+} from "../src/data/competitorPricing";
 
 const CONTEXT = { monthlyRevenuePerLocation: 100_000 };
 const lines = (id: string, n = 10) =>
@@ -314,6 +318,42 @@ describe("a Crew-only buyer gets a comparison", () => {
       const c = COMPETITOR_PRICING[id];
       expect(c.showPricing, `${id} is no longer priced`).not.toBe(false);
       expect(c.coversDomains).toContain("labor");
+    }
+  });
+
+  it("shows only plausible workforce alternatives on the priced Crew path", () => {
+    const comparisons = calculateAllComparisons(
+      8,
+      ["labor"],
+      {
+        coreMonthly: 0,
+        crewMonthly: 1192,
+        implementationFee: 0,
+        implementationScoped: true,
+        implementationIsFloor: false,
+      },
+      { ...CONTEXT, comparisonPath: "crew" },
+    );
+    const ids = comparisons.map((comparison) => comparison.competitor.id).sort();
+    expect(ids).toEqual(["7shifts", "deputy", "homebase"]);
+    expect(ids).not.toContain("powerbi");
+    expect(ids).not.toContain("restaurant365");
+    expect(ids).not.toContain("foodics");
+  });
+
+  it("limits the unpriced Crew shortlist to workforce-relevant regional rivals", () => {
+    const ids = unpricedCompetitors("crew").map((vendor) => vendor.id).sort();
+    expect(ids).toEqual(["bayzat", "fourth", "gulfhr", "nostradamus"]);
+    expect(ids).not.toContain("apicbase");
+    expect(ids).not.toContain("nory");
+    expect(ids).not.toContain("crunchtime");
+  });
+
+  it("states the missing paid scope before presenting a cheaper workforce price", () => {
+    for (const id of ["homebase", "deputy", "7shifts"]) {
+      expect(COMPETITOR_PRICING[id].crewScopeSummary, `${id} hides its priced scope`).toMatch(
+        /excludes/i,
+      );
     }
   });
 });

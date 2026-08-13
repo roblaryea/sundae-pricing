@@ -900,8 +900,30 @@ export function ConfigSummary() {
         transition={{ delay: 0.4 }}
         className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
       >
-        <EmailQuoteButton pricing={pricing} crewMonthly={crewRail?.monthly ?? 0} />
-        <PDFExportButton pricing={pricing} crewMonthly={crewRail?.monthly ?? 0} />
+        <EmailQuoteButton
+          pricing={pricing}
+          crewMonthly={crewRail?.monthly ?? 0}
+          funding={{
+            monthlyFunding: summaryRoi.monthlyFunding,
+            profitRecovery: summaryRoi.monthlySavings,
+            cashAvoidance: summaryRoi.replaceableSystemsSavings,
+            capacityValue: summaryRoi.capacityValue,
+            capacityFte: summaryRoi.capacityFte,
+            coreMonthly: coreOnlyPricing.total,
+          }}
+        />
+        <PDFExportButton
+          pricing={pricing}
+          crewMonthly={crewRail?.monthly ?? 0}
+          funding={{
+            monthlyFunding: summaryRoi.monthlyFunding,
+            profitRecovery: summaryRoi.monthlySavings,
+            cashAvoidance: summaryRoi.replaceableSystemsSavings,
+            capacityValue: summaryRoi.capacityValue,
+            capacityFte: summaryRoi.capacityFte,
+            coreMonthly: coreOnlyPricing.total,
+          }}
+        />
         <BookDemoButton />
       </motion.div>
 

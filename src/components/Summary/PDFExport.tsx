@@ -20,9 +20,18 @@ import { getPricingPdfCopy, type PricingLocale } from '../../lib/pricingI18n';
  *
  * The quote is now passed in, computed once by the summary.
  */
-export function PDFExportButton({ pricing, crewMonthly = 0 }: {
+export function PDFExportButton({ pricing, crewMonthly = 0, funding }: {
   pricing: PriceCalculation;
   crewMonthly?: number;
+  /** The funding case as the summary computed it, so the PDF cannot disagree. */
+  funding?: {
+    monthlyFunding: number;
+    profitRecovery: number;
+    cashAvoidance: number;
+    capacityValue: number;
+    capacityFte: number;
+    coreMonthly: number;
+  };
 }) {
   const { locale, messages } = useLocale();
   const [isGenerating, setIsGenerating] = useState(false);
@@ -76,6 +85,7 @@ export function PDFExportButton({ pricing, crewMonthly = 0 }: {
           },
           context: { monthlyRevenuePerLocation: roiInputs.monthlyRevenue },
         },
+        funding,
       );
       
       // Convert blob to file and download

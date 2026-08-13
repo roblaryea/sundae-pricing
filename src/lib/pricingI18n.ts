@@ -28,6 +28,15 @@ type LocaleCopy = {
     yourCostLabel: string;
     youSaveLabel: string;
     verifiedLabel: string;
+    estimatedLabel: string;
+    unverifiedLabel: string;
+    costsMoreLabel: string;
+    fundingTitle: string;
+    fundingBasisLabel: string;
+    profitRecoveryLabel: string;
+    cashAvoidanceLabel: string;
+    capacityLabel: string;
+    netAfterCoreLabel: string;
     bestSavingsLabel: string;
     competitorDisclaimer: string;
     informationalOnlyLabel: string;
@@ -88,6 +97,15 @@ const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
       yourCostLabel: 'Your Cost',
       youSaveLabel: 'You Save',
       verifiedLabel: 'Verified',
+      estimatedLabel: 'Estimated',
+      unverifiedLabel: 'Unverified',
+      costsMoreLabel: 'costs more',
+      fundingTitle: 'What can fund this investment',
+      fundingBasisLabel: 'A planning model, not a measured outcome. Operational recovery uses disclosed midpoints; cash avoidance includes only spend you entered as replaceable.',
+      profitRecoveryLabel: 'Profit recovery',
+      cashAvoidanceLabel: 'Cash cost avoidance',
+      capacityLabel: 'Redeployable capacity',
+      netAfterCoreLabel: 'Net after Core',
       bestSavingsLabel: 'Best Savings',
       competitorDisclaimer: '* Competitor pricing based on public information and industry estimates. Contact vendors for exact quotes.',
       informationalOnlyLabel: 'This quote is for informational purposes only.',
@@ -146,6 +164,15 @@ const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
       yourCostLabel: 'تكلفتك',
       youSaveLabel: 'توفّر',
       verifiedLabel: 'موثّق',
+      estimatedLabel: 'تقديري',
+      unverifiedLabel: 'غير موثّق',
+      costsMoreLabel: 'تكلفته أعلى',
+      fundingTitle: 'ما الذي يموّل هذا الاستثمار',
+      fundingBasisLabel: 'نموذج تخطيطي وليس نتيجة مقاسة. يستخدم التعافي التشغيلي النقاط الوسطى المعلنة، ويشمل تفادي التكلفة النقدية فقط ما أدخلته كإنفاق قابل للاستبدال.',
+      profitRecoveryLabel: 'تعافي الأرباح',
+      cashAvoidanceLabel: 'تفادي التكلفة النقدية',
+      capacityLabel: 'طاقة قابلة لإعادة التوظيف',
+      netAfterCoreLabel: 'الصافي بعد Core',
       bestSavingsLabel: 'أفضل توفير',
       competitorDisclaimer: '* تعتمد أسعار المنافسين على المعلومات العامة وتقديرات الصناعة. تواصل مع المزوّدين للحصول على عروض دقيقة.',
       informationalOnlyLabel: 'هذا العرض لأغراض معلوماتية فقط.',
@@ -204,6 +231,15 @@ const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
       yourCostLabel: 'Votre coût',
       youSaveLabel: 'Vous économisez',
       verifiedLabel: 'Vérifié',
+      estimatedLabel: 'Estimé',
+      unverifiedLabel: 'Non vérifié',
+      costsMoreLabel: 'coûte plus cher',
+      fundingTitle: 'Ce qui peut financer cet investissement',
+      fundingBasisLabel: 'Un modèle de planification, pas un résultat mesuré. La récupération opérationnelle utilise les points médians publiés ; l\'évitement de coûts ne retient que les dépenses que vous avez déclarées remplaçables.',
+      profitRecoveryLabel: 'Récupération de marge',
+      cashAvoidanceLabel: 'Évitement de coûts en trésorerie',
+      capacityLabel: 'Capacité redéployable',
+      netAfterCoreLabel: 'Net après Core',
       bestSavingsLabel: 'Meilleure économie',
       competitorDisclaimer: '* Les prix des concurrents reposent sur des informations publiques et des estimations sectorielles. Contactez les fournisseurs pour obtenir des devis exacts.',
       informationalOnlyLabel: 'Ce devis est fourni à titre informatif uniquement.',
@@ -262,6 +298,15 @@ const localizedCopy: Record<FullyLocalizedPricingLocale, LocaleCopy> = {
       yourCostLabel: 'Tu coste',
       youSaveLabel: 'Ahorras',
       verifiedLabel: 'Verificado',
+      estimatedLabel: 'Estimado',
+      unverifiedLabel: 'No verificado',
+      costsMoreLabel: 'cuesta más',
+      fundingTitle: 'Qué puede financiar esta inversión',
+      fundingBasisLabel: 'Un modelo de planificación, no un resultado medido. La recuperación operativa usa los puntos medios publicados; el ahorro en efectivo solo incluye el gasto que has indicado como reemplazable.',
+      profitRecoveryLabel: 'Recuperación de margen',
+      cashAvoidanceLabel: 'Ahorro de coste en efectivo',
+      capacityLabel: 'Capacidad reasignable',
+      netAfterCoreLabel: 'Neto después de Core',
       bestSavingsLabel: 'Mejor ahorro',
       competitorDisclaimer: '* Los precios de la competencia se basan en información pública y estimaciones del sector. Contacta con los proveedores para obtener cotizaciones exactas.',
       informationalOnlyLabel: 'Esta cotización es solo para fines informativos.',

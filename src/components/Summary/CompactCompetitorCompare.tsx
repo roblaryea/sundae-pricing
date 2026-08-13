@@ -89,13 +89,26 @@ function useQuotedSundaeCost() {
     [operatingModels, billingCycle],
   );
 
+  // `corePackage` is non-nullable and the store defaults it to
+  // 'core_foundation', so this always prices SOMETHING even on the Crew-only
+  // path. That value is deliberately discarded below — `coreMonthly` is 0 there
+  // — rather than guarded against null, which the type already prevents.
   const pricing = usePriceCalculation(
     layer, corePackage, locations, addOns, watchtowerModules, clientProfile, crossIntelligence,
   );
 
+  // Crew-only counts too.
+  //
+  // This required `layer === 'both'`, so a buyer who chose Crew alone got a
+  // card built entirely from `pricing.total` — a Core quote they never
+  // configured — and no Crew rail at all. It was the reason a Crew-only buyer
+  // could not be shown any comparison, and the reason not to show them one was
+  // that the workforce rivals were missing from the catalogue. They are in it
+  // now, with published prices, so the comparison is both possible and honest.
+  const isCrewOnly = layer === 'crew';
   const crewRail = useMemo(
     () =>
-      layer === 'both' && selectedCrewSkus.length > 0
+      (layer === 'both' || layer === 'crew') && selectedCrewSkus.length > 0
         ? computeCrewQuote(selectedCrewSkus, locations)
         : null,
     [layer, selectedCrewSkus, locations],
@@ -126,7 +139,10 @@ function useQuotedSundaeCost() {
     : pricing.implementation;
 
   const basis: SundaeQuoteBasis = {
-    coreMonthly: pricing.total,
+    // No Core rail means no Core cost. `usePriceCalculation` prices a Core
+    // package regardless of what the buyer picked, so reading it on the
+    // Crew-only path would invoice them for something they did not choose.
+    coreMonthly: isCrewOnly ? 0 : pricing.total,
     crewMonthly: crewRail?.monthly ?? 0,
     implementationFee: stackEstimate ? stackEstimate.fee : railImplementation.fee,
     implementationScoped: stackEstimate ? false : railImplementation.requiresScoping,
@@ -139,6 +155,7 @@ function useQuotedSundaeCost() {
     addOns,
     corePackage,
     hasCrewRail: crewRail !== null,
+    isCrewOnly,
     requiresEnterpriseQuote: pricing.requiresEnterpriseQuote,
     /** Per-location monthly revenue the buyer entered on the ROI step. */
     monthlyRevenuePerLocation: roiInputs.monthlyRevenue,
@@ -151,7 +168,7 @@ export function CompactCompetitorCompare() {
   const copy = getCompetitorCompareCopy(uiLocale);
 
   const {
-    basis, locations, addOns, corePackage, hasCrewRail,
+    basis, locations, addOns, corePackage, hasCrewRail, isCrewOnly,
     requiresEnterpriseQuote, monthlyRevenuePerLocation,
   } = useQuotedSundaeCost();
 
@@ -162,10 +179,20 @@ export function CompactCompetitorCompare() {
   // Under v1.7 the packages differ by grant (Foundation 4 → Performance 11), so
   // telling a Foundation buyer a vendor misses eight domains they were never
   // sold is as wrong as telling them it misses none.
-  const grantedDomains = PACKAGE_DOMAIN_GRANTS[corePackage] as readonly string[];
+  //
+  // On the Crew-only path there is no package and no Core domains: what the
+  // buyer bought is workforce, so the comparison is scored on `labor` alone and
+  // the CORE_PACKAGE_SELECTION_ID marker is deliberately withheld — passing it
+  // would tell every competitor calculator the buyer holds a Core package.
+  const grantedDomains = isCrewOnly
+    ? (['labor'] as const as readonly string[])
+    : (PACKAGE_DOMAIN_GRANTS[corePackage] as readonly string[]);
   const allModules = useMemo(
-    () => [...addOns, CORE_PACKAGE_SELECTION_ID, ...grantedDomains],
-    [addOns, grantedDomains],
+    () =>
+      isCrewOnly
+        ? [...grantedDomains]
+        : [...addOns, CORE_PACKAGE_SELECTION_ID, ...grantedDomains],
+    [isCrewOnly, addOns, grantedDomains],
   );
 
   const comparisons = useMemo(

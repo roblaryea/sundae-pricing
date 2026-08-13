@@ -23,6 +23,8 @@
  */
 import { describe, expect, it } from "vitest";
 
+import { readFileSync } from "node:fs";
+
 import { COMPETITOR_PRICING, unpricedCompetitors } from "../src/data/competitorPricing";
 
 const CONTEXT = { monthlyRevenuePerLocation: 100_000 };
@@ -263,5 +265,55 @@ describe("the set stays small and recognisable", () => {
     expect(cats, "no UK vendor").toMatch(/UK/i);
     expect(cats, "no European vendor").toMatch(/Europe/i);
     expect(cats, "no US vendor").toMatch(/US/i);
+  });
+});
+
+describe("a Crew-only buyer gets a comparison", () => {
+  /**
+   * They used to get a price and nothing else. The reason was real — the
+   * workforce rivals were missing, and a comparison containing only 7shifts
+   * would have omitted the cheapest options and rebuilt the "only show what we
+   * win" defect. Homebase, Deputy and 7shifts now carry published prices, so
+   * the comparison is possible and, at ten locations, unflattering: Crew loses
+   * to both Homebase and 7shifts there, which is the honest picture below the
+   * crossover.
+   */
+  const SRC = readFileSync("src/components/Summary/CompactCompetitorCompare.tsx", "utf8");
+
+  it("builds a Crew rail on the crew-only path, not just on 'both'", () => {
+    expect(SRC).toMatch(/layer === 'both' \|\| layer === 'crew'/);
+    expect(SRC).toMatch(/isCrewOnly/);
+  });
+
+  it("charges no Core cost to a buyer who bought no Core", () => {
+    // `usePriceCalculation` prices a package regardless of what was chosen, so
+    // reading it here would invoice them for something they never selected.
+    expect(SRC).toMatch(/coreMonthly: isCrewOnly \? 0 : pricing\.total/);
+  });
+
+  it("withholds the Core-package marker from competitor calculators", () => {
+    // Passing it would tell every calculator the buyer holds a Core package.
+    expect(SRC).toMatch(/isCrewOnly\s*\n?\s*\?\s*\[\.\.\.grantedDomains\]/);
+  });
+
+  it("scores the comparison on labour, which is what Crew delivers", () => {
+    expect(SRC).toMatch(/\['labor'\] as const as readonly string\[\]/);
+  });
+
+  it("is mounted on the Crew summary", () => {
+    const summary = readFileSync("src/components/Summary/ConfigSummary.tsx", "utf8");
+    const crewBody = summary.slice(summary.indexOf("function CrewSummaryBody"));
+    expect(crewBody, "the Crew summary renders no comparison").toMatch(
+      /<CompactCompetitorCompare \/>/,
+    );
+  });
+
+  it("has priced workforce rivals for it to compare against", () => {
+    // If these ever lose their prices the comparison becomes one-sided again.
+    for (const id of ["homebase", "deputy", "7shifts"]) {
+      const c = COMPETITOR_PRICING[id];
+      expect(c.showPricing, `${id} is no longer priced`).not.toBe(false);
+      expect(c.coversDomains).toContain("labor");
+    }
   });
 });

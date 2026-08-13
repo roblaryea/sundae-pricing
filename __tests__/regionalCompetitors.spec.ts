@@ -23,7 +23,7 @@
  */
 import { describe, expect, it } from "vitest";
 
-import { COMPETITOR_PRICING } from "../src/data/competitorPricing";
+import { COMPETITOR_PRICING, unpricedCompetitors } from "../src/data/competitorPricing";
 
 const CONTEXT = { monthlyRevenuePerLocation: 100_000 };
 const lines = (id: string, n = 10) =>
@@ -139,5 +139,74 @@ describe("every new entry keeps the catalogue's invariants", () => {
     for (const id of NEW) {
       expect(COMPETITOR_PRICING[id].cannotDoAtAnyPrice ?? []).toEqual([]);
     }
+  });
+});
+
+describe("the vendors who publish no price are still shown", () => {
+  const listed = unpricedCompetitors();
+  const ids = listed.map((v) => v.id);
+
+  it("includes the Gulf HR platforms", () => {
+    // Foodics is a POS, not an HR provider — these are the Gulf workforce
+    // rivals a buyer actually shortlists.
+    expect(ids).toContain("bayzat");
+    expect(ids).toContain("gulfhr");
+  });
+
+  it("includes the UK hospitality workforce rivals", () => {
+    expect(ids).toContain("fourth");
+    expect(ids).toContain("s4labour");
+  });
+
+  it("files Nostradamus under the Benelux, not the UK", () => {
+    // nostradamus.co.uk is a parked domain listed for sale; the live product is
+    // Dutch (Breda) — "Personeelsplanning, urenregistratie en meer".
+    const n = listed.find((v) => v.id === "nostradamus");
+    expect(n, "Nostradamus is missing").toBeTruthy();
+    expect(n!.category).toMatch(/benelux/i);
+    expect(n!.note).toMatch(/NETHERLANDS|Netherlands/);
+  });
+
+  it("credits Fourth with both sides, because it has both", () => {
+    // Understating a rival's coverage flatters us just as surely as
+    // overstating our own.
+    const f = COMPETITOR_PRICING.fourth.coversDomains;
+    expect(f).toContain("labor");
+    expect(f).toContain("inventory");
+    expect(f).toContain("purchasing");
+  });
+
+  it("quotes no price for any of them", () => {
+    for (const v of listed) {
+      const cost = COMPETITOR_PRICING[v.id].calculate(10, ["labor"], undefined);
+      // Nory's calculator returns nulls where the others return zero; either
+      // way the contract is the same — no figure reaches the buyer.
+      expect(cost.ongoing ?? 0, `${v.id} quotes a price it does not publish`).toBe(0);
+      expect(cost.lines ?? []).toEqual([]);
+    }
+  });
+
+  it("says on each one why there is no price", () => {
+    for (const v of listed) {
+      expect(v.note.length, `${v.id} has no explanation`).toBeGreaterThan(40);
+      expect(v.note).toMatch(/publish|no price|demo|quote/i);
+    }
+  });
+
+  it("keeps them out of the priced comparison", () => {
+    for (const v of listed) {
+      expect(COMPETITOR_PRICING[v.id].showPricing).toBe(false);
+    }
+  });
+});
+
+describe("Foodics is a POS, not an HR provider", () => {
+  it("no longer claims the labour domain", () => {
+    expect(COMPETITOR_PRICING.foodics.coversDomains).not.toContain("labor");
+  });
+
+  it("still covers the till and stock side", () => {
+    expect(COMPETITOR_PRICING.foodics.coversDomains).toContain("revenue");
+    expect(COMPETITOR_PRICING.foodics.coversDomains).toContain("inventory");
   });
 });

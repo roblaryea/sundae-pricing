@@ -36,7 +36,7 @@ import {
   type ComparisonResult,
   type SundaeQuoteBasis,
 } from '../../data/competitorPricing';
-import { comparisonAmount } from '../../data/competitorPricing';
+import { comparisonAmount, unpricedCompetitors } from '../../data/competitorPricing';
 import { PACKAGE_DOMAIN_GRANTS, modules as coreDomainModules } from '../../data/pricing';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import { resolveImplementationFee } from '../../lib/pricingEngine';
@@ -211,6 +211,11 @@ export function CompactCompetitorCompare() {
   const costsMore = comparisons.filter((c) => comparisonAmount(c) <= 0);
   const bestSavings = cheaper[0];
 
+  // Real rivals that publish no rate card. See `unpricedCompetitors`. Not a
+  // hook: this sits after an early return, and it is a pure read of a static
+  // catalogue, so memoising it would buy nothing and break the hook order.
+  const unpriced = unpricedCompetitors();
+
   return (
     <div className="compact-competitor-compare">
       {/* Header with assumptions button */}
@@ -349,6 +354,35 @@ export function CompactCompetitorCompare() {
               money={money}
             />
           ))}
+        </div>
+      )}
+
+      {/* Competitors that publish no price.
+          `calculateAllComparisons` filters them out, correctly — a vendor shown
+          at $0 reads as free, and inventing a figure is how a comparison
+          collapses under checking. But filtering them out also meant the buyer
+          never learned they were considered, and MOST regional vendors sit
+          here: Bayzat and gulfHR in the Gulf, Fourth and S4labour in the UK,
+          Nostradamus in the Benelux, Apicbase and Nory in Europe. Listing what
+          they COVER, with no number, is the honest way to show the landscape. */}
+      {unpriced.length > 0 && (
+        <div className="mt-6 rounded-lg border border-white/10 bg-slate-900/30 p-4">
+          <div className="text-sm font-medium text-slate-300">{copy.alsoEvaluated}</div>
+          <p className="mt-1 text-xs text-slate-400">{copy.alsoEvaluatedBasis}</p>
+          <ul className="mt-3 space-y-1.5">
+            {unpriced.map((vendor) => (
+              <li key={vendor.id} className="text-xs text-slate-400 flex flex-wrap gap-x-2">
+                <span className="text-slate-200 font-medium">{vendor.name}</span>
+                <span>{getLocalizedCompetitorCategory(locale, vendor.category)}</span>
+                <span className="text-slate-500">
+                  {formatMessage(copy.dayOneDomains, {
+                    count: vendor.coversDomains.filter((d) => grantedDomains.includes(d)).length,
+                    total: grantedDomains.length,
+                  })}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

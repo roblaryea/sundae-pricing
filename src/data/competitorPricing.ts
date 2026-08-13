@@ -989,7 +989,13 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     verification: 'estimated' as VerificationLevel,
     sourceUrl: 'https://www.foodics.com/pricing/',
     lastVerified: '2026-08-11',
-    coversDomains: ['revenue', 'labor', 'inventory'],
+    // NOT a workforce provider. This listed `labor`, which credited Foodics
+    // with an HR capability it does not lead on — it is a POS/RMS whose
+    // strength is the till, the menu and stock. Overstating a rival's coverage
+    // is the same defect as understating it, pointed the other way: it makes
+    // our coverage argument look weaker than it is against the wrong vendor,
+    // and it puts a POS in the workforce comparison a Crew buyer is reading.
+    coversDomains: ['revenue', 'inventory'],
 
     pricing: {
       // Published bundle figures. The page prints "423 /mo" with NO currency
@@ -1057,6 +1063,126 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     limitations: [
       'Back-of-house only — no labour, marketing or guest analytics',
     ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PRICE ON APPLICATION
+  //
+  // Real competitors that publish no rate card. They carry coverage and a
+  // source but never a price: `showPricing: false` keeps them out of the
+  // priced comparison, and the card lists them separately so the buyer sees
+  // the landscape without a number we invented. Most regional vendors sit
+  // here, so the honest competitor set will always be thinner on price outside
+  // the US than inside it.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Gulf — HR and payroll. Bayzat is the region's best-known HR platform.
+  bayzat: {
+    id: 'bayzat',
+    name: 'Bayzat',
+    category: 'Gulf HR, payroll & benefits',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.bayzat.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Bayzat publishes no rate card: bayzat.com/pricing returns 404 and no per-employee price appears on their site. HR, payroll, benefits and medical insurance across UAE, KSA and the wider GCC. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['HR and payroll only — no food, purchasing or revenue analytics'],
+  },
+
+  gulfhr: {
+    id: 'gulfhr',
+    name: 'gulfHR',
+    category: 'Gulf HR & payroll',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.gulfhr.com/pricing',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'gulfHR publishes no prices. Their pricing page carries only a "Get Your Free Demo & Quote" form and a 30-day pilot for companies with 500+ employees. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['HR and payroll only — no food, purchasing or revenue analytics'],
+  },
+
+  // UK — the two that actually turn up in hospitality shortlists.
+  fourth: {
+    id: 'fourth',
+    name: 'Fourth',
+    category: 'UK hospitality workforce & inventory',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://uk.fourth.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    // Fourth spans BOTH sides, which is why it is the most complete rival in
+    // this list. Verified from their own product navigation: Applicant
+    // Tracking, Onboarding, HR & Payroll, On-Demand Pay, Scheduling, Time and
+    // Attendance, Employee Engagement — plus Purchasing/Receiving/Invoicing,
+    // Recipe & Menu Engineering, Dynamic Production and Prep (Adaco,
+    // MacromatiX). Claiming less would flatter our coverage argument.
+    coversDomains: ['labor', 'inventory', 'purchasing'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Fourth publishes no pricing — their site directs to "Get a demo". Covers workforce (scheduling, T&A, HR, payroll, on-demand pay) AND back-of-house (purchasing, receiving, invoicing, recipe and menu engineering, production) via Adaco and MacromatiX. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: [],
+  },
+
+  s4labour: {
+    id: 's4labour',
+    name: 'S4labour',
+    category: 'UK hospitality labour',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.s4labour.co.uk/pricing',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'S4labour publishes no prices on its pricing page. UK hospitality labour scheduling and control. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['Labour only — no food, purchasing or revenue analytics'],
+  },
+
+  // Benelux — NOT a UK vendor, despite the name coming up in UK conversations.
+  nostradamus: {
+    id: 'nostradamus',
+    name: 'Nostradamus',
+    category: 'Benelux hospitality workforce',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.nostradamus-software.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Nostradamus publishes no prices. A NETHERLANDS vendor (Breda), not a UK one — nostradamus.co.uk is a parked domain listed for sale, and the live product at nostradamus.nl / nostradamus-software.com is "Personeelsplanning, urenregistratie en meer": staff scheduling and time registration for hospitality. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['Scheduling and time registration only'],
   },
 
   '7shifts': {
@@ -1356,6 +1482,38 @@ export function calculateCompetitorComparison(
  */
 export function comparisonAmount(c: ComparisonResult): number {
   return c.savings.firstYearComparable ? c.savings.firstYear : c.savings.ongoing;
+}
+
+/**
+ * Real competitors that publish no price.
+ *
+ * `calculateAllComparisons` filters them out — correctly, because a vendor
+ * priced at $0 reads as free, and inventing a figure is how a comparison
+ * collapses under checking. But filtering them out ALSO means a buyer never
+ * learns they were considered, and most regional vendors sit here: Bayzat and
+ * gulfHR in the Gulf, Fourth and S4labour in the UK, Nostradamus in the
+ * Benelux, Apicbase in Europe, Nory across the UK and Ireland.
+ *
+ * Returned separately so the card can list the landscape — name, region and
+ * what they cover — without a number. Coverage is the honest thing to compare
+ * when price is not published.
+ */
+export function unpricedCompetitors(): Array<{
+  id: string;
+  name: string;
+  category: string;
+  coversDomains: readonly string[];
+  note: string;
+}> {
+  return Object.values(COMPETITOR_PRICING)
+    .filter((c) => c.showPricing === false)
+    .map((c) => ({
+      id: c.id,
+      name: c.name,
+      category: c.category,
+      coversDomains: c.coversDomains,
+      note: c.calculate(1, [], undefined).notes ?? '',
+    }));
 }
 
 export function calculateAllComparisons(

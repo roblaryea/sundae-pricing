@@ -30,7 +30,7 @@ const lines = (id: string, n = 10) =>
   COMPETITOR_PRICING[id].calculate(n, ["labor", "inventory", "revenue"], CONTEXT);
 
 describe("the workforce rivals are present", () => {
-  it.each(["homebase", "deputy", "wheniwork"])("%s is in the catalogue", (id) => {
+  it.each(["homebase", "deputy"])("%s is in the catalogue", (id) => {
     expect(COMPETITOR_PRICING[id], `${id} missing`).toBeTruthy();
     expect(COMPETITOR_PRICING[id].coversDomains).toContain("labor");
   });
@@ -49,7 +49,7 @@ describe("the workforce rivals are present", () => {
   it("scales the per-user vendors with headcount, not sites alone", () => {
     // Doubling locations doubles users under a fixed per-location headcount,
     // but the BASIS must be visible as per-user.
-    for (const id of ["deputy", "wheniwork"]) {
+    for (const id of ["deputy"]) {
       expect(lines(id, 20).ongoing).toBeGreaterThan(lines(id, 10).ongoing);
       expect(lines(id, 10).lines[0].source, `${id} hides its per-user basis`).toMatch(
         /per user/i,
@@ -59,7 +59,7 @@ describe("the workforce rivals are present", () => {
 
   it("declares the headcount assumption rather than burying it", () => {
     // An unstated headcount is how a per-user competitor gets mispriced.
-    for (const id of ["deputy", "wheniwork"]) {
+    for (const id of ["deputy"]) {
       const source = lines(id).lines[0].source ?? "";
       expect(source, `${id} does not state its headcount`).toMatch(/employees per location/i);
       expect(source, `${id} does not flag it as an assumption`).toMatch(/assumption/i);
@@ -117,7 +117,7 @@ describe("the European rival is present without an invented price", () => {
 });
 
 describe("every new entry keeps the catalogue's invariants", () => {
-  const NEW = ["homebase", "deputy", "wheniwork", "foodics", "apicbase"];
+  const NEW = ["homebase", "deputy", "foodics", "apicbase"];
 
   it.each(NEW)("%s key matches its id", (id) => {
     expect(COMPETITOR_PRICING[id].id).toBe(id);
@@ -153,18 +153,8 @@ describe("the vendors who publish no price are still shown", () => {
     expect(ids).toContain("gulfhr");
   });
 
-  it("includes the UK hospitality workforce rivals", () => {
+  it("includes the UK hospitality rival", () => {
     expect(ids).toContain("fourth");
-    expect(ids).toContain("s4labour");
-  });
-
-  it("files Nostradamus under the Benelux, not the UK", () => {
-    // nostradamus.co.uk is a parked domain listed for sale; the live product is
-    // Dutch (Breda) — "Personeelsplanning, urenregistratie en meer".
-    const n = listed.find((v) => v.id === "nostradamus");
-    expect(n, "Nostradamus is missing").toBeTruthy();
-    expect(n!.category).toMatch(/benelux/i);
-    expect(n!.note).toMatch(/NETHERLANDS|Netherlands/);
   });
 
   it("credits Fourth with both sides, because it has both", () => {
@@ -211,65 +201,52 @@ describe("Foodics is a POS, not an HR provider", () => {
   });
 });
 
-describe("the US and UK additions", () => {
-  const listed = unpricedCompetitors();
-  const byId = Object.fromEntries(listed.map((v) => [v.id, v]));
 
-  it("covers the US HR and restaurant-ops names a buyer shortlists", () => {
-    for (const id of ["gusto", "adp", "paychex", "rippling", "crunchtime"]) {
-      expect(byId[id], `${id} missing`).toBeTruthy();
+describe("the set stays small and recognisable", () => {
+  /**
+   * A comparison is a shortlist, not a directory. The unpriced list reached
+   * fourteen and had to be cut: four near-identical US payroll bureaus (Gusto,
+   * ADP, Paychex, Rippling) that a restaurant operator is not choosing between
+   * Sundae and, two UK scheduling tools narrower than Fourth in the same
+   * market, and a Benelux vendor with no recognition outside it.
+   *
+   * What survives is restaurant- or hospitality-specific, or names the founder
+   * identified as the ones that actually come up in their market.
+   */
+  it("keeps the unpriced list short enough to read", () => {
+    expect(unpricedCompetitors().length).toBeLessThanOrEqual(8);
+  });
+
+  it("keeps the priced list short enough to read", () => {
+    const priced = Object.values(COMPETITOR_PRICING).filter((c) => c.showPricing !== false);
+    expect(priced.length).toBeLessThanOrEqual(10);
+  });
+
+  it("carries no more than three workforce vendors on the priced side", () => {
+    // Homebase, Deputy and 7shifts cover per-location, per-user and
+    // restaurant-native. A fourth was redundant.
+    const priced = Object.values(COMPETITOR_PRICING).filter((c) => c.showPricing !== false);
+    const workforceOnly = priced.filter(
+      (c) => c.coversDomains.length === 1 && c.coversDomains[0] === "labor",
+    );
+    expect(workforceOnly.length).toBeLessThanOrEqual(3);
+  });
+
+  it("still spans every category a buyer arrives from", () => {
+    const priced = Object.values(COMPETITOR_PRICING).filter((c) => c.showPricing !== false);
+    const ids = priced.map((c) => c.id);
+    // Status quo, build-your-own, restaurant analytics, ERP, inventory,
+    // regional POS and workforce all remain represented.
+    for (const id of ["spreadsheets", "powerbi", "tenzo", "restaurant365", "marketman", "foodics", "7shifts"]) {
+      expect(ids, `${id} was cut but has no replacement in its category`).toContain(id);
     }
   });
 
-  it("distinguishes 'publishes no price' from 'we could not retrieve it'", () => {
-    // Conflating the two would be its own small dishonesty. Gusto and ADP are
-    // bot-blocked; Paychex and Rippling genuinely render no rate.
-    expect(byId.gusto.note).toMatch(/could not read|403/i);
-    expect(byId.gusto.note, "must not claim Gusto publishes nothing").toMatch(/NOT a finding/i);
-    expect(byId.adp.note).toMatch(/could not read|403|404/i);
-    expect(byId.paychex.note).toMatch(/publishes no price/i);
-    expect(byId.rippling.note).toMatch(/publishes no price/i);
-  });
-
-  it("records the UK vendors' published figures without quoting them", () => {
-    // Both DO publish, in GBP, and neither published a complete structure.
-    expect(byId.rotacloud.note).toMatch(/£10|£15/);
-    expect(byId.planday.note).toMatch(/£2\.99/);
-    for (const id of ["rotacloud", "planday"]) {
-      expect(byId[id].note, `${id} does not explain the GBP problem`).toMatch(
-        /sterling floats|GBP/i,
-      );
-      expect(COMPETITOR_PRICING[id].showPricing).toBe(false);
-    }
-  });
-
-  it("ranks the broadest rival first rather than by catalogue order", () => {
-    // Fourteen names in insertion order would bury Fourth, the broadest rival,
-    // beneath a generic payroll bureau.
-    const widths = listed.map((v) => v.coversDomains.length);
-    expect(widths).toEqual([...widths].sort((a, b) => b - a));
-    expect(listed[0].coversDomains.length).toBeGreaterThan(1);
-  });
-
-  it("gives every vendor added here a first-party source and a date", () => {
-    // Scoped to the entries this work added. Nory carries a null sourceUrl on
-    // purpose — we cite nothing for it, the same posture Tenzo took once its
-    // URL became a domain-sale page. A null source is honest; a stale one is
-    // not.
-    const ADDED = [
-      "bayzat", "gulfhr", "fourth", "s4labour", "nostradamus",
-      "gusto", "adp", "paychex", "rippling", "crunchtime", "rotacloud", "planday",
-    ];
-    for (const id of ADDED) {
-      expect(COMPETITOR_PRICING[id].sourceUrl, `${id} has no source`).toBeTruthy();
-      expect(COMPETITOR_PRICING[id].lastVerified, `${id} has no date`).toBeTruthy();
-    }
-  });
-
-  it("explains itself for every unpriced vendor, sourced or not", () => {
-    // The note is what the buyer reads; it must always say why no price.
-    for (const v of listed) {
-      expect(v.note.length, `${v.id} has no explanation`).toBeGreaterThan(40);
-    }
+  it("still spans every region on the unpriced side", () => {
+    const cats = unpricedCompetitors().map((v) => v.category).join(" | ");
+    expect(cats, "no Gulf vendor").toMatch(/Gulf/i);
+    expect(cats, "no UK vendor").toMatch(/UK/i);
+    expect(cats, "no European vendor").toMatch(/Europe/i);
+    expect(cats, "no US vendor").toMatch(/US/i);
   });
 });

@@ -301,7 +301,12 @@ describe("a Crew-only buyer gets a comparison", () => {
   });
 
   it("scores the comparison on labour, which is what Crew delivers", () => {
-    expect(SRC).toMatch(/\['labor'\] as const as readonly string\[\]/);
+    // Asserts the INTENT — crew-only selects the labour domain — not the exact
+    // expression. The first version of this pinned a cast that was later
+    // wrapped in a useMemo, and failed on a refactor that changed nothing about
+    // the behaviour. A test that breaks when the spelling changes is a tax, not
+    // a guard.
+    expect(SRC).toMatch(/isCrewOnly[\s\S]{0,40}\?[\s\S]{0,20}\['labor'\]/);
   });
 
   it("is mounted on the Crew summary", () => {

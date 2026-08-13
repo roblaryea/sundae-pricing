@@ -336,10 +336,16 @@ export function plausibilityCeiling(
  *
  * CALIBRATION IS A COMMERCIAL JUDGEMENT, not a published finding. The SHAPE is
  * defensible — headroom falls as maturity rises, with a floor — but the two
- * constants are ours. They are named here so they can be argued with, and are
- * deliberately set to the conservative side:
+ * constants are ours, and are deliberately set to the conservative side:
  *
  *     1 site   1.00      10 sites 0.77      50 sites 0.61      200+ 0.50
+ *
+ * Reviewed and approved by the founder on 2026-08-13. That approval is what
+ * these numbers rest on — there is no published source for them, and there is
+ * not meant to be. Anyone changing them is changing a commercial position, not
+ * correcting an error, so raise it rather than tuning it: a steeper curve
+ * understates large estates, a shallower one puts the modelled return back
+ * against the 15x ceiling that this decay exists to make unnecessary.
  */
 export const MATURITY_DECAY_PER_LOG_UNIT = 0.1;
 export const MATURITY_FLOOR = 0.5;

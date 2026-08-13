@@ -1185,6 +1185,163 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
     limitations: ['Scheduling and time registration only'],
   },
 
+  // US — HR and payroll. Not one of them publishes a fetchable rate card, which
+  // is the norm for this category: enterprise payroll quotes, it does not list.
+  //
+  // The notes below distinguish two DIFFERENT things, because conflating them
+  // would be its own small dishonesty: a vendor that publishes no price, and a
+  // vendor whose page we could not retrieve. Gusto and ADP are the latter.
+  gusto: {
+    id: 'gusto',
+    name: 'Gusto',
+    category: 'US HR & payroll',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://gusto.com/product/pricing',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'No price recorded. Gusto returns HTTP 403 to automated retrieval, including from a real browser, so we could not read their pricing page — this is NOT a finding that they publish nothing. Checked 2026-08-11.',
+        'none',
+      ),
+    limitations: ['HR and payroll only — no food, purchasing or revenue analytics'],
+  },
+
+  adp: {
+    id: 'adp',
+    name: 'ADP',
+    category: 'US HR & payroll',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.adp.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'No price recorded. The RUN Powered by ADP pricing URL returns 404 and ADP returns 403 to automated retrieval, so we could not read a rate card — not a finding that none exists. Checked 2026-08-11.',
+        'none',
+      ),
+    limitations: ['HR and payroll only — no food, purchasing or revenue analytics'],
+  },
+
+  paychex: {
+    id: 'paychex',
+    name: 'Paychex',
+    category: 'US HR & payroll',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.paychex.com/payroll-taxes/payroll-services',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Paychex publishes no price. Their payroll services page renders no rate card — the only dollar figure on it is a customer testimonial about tax penalties saved. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['HR and payroll only — no food, purchasing or revenue analytics'],
+  },
+
+  rippling: {
+    id: 'rippling',
+    name: 'Rippling',
+    category: 'US HR, payroll & IT',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.rippling.com/pricing',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Rippling publishes no price. Their pricing page is a demo request; the only dollar figure in the markup is a $100 gift-card promotion for booking a demo, not a rate. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['HR, payroll and IT only — no food, purchasing or revenue analytics'],
+  },
+
+  crunchtime: {
+    id: 'crunchtime',
+    name: 'Crunchtime',
+    category: 'US restaurant operations',
+    icon: 'package',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.crunchtime.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    // Restaurant back-of-house plus labour — a closer competitor than the
+    // generic HR platforms above.
+    coversDomains: ['inventory', 'purchasing', 'labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Crunchtime publishes no price — no rate card renders anywhere on their site. Restaurant inventory, purchasing, production and labour. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: [],
+  },
+
+  // UK — these DO publish, but not in a form we can quote.
+  //
+  // Both price in GBP while every figure in this simulator is USD, and unlike
+  // Foodics' SAR there is no peg: sterling floats, so a converted number would
+  // drift silently inside a PDF a buyer keeps. Worse, neither published a
+  // COMPLETE structure — RotaCloud's page rendered only its 1-5 employee band,
+  // and Planday's tier prices did not render at all behind a "from" figure. A
+  // partial price converted at a stale rate is not a comparison, so their
+  // published starting points are recorded here as context instead.
+  rotacloud: {
+    id: 'rotacloud',
+    name: 'RotaCloud',
+    category: 'UK scheduling & time',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://rotacloud.com/pricing',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Priced in GBP and not quoted here. RotaCloud publishes £10/month Standard and £15/month Pro for 1-5 employees, with Time & Attendance at £4.50 and custom quotes above 500 employees; the page rendered only the smallest band, so we do not have the full curve. Sterling floats against the dollar, so converting a partial structure would drift. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['Scheduling and time only — no food, purchasing or revenue analytics'],
+  },
+
+  planday: {
+    id: 'planday',
+    name: 'Planday',
+    category: 'UK scheduling & workforce',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.planday.com/pricing/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Priced in GBP and not quoted here. Planday advertises "starting from £2.99" per user per month with a five-user minimum on Starter, but the individual tier prices did not render on the page and Pro is custom. Sterling floats against the dollar. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['Scheduling and workforce only — no food, purchasing or revenue analytics'],
+  },
+
   '7shifts': {
     id: '7shifts',
     name: '7shifts',
@@ -1505,6 +1662,10 @@ export function unpricedCompetitors(): Array<{
   coversDomains: readonly string[];
   note: string;
 }> {
+  // Ordered by how much of the buyer's world each one touches, so the vendor
+  // that overlaps most is read first. Fourteen names in catalogue order would
+  // bury Fourth — the broadest rival in the set — below a generic payroll
+  // bureau.
   return Object.values(COMPETITOR_PRICING)
     .filter((c) => c.showPricing === false)
     .map((c) => ({
@@ -1513,7 +1674,8 @@ export function unpricedCompetitors(): Array<{
       category: c.category,
       coversDomains: c.coversDomains,
       note: c.calculate(1, [], undefined).notes ?? '',
-    }));
+    }))
+    .sort((a, b) => b.coversDomains.length - a.coversDomains.length || a.name.localeCompare(b.name));
 }
 
 export function calculateAllComparisons(

@@ -210,3 +210,66 @@ describe("Foodics is a POS, not an HR provider", () => {
     expect(COMPETITOR_PRICING.foodics.coversDomains).toContain("inventory");
   });
 });
+
+describe("the US and UK additions", () => {
+  const listed = unpricedCompetitors();
+  const byId = Object.fromEntries(listed.map((v) => [v.id, v]));
+
+  it("covers the US HR and restaurant-ops names a buyer shortlists", () => {
+    for (const id of ["gusto", "adp", "paychex", "rippling", "crunchtime"]) {
+      expect(byId[id], `${id} missing`).toBeTruthy();
+    }
+  });
+
+  it("distinguishes 'publishes no price' from 'we could not retrieve it'", () => {
+    // Conflating the two would be its own small dishonesty. Gusto and ADP are
+    // bot-blocked; Paychex and Rippling genuinely render no rate.
+    expect(byId.gusto.note).toMatch(/could not read|403/i);
+    expect(byId.gusto.note, "must not claim Gusto publishes nothing").toMatch(/NOT a finding/i);
+    expect(byId.adp.note).toMatch(/could not read|403|404/i);
+    expect(byId.paychex.note).toMatch(/publishes no price/i);
+    expect(byId.rippling.note).toMatch(/publishes no price/i);
+  });
+
+  it("records the UK vendors' published figures without quoting them", () => {
+    // Both DO publish, in GBP, and neither published a complete structure.
+    expect(byId.rotacloud.note).toMatch(/£10|£15/);
+    expect(byId.planday.note).toMatch(/£2\.99/);
+    for (const id of ["rotacloud", "planday"]) {
+      expect(byId[id].note, `${id} does not explain the GBP problem`).toMatch(
+        /sterling floats|GBP/i,
+      );
+      expect(COMPETITOR_PRICING[id].showPricing).toBe(false);
+    }
+  });
+
+  it("ranks the broadest rival first rather than by catalogue order", () => {
+    // Fourteen names in insertion order would bury Fourth, the broadest rival,
+    // beneath a generic payroll bureau.
+    const widths = listed.map((v) => v.coversDomains.length);
+    expect(widths).toEqual([...widths].sort((a, b) => b - a));
+    expect(listed[0].coversDomains.length).toBeGreaterThan(1);
+  });
+
+  it("gives every vendor added here a first-party source and a date", () => {
+    // Scoped to the entries this work added. Nory carries a null sourceUrl on
+    // purpose — we cite nothing for it, the same posture Tenzo took once its
+    // URL became a domain-sale page. A null source is honest; a stale one is
+    // not.
+    const ADDED = [
+      "bayzat", "gulfhr", "fourth", "s4labour", "nostradamus",
+      "gusto", "adp", "paychex", "rippling", "crunchtime", "rotacloud", "planday",
+    ];
+    for (const id of ADDED) {
+      expect(COMPETITOR_PRICING[id].sourceUrl, `${id} has no source`).toBeTruthy();
+      expect(COMPETITOR_PRICING[id].lastVerified, `${id} has no date`).toBeTruthy();
+    }
+  });
+
+  it("explains itself for every unpriced vendor, sourced or not", () => {
+    // The note is what the buyer reads; it must always say why no price.
+    for (const v of listed) {
+      expect(v.note.length, `${v.id} has no explanation`).toBeGreaterThan(40);
+    }
+  });
+});

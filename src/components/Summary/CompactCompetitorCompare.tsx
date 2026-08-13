@@ -54,6 +54,9 @@ import {
   type PricingUiLocale,
 } from '../../lib/pricingUiCopy';
 
+/** How many unpriced rivals to show before collapsing to a count. */
+const UNPRICED_VISIBLE = 6;
+
 function EmojiIcon({ emoji, className }: { emoji: string; className?: string }) {
   const Icon = getIconByEmoji(emoji);
   return <Icon className={className} />;
@@ -370,7 +373,7 @@ export function CompactCompetitorCompare() {
           <div className="text-sm font-medium text-slate-300">{copy.alsoEvaluated}</div>
           <p className="mt-1 text-xs text-slate-400">{copy.alsoEvaluatedBasis}</p>
           <ul className="mt-3 space-y-1.5">
-            {unpriced.map((vendor) => (
+            {unpriced.slice(0, UNPRICED_VISIBLE).map((vendor) => (
               <li key={vendor.id} className="text-xs text-slate-400 flex flex-wrap gap-x-2">
                 <span className="text-slate-200 font-medium">{vendor.name}</span>
                 <span>{getLocalizedCompetitorCategory(locale, vendor.category)}</span>
@@ -383,6 +386,11 @@ export function CompactCompetitorCompare() {
               </li>
             ))}
           </ul>
+          {unpriced.length > UNPRICED_VISIBLE && (
+            <p className="mt-2 text-xs text-slate-500">
+              {formatMessage(copy.plusMore, { count: unpriced.length - UNPRICED_VISIBLE })}
+            </p>
+          )}
         </div>
       )}
     </div>

@@ -837,6 +837,228 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   // 7SHIFTS
   // Source: 7shifts.com/pricing (last first-party read: 2026-01-01)
   // ─────────────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
+  // Homebase — US labour platform. Priced PER LOCATION, so directly comparable.
+  // Source: joinhomebase.com/pricing, read first-party 2026-08-11.
+  // ─────────────────────────────────────────────────────────────────────────
+  homebase: {
+    id: 'homebase',
+    name: 'Homebase',
+    category: 'Labor & scheduling',
+    icon: 'users',
+    verification: 'verified' as VerificationLevel,
+    sourceUrl: 'https://www.joinhomebase.com/pricing',
+    lastVerified: '2026-08-11',
+    coversDomains: ['labor'],
+
+    pricing: {
+      // Annual-billing basis, as published. Monthly is higher: $30 / $70 / $120.
+      perLocationMonthly: { basic: 0, essentials: 24, plus: 56, allInOne: 96 },
+    },
+
+    calculate: (locations: number) => {
+      // All-in-One on annual billing — the tier that carries HR and hiring, so
+      // the closest thing to a Crew Operations comparison.
+      //
+      // Basic is genuinely $0 but is capped at ONE location and ten employees,
+      // so it is not a multi-site option and pricing an estate at zero would be
+      // false. Payroll ($39-49/mo + $6 per employee paid) is excluded: it is an
+      // add-on, US-only, and only bites if they run payroll through Homebase.
+      const perLoc = 96;
+      return summarise(
+        [
+          {
+            label: 'Subscription (All-in-One, annual billing)',
+            amount: Math.round(perLoc * locations * 12),
+            kind: 'recurring',
+            verification: 'verified',
+            source: `$96/location/month, All-in-One on annual billing (monthly billing is $120) x ${locations} location(s) — joinhomebase.com/pricing, read 2026-08-11. Excludes the Payroll add-on ($39-49/mo plus $6 per employee paid) and per-location extras such as Tip Manager ($25) and Task Manager ($13).`,
+          },
+        ],
+        'Labor, scheduling and HR only. The free Basic tier is capped at one location and ten employees, so it is not an estate option.',
+        'high',
+      );
+    },
+
+    limitations: [
+      'Labor and scheduling only — no food, purchasing or revenue analytics',
+      'Free tier limited to one location and ten employees',
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Deputy — priced PER USER, not per location. Source: deputy.com/pricing,
+  // read first-party 2026-08-11.
+  // ─────────────────────────────────────────────────────────────────────────
+  deputy: {
+    id: 'deputy',
+    name: 'Deputy',
+    category: 'Labor & scheduling',
+    icon: 'users',
+    verification: 'verified' as VerificationLevel,
+    sourceUrl: 'https://www.deputy.com/pricing',
+    lastVerified: '2026-08-11',
+    coversDomains: ['labor'],
+
+    pricing: {
+      perUserMonthly: { lite: 5, core: 6.5, pro: 9 },
+      minimumMonthlySpend: 30,
+    },
+
+    calculate: (locations: number) => {
+      // Deputy bills per USER, so an estate cost needs a headcount the
+      // simulator does not collect. We use the same 15-employees-per-location
+      // figure Crew's own SKU caps assume, and say so — an unstated headcount
+      // is how a per-user competitor gets silently mispriced.
+      const employeesPerLocation = 15;
+      const users = locations * employeesPerLocation;
+      const monthly = Math.max(30, users * 9);
+      return summarise(
+        [
+          {
+            label: 'Subscription (Pro, per user)',
+            amount: Math.round(monthly * 12),
+            kind: 'recurring',
+            verification: 'estimated',
+            source: `$9 per user per month (Pro tier) x ${users} users, assuming ${employeesPerLocation} employees per location across ${locations} location(s) — deputy.com/pricing, read 2026-08-11. The HEADCOUNT is our assumption, matching Crew's own per-location employee cap; Deputy's published rate is not. A $30/month minimum applies. Excludes the Payroll, HR and Analytics+ add-ons.`,
+          },
+        ],
+        'Labor and scheduling only, priced per user rather than per location — the cost moves with headcount, not sites.',
+        'medium',
+      );
+    },
+
+    limitations: [
+      'Labor and scheduling only — no food, purchasing or revenue analytics',
+      'Priced per employee, so cost rises with every hire',
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // When I Work — per user. Source: wheniwork.com/pricing, read 2026-08-11.
+  // ─────────────────────────────────────────────────────────────────────────
+  wheniwork: {
+    id: 'wheniwork',
+    name: 'When I Work',
+    category: 'Labor & scheduling',
+    icon: 'users',
+    verification: 'verified' as VerificationLevel,
+    sourceUrl: 'https://wheniwork.com/pricing',
+    lastVerified: '2026-08-11',
+    coversDomains: ['labor'],
+
+    pricing: {
+      perUserMonthly: { essentials: 2.5, pro: 5, premium: 8 },
+    },
+
+    calculate: (locations: number) => {
+      // Same declared headcount assumption as Deputy, for the same reason.
+      const employeesPerLocation = 15;
+      const users = locations * employeesPerLocation;
+      return summarise(
+        [
+          {
+            label: 'Subscription (Pro, per user)',
+            amount: Math.round(users * 5 * 12),
+            kind: 'recurring',
+            verification: 'estimated',
+            source: `$5 per user per month (Pro tier) x ${users} users, assuming ${employeesPerLocation} employees per location across ${locations} location(s) — wheniwork.com/pricing, read 2026-08-11. The headcount is our assumption; the rate is published. There is no free tier, only a 14-day trial.`,
+          },
+        ],
+        'Scheduling, time tracking and messaging only. Priced per user, so cost tracks headcount rather than sites.',
+        'medium',
+      );
+    },
+
+    limitations: [
+      'Scheduling and time tracking only — no food, purchasing or revenue analytics',
+      'Priced per employee, so cost rises with every hire',
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Foodics — the dominant Gulf POS/RMS platform (Saudi-headquartered, sells
+  // across KSA, UAE and the wider GCC). Source: foodics.com/pricing, read
+  // first-party 2026-08-11.
+  // ─────────────────────────────────────────────────────────────────────────
+  foodics: {
+    id: 'foodics',
+    name: 'Foodics',
+    category: 'Gulf POS & restaurant management',
+    icon: 'chart',
+    verification: 'estimated' as VerificationLevel,
+    sourceUrl: 'https://www.foodics.com/pricing/',
+    lastVerified: '2026-08-11',
+    coversDomains: ['revenue', 'labor', 'inventory'],
+
+    pricing: {
+      // Published bundle figures. The page prints "423 /mo" with NO currency
+      // symbol or code anywhere in the markup — checked for SAR, AED, USD, the
+      // riyal glyph and the word "currency"; none appear.
+      perLocationMonthlyLocalCurrency: { starter: 392, basic: 742, advanced: 1133 },
+    },
+
+    calculate: (locations: number) => {
+      // Foodics publishes the NUMBER but not the CURRENCY.
+      //
+      // Foodics is Saudi-headquartered and the figures are almost certainly SAR,
+      // which is pegged at 3.75 to the dollar — so 742 SAR is about $198. That
+      // peg is the only reason this can be converted at all, and the conversion
+      // is still OUR assumption, not their published price. It is declared on
+      // the line rather than buried, and the badge is 'estimated' because of it.
+      const SAR_PER_USD = 3.75;
+      const basicAnnualSar = 742;
+      const perLocUsd = basicAnnualSar / SAR_PER_USD;
+      return summarise(
+        [
+          {
+            label: 'Subscription (Basic bundle, annual billing)',
+            amount: Math.round(perLocUsd * locations * 12),
+            kind: 'recurring',
+            verification: 'estimated',
+            source: `742/location/month on annual billing (monthly billing is 801) x ${locations} location(s) — foodics.com/pricing, read 2026-08-11. The page publishes NO currency: we read it as SAR and convert at the 3.75 peg (~$198/location/month), and that conversion is our assumption, not their published price. Hardware is quoted separately.`,
+          },
+        ],
+        'Gulf POS and restaurant management. Currency is not published on the vendor page, so the dollar figure rests on a stated SAR assumption.',
+        'low',
+      );
+    },
+
+    limitations: [
+      'POS-led: the analytics follow the till rather than the P&L',
+      'Currency not published on the pricing page',
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Apicbase — Belgian recipe, inventory and production platform; the closest
+  // European comparator to Core Margin's cost side. Publishes NO price.
+  // ─────────────────────────────────────────────────────────────────────────
+  apicbase: {
+    id: 'apicbase',
+    name: 'Apicbase',
+    category: 'European F&B back-of-house',
+    icon: 'package',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://get.apicbase.com/pricing',
+    lastVerified: '2026-08-11',
+    showPricing: false, // No published price — see below.
+    coversDomains: ['inventory', 'purchasing'],
+
+    pricing: {},
+
+    calculate: () =>
+      summarise(
+        [],
+        'Apicbase publishes no price. Their pricing page lists Growth, Professional and Enterprise with no figures and a "Talk to our team" call to action, noting only that "The listed pricing is for the start with 1 location." Read 2026-08-11.',
+        'none',
+      ),
+
+    limitations: [
+      'Back-of-house only — no labour, marketing or guest analytics',
+    ],
+  },
+
   '7shifts': {
     id: '7shifts',
     name: '7shifts',

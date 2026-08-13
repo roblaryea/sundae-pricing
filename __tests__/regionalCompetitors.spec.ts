@@ -157,6 +157,21 @@ describe("the vendors who publish no price are still shown", () => {
     expect(ids).toContain("fourth");
   });
 
+  it("includes the Dutch rival, because we prospect there", () => {
+    // Kept for pipeline relevance, not global name recognition. An earlier cut
+    // dropped it on a recognition argument, which is the wrong test for a
+    // market Sundae is actively selling into.
+    const n = listed.find((v) => v.id === "nostradamus");
+    expect(n, "Nostradamus is missing").toBeTruthy();
+    expect(n!.category).toMatch(/netherlands/i);
+    expect(n!.note).toMatch(/Breda|Netherlands/);
+  });
+
+  it("does not cite the parked UK domain as Nostradamus's source", () => {
+    // nostradamus.co.uk is an unrelated domain listed for sale.
+    expect(COMPETITOR_PRICING.nostradamus.sourceUrl).not.toMatch(/nostradamus\.co\.uk/);
+  });
+
   it("credits Fourth with both sides, because it has both", () => {
     // Understating a rival's coverage flatters us just as surely as
     // overstating our own.

@@ -1035,6 +1035,30 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   // the US than inside it.
   // ═══════════════════════════════════════════════════════════════════════════
 
+  // Netherlands — in the set because Sundae is actively prospecting Dutch
+  // operators, not because of its size. Relevance to the pipeline is a better
+  // reason to carry a competitor than global name recognition, and an earlier
+  // cut of this list got that backwards.
+  nostradamus: {
+    id: 'nostradamus',
+    name: 'Nostradamus',
+    category: 'Netherlands hospitality workforce',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.nostradamus-software.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Nostradamus publishes no prices. A Netherlands vendor based in Breda: the live product at nostradamus.nl and nostradamus-software.com is "Personeelsplanning, urenregistratie en meer" — staff scheduling and time registration for hospitality. (nostradamus.co.uk is an unrelated parked domain listed for sale, so do not cite it as a source.) Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['Scheduling and time registration only'],
+  },
+
   // Gulf — HR and payroll. Bayzat is the region's best-known HR platform.
   bayzat: {
     id: 'bayzat',

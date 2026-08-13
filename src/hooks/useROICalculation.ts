@@ -313,6 +313,42 @@ export function plausibilityCeiling(
   return Math.max(share * monthlyRevenuePerLocation * locations, bandMaximum);
 }
 
+/**
+ * How much of a single site's improvement headroom a larger estate still has.
+ *
+ * The recovery rates are GAP-TO-BEST-PRACTICE figures: the NRA data behind the
+ * labour line is the distance between the median operator and the profitable
+ * one. Applying that gap flat, per location, says a 200-site group has exactly
+ * the same headroom as an independent — which contradicts how it became a
+ * 200-site group. A national chain already runs scheduling standards, already
+ * has category managers, and already negotiates national supply contracts.
+ *
+ * Left flat, savings scaled linearly while the marginal price bands drove cost
+ * per location from $1,195 down to $119, so the modelled return climbed with
+ * every site added: 1.8x at one location, 13.3x at fifty, 18.1x at two hundred.
+ * The 15x ceiling was invented to stop that number being printed — it truncated
+ * the symptom at exactly the estate sizes where the deals are largest and the
+ * scrutiny is hardest.
+ *
+ * Decaying the headroom fixes the cause. A large operator keeps HALF the
+ * headroom of an independent, never zero, because scale brings its own losses
+ * (more sites to keep consistent, more supplier lines to police).
+ *
+ * CALIBRATION IS A COMMERCIAL JUDGEMENT, not a published finding. The SHAPE is
+ * defensible — headroom falls as maturity rises, with a floor — but the two
+ * constants are ours. They are named here so they can be argued with, and are
+ * deliberately set to the conservative side:
+ *
+ *     1 site   1.00      10 sites 0.77      50 sites 0.61      200+ 0.50
+ */
+export const MATURITY_DECAY_PER_LOG_UNIT = 0.1;
+export const MATURITY_FLOOR = 0.5;
+
+export function estateMaturityFactor(locations: number): number {
+  const units = Math.max(1, Math.floor(locations));
+  return Math.max(MATURITY_FLOOR, 1 - MATURITY_DECAY_PER_LOG_UNIT * Math.log(units));
+}
+
 export function useROICalculation(
   config: Configuration,
   inputs: ROIInputs,
@@ -516,6 +552,23 @@ export function useROICalculation(
       });
     }
     
+    // Recovery decays with estate maturity; buyer-entered cash does NOT.
+    //
+    // Applied here rather than per line so every line moves together and the
+    // breakdown still reconciles to the total. Cost avoidance is excluded on
+    // purpose: a replaceable subscription the buyer named is real money at any
+    // estate size, and discounting it would be inventing a haircut.
+    const maturity = estateMaturityFactor(config.locations);
+    if (maturity < 1) {
+      totalSavings = Math.round(totalSavings * maturity);
+      savingsLines.forEach((line) => {
+        if (line.isCountedInTotal && line.amount > 0) {
+          line.amount = Math.round(line.amount * maturity);
+          breakdowns[line.moduleId] = line.amount;
+        }
+      });
+    }
+
     const annualSavings = totalSavings * 12;
     // Only a number the buyer supplies as genuinely replaceable is cashable.
     // Manual time is shown separately because time does not become cash unless

@@ -1197,6 +1197,23 @@ function CrewSummaryBody({ selectedSkus, locations }: CrewSummaryBodyProps) {
           charged once, at the highest class in your selection.
         </p>
       </motion.div>
+
+      {/* A Crew-only buyer used to get a price with no comparison at all.
+          The reason not to show one was real — the workforce rivals were
+          missing from the catalogue, and a comparison containing only 7shifts
+          would have omitted the cheapest options and rebuilt the "only show
+          what we win" defect. Homebase, Deputy and 7shifts now carry published
+          prices, and Fourth, Bayzat, gulfHR and Nostradamus carry coverage, so
+          the comparison is both possible and honest. It scores on `labor`,
+          which is what Crew actually delivers. */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+        className="mt-8"
+      >
+        <CompactCompetitorCompare />
+      </motion.div>
     </div>
   );
 }

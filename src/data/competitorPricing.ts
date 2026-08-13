@@ -837,6 +837,327 @@ export const COMPETITOR_PRICING: Record<string, CompetitorPricing> = {
   // 7SHIFTS
   // Source: 7shifts.com/pricing (last first-party read: 2026-01-01)
   // ─────────────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
+  // Homebase — US labour platform. Priced PER LOCATION, so directly comparable.
+  // Source: joinhomebase.com/pricing, read first-party 2026-08-11.
+  // ─────────────────────────────────────────────────────────────────────────
+  homebase: {
+    id: 'homebase',
+    name: 'Homebase',
+    category: 'Labor & scheduling',
+    icon: 'users',
+    verification: 'verified' as VerificationLevel,
+    sourceUrl: 'https://www.joinhomebase.com/pricing',
+    lastVerified: '2026-08-11',
+    coversDomains: ['labor'],
+
+    pricing: {
+      // Annual-billing basis, as published. Monthly is higher: $30 / $70 / $120.
+      perLocationMonthly: { basic: 0, essentials: 24, plus: 56, allInOne: 96 },
+    },
+
+    calculate: (locations: number) => {
+      // All-in-One on annual billing — the tier that carries HR and hiring, so
+      // the closest thing to a Crew Operations comparison.
+      //
+      // Basic is genuinely $0 but is capped at ONE location and ten employees,
+      // so it is not a multi-site option and pricing an estate at zero would be
+      // false. Payroll ($39-49/mo + $6 per employee paid) is excluded: it is an
+      // add-on, US-only, and only bites if they run payroll through Homebase.
+      const perLoc = 96;
+      return summarise(
+        [
+          {
+            label: 'Subscription (All-in-One, annual billing)',
+            amount: Math.round(perLoc * locations * 12),
+            kind: 'recurring',
+            verification: 'verified',
+            source: `$96/location/month, All-in-One on annual billing (monthly billing is $120) x ${locations} location(s) — joinhomebase.com/pricing, read 2026-08-11. Excludes the Payroll add-on ($39-49/mo plus $6 per employee paid) and per-location extras such as Tip Manager ($25) and Task Manager ($13).`,
+          },
+        ],
+        'Labor, scheduling and HR only. The free Basic tier is capped at one location and ten employees, so it is not an estate option.',
+        'high',
+      );
+    },
+
+    limitations: [
+      'Labor and scheduling only — no food, purchasing or revenue analytics',
+      'Free tier limited to one location and ten employees',
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Deputy — priced PER USER, not per location. Source: deputy.com/pricing,
+  // read first-party 2026-08-11.
+  // ─────────────────────────────────────────────────────────────────────────
+  deputy: {
+    id: 'deputy',
+    name: 'Deputy',
+    category: 'Labor & scheduling',
+    icon: 'users',
+    verification: 'verified' as VerificationLevel,
+    sourceUrl: 'https://www.deputy.com/pricing',
+    lastVerified: '2026-08-11',
+    coversDomains: ['labor'],
+
+    pricing: {
+      perUserMonthly: { lite: 5, core: 6.5, pro: 9 },
+      minimumMonthlySpend: 30,
+    },
+
+    calculate: (locations: number) => {
+      // Deputy bills per USER, so an estate cost needs a headcount the
+      // simulator does not collect. We use the same 15-employees-per-location
+      // figure Crew's own SKU caps assume, and say so — an unstated headcount
+      // is how a per-user competitor gets silently mispriced.
+      const employeesPerLocation = 15;
+      const users = locations * employeesPerLocation;
+      const monthly = Math.max(30, users * 9);
+      return summarise(
+        [
+          {
+            label: 'Subscription (Pro, per user)',
+            amount: Math.round(monthly * 12),
+            kind: 'recurring',
+            verification: 'estimated',
+            source: `$9 per user per month (Pro tier) x ${users} users, assuming ${employeesPerLocation} employees per location across ${locations} location(s) — deputy.com/pricing, read 2026-08-11. The HEADCOUNT is our assumption, matching Crew's own per-location employee cap; Deputy's published rate is not. A $30/month minimum applies. Excludes the Payroll, HR and Analytics+ add-ons.`,
+          },
+        ],
+        'Labor and scheduling only, priced per user rather than per location — the cost moves with headcount, not sites.',
+        'medium',
+      );
+    },
+
+    limitations: [
+      'Labor and scheduling only — no food, purchasing or revenue analytics',
+      'Priced per employee, so cost rises with every hire',
+    ],
+  },
+
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Foodics — the dominant Gulf POS/RMS platform (Saudi-headquartered, sells
+  // across KSA, UAE and the wider GCC). Source: foodics.com/pricing, read
+  // first-party 2026-08-11.
+  // ─────────────────────────────────────────────────────────────────────────
+  foodics: {
+    id: 'foodics',
+    name: 'Foodics',
+    category: 'Gulf POS & restaurant management',
+    icon: 'chart',
+    verification: 'estimated' as VerificationLevel,
+    sourceUrl: 'https://www.foodics.com/pricing/',
+    lastVerified: '2026-08-11',
+    // NOT a workforce provider. This listed `labor`, which credited Foodics
+    // with an HR capability it does not lead on — it is a POS/RMS whose
+    // strength is the till, the menu and stock. Overstating a rival's coverage
+    // is the same defect as understating it, pointed the other way: it makes
+    // our coverage argument look weaker than it is against the wrong vendor,
+    // and it puts a POS in the workforce comparison a Crew buyer is reading.
+    coversDomains: ['revenue', 'inventory'],
+
+    pricing: {
+      // Published bundle figures. The page prints "423 /mo" with NO currency
+      // symbol or code anywhere in the markup — checked for SAR, AED, USD, the
+      // riyal glyph and the word "currency"; none appear.
+      perLocationMonthlyLocalCurrency: { starter: 392, basic: 742, advanced: 1133 },
+    },
+
+    calculate: (locations: number) => {
+      // Foodics publishes the NUMBER but not the CURRENCY.
+      //
+      // Foodics is Saudi-headquartered and the figures are almost certainly SAR,
+      // which is pegged at 3.75 to the dollar — so 742 SAR is about $198. That
+      // peg is the only reason this can be converted at all, and the conversion
+      // is still OUR assumption, not their published price. It is declared on
+      // the line rather than buried, and the badge is 'estimated' because of it.
+      const SAR_PER_USD = 3.75;
+      const basicAnnualSar = 742;
+      const perLocUsd = basicAnnualSar / SAR_PER_USD;
+      return summarise(
+        [
+          {
+            label: 'Subscription (Basic bundle, annual billing)',
+            amount: Math.round(perLocUsd * locations * 12),
+            kind: 'recurring',
+            verification: 'estimated',
+            source: `742/location/month on annual billing (monthly billing is 801) x ${locations} location(s) — foodics.com/pricing, read 2026-08-11. The page publishes NO currency: we read it as SAR and convert at the 3.75 peg (~$198/location/month), and that conversion is our assumption, not their published price. Hardware is quoted separately.`,
+          },
+        ],
+        'Gulf POS and restaurant management. Currency is not published on the vendor page, so the dollar figure rests on a stated SAR assumption.',
+        'low',
+      );
+    },
+
+    limitations: [
+      'POS-led: the analytics follow the till rather than the P&L',
+      'Currency not published on the pricing page',
+    ],
+  },
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Apicbase — Belgian recipe, inventory and production platform; the closest
+  // European comparator to Core Margin's cost side. Publishes NO price.
+  // ─────────────────────────────────────────────────────────────────────────
+  apicbase: {
+    id: 'apicbase',
+    name: 'Apicbase',
+    category: 'European F&B back-of-house',
+    icon: 'package',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://get.apicbase.com/pricing',
+    lastVerified: '2026-08-11',
+    showPricing: false, // No published price — see below.
+    coversDomains: ['inventory', 'purchasing'],
+
+    pricing: {},
+
+    calculate: () =>
+      summarise(
+        [],
+        'Apicbase publishes no price. Their pricing page lists Growth, Professional and Enterprise with no figures and a "Talk to our team" call to action, noting only that "The listed pricing is for the start with 1 location." Read 2026-08-11.',
+        'none',
+      ),
+
+    limitations: [
+      'Back-of-house only — no labour, marketing or guest analytics',
+    ],
+  },
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // PRICE ON APPLICATION
+  //
+  // Real competitors that publish no rate card. They carry coverage and a
+  // source but never a price: `showPricing: false` keeps them out of the
+  // priced comparison, and the card lists them separately so the buyer sees
+  // the landscape without a number we invented. Most regional vendors sit
+  // here, so the honest competitor set will always be thinner on price outside
+  // the US than inside it.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Netherlands — in the set because Sundae is actively prospecting Dutch
+  // operators, not because of its size. Relevance to the pipeline is a better
+  // reason to carry a competitor than global name recognition, and an earlier
+  // cut of this list got that backwards.
+  nostradamus: {
+    id: 'nostradamus',
+    name: 'Nostradamus',
+    category: 'Netherlands hospitality workforce',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.nostradamus-software.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Nostradamus publishes no prices. A Netherlands vendor based in Breda: the live product at nostradamus.nl and nostradamus-software.com is "Personeelsplanning, urenregistratie en meer" — staff scheduling and time registration for hospitality. (nostradamus.co.uk is an unrelated parked domain listed for sale, so do not cite it as a source.) Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['Scheduling and time registration only'],
+  },
+
+  // Gulf — HR and payroll. Bayzat is the region's best-known HR platform.
+  bayzat: {
+    id: 'bayzat',
+    name: 'Bayzat',
+    category: 'Gulf HR, payroll & benefits',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.bayzat.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Bayzat publishes no rate card: bayzat.com/pricing returns 404 and no per-employee price appears on their site. HR, payroll, benefits and medical insurance across UAE, KSA and the wider GCC. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['HR and payroll only — no food, purchasing or revenue analytics'],
+  },
+
+  gulfhr: {
+    id: 'gulfhr',
+    name: 'gulfHR',
+    category: 'Gulf HR & payroll',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.gulfhr.com/pricing',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    coversDomains: ['labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'gulfHR publishes no prices. Their pricing page carries only a "Get Your Free Demo & Quote" form and a 30-day pilot for companies with 500+ employees. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: ['HR and payroll only — no food, purchasing or revenue analytics'],
+  },
+
+  // UK — the two that actually turn up in hospitality shortlists.
+  fourth: {
+    id: 'fourth',
+    name: 'Fourth',
+    category: 'UK hospitality workforce & inventory',
+    icon: 'users',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://uk.fourth.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    // Fourth spans BOTH sides, which is why it is the most complete rival in
+    // this list. Verified from their own product navigation: Applicant
+    // Tracking, Onboarding, HR & Payroll, On-Demand Pay, Scheduling, Time and
+    // Attendance, Employee Engagement — plus Purchasing/Receiving/Invoicing,
+    // Recipe & Menu Engineering, Dynamic Production and Prep (Adaco,
+    // MacromatiX). Claiming less would flatter our coverage argument.
+    coversDomains: ['labor', 'inventory', 'purchasing'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Fourth publishes no pricing — their site directs to "Get a demo". Covers workforce (scheduling, T&A, HR, payroll, on-demand pay) AND back-of-house (purchasing, receiving, invoicing, recipe and menu engineering, production) via Adaco and MacromatiX. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: [],
+  },
+
+
+  // Benelux — NOT a UK vendor, despite the name coming up in UK conversations.
+
+
+
+
+
+  crunchtime: {
+    id: 'crunchtime',
+    name: 'Crunchtime',
+    category: 'US restaurant operations',
+    icon: 'package',
+    verification: 'unverified' as VerificationLevel,
+    sourceUrl: 'https://www.crunchtime.com/',
+    lastVerified: '2026-08-11',
+    showPricing: false,
+    // Restaurant back-of-house plus labour — a closer competitor than the
+    // generic HR platforms above.
+    coversDomains: ['inventory', 'purchasing', 'labor'],
+    pricing: {},
+    calculate: () =>
+      summarise(
+        [],
+        'Crunchtime publishes no price — no rate card renders anywhere on their site. Restaurant inventory, purchasing, production and labour. Read 2026-08-11.',
+        'none',
+      ),
+    limitations: [],
+  },
+
+
+
   '7shifts': {
     id: '7shifts',
     name: '7shifts',
@@ -1134,6 +1455,43 @@ export function calculateCompetitorComparison(
  */
 export function comparisonAmount(c: ComparisonResult): number {
   return c.savings.firstYearComparable ? c.savings.firstYear : c.savings.ongoing;
+}
+
+/**
+ * Real competitors that publish no price.
+ *
+ * `calculateAllComparisons` filters them out — correctly, because a vendor
+ * priced at $0 reads as free, and inventing a figure is how a comparison
+ * collapses under checking. But filtering them out ALSO means a buyer never
+ * learns they were considered, and most regional vendors sit here: Bayzat and
+ * gulfHR in the Gulf, Fourth and S4labour in the UK, Nostradamus in the
+ * Benelux, Apicbase in Europe, Nory across the UK and Ireland.
+ *
+ * Returned separately so the card can list the landscape — name, region and
+ * what they cover — without a number. Coverage is the honest thing to compare
+ * when price is not published.
+ */
+export function unpricedCompetitors(): Array<{
+  id: string;
+  name: string;
+  category: string;
+  coversDomains: readonly string[];
+  note: string;
+}> {
+  // Ordered by how much of the buyer's world each one touches, so the vendor
+  // that overlaps most is read first. Fourteen names in catalogue order would
+  // bury Fourth — the broadest rival in the set — below a generic payroll
+  // bureau.
+  return Object.values(COMPETITOR_PRICING)
+    .filter((c) => c.showPricing === false)
+    .map((c) => ({
+      id: c.id,
+      name: c.name,
+      category: c.category,
+      coversDomains: c.coversDomains,
+      note: c.calculate(1, [], undefined).notes ?? '',
+    }))
+    .sort((a, b) => b.coversDomains.length - a.coversDomains.length || a.name.localeCompare(b.name));
 }
 
 export function calculateAllComparisons(

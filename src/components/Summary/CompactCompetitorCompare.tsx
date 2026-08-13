@@ -36,7 +36,7 @@ import {
   type ComparisonResult,
   type SundaeQuoteBasis,
 } from '../../data/competitorPricing';
-import { comparisonAmount } from '../../data/competitorPricing';
+import { comparisonAmount, unpricedCompetitors } from '../../data/competitorPricing';
 import { PACKAGE_DOMAIN_GRANTS, modules as coreDomainModules } from '../../data/pricing';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import { resolveImplementationFee } from '../../lib/pricingEngine';
@@ -53,6 +53,9 @@ import {
   getLocalizedCompetitorSource,
   type PricingUiLocale,
 } from '../../lib/pricingUiCopy';
+
+/** How many unpriced rivals to show before collapsing to a count. */
+const UNPRICED_VISIBLE = 6;
 
 function EmojiIcon({ emoji, className }: { emoji: string; className?: string }) {
   const Icon = getIconByEmoji(emoji);
@@ -86,13 +89,26 @@ function useQuotedSundaeCost() {
     [operatingModels, billingCycle],
   );
 
+  // `corePackage` is non-nullable and the store defaults it to
+  // 'core_foundation', so this always prices SOMETHING even on the Crew-only
+  // path. That value is deliberately discarded below — `coreMonthly` is 0 there
+  // — rather than guarded against null, which the type already prevents.
   const pricing = usePriceCalculation(
     layer, corePackage, locations, addOns, watchtowerModules, clientProfile, crossIntelligence,
   );
 
+  // Crew-only counts too.
+  //
+  // This required `layer === 'both'`, so a buyer who chose Crew alone got a
+  // card built entirely from `pricing.total` — a Core quote they never
+  // configured — and no Crew rail at all. It was the reason a Crew-only buyer
+  // could not be shown any comparison, and the reason not to show them one was
+  // that the workforce rivals were missing from the catalogue. They are in it
+  // now, with published prices, so the comparison is both possible and honest.
+  const isCrewOnly = layer === 'crew';
   const crewRail = useMemo(
     () =>
-      layer === 'both' && selectedCrewSkus.length > 0
+      (layer === 'both' || layer === 'crew') && selectedCrewSkus.length > 0
         ? computeCrewQuote(selectedCrewSkus, locations)
         : null,
     [layer, selectedCrewSkus, locations],
@@ -123,7 +139,10 @@ function useQuotedSundaeCost() {
     : pricing.implementation;
 
   const basis: SundaeQuoteBasis = {
-    coreMonthly: pricing.total,
+    // No Core rail means no Core cost. `usePriceCalculation` prices a Core
+    // package regardless of what the buyer picked, so reading it on the
+    // Crew-only path would invoice them for something they did not choose.
+    coreMonthly: isCrewOnly ? 0 : pricing.total,
     crewMonthly: crewRail?.monthly ?? 0,
     implementationFee: stackEstimate ? stackEstimate.fee : railImplementation.fee,
     implementationScoped: stackEstimate ? false : railImplementation.requiresScoping,
@@ -136,6 +155,7 @@ function useQuotedSundaeCost() {
     addOns,
     corePackage,
     hasCrewRail: crewRail !== null,
+    isCrewOnly,
     requiresEnterpriseQuote: pricing.requiresEnterpriseQuote,
     /** Per-location monthly revenue the buyer entered on the ROI step. */
     monthlyRevenuePerLocation: roiInputs.monthlyRevenue,
@@ -148,7 +168,7 @@ export function CompactCompetitorCompare() {
   const copy = getCompetitorCompareCopy(uiLocale);
 
   const {
-    basis, locations, addOns, corePackage, hasCrewRail,
+    basis, locations, addOns, corePackage, hasCrewRail, isCrewOnly,
     requiresEnterpriseQuote, monthlyRevenuePerLocation,
   } = useQuotedSundaeCost();
 
@@ -159,10 +179,20 @@ export function CompactCompetitorCompare() {
   // Under v1.7 the packages differ by grant (Foundation 4 → Performance 11), so
   // telling a Foundation buyer a vendor misses eight domains they were never
   // sold is as wrong as telling them it misses none.
-  const grantedDomains = PACKAGE_DOMAIN_GRANTS[corePackage] as readonly string[];
+  //
+  // On the Crew-only path there is no package and no Core domains: what the
+  // buyer bought is workforce, so the comparison is scored on `labor` alone and
+  // the CORE_PACKAGE_SELECTION_ID marker is deliberately withheld — passing it
+  // would tell every competitor calculator the buyer holds a Core package.
+  const grantedDomains = isCrewOnly
+    ? (['labor'] as const as readonly string[])
+    : (PACKAGE_DOMAIN_GRANTS[corePackage] as readonly string[]);
   const allModules = useMemo(
-    () => [...addOns, CORE_PACKAGE_SELECTION_ID, ...grantedDomains],
-    [addOns, grantedDomains],
+    () =>
+      isCrewOnly
+        ? [...grantedDomains]
+        : [...addOns, CORE_PACKAGE_SELECTION_ID, ...grantedDomains],
+    [isCrewOnly, addOns, grantedDomains],
   );
 
   const comparisons = useMemo(
@@ -210,6 +240,11 @@ export function CompactCompetitorCompare() {
   const cheaper = comparisons.filter((c) => comparisonAmount(c) > 0);
   const costsMore = comparisons.filter((c) => comparisonAmount(c) <= 0);
   const bestSavings = cheaper[0];
+
+  // Real rivals that publish no rate card. See `unpricedCompetitors`. Not a
+  // hook: this sits after an early return, and it is a pure read of a static
+  // catalogue, so memoising it would buy nothing and break the hook order.
+  const unpriced = unpricedCompetitors();
 
   return (
     <div className="compact-competitor-compare">
@@ -349,6 +384,40 @@ export function CompactCompetitorCompare() {
               money={money}
             />
           ))}
+        </div>
+      )}
+
+      {/* Competitors that publish no price.
+          `calculateAllComparisons` filters them out, correctly — a vendor shown
+          at $0 reads as free, and inventing a figure is how a comparison
+          collapses under checking. But filtering them out also meant the buyer
+          never learned they were considered, and MOST regional vendors sit
+          here: Bayzat and gulfHR in the Gulf, Fourth and S4labour in the UK,
+          Nostradamus in the Benelux, Apicbase and Nory in Europe. Listing what
+          they COVER, with no number, is the honest way to show the landscape. */}
+      {unpriced.length > 0 && (
+        <div className="mt-6 rounded-lg border border-white/10 bg-slate-900/30 p-4">
+          <div className="text-sm font-medium text-slate-300">{copy.alsoEvaluated}</div>
+          <p className="mt-1 text-xs text-slate-400">{copy.alsoEvaluatedBasis}</p>
+          <ul className="mt-3 space-y-1.5">
+            {unpriced.slice(0, UNPRICED_VISIBLE).map((vendor) => (
+              <li key={vendor.id} className="text-xs text-slate-400 flex flex-wrap gap-x-2">
+                <span className="text-slate-200 font-medium">{vendor.name}</span>
+                <span>{getLocalizedCompetitorCategory(locale, vendor.category)}</span>
+                <span className="text-slate-500">
+                  {formatMessage(copy.dayOneDomains, {
+                    count: vendor.coversDomains.filter((d) => grantedDomains.includes(d)).length,
+                    total: grantedDomains.length,
+                  })}
+                </span>
+              </li>
+            ))}
+          </ul>
+          {unpriced.length > UNPRICED_VISIBLE && (
+            <p className="mt-2 text-xs text-slate-500">
+              {formatMessage(copy.plusMore, { count: unpriced.length - UNPRICED_VISIBLE })}
+            </p>
+          )}
         </div>
       )}
     </div>

@@ -4,6 +4,7 @@ import { ThemeToggle } from './shared/ThemeToggle';
 import { getMarketingUrl } from '../config/legal';
 import { localeNames, supportedLocales, useLocale, type PricingLocale } from '../contexts/LocaleContext';
 import { generatedAuxiliaryLocalePacks } from '../lib/generatedAuxiliaryLocalePacks';
+import { siteNavLabels, siteNavLinks } from '../lib/siteNavLabels';
 
 export function SiteHeader() {
   const { locale, setLocale, messages } = useLocale();
@@ -17,8 +18,13 @@ export function SiteHeader() {
     'Language';
 
   return (
-    <header className="sticky top-0 z-50 py-4 md:py-6 px-4 md:px-8 border-b border-white/[0.08] bg-sundae-dark/80 backdrop-blur-md">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 py-4 md:py-6 px-4 md:px-8 border-b border-white/[0.08]">
+      {/* Blur + tint live on this layer, not on <header>. `backdrop-filter`
+          makes an element a containing block for its `position: fixed`
+          descendants, and is the documented cause of sticky headers detaching
+          and drifting during momentum scroll on iOS Safari. */}
+      <div aria-hidden className="absolute inset-0 bg-sundae-dark/80 backdrop-blur-md" />
+      <div className="relative max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Left: Logo */}
         <div className="min-w-0">
           <a href={getMarketingUrl('/', locale)} className="block">
@@ -29,6 +35,20 @@ export function SiteHeader() {
           </p>
         </div>
         
+        {/* Centre: marketing-site navigation (room for it from lg up; mobile
+            gets the same destinations in the footer). */}
+        <nav aria-label={messages.header.platform} className="hidden lg:flex items-center gap-6 flex-shrink-0">
+          {siteNavLinks.map((link) => (
+            <a
+              key={link.key}
+              href={getMarketingUrl(link.path, locale)}
+              className="text-sm text-sundae-muted hover:text-white transition-colors"
+            >
+              {siteNavLabels[locale][link.key]}
+            </a>
+          ))}
+        </nav>
+
         {/* Right: Navigation + Theme Toggle */}
         <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
           {/* Pricing Link (shown on simulator page) */}

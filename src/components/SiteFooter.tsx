@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { LEGAL, getMarketingUrl } from '../config/legal';
 import { useLocale } from '../contexts/LocaleContext';
 import { Logo } from './Brand/Logo';
+import { siteNavLabels, siteNavLinks } from '../lib/siteNavLabels';
 
 // Footer chrome intentionally mirrors the marketing site's footer structure
 // (brand lockup + tagline + social + link nav + legal bar) so pricing.sundae.io
@@ -14,6 +15,13 @@ export function SiteFooter() {
   const links = [
     { label: messages.header.pricing, kind: 'route' as const, to: '/' },
     { label: messages.header.simulator, kind: 'route' as const, to: '/simulator' },
+    // Marketing-site destinations. Without these the pricing site is a dead end
+    // on mobile, where the header nav is hidden: the logo was the only way back.
+    ...siteNavLinks.map((link) => ({
+      label: siteNavLabels[locale][link.key],
+      kind: 'external' as const,
+      href: getMarketingUrl(link.path, locale),
+    })),
     { label: messages.footer.demo, kind: 'external' as const, href: getMarketingUrl('/demo', locale) },
     { label: messages.footer.contact, kind: 'external' as const, href: getMarketingUrl('/contact', locale) },
     { label: messages.footer.privacy, kind: 'external' as const, href: getMarketingUrl('/privacy', locale) },

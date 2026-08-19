@@ -219,8 +219,8 @@ export function TierSelector() {
                   <p className="text-sm text-sundae-muted">{pkg.tagline}</p>
                   {/* Which SIDE of the business this package works.
                       The four packages were laid out as a ladder, which is not
-                      what they are: Core Growth costs $275/mo more than Core
-                      Margin and does not include Inventory or Purchasing. A
+                      what they are: Core Growth has a $1,925 first-unit anchor
+                      and does not include Inventory or Purchasing. A
                       buyer "upgrading" from Margin to Growth loses the ability
                       to manage food cost and suppliers, and the ROI model
                       correctly shows their savings FALL as they pay more. The

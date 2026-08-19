@@ -404,7 +404,7 @@ export const CORE_PACKAGE_IDS = Object.keys(corePackages) as CorePackageId[];
  * The four Core packages are NOT four rungs of one ladder, and presenting them
  * as one misleads the buyer in a way that costs them capability.
  *
- * Core Growth is $275/month more than Core Margin and does not include the
+ * Core Growth has a $1,925 first-unit anchor and does not include the
  * Inventory or Purchasing modules that Margin has — it trades them for
  * Marketing, Reservations, Guest and Guest CRM. So a buyer who "upgrades" from
  * Margin to Growth LOSES the ability to manage food cost and supplier pricing,

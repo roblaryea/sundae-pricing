@@ -15,6 +15,8 @@
 //   • crew_operations supersedes crew_scheduling (Scheduling entitlement
 //     is included — picking both wouldn't double-charge).
 
+import { LocationSelector } from '../shared/LocationSelector';
+import { MAX_LOCATIONS } from '../../constants/locations';
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 import { ChevronRight, Check, Star, Users, Lock, Info } from 'lucide-react';
@@ -22,7 +24,6 @@ import { useConfiguration } from '../../hooks/useConfiguration';
 import { crewSkus } from '../../data/pricing';
 import { computeCrewQuote, CREW_PRESETS, CREW_SKU_LIST } from '../../lib/crewPricing';
 import type { CrewSkuId } from '../../types/configuration';
-import { stepIndex } from '../../lib/journey';
 import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 // Crew Lite hard location cap (mirrors crewSkus.crew_lite.caps.maxLocations).
@@ -38,12 +39,14 @@ export function CrewBuilder({
   continueLabel = 'Review summary',
 }: CrewBuilderProps = {}) {
   const {
+    layer,
     crewSkus: selectedSkus,
     toggleCrewSku,
     setCrewSkus,
     locations,
     setLocations,
-    setCurrentStep,
+    goToStep,
+    goToNextStep,
     markStepCompleted,
   } = useConfiguration();
 
@@ -59,7 +62,7 @@ export function CrewBuilder({
   );
 
   const isLite = quote.isLiteOnly;
-  const sliderMax = isLite ? LITE_LOCATION_CAP : 100;
+  const sliderMax = isLite ? LITE_LOCATION_CAP : MAX_LOCATIONS;
 
   // Per-SKU UI state: selected/disabled/note, plus whether the line
   // should render its price as "$0 — Included".
@@ -98,16 +101,24 @@ export function CrewBuilder({
   };
 
   const handleContinue = () => {
-    markStepCompleted('tier');
+    markStepCompleted('crew');
     markStepCompleted('locations');
-    markStepCompleted('modules');
-    markStepCompleted('watchtower');
     if (onContinue) {
       onContinue();
       return;
     }
+    // Crew-only ends here; the combined pathway still owes the buyer the value
+    // case, which prices BOTH rails, so it continues rather than short-cutting
+    // to the summary the way it used to.
+    if (layer === 'both') {
+      goToNextStep();
+      return;
+    }
+    markStepCompleted('tier');
+    markStepCompleted('modules');
+    markStepCompleted('watchtower');
     markStepCompleted('roi');
-    setCurrentStep(stepIndex('summary'));
+    goToStep('summary');
   };
 
   // Match a preset id by exact SKU-set comparison.
@@ -165,7 +176,7 @@ export function CrewBuilder({
                   isActive
                     ? 'bg-[#FF7E6F]/15 border-[#FF7E6F]'
                     : 'bg-sundae-surface border-white/10 hover:border-[#FF7E6F]/40'
-                }`}
+              }`}
               >
                 <div className="flex items-center justify-between mb-1">
                   <h3 className={`text-sm font-bold ${isActive ? 'text-[#FF7E6F]' : 'text-[#FF7E6F]'}`}>
@@ -269,50 +280,31 @@ export function CrewBuilder({
       </div>
 
       {/* Locations slider */}
+      {layer === 'both' ? (
+        <div className="bg-sundae-surface rounded-xl p-4 mb-5 border border-white/10 text-center text-sm text-sundae-muted">
+          Pricing {locations} {locations === 1 ? 'location' : 'locations'} — the same estate as Core.{' '}
+          <button onClick={() => goToStep('estate')} className="text-white underline underline-offset-4">
+            Change
+          </button>
+        </div>
+      ) : (
       <div className="bg-sundae-surface rounded-xl p-5 mb-5 border border-white/10">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <h3 className="font-bold text-base mb-1">Locations</h3>
-            <p className="text-xs text-sundae-muted">
-              {isLite
-                ? `Crew Lite caps at ${LITE_LOCATION_CAP} locations. For 6+ outlets, switch to the Operating Suite or build your own.`
-                : 'How many physical locations will run Crew?'}
-            </p>
-          </div>
-          <div className="text-right">
-            <div className="font-display text-3xl font-bold text-[#FF7E6F] tabular-nums">{locations}</div>
-            <p className="text-xs text-sundae-muted">
-              {locations === 1 ? '1 location' : `${locations} locations`}
-            </p>
-          </div>
-        </div>
-        <input
-          type="range"
-          min={1}
+        <LocationSelector
+          idPrefix="crew"
+          locations={locations}
+          onChange={setLocations}
           max={sliderMax}
-          value={Math.min(locations, sliderMax)}
-          onChange={(e) => setLocations(Number(e.target.value))}
-          className="w-full accent-cyan-400"
+          ticks={isLite ? undefined : [1, 25, 50, 100, 175, sliderMax]}
+          label="Locations"
+          hint={
+            isLite
+              ? `Crew Lite caps at ${LITE_LOCATION_CAP} locations. For 6+ outlets, switch to the Operating Suite or build your own.`
+              : 'How many physical locations will run Crew?'
+            }
+          accent="#FF7E6F"
         />
-        <div className="flex justify-between text-[10px] uppercase tracking-wider text-sundae-muted mt-2">
-          <span>1</span>
-          {isLite ? (
-            <>
-              <span>2</span>
-              <span>3</span>
-              <span>4</span>
-              <span>{LITE_LOCATION_CAP}</span>
-            </>
-          ) : (
-            <>
-              <span>25</span>
-              <span>50</span>
-              <span>75</span>
-              <span>100+</span>
-            </>
-          )}
-        </div>
       </div>
+      )}
 
       {/* Live price summary */}
       {selectedSkus.length === 0 ? (

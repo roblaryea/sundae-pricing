@@ -8,6 +8,7 @@ import type { AddOnId, CorePackageId, CrewSkuId } from '../types/configuration';
 import { CORE_PACKAGE_IDS } from '../data/pricing';
 import { PathwaySelector } from '../components/PathwaySelector/PathwaySelector';
 import { LayerStack } from '../components/ConfigBuilder/LayerStack';
+import { EstateStep } from '../components/ConfigBuilder/EstateStep';
 import { TierSelector } from '../components/ConfigBuilder/TierSelector';
 import { ModulePicker } from '../components/ConfigBuilder/ModulePicker';
 import { WatchtowerToggle } from '../components/ConfigBuilder/WatchtowerToggle';
@@ -19,47 +20,24 @@ import { AchievementNotification } from '../components/shared/AchievementNotific
 import { useLivePricingCatalog } from '../data/livePricing';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
 import { stepTransition, useReducedMotionSafe } from '../lib/motion';
-import { stepAt, stepIndex, type JourneyStepId } from '../lib/journey';
+import { journeyFor, stepAtIn, STEP_NAMES, type JourneyStepId } from '../lib/journey';
 
 export function Simulator() {
   const { currentStep, setCurrentStep, journeySteps, newAchievements, showAchievement, layer } = useConfiguration();
   const livePricing = useLivePricingCatalog();
   const { locale } = useLocale();
   const reducedMotion = useReducedMotionSafe();
-  const [combinedRoiPhase, setCombinedRoiPhase] = useState<'crew' | 'roi'>('crew');
 
-  // Core + Crew needs both the workforce picker and the value case. They share
-  // the existing ROI stage rather than deleting either experience. Leaving the
-  // stage backwards resets it to Crew; returning from the summary preserves the
-  // ROI view the buyer just completed.
-  useEffect(() => {
-    if (layer !== 'both' || currentStep < stepIndex('roi')) {
-      setCombinedRoiPhase('crew');
-    }
-  }, [layer, currentStep]);
-  // Where "Back" goes from each step, honoring path-specific skips (Crew collapses
-  // to one builder step; Report skips modules/watchtower/ROI before the summary).
-  // Back from the summary must land on the step the visitor actually came
-  // from, which differs per pathway: Crew collapses its middle steps into one
-  // builder, and the combined path ends on that builder rather than the ROI
-  // step. Getting this wrong made the Crew SKU picker unreachable.
-  const backTarget =
-    stepAt(currentStep) === 'summary'
-      ? layer === 'crew'
-        ? stepIndex('tier')
-        : stepIndex('roi')
-      : Math.max(0, currentStep - 1);
+  // Back is now just "one step earlier in THIS pathway".
+  //
+  // It used to be a nest of special cases: the summary had to guess which step
+  // the visitor came from, because Crew collapsed its middle steps and the
+  // combined path ended on a builder that was pretending to be the ROI step.
+  // With the pathway declaring its own order, the previous step is simply the
+  // previous step, and there is nothing left to get wrong.
   const backLabel = tMicro(locale, 'back');
   const handleStickyBack = () => {
-    if (
-      layer === 'both' &&
-      stepAt(currentStep) === 'roi' &&
-      combinedRoiPhase === 'roi'
-    ) {
-      setCombinedRoiPhase('crew');
-      return;
-    }
-    setCurrentStep(backTarget);
+    setCurrentStep(Math.max(0, currentStep - 1));
   };
 
   // The step bar sticks directly below the site header. Measure the header's real
@@ -136,9 +114,9 @@ export function Simulator() {
         s.setCrewSkus(data.crewSkus as CrewSkuId[]);
       }
       // Mark the journey complete so the summary renders fully, then jump to it.
-      (['persona', 'layer', 'package', 'locations', 'addons', 'watchtower', 'roi'] as const)
+      (['persona', 'layer', 'estate', 'package', 'locations', 'addons', 'watchtower', 'crew', 'roi'] as const)
         .forEach((id) => s.markStepCompleted(id));
-      s.setCurrentStep(stepIndex('summary'));
+      s.goToStep('summary');
     } catch {
       // Malformed cfg — fall through to the normal first-run flow.
     } finally {
@@ -155,51 +133,32 @@ export function Simulator() {
   const stepComponents: Record<JourneyStepId, React.ReactNode> = {
     persona: <PathwaySelector />,
     layer: <LayerStack />,
+    estate: <EstateStep />,
     tier: <TierSelector />,
+    crew: <CrewBuilder />,
     addons: <ModulePicker />,
     watchtower: <WatchtowerToggle />,
     roi: <ROISimulator />,
     summary: <ConfigSummary />,
   };
 
-  // Crew is the parallel operational substrate path. It bypasses the
-  // Report/Core-specific tier → modules → watchtower → ROI flow because
-  // none of those map to Crew. CrewBuilder consolidates SKU pick +
-  // locations + price preview into one step and routes directly to the
-  // shared ConfigSummary on submit.
-  const isCrewPath = layer === 'crew';
-  // On the combined pathway the visitor walks the full Core journey and then
-  // picks Crew SKUs, so CrewBuilder takes the ROI slot rather than replacing
-  // the Core steps. Core and Crew are separate rails; the summary sums them.
-  const isCombinedPath = layer === 'both';
-  const progressLabelOverrides =
-    isCombinedPath && stepAt(currentStep) === 'roi' && combinedRoiPhase === 'crew'
-      ? { roi: 'Configure Crew' }
-      : undefined;
+  // The rail draws the visitor's OWN pathway. It used to draw a single fixed
+  // list and rewrite one label at runtime, so a Core+Crew buyer saw "Calculate
+  // ROI" where the Crew picker actually was.
+  const railSteps = journeyFor(layer).map((id) => ({
+    id,
+    name: STEP_NAMES[id],
+    completed: journeySteps.find((s) => s.id === id)?.completed ?? false,
+  }));
+
+  // One list decides both what the rail draws and what renders, so they cannot
+  // disagree. No path-specific component swapping, no phase flag.
   const renderStep = () => {
-    const stepId = stepAt(currentStep);
-    const node =
-      isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')
-        ? <CrewBuilder />
-        : isCombinedPath && stepId === 'roi'
-          ? combinedRoiPhase === 'crew'
-            ? (
-              <CrewBuilder
-                onContinue={() => setCombinedRoiPhase('roi')}
-                continueLabel="Continue to value case"
-              />
-            )
-            : <ROISimulator onBack={() => setCombinedRoiPhase('crew')} />
-          : (stepId ? stepComponents[stepId] : <PathwaySelector />);
+    const stepId = stepAtIn(layer, currentStep);
+    const node = stepId ? stepComponents[stepId] : <PathwaySelector />;
     return (
       <motion.div
-        key={`step-${
-          isCrewPath && currentStep > stepIndex('layer') && currentStep < stepIndex('summary')
-            ? 'crew-builder'
-            : isCombinedPath && stepId === 'roi'
-              ? combinedRoiPhase
-              : currentStep
-        }`}
+        key={`step-${stepId ?? currentStep}`}
         {...stepTransition(reducedMotion)}
       >
         {node}
@@ -225,10 +184,9 @@ export function Simulator() {
               <span className="hidden sm:inline">{backLabel}</span>
             </button>
             <ProgressIndicator
-              steps={journeySteps}
+              steps={railSteps}
               onStepClick={setCurrentStep}
               currentStep={currentStep}
-              labelOverrides={progressLabelOverrides}
             />
           </div>
         </div>

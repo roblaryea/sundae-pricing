@@ -1,3 +1,4 @@
+import { journeyFor, stepIndexIn, type JourneyStepId } from '../lib/journey';
 // Configuration state management using Zustand
 
 import { create } from 'zustand';
@@ -70,6 +71,12 @@ export interface ConfigurationState extends Configuration {
   toggleCrewSku: (sku: CrewSkuId) => void;
   setCrewSkus: (skus: CrewSkuId[]) => void;
   setLocations: (locations: number) => void;
+  /** Navigate by step NAME, resolved against the current pathway. */
+  goToStep: (id: JourneyStepId) => void;
+  /** Advance one step within the current pathway. */
+  goToNextStep: () => void;
+  /** Go back one step within the current pathway. */
+  goToPrevStep: () => void;
   toggleAddOn: (addOnId: AddOnId) => void;
   setAddOns: (addOns: AddOnId[]) => void;
   toggleWatchtowerModule: (moduleId: string) => void;
@@ -111,12 +118,18 @@ const initialState = {
   
   // Journey
   currentStep: 0,
+  // Every step in every pathway. The RAIL shows only the ones the visitor's
+  // pathway contains (derived in Simulator from journeyFor(layer)); this list
+  // exists to carry completion state, so a step cannot become unmarkable just
+  // because another pathway omits it.
   journeySteps: [
     { id: 'persona', name: 'Discover Your Persona', completed: false },
     { id: 'layer', name: 'Choose Your Layer', completed: false },
-    { id: 'tier', name: 'Select Your Tier', completed: false },
+    { id: 'estate', name: 'Your Estate', completed: false },
+    { id: 'tier', name: 'Select Your Core Package', completed: false },
     { id: 'addons', name: 'Add-ons', completed: false },
     { id: 'watchtower', name: 'Watchtower Intel', completed: false },
+    { id: 'crew', name: 'Configure Crew', completed: false },
     { id: 'roi', name: 'Calculate ROI', completed: false },
     { id: 'summary', name: 'Review & Launch', completed: false }
   ],
@@ -288,6 +301,29 @@ export const useConfiguration = create<ConfigurationState>()(
           get().checkAchievements();
         },
         
+        goToStep: (id) => {
+          // Index arithmetic lived at thirteen call sites and each one assumed
+          // a single fixed journey. The three pathways are different lists, so
+          // an index only means something relative to one of them. Resolving
+          // the name here is the only place that has to know which.
+          const idx = stepIndexIn(get().layer as never, id);
+          if (idx >= 0) set({ currentStep: idx });
+        },
+
+        // A step naming its own successor is the same defect as a hardcoded
+        // index: correct for one pathway, wrong for another. WatchtowerToggle
+        // said goToStep('roi'), which is right for Core and skips the Crew step
+        // on Core+Crew. Advancing is "next in THIS pathway"; no step needs to
+        // know what follows it.
+        goToNextStep: () => {
+          const list = journeyFor(get().layer as never);
+          set({ currentStep: Math.min(list.length - 1, get().currentStep + 1) });
+        },
+
+        goToPrevStep: () => {
+          set({ currentStep: Math.max(0, get().currentStep - 1) });
+        },
+
         setLocations: (locations) => {
           // Crew Lite has a hard location cap of 5 (`crewSkus.crew_lite.caps.maxLocations`).
           // Clamp any caller that requests more so the slider, persisted

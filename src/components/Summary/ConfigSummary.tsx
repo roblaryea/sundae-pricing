@@ -219,6 +219,14 @@ export function ConfigSummary() {
   // never to a per-location rate.
   const crewMonthly = crewRail?.monthly ?? 0;
   const combinedMonthly = pricing.total + crewMonthly;
+
+  // Anchor relief discounts the FIRST UNIT only, so the schedule needs the
+  // anchors split out from everything that scales with locations. Read from the
+  // catalogue rather than retyped: a hardcoded anchor here would silently drift
+  // from pricing_master the first time a package is repriced.
+  const anchorTotal =
+    coreAnchor(corePackage) + (crewRail ? crewAnchor(selectedCrewSkus, crewRail.detectedBundleId ?? null) : 0);
+  const recurringTotal = Math.max(0, combinedMonthly - anchorTotal);
   // At 250+ units v1.7 publishes no self-serve number, so nothing derived from
   // the total may be printed as if it were a quote.
   const isQuotable = !pricing.requiresEnterpriseQuote && Number.isFinite(combinedMonthly);
@@ -494,6 +502,21 @@ export function ConfigSummary() {
                   </div>
                 )}
               </div>
+
+              {/* The onboarding price path. Shown whenever the quote carries an
+                  anchor, because the anchor is the part relief applies to — and
+                  at five locations it is 63% of the bill, which is why a flat
+                  discount off the whole invoice would miss the point. */}
+              {isQuotable && anchorTotal > 0 && (
+                <div className="mb-6" data-testid="anchor-relief-schedule">
+                  <AnchorReliefSchedule
+                    anchorTotal={anchorTotal}
+                    recurringTotal={recurringTotal}
+                    locations={locations}
+                    money={money}
+                  />
+                </div>
+              )}
 
               {/* Breakdown */}
               <div className="space-y-2 text-sm">
@@ -1001,6 +1024,8 @@ export function ConfigSummary() {
 import { CrewQuoteButtons } from './CrewQuoteButtons';
 import type { CrewSkuId } from '../../types/configuration';
 import { objectOverlaysForPurchased, resolveImplementationClass } from '../../lib/discoveryEngine';
+import { coreAnchor, crewAnchor } from '../../lib/anchorRelief';
+import { AnchorReliefSchedule } from './AnchorReliefSchedule';
 import { resolveImplementationFee } from '../../lib/pricingEngine';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import type { DiscountLine } from '../../types/configuration';

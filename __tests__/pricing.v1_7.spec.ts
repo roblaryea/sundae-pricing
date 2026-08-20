@@ -80,10 +80,15 @@ describe('Retired catalog ids', () => {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const EXPECTED_PACKAGES = {
-  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 105], wallet: 14000, domains: 4 },
-  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 145], wallet: 16000, domains: 6 },
-  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 155], wallet: 18000, domains: 8 },
-  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 236], wallet: 24000, domains: 11 },
+  // Bands extended past unit 50 (2026-08). The curve used to spend its whole
+  // discount by unit 51 and then run flat forever, so a 250-site group paid the
+  // same marginal rate as a 51-site one and there was nothing left to offer a
+  // large estate. The tail now steps at 100 / 150 / 250 and lands BELOW the old
+  // floor, so scale keeps earning something. Nothing at or under 50 changed.
+  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 115, 110, 105, 100], wallet: 14000, domains: 4 },
+  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 165, 155, 145, 140], wallet: 16000, domains: 6 },
+  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 180, 170, 160, 150], wallet: 18000, domains: 8 },
+  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 275, 255, 245, 230], wallet: 24000, domains: 11 },
 } as const;
 
 describe('Core packages', () => {
@@ -108,19 +113,28 @@ describe('Core packages', () => {
         expect(pkg.firstUnitPrice).toBe(expected.anchor);
       });
 
-      it('carries four marginal bands starting at unit 2', () => {
-        expect(pkg.marginalBands).toHaveLength(4);
+      it('carries the published marginal bands, starting at unit 2', () => {
         expect(pkg.marginalBands[0].fromUnit).toBe(2);
         expect(pkg.marginalBands.map((b) => b.pricePerUnit)).toEqual([...expected.bands]);
       });
 
-      it('bands cover 2-10 / 11-25 / 26-50 / 51+', () => {
-        expect(pkg.marginalBands.map((b) => [b.fromUnit, b.toUnit])).toEqual([
-          [2, 10],
-          [11, 25],
-          [26, 50],
-          [51, null],
-        ]);
+      it('bands are contiguous, cover every unit, and end open', () => {
+        // Shape rather than a fixed count, so extending the curve again does
+        // not require rewriting the test — but a GAP would let a unit fall
+        // through unpriced, and an overlap would bill it twice.
+        const bands = pkg.marginalBands;
+        expect(bands[0].fromUnit).toBe(2);
+        for (let i = 1; i < bands.length; i += 1) {
+          expect(bands[i].fromUnit).toBe((bands[i - 1].toUnit as number) + 1);
+        }
+        expect(bands[bands.length - 1].toUnit).toBeNull();
+      });
+
+      it('steps DOWN monotonically — scale never costs more per unit', () => {
+        const rates = pkg.marginalBands.map((b) => b.pricePerUnit);
+        for (let i = 1; i < rates.length; i += 1) {
+          expect(rates[i]).toBeLessThan(rates[i - 1]);
+        }
       });
 
       it(`includes a ${expected.wallet} AI credit wallet`, () => {
@@ -181,8 +195,20 @@ describe('Marginal band math', () => {
   });
 
   it('spans every band correctly at 60 units', () => {
-    const expected = 1195 + 9 * 175 + 15 * 150 + 25 * 125 + 10 * 105;
+    // 60 sits in the 51–100 band, which is new: it used to be the open terminal
+    // band at $105 and is now $115, with the floor moved out to 251+.
+    const expected = 1195 + 9 * 175 + 15 * 150 + 25 * 125 + 10 * 115;
     expect(calculateCorePackagePrice('core_foundation', 60)).toBe(expected);
+  });
+
+  it('keeps stepping past 100 — a 250-site estate is not priced like a 51-site one', () => {
+    // The whole point of the extended tail. Previously every one of these
+    // returned the same rate.
+    const rate = (n: number) =>
+      calculateCorePackagePrice('core_growth', n + 1) - calculateCorePackagePrice('core_growth', n);
+    expect(rate(60)).toBeGreaterThan(rate(120));
+    expect(rate(120)).toBeGreaterThan(rate(200));
+    expect(rate(200)).toBeGreaterThan(rate(300));
   });
 
   it('is strictly monotonic — each extra location costs more in total', () => {
@@ -211,7 +237,11 @@ describe('Marginal band math', () => {
     expect(marginalRateForNextUnit(corePackages.core_foundation, 1)).toBe(175);
     expect(marginalRateForNextUnit(corePackages.core_foundation, 10)).toBe(150);
     expect(marginalRateForNextUnit(corePackages.core_foundation, 25)).toBe(125);
-    expect(marginalRateForNextUnit(corePackages.core_foundation, 50)).toBe(105);
+    expect(marginalRateForNextUnit(corePackages.core_foundation, 50)).toBe(115);
+    // The tail the extension added — these were all $105 before.
+    expect(marginalRateForNextUnit(corePackages.core_foundation, 100)).toBe(110);
+    expect(marginalRateForNextUnit(corePackages.core_foundation, 150)).toBe(105);
+    expect(marginalRateForNextUnit(corePackages.core_foundation, 250)).toBe(100);
   });
 
   it('returns 0 for zero units', () => {
@@ -390,7 +420,7 @@ describe('Crew SKUs', () => {
     }
   });
 
-  it('walks Crew Manage down its published bands: $399 then 79 / 71 / 63 / 55', () => {
+  it('walks Crew Manage down its published bands: $399 then 79 / 71 / 63 / 59', () => {
     const at = (n: number) => computeCrewQuote(['crew_operations'], n).monthly;
     expect(at(1)).toBe(399);
     expect(at(2)).toBe(399 + 79);
@@ -399,7 +429,10 @@ describe('Crew SKUs', () => {
     expect(at(25)).toBe(399 + 9 * 79 + 15 * 71);
     expect(at(26)).toBe(399 + 9 * 79 + 15 * 71 + 63);
     expect(at(50)).toBe(399 + 9 * 79 + 15 * 71 + 25 * 63);
-    expect(at(51)).toBe(399 + 9 * 79 + 15 * 71 + 25 * 63 + 55);
+    expect(at(51)).toBe(399 + 9 * 79 + 15 * 71 + 25 * 63 + 59);
+    // and keeps stepping, where it used to run flat from 51 forever
+    expect(at(101) - at(100)).toBeLessThan(at(51) - at(50));
+    expect(at(251) - at(250)).toBeLessThan(at(101) - at(100));
   });
 });
 

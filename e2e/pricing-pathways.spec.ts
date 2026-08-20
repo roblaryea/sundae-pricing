@@ -172,15 +172,16 @@ test.describe('pricing simulator pathways', () => {
     });
     await choose(page, /^Select CORE$/);
     await choose(page, /Select Core Growth/);
+
+    // The overlay follows the SKU on the quote, not the survey answer — a
+    // deliberate change: a group that says "hotel F&B" at question two but
+    // never adds the Hotel pathway is not billed per revenue centre, and
+    // quoting them for one would be inventing a cost. So buy the concept.
+    await choose(page, /Hotel F&B/i);
+
     for (let i = 0; i < 8; i += 1) {
       const before = await heading(page);
-      const next = page
-        .getByTestId('step-region')
-        .getByRole('button', { name: /(Continue|Next|See my|View|Skip|Review|Get started)/i })
-        .last();
-      if ((await next.count()) === 0) break;
-      await next.click().catch(() => {});
-      await page.waitForTimeout(400);
+      if (!(await forward(page))) break;
       if ((await heading(page)) === before) break;
     }
     await page.waitForTimeout(1200);

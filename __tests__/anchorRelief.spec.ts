@@ -53,16 +53,18 @@ describe("it self-targets by estate size", () => {
   it("is worth far more to a small estate than a large one", () => {
     // Same anchors, very different recurring tails.
     const small = schedule(anchors, 1436, 5)[0];
-    const large = schedule(anchors, 59466, 250)[0];
+    // v1.8 Core Growth + Crew Operating Suite is $64,390 at 250 sites;
+    // $2,424 is anchor and $61,966 is the marginal tail.
+    const large = schedule(anchors, 61966, 250)[0];
     const smallSaving = 1 - small.monthly / (anchors + 1436);
-    const largeSaving = 1 - large.monthly / (anchors + 59466);
+    const largeSaving = 1 - large.monthly / (anchors + 61966);
     expect(smallSaving).toBeGreaterThan(0.25);
     expect(largeSaving).toBeLessThan(0.05);
     expect(smallSaving).toBeGreaterThan(largeSaving * 5);
   });
 
   it("keeps the step-up small exactly where the deal is large", () => {
-    const large = schedule(anchors, 59466, 250);
+    const large = schedule(anchors, 61966, 250);
     for (const r of large.slice(1)) expect(r.stepUp!).toBeLessThan(0.02);
   });
 

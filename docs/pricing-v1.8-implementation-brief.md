@@ -10,6 +10,12 @@ The pricing site (`sundae-pricing`) already implements both, on branch
 is the authority and still carries v1.7 bands.** Until it is updated, the site
 quotes numbers the backend will not bill. That desync is the first thing to close.
 
+Implementation must create a new immutable v1.8 catalogue. The current backend
+seeder clears and recreates the active version, so using it as written would
+rewrite prices for subscriptions pinned to v1.7. The tables below are gross
+list values; customer payable totals additionally reflect the existing
+exclusive volume-or-cadence discount.
+
 ---
 
 ## 1. Extended band tail
@@ -93,6 +99,14 @@ open floor. No engine change is required — this is data only.
 
 **This is a price rise for existing customers between 51 and 250 locations.**
 It needs a renewal-impact pass before it ships — I have not modelled churn.
+The 250-unit total and 251+ row remain Enterprise/sales-approved reference
+inputs and do not become self-serve.
+
+“The largest estates gain” is true only of the **marginal floor**, not the whole
+invoice immediately. On the worked Core Growth + Crew Operating rail, v1.8 is
+still about 4.0% above v1.7 at 250 locations and does not fall below the old
+total until roughly 479 locations. Sales copy must not describe 251 locations
+as an immediate total-price reduction.
 
 ### Invariants to hold
 
@@ -165,6 +179,13 @@ A **discount type**, selectable per customer, not a global price change.
   the invoice preview. A schedule that shows only the discounted years is the
   document that produces the surprise at renewal.
 
+Before coding, define discount stacking, two-year prepaid treatment, separate
+Core/Crew anniversary clocks, mid-contract plan changes, tax and rounding,
+credits/cancellation, and the Stripe phase-transition mechanism. Recommended
+stacking is anchor relief against gross anchor list first, followed by the
+existing mutually-exclusive volume-or-cadence discount on the resulting
+recurring subtotal. Two-year prepaid treatment remains a commercial decision.
+
 ### Reference implementation
 
 `src/lib/anchorRelief.ts` in the pricing site carries the maths and the
@@ -178,9 +199,10 @@ a flat-cliff schedule on worst-case step-up.
 ## 3. Sequencing
 
 1. Update `pricing_master.ts` bands → the site and backend agree again.
-2. Regenerate the DB pricing catalogue and re-run the Stripe catalogue sync.
+2. Create an inactive immutable v1.8 DB catalogue and sync that version to
+   Stripe without mutating v1.7 or any live subscription.
 3. Build anchor relief as a discount type in admin pricing.
-4. Renewal-impact pass on existing 51–250 customers **before** the bands ship.
+4. Renewal-impact pass on existing 51–250 customers **before** v1.8 activation.
 
 ## 4. Open questions — decisions I did not make
 

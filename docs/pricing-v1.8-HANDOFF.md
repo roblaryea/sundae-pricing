@@ -13,6 +13,24 @@ Two independent changes. Either can ship without the other.
 still carries v1.7, so **the simulator currently quotes numbers the backend will
 not bill.** Closing that desync is the point of Change A.
 
+## Mandatory release corrections
+
+Do **not** run the current `pricing_catalog_seeder` against the active catalogue.
+It clears and recreates items inside the existing active version, which would
+rewrite the prices of subscriptions pinned to that version. Create an immutable
+v1.8 catalogue version, retain v1.7 unchanged, validate it while inactive, then
+activate it only after the renewal/grandfathering decision below is recorded.
+
+The values in this document are **gross list totals before** the existing
+exclusive volume-or-billing-cycle discount. Customer quote, Stripe, invoice,
+and guarantee tests must also assert the net payable amount. For example, a
+100-location monthly quote currently earns the 5% volume discount; annual and
+two-year quotes use the larger 10% or 15% cadence discount instead.
+
+The 250-unit total and 251+ rates are Enterprise quote reference inputs. They
+do not remove the existing 250+ sales-approval gate and must not become
+self-serve.
+
 ---
 
 # Change A — extended band tail
@@ -80,9 +98,9 @@ Worth fixing, out of scope here. Flag it; do not silently alter it.
 ## Tests to write
 
 ```
-1. Bands are contiguous: band[i].from === band[i-1].to + 1, no gaps, no overlaps.
+1. Changed bands are contiguous: band[i].from === band[i-1].to + 1, no gaps, no overlaps.
    A gap leaves a unit unpriced; an overlap bills it twice.
-2. Rates step down STRICTLY: rates[i] < rates[i-1]. No band may equal its
+2. Rates step down STRICTLY for the changed Core/Crew offers: rates[i] < rates[i-1]. No band may equal its
    predecessor (this is what caught the crew_tna rounding collision).
 3. No cliff: total(n+1) > total(n) for every n in 1..300. Check 50→51, 100→101,
    150→151, 250→251 explicitly.
@@ -107,9 +125,15 @@ Worth fixing, out of scope here. Flag it; do not silently alter it.
 
 ## After the edit
 
-1. Regenerate the DB pricing catalogue from `pricing_master.ts`.
-2. Re-run the Stripe catalogue sync (`/admin/pricing` → Sync all).
-3. Verify `/api/pricing/catalog` returns the new rates.
+1. Create a new inactive, immutable v1.8 DB catalogue from `pricing_master.ts`;
+   never clear or rewrite the active v1.7 version.
+2. Verify gross band totals and net payable totals for monthly, annual, and
+   two-year quotes while v1.8 is inactive.
+3. Run Stripe catalogue sync for the v1.8 version and reconcile every product,
+   currency, cadence, and computed amount without changing live subscriptions.
+4. Verify the version-targeted catalogue API returns the new rates and that the
+   normal customer API continues to return v1.7 until activation.
+5. Activate v1.8 for new sales only after the renewal/grandfathering decision.
 
 ## Commercial warning
 
@@ -169,6 +193,30 @@ step timing:  contract anniversary, not calendar year
 year 5+:      list price (schedule exhausted)
 ```
 
+## Contract rules required before Change B is coded
+
+The following are billing semantics, not UI preferences, and must be decided
+before anchor relief can be enabled:
+
+- stacking order with the existing 10% annual, 15% two-year, volume, bundle,
+  and promotional discounts;
+- whether a two-year prepaid contract uses one fixed blended amount or two
+  separately invoiced annual relief phases;
+- whether Core and Crew added on different dates carry separate anniversary
+  clocks or one agreement anniversary;
+- treatment of upgrades, downgrades, cancellation credits, and reactivation
+  inside a contract year;
+- currency-minor-unit rounding, tax basis, credit notes, and invoice wording;
+- Stripe implementation (subscription-schedule phases or a durable anniversary
+  workflow), including webhook idempotency and failure recovery.
+
+Recommended default: calculate anchor relief on gross anchor list price first,
+then apply the existing mutually-exclusive volume-or-cadence discount to the
+resulting recurring subtotal; promotional concessions remain subject to the
+existing combined cap. Use separate rail start dates only when Core and Crew
+are contracted separately. Two-year prepaid treatment requires an explicit
+commercial decision and must not be inferred.
+
 ## Reference implementation
 
 In `sundae-pricing`:
@@ -201,9 +249,9 @@ the buyer can see where it lands before signing.
 # Sequencing
 
 1. Change A in `pricing_master.ts` → site and backend agree again.
-2. Regenerate catalogue + Stripe sync.
+2. Create and validate an inactive immutable v1.8 catalogue + Stripe sync.
 3. Change B as a discount type in admin pricing.
-4. Renewal-impact pass on existing 51–250 customers **before** A ships.
+4. Renewal-impact pass on existing 51–250 customers **before** A is activated.
 
 # Decisions NOT made — these need a human
 

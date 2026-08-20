@@ -200,7 +200,10 @@ a flat-cliff schedule on worst-case step-up.
 
 1. Update `pricing_master.ts` bands → the site and backend agree again.
 2. Create an inactive immutable v1.8 DB catalogue and sync that version to
-   Stripe without mutating v1.7 or any live subscription.
+   Stripe without mutating v1.7 or any live subscription. The backend staging
+   command is `node ace pricing:stage-v18 <draft-version-id>` (dry run), then
+   the same command with `--apply`; it refuses non-draft versions and clears
+   cloned immutable Stripe price IDs before the v1.8 sync.
 3. Build anchor relief as a discount type in admin pricing.
 4. Renewal-impact pass on existing 51–250 customers **before** v1.8 activation.
 

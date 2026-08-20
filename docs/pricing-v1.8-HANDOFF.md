@@ -127,6 +127,11 @@ Worth fixing, out of scope here. Flag it; do not silently alter it.
 
 1. Create a new inactive, immutable v1.8 DB catalogue from `pricing_master.ts`;
    never clear or rewrite the active v1.7 version.
+   After cloning the active catalogue to a draft, run
+   `node ace pricing:stage-v18 <draft-version-id>` as a read-only validation,
+   then repeat with `--apply`. The command refuses active catalogues, persists
+   curves on the draft version, and clears cloned Stripe price IDs because
+   Stripe prices are immutable.
 2. Verify gross band totals and net payable totals for monthly, annual, and
    two-year quotes while v1.8 is inactive.
 3. Run Stripe catalogue sync for the v1.8 version and reconcile every product,

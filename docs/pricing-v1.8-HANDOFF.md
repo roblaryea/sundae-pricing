@@ -275,7 +275,13 @@ the buyer can see where it lands before signing.
   Needs a contractual definition of "bankable" — recommend the closed-loop
   standard: identified, evidenced against a frozen baseline, with a named owner
   and a Crew action. "Identified" is defensible; "realised" depends on the
-  operator acting, which we do not control.
+  operator acting, which we do not control. Recommended eligibility guardrail:
+  `3 × annual net eligible subscription fees <= 2.5% of verified in-scope annual revenue`.
+  Start the measurement window only when the agreed data set is ready, exclude
+  directional-only and duplicate opportunities, and cap the remedy at a
+  proportional service credit no greater than the eligible fees paid. Pilot the
+  wording before offering it universally; a $40k/site/month prospect can carry
+  materially more exposure than the simulator's $75k floor suggests.
 
 # Basis of the competitor comparison
 

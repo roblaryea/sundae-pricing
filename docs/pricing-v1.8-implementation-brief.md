@@ -222,7 +222,13 @@ a flat-cliff schedule on worst-case step-up.
   contractual definition of "bankable" — recommend the closed-loop standard:
   identified, evidenced against a frozen baseline, with a named owner and a
   Crew action. "Identified" is defensible; "realised" depends on the operator
-  acting, which we do not control.
+  acting, which we do not control. Recommended eligibility guardrail:
+  `3 × annual net eligible subscription fees <= 2.5% of verified in-scope annual revenue`.
+  Start the clock at an agreed Data Ready Date, exclude directional-only and
+  duplicate opportunities, and make a proportional service credit capped at
+  eligible fees the sole commercial remedy. Pilot the language before a broad
+  launch; at $40k/site/month the exposure is materially higher than the
+  simulator's $75k floor.
 - **Competitor basis.** The rival comparison assumes **15 employees per site**
   for Deputy — our assumption, not their published rate. A leaner operator
   narrows the gap.

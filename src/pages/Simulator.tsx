@@ -197,6 +197,7 @@ export function Simulator() {
           it gives the document two main landmarks. This is the step region. */}
       <div
         ref={stepRef}
+        data-testid="step-region"
         tabIndex={-1}
         role="region"
         aria-label={backLabel === 'Back' ? 'Configuration step' : backLabel}

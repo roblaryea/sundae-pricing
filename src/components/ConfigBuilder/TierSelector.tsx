@@ -21,6 +21,7 @@ import { useLivePricingCatalog } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
 import { AnimatedNumber } from '../shared/AnimatedNumber';
 import { LocationSelector } from '../shared/LocationSelector';
+import { VolumeCurve } from '../shared/VolumeCurve';
 import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 const PACKAGE_COLORS: Record<CorePackageId, string> = {
@@ -130,6 +131,14 @@ export function TierSelector() {
         />
       </motion.div>
       )}
+
+      {/* The curve, shown rather than described, for whichever package the
+          buyer is looking at. getMarginalBandMessage said exactly this and was
+          called from nowhere — the explanation existed, it just never reached
+          a screen. */}
+      <div className="mb-8 mx-auto max-w-3xl">
+        <VolumeCurve packageId={recommendedPackage} locations={locations} />
+      </div>
 
       {/* Marginal-band explainer — the single most misread mechanic in the book */}
       <div className="mb-10 mx-auto max-w-3xl p-4 rounded-xl border border-white/10 bg-sundae-surface text-sm text-sundae-muted">

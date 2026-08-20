@@ -652,6 +652,7 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
         <button
           onClick={handleContinue}
           className="button-primary inline-flex items-center gap-2"
+          data-testid="continue-button-roi"
         >
           <span>{copy.viewSummary}</span>
           <ChevronRight className="w-5 h-5" />

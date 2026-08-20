@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { LocationSelector } from '../shared/LocationSelector';
 import { fadeUp, useReducedMotionSafe } from '../../lib/motion';
+import { VolumeCurve } from '../shared/VolumeCurve';
+import { suggestOptimalCorePackage } from '../../hooks/usePriceCalculation';
 
 /**
  * The estate, asked once — because it is one value.
@@ -46,13 +48,8 @@ export function EstateStep() {
         />
       </motion.div>
 
-      <div className="rounded-xl border border-white/10 bg-sundae-surface p-4 text-sm text-sundae-muted mb-8">
-        <p>
-          <strong className="text-white">Adding locations lowers the rate, never the bill.</strong>{' '}
-          Your first location is priced at the anchor and every location after it is priced by
-          band. Bands are <strong className="text-white">marginal</strong>: reaching a cheaper band
-          prices the next locations lower, and never reprices the ones you already have.
-        </p>
+      <div className="mb-8">
+        <VolumeCurve packageId={suggestOptimalCorePackage(locations)} locations={locations} />
       </div>
 
       <div className="flex justify-between">

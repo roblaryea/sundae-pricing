@@ -465,7 +465,10 @@ export function WatchtowerToggle() {
             className="button-primary inline-flex items-center gap-2 relative z-50"
             data-testid="continue-button-watchtower"
           >
-            <span>{copy.continueToRoi}</span>
+            {/* The label has to name the step it actually reaches. Adding the
+                Crew step made "Continue to ROI" false on the combined pathway:
+                the button went to the Crew builder. */}
+            <span>{layer === 'both' ? 'Continue to Crew' : copy.continueToRoi}</span>
             <ChevronRight className="w-5 h-5" />
           </button>
           

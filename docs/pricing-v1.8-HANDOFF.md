@@ -105,7 +105,7 @@ Worth fixing, out of scope here. Flag it; do not silently alter it.
 3. No cliff: total(n+1) > total(n) for every n in 1..300. Check 50→51, 100→101,
    150→151, 250→251 explicitly.
 4. Marginal, not retroactive: total(60) must equal
-   1925 + 9*260 + 15*225 + 25*190 + 10*180 = $13,940 for Growth.
+   1925 + 9*260 + 15*225 + 25*190 + 10*180 = $14,190 for Growth.
    If it returns $11,070 the engine is repricing all units at the top rate.
 5. Nothing at or under 50 locations changes vs v1.7. Assert equality at
    1, 2, 10, 25, 26, 50 for all four Core packages and all Crew SKUs.

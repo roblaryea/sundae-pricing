@@ -100,8 +100,9 @@ Worth fixing, out of scope here. Flag it; do not silently alter it.
 ```
 1. Changed bands are contiguous: band[i].from === band[i-1].to + 1, no gaps, no overlaps.
    A gap leaves a unit unpriced; an overlap bills it twice.
-2. Rates step down STRICTLY for the changed Core/Crew offers: rates[i] < rates[i-1]. No band may equal its
-   predecessor (this is what caught the crew_tna rounding collision).
+2. Rates never increase for the changed Core/Crew offers: rates[i] <= rates[i-1].
+   The approved Crew T&A table intentionally holds $13 across 101–250 after
+   rounding; assert its exact array so a validator does not invent an $11 tail.
 3. No cliff: total(n+1) > total(n) for every n in 1..300. Check 50→51, 100→101,
    150→151, 250→251 explicitly.
 4. Marginal, not retroactive: total(60) must equal

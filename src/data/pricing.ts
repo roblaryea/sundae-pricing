@@ -1101,7 +1101,7 @@ export const crewSkus = {
     icon: 'clock',
     backendId: 'crew_tna',
     firstUnitPrice: 99,
-    marginalBands: [band(2, 10, 19), band(11, 25, 17), band(26, 50, 15), band(51, 100, 14), band(101, 150, 13), band(151, 250, 12), band(251, null, 11)],
+    marginalBands: [band(2, 10, 19), band(11, 25, 17), band(26, 50, 15), band(51, 100, 14), band(101, 150, 13), band(151, 250, 13), band(251, null, 12)],
     orgLicensePrice: 99,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'T&A clock-in configuration + geofencing setup',

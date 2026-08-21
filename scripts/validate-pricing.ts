@@ -118,7 +118,7 @@ check('crewBundles.crew_complete_bundle.basePrice', 699, crewBundles.crew_comple
 const EXPECTED_CREW_BANDS: Record<string, number[]> = {
   crew_scheduling: [39, 35, 31, 29, 27, 26, 25],
   crew_operations: [79, 71, 63, 59, 56, 53, 50],
-  crew_tna: [19, 17, 15, 14, 13, 12, 11],
+  crew_tna: [19, 17, 15, 14, 13, 13, 12],
   crew_payroll: [29, 26, 23, 22, 20, 19, 18],
   crew_people_intelligence: [39, 35, 31, 29, 27, 26, 25],
 };

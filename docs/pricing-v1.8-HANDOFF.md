@@ -269,19 +269,21 @@ the buyer can see where it lands before signing.
 - **Concept SKUs.** Left on the old flat-at-51 curve. Deliberate, but it means
   two curve shapes now coexist.
 - **`crew_catering`'s non-stepping band** ([25,59],[50,59]) — pre-existing.
-- **The 3× guarantee**, if it proceeds: committing to identify 3× price in
-  bankable opportunity within 3 months equates to **1.0–2.3% of revenue** at the
+- **Internal 3× value standard — not a customer guarantee.** Using 3× price in
+  bankable identified opportunity as an internal underwriting and value-review
+  threshold equates to **1.0–2.3% of revenue** at the
   simulator's conservative $75k/site/month, and it gets *safer* as estates grow.
-  Needs a contractual definition of "bankable" — recommend the closed-loop
+  Use a governance definition of "bankable" based on the closed-loop
   standard: identified, evidenced against a frozen baseline, with a named owner
   and a Crew action. "Identified" is defensible; "realised" depends on the
   operator acting, which we do not control. Recommended eligibility guardrail:
   `3 × annual net eligible subscription fees <= 2.5% of verified in-scope annual revenue`.
   Start the measurement window only when the agreed data set is ready, exclude
-  directional-only and duplicate opportunities, and cap the remedy at a
-  proportional service credit no greater than the eligible fees paid. Pilot the
-  wording before offering it universally; a $40k/site/month prospect can carry
-  materially more exposure than the simulator's $75k floor suggests.
+  directional-only and duplicate opportunities. Do not implement this standard
+  in pricing, checkout, quotes, invoices, or customer contract language without
+  a separate approved commercial and legal decision; a $40k/site/month prospect
+  has a materially higher implied opportunity threshold than the simulator's
+  $75k floor suggests.
 
 # Basis of the competitor comparison
 

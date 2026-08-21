@@ -214,21 +214,22 @@ a flat-cliff schedule on worst-case step-up.
 - **Sub-10 estates.** Even at 75% relief a five-site operator pays $408/site
   against a rival stack at ~$360, and faces +29.7% at year two. Options: hold
   25% permanently below 10 sites, stretch to five years, or accept the segment
-  is not the target and let the 3× guarantee carry it.
-- **The 3× guarantee.** Committing to identify 3× the price in bankable
-  opportunity within 3 months equates to **1.0–2.3% of revenue** at the
+  is not the target and use the internal 3× value standard to qualify it.
+- **Internal 3× value standard — not a customer guarantee.** Using 3× the price
+  in bankable identified opportunity as an internal underwriting and value-review
+  threshold equates to **1.0–2.3% of revenue** at the
   simulator's conservative $75k/site/month. Comfortably inside the ROI model's
   own plausibility ceilings, and it gets *safer* as estates grow. Needs a
-  contractual definition of "bankable" — recommend the closed-loop standard:
+  governance definition of "bankable" — recommend the closed-loop standard:
   identified, evidenced against a frozen baseline, with a named owner and a
   Crew action. "Identified" is defensible; "realised" depends on the operator
   acting, which we do not control. Recommended eligibility guardrail:
   `3 × annual net eligible subscription fees <= 2.5% of verified in-scope annual revenue`.
   Start the clock at an agreed Data Ready Date, exclude directional-only and
-  duplicate opportunities, and make a proportional service credit capped at
-  eligible fees the sole commercial remedy. Pilot the language before a broad
-  launch; at $40k/site/month the exposure is materially higher than the
-  simulator's $75k floor.
+  duplicate opportunities. Do not expose this threshold in pricing, checkout,
+  quotes, invoices, or customer contract language without a separate approved
+  commercial and legal decision. At $40k/site/month the implied opportunity
+  threshold is materially higher than the simulator's $75k floor.
 - **Competitor basis.** The rival comparison assumes **15 employees per site**
   for Deputy — our assumption, not their published rate. A leaner operator
   narrows the gap.

@@ -41,7 +41,6 @@ import {
   getRoiCopy,
   type PricingUiLocale,
 } from '../../lib/pricingUiCopy';
-import { stepIndex } from '../../lib/journey';
 import { computeCrewQuote } from '../../lib/crewPricing';
 import { corePackages } from '../../data/pricing';
 import { getQuoteSummaryCopy } from '../../lib/quoteSummaryCopy';
@@ -73,7 +72,7 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
     watchtowerModules,
     roiInputs,
     setROIInputs,
-    setCurrentStep,
+    goToStep, goToPrevStep,
     crewSkus: selectedCrewSkus,
     techStack,
     operatingModels,
@@ -198,7 +197,7 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
   };
 
   const handleContinue = () => {
-    setCurrentStep(stepIndex('summary'));
+    goToStep('summary');
   };
 
   const handleBack = () => {
@@ -206,7 +205,7 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
       onBack();
       return;
     }
-    setCurrentStep(stepIndex('watchtower'));
+    goToPrevStep();
   };
 
   // Per-location helper + small locale labels (localized across all 22 locales via tMicro).
@@ -653,6 +652,7 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
         <button
           onClick={handleContinue}
           className="button-primary inline-flex items-center gap-2"
+          data-testid="continue-button-roi"
         >
           <span>{copy.viewSummary}</span>
           <ChevronRight className="w-5 h-5" />

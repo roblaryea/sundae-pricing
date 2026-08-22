@@ -82,7 +82,26 @@ export type CrewBundleId = 'crew_schedule_time_bundle' | 'crew_suite_bundle' | '
 export type CrossIntelligenceTier = 'base' | 'pro';
 export type WatchtowerId = 'competitive' | 'events' | 'trends' | 'bundle';
 export type ClientType = 'independent' | 'growth' | 'multi-site' | 'enterprise' | 'franchise';
-export type BillingCycle = 'monthly' | 'annual' | 'two_year';
+/**
+ * Commitment term AND payment timing, because the concession is priced on both.
+ *
+ * v1.7 had one axis — monthly / annual / two-year — so "annual" could not
+ * distinguish a customer paying quarterly from one paying twelve months up
+ * front, though the cash position and therefore the discount differ. v1.8
+ * prices the pair, and the two-year offer carries a 24-month price lock, which
+ * is a contractual commitment on our side rather than a further discount.
+ */
+export type BillingCycle =
+  | 'monthly'
+  | 'annual_quarterly'
+  | 'annual_upfront'
+  | 'two_year_upfront';
+
+/** Terms that existed before payment timing was priced, and what they became. */
+export const LEGACY_BILLING_CYCLES: Record<string, BillingCycle> = {
+  annual: 'annual_upfront',
+  two_year: 'two_year_upfront',
+};
 
 // ── Marginal band primitives ───────────────────────────────────────────────
 
@@ -329,7 +348,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     name: 'Core Foundation',
     tagline: 'The whole business, one decision layer',
     firstUnitPrice: 1195,
-    marginalBands: [band(2, 10, 175), band(11, 25, 150), band(26, 50, 125), band(51, null, 105)],
+    marginalBands: [band(2, 10, 175), band(11, 25, 150), band(26, 50, 125), band(51, 100, 115), band(101, 150, 110), band(151, 250, 105), band(251, null, 100)],
     aiCreditWallet: 14000,
     aiCreditsPerLocation: 2800,
     seatsIncluded: 4,
@@ -346,7 +365,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     name: 'Core Margin',
     tagline: 'Protect the margin you already earn',
     firstUnitPrice: 1650,
-    marginalBands: [band(2, 10, 245), band(11, 25, 210), band(26, 50, 175), band(51, null, 145)],
+    marginalBands: [band(2, 10, 245), band(11, 25, 210), band(26, 50, 175), band(51, 100, 165), band(101, 150, 155), band(151, 250, 145), band(251, null, 140)],
     aiCreditWallet: 16000,
     aiCreditsPerLocation: 3200,
     seatsIncluded: 5,
@@ -363,7 +382,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     name: 'Core Growth',
     tagline: 'Grow the top line without losing the bottom',
     firstUnitPrice: 1925,
-    marginalBands: [band(2, 10, 260), band(11, 25, 225), band(26, 50, 190), band(51, null, 155)],
+    marginalBands: [band(2, 10, 260), band(11, 25, 225), band(26, 50, 190), band(51, 100, 180), band(101, 150, 170), band(151, 250, 160), band(251, null, 150)],
     aiCreditWallet: 18000,
     aiCreditsPerLocation: 3600,
     seatsIncluded: 6,
@@ -380,7 +399,7 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     name: 'Core Performance',
     tagline: 'Run the portfolio on one performance standard',
     firstUnitPrice: 2980,
-    marginalBands: [band(2, 10, 409), band(11, 25, 348), band(26, 50, 290), band(51, null, 236)],
+    marginalBands: [band(2, 10, 409), band(11, 25, 348), band(26, 50, 290), band(51, 100, 275), band(101, 150, 255), band(151, 250, 245), band(251, null, 230)],
     aiCreditWallet: 24000,
     aiCreditsPerLocation: 4800,
     seatsIncluded: 8,
@@ -1032,7 +1051,7 @@ export const crewSkus = {
     icon: 'calendar-days',
     backendId: 'crew_scheduling',
     firstUnitPrice: 179,
-    marginalBands: [band(2, 10, 39), band(11, 25, 35), band(26, 50, 31), band(51, null, 27)],
+    marginalBands: [band(2, 10, 39), band(11, 25, 35), band(26, 50, 31), band(51, 100, 29), band(101, 150, 27), band(151, 250, 26), band(251, null, 25)],
     orgLicensePrice: 179,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Initial schedule template setup',
@@ -1066,7 +1085,7 @@ export const crewSkus = {
     icon: 'users',
     backendId: 'crew_operations',
     firstUnitPrice: 399,
-    marginalBands: [band(2, 10, 79), band(11, 25, 71), band(26, 50, 63), band(51, null, 55)],
+    marginalBands: [band(2, 10, 79), band(11, 25, 71), band(26, 50, 63), band(51, 100, 59), band(101, 150, 56), band(151, 250, 53), band(251, null, 50)],
     orgLicensePrice: 399,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'HR operations + credentials + assets setup',
@@ -1101,7 +1120,7 @@ export const crewSkus = {
     icon: 'clock',
     backendId: 'crew_tna',
     firstUnitPrice: 99,
-    marginalBands: [band(2, 10, 19), band(11, 25, 17), band(26, 50, 15), band(51, null, 13)],
+    marginalBands: [band(2, 10, 19), band(11, 25, 17), band(26, 50, 15), band(51, 100, 14), band(101, 150, 13), band(151, 250, 13), band(251, null, 12)],
     orgLicensePrice: 99,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'T&A clock-in configuration + geofencing setup',
@@ -1141,7 +1160,7 @@ export const crewSkus = {
     icon: 'wallet',
     backendId: 'crew_payroll',
     firstUnitPrice: 129,
-    marginalBands: [band(2, 10, 29), band(11, 25, 26), band(26, 50, 23), band(51, null, 20)],
+    marginalBands: [band(2, 10, 29), band(11, 25, 26), band(26, 50, 23), band(51, 100, 22), band(101, 150, 20), band(151, 250, 19), band(251, null, 18)],
     orgLicensePrice: 129,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Country pack activation + statutory export configuration',
@@ -1176,7 +1195,7 @@ export const crewSkus = {
     icon: 'brain',
     backendId: 'crew_people_intelligence',
     firstUnitPrice: 249,
-    marginalBands: [band(2, 10, 39), band(11, 25, 35), band(26, 50, 31), band(51, null, 27)],
+    marginalBands: [band(2, 10, 39), band(11, 25, 35), band(26, 50, 31), band(51, 100, 29), band(101, 150, 27), band(151, 250, 26), band(251, null, 25)],
     orgLicensePrice: 249,
     implementationClass: null as ImplementationClassId | null,
     implementationIncludes: 'Performance / talent / comp data ingestion',
@@ -1240,7 +1259,7 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     name: 'Schedule & Time',
     skus: ['crew_scheduling', 'crew_tna'],
     firstUnitPrice: 249,
-    marginalBands: [band(2, 10, 49), band(11, 25, 45), band(26, 50, 41), band(51, null, 37)],
+    marginalBands: [band(2, 10, 49), band(11, 25, 45), band(26, 50, 41), band(51, 100, 39), band(101, 150, 36), band(151, 250, 34), band(251, null, 33)],
     basePrice: 249,
     description: 'Crew Schedule + Crew Time bundled. Keep your existing HR or payroll while Sundae runs scheduling, attendance, and payroll-ready time data.',
     implementationClass: null,
@@ -1250,7 +1269,7 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     name: 'Crew Operating',
     skus: ['crew_operations', 'crew_tna', 'crew_payroll'],
     firstUnitPrice: 499,
-    marginalBands: [band(2, 10, 99), band(11, 25, 89), band(26, 50, 79), band(51, null, 69)],
+    marginalBands: [band(2, 10, 99), band(11, 25, 89), band(26, 50, 79), band(51, 100, 74), band(101, 150, 70), band(151, 250, 66), band(251, null, 63)],
     basePrice: 499,
     description: 'Crew Manage + Crew Time + Crew Pay bundled. Acquisition-friendly bundle for operators replacing or augmenting an existing HR/payroll stack.',
     implementationClass: null,
@@ -1260,7 +1279,7 @@ export const crewBundles: Record<CrewBundleId, CrewBundle> = {
     name: 'Crew Complete',
     skus: ['crew_operations', 'crew_tna', 'crew_payroll', 'crew_people_intelligence'],
     firstUnitPrice: 699,
-    marginalBands: [band(2, 10, 129), band(11, 25, 115), band(26, 50, 102), band(51, null, 89)],
+    marginalBands: [band(2, 10, 129), band(11, 25, 115), band(26, 50, 102), band(51, 100, 96), band(101, 150, 90), band(151, 250, 86), band(251, null, 82)],
     basePrice: 699,
     description: 'Crew Manage + Crew Time + Crew Pay + Crew People bundled. Full workforce stack with the intelligence layer on top.',
     implementationClass: null,
@@ -1404,8 +1423,38 @@ export const volumeDiscounts: { tiers: VolumeDiscountTier[] } = {
 
 export const billingDiscounts: Record<BillingCycle, number> = {
   monthly: 0,
-  annual: 10,
-  two_year: 15
+  annual_quarterly: 5,
+  annual_upfront: 12,
+  two_year_upfront: 20,
+};
+
+/** How each term is described to the buyer, and what it commits us to. */
+export const billingTerms: Record<
+  BillingCycle,
+  { label: string; timing: string; discountPercent: number; priceLockMonths: number | null }
+> = {
+  monthly: { label: 'Monthly', timing: 'Rolling', discountPercent: 0, priceLockMonths: null },
+  annual_quarterly: {
+    label: 'Annual',
+    timing: 'Paid quarterly',
+    discountPercent: 5,
+    priceLockMonths: null,
+  },
+  annual_upfront: {
+    label: 'Annual',
+    timing: 'Paid upfront',
+    discountPercent: 12,
+    priceLockMonths: null,
+  },
+  two_year_upfront: {
+    label: '2 years',
+    timing: 'Paid upfront',
+    discountPercent: 20,
+    // The lock is the reason this term is worth more than its extra 8%: the
+    // published curve cannot move under a customer who has committed for two
+    // years, so it must be stated wherever the discount is.
+    priceLockMonths: 24,
+  },
 };
 
 export const DISCOUNT_RULES = {
@@ -1423,9 +1472,15 @@ export const DISCOUNT_RULES = {
    * Combined ceiling across EVERY calculated discount — volume, billing cycle
    * and the early-adopter programme rate. Nothing published may be applied on
    * top of this cap.
+   *
+   * Raised 15 -> 20 with price book v1.8, because the two-year upfront term is
+   * itself 20%. Left at 15 the cap would have silently clamped the largest
+   * published term to less than its headline: the buyer selects "20%, with a
+   * 24-month price lock" and is quoted 15%. A ceiling below a published rate
+   * does not restrain a discount, it breaks a promise.
    */
-  maxDiscountPercent: 15,
-  note: 'The larger of volume or billing-cycle discount applies; early-adopter concessions share the 15% calculated-discount cap'
+  maxDiscountPercent: 20,
+  note: 'The larger of volume or billing-cycle discount applies; early-adopter concessions share the 20% calculated-discount cap'
 };
 
 /** The unit count at and above which only Enterprise (quoted) pricing applies. */

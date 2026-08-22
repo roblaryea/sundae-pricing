@@ -10,11 +10,10 @@ import { calculateWatchtowerPrice, type WatchtowerModuleId } from '../../lib/wat
 import { calculateCrossIntelligencePrice, isCrossIntelligenceEligible } from '../../lib/pricingEngine';
 import { useLocale } from '../../contexts/LocaleContext';
 import { corePackages, packageAllowsWatchtower } from '../../data/pricing';
-import { stepIndex } from '../../lib/journey';
 import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 export function WatchtowerToggle() {
-  const { layer, corePackage, locations, addOns, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, setCurrentStep, recommendsWatchtower } = useConfiguration();
+  const { layer, corePackage, locations, addOns, watchtowerModules, crossIntelligence: crossIntelSelection, toggleWatchtowerModule, setCrossIntelligence, goToPrevStep, goToNextStep, recommendsWatchtower } = useConfiguration();
   const { locale, messages } = useLocale();
   const reduced = useReducedMotionSafe();
   const card = selectableCard(reduced);
@@ -40,11 +39,11 @@ export function WatchtowerToggle() {
     // The ROI step is meaningful for every package, but the domains it may
     // credit differ: Foundation grants labour without inventory or marketing,
     // so the model scores each package against ITS OWN grant.
-    setCurrentStep(stepIndex('roi'));
+    goToNextStep();
   };
 
   const handleBack = () => {
-    setCurrentStep(stepIndex('addons'));
+    goToPrevStep();
   };
 
   const getModuleIcon = (moduleId: string) => {
@@ -466,7 +465,10 @@ export function WatchtowerToggle() {
             className="button-primary inline-flex items-center gap-2 relative z-50"
             data-testid="continue-button-watchtower"
           >
-            <span>{copy.continueToRoi}</span>
+            {/* The label has to name the step it actually reaches. Adding the
+                Crew step made "Continue to ROI" false on the combined pathway:
+                the button went to the Crew builder. */}
+            <span>{layer === 'both' ? 'Continue to Crew' : copy.continueToRoi}</span>
             <ChevronRight className="w-5 h-5" />
           </button>
           

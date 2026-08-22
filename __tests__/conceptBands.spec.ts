@@ -144,21 +144,22 @@ describe("commitment term reaches the quote", () => {
     watchtower: [],
   };
 
-  it("applies 10% for annual and 15% for two years", () => {
+  it("prices the commitment ladder: monthly > annual upfront > two-year upfront", () => {
     const monthly = calculateFullPrice({
       ...base,
       clientProfile: { type: 'independent', isEarlyAdopter: false, isFranchise: false, brandCount: 1, billingCycle: 'monthly' },
     });
     const annual = calculateFullPrice({
       ...base,
-      clientProfile: { type: 'independent', isEarlyAdopter: false, isFranchise: false, brandCount: 1, billingCycle: 'annual' },
+      clientProfile: { type: 'independent', isEarlyAdopter: false, isFranchise: false, brandCount: 1, billingCycle: 'annual_upfront' },
     });
     const twoYear = calculateFullPrice({
       ...base,
-      clientProfile: { type: 'independent', isEarlyAdopter: false, isFranchise: false, brandCount: 1, billingCycle: 'two_year' },
+      clientProfile: { type: 'independent', isEarlyAdopter: false, isFranchise: false, brandCount: 1, billingCycle: 'two_year_upfront' },
     });
     expect(annual.total).toBeLessThan(monthly.total);
     expect(twoYear.total).toBeLessThan(annual.total);
-    expect(Math.round(monthly.total - twoYear.total)).toBe(Math.round(monthly.subtotal * 0.15));
+    // v1.8 prices commitment AND payment timing: two-year upfront is 20%.
+    expect(Math.round(monthly.total - twoYear.total)).toBe(Math.round(monthly.subtotal * 0.2));
   });
 });

@@ -16,7 +16,6 @@ import { cn } from '../../utils/cn';
 import { useLocale } from '../../contexts/LocaleContext';
 import confetti from 'canvas-confetti';
 import type { OperatingModelId, TechStackId } from '../../lib/discoveryEngine';
-import { stepIndex } from '../../lib/journey';
 import { prefersReducedMotion } from '../../lib/motion';
 
 export function PathwaySelector() {
@@ -34,7 +33,7 @@ export function PathwaySelector() {
     setPersona,
     loadFromPersona,
     setCorePackage,
-    setCurrentStep,
+    goToStep,
     setLocations,
     setDiscoveryAnswers,
   } = useConfiguration();
@@ -174,9 +173,9 @@ export function PathwaySelector() {
       // package. A 25-site operator worried about food cost is a Margin buyer,
       // not automatically a Growth buyer because the estate is large.
       setCorePackage(recommendCorePackage(multiSelections.pain ?? []).packageId);
-      setCurrentStep(stepIndex('layer'));
+      goToStep('layer');
     }
-  }, [locale, loadFromPersona, matchedPersona, multiSelections, quizAnswers, setCorePackage, setCurrentStep, showPersona]);
+  }, [locale, loadFromPersona, matchedPersona, multiSelections, quizAnswers, setCorePackage, goToStep, showPersona]);
 
   // Persona reveal screen
   if (showPersona) {

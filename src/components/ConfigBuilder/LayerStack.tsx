@@ -1,7 +1,7 @@
 // Layer stack 3D visualization component
 
 import { motion } from 'framer-motion';
-import { ChevronRight, Check, Layers } from 'lucide-react';
+import { Check, Layers } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { PRODUCT_ICONS } from '../../constants/icons';
 import { useLocale } from '../../contexts/LocaleContext';
@@ -11,7 +11,6 @@ import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocal
 // This eliminates the hard-coded "Starting at $XXX/month" strings that the
 // pricing audit previously flagged as drift risks.
 import { corePackages, watchtower } from '../../data/pricing';
-import { stepIndex } from '../../lib/journey';
 import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 // v1.7: the entry point into Core is the Core Foundation FIRST-UNIT anchor.
@@ -250,7 +249,7 @@ const localizedLayerStackCopy: Record<'en' | 'ar' | 'fr' | 'es', PricingCopy> = 
 
 
 export function LayerStack() {
-  const { layer, setLayer, setCurrentStep, persona, markStepCompleted } = useConfiguration();
+  const { setLayer, goToStep, persona, markStepCompleted } = useConfiguration();
   const { locale } = useLocale();
   const reduced = useReducedMotionSafe();
   const card = selectableCard(reduced);
@@ -269,7 +268,10 @@ export function LayerStack() {
   const handleLayerSelect = (layerId: 'core' | 'crew' | 'both') => {
     setLayer(layerId);
     markStepCompleted('layer');
-    setCurrentStep(stepIndex('tier'));
+    // Each pathway starts at its own first configuring step. Core+Crew asks for
+    // the estate first because that one number prices both rails; Crew goes
+    // straight to its builder; Core to its packages.
+    goToStep(layerId === 'both' ? 'estate' : layerId === 'crew' ? 'crew' : 'tier');
   };
 
   const cards = [
@@ -284,6 +286,16 @@ export function LayerStack() {
     // The Report layer was retired with price book v1.7 and is no longer
     // offered. Its localized copy stays in the pack only so the translation
     // bundles keep their shape; nothing renders it.
+    {
+      id: 'crew' as const,
+      icon: UsersIcon,
+      color: '#06B6D4', // cyan — differentiates from Report's emerald in the stack
+      borderColor: 'cyan',
+      copy: copy.crew,
+      // No persona quiz recommends Crew yet — it's the parallel operational
+      // path. Default to no recommended badge.
+      recommended: false as boolean,
+    },
     {
       // Core + Crew is the deal most multi-site groups actually sign: decision
       // intelligence on one rail, the operational substrate on the other. The
@@ -307,16 +319,6 @@ export function LayerStack() {
       },
       recommended: false as boolean,
     },
-    {
-      id: 'crew' as const,
-      icon: UsersIcon,
-      color: '#06B6D4', // cyan — differentiates from Report's emerald in the stack
-      borderColor: 'cyan',
-      copy: copy.crew,
-      // No persona quiz recommends Crew yet — it's the parallel operational
-      // path. Default to no recommended badge.
-      recommended: false as boolean,
-    },
   ];
 
   return (
@@ -331,98 +333,15 @@ export function LayerStack() {
         <p className="text-xl text-sundae-muted">{copy.subtitle}</p>
       </motion.div>
 
-      <div className="mb-12">
-        {/* The stack reveals top-down as one sequence. Each tile used to time
-            itself — the Watchtower banner on a flat 0.4s, the layer cards on
-            `index * 0.06` after a 0.2s head start — and because framer treats a
-            component's `transition` prop as the default for EVERY animation it
-            runs, that entrance delay was also being applied to the hover lift.
-            Sequencing on the container leaves interaction untouched. */}
-        <motion.div
-          variants={staggerChildren(reduced, cards.length + 1)}
-          initial="hidden"
-          animate="visible"
-          className="relative flex flex-col items-center gap-4 max-w-2xl mx-auto"
-        >
-          <motion.div variants={fadeUp(reduced)} className="w-full relative z-10">
-            <div className="p-4 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-xl border border-red-500/30 backdrop-blur">
-              <div className="flex items-center gap-3">
-                <Castle className="w-6 h-6 text-red-400 flex-shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-base leading-tight">{copy.watchtower.name}</h3>
-                  <p className="text-xs text-sundae-muted leading-tight mt-1">{copy.watchtower.tagline}</p>
-                  <p className="text-xs text-sundae-muted mt-1">{copy.watchtower.startingPrice}</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+      {/* One render of the three pathways, not two.
 
-          {cards.map((layerItem, index) => {
-            const styling = (() => {
-              switch (layerItem.id) {
-                case 'core':
-                  return {
-                    icon: 'text-[#C2410C]',
-                    card: 'from-[#C2410C]/20 to-[#E9A24A]/20 border-[#C2410C]/30 hover:border-[#C2410C]/60',
-                    badge: 'bg-[#C2410C]/30 text-[#C2410C]',
-                  };
-                case 'crew':
-                  return {
-                    icon: 'text-[#FF7E6F]',
-                    card: 'from-[#FF7E6F]/20 to-teal-600/20 border-[#FF7E6F]/30 hover:border-[#FF7E6F]/60',
-                    badge: 'bg-[#FF7E6F]/30 text-[#FF7E6F]',
-                  };
-                default:
-                  return {
-                    icon: 'text-[#C2410C]',
-                    card: 'from-[#C2410C]/20 to-[#E9A24A]/20 border-[#C2410C]/30 hover:border-[#C2410C]/60',
-                    badge: 'bg-[#C2410C]/30 text-[#C2410C]',
-                  };
-              }
-            })();
-
-            return (
-              <motion.div
-                key={layerItem.id}
-                variants={fadeUp(reduced)}
-                className="w-full relative"
-                style={{ zIndex: 30 - index }}
-              >
-                <motion.button
-                  {...card}
-                  onClick={() => handleLayerSelect(layerItem.id)}
-                  aria-pressed={layer === layerItem.id}
-                  /* `transition-all` here meant the browser was easing the very
-                     transform framer writes each frame, so the lift arrived as
-                     a fraction of itself. Only the border colour changes on
-                     hover. */
-                  className={`w-full p-6 bg-gradient-to-br rounded-xl border-2 backdrop-blur transition-colors group text-left ${styling.card}`}
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                      <layerItem.icon className={`w-8 h-8 ${styling.icon} flex-shrink-0`} />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="font-bold text-lg leading-tight">{layerItem.copy.name}</h3>
-                          {layerItem.recommended && (
-                            <span className={`text-xs px-2 py-0.5 rounded-full whitespace-nowrap ${styling.badge}`}>
-                              {copy.recommended}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-sm text-sundae-muted leading-tight mt-1">{layerItem.copy.tagline}</p>
-                        <p className="text-xs text-sundae-muted mt-2">{layerItem.copy.startingPrice}</p>
-                      </div>
-                    </div>
-                    <ChevronRight className="w-6 h-6 text-sundae-muted group-hover:text-white transition-colors flex-shrink-0" />
-                  </div>
-                </motion.button>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </div>
-
+            The screen used to draw this list twice: a stack of rows with
+            chevrons, and then a grid of cards carrying the same three names,
+            the same taglines and a "Select X" button each. Every pathway
+            appeared twice on one screen, which reads as two different controls
+            for the same decision and makes the page twice as long as the
+            choice deserves. The cards win because they carry the features and
+            the price the rows only hinted at. */}
       <motion.div
         variants={staggerChildren(reduced, cards.length)}
         initial="hidden"
@@ -471,6 +390,28 @@ export function LayerStack() {
             </motion.button>
           </motion.div>
         ))}
+      </motion.div>
+
+      {/* Watchtower is an ADD-ON, and listing it beside the pathways framed it
+          as a fourth thing to choose between — it is not, it layers onto any of
+          them. It reads as an option here, after the decision it modifies. */}
+      <motion.div
+        variants={fadeUp(reduced, 0.06)}
+        initial="hidden"
+        animate="visible"
+        className="mt-8 p-5 rounded-xl border border-white/10 bg-sundae-surface"
+      >
+        <div className="flex items-start gap-3">
+          <Castle className="w-5 h-5 text-[#F472B6] mt-0.5 flex-shrink-0" />
+          <div>
+            <h3 className="font-bold text-base leading-tight">{copy.watchtower.name}</h3>
+            <p className="text-sm text-sundae-muted mt-1">{copy.watchtower.tagline}</p>
+            <p className="text-xs text-sundae-muted mt-2">{copy.watchtower.startingPrice}</p>
+            <p className="text-xs text-sundae-muted mt-2">
+              Adds onto whichever pathway you pick — you will be offered it later.
+            </p>
+          </div>
+        </div>
       </motion.div>
 
       <motion.div

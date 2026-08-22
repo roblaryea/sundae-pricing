@@ -1,5 +1,5 @@
 /**
- * Pre-build gate: assert the shipped catalog matches approved price book v1.7.
+ * Pre-build gate: assert the shipped catalog matches approved price book v1.8.
  *
  * This runs on every `npm run build` (via `prebuild`). It is deliberately blunt:
  * a wrong number here reaches customers, so the script fails the build rather
@@ -31,14 +31,14 @@ function check(name: string, expected: unknown, actual: unknown) {
   }
 }
 
-console.log('🔍 Validating pricing data against price book v1.7...\n');
+console.log('🔍 Validating pricing data against price book v1.8...\n');
 
 // ── Core packages: anchor + marginal bands ────────────────────────────────
 const EXPECTED_PACKAGES: Record<string, { name: string; anchor: number; bands: number[]; wallet: number }> = {
-  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 105], wallet: 14000 },
-  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 145], wallet: 16000 },
-  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 155], wallet: 18000 },
-  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 236], wallet: 24000 },
+  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 115, 110, 105, 100], wallet: 14000 },
+  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 165, 155, 145, 140], wallet: 16000 },
+  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 180, 170, 160, 150], wallet: 18000 },
+  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 275, 255, 245, 230], wallet: 24000 },
 };
 
 check('CORE_PACKAGE_IDS.length', 4, CORE_PACKAGE_IDS.length);
@@ -52,7 +52,7 @@ for (const [id, spec] of Object.entries(EXPECTED_PACKAGES)) {
   check(`${id}.name`, spec.name, pkg.name);
   check(`${id}.firstUnitPrice`, spec.anchor, pkg.firstUnitPrice);
   check(`${id}.aiCreditWallet`, spec.wallet, pkg.aiCreditWallet);
-  check(`${id}.marginalBands.length`, 4, pkg.marginalBands.length);
+  check(`${id}.marginalBands.length`, spec.bands.length, pkg.marginalBands.length);
   spec.bands.forEach((rate, index) => {
     check(`${id}.marginalBands[${index}].pricePerUnit`, rate, pkg.marginalBands[index]?.pricePerUnit);
   });
@@ -115,14 +115,42 @@ check('crewBundles.crew_schedule_time_bundle.basePrice', 249, crewBundles.crew_s
 check('crewBundles.crew_suite_bundle.basePrice', 499, crewBundles.crew_suite_bundle.basePrice);
 check('crewBundles.crew_complete_bundle.basePrice', 699, crewBundles.crew_complete_bundle.basePrice);
 
-// Crew is a FLAT monthly price under v1.7 — no per-location adder, no
-// included-location allowance, no per-SKU setup fee to sum, and no bundle
-// discount percentage (bundle prices are named NET figures).
+const EXPECTED_CREW_BANDS: Record<string, number[]> = {
+  crew_scheduling: [39, 35, 31, 29, 27, 26, 25],
+  crew_operations: [79, 71, 63, 59, 56, 53, 50],
+  crew_tna: [19, 17, 15, 14, 13, 13, 12],
+  crew_payroll: [29, 26, 23, 22, 20, 19, 18],
+  crew_people_intelligence: [39, 35, 31, 29, 27, 26, 25],
+};
+for (const [id, rates] of Object.entries(EXPECTED_CREW_BANDS)) {
+  const sku = crewSkus[id as keyof typeof crewSkus];
+  check(`crewSkus.${id}.marginalBands.length`, rates.length, sku?.marginalBands.length);
+  rates.forEach((rate, index) => {
+    check(`${id}.marginalBands[${index}].pricePerUnit`, rate, sku?.marginalBands[index]?.pricePerUnit);
+  });
+}
+
+const EXPECTED_BUNDLE_BANDS: Record<string, number[]> = {
+  crew_schedule_time_bundle: [49, 45, 41, 39, 36, 34, 33],
+  crew_suite_bundle: [99, 89, 79, 74, 70, 66, 63],
+  crew_complete_bundle: [129, 115, 102, 96, 90, 86, 82],
+};
+for (const [id, rates] of Object.entries(EXPECTED_BUNDLE_BANDS)) {
+  const bundle = crewBundles[id as keyof typeof crewBundles];
+  check(`crewBundles.${id}.marginalBands.length`, rates.length, bundle.marginalBands.length);
+  rates.forEach((rate, index) => {
+    check(`${id}.marginalBands[${index}].pricePerUnit`, rate, bundle.marginalBands[index]?.pricePerUnit);
+  });
+}
+
+// Crew uses first-unit anchors plus marginal bands under v1.8 — never a flat
+// per-location adder, included-location allowance, per-SKU setup fee, or a
+// bundle discount percentage (bundle prices are named NET figures).
 for (const [id, sku] of Object.entries(crewSkus)) {
   for (const forbidden of ['perLocationPrice', 'baseIncludesLocations', 'setupFee']) {
     if (forbidden in sku) {
       errors.push(
-        `❌ crewSkus.${id}.${forbidden} exists — v1.7 prices Crew flat, with implementation charged once at the highest class`,
+        `❌ crewSkus.${id}.${forbidden} exists — v1.8 prices Crew with named marginal curves, with implementation charged once at the highest class`,
       );
     }
   }
@@ -131,7 +159,7 @@ for (const [id, bundle] of Object.entries(crewBundles)) {
   for (const forbidden of ['perLocationPrice', 'setupFee', 'discountPercent']) {
     if (forbidden in bundle) {
       errors.push(
-        `❌ crewBundles.${id}.${forbidden} exists — v1.7 bundle prices are named NET prices, not a discount off components`,
+        `❌ crewBundles.${id}.${forbidden} exists — v1.8 bundle prices are named NET curves, not a discount off components`,
       );
     }
   }
@@ -186,7 +214,7 @@ for (const retired of RETIRED_CATALOG_IDS) {
 
 console.log('');
 if (errors.length === 0) {
-  console.log('✅ All price book v1.7 validations passed!\n');
+  console.log('✅ All price book v1.8 validations passed!\n');
   process.exit(0);
 } else {
   console.log(`Found ${errors.length} error(s):\n`);

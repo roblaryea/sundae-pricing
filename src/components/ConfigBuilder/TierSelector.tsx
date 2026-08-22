@@ -20,7 +20,8 @@ import { suggestOptimalCorePackage } from '../../hooks/usePriceCalculation';
 import { useLivePricingCatalog } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
 import { AnimatedNumber } from '../shared/AnimatedNumber';
-import { stepIndex } from '../../lib/journey';
+import { LocationSelector } from '../shared/LocationSelector';
+import { VolumeCurve } from '../shared/VolumeCurve';
 import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 const PACKAGE_COLORS: Record<CorePackageId, string> = {
@@ -31,7 +32,7 @@ const PACKAGE_COLORS: Record<CorePackageId, string> = {
 };
 
 export function TierSelector() {
-  const { layer, corePackage, setCorePackage, locations, setLocations, setCurrentStep } = useConfiguration();
+  const { layer, corePackage, setCorePackage, locations, setLocations, goToStep, goToNextStep } = useConfiguration();
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
   // Must be read above the `!layer` bail-out below: hooks cannot sit behind an
@@ -42,7 +43,7 @@ export function TierSelector() {
 
   if (!layer) {
     // Shouldn't happen, but handle gracefully
-    setCurrentStep(stepIndex('layer'));
+    goToStep('layer');
     return null;
   }
 
@@ -60,7 +61,7 @@ export function TierSelector() {
     // packages to compare it against. The estate control now lives on this
     // screen, where every price moves as it changes, so the journey goes
     // straight to add-ons.
-    setCurrentStep(stepIndex('addons'));
+    goToNextStep();
   };
 
   // The fork vocabulary, resolved once per render.
@@ -103,47 +104,41 @@ export function TierSelector() {
       {/* Estate size lives HERE, not on a step of its own: every figure below
           moves as it changes, so the buyer sees the curve behave instead of
           being told about it on a separate screen. */}
+      {/* Core-only asks for the estate here, because there is no earlier step
+          to ask it on. The combined pathway already asked — showing the same
+          control twice is what made a shared value look like a per-rail one. */}
+      {layer === 'both' ? (
+        <div className="mb-8 mx-auto max-w-3xl rounded-2xl border border-white/10 bg-sundae-surface/60 p-4 text-center text-sm text-sundae-muted">
+          Pricing {locations} {locations === 1 ? 'location' : 'locations'}.{' '}
+          <button onClick={() => goToStep('estate')} className="text-white underline underline-offset-4">
+            Change
+          </button>
+        </div>
+      ) : (
       <motion.div
         variants={fadeUp(reduced, 0.05)}
         initial="hidden"
         animate="visible"
         className="mb-8 mx-auto max-w-3xl rounded-2xl border border-white/10 bg-sundae-surface/60 p-5 backdrop-blur"
       >
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <label htmlFor="estate-size" className="block text-sm font-semibold text-white">
-              {copy.estateSizeLabel ?? 'How many locations?'}
-            </label>
-            <p className="text-xs text-sundae-muted mt-0.5">
-              {copy.estateSizeHint ?? 'Every price below updates as you move this.'}
-            </p>
-          </div>
-          <div className="flex items-baseline gap-2">
-            <span className="font-display text-4xl font-bold tabular-nums text-white">
-              {locations}
-            </span>
-            <span className="text-sm text-sundae-muted">
-              {locations === 1 ? 'location' : 'locations'}
-            </span>
-          </div>
-        </div>
-        <input
-          id="estate-size"
-          type="range"
-          min={1}
-          max={100}
-          value={Math.min(locations, 100)}
-          onChange={(e) => setLocations(Number(e.target.value))}
-          aria-label={copy.estateSizeLabel ?? 'How many locations?'}
-          style={{
-            ['--track' as string]: `linear-gradient(to right, #FF5C4D 0%, #FF5C4D ${((Math.min(locations, 100) - 1) / 99) * 100}%, #2A231C ${((Math.min(locations, 100) - 1) / 99) * 100}%, #2A231C 100%)`,
-          }}
-          className="touch-slider mt-4 w-full cursor-pointer"
+        <LocationSelector
+          idPrefix="core"
+          locations={locations}
+          onChange={setLocations}
+          label={copy.estateSizeLabel ?? 'How many locations?'}
+          hint={copy.estateSizeHint ?? 'Every price below updates as you move this.'}
+          accent="#FF5C4D"
         />
-        <div className="mt-1 flex justify-between text-[10px] text-sundae-muted">
-          <span>1</span><span>10</span><span>25</span><span>50</span><span>100+</span>
-        </div>
       </motion.div>
+      )}
+
+      {/* The curve, shown rather than described, for whichever package the
+          buyer is looking at. getMarginalBandMessage said exactly this and was
+          called from nowhere — the explanation existed, it just never reached
+          a screen. */}
+      <div className="mb-8 mx-auto max-w-3xl">
+        <VolumeCurve packageId={recommendedPackage} locations={locations} />
+      </div>
 
       {/* Marginal-band explainer — the single most misread mechanic in the book */}
       <div className="mb-10 mx-auto max-w-3xl p-4 rounded-xl border border-white/10 bg-sundae-surface text-sm text-sundae-muted">

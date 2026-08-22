@@ -6,32 +6,32 @@ import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocal
 
 const LIVE_PRICING_COPY = {
   en: {
-    loadingTitle: 'Loading published pricing',
-    loadingBody: 'We are fetching the latest pricing from Sundae Admin so this page reflects the current published catalog.',
-    errorTitle: 'Published pricing is unavailable',
-    errorBody: 'This pricing experience requires the current published catalog from Sundae Admin and will not fall back to static values.',
-    retry: 'Retry',
+    loadingTitle: "Loading pricing",
+    loadingBody: "One moment while we load the latest pricing.",
+    errorTitle: "Pricing is temporarily unavailable",
+    errorBody: "We could not load pricing just now. Please try again in a moment. If the problem continues, book a demo and we will walk you through the numbers.",
+    retry: "Try again",
   },
   ar: {
-    loadingTitle: 'جارٍ تحميل الأسعار المنشورة',
-    loadingBody: 'نقوم بجلب أحدث الأسعار من Sundae Admin حتى تعكس هذه الصفحة الكتالوج المنشور الحالي.',
-    errorTitle: 'الأسعار المنشورة غير متاحة',
-    errorBody: 'تتطلب هذه التجربة السعرية الكتالوج المنشور الحالي من Sundae Admin ولن تعود إلى قيم ثابتة.',
-    retry: 'إعادة المحاولة',
+    loadingTitle: "جارٍ تحميل الأسعار",
+    loadingBody: "لحظة من فضلك، نحمّل أحدث الأسعار.",
+    errorTitle: "الأسعار غير متاحة مؤقتًا",
+    errorBody: "تعذّر تحميل الأسعار في الوقت الحالي. يُرجى المحاولة مرة أخرى بعد قليل. وإذا استمرت المشكلة، احجز عرضًا توضيحيًا وسنستعرض الأرقام معك.",
+    retry: "إعادة المحاولة",
   },
   fr: {
-    loadingTitle: 'Chargement des tarifs publies',
-    loadingBody: 'Nous recuperons les derniers tarifs depuis Sundae Admin afin que cette page reflete le catalogue publie actuel.',
-    errorTitle: 'Les tarifs publies ne sont pas disponibles',
-    errorBody: 'Cette experience tarifaire requiert le catalogue publie actuel depuis Sundae Admin et ne revient pas a des valeurs statiques.',
-    retry: 'Reessayer',
+    loadingTitle: "Chargement des tarifs",
+    loadingBody: "Un instant, nous chargeons les derniers tarifs.",
+    errorTitle: "Les tarifs sont momentanément indisponibles",
+    errorBody: "Nous n'avons pas pu charger les tarifs pour le moment. Merci de réessayer dans quelques instants. Si le problème persiste, réservez une démo et nous parcourrons les chiffres avec vous.",
+    retry: "Réessayer",
   },
   es: {
-    loadingTitle: 'Cargando precios publicados',
-    loadingBody: 'Estamos obteniendo los precios mas recientes desde Sundae Admin para que esta pagina refleje el catalogo publicado actual.',
-    errorTitle: 'Los precios publicados no estan disponibles',
-    errorBody: 'Esta experiencia de precios requiere el catalogo publicado actual de Sundae Admin y no volvera a valores estaticos.',
-    retry: 'Reintentar',
+    loadingTitle: "Cargando precios",
+    loadingBody: "Un momento, estamos cargando los precios más recientes.",
+    errorTitle: "Los precios no están disponibles temporalmente",
+    errorBody: "No hemos podido cargar los precios en este momento. Inténtalo de nuevo en unos instantes. Si el problema continúa, reserva una demostración y repasaremos las cifras contigo.",
+    retry: "Reintentar",
   },
 } as const;
 
@@ -71,9 +71,6 @@ export function LivePricingGate({ state, children }: LivePricingGateProps) {
         <p className="mx-auto mb-4 max-w-2xl text-sm text-sundae-muted">
           {isLoading ? copy.loadingBody : copy.errorBody}
         </p>
-        {!isLoading && state.error ? (
-          <p className="mb-6 text-xs text-sundae-muted">{state.error}</p>
-        ) : null}
         {!isLoading ? (
           <button
             type="button"

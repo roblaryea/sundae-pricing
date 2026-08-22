@@ -18,17 +18,21 @@ import { readFileSync } from "node:fs";
 
 import {
   JOURNEY_STEP_IDS,
-  LAST_STEP_INDEX,
-  stepAt,
-  stepIndex,
+  journeyFor,
+  lastStepIndex,
+  stepAtIn,
+  stepIndexIn,
+  type JourneyLayer,
 } from "../src/lib/journey";
+
+const PATHWAYS: JourneyLayer[] = ["core", "crew", "both"];
 
 const SIMULATOR_SRC = readFileSync("src/pages/Simulator.tsx", "utf8");
 const STORE_SRC = readFileSync("src/hooks/useConfiguration.ts", "utf8");
 
 describe("journey ordering", () => {
-  it("declares the steps in the order a buyer walks them", () => {
-    expect([...JOURNEY_STEP_IDS]).toEqual([
+  it("walks Core through packages, add-ons, Watchtower and the value case", () => {
+    expect(journeyFor("core")).toEqual([
       "persona",
       "layer",
       "tier",
@@ -39,15 +43,57 @@ describe("journey ordering", () => {
     ]);
   });
 
-  it("round-trips every id through its index", () => {
-    for (const id of JOURNEY_STEP_IDS) {
-      expect(stepAt(stepIndex(id))).toBe(id);
+  it("collapses Crew into its single builder", () => {
+    expect(journeyFor("crew")).toEqual(["persona", "layer", "crew", "summary"]);
+  });
+
+  it("asks the estate ONCE, up front, on the combined pathway", () => {
+    // `locations` is one value shared by both rails. The old flow showed its
+    // slider on the Core package screen AND inside the Crew builder, so moving
+    // it on one silently repriced the other.
+    const both = journeyFor("both");
+    expect(both).toEqual([
+      "persona",
+      "layer",
+      "estate",
+      "tier",
+      "addons",
+      "watchtower",
+      "crew",
+      "roi",
+      "summary",
+    ]);
+    expect(both.filter((s) => s === "estate")).toHaveLength(1);
+    expect(both.indexOf("estate")).toBeLessThan(both.indexOf("tier"));
+    expect(both.indexOf("estate")).toBeLessThan(both.indexOf("crew"));
+  });
+
+  it("puts Crew before the value case, because the value case prices both rails", () => {
+    const both = journeyFor("both");
+    expect(both.indexOf("crew")).toBeLessThan(both.indexOf("roi"));
+  });
+
+  it("round-trips every id through its index, within its own pathway", () => {
+    for (const layer of PATHWAYS) {
+      for (const id of journeyFor(layer)) {
+        expect(stepAtIn(layer, stepIndexIn(layer, id))).toBe(id);
+      }
     }
   });
 
-  it("ends on the summary", () => {
-    expect(stepAt(LAST_STEP_INDEX)).toBe("summary");
-    expect(stepAt(LAST_STEP_INDEX + 1)).toBeUndefined();
+  it("ends every pathway on the summary", () => {
+    for (const layer of PATHWAYS) {
+      expect(stepAtIn(layer, lastStepIndex(layer))).toBe("summary");
+      expect(stepAtIn(layer, lastStepIndex(layer) + 1)).toBeUndefined();
+    }
+  });
+
+  it("reports -1 for a step a pathway omits, rather than a wrong position", () => {
+    // Core has no Crew step; asking for one must not silently resolve to
+    // whatever sits at that index in a different pathway.
+    expect(stepIndexIn("core", "crew")).toBe(-1);
+    expect(stepIndexIn("core", "estate")).toBe(-1);
+    expect(stepIndexIn("crew", "watchtower")).toBe(-1);
   });
 
   it("has no duplicate ids — a duplicate would make two steps share an index", () => {
@@ -56,7 +102,10 @@ describe("journey ordering", () => {
 });
 
 describe("the store's rail agrees with the ordering", () => {
-  it("lists exactly the declared steps, in the declared order", () => {
+  it("carries completion state for every declared step", () => {
+    // The rail renders only the visitor's own pathway, but the store must be
+    // able to MARK any step: a step is not unmarkable just because another
+    // pathway omits it.
     const ids = [...STORE_SRC.matchAll(/\{ id: '([a-z]+)', name: '[^']*', completed: false \}/g)].map(
       (m) => m[1],
     );

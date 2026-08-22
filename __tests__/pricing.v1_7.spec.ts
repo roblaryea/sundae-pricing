@@ -27,6 +27,8 @@ import {
   detectClientType,
   isRetiredCatalogId,
   RETIRED_CATALOG_IDS,
+  billingTerms,
+  LEGACY_BILLING_CYCLES,
 } from '../src/data/pricing';
 import { computeCrewQuote, crewBundleSavings } from '../src/lib/crewPricing';
 import { COMPETITOR_PRICING, CORE_PACKAGE_SELECTION_ID } from '../src/data/competitorPricing';
@@ -80,10 +82,15 @@ describe('Retired catalog ids', () => {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const EXPECTED_PACKAGES = {
-  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 105], wallet: 14000, domains: 4 },
-  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 145], wallet: 16000, domains: 6 },
-  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 155], wallet: 18000, domains: 8 },
-  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 236], wallet: 24000, domains: 11 },
+  // Bands extended past unit 50 (2026-08). The curve used to spend its whole
+  // discount by unit 51 and then run flat forever, so a 250-site group paid the
+  // same marginal rate as a 51-site one and there was nothing left to offer a
+  // large estate. The tail now steps at 100 / 150 / 250 and lands BELOW the old
+  // floor, so scale keeps earning something. Nothing at or under 50 changed.
+  core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 115, 110, 105, 100], wallet: 14000, domains: 4 },
+  core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 165, 155, 145, 140], wallet: 16000, domains: 6 },
+  core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 180, 170, 160, 150], wallet: 18000, domains: 8 },
+  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 275, 255, 245, 230], wallet: 24000, domains: 11 },
 } as const;
 
 describe('Core packages', () => {
@@ -108,19 +115,28 @@ describe('Core packages', () => {
         expect(pkg.firstUnitPrice).toBe(expected.anchor);
       });
 
-      it('carries four marginal bands starting at unit 2', () => {
-        expect(pkg.marginalBands).toHaveLength(4);
+      it('carries the published marginal bands, starting at unit 2', () => {
         expect(pkg.marginalBands[0].fromUnit).toBe(2);
         expect(pkg.marginalBands.map((b) => b.pricePerUnit)).toEqual([...expected.bands]);
       });
 
-      it('bands cover 2-10 / 11-25 / 26-50 / 51+', () => {
-        expect(pkg.marginalBands.map((b) => [b.fromUnit, b.toUnit])).toEqual([
-          [2, 10],
-          [11, 25],
-          [26, 50],
-          [51, null],
-        ]);
+      it('bands are contiguous, cover every unit, and end open', () => {
+        // Shape rather than a fixed count, so extending the curve again does
+        // not require rewriting the test — but a GAP would let a unit fall
+        // through unpriced, and an overlap would bill it twice.
+        const bands = pkg.marginalBands;
+        expect(bands[0].fromUnit).toBe(2);
+        for (let i = 1; i < bands.length; i += 1) {
+          expect(bands[i].fromUnit).toBe((bands[i - 1].toUnit as number) + 1);
+        }
+        expect(bands[bands.length - 1].toUnit).toBeNull();
+      });
+
+      it('steps DOWN monotonically — scale never costs more per unit', () => {
+        const rates = pkg.marginalBands.map((b) => b.pricePerUnit);
+        for (let i = 1; i < rates.length; i += 1) {
+          expect(rates[i]).toBeLessThan(rates[i - 1]);
+        }
       });
 
       it(`includes a ${expected.wallet} AI credit wallet`, () => {
@@ -181,8 +197,20 @@ describe('Marginal band math', () => {
   });
 
   it('spans every band correctly at 60 units', () => {
-    const expected = 1195 + 9 * 175 + 15 * 150 + 25 * 125 + 10 * 105;
+    // 60 sits in the 51–100 band, which is new: it used to be the open terminal
+    // band at $105 and is now $115, with the floor moved out to 251+.
+    const expected = 1195 + 9 * 175 + 15 * 150 + 25 * 125 + 10 * 115;
     expect(calculateCorePackagePrice('core_foundation', 60)).toBe(expected);
+  });
+
+  it('keeps stepping past 100 — a 250-site estate is not priced like a 51-site one', () => {
+    // The whole point of the extended tail. Previously every one of these
+    // returned the same rate.
+    const rate = (n: number) =>
+      calculateCorePackagePrice('core_growth', n + 1) - calculateCorePackagePrice('core_growth', n);
+    expect(rate(60)).toBeGreaterThan(rate(120));
+    expect(rate(120)).toBeGreaterThan(rate(200));
+    expect(rate(200)).toBeGreaterThan(rate(300));
   });
 
   it('is strictly monotonic — each extra location costs more in total', () => {
@@ -211,7 +239,11 @@ describe('Marginal band math', () => {
     expect(marginalRateForNextUnit(corePackages.core_foundation, 1)).toBe(175);
     expect(marginalRateForNextUnit(corePackages.core_foundation, 10)).toBe(150);
     expect(marginalRateForNextUnit(corePackages.core_foundation, 25)).toBe(125);
-    expect(marginalRateForNextUnit(corePackages.core_foundation, 50)).toBe(105);
+    expect(marginalRateForNextUnit(corePackages.core_foundation, 50)).toBe(115);
+    // The tail the extension added — these were all $105 before.
+    expect(marginalRateForNextUnit(corePackages.core_foundation, 100)).toBe(110);
+    expect(marginalRateForNextUnit(corePackages.core_foundation, 150)).toBe(105);
+    expect(marginalRateForNextUnit(corePackages.core_foundation, 250)).toBe(100);
   });
 
   it('returns 0 for zero units', () => {
@@ -390,7 +422,7 @@ describe('Crew SKUs', () => {
     }
   });
 
-  it('walks Crew Manage down its published bands: $399 then 79 / 71 / 63 / 55', () => {
+  it('walks Crew Manage down its published bands: $399 then 79 / 71 / 63 / 59', () => {
     const at = (n: number) => computeCrewQuote(['crew_operations'], n).monthly;
     expect(at(1)).toBe(399);
     expect(at(2)).toBe(399 + 79);
@@ -399,7 +431,10 @@ describe('Crew SKUs', () => {
     expect(at(25)).toBe(399 + 9 * 79 + 15 * 71);
     expect(at(26)).toBe(399 + 9 * 79 + 15 * 71 + 63);
     expect(at(50)).toBe(399 + 9 * 79 + 15 * 71 + 25 * 63);
-    expect(at(51)).toBe(399 + 9 * 79 + 15 * 71 + 25 * 63 + 55);
+    expect(at(51)).toBe(399 + 9 * 79 + 15 * 71 + 25 * 63 + 59);
+    // and keeps stepping, where it used to run flat from 51 forever
+    expect(at(101) - at(100)).toBeLessThan(at(51) - at(50));
+    expect(at(251) - at(250)).toBeLessThan(at(101) - at(100));
   });
 });
 
@@ -516,11 +551,31 @@ describe('Volume ladder', () => {
   });
 });
 
-describe('Billing-cycle discounts', () => {
-  it('is 10% annual and 15% two-year', () => {
+describe('Commitment term and payment timing', () => {
+  it('prices the pair, not just the term', () => {
+    // v1.7 had one axis, so "annual" could not distinguish a quarterly payer
+    // from one paying twelve months up front though the cash position differs.
     expect(billingDiscounts.monthly).toBe(0);
-    expect(billingDiscounts.annual).toBe(10);
-    expect(billingDiscounts.two_year).toBe(15);
+    expect(billingDiscounts.annual_quarterly).toBe(5);
+    expect(billingDiscounts.annual_upfront).toBe(12);
+    expect(billingDiscounts.two_year_upfront).toBe(20);
+  });
+
+  it('pays more for paying sooner, at the same commitment', () => {
+    expect(billingDiscounts.annual_upfront).toBeGreaterThan(billingDiscounts.annual_quarterly);
+  });
+
+  it('carries the 24-month lock on the two-year term, and nowhere else', () => {
+    // The lock is what the extra 8% buys, so it has to be stated with the rate.
+    expect(billingTerms.two_year_upfront.priceLockMonths).toBe(24);
+    for (const key of ['monthly', 'annual_quarterly', 'annual_upfront'] as const) {
+      expect(billingTerms[key].priceLockMonths).toBeNull();
+    }
+  });
+
+  it('maps the retired terms so a stored quote does not become 0%', () => {
+    expect(LEGACY_BILLING_CYCLES.annual).toBe('annual_upfront');
+    expect(LEGACY_BILLING_CYCLES.two_year).toBe('two_year_upfront');
   });
 });
 
@@ -530,11 +585,11 @@ describe('Combined discount cap', () => {
     // asserted 5% + 10% = 15%, encoding a discount the billing system will not
     // honour — worth $2,092/mo on a 240-location annual quote.
     expect(DISCOUNT_RULES.stackingAllowed).toBe(false);
-    const combined = calculateCombinedDiscount(100, 'annual');
+    const combined = calculateCombinedDiscount(100, 'annual_upfront');
     expect(combined.volumePercent).toBe(5);
-    expect(combined.billingPercent).toBe(10);
-    expect(combined.totalPercent).toBe(10);
-    expect(combined.appliedBillingPercent).toBe(10);
+    expect(combined.billingPercent).toBe(12);
+    expect(combined.totalPercent).toBe(12);
+    expect(combined.appliedBillingPercent).toBe(12);
     expect(combined.appliedVolumePercent).toBe(0);
   });
 
@@ -544,18 +599,24 @@ describe('Combined discount cap', () => {
     expect(combined.appliedVolumePercent).toBe(7);
   });
 
-  it('caps the combination at 15%', () => {
-    // Exclusive selection already lands on 15 here (max(7, 15)); the cap is a
-    // ceiling on the early-adopter stack, not the mechanism that produces this.
-    const combined = calculateCombinedDiscount(200, 'two_year');
-    expect(combined.totalPercent).toBe(15);
-    expect(calculateCombinedDiscount(200, 'two_year', true).totalPercent).toBe(15);
-    expect(calculateCombinedDiscount(200, 'two_year', true).capped).toBe(true);
-    expect(DISCOUNT_RULES.maxDiscountPercent).toBe(15);
+  it('caps the combination at 20%, which is the largest published term', () => {
+    // The cap was 15 while the two-year term became 20, so it would have
+    // silently clamped the headline rate: the buyer selects 20% with a
+    // 24-month lock and is quoted 15%. A ceiling below a published rate does
+    // not restrain a discount, it breaks a promise.
+    expect(DISCOUNT_RULES.maxDiscountPercent).toBe(20);
+    const combined = calculateCombinedDiscount(200, 'two_year_upfront');
+    expect(combined.totalPercent).toBe(20);
+    expect(calculateCombinedDiscount(200, 'two_year_upfront', true).totalPercent).toBe(20);
+  });
+
+  it('no published term exceeds the cap', () => {
+    const maxTerm = Math.max(...Object.values(billingDiscounts));
+    expect(maxTerm).toBeLessThanOrEqual(DISCOUNT_RULES.maxDiscountPercent);
   });
 
   it('applies billing alone when volume does not qualify', () => {
-    expect(calculateCombinedDiscount(10, 'annual').totalPercent).toBe(10);
+    expect(calculateCombinedDiscount(10, 'annual_upfront').totalPercent).toBe(12);
   });
 });
 
@@ -684,7 +745,7 @@ describe('Combined calculated-discount cap', () => {
   };
 
   it('counts the early-adopter rate inside the cap, not after it', () => {
-    const combined = calculateCombinedDiscount(200, 'two_year', true);
+    const combined = calculateCombinedDiscount(200, 'two_year_upfront', true);
     expect(combined.earlyAdopterPercent).toBe(20);
     expect(combined.totalPercent).toBe(DISCOUNT_RULES.maxDiscountPercent);
     expect(combined.capped).toBe(true);
@@ -697,7 +758,7 @@ describe('Combined calculated-discount cap', () => {
       locations: 200,
       addOns: [],
       watchtower: [],
-      clientProfile: { ...earlyAdopter, billingCycle: 'two_year' },
+      clientProfile: { ...earlyAdopter, billingCycle: 'two_year_upfront' },
     });
     const effective = (1 - result.total / result.subtotal) * 100;
     expect(effective).toBeLessThanOrEqual(DISCOUNT_RULES.maxDiscountPercent + 1e-9);
@@ -712,7 +773,7 @@ describe('Combined calculated-discount cap', () => {
       locations: 120,
       addOns: [],
       watchtower: [],
-      clientProfile: { ...earlyAdopter, billingCycle: 'annual' },
+      clientProfile: { ...earlyAdopter, billingCycle: 'annual_upfront' },
     });
     // A single "Combined discount" line meant a reader could not check the
     // total against its parts, or tell WHICH concession they had been given —

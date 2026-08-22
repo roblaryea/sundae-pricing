@@ -12,7 +12,7 @@ import { computeCrewQuote } from '../src/lib/crewPricing';
 import { corePackages } from '../src/data/pricing';
 import type { BillingCycle, CorePackageId } from '../src/data/pricing';
 import type { CrewSkuId } from '../src/types/configuration';
-import { stepIndex } from '../src/lib/journey';
+import { stepIndexIn } from '../src/lib/journey';
 
 interface SimConfig {
   layer?: 'core' | 'crew' | 'both';
@@ -55,7 +55,9 @@ async function setStore(page: Page, config: SimConfig, currentStep: number) {
 }
 
 async function goToSummary(page: Page, config: SimConfig) {
-  await setStore(page, config, stepIndex('summary'));
+  // Step positions are per-pathway now: 'summary' is index 6 on Core, 3 on
+  // Crew and 8 on Core+Crew. A single fixed index cannot address all three.
+  await setStore(page, config, stepIndexIn((config.layer ?? 'core') as never, 'summary'));
   await expect(page.getByTestId('summary-monthly-total')).toBeVisible();
 }
 
@@ -301,15 +303,20 @@ test.describe('Crew packages, bundles, and dependencies', () => {
       corePackage: 'core_margin',
       locations: 25,
       crewSkus: [],
-    }, stepIndex('watchtower'));
+    }, stepIndexIn('both', 'watchtower'));
 
-    await page.getByRole('button', { name: /Continue to ROI Calculator/i }).click();
-    await expect(page.getByRole('button', { name: /Configure Crew/i })).toBeVisible();
+    // Crew is a step of its own now. It used to be rendered inside the ROI slot
+    // behind a phase flag, with the rail's label rewritten at runtime — so this
+    // button read "Continue to ROI Calculator" while going to the Crew picker.
+    await page.getByTestId('continue-button-watchtower').click();
     await expect(page.getByRole('heading', { name: /Build your Sundae Crew/i })).toBeVisible();
 
-    await page.getByRole('button', { name: /Crew Operating Manage \+ Time \+ Pay/i }).click();
-    await page.getByRole('button', { name: /Continue to value case/i }).click();
-    await expect(page.getByRole('button', { name: /Calculate ROI/i })).toBeVisible();
+    await page.getByRole('button', { name: /Crew Operating/i }).first().click();
+    await page
+      .getByTestId('step-region')
+      .getByRole('button', { name: /Review summary|Continue/i })
+      .last()
+      .click();
     await expect(page.getByRole('heading', { name: 'Calculate Your ROI' })).toBeVisible();
     await expect(page.getByText(/Return is modelled on your Core package only/i)).toBeVisible();
 
@@ -321,7 +328,7 @@ test.describe('Crew packages, bundles, and dependencies', () => {
 
 test.describe('Package-selection clarity', () => {
   test('Core cards show the estate total, not a misleading flat rate', async ({ page }) => {
-    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, stepIndex('tier'));
+    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, stepIndexIn('core', 'tier'));
     await expect(page.getByTestId('core-package-total-core_foundation')).toContainText('1,895');
     await expect(page.getByTestId('core-package-total-core_margin')).toContainText(
       `${(
@@ -332,7 +339,7 @@ test.describe('Package-selection clarity', () => {
   });
 
   test('domain modules are included capabilities, not priced toggles', async ({ page }) => {
-    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, stepIndex('addons'));
+    await setStore(page, { corePackage: 'core_foundation', locations: 5 }, stepIndexIn('core', 'addons'));
     const labor = page.getByTestId('included-module-labor');
     await expect(labor).toBeVisible();
     await expect(labor).toContainText('Included');
@@ -344,7 +351,7 @@ test.describe('Package-selection clarity', () => {
       layer: 'crew',
       locations: 25,
       crewSkus: ['crew_scheduling', 'crew_tna'],
-    }, stepIndex('tier'));
+    }, stepIndexIn('core', 'tier'));
     await expect(page.getByRole('button', { name: /Crew Pay/i })).toContainText('first location /mo');
     await expect(page.getByText(/native Sundae payroll suite supporting 36 countries/i)).toBeVisible();
   });
@@ -354,7 +361,7 @@ test.describe('Package-selection clarity', () => {
       layer: 'crew',
       locations: 25,
       crewSkus: ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'],
-    }, stepIndex('tier'));
+    }, stepIndexIn('core', 'tier'));
     await page.getByRole('button', { name: /Schedule & Time Keep your HR\/payroll/i }).click();
     await expect(page.getByText('Schedule & Time', { exact: true }).last()).toBeVisible();
     await expect(page.getByText('$1365', { exact: true }).first()).toBeVisible();

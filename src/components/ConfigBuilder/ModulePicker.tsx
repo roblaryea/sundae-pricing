@@ -27,7 +27,6 @@ import {
 } from '../../lib/pricingEngine';
 import { recommendedConceptSkus } from '../../lib/discoveryEngine';
 import type { AddOnId } from '../../lib/pricingEngine';
-import { stepIndex } from '../../lib/journey';
 import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
 export function ModulePicker() {
@@ -37,7 +36,7 @@ export function ModulePicker() {
     locations,
     addOns,
     toggleAddOn,
-    setCurrentStep,
+    goToPrevStep, goToNextStep,
     operatingModels,
   } = useConfiguration();
   const { locale, messages } = useLocale();
@@ -60,8 +59,8 @@ export function ModulePicker() {
     ...CONCEPT_SKU_IDS.filter((id) => !recommendedConcepts.includes(id)),
   ];
 
-  const handleContinue = () => setCurrentStep(stepIndex('watchtower'));
-  const handleBack = () => setCurrentStep(stepIndex('tier'));
+  const handleContinue = () => goToNextStep();
+  const handleBack = () => goToPrevStep();
 
   const getModuleIcon = (moduleId: string) =>
     MODULE_ICONS[moduleId as keyof typeof MODULE_ICONS] || MODULE_ICONS.labor;

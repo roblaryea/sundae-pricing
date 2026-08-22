@@ -505,13 +505,24 @@ export function PricingOverview() {
                         <span className="font-semibold text-white">{billingDiscounts.monthly}%</span>
                       </li>
                       <li className="flex justify-between text-sm">
-                        <span className="text-sundae-muted">Annual</span>
-                        <span className="font-semibold text-white">{billingDiscounts.annual}%</span>
+                        <span className="text-sundae-muted">Annual · paid quarterly</span>
+                        <span className="font-semibold text-white">
+                          {billingDiscounts.annual_quarterly}%
+                        </span>
                       </li>
                       <li className="flex justify-between text-sm">
-                        <span className="text-sundae-muted">2-year</span>
+                        <span className="text-sundae-muted">Annual · paid upfront</span>
                         <span className="font-semibold text-white">
-                          {billingDiscounts.two_year}%
+                          {billingDiscounts.annual_upfront}%
+                        </span>
+                      </li>
+                      <li className="flex justify-between text-sm">
+                        <span className="text-sundae-muted">
+                          2 years · paid upfront
+                          <span className="block text-xs">includes a 24-month price lock</span>
+                        </span>
+                        <span className="font-semibold text-white">
+                          {billingDiscounts.two_year_upfront}%
                         </span>
                       </li>
                     </ul>

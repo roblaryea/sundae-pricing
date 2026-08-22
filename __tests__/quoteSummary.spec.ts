@@ -88,7 +88,7 @@ describe("combined Core + Crew quote", () => {
           isEarlyAdopter: false,
           isFranchise: false,
           brandCount: 1,
-          billingCycle: "annual",
+          billingCycle: "annual_upfront",
         },
       }),
     );

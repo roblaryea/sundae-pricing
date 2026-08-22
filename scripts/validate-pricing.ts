@@ -175,14 +175,32 @@ check('volume @ 199', 5, getVolumeDiscount(199));
 check('volume @ 200', 7, getVolumeDiscount(200));
 check('volume @ 249', 7, getVolumeDiscount(249));
 check('ENTERPRISE_ONLY_FROM_UNITS', 250, ENTERPRISE_ONLY_FROM_UNITS);
-check('billingDiscounts.annual', 10, billingDiscounts.annual);
-check('billingDiscounts.two_year', 15, billingDiscounts.two_year);
+// v1.8 prices the COMMITMENT and the PAYMENT TIMING as a pair, so `annual`
+// alone no longer names a rate: paid quarterly is 5%, paid upfront is 12%.
+// The backend models the same thing as (billingCycle, paymentSchedule); these
+// four keys are the site's flattened spelling of that pair.
+check('billingDiscounts.monthly', 0, billingDiscounts.monthly);
+check('billingDiscounts.annual_quarterly', 5, billingDiscounts.annual_quarterly);
+check('billingDiscounts.annual_upfront', 12, billingDiscounts.annual_upfront);
+check('billingDiscounts.two_year_upfront', 20, billingDiscounts.two_year_upfront);
 // Price book v1.7 section 2.1: volume and billing cycle are MUTUALLY
 // EXCLUSIVE — whichever is larger, never the sum. This asserted `true`, which
 // is why the engine's additive rule survived: the guard was calibrated to the
 // bug. A 240-location annual quote was promised 15% against a real 10%.
 check('DISCOUNT_RULES.stackingAllowed', false, DISCOUNT_RULES.stackingAllowed);
-check('DISCOUNT_RULES.maxDiscountPercent', 15, DISCOUNT_RULES.maxDiscountPercent);
+check('DISCOUNT_RULES.maxDiscountPercent', 20, DISCOUNT_RULES.maxDiscountPercent);
+
+// The INVARIANT, not merely the number. A cap set below a published rate does
+// not restrain a discount, it breaks a promise: the buyer selects "save 20%,
+// 24-month price lock" and is quoted 15%. v1.7 happened to ship a 15% cap
+// against a 15% top term, so the two could drift apart the moment either moved
+// and no check would have noticed. Assert the relationship so they cannot.
+const highestPublishedTerm = Math.max(...Object.values(billingDiscounts));
+check(
+  `cap (${DISCOUNT_RULES.maxDiscountPercent}%) >= highest published term (${highestPublishedTerm}%)`,
+  true,
+  DISCOUNT_RULES.maxDiscountPercent >= highestPublishedTerm
+);
 
 // ── Domain modules must stay unpriced package components ──────────────────
 check('CORE_DOMAIN_MODULE_IDS.length', 11, CORE_DOMAIN_MODULE_IDS.length);

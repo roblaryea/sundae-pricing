@@ -195,6 +195,10 @@ export function ConfigSummary() {
         : pricing.implementation.fee,
   );
 
+  // Modelled funding minus what Core actually costs. Can legitimately be
+  // negative at small estates, and the UI must be able to say so.
+  const netAfterCore = summaryRoi.monthlyFunding - coreOnlyPricing.total;
+
   // Crew is the parallel operational substrate path — it doesn't use
   // tiers, modules, watchtower, AI credits, or the cross-intelligence
   // engine. Render a dedicated Crew-specific summary that shows the
@@ -740,10 +744,28 @@ export function ConfigSummary() {
                 {summaryRoi.capacityFte.toLocaleString(locale, { maximumFractionDigits: 1 })} FTE-equivalent; not counted as cash.
               </p>
             </div>
-            <div className="rounded-lg border border-green-400/25 bg-green-400/5 p-4">
+            {/*
+              This tile was painted success-green unconditionally. At a single
+              location Core Growth costs more than the modelled recovery funds,
+              so the buyer was shown "-$622/mo" and "0.7x modelled return" in the
+              same green used for a gain. A negative number styled as a win is
+              worse than no number: it reads as an endorsement of a case the
+              model itself says does not pay back yet. Colour follows the sign.
+            */}
+            <div
+              className={`rounded-lg border p-4 ${
+                netAfterCore >= 0
+                  ? 'border-green-400/25 bg-green-400/5'
+                  : 'border-amber-400/25 bg-amber-400/5'
+              }`}
+            >
               <div className="text-xs text-sundae-muted">Net after Core</div>
-              <div className="mt-1 text-xl font-bold tabular-nums text-green-400">
-                {money(summaryRoi.monthlyFunding - coreOnlyPricing.total)}<span className="text-xs">/mo</span>
+              <div
+                className={`mt-1 text-xl font-bold tabular-nums ${
+                  netAfterCore >= 0 ? 'text-green-400' : 'text-amber-400'
+                }`}
+              >
+                {money(netAfterCore)}<span className="text-xs">/mo</span>
               </div>
               <p className="mt-1 text-[10px] text-sundae-muted">
                 {summaryRoi.roiCapped ? `${summaryRoi.roi.toFixed(1)}x+` : `${summaryRoi.roi.toFixed(1)}x`} modelled return; {crewRail ? 'Crew and add-ons' : 'add-ons'} excluded.

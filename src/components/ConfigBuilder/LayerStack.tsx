@@ -353,7 +353,11 @@ export function LayerStack() {
             key={layerItem.id}
             variants={fadeUp(reduced)}
             {...card}
-            className="p-6 bg-sundae-surface rounded-xl border border-white/10"
+            /* h-full + column flow so the three cards match height and their
+               buttons line up. Without it each button floats wherever its own
+               bullet list happens to end, and three CTAs at three different
+               heights reads as a layout accident rather than a choice. */
+            className="flex h-full flex-col p-6 bg-sundae-surface rounded-xl border border-white/10"
           >
             <div className="flex items-start gap-3 mb-4">
               {(() => {
@@ -367,7 +371,7 @@ export function LayerStack() {
                 <p className="text-sm text-sundae-muted">{layerItem.copy.tagline}</p>
               </div>
             </div>
-            <ul className="space-y-2">
+            <ul className="flex-1 space-y-2">
               {layerItem.copy.features.map((feature, index) => (
                 <li key={index} className="flex items-start gap-2 text-sm">
                   <Check className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />

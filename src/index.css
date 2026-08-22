@@ -83,6 +83,37 @@
   background-image: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
 }
 
+/*
+ * Line breaking. Headlines and card copy were wrapping wherever the box ran
+ * out, which left orphans that read as unfinished rather than as a line break:
+ * "Run the business and see it, on one / contract", "Workforce signal feeds
+ * Labour / Intelligence", "Operational substrate: people, / schedule, payroll".
+ * On a page whose job is to look expensive, that is the detail that undoes it.
+ *
+ * Deliberately CSS rather than hand-placed &nbsp; in the copy. This site ships
+ * 22 locales; a non-breaking space fixes exactly one of them and silently rots
+ * the moment a translation is revised. `balance` evens the lines of a short
+ * heading, `pretty` stops a paragraph ending on a single stranded word, and
+ * both do it per-language, at the width the reader actually has.
+ */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  figcaption,
+  blockquote,
+  dd {
+    text-wrap: pretty;
+  }
+}
+
+
 /* Light mode overrides */
 .light {
   --color-sundae-dark: #FAF7F2;        /* warm off-white surface (was cool #F8FAFC) */

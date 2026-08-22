@@ -61,6 +61,28 @@
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/*
+ * Tailwind v4 reads its theme from the CSS above, NOT from tailwind.config.cjs.
+ * `gradient-primary` and `gradient-gold` are declared only in that v3-style JS
+ * config under `theme.extend.backgroundImage`, which v4 never loads without an
+ * explicit `@config` directive — so `bg-gradient-primary` emitted no rule at
+ * all. The only surviving declarations were the `.light .bg-gradient-primary`
+ * overrides further down this file, which is why every primary CTA was a
+ * correctly-sized, correctly-labelled, completely transparent button in dark
+ * mode (the default): 17 usages across 9 components, including the Retry
+ * button on the pricing error card and the summary CTAs.
+ *
+ * Declaring them as v4 utilities restores all of them at the source. The
+ * `.light` rules keep their higher specificity, so light mode is unchanged.
+ */
+@utility bg-gradient-primary {
+  background-image: linear-gradient(135deg, #FF5C4D 0%, #E9A24A 100%);
+}
+
+@utility bg-gradient-gold {
+  background-image: linear-gradient(135deg, #f5af19 0%, #f12711 100%);
+}
+
 /* Light mode overrides */
 .light {
   --color-sundae-dark: #FAF7F2;        /* warm off-white surface (was cool #F8FAFC) */

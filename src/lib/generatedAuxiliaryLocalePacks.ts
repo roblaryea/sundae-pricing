@@ -8961,11 +8961,11 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Versuchen Sie es erneut"
       },
       "livePricingCopy": {
-        "loadingTitle": "Veröffentlichte Preise werden geladen",
-        "loadingBody": "Wir holen die aktuellsten Preise von Sundae Admin ein, daher spiegelt diese Seite den aktuell veröffentlichten Katalog wider.",
-        "errorTitle": "Die veröffentlichten Preise sind nicht verfügbar",
-        "errorBody": "Dieses Preiserlebnis erfordert den aktuell veröffentlichten Katalog von Sundae Admin und greift nicht auf statische Werte zurück.",
-        "retry": "Versuchen Sie es noch einmal"
+        "loadingTitle": "Preise werden geladen",
+        "loadingBody": "Einen Moment, wir laden die aktuellen Preise.",
+        "errorTitle": "Preise sind vorübergehend nicht verfügbar",
+        "errorBody": "Die Preise konnten gerade nicht geladen werden. Bitte versuchen Sie es in einem Moment erneut. Falls das Problem weiterhin besteht, buchen Sie eine Demo und wir gehen die Zahlen gemeinsam durch.",
+        "retry": "Erneut versuchen"
       }
     },
     "nl": {
@@ -8983,10 +8983,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Probeer het opnieuw"
       },
       "livePricingCopy": {
-        "loadingTitle": "Gepubliceerde prijzen laden",
-        "loadingBody": "We halen de laatste prijzen op van Sundae Admin, dus deze pagina weerspiegelt de huidige gepubliceerde catalogus.",
-        "errorTitle": "Gepubliceerde prijzen zijn niet beschikbaar",
-        "errorBody": "Deze prijservaring vereist de huidige gepubliceerde catalogus van Sundae Admin en valt niet terug op statische waarden.",
+        "loadingTitle": "Prijzen laden",
+        "loadingBody": "Een moment, we laden de meest actuele prijzen.",
+        "errorTitle": "Prijzen zijn tijdelijk niet beschikbaar",
+        "errorBody": "We konden de prijzen op dit moment niet laden. Probeer het over een moment opnieuw. Blijft het probleem bestaan, plan dan een demo en nemen we de cijfers samen door.",
         "retry": "Opnieuw proberen"
       }
     },
@@ -9005,10 +9005,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Tente novamente"
       },
       "livePricingCopy": {
-        "loadingTitle": "Carregando preços publicados",
-        "loadingBody": "Estamos buscando os preços mais recentes do Sundae Admin, portanto, esta página reflete o catálogo publicado atualmente.",
-        "errorTitle": "O preço publicado não está disponível",
-        "errorBody": "Esta experiência de preços requer o catálogo publicado atual do Sundae Admin e não recorrerá a valores estáticos.",
+        "loadingTitle": "Carregando preços",
+        "loadingBody": "Um momento enquanto carregamos os preços mais recentes.",
+        "errorTitle": "Os preços estão temporariamente indisponíveis",
+        "errorBody": "Não foi possível carregar os preços agora. Tente novamente em instantes. Se o problema continuar, agende uma demonstração e vamos analisar os números com você.",
         "retry": "Tentar novamente"
       }
     },
@@ -9027,10 +9027,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "पुनः प्रयास करें"
       },
       "livePricingCopy": {
-        "loadingTitle": "प्रकाशित मूल्य निर्धारण लोड हो रहा है",
-        "loadingBody": "हम Sundae Admin से नवीनतम मूल्य प्राप्त कर रहे हैं, इसलिए यह पृष्ठ वर्तमान प्रकाशित कैटलॉग को दर्शाता है।",
-        "errorTitle": "प्रकाशित मूल्य निर्धारण उपलब्ध नहीं है",
-        "errorBody": "इस मूल्य निर्धारण अनुभव के लिए Sundae Admin से वर्तमान प्रकाशित कैटलॉग की आवश्यकता होती है और यह स्थिर मानों पर वापस नहीं आएगा।",
+        "loadingTitle": "मूल्य लोड हो रहे हैं",
+        "loadingBody": "एक क्षण, हम नवीनतम मूल्य लोड कर रहे हैं।",
+        "errorTitle": "मूल्य फ़िलहाल उपलब्ध नहीं हैं",
+        "errorBody": "हम अभी मूल्य लोड नहीं कर सके। कृपया कुछ क्षण बाद दोबारा प्रयास करें। यदि समस्या बनी रहती है, तो डेमो बुक करें और हम आपके साथ आंकड़े देखेंगे।",
         "retry": "पुनः प्रयास करें"
       }
     },
@@ -9049,11 +9049,11 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "دوبارہ کوشش کریں۔"
       },
       "livePricingCopy": {
-        "loadingTitle": "شائع شدہ قیمتوں کا تعین لوڈ ہو رہا ہے۔",
-        "loadingBody": "ہم Sundae ایڈمن سے تازہ ترین قیمتیں لے رہے ہیں لہذا یہ صفحہ موجودہ شائع شدہ کیٹلاگ کی عکاسی کرتا ہے۔",
-        "errorTitle": "شائع شدہ قیمتیں دستیاب نہیں ہیں۔",
-        "errorBody": "قیمتوں کے تعین کے اس تجربے کے لیے Sundae Admin کی جانب سے موجودہ شائع شدہ کیٹلاگ کی ضرورت ہے اور یہ جامد اقدار پر واپس نہیں آئے گا۔",
-        "retry": "دوبارہ کوشش کریں۔"
+        "loadingTitle": "قیمتیں لوڈ ہو رہی ہیں",
+        "loadingBody": "ایک لمحہ، ہم تازہ ترین قیمتیں لوڈ کر رہے ہیں۔",
+        "errorTitle": "قیمتیں عارضی طور پر دستیاب نہیں ہیں",
+        "errorBody": "ہم اس وقت قیمتیں لوڈ نہیں کر سکے۔ براہِ کرم تھوڑی دیر بعد دوبارہ کوشش کریں۔ اگر مسئلہ برقرار رہے تو ڈیمو بک کریں اور ہم آپ کے ساتھ اعداد و شمار دیکھیں گے۔",
+        "retry": "دوبارہ کوشش کریں"
       }
     },
     "it": {
@@ -9071,10 +9071,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Riprova"
       },
       "livePricingCopy": {
-        "loadingTitle": "Caricamento dei prezzi pubblicati",
-        "loadingBody": "Stiamo recuperando i prezzi più recenti da Sundae Admin, quindi questa pagina riflette l'attuale catalogo pubblicato.",
-        "errorTitle": "I prezzi pubblicati non sono disponibili",
-        "errorBody": "Questa esperienza sui prezzi richiede il catalogo corrente pubblicato da Sundae Admin e non tornerà a valori statici.",
+        "loadingTitle": "Caricamento dei prezzi",
+        "loadingBody": "Un momento, stiamo caricando i prezzi più recenti.",
+        "errorTitle": "I prezzi non sono temporaneamente disponibili",
+        "errorBody": "Non è stato possibile caricare i prezzi in questo momento. Riprova tra qualche istante. Se il problema persiste, prenota una demo e ripercorreremo i numeri insieme a te.",
         "retry": "Riprova"
       }
     },
@@ -9093,10 +9093,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Spróbuj ponownie"
       },
       "livePricingCopy": {
-        "loadingTitle": "Ładowanie opublikowanych cen",
-        "loadingBody": "Pobieramy najnowsze ceny od administratora Sundae, więc ta strona odzwierciedla aktualnie opublikowany katalog.",
-        "errorTitle": "Opublikowane ceny są niedostępne",
-        "errorBody": "To doświadczenie cenowe wymaga aktualnie opublikowanego katalogu od administratora Sundae i nie będzie wracać do wartości statycznych.",
+        "loadingTitle": "Wczytywanie cen",
+        "loadingBody": "Chwila, wczytujemy najnowsze ceny.",
+        "errorTitle": "Ceny są chwilowo niedostępne",
+        "errorBody": "Nie udało się teraz wczytać cen. Spróbuj ponownie za chwilę. Jeśli problem będzie się powtarzał, umów demo, a wspólnie przejdziemy przez liczby.",
         "retry": "Spróbuj ponownie"
       }
     },
@@ -9115,10 +9115,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Tekrar dene"
       },
       "livePricingCopy": {
-        "loadingTitle": "Yayınlanan fiyatlandırma yükleniyor",
-        "loadingBody": "Sundae Admin'den en son fiyatları alıyoruz, böylece bu sayfa mevcut yayınlanan kataloğu yansıtıyor.",
-        "errorTitle": "Yayınlanan fiyatlandırma mevcut değil",
-        "errorBody": "Bu fiyatlandırma deneyimi, Sundae Admin'in güncel yayınlanmış kataloğunu gerektirir ve statik değerlere geri dönmez.",
+        "loadingTitle": "Fiyatlar yükleniyor",
+        "loadingBody": "Bir saniye, en güncel fiyatları yüklüyoruz.",
+        "errorTitle": "Fiyatlar geçici olarak kullanılamıyor",
+        "errorBody": "Fiyatları şu anda yükleyemedik. Lütfen birazdan tekrar deneyin. Sorun devam ederse bir demo ayarlayın, rakamları birlikte inceleyelim.",
         "retry": "Yeniden dene"
       }
     },
@@ -9137,10 +9137,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "再试一次"
       },
       "livePricingCopy": {
-        "loadingTitle": "加载已公布的定价",
-        "loadingBody": "我们正在从 Sundae Admin 获取最新定价，因此此页面反映了当前发布的目录。",
-        "errorTitle": "公布的价格不可用",
-        "errorBody": "此定价体验需要Sundae管理员当前发布的目录，并且不会回退到静态值。",
+        "loadingTitle": "正在加载价格",
+        "loadingBody": "请稍候，我们正在加载最新价格。",
+        "errorTitle": "价格暂时无法显示",
+        "errorBody": "目前无法加载价格。请稍后重试。如果问题仍然存在，请预约演示，我们将与您一起了解具体数字。",
         "retry": "重试"
       }
     },
@@ -9159,10 +9159,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "もう一度試してください"
       },
       "livePricingCopy": {
-        "loadingTitle": "公開価格を読み込んでいます",
-        "loadingBody": "このページには現在公開されているカタログが反映されているため、Sundae Admin から最新の価格を取得しています。",
-        "errorTitle": "公開されている価格は利用できません",
-        "errorBody": "この価格設定には、Sundae Admin から現在公開されているカタログが必要であり、静的な値には戻りません。",
+        "loadingTitle": "料金を読み込んでいます",
+        "loadingBody": "最新の料金を読み込んでいます。少々お待ちください。",
+        "errorTitle": "料金を一時的に表示できません",
+        "errorBody": "現在、料金を読み込めませんでした。しばらくしてからもう一度お試しください。解決しない場合は、デモをご予約ください。担当者が数値をご説明します。",
         "retry": "再試行"
       }
     },
@@ -9181,11 +9181,11 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "다시 시도하세요"
       },
       "livePricingCopy": {
-        "loadingTitle": "게시된 가격 로드 중",
-        "loadingBody": "Sundae Admin에서 최신 가격을 가져오는 중이므로 이 페이지에는 현재 게시된 카탈로그가 반영됩니다.",
-        "errorTitle": "게시된 가격을 확인할 수 없습니다.",
-        "errorBody": "이 가격 책정 환경에는 Sundae Admin의 현재 게시된 카탈로그가 필요하며 정적 값으로 대체되지 않습니다.",
-        "retry": "재시도"
+        "loadingTitle": "가격을 불러오는 중입니다",
+        "loadingBody": "잠시만 기다려 주세요. 최신 가격을 불러오고 있습니다.",
+        "errorTitle": "가격을 일시적으로 확인할 수 없습니다",
+        "errorBody": "지금은 가격을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요. 문제가 계속되면 데모를 예약해 주시면 함께 수치를 살펴보겠습니다.",
+        "retry": "다시 시도"
       }
     },
     "id": {
@@ -9203,10 +9203,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Coba lagi"
       },
       "livePricingCopy": {
-        "loadingTitle": "Memuat harga yang dipublikasikan",
-        "loadingBody": "Kami mengambil harga terbaru dari Sundae Admin sehingga halaman ini mencerminkan katalog yang diterbitkan saat ini.",
-        "errorTitle": "Harga yang dipublikasikan tidak tersedia",
-        "errorBody": "Pengalaman penetapan harga ini memerlukan katalog yang diterbitkan saat ini dari Sundae Admin dan tidak akan kembali ke nilai statis.",
+        "loadingTitle": "Memuat harga",
+        "loadingBody": "Sebentar, kami sedang memuat harga terbaru.",
+        "errorTitle": "Harga sementara tidak tersedia",
+        "errorBody": "Kami belum dapat memuat harga saat ini. Silakan coba lagi sebentar lagi. Jika masalah berlanjut, pesan demo dan kami akan membahas angkanya bersama Anda.",
         "retry": "Coba lagi"
       }
     },
@@ -9225,10 +9225,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Thử lại"
       },
       "livePricingCopy": {
-        "loadingTitle": "Đang tải giá đã công bố",
-        "loadingBody": "Chúng tôi đang lấy giá mới nhất từ Sundae Admin để trang này phản ánh danh mục đã xuất bản hiện tại.",
-        "errorTitle": "Giá công bố không có sẵn",
-        "errorBody": "Trải nghiệm định giá này yêu cầu danh mục được xuất bản hiện tại từ Sundae Admin và sẽ không quay lại giá trị tĩnh.",
+        "loadingTitle": "Đang tải bảng giá",
+        "loadingBody": "Vui lòng đợi trong giây lát, chúng tôi đang tải bảng giá mới nhất.",
+        "errorTitle": "Bảng giá tạm thời không khả dụng",
+        "errorBody": "Hiện chúng tôi chưa tải được bảng giá. Vui lòng thử lại sau giây lát. Nếu sự cố vẫn tiếp diễn, hãy đặt lịch demo và chúng tôi sẽ cùng bạn xem qua các con số.",
         "retry": "Thử lại"
       }
     },
@@ -9247,10 +9247,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Încercați din nou"
       },
       "livePricingCopy": {
-        "loadingTitle": "Se încarcă prețurile publicate",
-        "loadingBody": "Preluăm cele mai recente prețuri de la Sundae Admin, astfel încât această pagină reflectă catalogul publicat curent.",
-        "errorTitle": "Prețurile publicate nu sunt disponibile",
-        "errorBody": "Această experiență de stabilire a prețurilor necesită catalogul publicat curent de la Sundae Admin și nu va reveni la valorile statice.",
+        "loadingTitle": "Se încarcă prețurile",
+        "loadingBody": "Un moment, încărcăm cele mai recente prețuri.",
+        "errorTitle": "Prețurile sunt temporar indisponibile",
+        "errorBody": "Nu am putut încărca prețurile în acest moment. Vă rugăm să încercați din nou în câteva clipe. Dacă problema persistă, programați o demonstrație și vom parcurge cifrele împreună.",
         "retry": "Reîncercați"
       }
     },
@@ -9269,10 +9269,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Försök igen"
       },
       "livePricingCopy": {
-        "loadingTitle": "Laddar publicerade priser",
-        "loadingBody": "Vi hämtar de senaste priserna från Sundae Admin så den här sidan återspeglar den aktuella publicerade katalogen.",
-        "errorTitle": "Publicerad prissättning är inte tillgänglig",
-        "errorBody": "Denna prissättningsupplevelse kräver den aktuella publicerade katalogen från Sundae Admin och kommer inte att falla tillbaka till statiska värden.",
+        "loadingTitle": "Priser laddas",
+        "loadingBody": "Ett ögonblick, vi laddar de senaste priserna.",
+        "errorTitle": "Priserna är tillfälligt otillgängliga",
+        "errorBody": "Vi kunde inte ladda priserna just nu. Försök igen om en stund. Om problemet kvarstår, boka en demo så går vi igenom siffrorna tillsammans.",
         "retry": "Försök igen"
       }
     },
@@ -9291,10 +9291,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "আবার চেষ্টা করুন"
       },
       "livePricingCopy": {
-        "loadingTitle": "প্রকাশিত মূল্য লোড হচ্ছে",
-        "loadingBody": "আমরা Sundae অ্যাডমিনের কাছ থেকে সর্বশেষ মূল্য আনছি তাই এই পৃষ্ঠাটি বর্তমান প্রকাশিত ক্যাটালগ প্রতিফলিত করে।",
-        "errorTitle": "প্রকাশিত মূল্য অনুপলব্ধ",
-        "errorBody": "এই মূল্য নির্ধারণের অভিজ্ঞতার জন্য Sundae অ্যাডমিন থেকে বর্তমান প্রকাশিত ক্যাটালগ প্রয়োজন এবং এটি স্ট্যাটিক মানগুলিতে ফিরে আসবে না।",
+        "loadingTitle": "মূল্য লোড হচ্ছে",
+        "loadingBody": "এক মুহূর্ত, আমরা সর্বশেষ মূল্য লোড করছি।",
+        "errorTitle": "মূল্য সাময়িকভাবে অনুপলব্ধ",
+        "errorBody": "এই মুহূর্তে মূল্য লোড করা যায়নি। অনুগ্রহ করে কিছুক্ষণ পর আবার চেষ্টা করুন। সমস্যা চলতে থাকলে একটি ডেমো বুক করুন, আমরা আপনার সঙ্গে সংখ্যাগুলো দেখে নেব।",
         "retry": "আবার চেষ্টা করুন"
       }
     },
@@ -9313,10 +9313,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "ลองอีกครั้ง"
       },
       "livePricingCopy": {
-        "loadingTitle": "กำลังโหลดราคาที่เผยแพร่",
-        "loadingBody": "เรากำลังเรียกราคาล่าสุดจาก Sundae Admin ดังนั้นหน้านี้จึงสะท้อนถึงแค็ตตาล็อกที่เผยแพร่ในปัจจุบัน",
-        "errorTitle": "ราคาที่เผยแพร่ไม่พร้อมใช้งาน",
-        "errorBody": "ประสบการณ์การกำหนดราคานี้จำเป็นต้องมีแค็ตตาล็อกที่เผยแพร่ในปัจจุบันจาก Sundae Admin และจะไม่ถอยกลับไปเป็นมูลค่าคงที่",
+        "loadingTitle": "กำลังโหลดราคา",
+        "loadingBody": "สักครู่ เรากำลังโหลดราคาล่าสุด",
+        "errorTitle": "ราคาไม่พร้อมใช้งานชั่วคราว",
+        "errorBody": "ขณะนี้เราไม่สามารถโหลดราคาได้ กรุณาลองอีกครั้งในอีกสักครู่ หากยังพบปัญหา กรุณานัดหมายเดโม แล้วเราจะพาคุณดูตัวเลขไปด้วยกัน",
         "retry": "ลองอีกครั้ง"
       }
     },
@@ -9335,10 +9335,10 @@ export const generatedAuxiliaryLocalePacks = {
         "retry": "Cuba lagi"
       },
       "livePricingCopy": {
-        "loadingTitle": "Memuatkan harga yang diterbitkan",
-        "loadingBody": "Kami mengambil harga terkini daripada Sundae Admin supaya halaman ini menggambarkan katalog yang diterbitkan semasa.",
-        "errorTitle": "Harga yang diterbitkan tidak tersedia",
-        "errorBody": "Pengalaman penetapan harga ini memerlukan katalog terbitan semasa daripada Sundae Admin dan tidak akan kembali kepada nilai statik.",
+        "loadingTitle": "Memuatkan harga",
+        "loadingBody": "Sebentar, kami sedang memuatkan harga terkini.",
+        "errorTitle": "Harga tidak tersedia buat sementara waktu",
+        "errorBody": "Kami tidak dapat memuatkan harga buat masa ini. Sila cuba lagi sebentar lagi. Jika masalah berterusan, tempah demo dan kami akan meneliti angkanya bersama anda.",
         "retry": "Cuba semula"
       }
     }

@@ -9,6 +9,11 @@ const filesToAudit = [
   'src/lib/pricingI18n.ts',
   'src/lib/pricingUiCopy.ts',
   'src/lib/locales.ts',
+  // Copy hardcoded in a component is still shipped copy. LivePricingGate held
+  // en/ar/fr/es inline and was audited by nothing, which is how its French and
+  // Spanish lost every accent ("tarifs publies", "catalogo") while the same
+  // strings in the generated pack kept theirs.
+  'src/components/shared/LivePricingGate.tsx',
 ]
 
 const bannedPatterns = [
@@ -41,6 +46,21 @@ const bannedPatterns = [
   ['Arabic POS translated in product/system context', /نقطة البيع/],
 ]
 
+/**
+ * Locales whose copy CANNOT legitimately be pure ASCII: Latin scripts that
+ * always carry diacritics, plus every non-Latin script. Indonesian, Malay,
+ * Dutch and English are excluded because ASCII is correct for them.
+ *
+ * This catches the specific decay that banned-pattern matching cannot: text
+ * that is grammatically intact but has been stripped of its accents somewhere
+ * between authoring and commit. A reviewer skims past "publies"; a byte check
+ * does not.
+ */
+const diacriticRequiredLocales = [
+  'fr', 'es', 'pt', 'de', 'it', 'pl', 'tr', 'ro', 'sv', 'vi',
+  'ar', 'hi', 'ur', 'zh-Hans', 'ja', 'ko', 'bn', 'th',
+]
+
 const failures = []
 
 for (const relativePath of filesToAudit) {
@@ -52,6 +72,71 @@ for (const relativePath of filesToAudit) {
     if (!match) continue
     const lineNumber = text.slice(0, match.index).split('\n').length
     failures.push(`${relativePath}:${lineNumber}: ${label} (${match[0]})`)
+  }
+}
+
+// ── Structural: live-pricing gate copy ─────────────────────────────────────
+// Scoped deliberately to livePricingCopy rather than "any block for this
+// locale": Italian's layerStackCopy is legitimately accent-free, so a
+// whole-locale sample reports a false positive and trains people to ignore
+// the gate. Guard the specific strings, not the neighbourhood.
+const livePricingByLocale = new Map()
+
+const packText = fs.readFileSync(
+  path.join(root, 'src/lib/generatedAuxiliaryLocalePacks.ts'),
+  'utf8',
+)
+const supportStart = packText.indexOf('"supportCopy"')
+if (supportStart !== -1) {
+  const supportSegment = packText.slice(supportStart)
+  const localeHeader = /\n {4}"([a-zA-Z-]+)": \{/g
+  const headers = []
+  let hit
+  while ((hit = localeHeader.exec(supportSegment)) !== null) {
+    headers.push({ locale: hit[1], index: hit.index })
+  }
+  headers.forEach(({ locale, index }, position) => {
+    const end = position + 1 < headers.length ? headers[position + 1].index : supportSegment.length
+    const found = /"livePricingCopy": \{([^}]*)\}/.exec(supportSegment.slice(index, end))
+    if (found) livePricingByLocale.set(locale, found[1])
+  })
+}
+
+const gateText = fs.readFileSync(
+  path.join(root, 'src/components/shared/LivePricingGate.tsx'),
+  'utf8',
+)
+const inlineConst = /const LIVE_PRICING_COPY = \{([\s\S]*?)\n\} as const;/.exec(gateText)
+if (inlineConst) {
+  const entry = /\n {2}'?([a-zA-Z-]+)'?: \{([^}]*)\}/g
+  let hit
+  while ((hit = entry.exec(inlineConst[1])) !== null) {
+    livePricingByLocale.set(hit[1], hit[2])
+  }
+}
+
+// Coverage: a locale the site offers but has no gate copy for silently falls
+// back to English at exactly the moment the visitor is being told something
+// went wrong.
+const localesText = fs.readFileSync(path.join(root, 'src/lib/locales.ts'), 'utf8')
+const declared = /export const supportedLocales = \[([\s\S]*?)\] as const/.exec(localesText)
+if (declared) {
+  const supported = [...declared[1].matchAll(/'([a-zA-Z-]+)'/g)].map((m) => m[1])
+  for (const locale of supported) {
+    if (!livePricingByLocale.has(locale)) {
+      failures.push(
+        `live-pricing gate copy: locale "${locale}" is offered by the site but has no livePricingCopy — it will silently render English`,
+      )
+    }
+  }
+}
+
+for (const [locale, body] of livePricingByLocale) {
+  if (!diacriticRequiredLocales.includes(locale)) continue
+  if (!/[^\u0000-\u007F]/.test(body)) {
+    failures.push(
+      `live-pricing gate copy: locale "${locale}" is pure ASCII — its copy has likely been accent-stripped or left in English`,
+    )
   }
 }
 

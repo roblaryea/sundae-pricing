@@ -169,9 +169,14 @@ export function Simulator() {
   return (
     <LivePricingGate state={livePricing}>
     <div className="min-h-screen">
-      {/* Progress indicator bar below header */}
+      {/* Progress indicator bar below the header.
+
+          pb-9 reserves room for the step label, which ProgressIndicator hangs
+          `absolute top-10` beneath its dot. With only py-3 the label fell
+          outside the bar and printed on top of the page content below it —
+          "Review and Launch" rendered across the summary's own text. */}
       {currentStep > 0 && (
-        <div className="sticky z-40 py-3 px-4 md:px-8 border-b border-white/10 bg-sundae-dark/95 backdrop-blur-sm" style={{ top: headerH }}>
+        <div className="sticky z-40 pt-3 pb-9 px-4 md:px-8 border-b border-white/10 bg-sundae-dark/95 backdrop-blur-sm" style={{ top: headerH }}>
           <div className="max-w-7xl mx-auto relative flex items-center justify-center">
             {/* Always-visible (sticky) back, so every step — including the ROI and
                 Review & Launch summary — can navigate to the previous page. */}

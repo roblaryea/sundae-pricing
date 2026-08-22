@@ -128,7 +128,7 @@ describe("Sundae's side of the comparison is the quote on the same screen", () =
         isEarlyAdopter: false,
         isFranchise: false,
         brandCount: 1,
-        billingCycle: "two_year",
+        billingCycle: "two_year_upfront",
       },
     });
     expect(discounted.total).toBeLessThan(coreRail.total);

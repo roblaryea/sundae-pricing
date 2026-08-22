@@ -82,7 +82,26 @@ export type CrewBundleId = 'crew_schedule_time_bundle' | 'crew_suite_bundle' | '
 export type CrossIntelligenceTier = 'base' | 'pro';
 export type WatchtowerId = 'competitive' | 'events' | 'trends' | 'bundle';
 export type ClientType = 'independent' | 'growth' | 'multi-site' | 'enterprise' | 'franchise';
-export type BillingCycle = 'monthly' | 'annual' | 'two_year';
+/**
+ * Commitment term AND payment timing, because the concession is priced on both.
+ *
+ * v1.7 had one axis — monthly / annual / two-year — so "annual" could not
+ * distinguish a customer paying quarterly from one paying twelve months up
+ * front, though the cash position and therefore the discount differ. v1.8
+ * prices the pair, and the two-year offer carries a 24-month price lock, which
+ * is a contractual commitment on our side rather than a further discount.
+ */
+export type BillingCycle =
+  | 'monthly'
+  | 'annual_quarterly'
+  | 'annual_upfront'
+  | 'two_year_upfront';
+
+/** Terms that existed before payment timing was priced, and what they became. */
+export const LEGACY_BILLING_CYCLES: Record<string, BillingCycle> = {
+  annual: 'annual_upfront',
+  two_year: 'two_year_upfront',
+};
 
 // ── Marginal band primitives ───────────────────────────────────────────────
 
@@ -1404,8 +1423,38 @@ export const volumeDiscounts: { tiers: VolumeDiscountTier[] } = {
 
 export const billingDiscounts: Record<BillingCycle, number> = {
   monthly: 0,
-  annual: 10,
-  two_year: 15
+  annual_quarterly: 5,
+  annual_upfront: 12,
+  two_year_upfront: 20,
+};
+
+/** How each term is described to the buyer, and what it commits us to. */
+export const billingTerms: Record<
+  BillingCycle,
+  { label: string; timing: string; discountPercent: number; priceLockMonths: number | null }
+> = {
+  monthly: { label: 'Monthly', timing: 'Rolling', discountPercent: 0, priceLockMonths: null },
+  annual_quarterly: {
+    label: 'Annual',
+    timing: 'Paid quarterly',
+    discountPercent: 5,
+    priceLockMonths: null,
+  },
+  annual_upfront: {
+    label: 'Annual',
+    timing: 'Paid upfront',
+    discountPercent: 12,
+    priceLockMonths: null,
+  },
+  two_year_upfront: {
+    label: '2 years',
+    timing: 'Paid upfront',
+    discountPercent: 20,
+    // The lock is the reason this term is worth more than its extra 8%: the
+    // published curve cannot move under a customer who has committed for two
+    // years, so it must be stated wherever the discount is.
+    priceLockMonths: 24,
+  },
 };
 
 export const DISCOUNT_RULES = {
@@ -1423,9 +1472,15 @@ export const DISCOUNT_RULES = {
    * Combined ceiling across EVERY calculated discount — volume, billing cycle
    * and the early-adopter programme rate. Nothing published may be applied on
    * top of this cap.
+   *
+   * Raised 15 -> 20 with price book v1.8, because the two-year upfront term is
+   * itself 20%. Left at 15 the cap would have silently clamped the largest
+   * published term to less than its headline: the buyer selects "20%, with a
+   * 24-month price lock" and is quoted 15%. A ceiling below a published rate
+   * does not restrain a discount, it breaks a promise.
    */
-  maxDiscountPercent: 15,
-  note: 'The larger of volume or billing-cycle discount applies; early-adopter concessions share the 15% calculated-discount cap'
+  maxDiscountPercent: 20,
+  note: 'The larger of volume or billing-cycle discount applies; early-adopter concessions share the 20% calculated-discount cap'
 };
 
 /** The unit count at and above which only Enterprise (quoted) pricing applies. */

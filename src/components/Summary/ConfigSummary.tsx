@@ -13,6 +13,8 @@ import {
   foresightAction,
   conceptSkus,
   crewSkus,
+  billingTerms,
+  type BillingCycle,
 } from '../../data/pricing';
 import confetti from 'canvas-confetti';
 import { useEffect, useMemo, useState } from 'react';
@@ -531,9 +533,11 @@ export function ConfigSummary() {
                     <span className="font-medium">{money(item.price)}</span>
                   </div>
                 ))}
-                {/* Commitment term. v1.7 gives 10% annual and 15% two-year,
-                    exclusive with the volume ladder and capped at 15% combined.
-                    No surface ever set this, so both were unreachable. */}
+                {/* Commitment term AND payment timing — v1.8 prices the pair.
+                    "Annual" alone could not tell a quarterly payer from one
+                    paying twelve months up front, though the cash position and
+                    therefore the concession differ. Exclusive with the volume
+                    ladder; the buyer gets whichever is larger, never the sum. */}
                 <div className="pt-3 mt-2 border-t border-white/10">
                   {/* The term discount is computed on the Core rail; Crew SKUs
                       and bundles are published net prices. Saying which rail it
@@ -543,15 +547,13 @@ export function ConfigSummary() {
                     {q.commitmentTerm}{crewRail ? ` · ${q.coreRail}` : ''}
                   </span>
                   <div
-                    className="mt-2 grid grid-cols-3 gap-1.5"
+                    className="mt-2 grid grid-cols-2 gap-1.5"
                     role="radiogroup"
                     aria-label={q.commitmentTerm}
                   >
-                    {([
-                      ['monthly', q.termMonthly, null],
-                      ['annual', q.termAnnual, '10%'],
-                      ['two_year', q.termTwoYear, '15%'],
-                    ] as const).map(([cycle, label, off]) => (
+                    {(Object.entries(billingTerms) as Array<
+                      [BillingCycle, (typeof billingTerms)[BillingCycle]]
+                    >).map(([cycle, term]) => (
                       <button
                         key={cycle}
                         type="button"
@@ -564,10 +566,19 @@ export function ConfigSummary() {
                             : 'border-white/10 bg-sundae-surface text-sundae-muted hover:border-white/30'
                         }`}
                       >
-                        <span className="block font-semibold">{label}</span>
-                        {off && (
+                        <span className="block font-semibold">{term.label}</span>
+                        <span className="block text-[10px] opacity-70">{term.timing}</span>
+                        {term.discountPercent > 0 && (
                           <span className="block text-[10px] opacity-80">
-                            {q.saveShort.replace('{percent}', off)}
+                            {q.saveShort.replace('{percent}', `${term.discountPercent}%`)}
+                          </span>
+                        )}
+                        {/* The lock is what the extra 8% actually buys, so it
+                            travels with the price rather than sitting in terms
+                            the buyer meets after signing. */}
+                        {term.priceLockMonths && (
+                          <span className="block text-[10px] text-green-400">
+                            {term.priceLockMonths}-month price lock
                           </span>
                         )}
                       </button>

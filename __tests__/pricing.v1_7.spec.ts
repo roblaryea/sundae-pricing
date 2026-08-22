@@ -27,6 +27,8 @@ import {
   detectClientType,
   isRetiredCatalogId,
   RETIRED_CATALOG_IDS,
+  billingTerms,
+  LEGACY_BILLING_CYCLES,
 } from '../src/data/pricing';
 import { computeCrewQuote, crewBundleSavings } from '../src/lib/crewPricing';
 import { COMPETITOR_PRICING, CORE_PACKAGE_SELECTION_ID } from '../src/data/competitorPricing';
@@ -549,11 +551,31 @@ describe('Volume ladder', () => {
   });
 });
 
-describe('Billing-cycle discounts', () => {
-  it('is 10% annual and 15% two-year', () => {
+describe('Commitment term and payment timing', () => {
+  it('prices the pair, not just the term', () => {
+    // v1.7 had one axis, so "annual" could not distinguish a quarterly payer
+    // from one paying twelve months up front though the cash position differs.
     expect(billingDiscounts.monthly).toBe(0);
-    expect(billingDiscounts.annual).toBe(10);
-    expect(billingDiscounts.two_year).toBe(15);
+    expect(billingDiscounts.annual_quarterly).toBe(5);
+    expect(billingDiscounts.annual_upfront).toBe(12);
+    expect(billingDiscounts.two_year_upfront).toBe(20);
+  });
+
+  it('pays more for paying sooner, at the same commitment', () => {
+    expect(billingDiscounts.annual_upfront).toBeGreaterThan(billingDiscounts.annual_quarterly);
+  });
+
+  it('carries the 24-month lock on the two-year term, and nowhere else', () => {
+    // The lock is what the extra 8% buys, so it has to be stated with the rate.
+    expect(billingTerms.two_year_upfront.priceLockMonths).toBe(24);
+    for (const key of ['monthly', 'annual_quarterly', 'annual_upfront'] as const) {
+      expect(billingTerms[key].priceLockMonths).toBeNull();
+    }
+  });
+
+  it('maps the retired terms so a stored quote does not become 0%', () => {
+    expect(LEGACY_BILLING_CYCLES.annual).toBe('annual_upfront');
+    expect(LEGACY_BILLING_CYCLES.two_year).toBe('two_year_upfront');
   });
 });
 
@@ -563,11 +585,11 @@ describe('Combined discount cap', () => {
     // asserted 5% + 10% = 15%, encoding a discount the billing system will not
     // honour — worth $2,092/mo on a 240-location annual quote.
     expect(DISCOUNT_RULES.stackingAllowed).toBe(false);
-    const combined = calculateCombinedDiscount(100, 'annual');
+    const combined = calculateCombinedDiscount(100, 'annual_upfront');
     expect(combined.volumePercent).toBe(5);
-    expect(combined.billingPercent).toBe(10);
-    expect(combined.totalPercent).toBe(10);
-    expect(combined.appliedBillingPercent).toBe(10);
+    expect(combined.billingPercent).toBe(12);
+    expect(combined.totalPercent).toBe(12);
+    expect(combined.appliedBillingPercent).toBe(12);
     expect(combined.appliedVolumePercent).toBe(0);
   });
 
@@ -577,18 +599,24 @@ describe('Combined discount cap', () => {
     expect(combined.appliedVolumePercent).toBe(7);
   });
 
-  it('caps the combination at 15%', () => {
-    // Exclusive selection already lands on 15 here (max(7, 15)); the cap is a
-    // ceiling on the early-adopter stack, not the mechanism that produces this.
-    const combined = calculateCombinedDiscount(200, 'two_year');
-    expect(combined.totalPercent).toBe(15);
-    expect(calculateCombinedDiscount(200, 'two_year', true).totalPercent).toBe(15);
-    expect(calculateCombinedDiscount(200, 'two_year', true).capped).toBe(true);
-    expect(DISCOUNT_RULES.maxDiscountPercent).toBe(15);
+  it('caps the combination at 20%, which is the largest published term', () => {
+    // The cap was 15 while the two-year term became 20, so it would have
+    // silently clamped the headline rate: the buyer selects 20% with a
+    // 24-month lock and is quoted 15%. A ceiling below a published rate does
+    // not restrain a discount, it breaks a promise.
+    expect(DISCOUNT_RULES.maxDiscountPercent).toBe(20);
+    const combined = calculateCombinedDiscount(200, 'two_year_upfront');
+    expect(combined.totalPercent).toBe(20);
+    expect(calculateCombinedDiscount(200, 'two_year_upfront', true).totalPercent).toBe(20);
+  });
+
+  it('no published term exceeds the cap', () => {
+    const maxTerm = Math.max(...Object.values(billingDiscounts));
+    expect(maxTerm).toBeLessThanOrEqual(DISCOUNT_RULES.maxDiscountPercent);
   });
 
   it('applies billing alone when volume does not qualify', () => {
-    expect(calculateCombinedDiscount(10, 'annual').totalPercent).toBe(10);
+    expect(calculateCombinedDiscount(10, 'annual_upfront').totalPercent).toBe(12);
   });
 });
 
@@ -717,7 +745,7 @@ describe('Combined calculated-discount cap', () => {
   };
 
   it('counts the early-adopter rate inside the cap, not after it', () => {
-    const combined = calculateCombinedDiscount(200, 'two_year', true);
+    const combined = calculateCombinedDiscount(200, 'two_year_upfront', true);
     expect(combined.earlyAdopterPercent).toBe(20);
     expect(combined.totalPercent).toBe(DISCOUNT_RULES.maxDiscountPercent);
     expect(combined.capped).toBe(true);
@@ -730,7 +758,7 @@ describe('Combined calculated-discount cap', () => {
       locations: 200,
       addOns: [],
       watchtower: [],
-      clientProfile: { ...earlyAdopter, billingCycle: 'two_year' },
+      clientProfile: { ...earlyAdopter, billingCycle: 'two_year_upfront' },
     });
     const effective = (1 - result.total / result.subtotal) * 100;
     expect(effective).toBeLessThanOrEqual(DISCOUNT_RULES.maxDiscountPercent + 1e-9);
@@ -745,7 +773,7 @@ describe('Combined calculated-discount cap', () => {
       locations: 120,
       addOns: [],
       watchtower: [],
-      clientProfile: { ...earlyAdopter, billingCycle: 'annual' },
+      clientProfile: { ...earlyAdopter, billingCycle: 'annual_upfront' },
     });
     // A single "Combined discount" line meant a reader could not check the
     // total against its parts, or tell WHICH concession they had been given —

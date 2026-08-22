@@ -4,7 +4,7 @@ import { journeyFor, stepIndexIn, type JourneyStepId } from '../lib/journey';
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { AddOnId, Configuration, CorePackageId, CrewSkuId } from '../types/configuration';
-import { corePackages, crewSkus, packageAllowsWatchtower } from '../data/pricing';
+import { corePackages, crewSkus, packageAllowsWatchtower, LEGACY_BILLING_CYCLES } from '../data/pricing';
 import type { ROIInputs } from './useROICalculation';
 import type { Persona } from '../data/personas';
 import type { Achievement } from '../data/personas';
@@ -558,6 +558,18 @@ export const useConfiguration = create<ConfigurationState>()(
         // (tier/modules → corePackage/addOns) and the old shape references
         // retired catalog ids. A fresh key discards it outright.
         name: 'sundae-pricing-config-v1-7',
+        // v1.8 split the commitment term by payment timing, so a session that
+        // stored 'annual' or 'two_year' now holds a value the discount table
+        // has no entry for — which reads as a 0% term rather than an error.
+        // Map the retired terms onto their upfront equivalents, which is what
+        // they were priced as before timing was a variable.
+        migrate: (persisted: unknown) => {
+          const state = persisted as { billingCycle?: string } | null;
+          if (state?.billingCycle && state.billingCycle in LEGACY_BILLING_CYCLES) {
+            state.billingCycle = LEGACY_BILLING_CYCLES[state.billingCycle];
+          }
+          return state as never;
+        },
         partialize: (state) => ({
           // Only persist essential configuration
           layer: state.layer,

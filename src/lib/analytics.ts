@@ -1,5 +1,6 @@
 import posthog from "posthog-js";
 import * as Sentry from "@sentry/react";
+import { getSentryRuntimePolicy, prepareSentryEvent } from "./sentryPolicy";
 
 const POSTHOG_KEY = import.meta.env.VITE_POSTHOG_KEY;
 const POSTHOG_HOST = import.meta.env.VITE_POSTHOG_HOST || "https://us.i.posthog.com";
@@ -27,12 +28,24 @@ export function initAnalytics() {
 
   // Sentry
   if (SENTRY_DSN) {
+    const sentryPolicy = getSentryRuntimePolicy({
+      hostname: window.location.hostname,
+      mode: import.meta.env.MODE,
+    });
+
     Sentry.init({
       dsn: SENTRY_DSN,
-      integrations: [Sentry.browserTracingIntegration(), Sentry.replayIntegration()],
+      integrations: [
+        Sentry.browserTracingIntegration(),
+        ...(sentryPolicy.replaysOnErrorSampleRate > 0
+          ? [Sentry.replayIntegration({ maskAllText: true, maskAllInputs: true })]
+          : []),
+      ],
       tracesSampleRate: 0.1,
-      replaysSessionSampleRate: 0,
-      replaysOnErrorSampleRate: 0.1,
+      replaysSessionSampleRate: sentryPolicy.replaysSessionSampleRate,
+      replaysOnErrorSampleRate: sentryPolicy.replaysOnErrorSampleRate,
+      environment: sentryPolicy.environment,
+      beforeSend: prepareSentryEvent,
     });
   }
 

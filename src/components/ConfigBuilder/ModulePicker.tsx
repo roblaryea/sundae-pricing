@@ -12,7 +12,6 @@ import { Check, Zap, TrendingUp, ChevronLeft, Sparkles, Lock } from 'lucide-reac
 import { useConfiguration } from '../../hooks/useConfiguration';
 import {
   conceptSkus,
-  CONCEPT_SKU_IDS,
   corePackages,
   foresightAction,
   modules as coreDomainModules,
@@ -25,7 +24,7 @@ import {
   calculateBandedTotal,
   calculateForesightActionPrice,
 } from '../../lib/pricingEngine';
-import { recommendedConceptSkus } from '../../lib/discoveryEngine';
+import { orderedConceptSkus, recommendedConceptSkus } from '../../lib/discoveryEngine';
 import type { AddOnId } from '../../lib/pricingEngine';
 import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
@@ -54,10 +53,7 @@ export function ModulePicker() {
   // surfaced FIRST and badged. Six unlabelled pathways ask a franchisor to
   // recognise which one is theirs; the answer was collected at question two.
   const recommendedConcepts = recommendedConceptSkus(operatingModels);
-  const orderedConceptIds = [
-    ...CONCEPT_SKU_IDS.filter((id) => recommendedConcepts.includes(id)),
-    ...CONCEPT_SKU_IDS.filter((id) => !recommendedConcepts.includes(id)),
-  ];
+  const orderedConceptIds = orderedConceptSkus(operatingModels);
 
   const handleContinue = () => goToNextStep();
   const handleBack = () => goToPrevStep();

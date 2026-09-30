@@ -18,7 +18,7 @@
  * nothing else — it recommends, it does not silently add paid items.
  */
 
-import { conceptSkus, implementationClasses } from '../data/pricing';
+import { conceptSkus, CONCEPT_SKU_IDS, implementationClasses } from '../data/pricing';
 import type { ConceptSkuId, ImplementationClassId } from '../data/pricing';
 
 export type OperatingModelId =
@@ -93,6 +93,19 @@ export function recommendedConceptSkus(models: OperatingModelId[]): ConceptSkuId
     if (id && conceptSkus[id] && !out.includes(id)) out.push(id);
   }
   return out;
+}
+
+/**
+ * Keep the add-on list deterministic while surfacing pathways matching the
+ * visitor's operating model first. This is deliberately pure so the picker
+ * cannot regress by referencing an inline, conditionally-built list.
+ */
+export function orderedConceptSkus(models: OperatingModelId[]): ConceptSkuId[] {
+  const recommended = new Set(recommendedConceptSkus(models));
+  return [
+    ...CONCEPT_SKU_IDS.filter((id) => recommended.has(id)),
+    ...CONCEPT_SKU_IDS.filter((id) => !recommended.has(id)),
+  ];
 }
 
 export function objectOverlaysFor(models: OperatingModelId[]): ObjectOverlay[] {

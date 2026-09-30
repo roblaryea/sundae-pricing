@@ -4,12 +4,13 @@ import { Layout } from './components/Layout';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { CookieConsent } from './components/CookieConsent';
 import { useLocale } from './contexts/LocaleContext';
+import { importWithRecovery } from './lib/lazyImport';
 
 const PricingOverview = lazy(() =>
-  import('./pages/PricingOverview').then((module) => ({ default: module.PricingOverview })),
+  importWithRecovery(() => import('./pages/PricingOverview'), 'pricing-overview').then((module) => ({ default: module.PricingOverview })),
 );
 const Simulator = lazy(() =>
-  import('./pages/Simulator').then((module) => ({ default: module.Simulator })),
+  importWithRecovery(() => import('./pages/Simulator'), 'simulator').then((module) => ({ default: module.Simulator })),
 );
 
 function RouteFallback() {

@@ -72,7 +72,7 @@ export function getBuyerCopy(locale: PricingLocale): BuyerCopy {
     core: stack.core.tagline, crew: stack.crew.tagline, both: 'Core + Crew',
     coreHint: stack.core.tagline, crewHint: stack.crew.tagline, bothHint: 'Core + Crew',
     refineCta: a.refine, reviewCta: a.review, selected: p.builder.watchtowerToggle.selected,
-    compare: p.summary.whatsIncluded, countryPlaceholder: 'ISO 3166-1: AE',
+    compare: p.summary.whatsIncluded, countryPlaceholder: countryPlaceholders[locale] ?? 'Choose a country',
     setup: q.implementationOneTime, specialists: p.overview.moduleAddonsTitle,
     watchtower: p.builder.watchtowerToggle.title, shareError: a.share, pdfError: p.pdf.failed,
     next: p.summary.readyTitle, nextHint: buyerAuxiliaryCopy[key].intentNote,
@@ -81,6 +81,13 @@ export function getBuyerCopy(locale: PricingLocale): BuyerCopy {
     starterCap: `≤ 5 ${p.quote.locations}`, bands: p.quote.locations, anchor: `1 ${p.summary.locationLabel}`,
   };
 }
+const countryPlaceholders: Partial<Record<PricingLocale, string>> = {
+  de: 'Land auswählen', nl: 'Kies een land', pt: 'Escolha um país', it: 'Seleziona un paese',
+  pl: 'Wybierz kraj', tr: 'Ülke seçin', ro: 'Alege o țară', sv: 'Välj land',
+  'zh-Hans': '选择国家', ja: '国を選択', ko: '국가 선택', id: 'Pilih negara',
+  vi: 'Chọn quốc gia', ms: 'Pilih negara', hi: 'देश चुनें', ur: 'ملک منتخب کریں',
+  bn: 'দেশ বেছে নিন', th: 'เลือกประเทศ',
+};
 const employeeUnits: Partial<Record<PricingLocale, string>> = {
   de:'pro zusätzlichem Mitarbeiter / Monat',nl:'per extra medewerker / maand',pt:'por funcionário adicional / mês',it:'per dipendente aggiuntivo / mese',pl:'za dodatkowego pracownika / miesiąc',tr:'ek çalışan başına / ay',ro:'per angajat suplimentar / lună',sv:'per extra medarbetare / månad',
   'zh-Hans':'每名额外员工 / 月',ja:'追加従業員1名あたり / 月',ko:'추가 직원 1명당 / 월',id:'per karyawan tambahan / bulan',vi:'cho mỗi nhân viên thêm / tháng',ms:'bagi setiap pekerja tambahan / bulan',hi:'प्रति अतिरिक्त कर्मचारी / माह',ur:'فی اضافی ملازم / ماہ',bn:'প্রতি অতিরিক্ত কর্মী / মাস',th:'ต่อพนักงานเพิ่มเติมหนึ่งคน / เดือน',

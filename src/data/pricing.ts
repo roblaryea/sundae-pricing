@@ -1,6 +1,10 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// SUNDAE PRICING DATA — PRICING SITE MIRROR (PRICE BOOK v1.7)
+// SUNDAE PRICING DATA — PRICING SITE MIRROR OF THE LIVE CATALOGUE
 // ═══════════════════════════════════════════════════════════════════════════
+// STATUS 2026-10-08: the live production catalogue is v1.8.2 (active since
+// 2026-08-23). The bands, Crew bundles, 5/12/20 commitment discounts and 20%
+// ceiling below mirror it. Internal version labels are for developers only —
+// never render one to a visitor (the footer no longer carries one).
 // UPDATED: 2026-08-10 — cutover to approved price book v1.7.
 //   • Report Lite/Plus/Pro, Core Lite and Core Pro are RETIRED. They are not
 //     offered anywhere in this app. Their ids survive ONLY in
@@ -190,6 +194,22 @@ export const pricingChangelog: PricingChange[] = [
       'Terminology'
     ],
     notes: 'v5.1: Updated Report Plus to $79, Report Pro to $159, Core Lite to $279, Core Pro to $449. Tier-aware module pricing (Core Lite vs Core Pro). Tier-aware bundle pricing. Updated seat caps with max additional limits. Introduced "Sundae Intelligence" branding ($79 unlock, $399 Intelligence Pro). Replaced "data retention" with "historical access". Added connector setup tiers. Reduced baseIncludesLocations from 5 to 3 for modules. Updated volume discount thresholds.'
+  },
+  {
+    id: 'update-2026-08-23-v1.8',
+    date: '2026-08-23',
+    summary: 'Live catalogue v1.8 (extended band tail, payment-timing discounts)',
+    sectionsTouched: [
+      'Core packages (51+ bands raised, 101-150 and 151-250 published)',
+      'Crew modules and bundles (extended tail bands)',
+      'Billing-cycle discounts (annual 5% quarterly / 12% upfront, two-year 20% upfront)',
+      'Combined discount ceiling (15% -> 20%)'
+    ],
+    notes:
+      'Units 2-50 are unchanged from the prior book. The 51-100 band rose (Foundation 105->115, Margin 145->165, ' +
+      'Growth 155->180, Performance 236->275) and 101-150 / 151-250 bands were published. Commitment discounts now ' +
+      'depend on payment timing and the two-year offer carries a 24-month price lock. Volume and billing-cycle ' +
+      'discounts remain mutually exclusive (the larger applies).'
   },
   {
     id: 'update-2026-08-10-v1.7',
@@ -1848,8 +1868,7 @@ export const competitorPricing = {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const pricingFooter = {
-  effectiveDate: 'August 10, 2026',
-  priceBookVersion: 'v1.7',
+  effectiveDate: 'August 23, 2026',
   currency: 'USD',
   taxNote: 'Taxes (VAT/GST) not included unless stated',
   changeNotice: 'Subject to change with 30-day notice',

@@ -1,5 +1,10 @@
 # Price book v1.8 — implementation handoff
 
+> **STATUS (2026-10-08): SHIPPED.** The live production catalogue is v1.8.2, active since
+> 2026-08-23, and the pricing site mirrors it. This document is retained as the
+> implementation record; the "current state" and "must not be called active" language
+> below is historical. Internal version labels must never be shown to customers.
+
 **For a session working in `sundae-backend`.** Self-contained: every value you
 need is below. Do not re-derive them from the pricing site.
 

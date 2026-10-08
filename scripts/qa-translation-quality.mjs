@@ -10,6 +10,7 @@ const filesToAudit = [
   'src/lib/pricingUiCopy.ts',
   'src/lib/locales.ts',
   'src/lib/buyerCopy.ts',
+  'src/lib/buyerReviewCopy.ts',
   'src/lib/featureHelpCopy.ts',
   'src/lib/buyerAuxiliaryCopy.ts',
   'src/lib/pricingPolicyCopy.ts',

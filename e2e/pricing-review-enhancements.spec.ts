@@ -4,7 +4,8 @@ import { readFileSync } from 'node:fs';
 const fixture = JSON.parse(readFileSync(new URL('../__tests__/fixtures/published-v1.8.2.json', import.meta.url), 'utf8'));
 import { encodePricingIntent, type PricingIntent } from '../src/lib/pricingIntent';
 import { supportedLocales } from '../src/lib/locales';
-import { buyerReviewCopy } from '../src/lib/buyerReviewCopy';
+import { buyerReviewCopy, fillBuyerReviewCopy } from '../src/lib/buyerReviewCopy';
+import { SELF_SERVE_EMPLOYEE_LIMIT } from '../src/lib/pricingIntent';
 
 const base: PricingIntent = { v:2, layer:'core', corePackage:'core_foundation', locations:120, addOns:[], watchtowerModules:[], crewSkus:[], crossIntelligence:'none', billingCycle:'monthly', operatingModels:[], employees:null, payrollCountry:'' };
 test.beforeEach(async ({page}) => {
@@ -147,6 +148,23 @@ test('Crew payroll uses a controlled country list and large workforces route to 
   await page.getByLabel('Unique employees across your locations').fill('100001');
   await expect(page.getByText('Contact Sales',{exact:true}).first()).toBeVisible();
   await expect(page.getByText('For teams above 100,000 employees',{exact:false})).toBeVisible();
+});
+
+test('eligibility and workforce safety notices follow all 25 selected languages', async ({page}) => {
+  await page.setViewportSize({width:375,height:812});
+  await page.goto(`/simulator?cfg=${encodePricingIntent({...base,locations:3,layer:'both',corePackage:'core_margin',crewSkus:['crew_operations','crew_scheduling','crew_tna','crew_payroll'],employees:100001,payrollCountry:'AU'})}`);
+  await page.getByRole('button',{name:/Refine your needs/}).click();
+  for (const locale of supportedLocales) {
+    await page.locator('header select').selectOption(locale);
+    const copy = buyerReviewCopy[locale];
+    await expect(page.locator('.availability-note')).toHaveText(copy.watchtowerAvailability);
+    await expect(page.locator('#payroll-country option[value="AU"]')).toContainText(copy.payrollAvailability);
+    const workforceCount = await page.evaluate((value) => new Intl.NumberFormat(value.locale).format(value.count), { locale, count: SELF_SERVE_EMPLOYEE_LIMIT });
+    await expect(page.locator('.enterprise-panel')).toContainText(fillBuyerReviewCopy(copy.largeWorkforce,{count: workforceCount}));
+    await expect(page.getByTestId('setup-guide')).toContainText('Core + Crew');
+    await expect(page.getByTestId('setup-guide')).not.toContainText('{product}');
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),locale).toBe(true);
+  }
 });
 
 test('header reviews the current plan and Start over removes remembered choices', async ({page}) => {

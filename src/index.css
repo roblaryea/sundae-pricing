@@ -654,9 +654,9 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .buyer-progress button[aria-current=step] span { background:var(--color-sundae-accent); border-color:transparent; color:#15110d; }
 .step-title { margin-bottom:30px; }
 .step-title h1 { font-size:40px; letter-spacing:-.04em; font-weight:500; }
-.refinement-layout { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:32px; align-items:start; }
-.refinement-fields { display:grid; gap:18px; }
-.refine-panel { padding:25px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 22%,transparent); border-radius:18px; background:var(--color-sundae-surface); }
+.refinement-layout { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:32px; align-items:start; min-width:0; }
+.refinement-fields { display:grid; gap:18px; min-width:0; }
+.refine-panel { min-width:0; padding:25px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 22%,transparent); border-radius:18px; background:var(--color-sundae-surface); }
 .refine-panel > p { font-size:12px; line-height:1.65; color:var(--color-sundae-muted); margin-top:12px; }
 .model-options { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
 .model-options button { display:flex; align-items:center; gap:12px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 30%,transparent); border-radius:9px; padding:11px 13px; font-size:12px; min-height:44px; cursor:pointer; }

@@ -6,7 +6,7 @@ import { calculateBandedTotal, calculateBandLines, calculateAiCredits, calculate
 import { calculateBasketQuote } from '../../lib/basketQuote';
 import { useBuyerQuote, useBuyerFormatting } from '../../hooks/useBuyerQuote';
 import { demoUrl } from '../../lib/pricingLinks';
-import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, PAYROLL_COUNTRIES } from '../../lib/pricingIntent';
+import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, PAYROLL_COUNTRIES, SELF_SERVE_EMPLOYEE_LIMIT } from '../../lib/pricingIntent';
 import { localizeTierName, localizeModuleName, localizeBreakdownLabel, localizeWatchtowerName } from '../../lib/pricingI18n';
 import { localizeDiscountLine } from '../../lib/quoteSummaryCopy';
 import { recommendedConceptSkus } from '../../lib/discoveryEngine';
@@ -61,7 +61,7 @@ export function SetupGuide({ compact = false }: { compact?: boolean }) {
     : config.layer === 'both'
       ? 'Core + Crew'
       : selectedCrewPreset?.label ?? 'Crew';
-  const setupIntro = fillBuyerReviewCopy(reviewCopy.setupIntro, { zero: money(implementationClasses.self_service.fee), low: money(implementationClasses.class_a.fee), high: money(implementationClasses.class_c.fee), complex: money(implementationClasses.class_d.fee) }).replace(/Crew Starter/g, setupProduct);
+  const setupIntro = fillBuyerReviewCopy(reviewCopy.setupIntro, { product: setupProduct, zero: money(implementationClasses.self_service.fee), low: money(implementationClasses.class_a.fee), high: money(implementationClasses.class_c.fee), complex: money(implementationClasses.class_d.fee) });
   return <section className={`setup-guide ${compact ? 'is-compact' : ''}`} aria-label={copy.setup} data-testid="setup-guide">
     <h3>{copy.setup}</h3>
     <p>{setupIntro}</p>
@@ -155,7 +155,8 @@ export function PlanChoices() {
 
 export function RefineNeeds() {
   const { state, config, quote, live } = useBuyerQuote();
-  const { copy, messages, locale } = useBuyerFormatting();
+  const { copy, messages, locale, reviewCopy } = useBuyerFormatting();
+  const countryNames = new Intl.DisplayNames(locale, { type: 'region' });
   const discount = useBuyerDiscount();
   const suggestions = recommendedConceptSkus(config.operatingModels);
   // Preserve imported/user-selected extensions even when the model changes.
@@ -169,11 +170,11 @@ export function RefineNeeds() {
       {config.operatingModels.some((id) => ['catering','production'].includes(id)) && <p>{copy.specialist}</p>}
       {packageAllowsWatchtower(config.corePackage) && <ExtensionToggle feature="bundle" name={copy.watchtower} price={calculateWatchtowerPrice(['bundle'],config.locations).total} checked={config.watchtowerModules.includes('bundle')} onChange={() => state.setWatchtowerModules(config.watchtowerModules.includes('bundle') ? [] : ['bundle'])}/>}
       {packageAllowsWatchtower(config.corePackage) && <details className="pricing-disclosure"><summary>Watchtower<ChevronDown size={16}/></summary>{(['competitive','events','trends'] as const).map((id) => <ExtensionToggle key={id} feature={id} name={localizeWatchtowerName(id, locale)} price={calculateWatchtowerPrice([id],config.locations).total} checked={config.watchtowerModules.includes(id) || config.watchtowerModules.includes('bundle')} onChange={() => state.setWatchtowerModules(config.watchtowerModules.includes('bundle') ? ['competitive','events','trends'].filter((m) => m !== id) : config.watchtowerModules.includes(id) ? config.watchtowerModules.filter((m) => m !== id) : [...config.watchtowerModules,id])}/>)}</details>}
-      {!packageAllowsWatchtower(config.corePackage) && <p className="availability-note">Watchtower is available with Growth or Performance.</p>}
+      {!packageAllowsWatchtower(config.corePackage) && <p className="availability-note">{reviewCopy.watchtowerAvailability}</p>}
       <details className="pricing-disclosure"><summary>{messages.summary.crossIntelligencePro}<ChevronDown size={16}/></summary><ExtensionToggle feature="cross_pro" name={messages.summary.crossIntelligencePro} price={crossIntelligence.pro.monthlyFee + Math.max(0,config.locations - crossIntelligence.pro.includedLocations) * crossIntelligence.pro.perLocationPrice} checked={config.crossIntelligence === 'pro'} onChange={() => state.setCrossIntelligence(config.crossIntelligence === 'pro' ? 'none' : 'pro')}/></details>
     </section>}
     {config.layer !== 'core' && <section className="refine-panel"><h2>{copy.crew}</h2><label className="field-label" htmlFor="buyer-employees">{copy.workforce}</label><input id="buyer-employees" type="number" min={0} max={MAX_EMPLOYEE_COUNT} value={config.employees ?? ''} onChange={(e) => state.setEmployees(e.target.value === '' ? null : Number(e.target.value))}/><p>{copy.workforceHint}</p>
-      {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><select id="payroll-country" value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value)}><option value="">{copy.countryPlaceholder}</option>{PAYROLL_COUNTRIES.map((country) => <option key={country.code} value={country.code}>{country.name}{country.supported ? '' : ' · availability to confirm'}</option>)}</select><p>{copy.payrollNote}</p></>}
+      {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><select id="payroll-country" value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value)}><option value="">{copy.countryPlaceholder}</option>{PAYROLL_COUNTRIES.map((country) => <option key={country.code} value={country.code}>{countryNames.of(country.code) ?? country.name}{country.supported ? '' : ` · ${reviewCopy.payrollAvailability}`}</option>)}</select><p>{copy.payrollNote}</p></>}
     </section>}
     <details className="refine-panel pricing-disclosure commitment-panel" data-testid="commitment-details">
       <summary><span><span className="commitment-title">{copy.commitment}</span><small data-testid="selected-term">{copy.terms[INTENT_TERMS.indexOf(config.billingCycle)]}</small>{discount.label && <small className="commitment-discount">{discount.label}</small>}</span><ChevronDown size={18} aria-hidden/></summary>
@@ -198,11 +199,11 @@ function CrewOption({ id }: { id: typeof CREW_SKU_LIST[number] }) {
   return <div className="crew-option"><input id={inputId} type="checkbox" aria-describedby={`${inputId}-price`} checked={config.crewSkus.includes(id)} disabled={included} onChange={() => state.toggleCrewSku(id)}/><label htmlFor={inputId}>{crewSkus[id].name}</label><FeatureHelp feature={id} name={crewSkus[id].name}/><small id={`${inputId}-price`}>{included ? copy.included : quote.enterprise ? copy.scoped : <>{money(discount.net(calculateBandedTotal(crewSkus[id], config.locations)))}{messages.overview.perMonth}</>}</small></div>;
 }
 export function EnterprisePanel() {
-  const { copy, messages, locale } = useBuyerFormatting();
+  const { copy, messages, locale, reviewCopy } = useBuyerFormatting();
   const { config, quote } = useBuyerQuote();
   if(quote.needsCrewSelection) return null;
   const body = quote.employeeLimitExceeded
-    ? 'For teams above 100,000 employees, we will build a tailored plan with you.'
+    ? fillBuyerReviewCopy(reviewCopy.largeWorkforce, { count: new Intl.NumberFormat(locale).format(SELF_SERVE_EMPLOYEE_LIMIT) })
     : copy.enterpriseBody;
   return <div className="enterprise-panel"><div><h2>{copy.enterprise}</h2><p>{body}</p></div><a className="pricing-primary" href={demoUrl(config,locale)} onClick={() => trackPricingEvent('proposal_clicked')}>{messages.overview.contactSales}<ArrowRight size={16}/></a></div>;
 }

@@ -11,6 +11,7 @@ import { getBuyerCopy, formatLocationAverage } from '../src/lib/buyerCopy';
 import { supportedLocales } from '../src/lib/locales';
 import { localizeBreakdownLabel } from '../src/lib/pricingI18n';
 import { localizeDiscountLine, getQuoteSummaryCopy } from '../src/lib/quoteSummaryCopy';
+import { buyerReviewCopy, fillBuyerReviewCopy } from '../src/lib/buyerReviewCopy';
 const config: PricingIntent = { v:2, layer:'core', corePackage:'core_foundation', locations:3, addOns:[],watchtowerModules:[],crewSkus:[],crossIntelligence:'none',billingCycle:'monthly',operatingModels:[],employees:null,payrollCountry:'' };
 const published = fixture as unknown as LiveCatalogResponse;
 
@@ -157,6 +158,20 @@ describe('shared buyer intent', () => {
         expect(copy[key]).toBeTruthy();
         if (locale !== 'en') expect(copy[key], `${locale}.${key}`).not.toBe(en[key]);
       }
+    }
+  });
+  it('keeps plan-specific setup and safety disclosures translated with intact values', () => {
+    for (const locale of supportedLocales) {
+      const copy = buyerReviewCopy[locale];
+      expect(copy.setupIntro).toContain('{product}');
+      expect(copy.largeWorkforce).toContain('{count}');
+      for (const key of ['watchtowerAvailability','payrollAvailability','largeWorkforce'] as const) {
+        expect(copy[key]).toBeTruthy();
+        if (locale !== 'en') expect(copy[key],`${locale}.${key}`).not.toBe(buyerReviewCopy.en[key]);
+      }
+      const setup = fillBuyerReviewCopy(copy.setupIntro,{product:'Crew Operating',zero:'$0',low:'$1,500',high:'$7,500',complex:'$12,500'});
+      expect(setup).toContain('Crew Operating');
+      expect(setup).not.toMatch(/\{\w+\}|Crew Starter/);
     }
   });
   it('uses stable discount keys and localized scope labels in the money lines', () => {

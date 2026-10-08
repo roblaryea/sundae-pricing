@@ -136,3 +136,24 @@ test('business icons match onboarding and selection remains optional and keyboar
   expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations).toEqual([]);
   await page.screenshot({path:'docs/product/pricing/screenshots/business-model-icons.png',fullPage:false});
 });
+
+
+test('mobile theme thumb stays inside its track in English, Arabic and Urdu', async ({page}) => {
+  await page.setViewportSize({width:375,height:812}); await page.goto('/');
+  const toggle=page.getByTestId('theme-toggle');
+  const thumb=page.getByTestId('theme-thumb');
+  for (const locale of ['en','ar','ur']) {
+    await page.locator('header select').selectOption(locale);
+    for (let mode=0;mode<2;mode++) {
+      const before=await toggle.getAttribute('aria-pressed');
+      await toggle.click();
+      await expect(toggle).toHaveAttribute('aria-pressed',before==='true'?'false':'true');
+      await expect.poll(async () => {
+        const track=await toggle.boundingBox(); const knob=await thumb.boundingBox();
+        return !!track && !!knob && knob.x>=track.x && knob.x+knob.width<=track.x+track.width && knob.y>=track.y && knob.y+knob.height<=track.y+track.height;
+      }).toBe(true);
+      await page.getByTestId('location-count').fill('3');
+      await expect(page.getByTestId('decision-total')).toBeVisible();
+    }
+  }
+});

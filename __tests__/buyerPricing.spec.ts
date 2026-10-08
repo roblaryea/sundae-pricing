@@ -103,7 +103,11 @@ describe('shared buyer intent', () => {
     expect(parsePricingIntent({...config, layer:'crew', crewSkus:['crew_operations'], employees:10, payrollCountry:'ZZ'})).toBeNull();
   });
   it('removes Crew-only handoff fields from a Core selection', () => {
-    expect(parsePricingIntent({...config, employees:1000000, payrollCountry:'XX'})).toMatchObject({ employees: null, payrollCountry: '' });
+    const encoded = encodePricingIntent({...config, employees:1000000, payrollCountry:'XX'});
+    const raw = JSON.parse(atob(encoded.replace(/-/g,'+').replace(/_/g,'/')));
+    expect(raw).not.toHaveProperty('employees');
+    expect(raw).not.toHaveProperty('payrollCountry');
+    expect(decodePricingIntent(encoded)).toMatchObject({ employees: null, payrollCountry: '' });
   });
   it('routes very large Crew workforces to a tailored proposal', () => {
     const q = calculateBasketQuote({...config, layer:'crew', crewSkus:['crew_operations'], employees:100001});

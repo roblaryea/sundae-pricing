@@ -127,7 +127,15 @@ export function encodePricingIntent(intent: PricingIntent): string {
   // internal IDs and unknown properties are never copied into a handoff.
   const publicIntent = parsePricingIntent(intent);
   if (!publicIntent) throw new Error('Invalid pricing selection');
-  const bytes = new TextEncoder().encode(JSON.stringify(publicIntent));
+  const payload: Record<string, unknown> = { ...publicIntent };
+  // Employee and payroll fields belong to the Crew rail. Omitting them from a
+  // Core-only link prevents stale browser state from looking like a Crew
+  // selection to downstream demo and onboarding receivers.
+  if (publicIntent.layer === 'core') {
+    delete payload.employees;
+    delete payload.payrollCountry;
+  }
+  const bytes = new TextEncoder().encode(JSON.stringify(payload));
   return btoa(Array.from(bytes, (b) => String.fromCharCode(b)).join('')).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/, '');
 }
 export function decodePricingIntent(raw: string): PricingIntent | null {

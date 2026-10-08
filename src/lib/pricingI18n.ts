@@ -332,7 +332,7 @@ export function localizeModuleName(moduleId: string, locale: PricingLocale): str
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
     generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
     localizedCopy.en;
-  return copy.modules[moduleId] ?? moduleId;
+  return copy.modules[moduleId] ?? (moduleId === 'guest_crm' ? 'Guest CRM Intelligence' : moduleId);
 }
 
 export function localizeWatchtowerName(moduleId: string, locale: PricingLocale): string {
@@ -363,6 +363,7 @@ export function localizeBreakdownLabel(name: string, locale: PricingLocale): str
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
     generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
     localizedCopy.en;
+  if(locale !== 'en') name = name.replace(/\((\d+) locations?\)/g,(_,count:string)=>`(${copy.pdf.locationsLabel}: ${new Intl.NumberFormat(locale).format(Number(count))})`);
   const tierPrefix = Object.keys(copy.tiers).find((tierName) => name.startsWith(tierName));
   if (tierPrefix) {
     return name.replace(tierPrefix, copy.tiers[tierPrefix]);

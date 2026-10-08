@@ -1,53 +1,47 @@
 import { useEffect, useState } from 'react';
-// ── Live catalog overlay (price book v1.7) ────────────────────────────────
-// The published catalog can only patch NUMERIC values on SKUs this app still
-// offers. Under v1.7 that means: the four Core packages (first-unit anchor +
-// marginal bands + AI credit wallet), Foresight & Action, the concept SKUs,
-// and Watchtower. It deliberately can no longer patch the retired
-// report_lite / report_plus / report_pro / core_lite / core_pro ids, nor the
-// per-module prices that v1.7 removed — those SKUs are not sold, so a live
-// value for them would have nothing to price.
-import {
-  conceptSkus,
-  corePackages,
-  foresightAction,
-  watchtower,
-  isRetiredCatalogId,
-} from './pricing';
-import type { BandedSku, ConceptSkuId, CorePackageId, MarginalBand } from './pricing';
+import { conceptSkus, corePackages, foresightAction, watchtower, crewSkus, crewBundles,
+  billingDiscounts, billingTerms, isRetiredCatalogId } from './pricing';
+import type { BandedSku, ModuleId } from './pricing';
+import { trackPricingEvent } from '../lib/analytics';
 
-type LiveCatalogBand = {
-  fromUnit?: number | null;
-  toUnit?: number | null;
-  pricePerUnit?: number | null;
-};
-
-type LiveCatalogPackage = {
+interface CatalogRule { ruleKey: string; ruleValue: Record<string, unknown> }
+interface CatalogRow {
   id: string;
   firstUnitPrice?: number | null;
-  marginalBands?: LiveCatalogBand[] | null;
-  aiCreditWallet?: number | null;
-};
-
-type LiveCatalogConcept = {
-  id: string;
   monthlyPrice?: number | null;
-};
-
-type LiveCatalogWatchtower = {
-  id: string;
   basePrice?: number | null;
-  perLocationPrice?: number | null;
-  baseIncludesLocations?: number | null;
+  orgLicense?: number;
+  perLocationPrice?: number;
+  baseIncludesLocations?: number;
+  locationBands?: [number, number][];
+  marginalBands?: { fromUnit?: number | null; toUnit?: number | null; pricePerUnit?: number | null }[] | null;
+  aiCreditWallet?: number;
+  aiCreditsBase?: number;
+  aiCreditsPerLocation?: number;
+  aiSeatsIncluded?: number;
+  includedModuleIds?: string[];
+  allowsWatchtower?: boolean;
+  isActive?: boolean;
+  isHidden?: boolean;
+  isSellableToCustomer?: boolean;
+  rules?: CatalogRule[];
+}
+export interface CatalogVersion {
+  id: string; versionName: string; effectiveDate: string; isAuthoritative: boolean;
+}
+export interface LiveCatalogResponse {
+  version?: CatalogVersion;
+  tiers?: CatalogRow[]; modules?: CatalogRow[]; bundles?: CatalogRow[];
+  corePackages?: CatalogRow[]; foresightAction?: CatalogRow | null;
+  concepts?: CatalogRow[]; watchtower?: CatalogRow[];
+  discounts?: { billingCycle: string; paymentSchedule: string; discountPercent: string | number; isActive: boolean }[];
+}
+const CONCEPT_KEYS: Record<string, string> = {
+  concept_franchise: 'franchise_intelligence', concept_hotel_fb: 'hotel_fb_analytics',
+  concept_cloud_kitchen: 'cloud_kitchen', concept_catering: 'crew_catering',
+  concept_production: 'crew_production', concept_rental_commissary: 'rental_commissary',
 };
-
-type LiveCatalogResponse = {
-  corePackages?: LiveCatalogPackage[];
-  foresightAction?: LiveCatalogPackage | null;
-  concepts?: LiveCatalogConcept[];
-  watchtower?: LiveCatalogWatchtower[];
-};
-
+const publicRow = (r: CatalogRow) => !isRetiredCatalogId(r.id) && r.isActive !== false && r.isHidden !== true && r.isSellableToCustomer !== false;
 type LivePricingStatus = 'idle' | 'loading' | 'ready' | 'error' | 'disabled';
 
 export interface LivePricingState {
@@ -55,13 +49,14 @@ export interface LivePricingState {
   version: number;
   error: string | null;
   required: boolean;
+  catalog?: CatalogVersion;
 }
 
 const ENV_BASE_URL =
-  import.meta.env.VITE_PRICING_CATALOG_URL ||
-  import.meta.env.VITE_APP_URL ||
+  import.meta.env?.VITE_PRICING_CATALOG_URL ||
+  import.meta.env?.VITE_APP_URL ||
   '';
-const ENV_REQUIRE_LIVE_PRICING = import.meta.env.VITE_REQUIRE_LIVE_PRICING;
+const ENV_REQUIRE_LIVE_PRICING = import.meta.env?.VITE_REQUIRE_LIVE_PRICING;
 
 function trimTrailingSlash(value: string) {
   return value.replace(/\/+$/, '');
@@ -145,22 +140,84 @@ function buildLiveCatalogRequestUrl(url: string) {
   return requestUrl.toString();
 }
 
-export function normalizeLiveCatalogResponse(data: LiveCatalogResponse): {
-  corePackages: LiveCatalogPackage[];
-  foresightAction: LiveCatalogPackage | null;
-  concepts: LiveCatalogConcept[];
-  watchtower: LiveCatalogWatchtower[];
-} {
-  // Retired ids are dropped at the door: nothing downstream should be able to
-  // resurrect a Report tier or Core Lite/Pro by publishing a price for it.
-  const corePackageRows = (data.corePackages ?? []).filter((row) => !isRetiredCatalogId(row.id));
-
+export function normalizeLiveCatalogResponse(data: LiveCatalogResponse) {
+  const modules = (data.modules ?? []).filter(publicRow);
   return {
-    corePackages: corePackageRows,
-    foresightAction: data.foresightAction ?? null,
-    concepts: data.concepts ?? [],
-    watchtower: data.watchtower ?? [],
+    corePackages: data.tiers
+      ? data.tiers.filter(publicRow).filter((r) => `core_${r.id}` in corePackages).map((r) => ({ ...r, id: `core_${r.id}` }))
+      : (data.corePackages ?? []).filter(publicRow),
+    foresightAction: modules.find((r) => r.id === 'foresight') ?? data.foresightAction ?? null,
+    concepts: data.modules ? Object.entries(CONCEPT_KEYS).flatMap(([id, key]) => {
+      const row = modules.find((r) => r.id === key);
+      return row ? [{ ...row, id }] : [];
+    }) : data.concepts ?? [],
+    crew: modules.filter((r) => r.id in crewSkus),
+    bundles: data.bundles ?? [],
+    watchtower: (data.watchtower ?? []).filter(publicRow),
   };
+}
+
+/** Validate the entire response before mutating any runtime SKU. */
+export function catalogCurve(row: CatalogRow): Pick<BandedSku, 'firstUnitPrice' | 'marginalBands'> {
+  const cap = row.rules?.find((r) => r.ruleKey === 'outlet_caps')?.ruleValue.maxLocations;
+  const finiteCap = typeof cap === 'number' && Number.isInteger(cap) && cap > 0 ? cap : null;
+  const anchor = row.firstUnitPrice ?? row.locationBands?.[0]?.[1];
+  if (!Number.isFinite(anchor) || anchor! < 0) throw new Error(`Missing price curve: ${row.id}`);
+  const marginalBands = row.locationBands
+    ? row.locationBands.slice(1).map(([upper, rate], i, all) => ({
+      fromUnit: i === 0 ? 2 : all[i - 1][0] + 1,
+      toUnit: i === all.length - 1 && finiteCap === null ? null : upper,
+      pricePerUnit: rate,
+      label: i === all.length - 1 && finiteCap === null ? `Units ${i === 0 ? 2 : all[i - 1][0] + 1}+` : `Units ${i === 0 ? 2 : all[i - 1][0] + 1}–${upper}`,
+    }))
+    : (row.marginalBands ?? []).map((b) => ({ fromUnit: b.fromUnit!, toUnit: b.toUnit ?? null, pricePerUnit: b.pricePerUnit!, label: `Units ${b.fromUnit}–${b.toUnit ?? '+'}` }));
+  let next = 2;
+  if (!marginalBands.length) throw new Error(`Missing bands: ${row.id}`);
+  marginalBands.forEach((b, i) => {
+    if (b.fromUnit !== next || !Number.isInteger(b.fromUnit) || !Number.isFinite(b.pricePerUnit) || b.pricePerUnit < 0 ||
+      (b.toUnit === null ? i !== marginalBands.length - 1 : !Number.isInteger(b.toUnit) || b.toUnit < b.fromUnit)) {
+      throw new Error(`Invalid price bands: ${row.id}`);
+    }
+    next = (b.toUnit ?? next) + 1;
+  });
+  if (marginalBands.at(-1)?.toUnit !== finiteCap) throw new Error(`Incomplete price bands: ${row.id}`);
+  return { firstUnitPrice: anchor!, marginalBands };
+}
+
+export function validatePublishedCatalog(data: LiveCatalogResponse) {
+  if (!data.version?.isAuthoritative || !data.version.id || !data.version.versionName || !Number.isFinite(Date.parse(data.version.effectiveDate))) {
+    throw new Error('Authoritative catalogue version is missing');
+  }
+  const normalized = normalizeLiveCatalogResponse(data);
+  const groups = [
+    [Object.keys(corePackages), normalized.corePackages], [Object.keys(conceptSkus), normalized.concepts],
+    [Object.keys(crewSkus), normalized.crew], [Object.keys(crewBundles), normalized.bundles],
+  ] as const;
+  for (const [ids, rows] of groups) for (const id of ids) {
+    const row = rows.find((r) => r.id === id);
+    if (!row) throw new Error(`Missing published offer: ${id}`);
+    catalogCurve(row);
+  }
+  if (!normalized.foresightAction) throw new Error('Missing Foresight pricing');
+  catalogCurve(normalized.foresightAction);
+  for (const r of normalized.corePackages) {
+    const allowedDomains = ['labor','inventory','purchasing','marketing','reservations','profit','revenue_assurance','delivery','guest_experience','pulse','guest_crm','foresight'];
+    if (r.includedModuleIds?.some((v) => !allowedDomains.includes(v))) throw new Error(`Unsupported package grant: ${r.id}`);
+    if (!r.includedModuleIds?.length || typeof r.aiCreditsBase !== 'number' || typeof r.aiCreditsPerLocation !== 'number' || typeof r.aiSeatsIncluded !== 'number') throw new Error(`Missing package grants: ${r.id}`);
+  }
+  for (const r of normalized.crew) {
+    const caps = r.rules?.find((rule) => rule.ruleKey === 'outlet_caps')?.ruleValue;
+    if (!caps || typeof caps.maxEmployeesPerLocation !== 'number' || typeof caps.perEmployeeOverageUsd !== 'number') throw new Error(`Missing workforce allowance: ${r.id}`);
+  }
+  for (const id of ['competitive', 'events', 'trends']) {
+    const row = normalized.watchtower.find((r) => r.id === id);
+    if (!row || typeof row.basePrice !== 'number' || typeof row.perLocationPrice !== 'number') throw new Error(`Missing Watchtower pricing: ${id}`);
+  }
+  for (const [cycle, timing] of [['annual', 'quarterly'], ['annual', 'upfront'], ['2year', 'upfront']]) {
+    const d = data.discounts?.find((r) => r.isActive && r.billingCycle === cycle && r.paymentSchedule === timing);
+    if (!d || !Number.isFinite(Number(d.discountPercent)) || Number(d.discountPercent) < 0 || Number(d.discountPercent) > 20) throw new Error('Invalid published commitment policy');
+  }
+  return normalized;
 }
 
 const initialCatalogUrl = resolvePricingCatalogUrl();
@@ -189,95 +246,44 @@ function setState(patch: Partial<LivePricingState>) {
   emit();
 }
 
-function applyLiveBands(sku: BandedSku, live: LiveCatalogPackage | null | undefined) {
-  if (!live) return;
-  if (typeof live.firstUnitPrice === 'number') {
-    sku.firstUnitPrice = live.firstUnitPrice;
+export function applyLiveCatalogValues(data: LiveCatalogResponse) {
+  const n = validatePublishedCatalog(data);
+  for (const [skus, rows] of [[corePackages, n.corePackages], [conceptSkus, n.concepts], [crewSkus, n.crew], [crewBundles, n.bundles]] as const) {
+    for (const [id, sku] of Object.entries(skus)) Object.assign(sku, catalogCurve(rows.find((r) => r.id === id)!));
   }
-  if (Array.isArray(live.marginalBands) && live.marginalBands.length > 0) {
-    const bands: MarginalBand[] = [];
-    for (const row of live.marginalBands) {
-      if (typeof row.fromUnit !== 'number' || typeof row.pricePerUnit !== 'number') continue;
-      const toUnit = typeof row.toUnit === 'number' ? row.toUnit : null;
-      bands.push({
-        fromUnit: row.fromUnit,
-        toUnit,
-        pricePerUnit: row.pricePerUnit,
-        label: toUnit === null ? `Units ${row.fromUnit}+` : `Units ${row.fromUnit}\u2013${toUnit}`,
-      });
-    }
-    if (bands.length > 0) {
-      sku.marginalBands = bands;
-    }
+  Object.assign(foresightAction, catalogCurve(n.foresightAction!));
+  for (const r of n.corePackages) {
+    const pkg = corePackages[r.id as keyof typeof corePackages];
+    pkg.aiCreditWallet = r.aiCreditsBase!;
+    pkg.aiCreditsPerLocation = r.aiCreditsPerLocation!;
+    pkg.seatsIncluded = r.aiSeatsIncluded!;
+    const rule = (key: string) => r.rules?.find((v) => v.ruleKey === key)?.ruleValue.value;
+    const divisor = rule('ai_seats_unit_divisor');
+    const rollover = rule('credit_rollover_cap');
+    if (typeof divisor === 'number' && divisor > 0) pkg.seatsPerLocations = divisor;
+    if (typeof rollover === 'number') pkg.creditRolloverCap = rollover;
+    const aliases: Record<string, string> = { revenue_assurance: 'revenue', guest_experience: 'guest' };
+    const domains = r.includedModuleIds!.filter((v) => v !== 'foresight').map((v) => aliases[v] ?? v);
+    pkg.includesDomainModules = domains as ModuleId[];
+    pkg.includesForesight = r.includedModuleIds!.includes('foresight');
   }
-}
-
-function applyLiveCorePackages(rows: LiveCatalogPackage[]) {
-  if (!rows.length) return;
-  const byId = new Map(rows.map((row) => [row.id, row]));
-
-  for (const packageId of Object.keys(corePackages) as CorePackageId[]) {
-    const live = byId.get(packageId);
-    if (!live) continue;
-    const pkg = corePackages[packageId];
-    applyLiveBands(pkg, live);
-    if (typeof live.aiCreditWallet === 'number') {
-      pkg.aiCreditWallet = live.aiCreditWallet;
-    }
+  for (const r of n.crew) {
+    const caps = r.rules!.find((v) => v.ruleKey === 'outlet_caps')!.ruleValue;
+    const sku = crewSkus[r.id as keyof typeof crewSkus];
+    sku.caps.maxEmployeesPerLocation = caps.maxEmployeesPerLocation as number;
+    sku.caps.perEmployeeOverageUsd = caps.perEmployeeOverageUsd as number;
+    sku.caps.maxLocations = caps.maxLocations as number | null;
   }
-}
-
-function applyLiveForesightAction(live: LiveCatalogPackage | null) {
-  applyLiveBands(foresightAction, live);
-}
-
-function applyLiveConcepts(rows: LiveCatalogConcept[]) {
-  if (!rows.length) return;
-  const byId = new Map(rows.map((row) => [row.id, row]));
-
-  for (const conceptId of Object.keys(conceptSkus) as ConceptSkuId[]) {
-    const live = byId.get(conceptId);
-    if (live && typeof live.monthlyPrice === 'number') {
-      conceptSkus[conceptId].monthlyPrice = live.monthlyPrice;
-    }
+  for (const r of n.watchtower) {
+    if (r.id === 'competitive' || r.id === 'events' || r.id === 'trends') Object.assign(watchtower[r.id], { basePrice: r.basePrice, perLocationPrice: r.perLocationPrice, includedLocations: r.baseIncludesLocations });
   }
-}
-
-function applyLiveWatchtowerValues(liveWatchtower: LiveCatalogWatchtower[]) {
-  if (!liveWatchtower.length) return;
-
-  const byId = new Map(liveWatchtower.map((item) => [item.id, item]));
-
-  for (const [watchtowerId, watchtowerConfig] of Object.entries(watchtower)) {
-    const liveItem = byId.get(watchtowerId);
-    if (!liveItem || 'includes' in watchtowerConfig) continue;
-
-    if (typeof liveItem.basePrice === 'number') {
-      watchtowerConfig.basePrice = liveItem.basePrice;
-    }
-    if (typeof liveItem.perLocationPrice === 'number') {
-      watchtowerConfig.perLocationPrice = liveItem.perLocationPrice;
-    }
-    if (typeof liveItem.baseIncludesLocations === 'number') {
-      watchtowerConfig.includedLocations = liveItem.baseIncludesLocations;
-    }
+  const termKeys = { 'annual_quarterly': ['annual','quarterly'], 'annual_upfront': ['annual','upfront'], 'two_year_upfront': ['2year','upfront'] } as const;
+  for (const [key, [cycle, timing]] of Object.entries(termKeys)) {
+    const k = key as keyof typeof termKeys;
+    billingDiscounts[k] = Number(data.discounts!.find((d) => d.isActive && d.billingCycle === cycle && d.paymentSchedule === timing)!.discountPercent);
+    billingTerms[k].discountPercent = billingDiscounts[k];
   }
-}
-
-function applyLiveCatalogValues(data: LiveCatalogResponse) {
-  const normalized = normalizeLiveCatalogResponse(data);
-  applyLiveCorePackages(normalized.corePackages);
-  applyLiveForesightAction(normalized.foresightAction);
-  applyLiveConcepts(normalized.concepts);
-  applyLiveWatchtowerValues(normalized.watchtower);
-
-  livePricingState = {
-    status: 'ready',
-    version: livePricingState.version + 1,
-    error: null,
-    required: livePricingState.required,
-  };
-  emit();
+  setState({ status: 'ready', version: livePricingState.version + 1, error: null, catalog: data.version });
 }
 
 export async function hydrateLivePricingCatalog(force = false): Promise<void> {
@@ -306,12 +312,14 @@ export async function hydrateLivePricingCatalog(force = false): Promise<void> {
     try {
       const response = await fetch(buildLiveCatalogRequestUrl(url), {
         cache: 'no-store',
+        signal: AbortSignal.timeout(15000),
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
       if (!response.ok) {
+        trackPricingEvent('catalogue_failed', { status: response.status });
         setState({
           status: 'error',
           error: `Live catalog request failed with ${response.status}`,
@@ -323,6 +331,7 @@ export async function hydrateLivePricingCatalog(force = false): Promise<void> {
       const data: LiveCatalogResponse = await response.json();
       applyLiveCatalogValues(data);
     } catch (error) {
+      trackPricingEvent('catalogue_failed');
       setState({
         status: 'error',
         error: error instanceof Error ? error.message : 'Failed to load live catalog',

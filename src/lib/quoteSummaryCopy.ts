@@ -667,3 +667,19 @@ export const quoteSummaryCopy: Record<string, QuoteSummaryCopy> = {
 export function getQuoteSummaryCopy(locale: string): QuoteSummaryCopy {
   return quoteSummaryCopy[locale] ?? quoteSummaryCopy.en;
 }
+
+/** Stable engine keys localize money-line labels across both buyer summaries. */
+export function localizeDiscountLine(
+  discount: { key?: string; percent?: number; name: string }, locale: string, locations: number,
+): string {
+  const copy = getQuoteSummaryCopy(locale);
+  const percent = `${new Intl.NumberFormat(locale).format(discount.percent ?? 0)}%`;
+  switch (discount.key) {
+    case 'volume': return `${copy.volumeLabel.replace('{locations}',new Intl.NumberFormat(locale).format(locations))} — ${percent}`;
+    case 'term': return `${copy.commitmentTerm} — ${percent}`;
+    case 'earlyAdopter': return `${copy.earlyAdopter} — ${percent}`;
+    case 'volumeNotApplied': return copy.volumeNotApplied.replace('{percent}',percent);
+    case 'termNotApplied': return copy.termNotApplied.replace('{percent}',percent);
+    default: return discount.name;
+  }
+}

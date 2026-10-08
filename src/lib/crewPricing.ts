@@ -241,7 +241,7 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
     ]),
     bundleSavingsMonthly: Math.max(0, componentSum - monthly),
     employeeAllowancePerLocation: selectedSkus.length
-      ? Math.min(...selectedSkus.map((id) => crewSkus[id].caps.maxEmployeesPerLocation))
+      ? Math.max(...selectedSkus.map((id) => crewSkus[id].caps.maxEmployeesPerLocation))
       : null,
     isLiteOnly,
     locations: effectiveLocations,

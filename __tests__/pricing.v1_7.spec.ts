@@ -90,7 +90,7 @@ const EXPECTED_PACKAGES = {
   core_foundation: { name: 'Core Foundation', anchor: 1195, bands: [175, 150, 125, 115, 110, 105, 100], wallet: 14000, domains: 4 },
   core_margin: { name: 'Core Margin', anchor: 1650, bands: [245, 210, 175, 165, 155, 145, 140], wallet: 16000, domains: 6 },
   core_growth: { name: 'Core Growth', anchor: 1925, bands: [260, 225, 190, 180, 170, 160, 150], wallet: 18000, domains: 8 },
-  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 275, 255, 245, 230], wallet: 24000, domains: 11 },
+  core_performance: { name: 'Core Performance', anchor: 2980, bands: [409, 348, 290, 275, 255, 245, 230], wallet: 24000, domains: 10 },
 } as const;
 
 describe('Core packages', () => {

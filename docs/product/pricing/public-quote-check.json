@@ -1,0 +1,1211 @@
+{
+  "checkedAt": "2026-10-08T11:17:57.985Z",
+  "catalogue": {
+    "id": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+    "versionName": "v1.8.2",
+    "status": "active",
+    "publishedAt": "2026-08-23T02:06:52.442+00:00",
+    "effectiveDate": "2026-08-23T02:06:52.442+00:00",
+    "isAuthoritative": true
+  },
+  "scope": "Public stateless quote calculation only; no employee/object expansions, tax, provisioning or Stripe execution.",
+  "results": [
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 1545,
+      "status": 200,
+      "backendPeriodRecurring": 1545,
+      "backendMonthly": 1545,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "annual",
+        "paymentSchedule": "quarterly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 1467.75,
+      "status": 200,
+      "backendPeriodRecurring": 17613,
+      "backendMonthly": 1467.75,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "foundation",
+          "name": "Core Foundation",
+          "type": "tier",
+          "basePrice": 1195,
+          "perLocationPrice": 175,
+          "quantity": 3,
+          "subtotal": 1545
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 5,
+          "amount": 927,
+          "recurringAmount": 927,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "annual",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 1359.6,
+      "status": 200,
+      "backendPeriodRecurring": 16315.2,
+      "backendMonthly": 1359.6,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "foundation",
+          "name": "Core Foundation",
+          "type": "tier",
+          "basePrice": 1195,
+          "perLocationPrice": 175,
+          "quantity": 3,
+          "subtotal": 1545
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 12,
+          "amount": 2224.7999999999997,
+          "recurringAmount": 2224.7999999999997,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "2year",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 1236,
+      "status": 200,
+      "backendPeriodRecurring": 29664,
+      "backendMonthly": 1236,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "foundation",
+          "name": "Core Foundation",
+          "type": "tier",
+          "basePrice": 1195,
+          "perLocationPrice": 175,
+          "quantity": 3,
+          "subtotal": 1545
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "2-Year Billing Discount",
+          "percent": 20,
+          "amount": 7416,
+          "recurringAmount": 7416,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "margin",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2140,
+      "status": 200,
+      "backendPeriodRecurring": 2140,
+      "backendMonthly": 2140,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "margin",
+        "billingCycle": "annual",
+        "paymentSchedule": "quarterly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2033,
+      "status": 200,
+      "backendPeriodRecurring": 24396,
+      "backendMonthly": 2033,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "margin",
+          "name": "Core Margin",
+          "type": "tier",
+          "basePrice": 1650,
+          "perLocationPrice": 245,
+          "quantity": 3,
+          "subtotal": 2140
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 5,
+          "amount": 1284,
+          "recurringAmount": 1284,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "margin",
+        "billingCycle": "annual",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 1883.2,
+      "status": 200,
+      "backendPeriodRecurring": 22598.4,
+      "backendMonthly": 1883.2,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "margin",
+          "name": "Core Margin",
+          "type": "tier",
+          "basePrice": 1650,
+          "perLocationPrice": 245,
+          "quantity": 3,
+          "subtotal": 2140
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 12,
+          "amount": 3081.6,
+          "recurringAmount": 3081.6,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "margin",
+        "billingCycle": "2year",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 1712,
+      "status": 200,
+      "backendPeriodRecurring": 41088,
+      "backendMonthly": 1712,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "margin",
+          "name": "Core Margin",
+          "type": "tier",
+          "basePrice": 1650,
+          "perLocationPrice": 245,
+          "quantity": 3,
+          "subtotal": 2140
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "2-Year Billing Discount",
+          "percent": 20,
+          "amount": 10272,
+          "recurringAmount": 10272,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "growth",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2445,
+      "status": 200,
+      "backendPeriodRecurring": 2445,
+      "backendMonthly": 2445,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "growth",
+        "billingCycle": "annual",
+        "paymentSchedule": "quarterly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2322.75,
+      "status": 200,
+      "backendPeriodRecurring": 27873,
+      "backendMonthly": 2322.75,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "growth",
+          "name": "Core Growth",
+          "type": "tier",
+          "basePrice": 1925,
+          "perLocationPrice": 260,
+          "quantity": 3,
+          "subtotal": 2445
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 5,
+          "amount": 1467,
+          "recurringAmount": 1467,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "growth",
+        "billingCycle": "annual",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2151.6,
+      "status": 200,
+      "backendPeriodRecurring": 25819.2,
+      "backendMonthly": 2151.6,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "growth",
+          "name": "Core Growth",
+          "type": "tier",
+          "basePrice": 1925,
+          "perLocationPrice": 260,
+          "quantity": 3,
+          "subtotal": 2445
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 12,
+          "amount": 3520.7999999999997,
+          "recurringAmount": 3520.7999999999997,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "growth",
+        "billingCycle": "2year",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 1956,
+      "status": 200,
+      "backendPeriodRecurring": 46944,
+      "backendMonthly": 1956,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "growth",
+          "name": "Core Growth",
+          "type": "tier",
+          "basePrice": 1925,
+          "perLocationPrice": 260,
+          "quantity": 3,
+          "subtotal": 2445
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "2-Year Billing Discount",
+          "percent": 20,
+          "amount": 11736,
+          "recurringAmount": 11736,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "performance",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 3798,
+      "status": 200,
+      "backendPeriodRecurring": 3798,
+      "backendMonthly": 3798,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 7500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "performance",
+        "billingCycle": "annual",
+        "paymentSchedule": "quarterly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 3608.1,
+      "status": 200,
+      "backendPeriodRecurring": 43297.2,
+      "backendMonthly": 3608.1,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 7500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "performance",
+          "name": "Core Performance",
+          "type": "tier",
+          "basePrice": 2980,
+          "perLocationPrice": 409,
+          "quantity": 3,
+          "subtotal": 3798
+        },
+        {
+          "id": "implementation-c",
+          "name": "Implementation - C - Controlled Complexity",
+          "type": "addon",
+          "basePrice": 7500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 7500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 5,
+          "amount": 2278.8,
+          "recurringAmount": 2278.8,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "performance",
+        "billingCycle": "annual",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 3342.24,
+      "status": 200,
+      "backendPeriodRecurring": 40106.88,
+      "backendMonthly": 3342.24,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 7500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "performance",
+          "name": "Core Performance",
+          "type": "tier",
+          "basePrice": 2980,
+          "perLocationPrice": 409,
+          "quantity": 3,
+          "subtotal": 3798
+        },
+        {
+          "id": "implementation-c",
+          "name": "Implementation - C - Controlled Complexity",
+          "type": "addon",
+          "basePrice": 7500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 7500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 12,
+          "amount": 5469.12,
+          "recurringAmount": 5469.12,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "performance",
+        "billingCycle": "2year",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 3038.4,
+      "status": 200,
+      "backendPeriodRecurring": 72921.6,
+      "backendMonthly": 3038.4,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 7500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "performance",
+          "name": "Core Performance",
+          "type": "tier",
+          "basePrice": 2980,
+          "perLocationPrice": 409,
+          "quantity": 3,
+          "subtotal": 3798
+        },
+        {
+          "id": "implementation-c",
+          "name": "Implementation - C - Controlled Complexity",
+          "type": "addon",
+          "basePrice": 7500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 7500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "billing_cycle",
+          "name": "2-Year Billing Discount",
+          "percent": 20,
+          "amount": 18230.4,
+          "recurringAmount": 18230.4,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "franchise_intelligence"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2290,
+      "status": 200,
+      "backendPeriodRecurring": 2290,
+      "backendMonthly": 2290,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "hotel_fb_analytics"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2110,
+      "status": 200,
+      "backendPeriodRecurring": 2110,
+      "backendMonthly": 2110,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "cloud_kitchen"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2078,
+      "status": 200,
+      "backendPeriodRecurring": 2078,
+      "backendMonthly": 2078,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "foresight"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2170,
+      "status": 200,
+      "backendPeriodRecurring": 2170,
+      "backendMonthly": 2170,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "no_tier",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "crew_operations",
+          "crew_scheduling",
+          "crew_tna",
+          "crew_payroll"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 697,
+      "status": 200,
+      "backendPeriodRecurring": 697,
+      "backendMonthly": 697,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 8299,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "crew_operations",
+          "crew_scheduling",
+          "crew_tna",
+          "crew_payroll"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 2242,
+      "status": 200,
+      "backendPeriodRecurring": 2242,
+      "backendMonthly": 2242,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 8299,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "no_tier",
+        "billingCycle": "annual",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "crew_operations",
+          "crew_scheduling",
+          "crew_tna",
+          "crew_payroll"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 613.36,
+      "status": 200,
+      "backendPeriodRecurring": 7360.32,
+      "backendMonthly": 613.36,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 8299,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "crew_suite_bundle",
+          "name": "Crew Operating",
+          "type": "bundle",
+          "basePrice": 499,
+          "perLocationPrice": 99,
+          "quantity": 1,
+          "subtotal": 697
+        },
+        {
+          "id": "setup-crew_suite_bundle",
+          "name": "Crew Operating Setup Fee",
+          "type": "addon",
+          "basePrice": 799,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 799,
+          "isOneTime": true
+        },
+        {
+          "id": "implementation-c",
+          "name": "Implementation - C - Controlled Complexity",
+          "type": "addon",
+          "basePrice": 7500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 7500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "module_bundle",
+          "name": "Crew Operating Bundle Savings",
+          "percent": 20.9,
+          "amount": 2208,
+          "appliedTo": [
+            {
+              "lineItemId": "crew_operations",
+              "lineItemName": "Crew — Operations",
+              "discountAmount": 1395.98
+            },
+            {
+              "lineItemId": "crew_tna",
+              "lineItemName": "Crew — Time & Attendance",
+              "discountAmount": 343.36
+            },
+            {
+              "lineItemId": "crew_payroll",
+              "lineItemName": "Crew — Payroll",
+              "discountAmount": 468.67
+            }
+          ],
+          "isInformational": true
+        },
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 12,
+          "amount": 1003.68,
+          "recurringAmount": 1003.68,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "annual",
+        "paymentSchedule": "upfront",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "crew_operations",
+          "crew_scheduling",
+          "crew_tna",
+          "crew_payroll"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 1972.96,
+      "status": 200,
+      "backendPeriodRecurring": 23675.52,
+      "backendMonthly": 1972.96,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 8299,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "foundation",
+          "name": "Core Foundation",
+          "type": "tier",
+          "basePrice": 1195,
+          "perLocationPrice": 175,
+          "quantity": 3,
+          "subtotal": 1545
+        },
+        {
+          "id": "crew_suite_bundle",
+          "name": "Crew Operating",
+          "type": "bundle",
+          "basePrice": 499,
+          "perLocationPrice": 99,
+          "quantity": 1,
+          "subtotal": 697
+        },
+        {
+          "id": "setup-crew_suite_bundle",
+          "name": "Crew Operating Setup Fee",
+          "type": "addon",
+          "basePrice": 799,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 799,
+          "isOneTime": true
+        },
+        {
+          "id": "implementation-c",
+          "name": "Implementation - C - Controlled Complexity",
+          "type": "addon",
+          "basePrice": 7500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 7500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "module_bundle",
+          "name": "Crew Operating Bundle Savings",
+          "percent": 20.9,
+          "amount": 2208,
+          "appliedTo": [
+            {
+              "lineItemId": "crew_operations",
+              "lineItemName": "Crew — Operations",
+              "discountAmount": 1395.98
+            },
+            {
+              "lineItemId": "crew_tna",
+              "lineItemName": "Crew — Time & Attendance",
+              "discountAmount": 343.36
+            },
+            {
+              "lineItemId": "crew_payroll",
+              "lineItemName": "Crew — Payroll",
+              "discountAmount": 468.67
+            }
+          ],
+          "isInformational": true
+        },
+        {
+          "type": "billing_cycle",
+          "name": "Annual Billing Discount",
+          "percent": 12,
+          "amount": 3228.48,
+          "recurringAmount": 3228.48,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "no_tier",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "crew_lite"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 137,
+      "status": 200,
+      "backendPeriodRecurring": 137,
+      "backendMonthly": 137,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 0,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "no_tier",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [
+          "crew_scheduling",
+          "crew_tna"
+        ],
+        "watchtowerIds": []
+      },
+      "localRecurring": 347,
+      "status": 200,
+      "backendPeriodRecurring": 347,
+      "backendMonthly": 347,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 1999,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "growth",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": [
+          "events"
+        ]
+      },
+      "localRecurring": 2772,
+      "status": 200,
+      "backendPeriodRecurring": 2772,
+      "backendMonthly": 2772,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "growth",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 3,
+        "moduleIds": [],
+        "watchtowerIds": [
+          "competitive",
+          "events",
+          "trends"
+        ]
+      },
+      "localRecurring": 3562,
+      "status": 200,
+      "backendPeriodRecurring": 3360.94,
+      "backendMonthly": 3360.94,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": false,
+      "lineItems": [
+        {
+          "id": "growth",
+          "name": "Core Growth",
+          "type": "tier",
+          "basePrice": 1925,
+          "perLocationPrice": 260,
+          "quantity": 3,
+          "subtotal": 2445
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        },
+        {
+          "id": "watchtower_bundle",
+          "name": "Watchtower Complete Bundle",
+          "type": "bundle",
+          "basePrice": 899,
+          "perLocationPrice": 109,
+          "quantity": 3,
+          "subtotal": 1117
+        }
+      ],
+      "discounts": [
+        {
+          "type": "watchtower_bundle",
+          "name": "Complete Bundle Discount",
+          "percent": 18,
+          "amount": 201.06,
+          "recurringAmount": 201.06,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 50,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 7941.38,
+      "status": 200,
+      "backendPeriodRecurring": 7941.375,
+      "backendMonthly": 7941.38,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true,
+      "lineItems": [
+        {
+          "id": "foundation",
+          "name": "Core Foundation",
+          "type": "tier",
+          "basePrice": 1195,
+          "perLocationPrice": 175,
+          "quantity": 50,
+          "subtotal": 8145
+        },
+        {
+          "id": "implementation-b",
+          "name": "Implementation - B - Standard Launch",
+          "type": "addon",
+          "basePrice": 2500,
+          "perLocationPrice": 0,
+          "quantity": 1,
+          "subtotal": 2500,
+          "isOneTime": true
+        }
+      ],
+      "discounts": [
+        {
+          "type": "volume",
+          "name": "Volume Discount (50 locations)",
+          "percent": 2.5,
+          "amount": 203.625,
+          "recurringAmount": 203.625,
+          "oneTimeAmount": 0
+        }
+      ]
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 100,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 13200.25,
+      "status": 200,
+      "backendPeriodRecurring": 13200.25,
+      "backendMonthly": 13200.25,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 200,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 22919.85,
+      "status": 200,
+      "backendPeriodRecurring": 22919.85,
+      "backendMonthly": 22919.85,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    },
+    {
+      "selection": {
+        "tierId": "foundation",
+        "billingCycle": "monthly",
+        "paymentSchedule": "monthly",
+        "licensedOperatingUnitsCount": 249,
+        "moduleIds": [],
+        "watchtowerIds": []
+      },
+      "localRecurring": 27704.7,
+      "status": 200,
+      "backendPeriodRecurring": 27704.7,
+      "backendMonthly": 27704.7,
+      "catalogue": "v1.8.2",
+      "catalogueId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "backendOneTime": 2500,
+      "match": true
+    }
+  ]
+}

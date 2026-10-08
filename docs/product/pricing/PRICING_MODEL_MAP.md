@@ -1,211 +1,58 @@
-# Sundae Pricing Model Map
+# Sundae pricing model map
 
-> **Single source of truth:** `src/data/pricing.ts`
->
-> This document is a human-readable reference derived from the canonical pricing configuration. Any discrepancies should be resolved in favor of the source file.
+> **Last verified:** 2026-09-18
+> **Candidate model:** `src/data/pricing.ts`
+> **Runtime commercial authority:** published backend database catalogue
 
----
+This map describes the v1.8 candidate implemented in the pricing site. It does not assert that v1.8 is active in production.
 
-## Table of Contents
+## Core packages
 
-1. [Report Tiers](#1-report-tiers)
-2. [Core Tiers](#2-core-tiers)
-3. [Modules (Core Tier Only)](#3-modules-core-tier-only)
-4. [Watchtower Add-Ons (Core Tier Only)](#4-watchtower-add-ons-core-tier-only)
-5. [Client Types & Volume Discounts](#5-client-types--volume-discounts)
-6. [Early Adopter Program](#6-early-adopter-program)
-7. [Enterprise Pricing](#7-enterprise-pricing)
-8. [Glossary](#8-glossary)
+Core uses a first-unit anchor plus marginal location bands. Reaching a lower band never reprices earlier units.
 
----
+| Package | First unit | Marginal rates for units 2–10 / 11–25 / 26–50 / 51–100 / 101–150 / 151–250 / 251+ |
+|---|---:|---|
+| Foundation | $1,195 | $175 / $150 / $125 / $115 / $110 / $105 / $100 |
+| Margin | $1,650 | $245 / $210 / $175 / $165 / $155 / $145 / $140 |
+| Growth | $1,925 | $260 / $225 / $190 / $180 / $170 / $160 / $150 |
+| Performance | $2,980 | $409 / $348 / $290 / $275 / $255 / $245 / $230 |
 
-## 1. Report Tiers
+The packages grant different domain sets. Margin and Growth are a cost-side/demand-side fork, not a simple upgrade ladder. The package-grant tests are the executable contract.
 
-### Pricing & AI Credits
+## Other catalogue families
 
-| Attribute | Report Lite | Report Plus | Report Pro |
-|---|---|---|---|
-| **Base Price** | FREE ($0) | $49/mo | $99/mo |
-| **Additional Location Price** | $0/location | $29/location | $49/location |
-| **Base AI Credits** | 40 | 150 | 400 |
-| **AI Credits per Location** | 8 | 30 | 80 |
-| **AI Seats** | 1 | 3 | 5 |
+- Foresight & Action: $495 first unit with $65 / $55 / $45 / $35 marginal bands.
+- Concept extensions: franchise, hotel F&B, cloud kitchen, catering, production and rental commissary. They are banded; the retained `monthlyPrice` field is only a first-unit compatibility alias.
+- Crew individual SKUs: Starter, Schedule, Manage, Time, Pay and People.
+- Crew named-net bundles: Schedule & Time, Crew Operating and Crew Complete. Bundle prices are inputs, not a percentage derived from components.
+- Watchtower: Competitive Intelligence, Event & Calendar Signals, Market Trends and a bundle.
+- Implementation: charged once at the highest applicable class. Unknown per-SKU assignments remain contract-scoped rather than invented.
 
-### Benchmarking & Data
+## Discounts and sales boundary
 
-| Attribute | Report Lite | Report Plus | Report Pro |
-|---|---|---|---|
-| **Benchmark Metrics** | 5 | 15 | 30 |
-| **Radius** | 1 km (locked) | 1-2 km (adjustable) | 1-3 km (adjustable) |
-| **Segment Filters** | "All restaurants" only | 1 simultaneous filter | 2 simultaneous filters |
-| **Visuals** | 20 | 50 | 120 |
-
-### Operations & Support
-
-| Attribute | Report Lite | Report Plus | Report Pro |
-|---|---|---|---|
-| **Data Upload** | Manual CSV | AI-parsed upload | API integration |
-| **Data Retention** | 90 days | 1 year | 2 years |
-| **Refresh Cadence** | Manual | Daily (EOD) | Fully automated |
-| **Support Channels** | Email only | Email + Chat | Email + Chat |
-| **Support SLA** | 72 hours | 24 hours | 12 hours |
-| **Credit Rollover** | None | 25% (max 50) | 25% (max 100) |
-
----
-
-## 2. Core Tiers
-
-### Pricing & AI Credits
-
-| Attribute | Core Lite | Core Pro | Enterprise |
-|---|---|---|---|
-| **Base Price** | $169/mo | $319/mo | Custom |
-| **Additional Location Price** | $54/location | $49/location | Custom |
-| **Base AI Credits** | 800 | 1,400 | Unlimited |
-| **AI Credits per Location** | 160 | 280 | Unlimited |
-| **AI Seats** | 10 | 20 | Unlimited |
-
-### Benchmarking & Data
-
-| Attribute | Core Lite | Core Pro | Enterprise |
-|---|---|---|---|
-| **Benchmark Metrics** | 30+ | 30+ | 30+ |
-| **Radius** | 1-5 km | 0.5-10 km | Custom geography |
-| **Visuals** | 200 | 200 | 200 |
-| **POS Integration** | Real-time POS API | Real-time POS API | Real-time POS API |
-| **POS Systems** | 1 POS system | Unlimited (multi-POS) | Custom |
-| **Data Retention** | 2 years | 3 years | 5+ years |
-
-### Operations & Support
-
-| Attribute | Core Lite | Core Pro | Enterprise |
-|---|---|---|---|
-| **Refresh Cadence** | 4-hour refresh | 2-hour refresh | Custom refresh |
-| **Support Channels** | Email + Chat + Phone | Email + Chat + Phone | Dedicated CSM 24/7 |
-| **Support SLA** | 4 hours | 2 hours (priority) | 15 minutes |
-| **Credit Rollover** | 25% (max 200) | 25% (max 350) | Unlimited |
-
-### Advanced Features
-
-| Attribute | Core Lite | Core Pro | Enterprise |
-|---|---|---|---|
-| **Custom Dashboards** | 30 | 75 | Unlimited |
-| **Custom KPIs** | 0 | 10 | Unlimited |
-| **Predictive Horizon** | 14 days | 30 days | Custom horizon |
-
----
-
-## 3. Modules (Core Tier Only)
-
-Modules are available exclusively to Core tier subscribers. Each module is licensed at the organization level with a flat monthly fee, and includes 5 locations. Additional locations beyond the included 5 are charged per-location.
-
-### Established Modules
-
-| Module | Org License Price | Included Locations | Extra Location Price |
-|---|---|---|---|
-| **Labor** | $139/mo | 5 | $19/location |
-| **Inventory** | $139/mo | 5 | $19/location |
-| **Purchasing** | $119/mo | 5 | $15/location |
-| **Marketing** | $169/mo | 5 | $25/location |
-| **Reservations** | $119/mo | 5 | $15/location |
-
-### New Modules
-
-| Module | Category | Org License Price | Included Locations | Extra Location Price |
-|---|---|---|---|---|
-| **Profit** (NEW) | Super Premium | $199/mo | 5 | $29/location |
-| **Revenue** (NEW) | Protection | $99/mo | 5 | $12/location |
-| **Delivery** (NEW) | Channel | $129/mo | 5 | $17/location |
-| **Guest** (NEW) | Insight | $89/mo | 5 | $10/location |
-
----
-
-## 4. Watchtower Add-Ons (Core Tier Only)
-
-Watchtower add-ons are available exclusively to Core tier subscribers. Each includes a base price with 1 location included, plus per-location pricing for additional locations.
-
-| Watchtower | Base Price | Included Locations | Extra Location Price |
-|---|---|---|---|
-| **Competitive** | $399/mo | 1 | $49/location |
-| **Events** | $199/mo | 1 | $29/location |
-| **Trends** | $249/mo | 1 | $19/location |
-
-### Watchtower Bundle
-
-| Attribute | Individual Total | Bundle Price | Savings |
-|---|---|---|---|
-| **Base Price** | $847/mo | $720/mo | $127/mo (15%) |
-| **Per-Location Price** | $97/location | $82/location | $15/location (15%) |
-| **Included Locations** | 1 | 1 | -- |
-
----
-
-## 5. Client Types & Volume Discounts
-
-Client type determines the discount tier applied to the overall subscription.
-
-| Client Type | Location Count | Discount | Notes |
-|---|---|---|---|
-| **Independent** | 1-2 | 0% | Standard pricing |
-| **Growth** | 3-24 | 10% | -- |
-| **Multi-site** | 25-29 | 15% | -- |
-| **Enterprise** | 30+ | Custom | See Enterprise Pricing below |
-| **Franchise** | Any | Enterprise pricing | Custom regardless of count |
-
----
-
-## 6. Early Adopter Program
-
-| Attribute | Value |
+| Rule | Candidate value |
 |---|---|
-| **Discount** | 20% |
-| **Price Lock** | 24 months |
-| **Trial Period** | 30 days |
-| **Bonus AI Credits** | 500 |
+| Volume, 1–49 | 0% |
+| Volume, 50–99 | 2.5% |
+| Volume, 100–199 | 5% |
+| Volume, 200–249 | 7% |
+| 250+ | Enterprise approval; no self-serve quote |
+| Monthly | 0% |
+| Annual, paid quarterly | 5% |
+| Annual, paid upfront | 12% |
+| Two years, paid upfront | 20% plus 24-month price lock |
 
----
+The larger of the volume or cadence discount applies; they do not stack. Early-adopter concessions share the 20% calculated-discount ceiling.
 
-## 7. Enterprise Pricing
+## v1.8-only candidate behavior
 
-### Volume-Based Flat Rate
+- Core and full Crew offers have extended marginal tails beyond 50 locations.
+- Anchor relief is a per-customer, first-unit-only schedule; it is not a global list-price reduction.
+- Existing 51–250-location customer treatment is unresolved. Do not call v1.8 active until the backend catalogue, Stripe mapping and renewal policy are approved.
 
-| Location Count | Monthly Price |
-|---|---|
-| 30-50 | $7,500/mo |
-| 51-100 | $12,000/mo |
-| 101-200 | $20,000/mo |
-| 201+ | Custom |
+## Verification sources
 
-### Org License Structure
-
-| Attribute | Value |
-|---|---|
-| **Base Fee** | $2,500/mo |
-
-#### Tiered Per-Location Pricing
-
-| Location Tier | Per-Location Price |
-|---|---|
-| 1-10 | $99/location |
-| 11-30 | $79/location |
-| 31-50 | $59/location |
-| 51+ | $49/location |
-
----
-
-## 8. Glossary
-
-| Term | Definition |
-|---|---|
-| **basePrice** | Monthly price for 1 location (first location is included in the base price). |
-| **additionalLocationPrice** | Price per additional location starting from location #2. |
-| **aiCredits** | Currency for AI interactions. A standard chat interaction costs 1 credit; a chat with visual generation costs 2 credits. |
-| **orgLicensePrice** | Flat monthly fee per module at the organization level. |
-| **includedLocations** | Number of locations included in the org license before per-location pricing applies. |
-| **visuals** | Number of dashboard visualizations and charts available within the tier. |
-| **segmentFilters** | Ability to filter benchmarking data by restaurant type or category. |
-| **rolloverPolicy** | Policy governing unused AI credits carrying over to the next billing month. Expressed as a percentage cap with a maximum absolute value. |
-
----
-
-*Last updated: 2026-02-17*
+- `scripts/validate-pricing.ts` pins the candidate price matrix.
+- `__tests__/pricing.v1_7.spec.ts` retains v1.7 structural/grant invariants that v1.8 did not change.
+- `__tests__/anchorRelief.spec.ts`, `__tests__/conceptBands.spec.ts` and the Crew suites cover the new candidate mechanics.
+- `src/data/livePricing.ts` defines the current published-catalogue overlay boundary.

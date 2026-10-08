@@ -10,7 +10,7 @@ The `scripts/release_notes.ts` script fetches merged PRs from GitHub and compile
 
 - **GitHub CLI (`gh`)** must be installed and authenticated
 - The repository must have a GitHub remote configured
-- PRs should be merged into the `develop` branch
+- PRs should be merged into the repository default branch, currently `main`
 
 ## How to Run
 
@@ -34,7 +34,7 @@ npm run pricing:audit:full
 
 The script runs:
 ```bash
-gh pr list --base develop --state merged --json number,title,mergedAt,labels,url
+gh pr list --base main --state merged --json number,title,mergedAt,labels,url
 ```
 
 PRs are sorted by `mergedAt` ascending (oldest first).

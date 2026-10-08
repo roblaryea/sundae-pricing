@@ -45,7 +45,7 @@ describe("the grant counts are stated truthfully", () => {
     expect(PACKAGE_DOMAIN_GRANTS.core_margin).toHaveLength(6);
     expect(PACKAGE_DOMAIN_GRANTS.core_growth).toHaveLength(8);
     expect(PACKAGE_DOMAIN_GRANTS.core_performance).toHaveLength(
-      CORE_DOMAIN_MODULE_IDS.length,
+      CORE_DOMAIN_MODULE_IDS.length - 1,
     );
   });
 

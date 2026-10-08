@@ -1,5 +1,7 @@
 # Entitlements Alignment Audit
 
+> **Historical snapshot (pre-v1.7).** The Report/Core tier model below is retired. Use `PRICING_CONTEXT_PACK.md` and current executable tests for present-state guidance.
+
 > Validates that the pricing model's claims about features, limits, and entitlements are consistently enforced in the codebase.
 
 ## Architecture Note

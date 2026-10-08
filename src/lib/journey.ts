@@ -41,34 +41,10 @@ export type JourneyStepId = (typeof JOURNEY_STEP_IDS)[number];
 /** The pathway a visitor is on. `null` before they have chosen one. */
 export type JourneyLayer = 'core' | 'crew' | 'both' | null;
 
-const CORE_JOURNEY: JourneyStepId[] = [
-  'persona',
-  'layer',
-  'tier',
-  'addons',
-  'watchtower',
-  'roi',
-  'summary',
-];
-
-/** Crew collapses SKUs, estate and price preview into its single builder. */
-const CREW_JOURNEY: JourneyStepId[] = ['persona', 'layer', 'crew', 'summary'];
-
-/**
- * Both rails. Estate first because it prices both; Core then Crew adjacent;
- * the value case last because it evaluates the whole basket.
- */
-const BOTH_JOURNEY: JourneyStepId[] = [
-  'persona',
-  'layer',
-  'estate',
-  'tier',
-  'addons',
-  'watchtower',
-  'crew',
-  'roi',
-  'summary',
-];
+// The primary buyer journey has three screens. ROI remains optional after review.
+const CORE_JOURNEY: JourneyStepId[] = ['tier', 'addons', 'summary'];
+const CREW_JOURNEY = CORE_JOURNEY;
+const BOTH_JOURNEY = CORE_JOURNEY;
 
 /** The ordered steps for a pathway. Before a layer is chosen, Core's shape. */
 export function journeyFor(layer: JourneyLayer): JourneyStepId[] {

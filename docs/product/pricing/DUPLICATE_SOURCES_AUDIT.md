@@ -1,5 +1,7 @@
 # Duplicate Sources of Truth Audit
 
+> **Historical snapshot (pre-v1.7).** The tier names, prices and source-of-truth claim below are superseded. Use `PRICING_CONTEXT_PACK.md`, `PRICING_MODEL_MAP.md` and the published backend catalogue authority for current work.
+
 > Identifies all locations where pricing values are defined outside the canonical source (`src/data/pricing.ts`) and whether they should be refactored.
 
 ## Canonical Source

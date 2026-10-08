@@ -15,7 +15,8 @@ import type { Configuration as EngineConfig } from '../lib/pricingEngine';
 import type { PriceBreakdown, PriceCalculation, CrossIntelligenceSelection } from '../types/configuration';
 import { useLivePricingCatalog } from '../data/livePricing';
 import { useLocale } from '../contexts/LocaleContext';
-import { localizeBreakdownLabel, localizeDiscountName, type PricingLocale } from '../lib/pricingI18n';
+import { localizeBreakdownLabel, type PricingLocale } from '../lib/pricingI18n';
+import { localizeDiscountLine } from '../lib/quoteSummaryCopy';
 
 // Re-export for backward compatibility
 export type { PriceBreakdown, PriceCalculation };
@@ -84,7 +85,7 @@ export function usePriceCalculation(
 
       if (item.item.includes('Cross-Intelligence')) {
         category = 'cross_intelligence';
-      } else if (item.item.includes('Watchtower')) {
+      } else if (item.watchtowerModuleId || item.item.includes('Watchtower')) {
         category = 'watchtower';
       } else if (!item.item.startsWith('Core ')) {
         category = 'addon';
@@ -101,7 +102,7 @@ export function usePriceCalculation(
 
     const discounts = result.discountsApplied.map((discount) => ({
       ...discount,
-      name: localizeDiscountName(discount.name, locale as PricingLocale),
+      name: localizeDiscountLine(discount, locale, locations),
     }));
 
     // Tenzo prices per module per location, but only sells three of the eleven

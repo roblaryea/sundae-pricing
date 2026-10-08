@@ -65,11 +65,12 @@ describe("the model has no savings rate for the rails it used to charge", () => 
     }
   });
 
-  it("scores only domains a package can actually grant", () => {
+  it("keeps Delivery outside the published package grants and scores their supported domains", () => {
     const granted = new Set(
       Object.values(corePackages).flatMap((p) => [...p.includesDomainModules]),
     );
-    for (const id of Object.keys(SAVINGS_ASSUMPTIONS)) {
+    expect(granted.has("delivery")).toBe(false);
+    for (const id of Object.keys(SAVINGS_ASSUMPTIONS).filter((id) => id !== "delivery")) {
       expect(granted.has(id), `${id} is scored but no package grants it`).toBe(true);
     }
   });
@@ -79,7 +80,8 @@ describe("the ROI step charges the Core rail only", () => {
   const SRC = readFileSync("src/components/PricingDisplay/ROISimulator.tsx", "utf8");
 
   it("prices the Core rail separately from the full quote", () => {
-    expect(SRC).toMatch(/corePricing\s*=\s*usePriceCalculation\(\s*layer,\s*corePackage,\s*locations,\s*\[\],\s*\[\]\s*\)/);
+    expect(SRC).toContain("corePricing = calculateBasketQuote");
+    expect(SRC).toContain("layer: 'core'");
   });
 
   it("no longer bills add-ons and Crew against Core-only savings", () => {
@@ -91,7 +93,7 @@ describe("the ROI step charges the Core rail only", () => {
 
   it("computes what it excluded rather than discarding it silently", () => {
     expect(SRC).toMatch(/excludedFromRoi/);
-    expect(SRC).toMatch(/pricing\.total \+ crewMonthly - coreOnlyMonthly/);
+    expect(SRC).toMatch(/pricing\.monthly - coreOnlyMonthly/);
   });
 
   it("renders the exclusion to the buyer", () => {

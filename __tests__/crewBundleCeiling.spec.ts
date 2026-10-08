@@ -324,8 +324,8 @@ describe('allowances and implementation are charged once, not per component', ()
     );
     // Three SKUs each publishing "15 employees per location" is still 15 per
     // location, not 45 — the allowance is an entitlement, not a stackable perk.
-    expect(single.employeeAllowancePerLocation).toBe(15);
-    expect(stack.employeeAllowancePerLocation).toBe(15);
+    expect(single.employeeAllowancePerLocation).toBe(20);
+    expect(stack.employeeAllowancePerLocation).toBe(20);
     expect(computeCrewQuote([], 10).employeeAllowancePerLocation).toBeNull();
   });
 

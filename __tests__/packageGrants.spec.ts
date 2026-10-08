@@ -29,11 +29,11 @@ import {
 const ORDER = ["core_foundation", "core_margin", "core_growth", "core_performance"] as const;
 
 describe("package domain grants", () => {
-  it("matches the canonical counts: 4 / 6 / 8 / 11", () => {
+  it("matches the canonical counts: 4 / 6 / 8 / 10 plus Foresight", () => {
     expect(PACKAGE_DOMAIN_GRANTS.core_foundation).toHaveLength(4);
     expect(PACKAGE_DOMAIN_GRANTS.core_margin).toHaveLength(6);
     expect(PACKAGE_DOMAIN_GRANTS.core_growth).toHaveLength(8);
-    expect(PACKAGE_DOMAIN_GRANTS.core_performance).toHaveLength(CORE_DOMAIN_MODULE_IDS.length);
+    expect(PACKAGE_DOMAIN_GRANTS.core_performance).toHaveLength(CORE_DOMAIN_MODULE_IDS.length - 1);
   });
 
   it("gives the four packages DIFFERENT coverage — otherwise the ladder is irrational", () => {
@@ -86,10 +86,10 @@ describe("package domain grants", () => {
     expect(growth).toContain("guest_crm");
   });
 
-  it("only Performance grants everything", () => {
+  it("Performance combines the cost and demand domains, plus Foresight", () => {
     for (const id of ORDER) {
       const isFull =
-        corePackages[id].includesDomainModules.length === CORE_DOMAIN_MODULE_IDS.length;
+        corePackages[id].includesDomainModules.length === CORE_DOMAIN_MODULE_IDS.length - 1;
       expect(isFull).toBe(id === "core_performance");
     }
   });

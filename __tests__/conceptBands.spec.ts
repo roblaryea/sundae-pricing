@@ -124,7 +124,7 @@ describe("Watchtower gate", () => {
       watchtower: ['competitive'],
       clientProfile: { type: 'independent', isEarlyAdopter: false, isFranchise: false, brandCount: 1 },
     });
-    const line = quote.breakdown.find((b) => b.item.includes('Watchtower'));
+    const line = quote.breakdown.find((b) => b.watchtowerModuleId === 'competitive');
     expect(line?.price).toBeGreaterThan(0);
   });
 

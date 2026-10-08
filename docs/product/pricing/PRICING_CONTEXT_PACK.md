@@ -1,133 +1,60 @@
-# Pricing Context Pack
+# Pricing context pack
 
-> Read this first to understand Sundae pricing, its dependencies, and how to safely make changes.
+> **Last verified:** 2026-09-18
+> **Repository:** `sundae-pricing`
+> **Status:** v1.8 candidate UI; published backend catalogue remains the runtime commercial authority
 
-## Architecture Overview
+## Read this first
 
-**What this repo is:** A standalone Vite + React + TypeScript SPA that serves as the Sundae pricing website and interactive quote configurator.
+This repository is a Vite 7, React 19 and TypeScript pricing website with an interactive quote simulator. It does not own subscriptions, invoices, Stripe state, entitlements or the active commercial catalogue.
 
-**What this repo is NOT:** A billing system, checkout flow, or entitlement enforcement layer. There is no backend. All pricing is computed client-side.
+The authority order is:
 
-**Tech stack:** Vite 7, React 19, TypeScript 5.9, Tailwind CSS 4, Zustand 5, Framer Motion, recharts, jspdf, react-router-dom 7, vitest 4.
+1. The published catalogue in `sundae-backend`, resolved through `PricingCatalogService`, is the runtime source for quotes and billing.
+2. `sundae-backend/config/pricing_master.ts` is an explicitly enabled emergency/offline fallback, not proof of the live catalogue.
+3. `src/data/pricing.ts` in this repository is the pricing-site model and current v1.8 candidate. It must not be described as the company-wide pricing authority.
+4. `src/data/livePricing.ts` overlays a subset of numeric fields from `/api/pricing/catalog/active`. Hosted Sundae/Vercel environments fail closed when that catalogue cannot be loaded; local development may use the static candidate.
 
-**Routes:**
-- `/` — PricingOverview (static pricing page with tier cards and feature tables)
-- `/simulator` — Simulator (8-step interactive configurator with quote builder)
+## Current release state
 
-## Source of Truth
+- v1.7 is the last documented published backend baseline.
+- The pricing-site model contains the v1.8 extended Core/Crew band tails, payment-timing discounts and anchor-relief modelling.
+- v1.8 must remain a candidate until an immutable backend catalogue is staged, Stripe parity is verified, and the renewal/grandfathering decision for existing 51–250-location customers is recorded.
+- The site overlay currently patches Core packages, Foresight, concept SKUs and non-bundle Watchtower values. Crew pricing and discount policy are not supplied by that response shape. That gap must be closed before the candidate can be called runtime-aligned.
+- A successful offline build proves internal v1.8 candidate consistency. It does not prove the live database catalogue or Stripe prices.
 
-**File:** `src/data/pricing.ts`
+## Code map
 
-This is the **only** file where pricing values should be defined. It exports:
+| Area | File |
+|---|---|
+| Candidate catalogue and display metadata | `src/data/pricing.ts` |
+| Published-catalogue overlay and fail-closed policy | `src/data/livePricing.ts` |
+| Recurring price calculation | `src/lib/pricingEngine.ts` |
+| Crew calculations and bundle replacement | `src/lib/crewPricing.ts` |
+| Anchor-relief candidate | `src/lib/anchorRelief.ts` |
+| Watchtower calculations | `src/lib/watchtowerEngine.ts` |
+| Configurator state | `src/hooks/useConfiguration.ts` |
+| Quote calculation orchestration | `src/hooks/usePriceCalculation.ts` |
+| Pre-build contract | `scripts/validate-pricing.ts` |
+| Backend cutover brief | `docs/pricing-v1.8-HANDOFF.md` |
 
-| Export | Contents |
-|--------|----------|
-| `reportTiers` | Report Lite ($0), Plus ($49), Pro ($99) — base + per-location pricing |
-| `coreTiers` | Core Lite ($169), Pro ($319), Enterprise (custom) |
-| `modules` | 9 add-on modules (Labor, Inventory, Purchasing, Marketing, Reservations, Profit, Revenue, Delivery, Guest) |
-| `watchtower` | 3 individual modules (Competitive $399, Events $199, Trends $249) + Bundle ($720, 15% savings) |
-| `CLIENT_TYPE_RULES` | Discount tiers: Independent 0%, Growth 10%, Multi-site 15%, Enterprise custom |
-| `EARLY_ADOPTER_TERMS` | 20% discount, 24-month lock, 30-day trial, 500 bonus credits |
-| `enterprisePricing` | Volume tiers (30-200+ locations) and Org License model |
-| `pricingChangelog` | Append-only history of all pricing changes |
-| `pricingFooter` | Effective date, currency, notices |
+## Product shape
 
-## Pricing Model Quick Reference
+- `/` renders the package overview.
+- `/simulator` renders the guided configuration, quote, ROI and export flow.
+- Core is sold as four packages: Foundation, Margin, Growth and Performance.
+- The eleven Core domains are package components, not individually priced add-ons.
+- Foresight & Action is a separate banded layer.
+- Crew has six individual SKUs and three named-net bundles.
+- Watchtower and concept extensions retain their own pricing models.
+- Self-serve pricing ends at 250 units; 250+ is an Enterprise approval path.
 
-### Tiers
-- **Report Lite:** FREE forever, 40 AI credits, 1 seat, basic benchmarking
-- **Report Plus:** $49 + $29/extra loc, 150 credits, 3 seats, AI-parsed uploads
-- **Report Pro:** $99 + $49/extra loc, 400 credits, 5 seats, API integration
-- **Core Lite:** $169 + $54/extra loc, 800 credits, 10 seats, real-time POS, 4hr refresh
-- **Core Pro:** $319 + $49/extra loc, 1400 credits, 20 seats, multi-POS, 2hr refresh
-- **Enterprise:** Custom pricing, unlimited, dedicated CSM
-
-### Modules (Core only, $org + $/extra location after 5 included)
-Labor $139+$19, Inventory $139+$19, Purchasing $119+$15, Marketing $169+$25, Reservations $119+$15, Profit $199+$29, Revenue $99+$12, Delivery $129+$17, Guest $89+$10
-
-### Watchtower (Core only, base + per-location)
-Competitive $399+$49/loc, Events $199+$29/loc, Trends $249+$19/loc, Bundle $720+$82/loc (15% off)
-
-### Discounts
-Growth (3-24 locs): 10%, Multi-site (25-29): 15%, Enterprise (30+): custom. Early adopter: 20% (stacks).
-
-## Major Flows
-
-### Flow 1: Pricing Page (`/`)
-`PricingOverview.tsx` → imports `reportTiers`, `coreTiers`, `modules`, `watchtower` from `pricing.ts` → renders tier cards → `FeatureComparisonTable` → `PricingFAQ`
-
-### Flow 2: Quote Configurator (`/simulator`)
-8 steps: PathwaySelector → LayerStack → TierSelector → LocationSlider → ModulePicker → WatchtowerToggle → ROISimulator → ConfigSummary
-
-State: Zustand store (`useConfiguration.ts`) persisted to localStorage.
-
-Price engine: `usePriceCalculation` hook → `pricingEngine.calculateFullPrice()` → returns total, breakdown, AI credits, discounts.
-
-### Flow 3: PDF Export
-`ConfigSummary` → `pdfGenerator.ts` (jspdf) → generates quote PDF with 30-day validity.
-
-## Impact Matrix
-
-See [PRICING_IMPACT_MATRIX.md](./PRICING_IMPACT_MATRIX.md) for the complete mapping of which files are affected when any pricing field changes.
-
-**Key insight:** Changing a value in `pricing.ts` automatically propagates to most UI through imports. But these files have **hard-coded copies** that must be updated manually:
-1. `src/components/ConfigBuilder/LayerStack.tsx` — "$0/month", "$169/month", "$199/mo"
-2. `src/data/featureComparisons.ts` — add-on prices (AI seats, credit top-ups, support)
-3. `__tests__/pricing.test.ts` — expected values
-4. `scripts/validate-pricing.ts` — validation expected values
-5. `scripts/qa-validate-pricing.ts` — QA expected values
-
-## Update Playbook (Summary)
-
-1. Edit `src/data/pricing.ts`
-2. If watchtower changed → recalculate bundle math
-3. Update hard-coded values in LayerStack/featureComparisons if affected
-4. Update tests and validation scripts
-5. Append to `pricingChangelog`
-6. Run: `npm run validate:pricing && npm run qa && npm test && npm run build`
-7. Open PR with the pricing change template
-
-Full details: [PRICING_CHANGE_PLAYBOOK.md](./PRICING_CHANGE_PLAYBOOK.md)
-
-## Common Pitfalls
-
-1. **Forgetting to update tests** — build passes (validate-pricing is a subset), but test suite fails
-2. **Not recalculating watchtower bundle** — bundle savings must equal 15% of individual sum
-3. **Stale feature comparison prices** — `featureComparisons.ts` has its own price strings
-4. **Stale comments** — code comments reference old prices; misleading for future developers
-5. **QA script drift** — `qa-validate-pricing.ts` can fall behind when pricing.ts is updated
-6. **Enterprise threshold change** — must update `enterprisePricing.minLocations` AND `CLIENT_TYPE_RULES.enterprise.locationRange[0]` together
-
-## Commands to Run
+## Required verification
 
 ```bash
-# Development
-npm run dev                    # Start dev server
-npm run build                  # Build (auto-runs validate:pricing)
-
-# Testing
-npm test                       # Run all tests
-npm run test:pricing           # Run pricing tests only
-npm run validate:pricing       # Pre-build validation
-npm run qa                     # Comprehensive QA (69 checks)
-npm run pricing:audit          # Full audit (17 checks + report)
-npm run pricing:audit:full     # Full audit + release notes
-
-# Release
-npm run release:notes          # Generate release notes from GitHub PRs
+npm run qa
+npm test
+npm run build
 ```
 
-## Related Documentation
-
-| Document | Purpose |
-|----------|---------|
-| [PRICING_MODEL_MAP.md](./PRICING_MODEL_MAP.md) | Complete pricing schema with all fields |
-| [PRICING_IMPACT_MATRIX.md](./PRICING_IMPACT_MATRIX.md) | Where every field appears |
-| [PRICING_CHANGE_PLAYBOOK.md](./PRICING_CHANGE_PLAYBOOK.md) | Step-by-step update process |
-| [PRICING_CHANGELOG_POLICY.md](./PRICING_CHANGELOG_POLICY.md) | How to maintain changelog |
-| [PRICING_RUNTIME_FLOW.md](./PRICING_RUNTIME_FLOW.md) | Data flow diagrams |
-| [PRICING_TESTS_AUDIT.md](./PRICING_TESTS_AUDIT.md) | Test coverage catalog |
-| [DUPLICATE_SOURCES_AUDIT.md](./DUPLICATE_SOURCES_AUDIT.md) | Hard-coded value inventory |
-| [ENTITLEMENTS_ALIGNMENT_AUDIT.md](./ENTITLEMENTS_ALIGNMENT_AUDIT.md) | Consistency verification |
-| [RELEASE_NOTES_PIPELINE.md](./RELEASE_NOTES_PIPELINE.md) | Release notes automation |
-| [PRICING_AUDIT_REPORT.md](./PRICING_AUDIT_REPORT.md) | Latest audit results |
+For release readiness, also verify the version-targeted backend catalogue, Stripe reconciliation and live endpoint response. Do not use the local build alone as activation evidence.

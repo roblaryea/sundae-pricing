@@ -1,0 +1,2666 @@
+{
+  "version": {
+    "id": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+    "versionName": "v1.8.2",
+    "status": "active",
+    "publishedAt": "2026-08-23T02:06:52.442+00:00",
+    "effectiveDate": "2026-08-23T02:06:52.442+00:00",
+    "isAuthoritative": true
+  },
+  "tiers": [
+    {
+      "id": "foundation",
+      "name": "Core Foundation",
+      "category": "core",
+      "basePrice": 1195,
+      "perLocationPrice": 175,
+      "locationBands": [
+        [
+          1,
+          1195
+        ],
+        [
+          10,
+          175
+        ],
+        [
+          25,
+          150
+        ],
+        [
+          50,
+          125
+        ],
+        [
+          100,
+          115
+        ],
+        [
+          150,
+          110
+        ],
+        [
+          250,
+          105
+        ],
+        [
+          251,
+          100
+        ]
+      ],
+      "includedModuleIds": [
+        "labor",
+        "profit",
+        "revenue_assurance",
+        "pulse"
+      ],
+      "aiCreditsBase": 14000,
+      "aiCreditsPerLocation": 2800,
+      "aiSeatsIncluded": 4,
+      "allowsModules": true,
+      "allowsWatchtower": false,
+      "allowsAddons": true,
+      "allowsCrossIntelligence": true,
+      "key": "foundation",
+      "type": "tier",
+      "sortOrder": 5,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "ai_features_allowed",
+          "ruleValue": {
+            "features": [
+              "CHAT",
+              "CHAT_DATA_QUERY",
+              "DATA_ANALYSIS",
+              "SQL_GENERATION",
+              "DOC_EXTRACT_TEXT",
+              "DOC_EXTRACT_OCR",
+              "VIEW_SUMMARY",
+              "INSIGHTS_CHAT",
+              "INSIGHTS_WIDGET",
+              "REPORT_GENERATION",
+              "CREW_COPILOT",
+              "CREW_AI_SHIFT_BUILDER",
+              "CREW_SCHEDULE_QUALITY",
+              "CREW_VARIANCE_ROOT_CAUSE",
+              "CREW_BRIEFING_GENERATOR",
+              "CREW_POLICY_EXPLAINER",
+              "CREW_NO_SHOW_PREDICTION"
+            ]
+          }
+        },
+        {
+          "ruleKey": "ai_credits_base",
+          "ruleValue": {
+            "value": 14000
+          }
+        },
+        {
+          "ruleKey": "ai_credits_per_location",
+          "ruleValue": {
+            "value": 2800
+          }
+        },
+        {
+          "ruleKey": "ai_seats_included",
+          "ruleValue": {
+            "value": 4
+          }
+        },
+        {
+          "ruleKey": "allows_modules",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_watchtower",
+          "ruleValue": {
+            "value": false
+          }
+        },
+        {
+          "ruleKey": "allows_addons",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "max_additional_seats",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "extra_seat_price",
+          "ruleValue": {
+            "value": 15
+          }
+        },
+        {
+          "ruleKey": "historical_access_days",
+          "ruleValue": {
+            "value": 1095
+          }
+        },
+        {
+          "ruleKey": "intelligence_query_limit",
+          "ruleValue": {
+            "value": 150
+          }
+        },
+        {
+          "ruleKey": "credit_rollover_cap",
+          "ruleValue": {
+            "value": 3500
+          }
+        },
+        {
+          "ruleKey": "ai_seats_unit_divisor",
+          "ruleValue": {
+            "value": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "margin",
+      "name": "Core Margin",
+      "category": "core",
+      "basePrice": 1650,
+      "perLocationPrice": 245,
+      "locationBands": [
+        [
+          1,
+          1650
+        ],
+        [
+          10,
+          245
+        ],
+        [
+          25,
+          210
+        ],
+        [
+          50,
+          175
+        ],
+        [
+          100,
+          165
+        ],
+        [
+          150,
+          155
+        ],
+        [
+          250,
+          145
+        ],
+        [
+          251,
+          140
+        ]
+      ],
+      "includedModuleIds": [
+        "labor",
+        "inventory",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "purchasing"
+      ],
+      "aiCreditsBase": 16000,
+      "aiCreditsPerLocation": 3200,
+      "aiSeatsIncluded": 5,
+      "allowsModules": true,
+      "allowsWatchtower": false,
+      "allowsAddons": true,
+      "allowsCrossIntelligence": true,
+      "key": "margin",
+      "type": "tier",
+      "sortOrder": 6,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "ai_credits_base",
+          "ruleValue": {
+            "value": 16000
+          }
+        },
+        {
+          "ruleKey": "ai_credits_per_location",
+          "ruleValue": {
+            "value": 3200
+          }
+        },
+        {
+          "ruleKey": "ai_seats_included",
+          "ruleValue": {
+            "value": 5
+          }
+        },
+        {
+          "ruleKey": "allows_modules",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_watchtower",
+          "ruleValue": {
+            "value": false
+          }
+        },
+        {
+          "ruleKey": "allows_addons",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "max_additional_seats",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "extra_seat_price",
+          "ruleValue": {
+            "value": 15
+          }
+        },
+        {
+          "ruleKey": "historical_access_days",
+          "ruleValue": {
+            "value": 1095
+          }
+        },
+        {
+          "ruleKey": "intelligence_query_limit",
+          "ruleValue": {
+            "value": 200
+          }
+        },
+        {
+          "ruleKey": "credit_rollover_cap",
+          "ruleValue": {
+            "value": 4000
+          }
+        },
+        {
+          "ruleKey": "ai_features_allowed",
+          "ruleValue": {
+            "features": [
+              "CHAT",
+              "CHAT_DATA_QUERY",
+              "DATA_ANALYSIS",
+              "SQL_GENERATION",
+              "DOC_EXTRACT_TEXT",
+              "DOC_EXTRACT_OCR",
+              "VIEW_SUMMARY",
+              "INSIGHTS_CHAT",
+              "INSIGHTS_WIDGET",
+              "REPORT_GENERATION",
+              "CREW_COPILOT",
+              "CREW_AI_SHIFT_BUILDER",
+              "CREW_SCHEDULE_QUALITY",
+              "CREW_VARIANCE_ROOT_CAUSE",
+              "CREW_BRIEFING_GENERATOR",
+              "CREW_POLICY_EXPLAINER",
+              "CREW_NO_SHOW_PREDICTION"
+            ]
+          }
+        },
+        {
+          "ruleKey": "ai_seats_unit_divisor",
+          "ruleValue": {
+            "value": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "growth",
+      "name": "Core Growth",
+      "category": "core",
+      "basePrice": 1925,
+      "perLocationPrice": 260,
+      "locationBands": [
+        [
+          1,
+          1925
+        ],
+        [
+          10,
+          260
+        ],
+        [
+          25,
+          225
+        ],
+        [
+          50,
+          190
+        ],
+        [
+          100,
+          180
+        ],
+        [
+          150,
+          170
+        ],
+        [
+          250,
+          160
+        ],
+        [
+          251,
+          150
+        ]
+      ],
+      "includedModuleIds": [
+        "labor",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "marketing",
+        "reservations",
+        "guest_experience",
+        "guest_crm"
+      ],
+      "aiCreditsBase": 18000,
+      "aiCreditsPerLocation": 3600,
+      "aiSeatsIncluded": 6,
+      "allowsModules": true,
+      "allowsWatchtower": true,
+      "allowsAddons": true,
+      "allowsCrossIntelligence": true,
+      "key": "growth",
+      "type": "tier",
+      "sortOrder": 7,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "allows_addons",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "max_additional_seats",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "extra_seat_price",
+          "ruleValue": {
+            "value": 15
+          }
+        },
+        {
+          "ruleKey": "historical_access_days",
+          "ruleValue": {
+            "value": 1460
+          }
+        },
+        {
+          "ruleKey": "intelligence_query_limit",
+          "ruleValue": {
+            "value": 250
+          }
+        },
+        {
+          "ruleKey": "credit_rollover_cap",
+          "ruleValue": {
+            "value": 4500
+          }
+        },
+        {
+          "ruleKey": "ai_credits_base",
+          "ruleValue": {
+            "value": 18000
+          }
+        },
+        {
+          "ruleKey": "ai_credits_per_location",
+          "ruleValue": {
+            "value": 3600
+          }
+        },
+        {
+          "ruleKey": "ai_seats_included",
+          "ruleValue": {
+            "value": 6
+          }
+        },
+        {
+          "ruleKey": "allows_modules",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_watchtower",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "ai_features_allowed",
+          "ruleValue": {
+            "features": [
+              "CHAT",
+              "CHAT_DATA_QUERY",
+              "DATA_ANALYSIS",
+              "SQL_GENERATION",
+              "DOC_EXTRACT_TEXT",
+              "DOC_EXTRACT_OCR",
+              "VIEW_SUMMARY",
+              "INSIGHTS_CHAT",
+              "INSIGHTS_WIDGET",
+              "REPORT_GENERATION",
+              "CREW_COPILOT",
+              "CREW_AI_SHIFT_BUILDER",
+              "CREW_SCHEDULE_QUALITY",
+              "CREW_VARIANCE_ROOT_CAUSE",
+              "CREW_BRIEFING_GENERATOR",
+              "CREW_POLICY_EXPLAINER",
+              "CREW_NO_SHOW_PREDICTION"
+            ]
+          }
+        },
+        {
+          "ruleKey": "ai_seats_unit_divisor",
+          "ruleValue": {
+            "value": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "name": "Core Performance",
+      "category": "core",
+      "basePrice": 2980,
+      "perLocationPrice": 409,
+      "locationBands": [
+        [
+          1,
+          2980
+        ],
+        [
+          10,
+          409
+        ],
+        [
+          25,
+          348
+        ],
+        [
+          50,
+          290
+        ],
+        [
+          100,
+          275
+        ],
+        [
+          150,
+          255
+        ],
+        [
+          250,
+          245
+        ],
+        [
+          251,
+          230
+        ]
+      ],
+      "includedModuleIds": [
+        "labor",
+        "inventory",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "purchasing",
+        "marketing",
+        "reservations",
+        "guest_experience",
+        "guest_crm",
+        "foresight"
+      ],
+      "aiCreditsBase": 24000,
+      "aiCreditsPerLocation": 4800,
+      "aiSeatsIncluded": 8,
+      "allowsModules": true,
+      "allowsWatchtower": true,
+      "allowsAddons": true,
+      "allowsCrossIntelligence": true,
+      "key": "performance",
+      "type": "tier",
+      "sortOrder": 8,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "ai_credits_base",
+          "ruleValue": {
+            "value": 24000
+          }
+        },
+        {
+          "ruleKey": "ai_credits_per_location",
+          "ruleValue": {
+            "value": 4800
+          }
+        },
+        {
+          "ruleKey": "ai_seats_included",
+          "ruleValue": {
+            "value": 8
+          }
+        },
+        {
+          "ruleKey": "allows_modules",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_watchtower",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_addons",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "max_additional_seats",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "extra_seat_price",
+          "ruleValue": {
+            "value": 15
+          }
+        },
+        {
+          "ruleKey": "historical_access_days",
+          "ruleValue": {
+            "value": 1825
+          }
+        },
+        {
+          "ruleKey": "intelligence_query_limit",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "credit_rollover_cap",
+          "ruleValue": {
+            "value": 6000
+          }
+        },
+        {
+          "ruleKey": "ai_features_allowed",
+          "ruleValue": {
+            "features": [
+              "CHAT",
+              "CHAT_DATA_QUERY",
+              "DATA_ANALYSIS",
+              "SQL_GENERATION",
+              "DOC_EXTRACT_TEXT",
+              "DOC_EXTRACT_OCR",
+              "VIEW_SUMMARY",
+              "INSIGHTS_CHAT",
+              "INSIGHTS_WIDGET",
+              "REPORT_GENERATION",
+              "CREW_COPILOT",
+              "CREW_AI_SHIFT_BUILDER",
+              "CREW_SCHEDULE_QUALITY",
+              "CREW_VARIANCE_ROOT_CAUSE",
+              "CREW_BRIEFING_GENERATOR",
+              "CREW_HANDOVER_TRANSCRIPTION",
+              "CREW_POLICY_EXPLAINER",
+              "CREW_NO_SHOW_PREDICTION"
+            ]
+          }
+        },
+        {
+          "ruleKey": "ai_seats_unit_divisor",
+          "ruleValue": {
+            "value": 2
+          }
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "labor",
+      "name": "Labor Intelligence",
+      "icon": "Users",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 219,
+      "perLocationPrice": 22,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 399,
+      "key": "labor",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 1,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "inventory",
+      "name": "Inventory Connect",
+      "icon": "Package",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 229,
+      "perLocationPrice": 24,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 499,
+      "key": "inventory",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 2,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "purchasing",
+      "name": "Purchasing Analytics",
+      "icon": "ShoppingCart",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 169,
+      "perLocationPrice": 16,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 399,
+      "key": "purchasing",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 3,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing Performance",
+      "icon": "Megaphone",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 249,
+      "perLocationPrice": 25,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 399,
+      "key": "marketing",
+      "type": "module",
+      "category": "growth",
+      "sortOrder": 4,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "reservations",
+      "name": "Reservations Intelligence",
+      "icon": "CalendarClock",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 169,
+      "perLocationPrice": 16,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 399,
+      "key": "reservations",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 5,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "profit",
+      "name": "Profit Intelligence",
+      "icon": "TrendingUp",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 299,
+      "perLocationPrice": 28,
+      "baseIncludesLocations": 3,
+      "dependencies": [
+        "labor",
+        "inventory"
+      ],
+      "setupFee": null,
+      "key": "profit",
+      "type": "module",
+      "category": "analytics",
+      "sortOrder": 6,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "labor",
+              "inventory"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "revenue_assurance",
+      "name": "Revenue Assurance",
+      "icon": "Shield",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 149,
+      "perLocationPrice": 14,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 299,
+      "key": "revenue_assurance",
+      "type": "module",
+      "category": "compliance",
+      "sortOrder": 7,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "delivery",
+      "name": "Delivery Economics",
+      "icon": "Truck",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 219,
+      "perLocationPrice": 22,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 499,
+      "key": "delivery",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 8,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "guest_experience",
+      "name": "Guest Experience",
+      "icon": "Star",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 149,
+      "perLocationPrice": 14,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 299,
+      "key": "guest_experience",
+      "type": "module",
+      "category": "growth",
+      "sortOrder": 9,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "pulse",
+      "name": "Pulse",
+      "icon": "Activity",
+      "packageComponentOnly": true,
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 269,
+      "perLocationPrice": 29,
+      "baseIncludesLocations": 3,
+      "dependencies": [],
+      "setupFee": 499,
+      "key": "pulse",
+      "type": "module",
+      "category": "realtime",
+      "sortOrder": 10,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "foresight",
+      "name": "Foresight Intelligence",
+      "icon": "Telescope",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          495
+        ],
+        [
+          10,
+          65
+        ],
+        [
+          25,
+          55
+        ],
+        [
+          50,
+          45
+        ],
+        [
+          100,
+          35
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 495,
+      "perLocationPrice": 65,
+      "baseIncludesLocations": 1,
+      "dependencies": [],
+      "setupFee": 599,
+      "key": "foresight",
+      "type": "module",
+      "category": "intelligence",
+      "sortOrder": 11,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "crew_lite",
+      "name": "Crew \u2014 Lite",
+      "icon": "Sparkles",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          99
+        ],
+        [
+          5,
+          19
+        ]
+      ],
+      "maxLocations": 5,
+      "hardLocationCap": true,
+      "orgLicense": 99,
+      "perLocationPrice": 19,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [],
+      "setupFee": 0,
+      "key": "crew_lite",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 11,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": 5,
+            "hardLocationCap": true,
+            "perEmployeeOverageUsd": 2,
+            "maxEmployeesPerLocation": 15
+          }
+        },
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 1,
+            "creditsBase": 500,
+            "creditsPerLocation": 100,
+            "seatLocationBlockSize": null,
+            "seatsPerLocationBlock": 0
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_scheduling",
+      "name": "Crew \u2014 Scheduling",
+      "icon": "CalendarDays",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          179
+        ],
+        [
+          10,
+          39
+        ],
+        [
+          25,
+          35
+        ],
+        [
+          50,
+          31
+        ],
+        [
+          100,
+          29
+        ],
+        [
+          150,
+          27
+        ],
+        [
+          250,
+          26
+        ],
+        [
+          251,
+          25
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 179,
+      "perLocationPrice": 39,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [],
+      "setupFee": 399,
+      "key": "crew_scheduling",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 12,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 1,
+            "creditsBase": 1000,
+            "creditsPerLocation": 250,
+            "seatLocationBlockSize": 10,
+            "seatsPerLocationBlock": 1
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_schedule_time_bundle",
+          "ruleValue": {
+            "setupFee": 499,
+            "basePrice": 249,
+            "bundleKey": "crew_schedule_time_bundle",
+            "bundleName": "Schedule & Time",
+            "includedItems": [
+              "crew_scheduling",
+              "crew_tna"
+            ],
+            "locationBands": [
+              [
+                1,
+                249
+              ],
+              [
+                10,
+                49
+              ],
+              [
+                25,
+                45
+              ],
+              [
+                50,
+                41
+              ],
+              [
+                100,
+                39
+              ],
+              [
+                150,
+                36
+              ],
+              [
+                250,
+                34
+              ],
+              [
+                251,
+                33
+              ]
+            ],
+            "bundleDiscount": 12,
+            "perLocationPrice": 49,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_operations",
+      "name": "Crew \u2014 Operations",
+      "icon": "Users",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          399
+        ],
+        [
+          10,
+          79
+        ],
+        [
+          25,
+          71
+        ],
+        [
+          50,
+          63
+        ],
+        [
+          100,
+          59
+        ],
+        [
+          150,
+          56
+        ],
+        [
+          250,
+          53
+        ],
+        [
+          251,
+          50
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 399,
+      "perLocationPrice": 79,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [],
+      "setupFee": 499,
+      "key": "crew_operations",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 13,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 2,
+            "creditsBase": 2500,
+            "creditsPerLocation": 500,
+            "seatLocationBlockSize": 5,
+            "seatsPerLocationBlock": 1
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_suite_bundle",
+          "ruleValue": {
+            "setupFee": 799,
+            "basePrice": 499,
+            "bundleKey": "crew_suite_bundle",
+            "bundleName": "Crew Operating",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll"
+            ],
+            "locationBands": [
+              [
+                1,
+                499
+              ],
+              [
+                10,
+                99
+              ],
+              [
+                25,
+                89
+              ],
+              [
+                50,
+                79
+              ],
+              [
+                100,
+                74
+              ],
+              [
+                150,
+                70
+              ],
+              [
+                250,
+                66
+              ],
+              [
+                251,
+                63
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 99,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "crew_complete_bundle",
+          "ruleValue": {
+            "setupFee": 999,
+            "basePrice": 699,
+            "bundleKey": "crew_complete_bundle",
+            "bundleName": "Crew Complete",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll",
+              "crew_people_intelligence"
+            ],
+            "locationBands": [
+              [
+                1,
+                699
+              ],
+              [
+                10,
+                129
+              ],
+              [
+                25,
+                115
+              ],
+              [
+                50,
+                102
+              ],
+              [
+                100,
+                96
+              ],
+              [
+                150,
+                90
+              ],
+              [
+                250,
+                86
+              ],
+              [
+                251,
+                82
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 129,
+            "priceBookVersion": "v1.8.0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_tna",
+      "name": "Crew \u2014 Time & Attendance",
+      "icon": "Clock",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          99
+        ],
+        [
+          10,
+          19
+        ],
+        [
+          25,
+          17
+        ],
+        [
+          50,
+          15
+        ],
+        [
+          100,
+          14
+        ],
+        [
+          250,
+          13
+        ],
+        [
+          251,
+          12
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 99,
+      "perLocationPrice": 19,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [
+        "crew_scheduling"
+      ],
+      "setupFee": 199,
+      "key": "crew_tna",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 14,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_scheduling"
+            ]
+          }
+        },
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 1,
+            "creditsBase": 750,
+            "creditsPerLocation": 150,
+            "seatLocationBlockSize": null,
+            "seatsPerLocationBlock": 0
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_schedule_time_bundle",
+          "ruleValue": {
+            "setupFee": 499,
+            "basePrice": 249,
+            "bundleKey": "crew_schedule_time_bundle",
+            "bundleName": "Schedule & Time",
+            "includedItems": [
+              "crew_scheduling",
+              "crew_tna"
+            ],
+            "locationBands": [
+              [
+                1,
+                249
+              ],
+              [
+                10,
+                49
+              ],
+              [
+                25,
+                45
+              ],
+              [
+                50,
+                41
+              ],
+              [
+                100,
+                39
+              ],
+              [
+                150,
+                36
+              ],
+              [
+                250,
+                34
+              ],
+              [
+                251,
+                33
+              ]
+            ],
+            "bundleDiscount": 12,
+            "perLocationPrice": 49,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "crew_suite_bundle",
+          "ruleValue": {
+            "setupFee": 799,
+            "basePrice": 499,
+            "bundleKey": "crew_suite_bundle",
+            "bundleName": "Crew Operating",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll"
+            ],
+            "locationBands": [
+              [
+                1,
+                499
+              ],
+              [
+                10,
+                99
+              ],
+              [
+                25,
+                89
+              ],
+              [
+                50,
+                79
+              ],
+              [
+                100,
+                74
+              ],
+              [
+                150,
+                70
+              ],
+              [
+                250,
+                66
+              ],
+              [
+                251,
+                63
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 99,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "crew_complete_bundle",
+          "ruleValue": {
+            "setupFee": 999,
+            "basePrice": 699,
+            "bundleKey": "crew_complete_bundle",
+            "bundleName": "Crew Complete",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll",
+              "crew_people_intelligence"
+            ],
+            "locationBands": [
+              [
+                1,
+                699
+              ],
+              [
+                10,
+                129
+              ],
+              [
+                25,
+                115
+              ],
+              [
+                50,
+                102
+              ],
+              [
+                100,
+                96
+              ],
+              [
+                150,
+                90
+              ],
+              [
+                250,
+                86
+              ],
+              [
+                251,
+                82
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 129,
+            "priceBookVersion": "v1.8.0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_payroll",
+      "name": "Crew \u2014 Payroll",
+      "icon": "Wallet",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          129
+        ],
+        [
+          10,
+          29
+        ],
+        [
+          25,
+          26
+        ],
+        [
+          50,
+          23
+        ],
+        [
+          100,
+          22
+        ],
+        [
+          150,
+          20
+        ],
+        [
+          250,
+          19
+        ],
+        [
+          251,
+          18
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 129,
+      "perLocationPrice": 29,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [
+        "crew_scheduling"
+      ],
+      "setupFee": 399,
+      "key": "crew_payroll",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 15,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_scheduling"
+            ]
+          }
+        },
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 1,
+            "creditsBase": 1000,
+            "creditsPerLocation": 250,
+            "seatLocationBlockSize": null,
+            "seatsPerLocationBlock": 0
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_suite_bundle",
+          "ruleValue": {
+            "setupFee": 799,
+            "basePrice": 499,
+            "bundleKey": "crew_suite_bundle",
+            "bundleName": "Crew Operating",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll"
+            ],
+            "locationBands": [
+              [
+                1,
+                499
+              ],
+              [
+                10,
+                99
+              ],
+              [
+                25,
+                89
+              ],
+              [
+                50,
+                79
+              ],
+              [
+                100,
+                74
+              ],
+              [
+                150,
+                70
+              ],
+              [
+                250,
+                66
+              ],
+              [
+                251,
+                63
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 99,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "crew_complete_bundle",
+          "ruleValue": {
+            "setupFee": 999,
+            "basePrice": 699,
+            "bundleKey": "crew_complete_bundle",
+            "bundleName": "Crew Complete",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll",
+              "crew_people_intelligence"
+            ],
+            "locationBands": [
+              [
+                1,
+                699
+              ],
+              [
+                10,
+                129
+              ],
+              [
+                25,
+                115
+              ],
+              [
+                50,
+                102
+              ],
+              [
+                100,
+                96
+              ],
+              [
+                150,
+                90
+              ],
+              [
+                250,
+                86
+              ],
+              [
+                251,
+                82
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 129,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_people_intelligence",
+      "name": "Crew \u2014 People Intelligence",
+      "icon": "Brain",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          249
+        ],
+        [
+          10,
+          39
+        ],
+        [
+          25,
+          35
+        ],
+        [
+          50,
+          31
+        ],
+        [
+          100,
+          29
+        ],
+        [
+          150,
+          27
+        ],
+        [
+          250,
+          26
+        ],
+        [
+          251,
+          25
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 249,
+      "perLocationPrice": 39,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [
+        "crew_operations"
+      ],
+      "setupFee": 299,
+      "key": "crew_people_intelligence",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 16,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_operations"
+            ]
+          }
+        },
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 2,
+            "creditsBase": 2000,
+            "creditsPerLocation": 500,
+            "seatLocationBlockSize": null,
+            "seatsPerLocationBlock": 0
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_complete_bundle",
+          "ruleValue": {
+            "setupFee": 999,
+            "basePrice": 699,
+            "bundleKey": "crew_complete_bundle",
+            "bundleName": "Crew Complete",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll",
+              "crew_people_intelligence"
+            ],
+            "locationBands": [
+              [
+                1,
+                699
+              ],
+              [
+                10,
+                129
+              ],
+              [
+                25,
+                115
+              ],
+              [
+                50,
+                102
+              ],
+              [
+                100,
+                96
+              ],
+              [
+                150,
+                90
+              ],
+              [
+                250,
+                86
+              ],
+              [
+                251,
+                82
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 129,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_catering",
+      "name": "Crew \u2014 Catering & Events",
+      "icon": "PartyPopper",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          349
+        ],
+        [
+          10,
+          69
+        ],
+        [
+          50,
+          59
+        ],
+        [
+          100,
+          49
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 349,
+      "perLocationPrice": 69,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [
+        "crew_operations"
+      ],
+      "setupFee": 299,
+      "key": "crew_catering",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 17,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_operations"
+            ],
+            "alternatives": []
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_production",
+      "name": "Crew \u2014 Production",
+      "icon": "Factory",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          595
+        ],
+        [
+          10,
+          95
+        ],
+        [
+          25,
+          80
+        ],
+        [
+          50,
+          65
+        ],
+        [
+          100,
+          50
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 595,
+      "perLocationPrice": 95,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [],
+      "setupFee": 299,
+      "key": "crew_production",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 18,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "maxEmployeesPerLocation": null
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hotel_fb_analytics",
+      "name": "Hotel F&B Analytics",
+      "icon": "Hotel",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          395
+        ],
+        [
+          10,
+          85
+        ],
+        [
+          25,
+          72
+        ],
+        [
+          50,
+          60
+        ],
+        [
+          100,
+          48
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 395,
+      "perLocationPrice": 85,
+      "baseIncludesLocations": 1,
+      "dependencies": [],
+      "setupFee": 299,
+      "key": "hotel_fb_analytics",
+      "type": "module",
+      "category": "analytics",
+      "sortOrder": 19,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "franchise_intelligence",
+      "name": "Franchise Intelligence",
+      "icon": "Network",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          595
+        ],
+        [
+          10,
+          75
+        ],
+        [
+          25,
+          65
+        ],
+        [
+          50,
+          55
+        ],
+        [
+          100,
+          45
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 595,
+      "perLocationPrice": 75,
+      "baseIncludesLocations": 1,
+      "dependencies": [],
+      "setupFee": 299,
+      "key": "franchise_intelligence",
+      "type": "module",
+      "category": "analytics",
+      "sortOrder": 20,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "cloud_kitchen",
+      "name": "Cloud Kitchen Economics",
+      "icon": "ChefHat",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          395
+        ],
+        [
+          10,
+          69
+        ],
+        [
+          25,
+          59
+        ],
+        [
+          50,
+          49
+        ],
+        [
+          100,
+          39
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 395,
+      "perLocationPrice": 69,
+      "baseIncludesLocations": 1,
+      "dependencies": [],
+      "setupFee": 299,
+      "key": "cloud_kitchen",
+      "type": "module",
+      "category": "analytics",
+      "sortOrder": 21,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "rental_commissary",
+      "name": "Rental Commissary",
+      "icon": "Building2",
+      "packageComponentOnly": false,
+      "locationBands": [
+        [
+          1,
+          395
+        ],
+        [
+          10,
+          75
+        ],
+        [
+          25,
+          65
+        ],
+        [
+          50,
+          55
+        ],
+        [
+          100,
+          45
+        ]
+      ],
+      "maxLocations": null,
+      "hardLocationCap": false,
+      "orgLicense": 395,
+      "perLocationPrice": 75,
+      "baseIncludesLocations": 1,
+      "availableTiers": [
+        "foundation",
+        "margin",
+        "growth",
+        "performance",
+        "no_tier"
+      ],
+      "dependencies": [
+        "crew_production"
+      ],
+      "setupFee": 499,
+      "key": "rental_commissary",
+      "type": "module",
+      "category": "operations",
+      "sortOrder": 22,
+      "pricingScope": "per_location",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_production"
+            ],
+            "alternatives": []
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "watchtower": [
+    {
+      "id": "competitive",
+      "name": "Competitive Intelligence",
+      "basePrice": 549,
+      "perLocationPrice": 69,
+      "baseIncludesLocations": 1,
+      "key": "competitive",
+      "type": "watchtower",
+      "category": "watchtower",
+      "sortOrder": 0,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "enterprise_flat_rate",
+          "ruleValue": {
+            "flatRate": 2500,
+            "threshold": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "events",
+      "name": "Event & Calendar Signals",
+      "basePrice": 249,
+      "perLocationPrice": 39,
+      "baseIncludesLocations": 1,
+      "key": "events",
+      "type": "watchtower",
+      "category": "watchtower",
+      "sortOrder": 1,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "enterprise_flat_rate",
+          "ruleValue": {
+            "flatRate": 1200,
+            "threshold": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "trends",
+      "name": "Market Trends",
+      "basePrice": 299,
+      "perLocationPrice": 29,
+      "baseIncludesLocations": 1,
+      "key": "trends",
+      "type": "watchtower",
+      "category": "watchtower",
+      "sortOrder": 2,
+      "pricingScope": "organization",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isAdminOnly": false,
+      "visibility": "public",
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "enterprise_flat_rate",
+          "ruleValue": {
+            "flatRate": 800,
+            "threshold": 30
+          }
+        }
+      ]
+    }
+  ],
+  "discounts": [
+    {
+      "id": 39,
+      "billingCycle": "annual",
+      "discountPercent": "5.00",
+      "appliesToItemTypes": null,
+      "appliesToItemKeys": null,
+      "name": "Annual Commitment \u2014 Quarterly Payments",
+      "description": "Default 5% discount for an annual commitment paid quarterly",
+      "isActive": true,
+      "priority": 10,
+      "effectiveFrom": "2026-08-23T02:04:53.960+00:00",
+      "effectiveUntil": null,
+      "createdAt": "2026-08-23T02:04:53.960+00:00",
+      "updatedAt": "2026-08-23T02:04:53.960+00:00",
+      "catalogVersionId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "paymentSchedule": "quarterly"
+    },
+    {
+      "id": 40,
+      "billingCycle": "annual",
+      "discountPercent": "12.00",
+      "appliesToItemTypes": null,
+      "appliesToItemKeys": null,
+      "name": "Annual Commitment \u2014 Upfront Payment",
+      "description": "Default 12% discount for an annual commitment paid upfront",
+      "isActive": true,
+      "priority": 10,
+      "effectiveFrom": "2026-08-23T02:04:53.960+00:00",
+      "effectiveUntil": null,
+      "createdAt": "2026-08-23T02:04:53.969+00:00",
+      "updatedAt": "2026-08-23T02:04:53.969+00:00",
+      "catalogVersionId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "paymentSchedule": "upfront"
+    },
+    {
+      "id": 41,
+      "billingCycle": "2year",
+      "discountPercent": "20.00",
+      "appliesToItemTypes": null,
+      "appliesToItemKeys": null,
+      "name": "Two-Year Commitment \u2014 Upfront Payment",
+      "description": "Default 20% discount with a 24-month price lock",
+      "isActive": true,
+      "priority": 10,
+      "effectiveFrom": "2026-08-23T02:04:53.960+00:00",
+      "effectiveUntil": null,
+      "createdAt": "2026-08-23T02:04:53.977+00:00",
+      "updatedAt": "2026-08-23T02:04:53.977+00:00",
+      "catalogVersionId": "869b1bc6-478b-45b4-83d8-9a3aae91b506",
+      "paymentSchedule": "upfront"
+    }
+  ],
+  "bundles": [
+    {
+      "id": "crew_schedule_time_bundle",
+      "name": "Schedule & Time",
+      "moduleIds": [
+        "crew_scheduling",
+        "crew_tna"
+      ],
+      "discountPercent": 12,
+      "basePrice": 249,
+      "perLocationPrice": 49,
+      "locationBands": [
+        [
+          1,
+          249
+        ],
+        [
+          10,
+          49
+        ],
+        [
+          25,
+          45
+        ],
+        [
+          50,
+          41
+        ],
+        [
+          100,
+          39
+        ],
+        [
+          150,
+          36
+        ],
+        [
+          250,
+          34
+        ],
+        [
+          251,
+          33
+        ]
+      ],
+      "setupFee": 499,
+      "sortOrder": 12
+    },
+    {
+      "id": "crew_complete_bundle",
+      "name": "Crew Complete",
+      "moduleIds": [
+        "crew_operations",
+        "crew_tna",
+        "crew_payroll",
+        "crew_people_intelligence"
+      ],
+      "discountPercent": 20,
+      "basePrice": 699,
+      "perLocationPrice": 129,
+      "locationBands": [
+        [
+          1,
+          699
+        ],
+        [
+          10,
+          129
+        ],
+        [
+          25,
+          115
+        ],
+        [
+          50,
+          102
+        ],
+        [
+          100,
+          96
+        ],
+        [
+          150,
+          90
+        ],
+        [
+          250,
+          86
+        ],
+        [
+          251,
+          82
+        ]
+      ],
+      "setupFee": 999,
+      "sortOrder": 13
+    },
+    {
+      "id": "crew_suite_bundle",
+      "name": "Crew Operating",
+      "moduleIds": [
+        "crew_operations",
+        "crew_tna",
+        "crew_payroll"
+      ],
+      "discountPercent": 20,
+      "basePrice": 499,
+      "perLocationPrice": 99,
+      "locationBands": [
+        [
+          1,
+          499
+        ],
+        [
+          10,
+          99
+        ],
+        [
+          25,
+          89
+        ],
+        [
+          50,
+          79
+        ],
+        [
+          100,
+          74
+        ],
+        [
+          150,
+          70
+        ],
+        [
+          250,
+          66
+        ],
+        [
+          251,
+          63
+        ]
+      ],
+      "setupFee": 799,
+      "sortOrder": 13
+    }
+  ]
+}

@@ -40,5 +40,14 @@ export function prepareSentryEvent<T extends Event>(event: T): T | null {
     /failed to connect to metamask|metamask extension not found/i.test(message),
   );
 
-  return extensionNoise ? null : event;
+  if (extensionNoise) return null;
+  // Configuration intent and contact data do not belong in telemetry URLs.
+  if (event.request?.url) event.request.url = event.request.url.split('?')[0];
+  event.user = undefined;
+  for (const breadcrumb of event.breadcrumbs ?? []) {
+    for (const key of ['url','from','to']) {
+      if (typeof breadcrumb.data?.[key] === 'string') breadcrumb.data[key] = breadcrumb.data[key].split('?')[0];
+    }
+  }
+  return event;
 }

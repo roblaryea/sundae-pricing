@@ -1,5 +1,5 @@
 /**
- * The quote screen ships in all 22 locales.
+ * The quote screen ships in all 25 locales.
  *
  * The summary is the artefact a buyer forwards, and its most important lines
  * were literal English in JSX — the monthly investment, the two rails, the
@@ -20,7 +20,7 @@ import { quoteSummaryCopy, getQuoteSummaryCopy } from "../src/lib/quoteSummaryCo
 
 const SHIPPED_LOCALES = [
   "en", "ar", "fr", "es", "de", "nl", "pt", "hi", "ur", "it", "pl",
-  "tr", "zh-Hans", "ja", "ko", "id", "vi", "ro", "sv", "bn", "th", "ms",
+  "tr", "zh-Hans", "ja", "ko", "id", "vi", "ro", "sv", "bn", "th", "ms", "az", "ru", "pap",
 ] as const;
 
 const KEYS = Object.keys(quoteSummaryCopy.en) as Array<keyof typeof quoteSummaryCopy.en>;

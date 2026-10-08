@@ -100,6 +100,16 @@ describe('shared buyer intent', () => {
   it('rejects retired products and malformed or unsupported selections', () => {
     for (const x of [{...config,corePackage:'core_lite'}, {...config,addOns:['labor']}, {...config,watchtowerModules:['bundle']}, {...config,crewSkus:['crew_lite'],locations:6}]) expect(parsePricingIntent(x)).toBeNull();
     expect(decodePricingIntent('not-json')).toBeNull();
+    expect(parsePricingIntent({...config, layer:'crew', crewSkus:['crew_operations'], employees:10, payrollCountry:'ZZ'})).toBeNull();
+  });
+  it('removes Crew-only handoff fields from a Core selection', () => {
+    expect(parsePricingIntent({...config, employees:1000000, payrollCountry:'XX'})).toMatchObject({ employees: null, payrollCountry: '' });
+  });
+  it('routes very large Crew workforces to a tailored proposal', () => {
+    const q = calculateBasketQuote({...config, layer:'crew', crewSkus:['crew_operations'], employees:100001});
+    expect(q.employeeLimitExceeded).toBe(true);
+    expect(q.enterprise).toBe(true);
+    expect(q.averageMonthlyPerLocation).toBeNull();
   });
   it('resolves Crew prerequisites before returning an imported selection', () => {
     expect(parsePricingIntent({...config,layer:'crew',crewSkus:['crew_payroll']})!.crewSkus).toEqual(['crew_payroll','crew_operations','crew_scheduling']);

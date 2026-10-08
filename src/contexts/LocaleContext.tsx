@@ -1250,6 +1250,37 @@ type LocaleContextValue = {
   messages: (typeof messages)['en']
 }
 
+// The app language packs now include Azeri, Russian and Papiamento. The
+// pricing site keeps its buyer copy in dedicated modules, so these compact
+// shell labels live here to keep the calculator chrome in the same language
+// while the deeper catalogue copy is resolved by those modules.
+const additionalLocaleMessages: Partial<Record<PricingLocale, unknown>> = {
+  az: {
+    header: { simulator: 'Qiymət simulyatoru', platform: 'Qərarvermə zəkası platforması', pricing: 'Qiymətlər', instantQuote: 'Ani qiymət al', bookDemo: 'Demo sifariş et' },
+    footer: { privacy: 'Məxfilik', terms: 'Şərtlər', contact: 'Əlaqə', demo: 'Demo' },
+    pdf: { generating: 'Hazırlanır...', downloaded: 'Yükləndi!', download: 'PDF yüklə', failed: 'PDF yaratmaq alınmadı. Yenidən cəhd edin.' },
+    summary: { monthlyInvestment: 'Aylıq investisiya', annualInvestment: 'İllik investisiya', perLocation: 'məkan başına', pricingEffective: 'Qiymət qüvvədədir', allPricesIn: 'Bütün qiymətlər', taxNote: 'Vergilər daxil deyil', locationPricingNote: 'İlk məkan qiyməti bir məkanı əhatə edir. Əlavə məkanlar qiymət cədvəlindəki pilləyə görə hesablanır.', crossIntelligencePro: 'Cross-Intelligence Pro', crossIntelligence: 'Cross-Intelligence' },
+    overview: { perMonth: '/ay', contactSales: 'Satışla əlaqə saxlayın', selectTier: '{tier} seçin' },
+    builder: { tierSelector: { shapeFoundation: 'Buradan başlayın', shapeMargin: 'Marjanı qoruyun', shapeGrowth: 'Tələbi artırın', shapePerformance: 'Hər iki tərəf' } },
+  },
+  ru: {
+    header: { simulator: 'Калькулятор цен', platform: 'Платформа аналитики решений', pricing: 'Цены', instantQuote: 'Получить расчёт', bookDemo: 'Заказать демо' },
+    footer: { privacy: 'Конфиденциальность', terms: 'Условия', contact: 'Контакты', demo: 'Демо' },
+    pdf: { generating: 'Создание...', downloaded: 'Скачано!', download: 'Скачать PDF', failed: 'Не удалось создать PDF. Попробуйте ещё раз.' },
+    summary: { monthlyInvestment: 'Ежемесячные инвестиции', annualInvestment: 'Ежегодные инвестиции', perLocation: 'за локацию', pricingEffective: 'Цены действуют с', allPricesIn: 'Все цены в', taxNote: 'Налоги не включены', locationPricingNote: 'Цена первой локации покрывает одну локацию. Каждая следующая оплачивается по своей ступени.', crossIntelligencePro: 'Cross-Intelligence Pro', crossIntelligence: 'Cross-Intelligence' },
+    overview: { perMonth: '/мес.', contactSales: 'Связаться с продажами', selectTier: 'Выбрать {tier}' },
+    builder: { tierSelector: { shapeFoundation: 'Начните отсюда', shapeMargin: 'Защитите маржу', shapeGrowth: 'Растите спрос', shapePerformance: 'Обе стороны' } },
+  },
+  pap: {
+    header: { simulator: 'Simulador di preis', platform: 'Plataforma di inteligensia pa desishon', pricing: 'Preisnan', instantQuote: 'Ha un estimashon', bookDemo: 'Reserva un demo' },
+    footer: { privacy: 'Privasidat', terms: 'Kondishonnan', contact: 'Kontak', demo: 'Demo' },
+    pdf: { generating: 'Ta prepara...', downloaded: 'Basha!', download: 'Basha PDF', failed: 'No por a krea PDF. Purba atrobe.' },
+    summary: { monthlyInvestment: 'Investimentu mensual', annualInvestment: 'Investimentu anual', perLocation: 'pa lokashon', pricingEffective: 'Preis ta konta for di', allPricesIn: 'Tur preis den', taxNote: 'Impuesto no ta inkluí', locationPricingNote: 'E prijs di e promé lokashon ta kubri un lokashon. Kada lokashon adishonal ta kargá segun su eskala.', crossIntelligencePro: 'Cross-Intelligence Pro', crossIntelligence: 'Cross-Intelligence' },
+    overview: { perMonth: '/luna', contactSales: 'Kontakta benta', selectTier: 'Skohe {tier}' },
+    builder: { tierSelector: { shapeFoundation: 'Kuminsa aki', shapeMargin: 'Protehá margen', shapeGrowth: 'Krese demanda', shapePerformance: 'Tur dos' } },
+  },
+}
+
 const LocaleContext = createContext<LocaleContextValue | null>(null)
 
 function getInitialLocale(): PricingLocale {
@@ -1320,8 +1351,9 @@ export function resolveMessages(locale: string): typeof messages.en {
   if (handWritten) return handWritten as typeof messages.en
   const generated =
     generatedPricingMessages[locale as keyof typeof generatedPricingMessages]
-  if (!generated) return messages.en
-  return deepMergeMessages(messages.en, generated)
+  const additional = additionalLocaleMessages[locale as PricingLocale]
+  if (!generated && !additional) return messages.en
+  return deepMergeMessages(messages.en, generated ?? additional)
 }
 
 export function useLocale() {

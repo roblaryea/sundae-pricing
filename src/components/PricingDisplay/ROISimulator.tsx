@@ -184,7 +184,7 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
     goToPrevStep();
   };
 
-  // Per-location helper + small locale labels (localized across all 22 locales via tMicro).
+  // Per-location helper + small locale labels (localized across all 25 locales via tMicro).
   const perLoc = (n: number) => (locations > 0 ? Math.round(n / locations) : n);
   const backLabel = tMicro(locale, 'back');
   const perLocationLabel = tMicro(locale, 'perLocation');

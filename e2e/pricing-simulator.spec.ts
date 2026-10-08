@@ -34,7 +34,7 @@ test('Crew-only base estimate collects headcount without double charging bundle 
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$697');
   await page.getByLabel('Unique employees across your locations').fill('65');
-  await page.getByLabel('Payroll country',{exact:true}).fill('AE');
+  await page.getByLabel('Payroll country',{exact:true}).selectOption('AE');
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$712');
   await expect(page.getByTestId('step-region')).toContainText('60 employees included');
@@ -45,6 +45,7 @@ test('Both uses one estate and one basket with the selected term',async ({page})
   await page.getByTestId('location-count').fill('3'); await page.getByTestId('select-core_margin').click();
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$2,837');
+  await page.getByTestId('commitment-details').locator('summary').click();
   await page.getByRole('button',{name:'Annual · paid upfront'}).click();
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$2,496.56');
@@ -208,7 +209,7 @@ test('numeric edges and Starter cap keep the visible scope and reviewed quote al
 });
 test('share clipboard fallback produces a reopenable exact configuration', async ({page}) => {
   await page.addInitScript(() => Object.defineProperty(navigator,'clipboard',{value:{writeText:async () => { throw new Error('blocked'); }},configurable:true}));
-  const cfg={...base,layer:'both' as const,corePackage:'core_margin' as const,crewSkus:['crew_operations','crew_scheduling','crew_tna','crew_payroll'] as PricingIntent['crewSkus'],employees:65,payrollCountry:'ZZ',billingCycle:'annual_quarterly' as const};
+  const cfg={...base,layer:'both' as const,corePackage:'core_margin' as const,crewSkus:['crew_operations','crew_scheduling','crew_tna','crew_payroll'] as PricingIntent['crewSkus'],employees:65,payrollCountry:'US',billingCycle:'annual_quarterly' as const};
   await page.goto(`/simulator?cfg=${encodePricingIntent(cfg)}`);
   const total=await page.getByTestId('basket-total').innerText();
   await page.getByRole('button',{name:'Copy configuration link',exact:true}).click();
@@ -286,6 +287,7 @@ test('Enterprise has a proposal path and no self-serve headline or account CTA',
   await page.getByRole('button',{name:/Refine your needs/}).click();
   await page.getByRole('button',{name:'Franchise network',exact:true}).click();
   await expect(page.locator('.extension-toggle').filter({hasText:'$'})).toHaveCount(0);
+  await page.getByTestId('commitment-details').locator('summary').click();
   await expect(page.locator('.term-options')).not.toContainText('%');
 });
 test('the location average follows monthly scope and term, stays localized and is omitted for one location', async ({page}) => {
@@ -293,6 +295,7 @@ test('the location average follows monthly scope and term, stays localized and i
   await page.goto(`/simulator?cfg=${encodePricingIntent(cfg)}`);
   await expect(page.getByTestId('basket-average')).toHaveText('Average $1,346.43 per location / month · across 3 locations');
   await page.getByRole('button',{name:/Refine your needs/}).click();
+  await page.getByTestId('commitment-details').locator('summary').click();
   await page.getByRole('button',{name:'Annual · paid upfront'}).click();
   await expect(page.getByTestId('basket-average')).toContainText('$1,248.11');
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
@@ -388,6 +391,7 @@ test('Arabic remains RTL with localized controls and coherent totals',async ({pa
   await expect(page.getByTestId('basket-total')).toContainText(amount);
   await expect(page.getByTestId('step-region')).not.toContainText('3 locations');
   await page.getByRole('button',{name:/حدد احتياجاتك/}).click();
+  await page.getByTestId('commitment-details').locator('summary').click();
   await page.getByRole('button',{name:'سنوي · دفع مقدم'}).click();
   await page.getByRole('button',{name:'مراجعة التقدير',exact:true}).click();
   await expect(page.getByTestId('step-region')).toContainText('مدة الالتزام');

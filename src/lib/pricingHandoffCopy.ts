@@ -307,6 +307,48 @@ export const pricingIntentCopy = {
     ],
     "workforce": "Pekerja unik di semua lokasi",
     "payroll": "Negara penggajian"
+  },
+  "az": {
+    "title": "Konfiqurasiyanız",
+    "scope": "Məkanlar",
+    "review": "Təxmini qiyməti yoxlayın",
+    "note": "Bu təxmini qiymətdir, yekun təklif deyil. Başlamazdan əvvəl qiymət və uyğunluq təsdiqlənəcək.",
+    "terms": [
+      "Aylıq · davamlı",
+      "İllik · rüblük ödəniş",
+      "İllik · əvvəlcədən ödəniş",
+      "2 il · əvvəlcədən ödəniş"
+    ],
+    "workforce": "Məkanlar üzrə unikal əməkdaşlar",
+    "payroll": "Əməkhaqqı ölkəsi"
+  },
+  "ru": {
+    "title": "Ваша конфигурация",
+    "scope": "Локации",
+    "review": "Проверьте расчёт",
+    "note": "Это расчёт, а не окончательное предложение. Перед началом подтвердим цены и доступность плана.",
+    "terms": [
+      "Ежемесячно · с продлением",
+      "Ежегодно · поквартально",
+      "Ежегодно · предоплата",
+      "2 года · предоплата"
+    ],
+    "workforce": "Уникальные сотрудники во всех локациях",
+    "payroll": "Страна расчёта зарплаты"
+  },
+  "pap": {
+    "title": "Bo konfigurashon",
+    "scope": "Lokashonnan",
+    "review": "Revisa bo estimashon",
+    "note": "Esaki ta un estimashon, no un oferta final. Nos ta konfirmá preis i disponobilidat promé ku kuminsa.",
+    "terms": [
+      "Mensual · kontinua",
+      "Anual · paga kada trimestre",
+      "Anual · paga adelantá",
+      "2 aña · paga adelantá"
+    ],
+    "workforce": "Empleadonan unik den tur lokashon",
+    "payroll": "Pais di pago di salario"
   }
 } as const;
 export const pricingOfferNames: Record<string, string> = {

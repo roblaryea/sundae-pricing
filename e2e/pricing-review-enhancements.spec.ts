@@ -23,7 +23,7 @@ test('overview average follows the exact basket while cards round and explain th
   await expect(page.getByTestId('decision-average')).toContainText('Average $127.42 per location / month');
   const averageSize=await page.getByTestId('decision-average').locator('strong').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   const totalSize=await page.getByTestId('decision-total').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
-  expect(averageSize).toBeGreaterThan(totalSize);
+  expect(totalSize).toBeGreaterThan(averageSize);
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
   await page.getByRole('button',{name:'Franchise network',exact:true}).click();
   const extension=page.locator('.extension-toggle').filter({hasText:'Franchise'});
@@ -31,6 +31,7 @@ test('overview average follows the exact basket while cards round and explain th
   await expect(extension).toContainText('Includes 5% volume discount');
   await extension.getByRole('checkbox').check();
   await expect(page.getByTestId('basket-total')).toHaveText('$21,721.75/mo');
+  await page.getByTestId('commitment-details').locator('summary').click();
   await page.getByRole('button',{name:'Annual · paid upfront −12%',exact:true}).click();
   await expect(extension).toContainText('+$5,957.60/mo');
   await expect(extension).toContainText('Includes 12% subscription discount');
@@ -52,6 +53,15 @@ test('unavailable Starter has no price and setup guidance distinguishes self-ser
   await expect(page.getByTestId('step-region')).toContainText('Additional employees');
   await page.getByRole('button',{name:/Choose your plan/}).click();
   await expect(page.getByTestId('card-operating_suite')).not.toContainText('Add employee count');
+});
+
+test('setup guidance follows the selected pricing rail', async ({page}) => {
+  await page.goto('/');
+  await expect(page.getByTestId('setup-guide')).toContainText('Core self-service setup: $0');
+  await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter');
+  await page.getByTestId('pricing-tab-both').click();
+  await expect(page.getByTestId('setup-guide')).toContainText('Core + Crew self-service setup: $0');
+  await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter');
 });
 
 test('combined buyers edit one card set at a time and retain the other selection', async ({page}) => {
@@ -91,12 +101,48 @@ test('supported locales retain prices, localized notices and a usable mobile vie
   for (const locale of supportedLocales) {
     await page.locator('header select').selectOption(locale);
     await expect(page.locator('.selection-memory')).toHaveText(buyerReviewCopy[locale].saved);
-    await expect(page.getByTestId('decision-total')).toHaveText(new Intl.NumberFormat(locale,{style:'currency',currency:'USD',maximumFractionDigits:2}).format(15290.25)+ (locale==='en'?'/mo':await page.getByTestId('decision-total').locator('span').innerText()));
+    await expect(page.locator('header select')).toHaveValue(locale);
+    const browserAmount = await page.evaluate((value) => new Intl.NumberFormat(value.locale,{style:'currency',currency:'USD',maximumFractionDigits:2}).format(value.amount), { locale, amount: 15290.25 });
+    await expect(page.getByTestId('decision-total')).toContainText(browserAmount);
     await expect(page.getByTestId('decision-average')).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth),locale).toBe(true);
     const names=await page.locator('header button').allTextContents();
     expect(names.join(' ')).toContain(buyerReviewCopy[locale].startOver);
   }
+});
+
+test('375px decision bar keeps the monthly total primary and the average readable', async ({page}) => {
+  await page.setViewportSize({width:375,height:812});
+  await page.goto('/');
+  for (const locations of [8,120]) {
+    await page.getByTestId('location-count').fill(String(locations));
+    const total = page.getByTestId('decision-total');
+    const average = page.getByTestId('decision-average');
+    await expect(total).toBeVisible();
+    await expect(average).toBeVisible();
+    const totalBox = await total.boundingBox();
+    const averageBox = await average.boundingBox();
+    expect(totalBox && averageBox).toBeTruthy();
+    expect(averageBox!.y).toBeGreaterThanOrEqual(totalBox!.y + totalBox!.height);
+    const totalSize = await total.evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+    const averageSize = await average.locator('strong').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+    expect(totalSize).toBeGreaterThan(averageSize);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
+  }
+});
+
+test('Crew payroll uses a controlled country list and large workforces route to sales', async ({page}) => {
+  await page.goto('/');
+  await page.getByTestId('pricing-tab-crew').click();
+  await page.getByTestId('preset-operating_suite').click();
+  await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
+  const country = page.getByLabel('Payroll country',{exact:true});
+  await expect(country.locator('option[value="ZZ"]')).toHaveCount(0);
+  await expect(country.locator('option').filter({hasText:'Australia'})).toContainText('availability to confirm');
+  await country.selectOption('US');
+  await page.getByLabel('Unique employees across your locations').fill('100001');
+  await expect(page.getByText('Contact Sales',{exact:true}).first()).toBeVisible();
+  await expect(page.getByText('For teams above 100,000 employees',{exact:false})).toBeVisible();
 });
 
 test('header reviews the current plan and Start over removes remembered choices', async ({page}) => {

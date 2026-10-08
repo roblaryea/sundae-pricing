@@ -498,7 +498,7 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
     curatedFallback ??
     (generatedFallback ?? []).map((item) => ({ ...item, isGenerated: true }));
 
-  // Retranslating 22 locales against v1.7 is a separate task; until then we
+  // Retranslating 25 locales against v1.7 is a separate task; until then we
   // DROP entries written for the retired book rather than display a retired
   // offer. Dropping is safe — a shorter FAQ beats a wrong one.
   const faqItems = resolvedFaqItems.filter((item) => {

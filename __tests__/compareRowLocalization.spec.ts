@@ -2,7 +2,7 @@
  * The always-visible comparison row must not be in English.
  *
  * Three strings on the row every visitor sees were hardcoded English in a
- * product that ships 22 locales:
+ * product that ships 25 locales:
  *
  *   `covers ${n} of your ${m} domains`
  *   "cheaper per year"

@@ -33,6 +33,27 @@ const LIVE_PRICING_COPY = {
     errorBody: "No hemos podido cargar los precios en este momento. Inténtalo de nuevo en unos instantes. Si el problema continúa, reserva una demostración y repasaremos las cifras contigo.",
     retry: "Reintentar",
   },
+  az: {
+    loadingTitle: "Qiymətlər yüklənir",
+    loadingBody: "Ən son qiymətləri yükləyirik, bir az gözləyin.",
+    errorTitle: "Qiymətlər hazırda əlçatan deyil",
+    errorBody: "Qiymətləri indi yükləyə bilmədik. Bir az sonra yenidən cəhd edin. Problem davam edərsə, demo sifariş edin və rəqəmləri birlikdə nəzərdən keçirək.",
+    retry: "Yenidən cəhd et",
+  },
+  ru: {
+    loadingTitle: "Загрузка цен",
+    loadingBody: "Загружаем актуальные цены, это займёт мгновение.",
+    errorTitle: "Цены временно недоступны",
+    errorBody: "Не удалось загрузить цены. Попробуйте ещё раз через минуту. Если проблема останется, закажите демо — мы разберём цифры вместе.",
+    retry: "Повторить",
+  },
+  pap: {
+    loadingTitle: "Ta karga prijsnan",
+    loadingBody: "Nos ta karga e prijsnan mas resien, un momentu.",
+    errorTitle: "Prijsnan no ta disponibel temporalmente",
+    errorBody: "Nos no por a karga prijsnan awor. Purba atrobe den un momentu. Si e problema keda, reserva un demo pa nos revisa e sifranan hunto.",
+    retry: "Purba atrobe",
+  },
 } as const;
 
 type LivePricingCopyLocale = keyof typeof LIVE_PRICING_COPY;

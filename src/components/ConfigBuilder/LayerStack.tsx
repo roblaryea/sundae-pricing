@@ -257,7 +257,7 @@ export function LayerStack() {
   // shape-incomplete the whole subtree beneath it went undefined - the
   // generated packs carried a retired `report` layer and no `crew`, so
   // `copy.crew` was undefined and `layerItem.copy.name` threw, taking the
-  // entire simulator to the ErrorBoundary in 18 of 22 locales. tsc could not
+  // entire simulator to the ErrorBoundary in 18 of 25 locales. tsc could not
   // see it because the index lookups are typed non-optional.
   //
   // Resolving per FIELD over the English base makes a missing key structurally

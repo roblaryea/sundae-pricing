@@ -6,6 +6,56 @@ export const INTENT_CREW = ['crew_lite','crew_scheduling','crew_operations','cre
 export const INTENT_ADDONS = ['foresight_action','concept_franchise','concept_hotel_fb','concept_cloud_kitchen','concept_catering','concept_production','concept_rental_commissary'] as const;
 export const INTENT_TERMS = ['monthly','annual_quarterly','annual_upfront','two_year_upfront'] as const;
 export const INTENT_MODELS = ['single_brand','multi_brand','franchise','hotel_fb','cloud_kitchen','catering','production'] as const;
+/** Payroll countries shown in the buyer-facing selector. Values marked false
+ * are valid handoff choices, but availability still needs confirmation. */
+export const PAYROLL_COUNTRIES = [
+  { code: 'AE', name: 'United Arab Emirates', supported: true },
+  { code: 'SA', name: 'Saudi Arabia', supported: true },
+  { code: 'QA', name: 'Qatar', supported: true },
+  { code: 'BH', name: 'Bahrain', supported: true },
+  { code: 'OM', name: 'Oman', supported: true },
+  { code: 'KW', name: 'Kuwait', supported: true },
+  { code: 'GB', name: 'United Kingdom', supported: true },
+  { code: 'IE', name: 'Ireland', supported: true },
+  { code: 'CA', name: 'Canada', supported: true },
+  { code: 'US', name: 'United States', supported: true },
+  { code: 'AT', name: 'Austria', supported: true },
+  { code: 'BE', name: 'Belgium', supported: true },
+  { code: 'BG', name: 'Bulgaria', supported: true },
+  { code: 'HR', name: 'Croatia', supported: true },
+  { code: 'CY', name: 'Cyprus', supported: true },
+  { code: 'CZ', name: 'Czech Republic', supported: true },
+  { code: 'DK', name: 'Denmark', supported: true },
+  { code: 'EE', name: 'Estonia', supported: true },
+  { code: 'FI', name: 'Finland', supported: true },
+  { code: 'FR', name: 'France', supported: true },
+  { code: 'DE', name: 'Germany', supported: true },
+  { code: 'GR', name: 'Greece', supported: true },
+  { code: 'HU', name: 'Hungary', supported: true },
+  { code: 'IT', name: 'Italy', supported: true },
+  { code: 'LV', name: 'Latvia', supported: true },
+  { code: 'LT', name: 'Lithuania', supported: true },
+  { code: 'LU', name: 'Luxembourg', supported: true },
+  { code: 'MT', name: 'Malta', supported: true },
+  { code: 'NL', name: 'Netherlands', supported: true },
+  { code: 'PL', name: 'Poland', supported: true },
+  { code: 'PT', name: 'Portugal', supported: true },
+  { code: 'RO', name: 'Romania', supported: true },
+  { code: 'SK', name: 'Slovakia', supported: true },
+  { code: 'SI', name: 'Slovenia', supported: true },
+  { code: 'ES', name: 'Spain', supported: true },
+  { code: 'SE', name: 'Sweden', supported: true },
+  { code: 'AU', name: 'Australia', supported: false },
+  { code: 'IN', name: 'India', supported: false },
+  { code: 'JP', name: 'Japan', supported: false },
+  { code: 'MY', name: 'Malaysia', supported: false },
+  { code: 'NZ', name: 'New Zealand', supported: false },
+  { code: 'SG', name: 'Singapore', supported: false },
+  { code: 'ZA', name: 'South Africa', supported: false },
+] as const;
+export const PAYROLL_COUNTRY_CODES = PAYROLL_COUNTRIES.map(({ code }) => code);
+export const SELF_SERVE_EMPLOYEE_LIMIT = 100_000;
+export const MAX_EMPLOYEE_COUNT = 1_000_000;
 export interface PricingIntent {
   v: 2;
   layer: 'core' | 'crew' | 'both';
@@ -53,10 +103,14 @@ export function parsePricingIntent(value: unknown): PricingIntent | null {
   if (wt.includes('bundle') && wt.length !== 1) return null;
   if (wt.length && !['core_growth','core_performance'].includes(x.corePackage as string)) return null;
   if (crew.includes('crew_lite') && (crew.length !== 1 || (x.locations as number) > 5)) return null;
-  const employees = x.employees ?? null;
-  if (employees !== null && (!Number.isInteger(employees) || (employees as number) < 0 || (employees as number) > 1000000)) return null;
+  const isCoreOnly = x.layer === 'core';
+  const employees = isCoreOnly ? null : x.employees ?? null;
+  if (employees !== null && (!Number.isInteger(employees) || (employees as number) < 0 || (employees as number) > MAX_EMPLOYEE_COUNT)) return null;
   const payrollCountry = x.payrollCountry ?? '';
-  if (typeof payrollCountry !== 'string' || !/^(|[A-Z]{2})$/.test(payrollCountry)) return null;
+  if (typeof payrollCountry !== 'string') return null;
+  // A Core handoff never carries payroll data. Ignore stale values from a
+  // previous Crew quote rather than rejecting an otherwise valid Core quote.
+  if (!isCoreOnly && !PAYROLL_COUNTRY_CODES.includes(payrollCountry as typeof PAYROLL_COUNTRY_CODES[number]) && payrollCountry !== '') return null;
   if (x.layer === 'crew' && (addOns.length || wt.length || ci !== 'none')) return null;
   if (x.layer !== 'core' && crew.length === 0) return null;
   const catalogue = x.catalogue as PricingIntent['catalogue'];
@@ -65,7 +119,7 @@ export function parsePricingIntent(value: unknown): PricingIntent | null {
     v: 2, layer: x.layer as PricingIntent['layer'], corePackage: x.corePackage as PricingIntent['corePackage'], locations: x.locations as number,
     addOns, crewSkus: x.layer === 'core' ? [] : normalizeCrewSelection(crew), watchtowerModules: normalizeWatchtowerSelection(wt),
     billingCycle: cycle as PricingIntent['billingCycle'], crossIntelligence: ci as PricingIntent['crossIntelligence'], operatingModels: models,
-    employees: employees as number | null, payrollCountry,
+    employees: employees as number | null, payrollCountry: isCoreOnly ? '' : payrollCountry,
   };
 }
 export function encodePricingIntent(intent: PricingIntent): string {

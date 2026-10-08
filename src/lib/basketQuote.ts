@@ -2,6 +2,7 @@ import { corePackages, detectClientType } from '../data/pricing';
 import { calculateFullPrice, applyDiscounts, resolveImplementationFee } from './pricingEngine';
 import { computeCrewQuote } from './crewPricing';
 import { crewSkus } from '../data/pricing';
+import { SELF_SERVE_EMPLOYEE_LIMIT } from './pricingIntent';
 import type { PricingIntent } from './pricingIntent';
 
 /** One calculation for overview, review, PDF, demo and share. No eligibility grants. */
@@ -27,7 +28,8 @@ export function calculateBasketQuote(config: PricingIntent) {
   const implementation = resolveImplementationFee([...(core ? [core.implementation.classId] : []), ...(crew ? [crew.implementation.classId] : [])]);
   const specialistScoping = config.addOns.some((id) => id.startsWith('concept_'));
   const payrollNeedsScoping = Boolean(crew?.selectedSkus.includes('crew_payroll'));
-  const enterprise = config.locations >= 250;
+  const employeeLimitExceeded = Boolean(crew && config.employees !== null && config.employees > SELF_SERVE_EMPLOYEE_LIMIT);
+  const enterprise = config.locations >= 250 || employeeLimitExceeded;
   const needsCrewSelection = config.layer !== 'core' && config.crewSkus.length === 0;
   return {
     core, crew, subtotal, monthly, annual: monthly * 12,
@@ -36,7 +38,7 @@ export function calculateBasketQuote(config: PricingIntent) {
     discounts: net.discounts, implementation,
     includedEmployees, excessEmployees, employeeOverage, employeeRate: rate,
     workforceUnknown: Boolean(crew && config.employees === null), specialistScoping, payrollNeedsScoping,
-    enterprise, needsCrewSelection,
+    enterprise, employeeLimitExceeded, needsCrewSelection,
     includedForesight: config.layer !== 'crew' && corePackages[config.corePackage].includesForesight === true,
     lines: [ ...(core?.breakdown ?? []), ...(crew?.lines.map((l) => ({ item: l.label, price: l.monthly })) ?? []) ],
   };

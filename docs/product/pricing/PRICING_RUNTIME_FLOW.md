@@ -102,4 +102,4 @@ npm run qa:intent
 
 These gates validate the repository. They do not replace live catalogue and Stripe verification.
 
-The buyer follow-up verification passed 1,345 unit tests and 50 targeted Chromium scenarios. The new suite includes 22 locales, discount/average consistency, combined selection, Starter availability, reset/current-review behavior desktop/mobile axe on choose/refine, feature-help hover/click/focus/Escape, model icon selection and English/Arabic/Urdu theme-switch bounds. Native accessibility names and keyboard focus were inspected; a real screen-reader session and production funnel measurement remain pending.
+The buyer follow-up verification passed 1,345 unit tests and 50 targeted Chromium scenarios. The new suite includes 25 locales, discount/average consistency, combined selection, Starter availability, reset/current-review behavior desktop/mobile axe on choose/refine, feature-help hover/click/focus/Escape, model icon selection and English/Arabic/Urdu theme-switch bounds. Native accessibility names and keyboard focus were inspected; a real screen-reader session and production funnel measurement remain pending.

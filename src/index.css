@@ -91,7 +91,7 @@
  * On a page whose job is to look expensive, that is the detail that undoes it.
  *
  * Deliberately CSS rather than hand-placed &nbsp; in the copy. This site ships
- * 22 locales; a non-breaking space fixes exactly one of them and silently rots
+ * 25 locales; a non-breaking space fixes exactly one of them and silently rots
  * the moment a translation is revised. `balance` evens the lines of a short
  * heading, `pretty` stops a paragraph ending on a single stranded word, and
  * both do it per-language, at the width the reader actually has.
@@ -655,7 +655,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .step-title { margin-bottom:30px; }
 .step-title h1 { font-size:40px; letter-spacing:-.04em; font-weight:500; }
 .refinement-layout { display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1fr); gap:32px; align-items:start; }
-.refinement-fields { display:grid; gap:22px; }
+.refinement-fields { display:grid; gap:18px; }
 .refine-panel { padding:25px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 22%,transparent); border-radius:18px; background:var(--color-sundae-surface); }
 .refine-panel > p { font-size:12px; line-height:1.65; color:var(--color-sundae-muted); margin-top:12px; }
 .model-options { display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; }
@@ -672,6 +672,17 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .term-options button { display:flex; justify-content:space-between; gap:16px; padding:14px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 25%,transparent); border-radius:9px; font-size:13px; cursor:pointer; }
 .term-options button[aria-pressed=true] { border-color:var(--color-sundae-accent); }
 .term-options button strong { color:var(--color-sundae-accent); }
+.commitment-panel { margin-top:0; padding-block:0; }
+.commitment-panel > summary { padding-block:22px; }
+.commitment-title { font-family:var(--font-display); font-size:24px; font-weight:500; letter-spacing:-.025em; }
+.commitment-panel > summary > span { min-width:0; }
+.commitment-panel > summary > svg { flex-shrink:0; }
+.commitment-panel > summary .commitment-discount { color:var(--color-sundae-accent); }
+.commitment-panel .term-options { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:0; }
+.commitment-panel .term-options button { align-items:center; min-height:58px; text-align:start; }
+.commitment-panel .term-options button[aria-pressed=true] { background:color-mix(in srgb,var(--color-sundae-accent) 8%,transparent); }
+.commitment-panel .term-options button:hover { border-color:var(--color-sundae-accent); }
+.commitment-panel .term-options button strong { flex-shrink:0; }
 .quote-aside { position:sticky; top:120px; }
 .basket-summary { border:1px solid color-mix(in srgb,var(--color-sundae-muted) 25%,transparent); border-radius:20px; background:var(--color-sundae-surface); padding:32px; }
 .basket-price { font-size:clamp(36px,4vw,52px); line-height:1.2; letter-spacing:-.05em; font-weight:600; margin:18px 0 10px; font-variant-numeric:tabular-nums; }
@@ -793,6 +804,8 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .decision-average { font-size:12px; line-height:1.6; color:var(--color-sundae-muted); }
 .workforce-prompt { display:flex; align-items:center; gap:5px; text-align:start; font-size:12px; line-height:1.6; color:var(--color-sundae-accent); cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
 .extension-discount { display:block; font-size:10px; color:var(--color-sundae-muted); margin-top:4px; }
+.availability-note { font-size:12px; line-height:1.6; color:var(--color-sundae-muted); margin:12px 0 0; }
+.refine-panel select { width:100%; min-height:46px; margin-top:8px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 30%,transparent); border-radius:10px; padding:10px 12px; background:var(--color-sundae-surface); color:var(--color-sundae-text); font-size:14px; }
 @media (max-width:640px) {
   .mobile-plan-select, .comparison-mobile { display:block; }
   .comparison-desktop { display:none; }
@@ -825,12 +838,12 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .plan-total bdi { font-weight:600; margin-inline-start:5px; }
 .is-selected .plan-total { color:#64564a; }
 .decision-total-row { display:flex; align-items:baseline; justify-content:space-between; gap:16px; }
-.pricing-decision-bar .has-average { display:block; }
-.pricing-decision-bar .average-price { grid-template-columns:minmax(0,1fr) auto; align-items:baseline; gap:3px 16px; }
-.pricing-decision-bar .average-price-unit { grid-column:1 / -1; }
-.pricing-decision-bar .average-price-amount { font-size:32px; }
-.has-average .decision-total-row { margin-top:7px; }
-.pricing-decision-bar .has-average .decision-total-row strong { font-size:15px; letter-spacing:0; }
+.pricing-decision-bar .has-average { display:grid; gap:7px; }
+.pricing-decision-bar .average-price { display:flex; flex-wrap:wrap; align-items:baseline; gap:3px 7px; }
+.pricing-decision-bar .average-price-label { flex-basis:100%; }
+.pricing-decision-bar .average-price-amount { font-size:18px; font-weight:500; letter-spacing:-.02em; }
+.has-average .decision-total-row { order:2; }
+.pricing-decision-bar .has-average .decision-total-row strong { font-size:32px; letter-spacing:-.03em; }
 .pricing-decision-bar .has-average .decision-total-row strong span { font-size:11px; }
 .basket-summary > .average-price { margin:18px 0 16px; }
 .basket-summary .average-price-amount { font-size:clamp(40px,4vw,52px); }
@@ -839,8 +852,12 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .basket-price.is-secondary { font-size:20px; letter-spacing:-.02em; margin:0; }
 .basket-price.is-secondary small { font-size:12px; }
 @media (max-width:640px) {
-  .pricing-decision-bar > .decision-price { display:block; }
-  .pricing-decision-bar .average-price-amount { font-size:30px; }
+  .pricing-decision-bar > .decision-price { display:flex; flex-direction:column; gap:7px; }
+  .pricing-decision-bar .decision-total-row { order:0; width:100%; align-items:baseline; }
+  .pricing-decision-bar .has-average .decision-total-row strong { font-size:25px; letter-spacing:-.03em; }
+  .pricing-decision-bar .decision-average { order:1; width:100%; }
+  .pricing-decision-bar .average-price { display:block; }
+  .pricing-decision-bar .average-price-amount { font-size:18px; font-weight:500; letter-spacing:-.02em; margin-inline-start:4px; }
   .pricing-decision-bar .average-price-label, .pricing-decision-bar .average-price-unit { font-size:11px; }
   .basket-summary .average-price-amount { font-size:42px; }
   .basket-total-row { flex-wrap:wrap; gap:3px 14px; }
@@ -875,15 +892,24 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 @media (pointer:coarse) { .feature-help-trigger { width:36px; height:36px; margin-block:-4px; } }
 
 /* Pricing vocabulary maps to the same Lucide symbols used in onboarding. */
-.model-options { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
-.model-options button { position:relative; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:12px; min-height:116px; padding:16px; border-radius:13px; background:var(--color-sundae-surface); }
+.model-options { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+.model-options button { position:relative; display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:10px; min-height:104px; padding:14px; border-radius:13px; background:var(--color-sundae-surface); text-align:start; }
 .model-icon { display:grid; place-items:center; height:40px; width:40px; border-radius:11px; background:color-mix(in srgb,var(--color-sundae-muted) 10%,transparent); color:var(--color-sundae-muted); }
 .model-options button[aria-pressed=true] .model-icon { background:color-mix(in srgb,var(--color-sundae-accent) 13%,transparent); color:var(--color-sundae-accent); }
 .model-label { font-size:13px; font-weight:600; line-height:1.5; overflow-wrap:anywhere; }
-.model-check { position:absolute; top:16px; inset-inline-end:16px; display:grid; place-items:center; height:20px; width:20px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 30%,transparent); border-radius:50%; }
+.model-check { position:absolute; top:14px; inset-inline-end:14px; display:grid; place-items:center; height:20px; width:20px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 30%,transparent); border-radius:50%; }
 .model-options button[aria-pressed=true] .model-check { border-color:var(--color-sundae-accent); background:var(--color-sundae-accent); color:var(--color-ink); }
 .model-options button:hover, .model-options button:focus-visible { border-color:var(--color-sundae-accent); }
-@media (max-width:700px) { .model-options button { min-height:110px; padding:14px; } .model-check { top:14px; inset-inline-end:14px; } }
+@media (min-width:641px) and (max-width:1000px) { .model-options { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:640px) {
+  .model-options { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .model-options button { min-height:100px; }
+  .model-icon { width:34px; height:34px; }
+  .commitment-panel { padding-block:0; }
+  .commitment-title { font-size:23px; }
+  .commitment-panel .term-options { grid-template-columns:minmax(0,1fr); }
+  .commitment-panel .term-options button { min-height:48px; }
+}
 
 .plan-card li > svg { margin-top:4px; }
 .sku-options .crew-option label { display:block; min-height:unset; }

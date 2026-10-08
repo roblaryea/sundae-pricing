@@ -11,7 +11,7 @@ The published database catalogue in `sundae-backend` remains the runtime commerc
 
 ## Review deployment
 
-The latest enhanced pricing preview is built from `1c13440` on `codex/pricing-buyer-review-20261008` at `https://sundae-pricing-k6zqhll1y-sundaes-projects-afd45f7e.vercel.app` (Vercel Ready / preview). It supersedes the earlier `9a49b90` preview. Use the owner-provided share link to establish preview access; configuration/PDF links need that access cookie. The URL-scoped share token is not stored in Git. The preview loads the published catalogue through its same-origin Vercel proxy. Companion backend/app/website changes are pushed draft PRs, not released receivers. Production and billing are unchanged. See the superseding review deployment record in `PRICING_AUDIT_REPORT.md`.
+The latest feature-help/icon pricing preview is built from `15c1d5c` on `codex/pricing-buyer-review-20261008` at `https://sundae-pricing-m9u7fk38o-sundaes-projects-afd45f7e.vercel.app` (Vercel Ready / preview). It supersedes the earlier `1c13440` preview. Native checks confirmed feature help without selection/price side effects, the onboarding icon grid, the exact Growth/Franchise annual-upfront example and the contained Arabic mobile theme control. Root and catalogue proxy returned HTTP 200. Use the owner-provided share link to establish preview access; configuration/PDF links need that access cookie. The URL-scoped share token is not stored in Git. The preview loads the published catalogue through its same-origin Vercel proxy. Companion backend/app/website changes are pushed draft PRs, not released receivers. Production and billing are unchanged. See the superseding review deployment record in `PRICING_AUDIT_REPORT.md`.
 
 ## Runtime sequence
 
@@ -102,4 +102,4 @@ npm run qa:intent
 
 These gates validate the repository. They do not replace live catalogue and Stripe verification.
 
-The buyer follow-up verification passed 1,345 unit tests and 42 targeted Chromium scenarios. The new suite includes 22 locales, discount/average consistency, combined selection, Starter availability, reset/current-review behavior and desktop/mobile axe on choose/refine. Native accessibility names and keyboard focus were inspected; a real screen-reader session and production funnel measurement remain pending.
+The buyer follow-up verification passed 1,345 unit tests and 50 targeted Chromium scenarios. The new suite includes 22 locales, discount/average consistency, combined selection, Starter availability, reset/current-review behavior desktop/mobile axe on choose/refine, feature-help hover/click/focus/Escape, model icon selection and English/Arabic/Urdu theme-switch bounds. Native accessibility names and keyboard focus were inspected; a real screen-reader session and production funnel measurement remain pending.

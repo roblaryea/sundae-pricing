@@ -6,7 +6,7 @@
 
 ## Feature explanations and operating-model icons — 2026-10-08
 
-Implemented locally on `codex/pricing-buyer-review-20261008`; the next preview supersedes the earlier deployment below.
+Committed and pushed on `codex/pricing-buyer-review-20261008` in `79a3e14` (feature help/icons), `6b92d8d` (retained FAQ/footer) and `15c1d5c` (RTL theme control). The fixed reviewed preview is **https://sundae-pricing-m9u7fk38o-sundaes-projects-afd45f7e.vercel.app**, Vercel Ready / preview, built from `15c1d5c`. It supersedes the earlier preview below. The owner’s URL-scoped share link expires on 22 October 2026; its token is kept outside Git/PRs.
 
 - Core card features, desktop/mobile comparisons, Crew cards/custom assembly, Foresight, concept extensions, Watchtower and Cross-Intelligence Pro have independently operable information icons. English explanations describe an operator decision and commercial benefit without promising savings. Payroll country support and specialist scoping remain explicit. Existing translated catalogue explanations are reused for older feature families; missing families and accessible help labels have copy for all 22 site locales.
 - Help opens on hover or keyboard focus; click/tap pins it. Escape, a second click, another help control or an outside click dismisses it. Panels use Hanken typography and warm espresso, stay within the viewport and render above clipping/scroll containers. Plan cards now contain a native selection button and separate help buttons, avoiding nested interactive elements; the selection target still spans the card. Checkbox prices have accessible descriptions. Opening help cannot select a plan or add a paid capability.
@@ -14,6 +14,8 @@ Implemented locally on `codex/pricing-buyer-review-20261008`; the next preview s
 - Companion review #48 identified stale commitment copy in the retained legacy FAQ (not mounted in the new overview/simulator). Incorporated its en/ar/fr/es schedule corrections and removed the obsolete footer revision fields; the footer fallback effective date is 23 August 2026. No new price-lock guarantee is added. Generated FAQs already suppress numeric claims structurally. Current buyer totals/payment terms continue to come from the catalogue-backed flow.
 - Mobile image inspection found the theme thumb escaping its track in RTL because normal block alignment moved its origin to the right before a positive horizontal translation. It now has an explicit absolute origin, with English/Arabic/Urdu containment and toggle checks. The shared header is the only ThemeToggle consumer.
 - Current validation: **50 targeted Chromium scenarios**, **42 files / 1,345 unit tests**, **ESLint without warnings**, and **TypeScript/Vite build** passed. The build includes translation QA, handoff parity, pricebook validation and initial HTML. The browser cases include hover/click/focus/Escape, untouched quote totals, whole-card selection, 22 locale help labels, English/Arabic mobile bounds, automated axe with help open, model icon selection, prior buyer enhancements, share/PDF and consent-aware event execution. Native in-app visual inspection confirmed the espresso help panel and branded icon grid. A real screen-reader session remains separate.
+
+- Final hosted evidence: root and active-catalogue proxy returned HTTP 200. Native help displayed the Profit Intelligence explanation while the selected Foundation quote stayed $1,195/month. Franchise model selection and its help did not add a charge; explicit extension selection plus annual upfront payment produced $935.73/location/month, $2,807.20/month and $33,686.40 due upfront. The 375px Arabic header now keeps its theme thumb inside the switch; the English mobile model grid remains legible. English and the normal viewport were restored. Screenshots: `hosted-feature-help.png`, `hosted-business-icons.png` and `hosted-business-icons-mobile.png`.
 
 ### Earlier reviewer items: exact closure status
 
@@ -29,7 +31,7 @@ Implemented locally on `codex/pricing-buyer-review-20261008`; the next preview s
 | 8. Unknown employees | Prompt beside price and on Crew cards; entered workforce updates estimates | Payroll-country coverage/launch scope confirmed before setup |
 | 9. Remembered selections | Saved-browser notice and Start over | Persistence is intentional and disclosed |
 | 10. Header quote flow | Current-review link rather than restarting a competing simulator | Companion receivers require release |
-| Crew inputs, eligible Watchtower, locales, PDF/share | Covered in targeted browser tests; previous native hosted walkthroughs also recorded below | Current hosted tooltip/icon preview check follows deployment |
+| Crew inputs, eligible Watchtower, locales, PDF/share | Covered in targeted browser tests; previous native hosted walkthroughs also recorded below | Native hosted tooltip/icon/RTL checks passed on the recorded preview |
 | Accessibility | Keyboard, accessible names/descriptions and axe pass | VoiceOver/NVDA session not performed |
 | Funnel measurement | Consent-aware events exercised, including late consent and refinements | Production collection/dashboard verification and baseline remain open |
 | Production provenance | Preview commits/deployments recorded; production unchanged | Companion backend/app/website releases, authenticated quotes, checkout, entitlements/trials and Stripe parity remain open |
@@ -37,7 +39,7 @@ Implemented locally on `codex/pricing-buyer-review-20261008`; the next preview s
 ## Review deployment record — 2026-10-08
 
 
-**Latest enhanced preview:** https://sundae-pricing-k6zqhll1y-sundaes-projects-afd45f7e.vercel.app — Vercel Ready / preview, built from `1c13440` on `codex/pricing-buyer-review-20261008`. This supersedes the older fixed preview described below. A new URL-scoped share link is supplied directly to the owner and expires on 22 October 2026; its token remains outside Git/PRs. Native hosted checks verified the Growth + Franchise configuration at three locations, annual upfront terms, emphasized $935.73/location/month, smaller $2,807.20/month investment and $33,686.40 subscription payment. Copy/reopen preserved these values. Hosted root and active-catalogue proxy returned HTTP 200.
+**Earlier enhanced preview (superseded above):** https://sundae-pricing-k6zqhll1y-sundaes-projects-afd45f7e.vercel.app — Vercel Ready / preview, built from `1c13440` on `codex/pricing-buyer-review-20261008`. This supersedes the older fixed preview described below. A new URL-scoped share link is supplied directly to the owner and expires on 22 October 2026; its token remains outside Git/PRs. Native hosted checks verified the Growth + Franchise configuration at three locations, annual upfront terms, emphasized $935.73/location/month, smaller $2,807.20/month investment and $33,686.40 subscription payment. Copy/reopen preserved these values. Hosted root and active-catalogue proxy returned HTTP 200.
 
 ### Follow-up buyer review fixes
 

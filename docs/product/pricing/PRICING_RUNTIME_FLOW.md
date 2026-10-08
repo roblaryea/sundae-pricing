@@ -11,7 +11,7 @@ The published database catalogue in `sundae-backend` remains the runtime commerc
 
 ## Review deployment
 
-The pricing preview is built from `9a49b90` at `https://sundae-pricing-62tamebuk-sundaes-projects-afd45f7e.vercel.app`. Use the owner-provided share link to establish preview access; configuration/PDF links need that access cookie. The URL-scoped share token is not stored in Git. The preview loads the published catalogue through its same-origin Vercel proxy. Companion backend/app/website changes are pushed draft PRs, not released receivers. Production and billing are unchanged. See the superseding review deployment record in `PRICING_AUDIT_REPORT.md`.
+The latest enhanced pricing preview is built from `1c13440` on `codex/pricing-buyer-review-20261008` at `https://sundae-pricing-k6zqhll1y-sundaes-projects-afd45f7e.vercel.app` (Vercel Ready / preview). It supersedes the earlier `9a49b90` preview. Use the owner-provided share link to establish preview access; configuration/PDF links need that access cookie. The URL-scoped share token is not stored in Git. The preview loads the published catalogue through its same-origin Vercel proxy. Companion backend/app/website changes are pushed draft PRs, not released receivers. Production and billing are unchanged. See the superseding review deployment record in `PRICING_AUDIT_REPORT.md`.
 
 ## Runtime sequence
 

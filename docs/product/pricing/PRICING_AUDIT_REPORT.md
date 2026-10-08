@@ -4,6 +4,34 @@
 
 **Audience:** internal engineering and QA. Catalogue revisions and IDs remain in audit evidence; customer screens, initial HTML, PDF text and outgoing selection links omit them. Customers see the effective date.
 
+## Feature explanations and operating-model icons — 2026-10-08
+
+Implemented locally on `codex/pricing-buyer-review-20261008`; the next preview supersedes the earlier deployment below.
+
+- Core card features, desktop/mobile comparisons, Crew cards/custom assembly, Foresight, concept extensions, Watchtower and Cross-Intelligence Pro have independently operable information icons. English explanations describe an operator decision and commercial benefit without promising savings. Payroll country support and specialist scoping remain explicit. Existing translated catalogue explanations are reused for older feature families; missing families and accessible help labels have copy for all 22 site locales.
+- Help opens on hover or keyboard focus; click/tap pins it. Escape, a second click, another help control or an outside click dismisses it. Panels use Hanken typography and warm espresso, stay within the viewport and render above clipping/scroll containers. Plan cards now contain a native selection button and separate help buttons, avoiding nested interactive elements; the selection target still spans the card. Checkbox prices have accessible descriptions. Opening help cannot select a plan or add a paid capability.
+- The seven business choices use the onboarding icon vocabulary: Store for a single brand, Building2 for diversified/franchise groups, Hotel, Truck for delivery kitchens, PartyPopper for catering/events and Factory for production. Selected state combines a coral border, icon treatment and check mark. Labels and keyboard access remain explicit; selecting a business model only recommends extensions.
+- Current validation: **49 targeted Chromium scenarios**, **42 files / 1,345 unit tests**, **ESLint without warnings**, and **TypeScript/Vite build** passed. The build includes translation QA, handoff parity, pricebook validation and initial HTML. The browser cases include hover/click/focus/Escape, untouched quote totals, whole-card selection, 22 locale help labels, English/Arabic mobile bounds, automated axe with help open, model icon selection, prior buyer enhancements, share/PDF and consent-aware event execution. Native in-app visual inspection confirmed the espresso help panel and branded icon grid. A real screen-reader session remains separate.
+
+### Earlier reviewer items: exact closure status
+
+| Reviewer item | Test-preview result | Remaining boundary |
+|---|---|---|
+| 1. Hidden setup | Visible $0 self-service / $1,500–$7,500 assisted / from $12,500 complex guide, with expanded launch fees | Final setup follows confirmed scope; no invented package-to-class assignment |
+| 2. Headline cents | Whole-dollar card prices; exact basket/payment/PDF amounts | None for the requested display change |
+| 3. Hidden discounts | Applied discount labeled on cards and extensions; consistent net prices | Live final quote/billing parity remains a release gate |
+| 4. Both card overload | One editable Core/Crew card set with the other in a summary | None for this presentation change |
+| 5. Unavailable Starter price | No price above five locations; selection disabled | None for this presentation change |
+| 6. Inherited features | Foundation inheritance explicit; Performance combines Margin/Growth | Comparison and help retain detailed feature coverage |
+| 7. Mobile descriptions/comparison | Full selected card, native selector and collapsed per-plan comparison | Real-device/screen-reader release pass still needed |
+| 8. Unknown employees | Prompt beside price and on Crew cards; entered workforce updates estimates | Payroll-country coverage/launch scope confirmed before setup |
+| 9. Remembered selections | Saved-browser notice and Start over | Persistence is intentional and disclosed |
+| 10. Header quote flow | Current-review link rather than restarting a competing simulator | Companion receivers require release |
+| Crew inputs, eligible Watchtower, locales, PDF/share | Covered in targeted browser tests; previous native hosted walkthroughs also recorded below | Current hosted tooltip/icon preview check follows deployment |
+| Accessibility | Keyboard, accessible names/descriptions and axe pass | VoiceOver/NVDA session not performed |
+| Funnel measurement | Consent-aware events exercised, including late consent and refinements | Production collection/dashboard verification and baseline remain open |
+| Production provenance | Preview commits/deployments recorded; production unchanged | Companion backend/app/website releases, authenticated quotes, checkout, entitlements/trials and Stripe parity remain open |
+
 ## Review deployment record — 2026-10-08
 
 

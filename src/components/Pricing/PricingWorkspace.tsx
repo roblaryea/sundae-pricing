@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState } from 'react';
+import { lazy, Suspense, useId, useRef, useState } from 'react';
 import { ArrowRight, Check, ChevronDown, Download, Link as LinkIcon, Minus, Plus, SlidersHorizontal } from 'lucide-react';
 import { corePackages, CORE_PACKAGE_IDS, conceptSkus, foresightAction, packageAllowsWatchtower, billingDiscounts, crossIntelligence, crewSkus, crewBundles, watchtower, volumeDiscounts, DISCOUNT_RULES, implementationClasses, IMPLEMENTATION_CLASS_ORDER } from '../../data/pricing';
 import { CREW_PRESETS, CREW_SKU_LIST } from '../../lib/crewPricing';
@@ -14,6 +14,9 @@ import { trackPricingEvent } from '../../lib/analytics';
 import { usePricingViewEvent } from '../../hooks/usePricingTelemetry';
 import { pricingPolicyCopy } from '../../lib/pricingPolicyCopy';
 import { AveragePrice } from './AveragePrice';
+import { FeatureHelp, FeatureLabel } from './FeatureHelp';
+import { OPERATING_MODEL_ICONS } from '../../lib/operatingModelIcons';
+import type { FeatureHelpId } from '../../lib/featureHelpCopy';
 import { buyerPlanCopy } from '../../lib/buyerPlanCopy';
 import { calculateWatchtowerPrice } from '../../lib/watchtowerEngine';
 import { fillBuyerReviewCopy } from '../../lib/buyerReviewCopy';
@@ -68,11 +71,11 @@ function CoreComparison() {
   return <details className="comparison-section pricing-disclosure" data-testid="plan-comparison-details"><summary>{copy.compare}<ChevronDown size={16} aria-hidden/></summary>
     <p className="pricing-caption">{buyerPlanCopy[locale].comparison}</p>
     <div className="comparison-desktop comparison-scroll" tabIndex={0} role="region" aria-label={copy.compare}><table className="comparison-table"><thead><tr><th scope="col">{messages.builder.tierSelector.feature}</th>{CORE_PACKAGE_IDS.map((id) => <th scope="col" key={id}>{localizeTierName(corePackages[id].name,locale)}</th>)}</tr></thead><tbody>
-      {(['profit','labor','revenue','pulse','inventory','purchasing','marketing','reservations','guest','guest_crm'] as const).map((domain) => <tr key={domain}><th scope="row">{localizeModuleName(domain,locale)}</th>{CORE_PACKAGE_IDS.map((id) => <td key={id}>{corePackages[id].includesDomainModules.includes(domain) ? <span role="img" aria-label={copy.included}><Check size={16} aria-hidden/></span> : <span aria-label={copy.excluded}>—</span>}</td>)}</tr>)}
-      <tr><th scope="row">Foresight</th>{CORE_PACKAGE_IDS.map((id) => <td key={id}>{corePackages[id].includesForesight ? <span role="img" aria-label={copy.included}><Check size={16} aria-hidden/></span> : copy.available}</td>)}</tr>
+      {(['profit','labor','revenue','pulse','inventory','purchasing','marketing','reservations','guest','guest_crm'] as const).map((domain) => <tr key={domain}><th scope="row"><FeatureLabel feature={domain} name={localizeModuleName(domain,locale)}/></th>{CORE_PACKAGE_IDS.map((id) => <td key={id}>{corePackages[id].includesDomainModules.includes(domain) ? <span role="img" aria-label={copy.included}><Check size={16} aria-hidden/></span> : <span aria-label={copy.excluded}>—</span>}</td>)}</tr>)}
+      <tr><th scope="row"><FeatureLabel feature="foresight_action" name="Foresight & Action"/></th>{CORE_PACKAGE_IDS.map((id) => <td key={id}>{corePackages[id].includesForesight ? <span role="img" aria-label={copy.included}><Check size={16} aria-hidden/></span> : copy.available}</td>)}</tr>
     </tbody></table></div>
     <div className="comparison-mobile"><label htmlFor="comparison-plan">{copy.compare}</label><select id="comparison-plan" data-testid="comparison-plan" value={comparisonPlan} onChange={(e) => setComparisonPlan(e.target.value as typeof comparisonPlan)}>{CORE_PACKAGE_IDS.map((id) => <option key={id} value={id}>{localizeTierName(corePackages[id].name,locale)}</option>)}</select>
-      <ul>{corePackages[comparisonPlan].includesDomainModules.map((id) => <li key={id}><Check size={15} aria-hidden/>{localizeModuleName(id,locale)}</li>)}<li><Check size={15} aria-hidden/>Foresight · {corePackages[comparisonPlan].includesForesight ? copy.included : copy.available}</li></ul>
+      <ul>{corePackages[comparisonPlan].includesDomainModules.map((id) => <li key={id}><Check size={15} aria-hidden/><FeatureLabel feature={id} name={localizeModuleName(id,locale)}/></li>)}<li><Check size={15} aria-hidden/><FeatureLabel feature="foresight_action" name="Foresight & Action">Foresight · {corePackages[comparisonPlan].includesForesight ? copy.included : copy.available}</FeatureLabel></li></ul>
     </div>
   </details>;
 }
@@ -101,7 +104,7 @@ export function PlanChoices() {
         {CORE_PACKAGE_IDS.map((id, i) => {
           const pkg = corePackages[id];
           const q = calculateBasketQuote({ ...config, layer:'core', crewSkus:[], employees:null, corePackage: id, addOns: [], watchtowerModules: [], crossIntelligence: 'none' });
-          return <button type="button" key={id} aria-pressed={config.corePackage === id} data-testid={`select-${id}`} className={`plan-card ${config.corePackage === id ? 'is-selected' : ''}`} onClick={() => { if (!state.layer) state.setLayer('core'); state.setCorePackage(id); }}>
+          return <article key={id} data-testid={`card-${id}`} className={`plan-card ${config.corePackage === id ? 'is-selected' : ''}`}>
             <div className="plan-top"><span className="plan-kicker">{shapeLabels[i]}</span><span className="selection-mark" aria-hidden>{config.corePackage === id && <Check size={13}/>}</span></div>
             <h2>{localizeTierName(pkg.name, locale).replace(/^Core /,'')}</h2>
             <div className="plan-price">{q.averageMonthlyPerLocation !== null ? <AveragePrice amount={cardMoney(q.averageMonthlyPerLocation)} locations={config.locations}/> : <>{q.enterprise ? messages.overview.contactSales : cardMoney(q.monthly)}{!q.enterprise && <small>{messages.overview.perMonth}</small>}</>}</div>
@@ -109,9 +112,9 @@ export function PlanChoices() {
             {discount.label && <p className="card-discount">{discount.label}</p>}
             <p className="plan-purpose">{buyerPlanCopy[locale].purposes[i]}</p>
             {i > 0 && <p className="plan-inheritance">{i === 3 ? reviewCopy.combinedPlus : reviewCopy.foundationPlus}</p>}
-            <ul>{domains[i].map((domain) => <li key={domain}><Check size={13} aria-hidden/>{localizeModuleName(domain, locale)}</li>)}{i === 3 && <li><Check size={13} aria-hidden/>{copy.foresight}</li>}</ul>
-            <span className="plan-select">{config.corePackage === id ? copy.selected : messages.overview.selectTier.replace('{tier}',localizeTierName(pkg.name,locale))}<ArrowRight size={15} aria-hidden/></span>
-          </button>;
+            <ul>{domains[i].map((domain) => <li key={domain}><Check size={13} aria-hidden/><FeatureLabel feature={domain} name={localizeModuleName(domain, locale)}/></li>)}{i === 3 && <li><Check size={13} aria-hidden/><FeatureLabel feature="foresight_action" name="Foresight & Action">{copy.foresight}</FeatureLabel></li>}</ul>
+            <button type="button" className="plan-select" data-testid={`select-${id}`} aria-pressed={config.corePackage === id} aria-label={messages.overview.selectTier.replace('{tier}',localizeTierName(pkg.name,locale))} onClick={() => { if (!state.layer) state.setLayer('core'); state.setCorePackage(id); }}>{config.corePackage === id ? copy.selected : messages.overview.selectTier.replace('{tier}',localizeTierName(pkg.name,locale))}<ArrowRight size={15} aria-hidden/></button>
+          </article>;
         })}
       </div>
       <CoreComparison/>
@@ -124,15 +127,15 @@ export function PlanChoices() {
           const active = preset.id === selectedPreset?.id;
           const disabled = preset.id === 'lite' && config.locations > 5;
           const q = disabled ? null : calculateBasketQuote({ ...config, layer: 'crew', addOns: [], watchtowerModules: [], crossIntelligence: 'none', crewSkus: preset.skus });
-          return <button type="button" key={preset.id} data-testid={`preset-${preset.id}`} disabled={disabled} aria-pressed={active} className={`plan-card ${active ? 'is-selected' : ''}`} onClick={() => state.setCrewSkus(preset.skus)}>
+          return <article key={preset.id} data-testid={`card-${preset.id}`} className={`plan-card ${active ? 'is-selected' : ''} ${disabled ? 'is-unavailable' : ''}`}>
             <div className="plan-top"><span className="plan-kicker">{preset.id === 'lite' ? copy.starterCap : copy.crew}</span><span className="selection-mark" aria-hidden>{active && <Check size={13}/>}</span></div>
             <h2>{preset.label}</h2>{disabled ? <p className="plan-unavailable">{reviewCopy.unavailable}</p> : <><div className="plan-price">{q!.averageMonthlyPerLocation !== null ? <AveragePrice amount={cardMoney(q!.averageMonthlyPerLocation)} locations={config.locations}/> : <>{q!.enterprise ? messages.overview.contactSales : cardMoney(q!.monthly)}{!q!.enterprise && <small>{messages.overview.perMonth}</small>}</>}</div>{q!.averageMonthlyPerLocation !== null && <p className="plan-total">{messages.summary.monthlyInvestment} <bdi>{cardMoney(q!.monthly)}</bdi>{messages.overview.perMonth}</p>}{discount.label && <p className="card-discount">{discount.label}</p>}{config.employees === null && !quote.enterprise && <p className="card-caveat">{reviewCopy.addEmployees}</p>}</>}
-            <ul>{preset.skus.filter((s) => !(s === 'crew_scheduling' && preset.skus.includes('crew_operations'))).map((s) => <li key={s}><Check size={13} aria-hidden/>{crewSkus[s].name}</li>)}</ul>
-            {!disabled && <span className="plan-select">{active ? copy.selected : messages.overview.selectTier.replace('{tier}',preset.label)}<ArrowRight size={15} aria-hidden/></span>}
-          </button>;
+            <ul>{preset.skus.filter((s) => !(s === 'crew_scheduling' && preset.skus.includes('crew_operations'))).map((s) => <li key={s}><Check size={13} aria-hidden/><FeatureLabel feature={s} name={crewSkus[s].name}/></li>)}</ul>
+            <button type="button" className="plan-select" data-testid={`preset-${preset.id}`} disabled={disabled} aria-pressed={active} aria-label={messages.overview.selectTier.replace('{tier}',preset.label)} onClick={() => state.setCrewSkus(preset.skus)}>{disabled ? reviewCopy.unavailable : active ? copy.selected : messages.overview.selectTier.replace('{tier}',preset.label)}{!disabled && <ArrowRight size={15} aria-hidden/>}</button>
+          </article>;
         })}
       </div>
-      <details className="pricing-disclosure"><summary>{copy.customCrew}<ChevronDown size={16} aria-hidden/></summary><div className="sku-options">{CREW_SKU_LIST.map((id) => <label key={id}><input type="checkbox" checked={config.crewSkus.includes(id)} disabled={id === 'crew_scheduling' && config.crewSkus.includes('crew_operations')} onChange={() => state.toggleCrewSku(id)}/><span>{crewSkus[id].name}</span><small>{id === 'crew_scheduling' && config.crewSkus.includes('crew_operations') ? copy.included : quote.enterprise ? copy.scoped : <>{money(discount.net(calculateBandedTotal(crewSkus[id], config.locations)))}{messages.overview.perMonth}</>}</small></label>)}</div>{discount.label && <p className="pricing-caption">{discount.label}</p>}</details>{quote.needsCrewSelection && <p role="status">{copy.chooseCrew}</p>}
+      <details className="pricing-disclosure"><summary>{copy.customCrew}<ChevronDown size={16} aria-hidden/></summary><div className="sku-options">{CREW_SKU_LIST.map((id) => <CrewOption key={id} id={id}/>)}</div>{discount.label && <p className="pricing-caption">{discount.label}</p>}</details>{quote.needsCrewSelection && <p role="status">{copy.chooseCrew}</p>}
     </section>}
     <p className="pricing-caption rounding-note">{copy.exclusions} · {copy.terms[INTENT_TERMS.indexOf(config.billingCycle)]}</p>
     {!quote.enterprise && <p className="pricing-caption rounding-note">{reviewCopy.rounding}</p>}
@@ -150,14 +153,14 @@ export function RefineNeeds() {
   const extensionIds = [...new Set([...suggestions, ...config.addOns.filter((id) => id !== 'foresight_action')])];
   const modelLabel = (id: typeof INTENT_MODELS[number]) => copy.models[INTENT_MODELS.indexOf(id)];
   return <div className="refinement-layout">
-    <div className="refinement-fields"><section className="refine-panel"><h2>{copy.business}</h2><p>{copy.optional}</p><div className="model-options">{INTENT_MODELS.map((id) => <button type="button" key={id} aria-pressed={config.operatingModels.includes(id)} onClick={() => state.setDiscoveryAnswers(config.operatingModels.includes(id) ? config.operatingModels.filter((m) => m !== id) : [...config.operatingModels,id], state.techStack)}>{modelLabel(id)}{config.operatingModels.includes(id) && <Check size={14}/>}</button>)}</div></section>
+    <div className="refinement-fields"><section className="refine-panel"><h2>{copy.business}</h2><p>{copy.optional}</p><div className="model-options" role="group" aria-label={copy.business}>{INTENT_MODELS.map((id) => { const Icon = OPERATING_MODEL_ICONS[id]; const selected = config.operatingModels.includes(id); return <button type="button" key={id} data-testid={`business-model-${id}`} aria-pressed={selected} onClick={() => state.setDiscoveryAnswers(selected ? config.operatingModels.filter((m) => m !== id) : [...config.operatingModels,id], state.techStack)}><span className="model-icon" aria-hidden><Icon size={22} strokeWidth={1.6}/></span><span className="model-label">{modelLabel(id)}</span><span className="model-check" aria-hidden>{selected && <Check size={13}/>}</span></button>; })}</div></section>
     {config.layer !== 'crew' && <section className="refine-panel"><h2>{copy.specialists}</h2>
-      {!corePackages[config.corePackage].includesForesight ? <ExtensionToggle name="Foresight & Action" price={calculateBandedTotal(foresightAction, config.locations)} checked={config.addOns.includes('foresight_action')} onChange={() => state.toggleAddOn('foresight_action')}/> : <p className="included-note"><Check size={16}/>{copy.foresight}</p>}
-      {extensionIds.map((id) => <ExtensionToggle key={id} name={conceptSkus[id].name} price={calculateBandedTotal(conceptSkus[id], config.locations)} checked={config.addOns.includes(id)} onChange={() => state.toggleAddOn(id)}/>)}
+      {!corePackages[config.corePackage].includesForesight ? <ExtensionToggle feature="foresight_action" name="Foresight & Action" price={calculateBandedTotal(foresightAction, config.locations)} checked={config.addOns.includes('foresight_action')} onChange={() => state.toggleAddOn('foresight_action')}/> : <p className="included-note"><Check size={16}/><FeatureLabel feature="foresight_action" name="Foresight & Action">{copy.foresight}</FeatureLabel></p>}
+      {extensionIds.map((id) => <ExtensionToggle key={id} feature={id} name={conceptSkus[id].name} price={calculateBandedTotal(conceptSkus[id], config.locations)} checked={config.addOns.includes(id)} onChange={() => state.toggleAddOn(id)}/>)}
       {config.operatingModels.some((id) => ['catering','production'].includes(id)) && <p>{copy.specialist}</p>}
-      {packageAllowsWatchtower(config.corePackage) && <ExtensionToggle name={copy.watchtower} price={calculateWatchtowerPrice(['bundle'],config.locations).total} checked={config.watchtowerModules.includes('bundle')} onChange={() => state.setWatchtowerModules(config.watchtowerModules.includes('bundle') ? [] : ['bundle'])}/>}
-      {packageAllowsWatchtower(config.corePackage) && <details className="pricing-disclosure"><summary>Watchtower<ChevronDown size={16}/></summary>{(['competitive','events','trends'] as const).map((id) => <ExtensionToggle key={id} name={localizeWatchtowerName(id, locale)} price={calculateWatchtowerPrice([id],config.locations).total} checked={config.watchtowerModules.includes(id) || config.watchtowerModules.includes('bundle')} onChange={() => state.setWatchtowerModules(config.watchtowerModules.includes('bundle') ? ['competitive','events','trends'].filter((m) => m !== id) : config.watchtowerModules.includes(id) ? config.watchtowerModules.filter((m) => m !== id) : [...config.watchtowerModules,id])}/>)}</details>}
-      <details className="pricing-disclosure"><summary>{messages.summary.crossIntelligencePro}<ChevronDown size={16}/></summary><ExtensionToggle name={messages.summary.crossIntelligenceProDesc} price={crossIntelligence.pro.monthlyFee + Math.max(0,config.locations - crossIntelligence.pro.includedLocations) * crossIntelligence.pro.perLocationPrice} checked={config.crossIntelligence === 'pro'} onChange={() => state.setCrossIntelligence(config.crossIntelligence === 'pro' ? 'none' : 'pro')}/></details>
+      {packageAllowsWatchtower(config.corePackage) && <ExtensionToggle feature="bundle" name={copy.watchtower} price={calculateWatchtowerPrice(['bundle'],config.locations).total} checked={config.watchtowerModules.includes('bundle')} onChange={() => state.setWatchtowerModules(config.watchtowerModules.includes('bundle') ? [] : ['bundle'])}/>}
+      {packageAllowsWatchtower(config.corePackage) && <details className="pricing-disclosure"><summary>Watchtower<ChevronDown size={16}/></summary>{(['competitive','events','trends'] as const).map((id) => <ExtensionToggle key={id} feature={id} name={localizeWatchtowerName(id, locale)} price={calculateWatchtowerPrice([id],config.locations).total} checked={config.watchtowerModules.includes(id) || config.watchtowerModules.includes('bundle')} onChange={() => state.setWatchtowerModules(config.watchtowerModules.includes('bundle') ? ['competitive','events','trends'].filter((m) => m !== id) : config.watchtowerModules.includes(id) ? config.watchtowerModules.filter((m) => m !== id) : [...config.watchtowerModules,id])}/>)}</details>}
+      <details className="pricing-disclosure"><summary>{messages.summary.crossIntelligencePro}<ChevronDown size={16}/></summary><ExtensionToggle feature="cross_pro" name={messages.summary.crossIntelligencePro} price={crossIntelligence.pro.monthlyFee + Math.max(0,config.locations - crossIntelligence.pro.includedLocations) * crossIntelligence.pro.perLocationPrice} checked={config.crossIntelligence === 'pro'} onChange={() => state.setCrossIntelligence(config.crossIntelligence === 'pro' ? 'none' : 'pro')}/></details>
     </section>}
     {config.layer !== 'core' && <section className="refine-panel"><h2>{copy.crew}</h2><label className="field-label" htmlFor="buyer-employees">{copy.workforce}</label><input id="buyer-employees" type="number" min={0} max={1000000} value={config.employees ?? ''} onChange={(e) => state.setEmployees(e.target.value === '' ? null : Number(e.target.value))}/><p>{copy.workforceHint}</p>
       {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><input id="payroll-country" maxLength={2} pattern="[A-Za-z]{2}" placeholder={copy.countryPlaceholder} value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value.replace(/[^a-z]/gi,'').toUpperCase())}/><p>{copy.payrollNote}</p></>}
@@ -166,11 +169,20 @@ export function RefineNeeds() {
     </div><aside className="quote-aside"><BasketSummary compact/><SetupGuide compact/><div className="pricing-notes"><p>{copy.intentNote}</p><p>{copy.exclusions}</p></div></aside>
   </div>;
 }
-function ExtensionToggle({ name, price, checked, onChange }: { name: string; price: number; checked: boolean; onChange: () => void }) {
+function ExtensionToggle({ name, feature, price, checked, onChange }: { name: string; feature: FeatureHelpId; price: number; checked: boolean; onChange: () => void }) {
   const { money, messages, copy } = useBuyerFormatting();
   const { quote } = useBuyerQuote();
   const discount = useBuyerDiscount();
-  return <label className="extension-toggle"><input type="checkbox" checked={checked} onChange={onChange}/><span>{name}{discount.label && <small className="extension-discount">{discount.label}</small>}</span><strong>{quote.enterprise ? copy.scoped : <>+{money(discount.net(price))}<small>{messages.overview.perMonth}</small></>}</strong></label>;
+  const inputId = useId();
+  return <div className="extension-toggle"><input id={inputId} type="checkbox" aria-describedby={`${inputId}-price${discount.label ? ` ${inputId}-discount` : ''}`} checked={checked} onChange={onChange}/><div className="extension-name"><label htmlFor={inputId}>{name}{discount.label && <small id={`${inputId}-discount`} className="extension-discount">{discount.label}</small>}</label><FeatureHelp feature={feature} name={name}/></div><strong id={`${inputId}-price`}>{quote.enterprise ? copy.scoped : <>+{money(discount.net(price))}<small>{messages.overview.perMonth}</small></>}</strong></div>;
+}
+function CrewOption({ id }: { id: typeof CREW_SKU_LIST[number] }) {
+  const { config, state, quote } = useBuyerQuote();
+  const { money, copy, messages } = useBuyerFormatting();
+  const discount = useBuyerDiscount();
+  const inputId = useId();
+  const included = id === 'crew_scheduling' && config.crewSkus.includes('crew_operations');
+  return <div className="crew-option"><input id={inputId} type="checkbox" aria-describedby={`${inputId}-price`} checked={config.crewSkus.includes(id)} disabled={included} onChange={() => state.toggleCrewSku(id)}/><label htmlFor={inputId}>{crewSkus[id].name}</label><FeatureHelp feature={id} name={crewSkus[id].name}/><small id={`${inputId}-price`}>{included ? copy.included : quote.enterprise ? copy.scoped : <>{money(discount.net(calculateBandedTotal(crewSkus[id], config.locations)))}{messages.overview.perMonth}</>}</small></div>;
 }
 export function EnterprisePanel() {
   const { copy, messages, locale } = useBuyerFormatting();

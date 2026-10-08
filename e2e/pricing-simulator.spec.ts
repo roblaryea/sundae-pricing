@@ -22,7 +22,7 @@ test('franchise refinement is relevant, optional and explicitly priced',async ({
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
   await page.getByRole('button',{name:'Franchise network',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$1,545');
-  await page.getByRole('checkbox',{name:/^Franchise /}).check();
+  await page.getByRole('checkbox',{name:/^Franchise(?: |$)/}).check();
   await expect(page.getByTestId('basket-total')).toContainText('$2,290');
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$2,290');
@@ -102,14 +102,14 @@ test('diversified buyers choose specialist scope explicitly and can edit it back
   await page.getByRole('button',{name:'Hotel F&B',exact:true}).click();
   await page.getByRole('button',{name:'Cloud kitchen',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$2,420');
-  await page.getByRole('checkbox',{name:/^Hotel F&B /}).check();
-  await page.getByRole('checkbox',{name:/^Cloud Kitchen /}).check();
+  await page.getByRole('checkbox',{name:/^Hotel F&B(?: |$)/}).check();
+  await page.getByRole('checkbox',{name:/^Cloud Kitchen(?: |$)/}).check();
   const selected = await page.getByTestId('basket-total').innerText();
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toHaveText(selected);
   await page.getByRole('button',{name:/Refine your needs/}).click();
-  await expect(page.getByRole('checkbox',{name:/^Hotel F&B /})).toBeChecked();
-  await page.getByRole('checkbox',{name:/^Cloud Kitchen /}).uncheck();
+  await expect(page.getByRole('checkbox',{name:/^Hotel F&B(?: |$)/})).toBeChecked();
+  await page.getByRole('checkbox',{name:/^Cloud Kitchen(?: |$)/}).uncheck();
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).not.toHaveText(selected);
 });
@@ -245,7 +245,7 @@ test('consent granted at review records the visible stage once and covers later 
   await expect.poll(async () => (await events()).filter(x=>x.event==='quote_reviewed').length).toBe(1);
   await page.getByRole('button',{name:/Refine your needs/}).click();
   await page.getByRole('button',{name:'Franchise network',exact:true}).click();
-  await page.getByRole('checkbox',{name:/^Franchise /}).check();
+  await page.getByRole('checkbox',{name:/^Franchise(?: |$)/}).check();
   expect((await events()).filter(x=>x.event==='configuration_changed').map(x=>x.properties.fields)).toEqual(expect.arrayContaining(['operatingModels','addOns']));
   expect(JSON.stringify(await events())).not.toContain('cfg=');
 });
@@ -314,10 +314,10 @@ test('published catalogue failure blocks stale prices',async ({page}) => {
 test('Crew cannot be reviewed without a selected plan', async ({page}) => {
   await page.goto('/'); await page.getByTestId('pricing-tab-crew').click();
   await page.locator('summary').filter({hasText:'Choose individual Crew capabilities'}).click();
-  await page.getByRole('checkbox',{name:/^Crew Pay /}).uncheck();
-  await page.getByRole('checkbox',{name:/^Crew Time /}).uncheck();
-  await page.getByRole('checkbox',{name:/^Crew Manage /}).uncheck();
-  await page.getByRole('checkbox',{name:/^Crew Schedule /}).uncheck();
+  await page.getByRole('checkbox',{name:/^Crew Pay(?: |$)/}).uncheck();
+  await page.getByRole('checkbox',{name:/^Crew Time(?: |$)/}).uncheck();
+  await page.getByRole('checkbox',{name:/^Crew Manage(?: |$)/}).uncheck();
+  await page.getByRole('checkbox',{name:/^Crew Schedule(?: |$)/}).uncheck();
   await expect(page.getByRole('button',{name:'Review estimate',exact:true})).toBeDisabled();
   await expect(page.getByRole('status')).toContainText('Choose a Crew plan');
   await page.getByTestId('location-count').fill('250');
@@ -359,7 +359,7 @@ for (const width of [375,390]) {
   test(`mobile ${width}px shows a first price, readable header and usable controls`,async ({page}) => {
     await page.setViewportSize({width,height:844}); await page.goto('/');
     await expect(page.getByTestId('select-core_foundation')).toBeVisible();
-    const priceBox = await page.getByTestId('select-core_foundation').locator('.plan-price').boundingBox();
+    const priceBox = await page.getByTestId('card-core_foundation').locator('.plan-price').boundingBox();
     expect(priceBox!.y + priceBox!.height).toBeLessThan(760);
     const consent=page.getByRole('dialog',{name:'Cookie consent'});
     await expect(consent).toBeVisible();

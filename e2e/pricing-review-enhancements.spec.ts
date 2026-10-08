@@ -15,7 +15,7 @@ test.beforeEach(async ({page}) => {
 test('overview average follows the exact basket while cards round and explain the applied discount', async ({page}) => {
   await page.goto('/');
   await page.getByTestId('location-count').fill('120');
-  const card = page.getByTestId('select-core_foundation');
+  const card = page.getByTestId('card-core_foundation');
   await expect(card.locator('.average-price-amount')).toHaveText('$127');
   await expect(card.locator('.plan-total')).toContainText('$15,290/mo');
   await expect(card).toContainText('Includes 5% volume discount');
@@ -39,19 +39,19 @@ test('overview average follows the exact basket while cards round and explain th
 test('unavailable Starter has no price and setup guidance distinguishes self-service from scoped work', async ({page}) => {
   await page.goto('/'); await page.getByTestId('location-count').fill('120');
   await page.getByTestId('pricing-tab-crew').click();
-  const starter=page.getByTestId('preset-lite');
-  await expect(starter).toBeDisabled();
+  const starter=page.getByTestId('card-lite');
+  await expect(page.getByTestId('preset-lite')).toBeDisabled();
   await expect(starter).toContainText('Not available above 5 locations');
   await expect(starter.locator('.plan-price')).toHaveCount(0);
   await expect(page.getByTestId('setup-guide')).toContainText('Crew Starter self-service setup: $0');
   await expect(page.getByTestId('setup-guide')).toContainText('$1,500–$7,500');
   await expect(page.getByTestId('setup-guide')).toContainText('from $12,500');
-  await expect(page.getByTestId('preset-operating_suite')).toContainText('Add employee count');
+  await expect(page.getByTestId('card-operating_suite')).toContainText('Add employee count');
   await page.getByRole('button',{name:'Add employee count to complete your estimate',exact:true}).click();
   await page.getByLabel('Unique employees across your locations').fill('2405');
   await expect(page.getByTestId('step-region')).toContainText('Additional employees');
   await page.getByRole('button',{name:/Choose your plan/}).click();
-  await expect(page.getByTestId('preset-operating_suite')).not.toContainText('Add employee count');
+  await expect(page.getByTestId('card-operating_suite')).not.toContainText('Add employee count');
 });
 
 test('combined buyers edit one card set at a time and retain the other selection', async ({page}) => {
@@ -68,8 +68,8 @@ test('combined buyers edit one card set at a time and retain the other selection
   await expect(page.getByTestId('select-core_margin')).toHaveAttribute('aria-pressed','true');
   await expect(page.locator('.other-plan-summary')).toContainText('Schedule & Time');
   await expect(page.getByTestId('decision-total')).toHaveText('$2,487/mo');
-  await expect(page.getByTestId('select-core_margin')).toContainText('Everything in Foundation, plus');
-  await expect(page.getByTestId('select-core_performance')).toContainText('Everything in Margin and Growth, plus');
+  await expect(page.getByTestId('card-core_margin')).toContainText('Everything in Foundation, plus');
+  await expect(page.getByTestId('card-core_performance')).toContainText('Everything in Margin and Growth, plus');
 });
 
 test('mobile keeps plan descriptions and a complete non-scrolling comparison', async ({page}) => {
@@ -117,7 +117,7 @@ for (const plan of ['core_growth','core_performance'] as const) {
   test(`${plan} exposes and preserves Watchtower selections`, async ({page}) => {
     await page.goto(`/simulator?cfg=${encodePricingIntent({...base,locations:3,corePackage:plan})}`);
     await page.getByRole('button',{name:/Refine your needs/}).click();
-    await page.getByRole('checkbox',{name:/^Add market intelligence /}).check();
+    await page.getByRole('checkbox',{name:/^Add market intelligence(?: |$)/}).check();
     await page.getByRole('button',{name:'Review estimate',exact:true}).click();
     await expect(page.getByTestId('step-region')).toContainText('Watchtower Bundle');
   });

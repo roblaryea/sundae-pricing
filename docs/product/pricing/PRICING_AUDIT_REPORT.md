@@ -1,8 +1,22 @@
 # Pricing Audit Report — consolidated buyer audit, 2026-10-08
 
-**Status:** buyer-flow redesign and pricing fixes are present locally, with modified-uncommitted and untracked files across pricing, website, app and backend. No commit, deployment, catalogue activation or Stripe mutation was performed. The audit evidence below records the original findings; the implementation record describes the subsequent fixes. This is not a billing-parity certification.
+**Current status:** the pricing redesign and companion changes are committed and pushed on review branches. The pricing UI is deployed to a Vercel preview for independent review; companion app, website and backend changes are in draft PRs and are not part of this pricing-only deployment. No production promotion, catalogue activation or Stripe mutation was performed. This is not a billing-parity certification. Earlier local-state entries below are historical and are superseded by the deployment record.
 
 **Audience:** internal engineering and QA. Catalogue revisions and IDs remain in audit evidence; customer screens, initial HTML, PDF text and outgoing selection links omit them. Customers see the effective date.
+
+## Review deployment record — 2026-10-08
+
+| Surface | Committed and pushed code | Draft review |
+| --- | --- | --- |
+| Pricing | `dc4c6e2`, followed by `9a49b90` font-license formatting | https://github.com/roblaryea/sundae-pricing/pull/47 |
+| Backend | `c3abddb5` on a clean `origin/develop` worktree | https://github.com/Sundae-io/sundae-stable/pull/1903 |
+| Website demo receiver | `bb728ca` on current `origin/main` | https://github.com/roblaryea/sundae-website/pull/153 |
+| App account/onboarding receiver | `b20745d9d` on `origin/develop` | https://github.com/Sundae-io/sundae-app/pull/1823 |
+
+- Fixed review deployment: `https://sundae-pricing-62tamebuk-sundaes-projects-afd45f7e.vercel.app`, built from `9a49b90`, Vercel status Ready / preview. A URL-scoped share link is supplied directly to the owner; its access token is deliberately absent from repository files and PRs. It expires on 22 October 2026. The unadorned URL requires Vercel access; reviewers must first open the supplied share link. Shared configurations and PDF links also require that preview access cookie.
+- The hosted root and same-origin active-catalogue proxy returned HTTP 200 after share access. Native hosted buyer checks covered three-location Core Margin, an explicitly selected Franchise extension, annual quarterly terms, review amounts, PDF export and the manual-copy fallback when the browser blocks clipboard access. The monthly estimate was $2,740.75, average $913.58/location, with $8,222.25 due per quarter. The exported two-page PDF was downloaded, text-checked for matching amounts and absence of internal catalogue revisions, rasterized and visually inspected. Hosted sharing reopened the same $2,740.75 estimate. Crew Operating at three locations and 65 employees showed $697 base + $15 extra employees = $712/month; combined Core Margin/Crew showed $2,852/month. The 250-location combined route reached proposal review with prices/terms confirmed separately. A 390px Arabic combined review had equal viewport/content widths (no horizontal page overflow); English and the normal viewport were restored.
+- Pricing verification remains 41 unit-test files / 1,343 tests, 32 targeted Chromium scenarios, ESLint and TypeScript/Vite build passed. Backend push passed lockfile, formatting, topology and full TypeScript gates on the isolated develop base; its 37 pricing calculator tests passed. Website TypeScript and two handoff tests passed on its isolated main base. App's two source TypeScript projects and the pre-push gate passed; seven pricing-intent tests passed. These are separate checks, not full app preflight.
+- Review boundaries: the preview changes the pricing experience only. Demo/account CTAs still target the existing live destinations; the companion receivers need their own release before the complete new handoff is live. The backend Watchtower correction is pushed for review and remains undeployed. Final authenticated quotes, checkout, Stripe billing, entitlement provisioning, live trial eligibility and production funnel measurement remain unverified. Do not submit real forms or treat this estimate as a payable quote during review.
 
 ## Final local audit closure — 2026-10-08
 

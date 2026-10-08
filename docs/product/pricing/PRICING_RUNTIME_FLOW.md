@@ -1,6 +1,6 @@
 # Sundae pricing-site runtime flow
 
-> **Last verified locally:** 2026-10-08
+> **Last verified:** local pricing checks and hosted pricing preview, 2026-10-08
 > **Scope:** the `sundae-pricing` SPA and its published-catalogue dependency
 
 ## Boundary
@@ -8,6 +8,10 @@
 `sundae-pricing` is a client application. It calculates and presents a quote, ROI context and a PDF summary. It does not create subscriptions, bill customers, write Stripe state or grant entitlements.
 
 The published database catalogue in `sundae-backend` remains the runtime commercial authority. The public active response retrieved for this work is v1.8.2. Local fallback objects do not prove future catalogue alignment or final billing parity.
+
+## Review deployment
+
+The pricing preview is built from `9a49b90` at `https://sundae-pricing-62tamebuk-sundaes-projects-afd45f7e.vercel.app`. Use the owner-provided share link to establish preview access; configuration/PDF links need that access cookie. The URL-scoped share token is not stored in Git. The preview loads the published catalogue through its same-origin Vercel proxy. Companion backend/app/website changes are pushed draft PRs, not released receivers. Production and billing are unchanged. See the superseding review deployment record in `PRICING_AUDIT_REPORT.md`.
 
 ## Runtime sequence
 
@@ -36,7 +40,7 @@ The public active response does not carry every field needed for a final invoice
 
 This is an explicit release gate, not a documentation ambiguity.
 
-Public stateless quote checks on 2026-10-08 matched 31/32 recurring totals after normalizing contract-period totals to monthly. The remaining deployed case charges a second Watchtower bundle discount against an already-net price. `sundae-backend/app/services/quote_engine.ts` has a local correction plus 37 execution tests (32 captured estimate cases and five fixed-bundle cases). The deterministic inputs include published Core curves and fixed Crew bundles; this does not execute the database or billing. All 32 local estimate cases match. Deployment and renewed production parity checks remain required. Current backend typechecking reports two nullable-value errors in concurrent Foresight tests; touched pricing-file lint passed. See `PRICING_AUDIT_REPORT.md` and `public-quote-check.json`.
+Public stateless quote checks on 2026-10-08 matched 31/32 recurring totals after normalizing contract-period totals to monthly. The remaining deployed case charges a second Watchtower bundle discount against an already-net price. `sundae-backend/app/services/quote_engine.ts` has a local correction plus 37 execution tests (32 captured estimate cases and five fixed-bundle cases). The deterministic inputs include published Core curves and fixed Crew bundles; this does not execute the database or billing. All 32 local estimate cases match. Deployment and renewed production parity checks remain required. The isolated backend review branch passed its full TypeScript pre-push gate; earlier nullable-value errors were in concurrent original-worktree Foresight edits. The correction remains undeployed. See `PRICING_AUDIT_REPORT.md` and `public-quote-check.json`.
 
 For genuine local catalogue QA, opt into Vite's same-origin development proxy (the remote endpoint does not allow direct localhost CORS):
 

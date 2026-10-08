@@ -332,7 +332,7 @@ export function calculateCrossIntelligencePrice(
 
 // ═══════════════════════════════════════════════════════════════════════════
 // DISCOUNTS
-// v1.7: EVERY calculated discount combines into ONE percentage, capped at 15%.
+// EVERY calculated discount combines into ONE percentage, capped at DISCOUNT_RULES.maxDiscountPercent (20%).
 // That includes the early-adopter programme rate — applying it after the cap
 // (as v5.1 did) produced a 32% effective discount and breached the published
 // ceiling. Only a hand-negotiated contract term sits outside the ladder.

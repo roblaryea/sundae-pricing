@@ -104,7 +104,7 @@ export function ConfigSummary() {
 
 
   // The quote now carries a REAL client profile. `billingCycle` was never set
-  // by any surface, so the 10% annual and 15% two-year terms — the main lever
+  // by any surface, so the 12% annual and 20% two-year terms — the main lever
   // in any negotiation — were unreachable, and `isFranchise` stayed false even
   // though question two asks exactly that.
   const clientProfile = useMemo(

@@ -1870,10 +1870,7 @@ export const competitorPricing = {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const pricingFooter = {
-  effectiveDate: 'August 10, 2026',
-  priceBookVersion: 'v1.7',
-  candidatePriceBookVersion: 'v1.8',
-  candidateStatus: 'pending_backend_catalog_activation',
+  effectiveDate: 'August 23, 2026',
   currency: 'USD',
   taxNote: 'Taxes (VAT/GST) not included unless stated',
   changeNotice: 'Subject to change with 30-day notice',

@@ -600,7 +600,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .selection-mark { height:18px; width:18px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 35%,transparent); border-radius:50%; display:grid; place-items:center; flex-shrink:0; }
 .is-selected .selection-mark { background:#1a140f; color:#fff; border-color:#1a140f; }
 .plan-card h2 { font-size:26px; font-weight:500; line-height:1.15; letter-spacing:-.03em; }
-.plan-price { font-size:30px; font-weight:600; letter-spacing:-.045em; margin:14px 0 16px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.plan-price { font-size:clamp(23px,2.3vw,30px); font-weight:600; letter-spacing:-.045em; margin:14px 0 16px; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
 .plan-price small { font-size:12px; font-weight:400; color:var(--color-sundae-muted); letter-spacing:0; margin-inline-start:4px; }
 .is-selected .plan-price small { color:#78634e; }
 .plan-purpose { font-size:12px; line-height:1.65; color:var(--color-sundae-muted); min-height:60px; margin-bottom:20px; }
@@ -720,20 +720,24 @@ button:disabled { opacity:.45; cursor:not-allowed; }
   .location-control input { font-size:20px; width:56px; }
   .location-control button { width:32px; }
   .pricing-caption span { display:block; }
-  .plan-grid { gap:10px; }
+  .plan-grid { grid-template-columns:minmax(0,1fr); gap:10px; }
+  .plan-card:not(.is-selected) { display:none; }
+  .mobile-plan-select, .comparison-mobile { display:block; }
+  .comparison-desktop { display:none; }
   .plan-card { padding:17px 14px; border-radius:13px; }
   .plan-top { margin-bottom:12px; }
   .plan-kicker { font-size:9px; letter-spacing:.08em; }
   .plan-card h2 { font-size:23px; }
   .plan-price { font-size:25px; margin:13px 0; }
   .plan-price small { font-size:10px; }
-  .plan-purpose { display:none; }
-  .plan-card ul { display:none; }
+  .plan-purpose { display:block; min-height:0; font-size:13px; margin-bottom:16px; }
+  .plan-card ul { display:grid; margin-bottom:18px; }
   .plan-select { font-size:11px; padding-top:12px; }
   .crew-plans, .comparison-section { margin-top:30px; }
   .section-title h2 { font-size:25px; }
   .pricing-decision-bar { bottom:8px; padding:12px; gap:12px; flex-wrap:wrap; margin-top:22px; }
-  .pricing-decision-bar > div:first-child { display:flex; align-items:center; justify-content:space-between; width:100%; gap:12px; }
+  .pricing-decision-bar > div:first-child { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; width:100%; gap:5px 12px; }
+  .decision-average, .workforce-prompt { grid-column:1 / -1; }
   .pricing-decision-bar strong { font-size:24px; }
   .decision-actions { width:100%; }
   .decision-actions button { flex:1; padding:11px 10px; font-size:12px; }
@@ -753,3 +757,92 @@ button:disabled { opacity:.45; cursor:not-allowed; }
   .pricing-disclosure { padding-inline:18px; }
 }
 @media (prefers-reduced-motion:reduce) { .plan-card { transition:none; } }
+
+/* Review refinements share the existing warm brand tokens. */
+.start-over { font-size:12px; color:var(--color-sundae-muted); min-height:44px; cursor:pointer; text-decoration:underline; text-underline-offset:4px; }
+.selection-memory { margin:12px 2px 0; }
+.card-discount { font-size:11px; line-height:1.5; color:var(--color-sundae-accent); margin:-8px 0 14px; }
+.is-selected .card-discount { color:#875342; }
+.plan-inheritance { font-size:12px; font-weight:600; line-height:1.6; margin-bottom:10px; }
+.card-caveat, .plan-unavailable { font-size:12px; line-height:1.65; color:var(--color-sundae-muted); margin-bottom:16px; }
+.is-selected .card-caveat { color:#64564a; }
+.rounding-note { margin-top:16px; }
+.setup-guide { margin-top:26px; padding:22px 24px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 22%,transparent); border-radius:16px; background:var(--color-sundae-surface); }
+.setup-guide h3 { font-size:20px; font-weight:500; margin-bottom:10px; }
+.setup-guide > p { font-size:13px; line-height:1.8; }
+.setup-guide > .pricing-caption { font-size:12px; margin-top:8px; }
+.setup-guide.is-compact { padding:18px; }
+.setup-guide > details { margin-top:12px; border:0; border-top:1px solid color-mix(in srgb,var(--color-sundae-muted) 22%,transparent); border-radius:0; padding:0; }
+.combined-plan-switch { margin-bottom:24px; }
+.combined-plan-switch > div:first-child { display:flex; gap:8px; margin-bottom:14px; }
+.combined-plan-switch button { padding:12px 20px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 25%,transparent); border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; }
+.combined-plan-switch button[aria-pressed=true] { background:var(--color-cream); color:var(--color-ink); border-color:var(--color-cream-edge); }
+.other-plan-summary { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 20px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 20%,transparent); border-radius:12px; font-size:13px; }
+.other-plan-summary span { min-width:0; }
+.other-plan-summary span small { display:block; font-size:10px; color:var(--color-sundae-muted); margin-bottom:5px; }
+.other-plan-summary strong { font-size:18px; text-align:end; }
+.other-plan-summary strong small { font-size:11px; font-weight:400; }
+.mobile-plan-select, .comparison-mobile { display:none; }
+.mobile-plan-select label, .comparison-mobile label { display:block; font-size:12px; margin-bottom:8px; font-weight:600; }
+.mobile-plan-select select, .comparison-mobile select { width:100%; min-height:46px; border-radius:10px; padding:10px 12px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 30%,transparent); background:var(--color-sundae-surface); color:var(--color-sundae-text); font-size:14px; }
+.mobile-plan-select { margin-bottom:16px; }
+.comparison-mobile ul { display:grid; gap:12px; padding:20px 0; font-size:13px; }
+.comparison-mobile li { display:flex; align-items:center; gap:10px; }
+.comparison-mobile li svg { color:var(--color-sundae-accent); flex-shrink:0; }
+.comparison-desktop { margin:20px 0; }
+.comparison-section > .pricing-caption { margin-bottom:18px; }
+.decision-average { font-size:12px; line-height:1.6; color:var(--color-sundae-muted); }
+.workforce-prompt { display:flex; align-items:center; gap:5px; text-align:start; font-size:12px; line-height:1.6; color:var(--color-sundae-accent); cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+.extension-discount { display:block; font-size:10px; color:var(--color-sundae-muted); margin-top:4px; }
+@media (max-width:640px) {
+  .mobile-plan-select, .comparison-mobile { display:block; }
+  .comparison-desktop { display:none; }
+  .start-over { font-size:11px; max-width:68px; line-height:1.3; }
+  .pricing-hero { margin-bottom:18px; }
+  .pricing-hero h1 { font-size:34px; }
+  .pricing-hero .pricing-eyebrow { margin-bottom:8px; }
+  .pricing-hero > div > p:last-child { margin-top:10px; font-size:13px; }
+  .scope-controls { padding:12px; gap:10px; }
+  .need-options button { min-height:48px; }
+  .scope-controls + .pricing-caption { margin:12px 2px 14px; }
+  .selection-memory { font-size:11px; margin:10px 2px 0; }
+  .mobile-plan-select { display:grid; grid-template-columns:85px minmax(0,1fr); align-items:center; gap:12px; margin-bottom:12px; }
+  .mobile-plan-select label { font-size:11px; margin:0; }
+  .mobile-plan-select select { min-height:44px; font-size:13px; }
+  .plan-price { font-size:32px; }
+  .setup-guide { padding:18px; }
+  .combined-plan-switch button { flex:1; }
+  .other-plan-summary { padding:14px; align-items:start; }
+}
+
+/* Lead with the estate average; keep the full investment beside it. */
+.average-price { display:grid; gap:4px; font-variant-numeric:tabular-nums; }
+.average-price-label, .average-price-unit { font-size:12px; line-height:1.55; font-weight:400; letter-spacing:0; color:var(--color-sundae-muted); }
+.average-price-amount { font-family:var(--font-sans); font-size:32px; line-height:1.12; font-weight:600; letter-spacing:-.04em; }
+.is-selected .average-price-label, .is-selected .average-price-unit { color:#64564a; }
+.plan-price:has(.average-price) { margin-bottom:12px; }
+.plan-price .average-price-unit { font-size:11px; }
+.plan-total { font-size:13px; line-height:1.6; margin-bottom:18px; color:var(--color-sundae-muted); }
+.plan-total bdi { font-weight:600; margin-inline-start:5px; }
+.is-selected .plan-total { color:#64564a; }
+.decision-total-row { display:flex; align-items:baseline; justify-content:space-between; gap:16px; }
+.pricing-decision-bar .has-average { display:block; }
+.pricing-decision-bar .average-price { grid-template-columns:minmax(0,1fr) auto; align-items:baseline; gap:3px 16px; }
+.pricing-decision-bar .average-price-unit { grid-column:1 / -1; }
+.pricing-decision-bar .average-price-amount { font-size:32px; }
+.has-average .decision-total-row { margin-top:7px; }
+.pricing-decision-bar .has-average .decision-total-row strong { font-size:15px; letter-spacing:0; }
+.pricing-decision-bar .has-average .decision-total-row strong span { font-size:11px; }
+.basket-summary > .average-price { margin:18px 0 16px; }
+.basket-summary .average-price-amount { font-size:clamp(40px,4vw,52px); }
+.basket-total-row { display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin-bottom:12px; }
+.basket-total-row > span { font-size:12px; color:var(--color-sundae-muted); }
+.basket-price.is-secondary { font-size:20px; letter-spacing:-.02em; margin:0; }
+.basket-price.is-secondary small { font-size:12px; }
+@media (max-width:640px) {
+  .pricing-decision-bar > .decision-price { display:block; }
+  .pricing-decision-bar .average-price-amount { font-size:30px; }
+  .pricing-decision-bar .average-price-label, .pricing-decision-bar .average-price-unit { font-size:11px; }
+  .basket-summary .average-price-amount { font-size:42px; }
+  .basket-total-row { flex-wrap:wrap; gap:3px 14px; }
+}

@@ -2,7 +2,7 @@ import jsPDF from 'jspdf';
 import type { PricingIntent } from './pricingIntent';
 import { INTENT_TERMS } from './pricingIntent';
 import type { BasketQuote } from './basketQuote';
-import { getBuyerCopy, formatLocationAverage } from './buyerCopy';
+import { getBuyerCopy } from './buyerCopy';
 
 const palette = { cream:'#F6F1E8', ink:'#1A140F', espresso:'#2A231C', muted:'#756B60', edge:'#DED3C2', coral:'#FF5C4D', white:'#FBF8F4' };
 let brandAssets: Promise<string[]> | undefined;
@@ -83,9 +83,21 @@ export async function downloadBasketPDF(config: PricingIntent, quote: BasketQuot
   type('Fraunces',30);doc.text('Your Sundae estimate.',18,55);
   type('Hanken',10,palette.muted);doc.text(`${layer}  /  ${config.locations} ${config.locations===1?'location':'locations'}`,18,67);
   doc.setFillColor(palette.espresso);doc.roundedRect(18,77,174,49,3,3,'F');
-  type('Hanken',8,palette.white,'bold');doc.text(quote.enterprise?'CUSTOM PROPOSAL':quote.cadenceMonths===1?'MONTHLY SUBSCRIPTION':'MONTHLY EQUIVALENT',26,89);
+  type('Hanken',8,palette.white,'bold');doc.text(quote.enterprise?'CUSTOM PROPOSAL':quote.averageMonthlyPerLocation!==null?'AVERAGE PER LOCATION / MONTH':quote.cadenceMonths===1?'MONTHLY SUBSCRIPTION':'MONTHLY EQUIVALENT',26,89);
   if(quote.enterprise){
     type('Fraunces',22,palette.white);doc.text(copy.enterprise,26,107);
+  }else if(quote.averageMonthlyPerLocation!==null){
+    let averageSize=31;
+    type('Hanken',averageSize,palette.white,'bold');
+    while(doc.getTextWidth(money(quote.averageMonthlyPerLocation))>74 && averageSize>22) type('Hanken',--averageSize,palette.white,'bold');
+    doc.text(money(quote.averageMonthlyPerLocation),26,107);
+    type('Hanken',9,palette.white);doc.text(`Across ${config.locations} locations`,26,116);
+    type('Hanken',8,palette.white,'bold');doc.text('TOTAL MONTHLY INVESTMENT',110,89);
+    let totalSize=20;
+    type('Hanken',totalSize,palette.white,'bold');
+    while(doc.getTextWidth(money(quote.monthly))>74 && totalSize>13) type('Hanken',--totalSize,palette.white,'bold');
+    doc.text(money(quote.monthly),110,107);
+    type('Hanken',9,palette.white);doc.text('/ month',110,116);
   }else{
     const amounts=[money(quote.monthly),money(quote.paymentAmount)];
     let amountSize=31;
@@ -98,7 +110,7 @@ export async function downloadBasketPDF(config: PricingIntent, quote: BasketQuot
     type('Hanken',9,palette.white);doc.text(term,110,116);
   }
   const averageOffset=quote.averageMonthlyPerLocation===null?0:8;
-  if(quote.averageMonthlyPerLocation!==null){y=135;paragraph(formatLocationAverage(money(quote.averageMonthlyPerLocation),config.locations,'en'),9);}
+  if(quote.averageMonthlyPerLocation!==null){y=135;paragraph(`${copy.payment}: ${money(quote.paymentAmount)} · ${term}`,9);}
   y=135+averageOffset;paragraph(copy.exclusions,8);
   type('Fraunces',17);doc.text(quote.enterprise?'Your selected plans and extensions':'Your monthly price, item by item',18,151+averageOffset);y=162+averageOffset;
   for(const line of quote.lines) row(line.item,quote.enterprise?'Confirmed in proposal':money(line.price));

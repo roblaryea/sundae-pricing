@@ -78,7 +78,9 @@ test('the account and demo CTAs carry the exact reviewed intent and download pro
   }
   expect(extracted).toContain('Core Growth');
   expect(extracted).toContain('Event & Calendar Signals');
-  expect(extracted).toContain('Average $1,346.43 per location / month');
+  expect(extracted).toContain('AVERAGE PER LOCATION / MONTH');
+  expect(extracted).toContain('$1,346.43');
+  expect(extracted).toContain('TOTAL MONTHLY INVESTMENT');
   expect(extracted).not.toMatch(/v1\.8\.2|869b1bc6|Catalogue|catalogue/);
   expect(extracted).toContain('Sundae Technologies Inc.');
   expect(extracted).toContain('$12,117.90');
@@ -311,7 +313,7 @@ test('published catalogue failure blocks stale prices',async ({page}) => {
 });
 test('Crew cannot be reviewed without a selected plan', async ({page}) => {
   await page.goto('/'); await page.getByTestId('pricing-tab-crew').click();
-  await page.getByText('Choose individual Crew capabilities',{exact:true}).click();
+  await page.locator('summary').filter({hasText:'Choose individual Crew capabilities'}).click();
   await page.getByRole('checkbox',{name:/^Crew Pay /}).uncheck();
   await page.getByRole('checkbox',{name:/^Crew Time /}).uncheck();
   await page.getByRole('checkbox',{name:/^Crew Manage /}).uncheck();
@@ -369,7 +371,7 @@ for (const width of [375,390]) {
     await page.getByLabel('Language',{exact:true}).selectOption('ar');
     await expect(page.locator('html')).toHaveAttribute('dir','rtl');
     expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
-    await page.getByRole('combobox').selectOption('en');
+    await page.getByLabel('اللغة',{exact:true}).selectOption('en');
     if (width === 390) await page.screenshot({path:'docs/product/pricing/screenshots/mobile.png',fullPage:false});
     await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
     await page.getByRole('button',{name:'Review estimate',exact:true}).click();

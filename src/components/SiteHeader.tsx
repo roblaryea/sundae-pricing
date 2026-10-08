@@ -7,10 +7,15 @@ import { getMarketingUrl } from '../config/legal';
 import { localeNames, supportedLocales, useLocale, type PricingLocale } from '../contexts/LocaleContext';
 import { generatedAuxiliaryLocalePacks } from '../lib/generatedAuxiliaryLocalePacks';
 import { siteNavLabels, siteNavLinks } from '../lib/siteNavLabels';
+import { useBuyerFormatting } from '../hooks/useBuyerQuote';
+import { trackPricingEvent } from '../lib/analytics';
+import { useNavigate } from 'react-router-dom';
 
 export function SiteHeader() {
   const { locale, setLocale, messages } = useLocale();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { copy, reviewCopy } = useBuyerFormatting();
   const isSimulator = location.pathname === '/simulator';
   const languageLabel =
     locale === 'ar' ? 'اللغة' :
@@ -53,6 +58,7 @@ export function SiteHeader() {
 
         {/* Right: Navigation + Theme Toggle */}
         <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+          <button type="button" className="start-over" onClick={() => { useConfiguration.getState().reset(); trackPricingEvent('start_over'); navigate('/', { replace: true }); }}>{reviewCopy.startOver}</button>
           {/* Pricing Link (shown on simulator page) */}
           {isSimulator && (
             <Link
@@ -67,10 +73,10 @@ export function SiteHeader() {
           {!isSimulator && (
             <Link
               to="/simulator"
-              onClick={() => useConfiguration.getState().setCurrentStep(0)}
-              className="max-w-24 sm:max-w-none text-center leading-tight px-3 py-1.5 md:px-4 md:py-2 bg-gradient-primary text-white text-xs md:text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity"
+              onClick={() => { const state = useConfiguration.getState(); if (!state.layer) state.setLayer('core'); state.setCurrentStep(state.layer !== 'core' && state.layer !== null && state.crewSkus.length === 0 ? 0 : 2); trackPricingEvent('header_review_clicked'); }}
+              className="hidden sm:inline-flex max-w-24 sm:max-w-none text-center leading-tight px-3 py-1.5 md:px-4 md:py-2 bg-gradient-primary text-white text-xs md:text-sm font-semibold rounded-lg hover:opacity-90 transition-opacity"
             >
-              {messages.header.instantQuote}
+              {copy.reviewCta}
             </Link>
           )}
           

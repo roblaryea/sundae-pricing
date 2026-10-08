@@ -4,6 +4,7 @@ import { useLocale } from '../contexts/LocaleContext';
 import { getBuyerCopy } from '../lib/buyerCopy';
 import { calculateBasketQuote } from '../lib/basketQuote';
 import type { PricingIntent } from '../lib/pricingIntent';
+import { buyerReviewCopy } from '../lib/buyerReviewCopy';
 
 export function useBuyerQuote() {
   const state = useConfiguration();
@@ -21,5 +22,5 @@ export function useBuyerQuote() {
 }
 export function useBuyerFormatting() {
   const { locale, messages } = useLocale();
-  return { locale, messages, copy: getBuyerCopy(locale), money: (n: number) => new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', maximumFractionDigits: n % 1 ? 2 : 0 }).format(n) };
+  return { locale, messages, copy: getBuyerCopy(locale), reviewCopy: buyerReviewCopy[locale], money: (n: number) => new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', maximumFractionDigits: n % 1 ? 2 : 0 }).format(n), cardMoney: (n: number) => new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n) };
 }

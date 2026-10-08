@@ -37,14 +37,14 @@ test('overview average follows the exact basket while cards round and explain th
   await expect(extension).toContainText('Includes 12% subscription discount');
 });
 
-test('unavailable Starter has no price and setup guidance distinguishes self-service from scoped work', async ({page}) => {
+test('unavailable Starter has no price and setup guidance follows the selected Crew plan', async ({page}) => {
   await page.goto('/'); await page.getByTestId('location-count').fill('120');
   await page.getByTestId('pricing-tab-crew').click();
   const starter=page.getByTestId('card-lite');
   await expect(page.getByTestId('preset-lite')).toBeDisabled();
   await expect(starter).toContainText('Not available above 5 locations');
   await expect(starter.locator('.plan-price')).toHaveCount(0);
-  await expect(page.getByTestId('setup-guide')).toContainText('Crew Starter self-service setup: $0');
+  await expect(page.getByTestId('setup-guide')).toContainText('Crew Operating self-service setup: $0');
   await expect(page.getByTestId('setup-guide')).toContainText('$1,500–$7,500');
   await expect(page.getByTestId('setup-guide')).toContainText('from $12,500');
   await expect(page.getByTestId('card-operating_suite')).toContainText('Add employee count');
@@ -62,6 +62,10 @@ test('setup guidance follows the selected pricing rail', async ({page}) => {
   await page.getByTestId('pricing-tab-both').click();
   await expect(page.getByTestId('setup-guide')).toContainText('Core + Crew self-service setup: $0');
   await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter');
+  await page.getByTestId('pricing-tab-crew').click();
+  await page.getByTestId('preset-operating_suite').click();
+  await expect(page.getByTestId('setup-guide')).toContainText('Crew Operating self-service setup: $0');
+  await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter self-service setup');
 });
 
 test('combined buyers edit one card set at a time and retain the other selection', async ({page}) => {

@@ -55,7 +55,12 @@ export function SetupGuide({ compact = false }: { compact?: boolean }) {
   const { config } = useBuyerQuote();
   const { copy, reviewCopy, money, locale } = useBuyerFormatting();
   const policy = pricingPolicyCopy[locale];
-  const setupProduct = config.layer === 'core' ? 'Core' : config.layer === 'both' ? 'Core + Crew' : 'Crew Starter';
+  const selectedCrewPreset = CREW_PRESETS.find((preset) => preset.skus.length === config.crewSkus.length && preset.skus.every((id) => config.crewSkus.includes(id)));
+  const setupProduct = config.layer === 'core'
+    ? 'Core'
+    : config.layer === 'both'
+      ? 'Core + Crew'
+      : selectedCrewPreset?.label ?? 'Crew';
   const setupIntro = fillBuyerReviewCopy(reviewCopy.setupIntro, { zero: money(implementationClasses.self_service.fee), low: money(implementationClasses.class_a.fee), high: money(implementationClasses.class_c.fee), complex: money(implementationClasses.class_d.fee) }).replace(/Crew Starter/g, setupProduct);
   return <section className={`setup-guide ${compact ? 'is-compact' : ''}`} aria-label={copy.setup} data-testid="setup-guide">
     <h3>{copy.setup}</h3>

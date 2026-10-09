@@ -232,6 +232,11 @@ export function validatePublishedCatalog(data: LiveCatalogResponse, requireCompl
   for (const r of normalized.corePackages) {
     if (requireCompletePolicy) {
       const rule = (key: string) => r.rules?.find(v => v.ruleKey === key)?.ruleValue.value;
+      for (const [key, projected] of [['ai_credits_base', r.aiCreditsBase], ['ai_credits_per_location', r.aiCreditsPerLocation], ['ai_seats_included', r.aiSeatsIncluded]] as const) {
+        const published = rule(key);
+        if (typeof published !== 'number' || !Number.isFinite(published) || published < 0 || published !== projected) throw new Error(`Missing published package allowance: ${r.id}`);
+      }
+      if (typeof rule('allows_watchtower') !== 'boolean' || rule('allows_watchtower') !== r.allowsWatchtower) throw new Error(`Missing published package eligibility: ${r.id}`);
       if (typeof r.allowsWatchtower !== 'boolean' || typeof rule('ai_seats_unit_divisor') !== 'number' || Number(rule('ai_seats_unit_divisor')) <= 0 ||
         typeof rule('credit_rollover_cap') !== 'number' || Number(rule('credit_rollover_cap')) < 0) throw new Error(`Missing published package allowance: ${r.id}`);
     }

@@ -32,6 +32,16 @@ describe('hosted catalogue authority', () => {
     try { expect(()=>validatePublishedCatalog(data,true)).not.toThrow(); data.version!.effectiveDate='2026-10-10T00:00:00Z'; expect(()=>validatePublishedCatalog(data,true)).toThrow('not effective'); }
     finally { vi.restoreAllMocks(); }
   });
+  it('rejects projected legacy allowances without their original catalogue rules', () => {
+    for (const key of ['ai_credits_base', 'ai_credits_per_location', 'ai_seats_included', 'allows_watchtower']) {
+      const data = complete();
+      data.tiers![0].rules = data.tiers![0].rules!.filter(r => r.ruleKey !== key);
+      expect(() => validatePublishedCatalog(data, true)).toThrow(/Missing published package/);
+    }
+    const data = complete();
+    data.tiers![0].aiCreditsBase = 999;
+    expect(() => validatePublishedCatalog(data, true)).toThrow('Missing published package allowance');
+  });
   it('takes new prices, allowances, discounts and Enterprise boundaries from one response', () => {
     const data=complete(); const before=structuredClone({volume:volumeDiscounts.tiers,core:corePackages.core_foundation,cross:crossIntelligence.pro});
     try {

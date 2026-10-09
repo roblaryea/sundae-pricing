@@ -5,7 +5,7 @@ import { Logo } from './Brand/Logo';
 import { ThemeToggle } from './shared/ThemeToggle';
 import { getMarketingUrl } from '../config/legal';
 import { localeNames, supportedLocales, useLocale, type PricingLocale } from '../contexts/LocaleContext';
-import { generatedAuxiliaryLocalePacks } from '../lib/generatedAuxiliaryLocalePacks';
+import { siteAccessibilityCopy } from '../lib/siteAccessibilityCopy';
 import { siteNavLabels, siteNavLinks } from '../lib/siteNavLabels';
 import { useBuyerFormatting } from '../hooks/useBuyerQuote';
 import { trackPricingEvent } from '../lib/analytics';
@@ -17,12 +17,8 @@ export function SiteHeader() {
   const navigate = useNavigate();
   const { copy, reviewCopy } = useBuyerFormatting();
   const isSimulator = location.pathname === '/simulator';
-  const languageLabel =
-    locale === 'ar' ? 'اللغة' :
-    locale === 'fr' ? 'Langue' :
-    locale === 'es' ? 'Idioma' :
-    generatedAuxiliaryLocalePacks.supportCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.supportCopy]?.languageLabel ??
-    'Language';
+  const chromeCopy = siteAccessibilityCopy[locale];
+  const languageLabel = chromeCopy.language;
 
   return (
     <header className="sticky top-0 z-50 py-4 md:py-6 px-4 md:px-8 border-b border-white/[0.08]">
@@ -34,7 +30,7 @@ export function SiteHeader() {
       <div className="relative max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Left: Logo */}
         <div className="min-w-0">
-          <a href={getMarketingUrl('/', locale)} className="block">
+          <a href={getMarketingUrl('/', locale)} aria-label={chromeCopy.home} className="block">
             <Logo size="md" />
           </a>
           <p className="text-xs md:text-sm text-sundae-muted mt-1 hidden sm:block">

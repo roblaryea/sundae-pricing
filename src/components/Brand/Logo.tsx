@@ -36,7 +36,7 @@ export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) 
     return (
       <a
         href="/"
-        aria-label="Sundae home"
+        aria-label="Sundae"
         className="inline-flex items-center transition-opacity hover:opacity-80"
       >
         {logoContent}

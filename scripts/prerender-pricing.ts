@@ -1,11 +1,13 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { applyLiveCatalogValues, type LiveCatalogResponse } from '../src/data/livePricing';
+import { applyLiveCatalogValues, validatePublishedCatalog, type LiveCatalogResponse } from '../src/data/livePricing';
 import { corePackages, CORE_PACKAGE_IDS } from '../src/data/pricing';
 import { buyerPlanCopy } from '../src/lib/buyerPlanCopy';
 import { CREW_PRESETS } from '../src/lib/crewPricing';
 const response = await fetch(process.env.PRICING_SNAPSHOT_URL || 'https://pricing.sundae.io/api/pricing/catalog/active', { signal: AbortSignal.timeout(15000) });
 if (!response.ok) throw new Error(`Cannot generate a published pricing snapshot: ${response.status}`);
 const catalogue = await response.json() as LiveCatalogResponse;
+// Builds have no browser hostname: explicitly enforce the hosted catalogue gate.
+validatePublishedCatalog(catalogue, true);
 applyLiveCatalogValues(catalogue);
 const escape = (s: string) => s.replace(/[&<>"']/g,(c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 const snapshot = `<main aria-label="Sundae pricing overview" style="max-width:1120px;margin:auto;padding:32px;font-family:var(--font-sans),sans-serif;color:#fbf8f4;background:#2A231C">

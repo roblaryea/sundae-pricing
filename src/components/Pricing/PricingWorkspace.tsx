@@ -255,7 +255,7 @@ export function BasketSummary({ compact = false }: { compact?: boolean }) {
       {quote.crew && config.employees !== null && <li>{copy.workforce}: {config.employees}</li>}
       {quote.crew && <li>{quote.enterprise ? <>{copy.overage}: {copy.scoped}</> : <>{quote.includedEmployees} {copy.allowance} · {money(quote.employeeRate)} {copy.perEmployee}</>}</li>}
       {quote.crew && !quote.enterprise && <li>{quote.workforceUnknown ? copy.workforceUnknown : copy.overageNote}</li>}
-      {quote.payrollNeedsScoping && <li>{copy.payrollNote} {config.payrollCountry}</li>}
+      {quote.payrollNeedsScoping && <li>{copy.payrollNote} {config.payrollCountry ? new Intl.DisplayNames(locale, { type: 'region' }).of(config.payrollCountry) : copy.scoped}</li>}
       {quote.specialistScoping && <li>{copy.specialist}</li>}
     </ul>}
     <p className="catalogue-stamp">{live.catalog ? `${messages.summary.pricingEffective} ${new Date(live.catalog.effectiveDate).toLocaleDateString(locale)}` : copy.intentNote}</p>

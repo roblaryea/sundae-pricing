@@ -11,7 +11,7 @@ The published database catalogue in `sundae-backend` remains the runtime commerc
 
 ## Review deployment
 
-The latest 2026-10-09 refinements are in the Ready test preview **https://sundae-pricing-9l4j1ysn3-sundaes-projects-afd45f7e.vercel.app** (commit `99fef5c`). Earlier protected previews are historical. The preview loads the published catalogue through its same-origin Vercel proxy. Companion backend/app/website changes remain review work, not released receivers. Production and billing are unchanged. Preview access tokens are kept outside Git and PRs.
+The 2026-10-09 changes use the existing branch test preview: **https://sundae-pricing-git-codex-prici-ecf6e9-sundaes-projects-afd45f7e.vercel.app/**. Exact latest-head deployment provenance and hosted click checks are recorded in PR #47. The preview loads the deployed catalogue through its same-origin Vercel proxy. Companion backend/app/website branches remain review work; production and billing are unchanged. Preview access tokens stay outside Git and PRs.
 
 ## Runtime sequence
 
@@ -33,15 +33,13 @@ The latest 2026-10-09 refinements are in the Ready test preview **https://sundae
 
 ## Known parity boundary
 
-The deployed public active response does not yet publish volume tiers, the combined-discount ceiling, implementation-class fees or Watchtower Complete's fixed bundle policy. Cross-Intelligence package prices are now hydrated. Optional missing volume/cap/bundle policies use explicit reference values; unpublished setup amounts are hidden and confirmed separately. Backend PR #1903 adds existing database volume/cap policies to the response but remains undeployed. Setup/bundle policies still need an authoritative contract. Scheduled catalogue activation exists; its live enablement was not verified. Therefore:
+The final backend/app review changes implement versioned `commercialPolicy`: setup fees/floor flags, offer assignments and Watchtower Complete pricing/allowance. Draft-only Admin editing uses the existing catalogue publication lifecycle. Authoritative publish validation requires complete policy; the nullable migration does not alter the live version. The app public adapter maps the active policy, and the pricing adapter validates it before hydration. The server quote engine consumes the same stored policy.
 
-- `status: ready` proves that required supported families/fields validated and hydrated;
-- it does not prove full pricing-site/backend parity;
-- activation requires server-side eligibility and final quote checks, not only a 200 catalogue response.
+The deployed feed still lacks those new fields until companion rollout and reviewed policy publication. Missing volume/cap/bundle policy retains explicit reference behavior; missing setup assignments are cleared and setup is scoped. Scheduled activation exists; live enablement is unverified. `status: ready` means supported required fields validated, not full billing parity. Server-side eligibility/final quote checks still control activation.
 
-This is an explicit release gate, not a documentation ambiguity.
+Crew caps are hydrated and availability disclosures are parameterized across 25 locales. Buyer state preserves entered locations. `calculateBasketQuote` rejects an out-of-cap Crew selection before computing Crew lines; it suppresses average, review/export/handoff actions and asks for an eligible plan. This applies equally to store edits, persisted state, imported intent and catalogue refresh. Receivers validate structural intent without embedding a stale commercial cap.
 
-Public stateless quote checks on 2026-10-08 matched 31/32 recurring totals after normalizing contract-period totals to monthly. The remaining deployed case charges a second Watchtower bundle discount against an already-net price. `sundae-backend/app/services/quote_engine.ts` has a local correction plus 37 execution tests (32 captured estimate cases and five fixed-bundle cases). The deterministic inputs include published Core curves and fixed Crew bundles; this does not execute the database or billing. All 32 local estimate cases match. Deployment and renewed production parity checks remain required. The isolated backend review branch passed its full TypeScript pre-push gate; earlier nullable-value errors were in concurrent original-worktree Foresight edits. The correction remains undeployed. See `PRICING_AUDIT_REPORT.md` and `public-quote-check.json`.
+Historical public stateless checks matched 31/32 deployed recurring totals; the remaining case applied a second Watchtower discount to an already-net bundle. Backend PR #1903 contains the correction and policy implementation. All 32 deterministic parity cases pass locally. Release and renewed authenticated/live parity checks remain required.
 
 For genuine local catalogue QA, opt into Vite's same-origin development proxy (the remote endpoint does not allow direct localhost CORS):
 
@@ -102,4 +100,4 @@ npm run qa:intent
 
 These gates validate the repository. They do not replace live catalogue and Stripe verification.
 
-The latest recorded full unit run passed 43 files / 1,357 tests. Of 69 relevant Chromium scenarios, one translated mobile overflow initially failed; all 22 impacted scenarios passed after the fix, with the other 47 passing in the earlier run. Lint and TypeScript/Vite build passed, including i18n QA, intent parity, pricing validation and prerender. Selected-language print/PDF checks cover fr/ru/ar/zh-Hans/hi/pap. The suites also cover 25 locale controls, automatic extensions, Crew overages/payroll, refresh, discounts, reset, feature help and desktop/mobile axe. A real screen-reader session and production funnel measurement remain pending. See the exact verification record in `PRICING_AUDIT_REPORT.md`.
+The final pricing unit run passed 43 files / 1,359 tests; lint and TypeScript/Vite build passed. Backend policy/parity coverage passed 57 tests with PostgreSQL16 schema parity (1,210 tables / 6 views), typecheck and targeted lint. App coverage passed 13 tests, source typecheck, targeted lint and 25-pack UI certification. Website receiver tests and typecheck passed. Full app preflight is blocked by 504 existing support-KB translation gaps in az/ru/pap. Historical browser/print evidence is retained in `PRICING_AUDIT_REPORT.md`; final hosted checks are recorded in PR #47. Real screen-reader use, companion rollout/policy publication, authenticated billing/Stripe parity and production funnel measurement remain release checks.

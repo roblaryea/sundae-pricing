@@ -202,8 +202,6 @@ export const useConfiguration = create<ConfigurationState>()(
               crossIntelligence: layer === 'crew' ? 'none' as const : get().crossIntelligence,
               crewSkus: seed,
             });
-            // If the Lite cap (5) is exceeded by the persisted location
-            // count, clamp it. `seed` is never Lite here, so no clamp.
           } else {
             // Leaving Crew or switching away — clear the Crew SKU pick.
             set({ layer, crewSkus: [] });
@@ -220,7 +218,7 @@ export const useConfiguration = create<ConfigurationState>()(
           // wipes the rest; picking anything else wipes Lite.
           if (sku === 'crew_lite') {
             const next: CrewSkuId[] = isAdding ? ['crew_lite'] : [];
-            set({ crewSkus: next, locations: isAdding ? Math.min(get().locations, 5) : get().locations });
+            set({ crewSkus: next });
             get().markStepCompleted('package');
             get().checkAchievements();
             return;
@@ -290,10 +288,6 @@ export const useConfiguration = create<ConfigurationState>()(
 
         setCrewSkus: (skus) => {
           set({ crewSkus: normalizeCrewSelection(skus) });
-          // If preset is Lite, clamp locations to the hard cap of 5.
-          if (skus.length === 1 && skus[0] === 'crew_lite') {
-            set({ locations: Math.min(get().locations, 5) });
-          }
           get().markStepCompleted('package');
           get().checkAchievements();
         },
@@ -337,14 +331,10 @@ export const useConfiguration = create<ConfigurationState>()(
         },
 
         setLocations: (locations) => {
-          // Crew Lite has a hard location cap of 5 (`crewSkus.crew_lite.caps.maxLocations`).
-          // Clamp any caller that requests more so the slider, persisted
-          // state, and pricing math never disagree.
-          const skus = get().crewSkus;
-          const liteOnly = skus.length === 1 && skus[0] === 'crew_lite';
+          // Preserve the buyer's estate. Published plan eligibility is checked
+          // by the basket, including imported selections and catalogue refresh.
           const safe = Number.isFinite(locations) ? Math.max(1, Math.min(10000, Math.floor(locations))) : 1;
-          const clamped = liteOnly ? Math.min(safe, 5) : safe;
-          set({ locations: clamped });
+          set({ locations: safe });
           get().markStepCompleted('locations');
           get().checkAchievements();
         },
@@ -603,6 +593,6 @@ export const useConfiguration = create<ConfigurationState>()(
 );
 
 // Expose store for E2E testing in dev mode
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV && typeof window !== 'undefined') {
   (window as E2EStoreWindow).__SUNDAE_STORE__ = useConfiguration;
 }

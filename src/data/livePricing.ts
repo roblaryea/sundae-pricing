@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { conceptSkus, corePackages, foresightAction, watchtower, crewSkus, crewBundles,
   billingDiscounts, billingTerms, volumeDiscounts, DISCOUNT_RULES, crossIntelligence, implementationClasses, IMPLEMENTATION_CLASS_ORDER, isRetiredCatalogId } from './pricing';
-import type { BandedSku, ModuleId } from './pricing';
+import type { BandedSku, ModuleId, ImplementationClassId } from './pricing';
 import { trackPricingEvent } from '../lib/analytics';
 
 interface CatalogRule { ruleKey: string; ruleValue: Record<string, unknown> }
@@ -39,6 +39,7 @@ export interface LiveCatalogResponse {
   corePackages?: CatalogRow[]; foresightAction?: CatalogRow | null;
   concepts?: CatalogRow[]; watchtower?: CatalogRow[];
   addons?: CatalogRow[];
+  offerImplementationClasses?: Record<string, ImplementationClassId>;
   implementationClasses?: Partial<Record<typeof IMPLEMENTATION_CLASS_ORDER[number], { fee: number; isFloor: boolean }>>;
   discounts?: { effectiveFrom?: string; effectiveUntil?: string | null; priority?: number; billingCycle: string; paymentSchedule: string; discountPercent: string | number; isActive: boolean }[];
 }
@@ -228,7 +229,7 @@ export function validatePublishedCatalog(data: LiveCatalogResponse) {
   }
   for (const r of normalized.crew) {
     const caps = r.rules?.find((rule) => rule.ruleKey === 'outlet_caps')?.ruleValue;
-    if (!caps || typeof caps.maxEmployeesPerLocation !== 'number' || typeof caps.perEmployeeOverageUsd !== 'number') throw new Error(`Missing workforce allowance: ${r.id}`);
+    if (!caps || !Number.isSafeInteger(caps.maxEmployeesPerLocation) || Number(caps.maxEmployeesPerLocation) < 0 || typeof caps.perEmployeeOverageUsd !== 'number' || !Number.isFinite(caps.perEmployeeOverageUsd) || caps.perEmployeeOverageUsd < 0 || (caps.maxLocations !== null && (!Number.isSafeInteger(caps.maxLocations) || Number(caps.maxLocations) < 1))) throw new Error(`Missing or invalid workforce allowance: ${r.id}`);
   }
   for (const id of ['competitive', 'events', 'trends']) {
     const row = normalized.watchtower.find((r) => r.id === id);
@@ -252,6 +253,14 @@ export function validatePublishedCatalog(data: LiveCatalogResponse) {
   if (data.implementationClasses) for (const id of IMPLEMENTATION_CLASS_ORDER) {
     const cls = data.implementationClasses[id];
     if (!cls || !Number.isFinite(cls.fee) || cls.fee < 0 || typeof cls.isFloor !== 'boolean') throw new Error('Invalid published setup policy');
+  }
+  if (data.offerImplementationClasses) {
+    if (!data.implementationClasses) throw new Error('Missing published setup fees');
+    for (const [id, klass] of Object.entries(data.offerImplementationClasses)) {
+      if (!/^[a-z][a-z0-9_]*$/.test(id) || !IMPLEMENTATION_CLASS_ORDER.includes(klass)) throw new Error('Invalid published setup assignment');
+    }
+    const required = [...normalized.corePackages.map(r => r.id.replace(/^core_/, '')), 'foresight', ...normalized.concepts.map(r => CONCEPT_KEYS[r.id] ?? r.id), ...normalized.crew.map(r => r.id), ...normalized.bundles.map(r => r.id)];
+    if (required.some(id => !data.offerImplementationClasses![id])) throw new Error('Incomplete published setup assignments');
   }
   const cross = normalized.addons.find(r => r.id === 'cross_intelligence_pro');
   if (cross && (!cross.pricingByTier || ['foundation','margin','growth','performance'].some(id=>!Number.isFinite(cross.pricingByTier?.[id]) || cross.pricingByTier![id]<0) || !Number.isFinite(cross.perLocationPrice) || cross.perLocationPrice! < 0 || !Number.isInteger(cross.baseIncludesLocations))) throw new Error('Invalid published Cross-Intelligence pricing');
@@ -333,8 +342,13 @@ export function applyLiveCatalogValues(data: LiveCatalogResponse) {
   const volume = data.version!.volumeDiscountTiers;
   if(volume) volumeDiscounts.tiers = [...volume.filter(t=>t.minLocations < 250).map(t=>({ min:t.minLocations, max:Math.min(t.maxLocations ?? 249,249), percent:t.discountPercent, enterpriseOnly:false, label:'' })), {min:250,max:null,percent:null,enterpriseOnly:true,label:''}];
   if(data.version!.maxCombinedDiscountPercent !== undefined) DISCOUNT_RULES.maxDiscountPercent = data.version!.maxCombinedDiscountPercent;
+  const assignments = data.offerImplementationClasses;
+  for (const [skus, aliases] of [[corePackages, Object.fromEntries(Object.keys(corePackages).map(id => [id, id.replace(/^core_/, '')]))], [conceptSkus, CONCEPT_KEYS], [crewSkus, {}], [crewBundles, {}]] as const) {
+    for (const [id, sku] of Object.entries(skus)) sku.implementationClass = assignments?.[(aliases as Record<string, string>)[id] ?? id] ?? null;
+  }
+  foresightAction.implementationClass = assignments?.foresight ?? null;
   if(data.implementationClasses) for(const id of IMPLEMENTATION_CLASS_ORDER) Object.assign(implementationClasses[id], data.implementationClasses[id]);
-  setState({ policyCoverage: {implementation:Boolean(data.implementationClasses),volume:Boolean(volume),ceiling:data.version!.maxCombinedDiscountPercent !== undefined,watchtowerBundle:n.watchtower.some(r=>r.id==='bundle'),crossIntelligence:Boolean(cross)}, status: 'ready' , version: livePricingState.version + 1, error: null, catalog: data.version });
+  setState({ policyCoverage: {implementation:Boolean(data.implementationClasses && assignments),volume:Boolean(volume),ceiling:data.version!.maxCombinedDiscountPercent !== undefined,watchtowerBundle:n.watchtower.some(r=>r.id==='bundle'),crossIntelligence:Boolean(cross)}, status: 'ready' , version: livePricingState.version + 1, error: null, catalog: data.version });
 }
 
 export async function hydrateLivePricingCatalog(force = false): Promise<void> {

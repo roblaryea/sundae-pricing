@@ -102,7 +102,7 @@ export function parsePricingIntent(value: unknown): PricingIntent | null {
     !validList(models, INTENT_MODELS) || !INTENT_TERMS.includes(cycle as PricingIntent['billingCycle']) || !['none','base','pro'].includes(ci as string)) return null;
   if (wt.includes('bundle') && wt.length !== 1) return null;
   if (wt.length && !['core_growth','core_performance'].includes(x.corePackage as string)) return null;
-  if (crew.includes('crew_lite') && (crew.length !== 1 || (x.locations as number) > 5)) return null;
+  if (crew.includes('crew_lite') && crew.length !== 1) return null;
   const isCoreOnly = x.layer === 'core';
   const employees = isCoreOnly ? null : x.employees ?? null;
   if (employees !== null && (!Number.isInteger(employees) || (employees as number) < 0 || (employees as number) > MAX_EMPLOYEE_COUNT)) return null;

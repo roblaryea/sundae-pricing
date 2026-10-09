@@ -99,7 +99,7 @@ describe('shared buyer intent', () => {
   });
   it.each([NaN,-1,0,1.5,10001])('rejects invalid location count %s', (locations) => expect(parsePricingIntent({...config,locations})).toBeNull());
   it('rejects retired products and malformed or unsupported selections', () => {
-    for (const x of [{...config,corePackage:'core_lite'}, {...config,addOns:['labor']}, {...config,watchtowerModules:['bundle']}, {...config,crewSkus:['crew_lite'],locations:6}]) expect(parsePricingIntent(x)).toBeNull();
+    for (const x of [{...config,corePackage:'core_lite'}, {...config,addOns:['labor']}, {...config,watchtowerModules:['bundle']}]) expect(parsePricingIntent(x)).toBeNull();
     expect(decodePricingIntent('not-json')).toBeNull();
     expect(parsePricingIntent({...config, layer:'crew', crewSkus:['crew_operations'], employees:10, payrollCountry:'ZZ'})).toBeNull();
   });

@@ -14,7 +14,13 @@ export function calculateBasketQuote(config: PricingIntent) {
     crossIntelligence: config.crossIntelligence === 'none' ? undefined : config.crossIntelligence,
     clientProfile: profile,
   });
-  const crew = config.layer === 'core' ? null : computeCrewQuote(config.crewSkus, config.locations);
+  const crewLimitExceeded = config.layer !== 'core' && config.crewSkus.some((id) => {
+    const limit = crewSkus[id].caps.maxLocations;
+    return limit !== null && config.locations > limit;
+  });
+  // Never price only part of an estate when a saved/shared plan becomes
+  // ineligible. All buyer actions require an eligible Crew selection first.
+  const crew = config.layer === 'core' || crewLimitExceeded ? null : computeCrewQuote(config.crewSkus, config.locations);
   const allowance = crew?.employeeAllowancePerLocation ?? 0;
   const rate = crew ? Math.max(0, ...crew.selectedSkus.map((id) => crewSkus[id].caps.perEmployeeOverageUsd)) : 0;
   const includedEmployees = allowance * config.locations;
@@ -30,7 +36,7 @@ export function calculateBasketQuote(config: PricingIntent) {
   const payrollNeedsScoping = Boolean(crew?.selectedSkus.includes('crew_payroll'));
   const employeeLimitExceeded = Boolean(crew && config.employees !== null && config.employees > SELF_SERVE_EMPLOYEE_LIMIT);
   const enterprise = config.locations >= 250 || employeeLimitExceeded;
-  const needsCrewSelection = config.layer !== 'core' && config.crewSkus.length === 0;
+  const needsCrewSelection = config.layer !== 'core' && (config.crewSkus.length === 0 || crewLimitExceeded);
   return {
     core, crew, subtotal, monthly, annual: monthly * 12,
     averageMonthlyPerLocation: config.locations > 1 && !enterprise && !needsCrewSelection ? Math.round(monthly / config.locations * 100) / 100 : null,
@@ -38,7 +44,7 @@ export function calculateBasketQuote(config: PricingIntent) {
     discounts: net.discounts, implementation,
     includedEmployees, excessEmployees, employeeOverage, employeeRate: rate,
     workforceUnknown: Boolean(crew && config.employees === null), specialistScoping, payrollNeedsScoping,
-    enterprise, employeeLimitExceeded, needsCrewSelection,
+    enterprise, employeeLimitExceeded, needsCrewSelection, crewLimitExceeded,
     includedForesight: config.layer !== 'crew' && corePackages[config.corePackage].includesForesight === true,
     lines: [ ...(core?.breakdown ?? []), ...(crew?.lines.map((l) => ({ item: l.label, price: l.monthly })) ?? []) ],
   };

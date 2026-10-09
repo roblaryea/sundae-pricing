@@ -36,7 +36,8 @@ export function buildBasketPrintHTML(config: PricingIntent, quote: BasketQuote, 
     notes.push(`${copy.payroll}: ${country}. ${copy.payrollNote}`);
   }
   if (quote.specialistScoping) notes.push(journey.coverage, copy.specialist);
-  notes.push(`${copy.setup}: ${copy.scoped}`, copy.intentNote);
+  const setupAmount = quote.enterprise || quote.implementation.requiresScoping ? copy.scoped : `${quote.implementation.isFloor ? '≥ ' : ''}${new Intl.NumberFormat(locale,{style:'currency',currency:'USD',maximumFractionDigits:2}).format(quote.implementation.fee)}`;
+  notes.push(`${copy.setup}: ${setupAmount}`, copy.intentNote);
   if (effectiveDate) notes.push(`${messages.summary.pricingEffective} ${new Date(effectiveDate).toLocaleDateString(locale,{dateStyle:'long',timeZone:'UTC'})}`);
   const safeShare = new URL(shareUrl);
   if (!['http:','https:'].includes(safeShare.protocol)) throw new Error('Invalid estimate URL');
@@ -51,7 +52,7 @@ export function buildBasketPrintHTML(config: PricingIntent, quote: BasketQuote, 
   </style></head><body><div class="print-actions"><button onclick="window.print()">${escape(printLabels[locale])}</button></div><main class="sheet"><header class="brand"><img src="${assets}logos/sundae-app-icon.png" alt=""><span class="wordmark" dir="ltr">sundae</span><small>${escape(copy.review)}<br>${escape(new Date().toLocaleDateString(locale,{dateStyle:'long'}))}</small></header>
   <h1>${escape(heading)}</h1><p class="scope">${config.layer === 'both' ? 'Core + Crew' : config.layer === 'crew' ? 'Crew' : 'Core'} · ${number(config.locations)} ${escape(copy.bands)}</p>
   <section class="investment"><div><small>${escape(primaryLabel)}</small><strong><bdi>${quote.enterprise ? escape(copy.scoped) : money(quote.averageMonthlyPerLocation ?? quote.monthly)}</bdi></strong></div>${quote.enterprise ? '' : `<div class="secondary"><small>${escape(quote.averageMonthlyPerLocation !== null ? messages.summary.monthlyInvestment : copy.payment)}</small><strong><bdi>${money(quote.averageMonthlyPerLocation !== null ? quote.monthly : quote.paymentAmount)}</bdi></strong><small>${escape(quote.averageMonthlyPerLocation !== null ? messages.overview.perMonth : term)}</small></div>`}</section><p class="caption">${escape(copy.exclusions)}</p>
-  <h2>${escape(copy.details)}</h2><table><tbody>${quote.lines.map(line => row(localizeBreakdownLabel(line.item,locale),quote.enterprise ? escape(copy.scoped) : money(line.price))).join('')}${quote.enterprise ? '' : quote.discounts.filter(d=>d.amount<0).map(d=>row(localizeDiscountLine(d,locale,config.locations),money(d.amount),true)).join('')}${!quote.enterprise && quote.employeeOverage ? row(copy.overage,money(quote.employeeOverage)) : ''}${row(copy.setup,escape(copy.scoped))}${quote.enterprise ? '' : row(copy.payment,money(quote.paymentAmount))}</tbody></table>
+  <h2>${escape(copy.details)}</h2><table><tbody>${quote.lines.map(line => row(localizeBreakdownLabel(line.item,locale),quote.enterprise ? escape(copy.scoped) : money(line.price))).join('')}${quote.enterprise ? '' : quote.discounts.filter(d=>d.amount<0).map(d=>row(localizeDiscountLine(d,locale,config.locations),money(d.amount),true)).join('')}${!quote.enterprise && quote.employeeOverage ? row(copy.overage,money(quote.employeeOverage)) : ''}${row(copy.setup,escape(setupAmount))}${quote.enterprise ? '' : row(copy.payment,money(quote.paymentAmount))}</tbody></table>
   <h2>${escape(copy.next)}</h2><ul>${notes.map(note=>`<li>${escape(note)}</li>`).join('')}</ul><a class="next" href="${escape(safeShare.href)}">${escape(copy.reviewCta)} →</a><footer><span dir="ltr">Sundae Technologies Inc.</span><span dir="ltr">pricing.sundae.io</span></footer></main></body></html>`;
 }
 

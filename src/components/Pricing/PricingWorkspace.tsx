@@ -29,7 +29,7 @@ export function ScopeControls() {
   const { copy, journey } = useBuyerFormatting();
   const [draft, setDraft] = useState<string | null>(null);
   const commit = () => { const n = Number(draft ?? config.locations); state.setLocations(Number.isFinite(n) && n >= 1 ? n : config.locations); setDraft(null); };
-  const max = config.crewSkus.includes('crew_lite') && config.layer !== 'core' ? 5 : 10000;
+  const max = 10000;
   return <div className="scope-controls">
     <fieldset className="need-control"><legend>{copy.need}</legend><div className="need-options">
       {(['core','crew','both'] as const).map((id) => <button type="button" key={id} data-testid={`pricing-tab-${id}`} aria-pressed={config.layer === id} onClick={() => state.setLayer(id)}>
@@ -54,7 +54,7 @@ function useBuyerDiscount() {
 }
 
 export function SetupGuide({ compact = false }: { compact?: boolean }) {
-  const { config, live } = useBuyerQuote();
+  const { config, quote, live } = useBuyerQuote();
   const { copy, reviewCopy, money, locale } = useBuyerFormatting();
   const policy = pricingPolicyCopy[locale];
   const selectedCrewPreset = CREW_PRESETS.find((preset) => preset.skus.length === config.crewSkus.length && preset.skus.every((id) => config.crewSkus.includes(id)));
@@ -64,13 +64,13 @@ export function SetupGuide({ compact = false }: { compact?: boolean }) {
       ? 'Core + Crew'
       : selectedCrewPreset?.label ?? 'Crew';
   const setupPublished = !live.catalog || live.policyCoverage?.implementation;
-  const setupIntro = fillBuyerReviewCopy(reviewCopy.setupIntro, { product: setupProduct, zero: money(implementationClasses.self_service.fee), low: money(implementationClasses.class_a.fee), high: money(implementationClasses.class_c.fee), complex: money(implementationClasses.class_d.fee) });
+  const selectedSetup = quote.enterprise || quote.implementation.requiresScoping ? copy.scoped : `${quote.implementation.isFloor ? '≥ ' : ''}${money(quote.implementation.fee)}`;
   return <section className={`setup-guide ${compact ? 'is-compact' : ''}`} aria-label={copy.setup} data-testid="setup-guide">
     <h3>{copy.setup}</h3>
-    <p>{setupPublished ? setupIntro : `${setupProduct} · ${copy.setup}: ${copy.scoped}.`}</p>
+    <p>{setupProduct} · {copy.setup}: {setupPublished ? selectedSetup : copy.scoped}.</p>
     <p className="pricing-caption">{reviewCopy.setupNote}</p>
     {!compact && setupPublished && <details className="pricing-disclosure"><summary>{copy.setup}<ChevronDown size={16} aria-hidden/></summary>
-      {IMPLEMENTATION_CLASS_ORDER.map((id, i) => <div key={id} className="band-line"><span>{policy.classes[i].replace(/^[A-D]\s*[·-]\s*/, '')}</span><strong>{id === 'class_d' ? '≥ ' : ''}{money(implementationClasses[id].fee)}</strong></div>)}
+      {IMPLEMENTATION_CLASS_ORDER.map((id, i) => <div key={id} className="band-line"><span>{policy.classes[i].replace(/^[A-D]\s*[·-]\s*/, '')}</span><strong>{implementationClasses[id].isFloor ? '≥ ' : ''}{money(implementationClasses[id].fee)}</strong></div>)}
     </details>}
   </section>;
 }
@@ -101,6 +101,10 @@ export function PlanChoices() {
   const shapeLabels = [shapes.shapeFoundation, shapes.shapeMargin, shapes.shapeGrowth, shapes.shapePerformance];
   const domains = [['profit','labor','revenue','pulse'], ['inventory','purchasing'], ['marketing','reservations','guest','guest_crm'], []] as const;
   const selectedPreset = CREW_PRESETS.find((preset) => preset.skus.length === config.crewSkus.length && preset.skus.every((id) => config.crewSkus.includes(id)));
+  const starterMaxLocations = crewSkus.crew_lite.caps.maxLocations;
+  const starterUnavailable = starterMaxLocations !== null && config.locations > starterMaxLocations;
+  const starterUnavailableLabel = fillBuyerReviewCopy(reviewCopy.unavailable, { count: new Intl.NumberFormat(locale).format(starterMaxLocations ?? config.locations) });
+  const starterCapLabel = starterMaxLocations === null ? copy.crew : copy.starterCap.replace('{count}', new Intl.NumberFormat(locale).format(starterMaxLocations));
   const otherQuote = config.layer === 'both' ? calculateBasketQuote({ ...config, layer: rail === 'core' ? 'crew' : 'core' }) : null;
   return <>
     <ScopeControls/>
@@ -131,18 +135,18 @@ export function PlanChoices() {
       <CoreComparison/>
     </>}
     {activeRail === 'crew' && <section className="crew-plans"><div className="section-title"><h2>Sundae Crew</h2><p>{copy.crewHint}</p></div>
-      <div className="mobile-plan-select"><label htmlFor="crew-plan">Sundae Crew · {copy.choose}</label><select id="crew-plan" data-testid="mobile-crew-plan" value={selectedPreset?.id ?? 'custom'} onChange={(e) => { const preset = CREW_PRESETS.find((p) => p.id === e.target.value); if (preset) state.setCrewSkus(preset.skus); }}><option value="custom" disabled>{copy.customCrew}</option>{CREW_PRESETS.map((p) => <option key={p.id} value={p.id} disabled={p.id === 'lite' && config.locations > 5}>{p.label}{p.id === 'lite' && config.locations > 5 ? ` · ${reviewCopy.unavailable}` : ''}</option>)}</select></div>
+      <div className="mobile-plan-select"><label htmlFor="crew-plan">Sundae Crew · {copy.choose}</label><select id="crew-plan" data-testid="mobile-crew-plan" value={selectedPreset?.id ?? 'custom'} onChange={(e) => { const preset = CREW_PRESETS.find((p) => p.id === e.target.value); if (preset) state.setCrewSkus(preset.skus); }}><option value="custom" disabled>{copy.customCrew}</option>{CREW_PRESETS.map((p) => <option key={p.id} value={p.id} disabled={p.id === 'lite' && starterUnavailable}>{p.label}{p.id === 'lite' && starterUnavailable ? ` · ${starterUnavailableLabel}` : ''}</option>)}</select></div>
       {!selectedPreset && <p className="custom-crew-summary pricing-caption">{copy.customCrew}: {quote.crew?.lines.map((line) => line.label).join(' + ') || copy.chooseCrew}</p>}
       <div className="plan-grid">
         {CREW_PRESETS.map((preset) => {
           const active = preset.id === selectedPreset?.id;
-          const disabled = preset.id === 'lite' && config.locations > 5;
+          const disabled = preset.id === 'lite' && starterUnavailable;
           const q = disabled ? null : calculateBasketQuote({ ...config, layer: 'crew', addOns: [], watchtowerModules: [], crossIntelligence: 'none', crewSkus: preset.skus });
           return <article key={preset.id} data-testid={`card-${preset.id}`} className={`plan-card ${active ? 'is-selected' : ''} ${disabled ? 'is-unavailable' : ''}`}>
-            <div className="plan-top"><span className="plan-kicker">{preset.id === 'lite' ? copy.starterCap : copy.crew}</span><span className="selection-mark" aria-hidden>{active && <Check size={13}/>}</span></div>
-            <h2>{preset.label}</h2>{disabled ? <p className="plan-unavailable">{reviewCopy.unavailable}</p> : <><div className="plan-price">{q!.averageMonthlyPerLocation !== null ? <AveragePrice amount={cardMoney(q!.averageMonthlyPerLocation)} locations={config.locations}/> : <>{q!.enterprise ? messages.overview.contactSales : cardMoney(q!.monthly)}{!q!.enterprise && <small>{messages.overview.perMonth}</small>}</>}</div>{q!.averageMonthlyPerLocation !== null && <p className="plan-total">{messages.summary.monthlyInvestment} <bdi>{cardMoney(q!.monthly)}</bdi>{messages.overview.perMonth}</p>}{discount.label && <p className="card-discount">{discount.label}</p>}{!q!.enterprise && <p className="card-caveat">{new Intl.NumberFormat(locale).format(q!.includedEmployees)} {copy.allowance} · {money(q!.employeeRate)} {copy.perEmployee}</p>}{config.employees === null && !quote.enterprise && <p className="card-caveat">{reviewCopy.addEmployees}</p>}</>}
+            <div className="plan-top"><span className="plan-kicker">{preset.id === 'lite' ? starterCapLabel : copy.crew}</span><span className="selection-mark" aria-hidden>{active && <Check size={13}/>}</span></div>
+            <h2>{preset.label}</h2>{disabled ? <p className="plan-unavailable">{starterUnavailableLabel}</p> : <><div className="plan-price">{q!.averageMonthlyPerLocation !== null ? <AveragePrice amount={cardMoney(q!.averageMonthlyPerLocation)} locations={config.locations}/> : <>{q!.enterprise ? messages.overview.contactSales : cardMoney(q!.monthly)}{!q!.enterprise && <small>{messages.overview.perMonth}</small>}</>}</div>{q!.averageMonthlyPerLocation !== null && <p className="plan-total">{messages.summary.monthlyInvestment} <bdi>{cardMoney(q!.monthly)}</bdi>{messages.overview.perMonth}</p>}{discount.label && <p className="card-discount">{discount.label}</p>}{!q!.enterprise && <p className="card-caveat">{new Intl.NumberFormat(locale).format(q!.includedEmployees)} {copy.allowance} · {money(q!.employeeRate)} {copy.perEmployee}</p>}{config.employees === null && !quote.enterprise && <p className="card-caveat">{reviewCopy.addEmployees}</p>}</>}
             <ul>{preset.skus.filter((s) => !(s === 'crew_scheduling' && preset.skus.includes('crew_operations'))).map((s) => <li key={s}><Check size={13} aria-hidden/><FeatureLabel feature={s} name={crewSkus[s].name}/></li>)}</ul>
-            <button type="button" className="plan-select" data-testid={`preset-${preset.id}`} disabled={disabled} aria-pressed={active} aria-label={messages.overview.selectTier.replace('{tier}',preset.label)} onClick={() => state.setCrewSkus(preset.skus)}>{disabled ? reviewCopy.unavailable : active ? copy.selected : messages.overview.selectTier.replace('{tier}',preset.label)}{!disabled && <ArrowRight size={15} aria-hidden/>}</button>
+            <button type="button" className="plan-select" data-testid={`preset-${preset.id}`} disabled={disabled} aria-pressed={active} aria-label={messages.overview.selectTier.replace('{tier}',preset.label)} onClick={() => state.setCrewSkus(preset.skus)}>{disabled ? starterUnavailableLabel : active ? copy.selected : messages.overview.selectTier.replace('{tier}',preset.label)}{!disabled && <ArrowRight size={15} aria-hidden/>}</button>
           </article>;
         })}
       </div>
@@ -216,8 +220,9 @@ function CrewOption({ id }: { id: typeof CREW_SKU_LIST[number] }) {
   const { money, copy, messages } = useBuyerFormatting();
   const discount = useBuyerDiscount();
   const inputId = useId();
+  const unavailable = crewSkus[id].caps.maxLocations !== null && config.locations > crewSkus[id].caps.maxLocations!;
   const included = id === 'crew_scheduling' && config.crewSkus.includes('crew_operations');
-  return <div className="crew-option"><input id={inputId} type="checkbox" aria-describedby={`${inputId}-price`} checked={config.crewSkus.includes(id)} disabled={included} onChange={() => state.toggleCrewSku(id)}/><label htmlFor={inputId}>{crewSkus[id].name}</label><FeatureHelp feature={id} name={crewSkus[id].name}/><small id={`${inputId}-price`}>{included ? copy.included : quote.enterprise ? copy.scoped : <>{money(discount.net(calculateBandedTotal(crewSkus[id], config.locations)))}{messages.overview.perMonth}</>}</small></div>;
+  return <div className="crew-option"><input id={inputId} type="checkbox" aria-describedby={`${inputId}-price`} checked={config.crewSkus.includes(id)} disabled={included || unavailable} onChange={() => state.toggleCrewSku(id)}/><label htmlFor={inputId}>{crewSkus[id].name}</label><FeatureHelp feature={id} name={crewSkus[id].name}/><small id={`${inputId}-price`}>{included ? copy.included : unavailable ? copy.scoped : quote.enterprise ? copy.scoped : <>{money(discount.net(calculateBandedTotal(crewSkus[id], config.locations)))}{messages.overview.perMonth}</>}</small></div>;
 }
 export function EnterprisePanel() {
   const { copy, messages, locale, reviewCopy } = useBuyerFormatting();
@@ -245,7 +250,7 @@ export function BasketSummary({ compact = false }: { compact?: boolean }) {
       {!quote.enterprise && quote.employeeOverage > 0 && <div><span>{copy.overage}</span><strong>{money(quote.employeeOverage)}</strong></div>}
     </div>
     {!quote.enterprise && <div className="payment-line"><span>{copy.payment}<small>{copy.terms[INTENT_TERMS.indexOf(config.billingCycle)]}</small></span><strong>{money(quote.paymentAmount)}</strong></div>}
-    <div className="setup-line"><span>{copy.setup}</span><strong>{quote.implementation.requiresScoping ? copy.scoped : money(quote.implementation.fee)}</strong></div>
+    <div className="setup-line"><span>{copy.setup}</span><strong>{quote.enterprise || quote.implementation.requiresScoping ? copy.scoped : `${quote.implementation.isFloor ? '≥ ' : ''}${money(quote.implementation.fee)}`}</strong></div>
     {(quote.crew || quote.specialistScoping) && <ul className="scope-notes pricing-caption">
       {quote.crew && config.employees !== null && <li>{copy.workforce}: {config.employees}</li>}
       {quote.crew && <li>{quote.enterprise ? <>{copy.overage}: {copy.scoped}</> : <>{quote.includedEmployees} {copy.allowance} · {money(quote.employeeRate)} {copy.perEmployee}</>}</li>}
@@ -263,7 +268,7 @@ export function PriceDetails() {
   const policy = pricingPolicyCopy[locale];
   const banded = [ ...(config.layer !== 'crew' ? [corePackages[config.corePackage], ...config.addOns.filter((id) => !(id === 'foresight_action' && quote.includedForesight)).map((id) => id === 'foresight_action' ? foresightAction : conceptSkus[id])] : []),
     ...(quote.crew?.lines.map((line) => line.id in crewSkus ? crewSkus[line.id as keyof typeof crewSkus] : crewBundles[line.id as keyof typeof crewBundles]).filter((s) => s !== null) ?? []) ];
-  if(quote.enterprise) return null;
+  if(quote.enterprise || quote.needsCrewSelection) return null;
   return <details className="pricing-disclosure price-details"><summary>{copy.details}<ChevronDown size={16} aria-hidden/></summary><p>{messages.summary.locationPricingNote}</p>
     <div className="calculation-grid">
     {banded.map((sku) => <section key={sku.id} className="band-detail"><h3>{localizeBreakdownLabel(sku.name,locale)}</h3><div className="band-line"><span>{copy.anchor}</span><strong>{money(sku.firstUnitPrice)}</strong></div>{calculateBandLines(sku,config.locations).map((line) => <div className="band-line" key={line.band.fromUnit}><span>{new Intl.NumberFormat(locale).format(line.units)} × {money(line.band.pricePerUnit)}</span><strong>{money(line.subtotal)}</strong></div>)}
@@ -273,7 +278,7 @@ export function PriceDetails() {
     {quote.core && config.crossIntelligence === 'pro' && <section className="band-detail"><h3>{messages.summary.crossIntelligencePro}</h3><div className="band-line"><span>{money(calculateCrossIntelligencePrice('pro',crossIntelligence.pro.includedLocations,config.corePackage))} + {Math.max(0,config.locations - crossIntelligence.pro.includedLocations)} × {money(crossIntelligence.pro.perLocationPrice)}</span><strong>{money(calculateCrossIntelligencePrice('pro',config.locations,config.corePackage))}</strong></div></section>}
     </div>
     <div className="calculation-policies"><details className="pricing-disclosure"><summary>{copy.commitment}<ChevronDown size={16} aria-hidden/></summary><p>{policy.discount.replace('{cap}',String(DISCOUNT_RULES.maxDiscountPercent))}</p><div className="policy-grid"><div>{INTENT_TERMS.map((id,i) => <div className="band-line" key={id}><span>{copy.terms[i]}</span><strong>{billingDiscounts[id]}%</strong></div>)}</div><div>{volumeDiscounts.tiers.filter((t) => !t.enterpriseOnly).map((t) => <div className="band-line" key={t.min}><span>{copy.bands} {t.min}–{t.max}</span><strong>{t.percent}%</strong></div>)}</div></div></details>
-    <details className="pricing-disclosure"><summary>{copy.setup}<ChevronDown size={16} aria-hidden/></summary><p>{policy.setup}</p>{(!live.catalog || live.policyCoverage?.implementation) && IMPLEMENTATION_CLASS_ORDER.map((id,i) => <div className="band-line" key={id}><span>{policy.classes[i].replace(/^[A-D]\s*[·-]\s*/, '')}</span><strong>{id === 'class_d' ? '≥ ' : ''}{money(implementationClasses[id].fee)}</strong></div>)}<p>{copy.scoped}</p></details></div>
+    <details className="pricing-disclosure"><summary>{copy.setup}<ChevronDown size={16} aria-hidden/></summary><p>{policy.setup}</p>{(!live.catalog || live.policyCoverage?.implementation) && IMPLEMENTATION_CLASS_ORDER.map((id,i) => <div className="band-line" key={id}><span>{policy.classes[i].replace(/^[A-D]\s*[·-]\s*/, '')}</span><strong>{implementationClasses[id].isFloor ? '≥ ' : ''}{money(implementationClasses[id].fee)}</strong></div>)}<p>{copy.scoped}</p></details></div>
     {quote.core && <div className="allowance-details"><p>{messages.overview.aiCredits}: {calculateAiCredits(corePackages[config.corePackage],config.locations).toLocaleString(locale)}</p><p>{messages.overview.intelligenceSeats}: {calculateIntelligenceSeats(corePackages[config.corePackage],config.locations)}</p></div>}
   </details>;
 }

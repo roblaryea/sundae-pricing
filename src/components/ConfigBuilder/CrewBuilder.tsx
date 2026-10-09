@@ -26,9 +26,6 @@ import { computeCrewQuote, CREW_PRESETS, CREW_SKU_LIST } from '../../lib/crewPri
 import type { CrewSkuId } from '../../types/configuration';
 import { fadeUp, selectableCard, staggerChildren, useReducedMotionSafe } from '../../lib/motion';
 
-// Crew Lite hard location cap (mirrors crewSkus.crew_lite.caps.maxLocations).
-const LITE_LOCATION_CAP = 5;
-
 interface CrewBuilderProps {
   onContinue?: () => void;
   continueLabel?: string;
@@ -62,7 +59,8 @@ export function CrewBuilder({
   );
 
   const isLite = quote.isLiteOnly;
-  const sliderMax = isLite ? LITE_LOCATION_CAP : MAX_LOCATIONS;
+  const liteLocationCap = crewSkus.crew_lite.caps.maxLocations ?? MAX_LOCATIONS;
+  const sliderMax = isLite ? liteLocationCap : MAX_LOCATIONS;
 
   // Per-SKU UI state: selected/disabled/note, plus whether the line
   // should render its price as "$0 — Included".
@@ -298,7 +296,7 @@ export function CrewBuilder({
           label="Locations"
           hint={
             isLite
-              ? `Crew Lite caps at ${LITE_LOCATION_CAP} locations. For 6+ outlets, switch to the Operating Suite or build your own.`
+              ? `Crew Starter supports up to ${liteLocationCap} locations. For more locations, choose another Crew plan.`
               : 'How many physical locations will run Crew?'
             }
           accent="#FF7E6F"

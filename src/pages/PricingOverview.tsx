@@ -12,7 +12,7 @@ export function PricingOverview() {
   const { state, config, quote, live } = useBuyerQuote();
   const { copy, reviewCopy, money, messages } = useBuyerFormatting();
   const ready = !live.required || live.status === 'ready';
-  usePricingViewEvent('first_price_displayed', { layer: config.layer, locations: config.locations, monthly: quote.monthly }, ready);
+  usePricingViewEvent('first_price_displayed', { layer: config.layer, locations: config.locations, monthly: quote.monthly }, ready && !quote.needsCrewSelection);
   usePricingConfigurationTelemetry(config, ready);
   const proceed = (step: number) => { if (!state.layer) state.setLayer('core'); state.setCurrentStep(step); trackPricingEvent(step === 1 ? 'refinement_started' : 'review_started', { step }); navigate('/simulator'); window.scrollTo(0,0); };
   return <LivePricingGate state={live}><div className="buyer-page">

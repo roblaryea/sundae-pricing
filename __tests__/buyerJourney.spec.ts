@@ -117,7 +117,7 @@ describe('published updates flow through the reviewed estimate', () => {
     const oldCross=structuredClone(crossIntelligence.pro), oldClasses=structuredClone(implementationClasses);
     try {
       const revised = structuredClone(published);
-      revised.version!.volumeDiscountTiers = [{minLocations:1,maxLocations:49,discountPercent:0},{minLocations:50,maxLocations:null,discountPercent:6}];
+      revised.version!.volumeDiscountTiers = [{minLocations:1,maxLocations:49,discountPercent:0},{minLocations:50,maxLocations:249,discountPercent:6}];
       revised.version!.maxCombinedDiscountPercent = 18;
       revised.addons = [{id:'cross_intelligence_pro',pricingByTier:{foundation:222,margin:333,growth:444,performance:555},perLocationPrice:21,baseIncludesLocations:2}];
       revised.offerImplementationClasses = Object.fromEntries([...revised.tiers!.filter(r=>['foundation','margin','growth','performance'].includes(r.id)).map(r=>[r.id,'class_b']), ...revised.modules!.map(r=>[r.id,'class_b']), ...revised.bundles!.map(r=>[r.id,'class_b'])]);

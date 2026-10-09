@@ -1576,7 +1576,8 @@ export function getVolumeDiscount(locations: number): number {
 
 /** True when the unit count is past the self-serve ladder and must be quoted. */
 export function requiresEnterpriseQuote(locations: number): boolean {
-  return locations >= ENTERPRISE_ONLY_FROM_UNITS;
+  const boundary = volumeDiscounts.tiers.find(tier => tier.enterpriseOnly)?.min;
+  return boundary !== undefined && locations >= boundary;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

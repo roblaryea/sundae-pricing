@@ -34,6 +34,8 @@ export interface CatalogVersion {
   maxCombinedDiscountPercent?: number;
 }
 export interface LiveCatalogResponse {
+  /** UTC clock sampled by the authoritative backend, independent of the buyer device. */
+  resolvedAt?: string;
   version?: CatalogVersion;
   tiers?: CatalogRow[]; modules?: CatalogRow[]; bundles?: CatalogRow[];
   corePackages?: CatalogRow[]; foresightAction?: CatalogRow | null;
@@ -200,17 +202,22 @@ export function catalogCurve(row: CatalogRow): Pick<BandedSku, 'firstUnitPrice' 
 }
 
 function currentDiscount(data: LiveCatalogResponse, cycle: string, timing: string) {
-  const now = Date.now();
+  const now = data.resolvedAt ? Date.parse(data.resolvedAt) : Date.now();
   return data.discounts?.filter(r => r.isActive && r.billingCycle === cycle && r.paymentSchedule === timing &&
     (!r.effectiveFrom || Date.parse(r.effectiveFrom) <= now) && (!r.effectiveUntil || Date.parse(r.effectiveUntil) > now))
     .sort((a,b) => (b.priority ?? 0) - (a.priority ?? 0))[0];
 }
-export function validatePublishedCatalog(data: LiveCatalogResponse) {
+export function validatePublishedCatalog(data: LiveCatalogResponse, requireCompletePolicy = isLivePricingRequired()) {
   if (!data.version?.isAuthoritative || !data.version.id || !data.version.versionName || !Number.isFinite(Date.parse(data.version.effectiveDate))) {
     throw new Error('Authoritative catalogue version is missing');
   }
-  if (Date.parse(data.version.effectiveDate) > Date.now()) throw new Error('Catalogue is not effective yet');
+  const serverNow = data.resolvedAt ? Date.parse(data.resolvedAt) : Date.now();
+  if (!Number.isFinite(serverNow) || (requireCompletePolicy && !data.resolvedAt)) throw new Error('Catalogue server clock is missing');
+  if (Date.parse(data.version.effectiveDate) > serverNow) throw new Error('Catalogue is not effective yet');
   const normalized = normalizeLiveCatalogResponse(data);
+  if (requireCompletePolicy && (!data.version.volumeDiscountTiers?.length || data.version.maxCombinedDiscountPercent === undefined ||
+    !data.implementationClasses || !data.offerImplementationClasses || !normalized.watchtower.some(r => r.id === 'bundle') ||
+    !normalized.addons.some(r => r.id === 'cross_intelligence_pro'))) throw new Error('Published commercial policy is incomplete');
   const groups = [
     [Object.keys(corePackages), normalized.corePackages], [Object.keys(conceptSkus), normalized.concepts],
     [Object.keys(crewSkus), normalized.crew], [Object.keys(crewBundles), normalized.bundles],
@@ -223,6 +230,11 @@ export function validatePublishedCatalog(data: LiveCatalogResponse) {
   if (!normalized.foresightAction) throw new Error('Missing Foresight pricing');
   catalogCurve(normalized.foresightAction);
   for (const r of normalized.corePackages) {
+    if (requireCompletePolicy) {
+      const rule = (key: string) => r.rules?.find(v => v.ruleKey === key)?.ruleValue.value;
+      if (typeof r.allowsWatchtower !== 'boolean' || typeof rule('ai_seats_unit_divisor') !== 'number' || Number(rule('ai_seats_unit_divisor')) <= 0 ||
+        typeof rule('credit_rollover_cap') !== 'number' || Number(rule('credit_rollover_cap')) < 0) throw new Error(`Missing published package allowance: ${r.id}`);
+    }
     const allowedDomains = ['labor','inventory','purchasing','marketing','reservations','profit','revenue_assurance','delivery','guest_experience','pulse','guest_crm','foresight'];
     if (r.includedModuleIds?.some((v) => !allowedDomains.includes(v))) throw new Error(`Unsupported package grant: ${r.id}`);
     if (!r.includedModuleIds?.length || typeof r.aiCreditsBase !== 'number' || typeof r.aiCreditsPerLocation !== 'number' || typeof r.aiSeatsIncluded !== 'number') throw new Error(`Missing package grants: ${r.id}`);
@@ -242,6 +254,7 @@ export function validatePublishedCatalog(data: LiveCatalogResponse) {
     if (!d || !Number.isFinite(Number(d.discountPercent)) || Number(d.discountPercent) < 0 || Number(d.discountPercent) >= 100) throw new Error('Invalid published commitment policy');
   }
   if (data.version.volumeDiscountTiers) {
+    if (data.version.volumeDiscountTiers.length === 0 || data.version.volumeDiscountTiers.at(-1)?.maxLocations === null) throw new Error('Missing published self-serve boundary');
     let next = 1;
     for (const tier of data.version.volumeDiscountTiers) {
       if (tier.minLocations !== next || (tier.maxLocations !== null && (!Number.isInteger(tier.maxLocations) || tier.maxLocations < next)) || !Number.isFinite(tier.discountPercent) || tier.discountPercent < 0 || tier.discountPercent >= 100) throw new Error('Invalid published volume policy');
@@ -340,7 +353,10 @@ export function applyLiveCatalogValues(data: LiveCatalogResponse) {
   const cross = n.addons.find(r=>r.id === 'cross_intelligence_pro');
   if(cross) Object.assign(crossIntelligence.pro, { monthlyFee: cross.pricingByTier!.foundation, pricingByPackage: cross.pricingByTier, perLocationPrice: cross.perLocationPrice, includedLocations: cross.baseIncludesLocations });
   const volume = data.version!.volumeDiscountTiers;
-  if(volume) volumeDiscounts.tiers = [...volume.filter(t=>t.minLocations < 250).map(t=>({ min:t.minLocations, max:Math.min(t.maxLocations ?? 249,249), percent:t.discountPercent, enterpriseOnly:false, label:'' })), {min:250,max:null,percent:null,enterpriseOnly:true,label:''}];
+  if(volume) {
+    const enterpriseFrom = volume.at(-1)!.maxLocations! + 1;
+    volumeDiscounts.tiers = [...volume.map(t=>({ min:t.minLocations, max:t.maxLocations, percent:t.discountPercent, enterpriseOnly:false, label:'' })), {min:enterpriseFrom,max:null,percent:null,enterpriseOnly:true,label:''}];
+  }
   if(data.version!.maxCombinedDiscountPercent !== undefined) DISCOUNT_RULES.maxDiscountPercent = data.version!.maxCombinedDiscountPercent;
   const assignments = data.offerImplementationClasses;
   for (const [skus, aliases] of [[corePackages, Object.fromEntries(Object.keys(corePackages).map(id => [id, id.replace(/^core_/, '')]))], [conceptSkus, CONCEPT_KEYS], [crewSkus, {}], [crewBundles, {}]] as const) {

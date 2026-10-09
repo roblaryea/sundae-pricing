@@ -1,4 +1,4 @@
-import { corePackages, detectClientType } from '../data/pricing';
+import { corePackages, detectClientType, requiresEnterpriseQuote } from '../data/pricing';
 import { calculateFullPrice, applyDiscounts, resolveImplementationFee } from './pricingEngine';
 import { computeCrewQuote } from './crewPricing';
 import { crewSkus } from '../data/pricing';
@@ -35,7 +35,7 @@ export function calculateBasketQuote(config: PricingIntent) {
   const specialistScoping = config.addOns.some((id) => id.startsWith('concept_'));
   const payrollNeedsScoping = Boolean(crew?.selectedSkus.includes('crew_payroll'));
   const employeeLimitExceeded = Boolean(crew && config.employees !== null && config.employees > SELF_SERVE_EMPLOYEE_LIMIT);
-  const enterprise = config.locations >= 250 || employeeLimitExceeded;
+  const enterprise = requiresEnterpriseQuote(config.locations) || employeeLimitExceeded;
   const needsCrewSelection = config.layer !== 'core' && (config.crewSkus.length === 0 || crewLimitExceeded);
   return {
     core, crew, subtotal, monthly, annual: monthly * 12,

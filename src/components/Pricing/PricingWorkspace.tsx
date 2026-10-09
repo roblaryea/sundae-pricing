@@ -302,7 +302,7 @@ export function QuoteReview() {
     try { await downloadBasketPDF(config,quote,url.toString(),live.catalog?.effectiveDate,locale); trackPricingEvent('pdf_downloaded'); } catch { setStatus(copy.pdfError); trackPricingEvent('pdf_failed'); } finally { setDownloading(false); }
   };
   const appUrl = new URL('https://sundae.io/sign-in');
-  appUrl.searchParams.set('returnUrl',`/onboarding?cfg=${encodePricingIntent(config)}`);
+  appUrl.searchParams.set('returnUrl',`/onboarding?lang=${locale}&cfg=${encodePricingIntent(config)}`);
   return <><div className="review-layout"><BasketSummary/><div className="next-step-panel"><p className="plan-kicker">Sundae</p><h2>{copy.next}</h2><p>{copy.nextHint}</p>
     <a className="pricing-primary" href={demoUrl(config,locale)} onClick={() => trackPricingEvent('demo_clicked')}>{quote.enterprise ? messages.overview.contactSales : messages.header.bookDemo}<ArrowRight size={16}/></a>
     {!quote.enterprise && <a className="pricing-secondary" href={appUrl.toString()} onClick={() => trackPricingEvent('onboarding_clicked')}>{copy.continue}<ArrowRight size={16}/></a>}

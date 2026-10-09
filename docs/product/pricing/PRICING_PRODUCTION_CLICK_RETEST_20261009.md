@@ -31,6 +31,15 @@ Earlier exploratory failures were incorrect test assumptions (case-sensitive cop
 
 The pricing browser captured 29 successful real responses using one authoritative active catalogue: `de526f40-6af7-48d0-8c42-8980870b0acd`. The feed includes backend UTC `resolvedAt` and the effective date. This retest verifies rendered outcomes against that live feed; the earlier release checks separately verify the source adapters, mathematical contract and scheduled activation. A click retest alone is not a universal proof that future catalogue edits are correct.
 
+
+## Follow-up native PDF, VoiceOver and contrast checks
+
+The live print/save action was exercised after the full-bleed repair on production. English and Arabic each produced a one-page, print-ready PDF with the expected language metadata. The rendered A4 corner pixels are the warm document colour (`#F6F1E8`) on all four corners, with no white print-area margins. The Sundae wordmark, espresso investment panel, average/location/month emphasis and localized Arabic layout remain intact. The exported PDFs and rendered pages are retained with this report.
+
+VoiceOver was enabled through macOS, the production simulator was loaded in Chrome, and keyboard navigation was attempted with the VoiceOver cursor while the VoiceOver Utility was available. VoiceOver was then disabled cleanly. This host did not provide a stable spoken-phrase capture or an independently reviewable VoiceOver cursor transcript, so this is a native launch and interaction smoke check rather than VoiceOver certification. The automated accessibility scan remains supplementary; it reported zero violations and left 25 contrast nodes for manual review.
+
+Manual contrast review covered the main dark and light theme tokens and rendered controls. Representative WCAG ratios are: dark muted text on espresso 7.19:1, light muted text on warm cream 5.66:1, coral primary action on espresso 6.16:1, white display text on espresso 17.74:1, ink on cream 16.22:1, and feature-help text on cream 5.05:1. Each clears the 4.5:1 normal-text threshold. The manual review used the live production CSS and screenshots; it does not replace a full per-node contrast audit for every localized string and state.
+
 ## Accessibility and excluded actions
 
 The automated review scan reports 24 passing rules and zero detected violations, with color contrast requiring manual review on 25 nodes. The scanner's cross-origin stylesheet inspection produced one CSP console message; ordinary buyer navigation had no runtime errors, and a separate check confirmed both brand fonts loaded. CSP was not weakened for the scanner.
@@ -42,5 +51,9 @@ This is not VoiceOver/NVDA certification. Native print/save opening remains excl
 - [Machine-readable final evidence](production-click-retest-20261009.json)
 - [Desktop buyer review](screenshots/production-retest-desktop.png)
 - [375px mobile sticky bar](screenshots/production-retest-mobile.png)
+- [English full-bleed PDF](sundae-estimate-en-fullbleed.pdf)
+- [Arabic full-bleed PDF](sundae-estimate-ar-fullbleed.pdf)
+- [English PDF render](screenshots/production-pdf-en-fullbleed.png)
+- [Arabic PDF render](screenshots/production-pdf-ar-fullbleed.png)
 
 The isolated test scripts, raw browser logs, catalogue response and additional screenshots are retained at `/tmp/sundae-production-click-retest-20261009/`. The report and selected evidence are committed separately from the website product fix.

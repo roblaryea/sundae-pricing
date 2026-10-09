@@ -168,6 +168,8 @@ describe('published updates flow through the reviewed estimate', () => {
         const setupMoney = new Intl.NumberFormat(locale,{style:'currency',currency:'USD',maximumFractionDigits:2}).format(3210);
         expect(html).toContain(setupMoney);
         expect(html).toContain(`lang="${locale}"`);
+        expect(html).toContain('@page{size:A4;margin:0}');
+        expect(html).toContain('.sheet{min-height:297mm');
         expect(html).not.toContain('v1.8.2');
       }
       const selfService = calculateBasketQuote({...base,crewSkus:['crew_lite'],employees:1});

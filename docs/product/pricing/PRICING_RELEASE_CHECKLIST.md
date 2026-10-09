@@ -1,44 +1,46 @@
-# Pricing release checklist — 2026-10-09
+# Pricing production closeout — 2026-10-09
 
-Internal release evidence. Do not include catalogue identifiers or this document in buyer exports.
+Internal release evidence. Catalogue identifiers and this document must not appear in buyer exports.
 
-## Review scope
+The existing pricing site remains the entry point: choose a plan, refine relevant needs, review an estimate. The release preserves Sundae typography, espresso panels, prominent average/location/month, the right-aligned monthly total, a total-first mobile bar, automatic required business extensions, pooled employee allowances and 25 pricing locales.
 
-The existing pricing site remains the buyer entry point. The implemented flow is choose → refine → review, with 25 locales, automatically linked business extensions, catalogue-based employee charges, a clear average/location/month and full monthly total, and branded localized print documents.
+## Coordinated release
 
-| Component | Review branch / PR | Last code reviewed |
+| Component | Production release | Buyer code / production merge |
 | --- | --- | --- |
-| Pricing site | `codex/pricing-buyer-review-20261008` / [#47](https://github.com/roblaryea/sundae-pricing/pull/47) | `4f62c31` |
-| Admin, public feed and account handoff | `codex/pricing-account-handoff-review-20261008` / [#1823](https://github.com/Sundae-io/sundae-app/pull/1823) | `3200ee862` |
-| Catalogue, quote and activation | `codex/pricing-quote-parity-review-20261008` / [#1903](https://github.com/Sundae-io/sundae-stable/pull/1903) | `df4a8d35` |
-| Demo handoff | `codex/pricing-demo-handoff-review-20261008` / [#153](https://github.com/roblaryea/sundae-website/pull/153) | `643b092` |
+| Pricing site | [#47](https://github.com/roblaryea/sundae-pricing/pull/47), [production domain](https://pricing.sundae.io/) | Buyer code `69a21897`; later documentation changes do not change the UI |
+| Admin, catalogue adapter and account handoff | [#1841](https://github.com/Sundae-io/sundae-app/pull/1841), merged and production Ready | `a2c0e41266314d8d80afe13e7f3a0f648e61e6f4` |
+| Catalogue policy and quote corrections | [#1958](https://github.com/Sundae-io/sundae-stable/pull/1958), merged and deployed | `5ff038e09cff235c482aaeab9a565ff81b9b7a36` |
+| PostgreSQL numeric contract correction | [#1959](https://github.com/Sundae-io/sundae-stable/pull/1959), merged and deployed | `4a6e8ba6d3c4ccdad077572fdc3cd4c7f20d1f78` |
+| Demo handoff | [#153](https://github.com/roblaryea/sundae-website/pull/153), merged and production Ready | `7228be62dc220fab211fe72204b39a749e9291f4` |
 
-Pricing code preview: [immutable deployment](https://sundae-pricing-h7ff2qxj8-sundaes-projects-afd45f7e.vercel.app/) and [stable branch preview](https://sundae-pricing-git-codex-prici-ecf6e9-sundaes-projects-afd45f7e.vercel.app/). Later pricing documentation commits do not change the buyer code.
+The older develop-based app/backend review PRs are not production release sources. Their broader develop history was deliberately excluded from the main release.
 
-## Completed preparation
+## Catalogue authority and timing
 
-- Pricing: 44 files / 1,365 unit tests, lint and TypeScript/Vite build passed. The build also checks 25 locale packs, companion intent parity and catalogue-backed initial HTML.
-- App: exact-head full quality CI passed on `3200ee862`, including 922 files / 5,956 tests (1 skipped), locale gates, full lint and typecheck. [CI evidence](https://github.com/Sundae-io/sundae-app/actions/runs/37910177135). Public mobile and Crew a11y/performance workflows passed. The public mobile audit scored accessibility/best-practices/SEO at 100 on sign-in and offline; dev-mode performance scores are diagnostics, not production performance certification. 41 focused localization/intent/adapter tests passed. Full local preflight passed on `cd7b45425`; the later commit changes only CI startup. Changed-file done-gate typecheck/lint/wiring passed with browser checks explicitly skipped.
-- Backend: exact-head full quality/security CI passed on `df4a8d35`, including 7,734 tests (3 skipped), migrations/rollback/schema parity, pricing drift, persona/queue/worker gates and build. 117 focused tests across 12 files passed on a fresh isolated PostgreSQL16 database. Typecheck, targeted lint and pre-push formatting/lockfile/topology checks passed. Full schema parity: 1,218 tables / 6 views. Reconciliation and audit calls in activation tests were stubbed; no external financial action occurred.
-- Website: receiver tests/typecheck and exact-head quality/security/Vercel checks passed.
-- Hosted pricing: shared Crew Operating configuration restored eight locations, 200 employees and United Arab Emirates; 160 employees included, 40 charged, $1,312/month and $164/location/month. The country renders its localized name; Russian summary/country copy was checked. Header language/homepage and footer landmark labels cover all 25 locales; social link names use their actual branded destinations. Native Papiamento checks confirmed translated location questions, language/homepage labels, footer navigation and allowance copy. A subsequent native Azeri review exposed browser region names falling back to English. The final country-label correction uses complete Azeri/Papiamento labels across selector, review and print; six new unit regressions cover missing browser data and native print country text. A post-correction native country-label check remains part of the manual locale review. Earlier hosted checks covered required Franchise selection, commitment, invalid Starter scope, branding and price alignment.
-- Both scheduled activation paths now validate commercial policy, reject failed/skipped Stripe reconciliation for authoritative versions, preserve the active version on rejection and clear process-local caches after commit.
+The commercial-policy migration completed in production. The reviewed source `869b1bc6-478b-45b4-83d8-9a3aae91b506` was cloned and published through the normal guarded Admin lifecycle as `de526f40-6af7-48d0-8c42-8980870b0acd` (`v1.8.2-policy-20261009`). The previous version was archived. The release command verified unchanged monthly economics and normal publication/Stripe reconciliation. A comparison of the old/new public projection found no changes to prices or allowance rules across 80 existing customer-facing entries.
 
-CI evidence is recorded in the companion PR descriptions. A passing local preflight does not replace an incomplete or failed hosted run.
+The chain pricing.sundae.io → app.sundaetech.ai → api.sundaetech.ai returns the effective, authoritative published version and backend UTC `resolvedAt`. The final complete-feed validator passed against the unmodified production response, including a numeric discount ceiling. Hosted estimates and deployment builds reject incomplete commercial policies or missing original credit, seat and Watchtower eligibility rules. They do not substitute local reference economics.
 
-## Coordinated release sequence
+`PRICING_AUTO_PUBLISH=true` was enabled on the production scheduler only after confirming zero pending scheduled versions. Its runtime pricing checker was observed running every 60 seconds. Activation still requires valid policy and successful Stripe reconciliation. Effective-version cache checks and visible-page/on-focus refresh propagate newly effective catalogue pricing. The refresh interval is not a promise of instantaneous browser updates.
 
-1. Review the four linked PRs with their completed exact-head CI evidence. Deploy to the agreed test environment first. No PR merge or production promotion has been performed by this review.
-2. Apply the nullable commercial-policy migration with the backend release, then release the app's Admin editor/public adapter and the two intent receivers. Confirm the active public response remains available and customer-safe before moving pricing traffic.
-3. Create or clone a catalogue draft in Sundae Admin. Review setup fees, minimum-fee flags, package/Crew setup assignments, Watchtower Complete amounts/allowance, volume tiers, discount ceiling, grants, caps and payment schedules. Seeds are review defaults, not approval of a price change. Keep active versions immutable.
-4. Reconcile Stripe and run authenticated quote comparisons on that draft. Check monthly, annual-quarterly, annual-upfront and two-year-upfront terms, Core/Crew/Both, employee allowance boundaries, Watchtower bundle pricing and Enterprise boundaries. Confirm actual test-mode checkout totals, subscription finalization and entitled features/trials.
-5. Publish or schedule the reviewed draft through the existing Admin lifecycle. Read the ordinary active endpoint and verify effective date, policy fields, prices and terms against the published draft. Reopen the pricing page and confirm refresh, share, demo/account links and print totals agree. Check each running web process; process-local invalidation is not a fleet-wide instantaneous update guarantee.
-6. If scheduled activation is desired, explicitly approve operational enablement after reviewing pending versions. Read-only inspection found `PRICING_AUTO_PUBLISH` unset on production scheduler/web/consumer services. Authoritative activation also requires successful Stripe reconciliation; do not enable the flag as a substitute for publication validation.
-7. Before launch, complete a real VoiceOver/NVDA walkthrough and native print/save-PDF review in representative Latin, Arabic/RTL and complex-script locales. The attempted VoiceOver launch timed out; hosted native PDF opening was blocked by browser approval review. Source/unit coverage is not evidence those native checks passed.
-8. After approved production rollout, confirm consented events reach the production funnel and establish a baseline for plan choice → review → demo/account. No production conversion result is claimed.
+## Verification
 
-## Stop and recovery conditions
+- Pricing: 45 files / 1,369 tests pass; lint, TypeScript/Vite build, 25-locale QA, production companion intent parity, price validation and strict live-catalogue prerender gate pass.
+- Backend: final exact-head full quality/security CI passes, including 6,705 tests (3 skipped), schema/drift, persona and worker gates, lint, typecheck and build. Five focused real-PostgreSQL commercial-policy tests cover numeric reload/serialization, null preservation, draft controls, authentication and migration rollback/reapply.
+- App: production-isolated full preflight passes. Exact-head CI passes: 908 files / 5,780 tests (1 skipped), plus relevant security/PWA/docs/Lighthouse/Vercel checks. Pricing handoff copy covers 25 locales without merging unrelated app-wide locale work.
+- Website: exact-head quality/security/Vercel checks pass; production deployment Ready.
+- Live public quote API: 32/32 scenarios match expected recurring monthly totals within cents tolerance after deployment. Cases include Core, Crew, combined scopes, volume and commitment discounts, extensions and the corrected Watchtower Complete total of $3,562/month for Growth at three locations.
+- Earlier hosted native checks covered automatic Franchise, commitment selection, invalid Starter scope, branding/alignment, copied/reopened configuration, localized country text and eight locations / 200 employees / Crew Operating: 160 included, 40 extra, $1,312/month and $164/location/month. API recurring quote tests alone do not prove employee expansion billing; the separate pooled allowance/expansion logic and buyer calculator were also reviewed and tested.
 
-Keep the current catalogue active if draft validation/reconciliation fails. For a missing catalogue or unsupported policy response, the hosted pricing gate must block estimates rather than display stale amounts. Preserve already pinned subscriptions when correcting an active offer; use the existing Admin rollback/publication controls with an approved previous version and renewed reconciliation. Do not edit active rows or disable commercial checks to force a release.
+## Verification boundaries
 
-No production services, catalogue rows, Stripe state or auto-publication flags were changed during these checks.
+The final preview was opened through the native browser tool. The tool then became unavailable, so the final native click/mobile/locale walkthrough could not be repeated after the catalogue gate changes. Earlier hosted checks and the regression suite remain evidence; they are not labelled a new final-head native pass.
+
+Real VoiceOver/NVDA certification remains unverified: the earlier VoiceOver launch timed out. Hosted native print/save opening was rejected by automatic browser approval review. Localized print source/unit checks cover the supported pricing locales, but no final native PDF pass is claimed. No alternative browser surface was used to bypass either restriction.
+
+No paid checkout, subscription purchase, contractual acceptance or real demo-lead submission was performed. Production funnel code is instrumented and consent-gated; receipt of events in an external analytics dashboard is not certified by this release record.
+
+## Recovery
+
+Do not edit active catalogue rows or weaken publication checks. For an incomplete feed, the pricing page must block estimates. Keep existing pinned subscriptions intact; use the existing Admin version publication/rollback lifecycle and reconcile Stripe before switching commercial authority. Production deployment state is tracked by the linked PR and hosting records.

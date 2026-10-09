@@ -26,11 +26,12 @@ test('overview average follows the exact basket while cards round and explain th
   const totalSize=await page.getByTestId('decision-total').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   expect(totalSize).toBeGreaterThan(averageSize);
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
-  await page.getByRole('button',{name:'Franchise network',exact:true}).click();
+  await page.getByRole('button',{name:'Manage a franchise network',exact:true}).click();
   const extension=page.locator('.extension-toggle').filter({hasText:'Franchise'});
   await expect(extension).toContainText('+$6,431.50/mo');
   await expect(extension).toContainText('Includes 5% volume discount');
-  await extension.getByRole('checkbox').check();
+  await expect(extension.getByRole('checkbox')).toBeChecked();
+  await expect(extension.getByRole('checkbox')).toBeDisabled();
   await expect(page.getByTestId('basket-total')).toHaveText('$21,721.75/mo');
   await page.getByTestId('commitment-details').locator('summary').click();
   await page.getByRole('button',{name:'Annual · paid upfront −12%',exact:true}).click();
@@ -45,9 +46,9 @@ test('unavailable Starter has no price and setup guidance follows the selected C
   await expect(page.getByTestId('preset-lite')).toBeDisabled();
   await expect(starter).toContainText('Not available above 5 locations');
   await expect(starter.locator('.plan-price')).toHaveCount(0);
-  await expect(page.getByTestId('setup-guide')).toContainText('Crew Operating self-service setup: $0');
-  await expect(page.getByTestId('setup-guide')).toContainText('$1,500–$7,500');
-  await expect(page.getByTestId('setup-guide')).toContainText('from $12,500');
+  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
+  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
+  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
   await expect(page.getByTestId('card-operating_suite')).toContainText('Add employee count');
   await page.getByRole('button',{name:'Add employee count to complete your estimate',exact:true}).click();
   await page.getByLabel('Unique employees across your locations').fill('2405');
@@ -58,14 +59,14 @@ test('unavailable Starter has no price and setup guidance follows the selected C
 
 test('setup guidance follows the selected pricing rail', async ({page}) => {
   await page.goto('/');
-  await expect(page.getByTestId('setup-guide')).toContainText('Core self-service setup: $0');
+  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
   await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter');
   await page.getByTestId('pricing-tab-both').click();
-  await expect(page.getByTestId('setup-guide')).toContainText('Core + Crew self-service setup: $0');
+  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
   await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter');
   await page.getByTestId('pricing-tab-crew').click();
   await page.getByTestId('preset-operating_suite').click();
-  await expect(page.getByTestId('setup-guide')).toContainText('Crew Operating self-service setup: $0');
+  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
   await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter self-service setup');
 });
 
@@ -163,7 +164,10 @@ test('eligibility and workforce safety notices follow all 25 selected languages'
     await expect(page.locator('.enterprise-panel')).toContainText(fillBuyerReviewCopy(copy.largeWorkforce,{count: workforceCount}));
     await expect(page.getByTestId('setup-guide')).toContainText('Core + Crew');
     await expect(page.getByTestId('setup-guide')).not.toContainText('{product}');
-    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth),locale).toBe(true);
+    const overflow=await page.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth ? [] : Array.from(document.querySelectorAll('body *')).filter(el=>{
+      const box=el.getBoundingClientRect(); return box.width>0 && (box.right>document.documentElement.clientWidth+1 || box.left< -1);
+    }).filter(el=>el.textContent?.trim()).map(el=>({tag:el.tagName,class:el.className,text:el.textContent?.slice(0,80)})));
+    expect(overflow,locale).toEqual([]);
   }
 });
 
@@ -185,6 +189,7 @@ for (const plan of ['core_growth','core_performance'] as const) {
   test(`${plan} exposes and preserves Watchtower selections`, async ({page}) => {
     await page.goto(`/simulator?cfg=${encodePricingIntent({...base,locations:3,corePackage:plan})}`);
     await page.getByRole('button',{name:/Refine your needs/}).click();
+    await page.locator('.optional-upgrades > summary').click();
     await page.getByRole('checkbox',{name:/^Add market intelligence(?: |$)/}).check();
     await page.getByRole('button',{name:'Review estimate',exact:true}).click();
     await expect(page.getByTestId('step-region')).toContainText('Watchtower Bundle');

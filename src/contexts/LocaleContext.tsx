@@ -1,3 +1,4 @@
+import { getBuyerJourneyCopy } from '../lib/buyerJourneyCopy';
 import {
   createContext,
   useContext,
@@ -1260,24 +1261,27 @@ const additionalLocaleMessages: Partial<Record<PricingLocale, unknown>> = {
     footer: { privacy: 'Məxfilik', terms: 'Şərtlər', contact: 'Əlaqə', demo: 'Demo' },
     pdf: { generating: 'Hazırlanır...', downloaded: 'Yükləndi!', download: 'PDF yüklə', failed: 'PDF yaratmaq alınmadı. Yenidən cəhd edin.' },
     summary: { monthlyInvestment: 'Aylıq investisiya', annualInvestment: 'İllik investisiya', perLocation: 'məkan başına', pricingEffective: 'Qiymət qüvvədədir', allPricesIn: 'Bütün qiymətlər', taxNote: 'Vergilər daxil deyil', locationPricingNote: 'İlk məkan qiyməti bir məkanı əhatə edir. Əlavə məkanlar qiymət cədvəlindəki pilləyə görə hesablanır.', crossIntelligencePro: 'Cross-Intelligence Pro', crossIntelligence: 'Cross-Intelligence' },
-    overview: { perMonth: '/ay', contactSales: 'Satışla əlaqə saxlayın', selectTier: '{tier} seçin' },
-    builder: { tierSelector: { shapeFoundation: 'Buradan başlayın', shapeMargin: 'Marjanı qoruyun', shapeGrowth: 'Tələbi artırın', shapePerformance: 'Hər iki tərəf' } },
+    overview: { aiCredits: 'AI kreditləri', perMonth: '/ay', contactSales: 'Satışla əlaqə saxlayın', selectTier: '{tier} seçin' },
+    simulator: { back: 'Geri' },
+    builder: { tierSelector: { feature: 'İmkan', shapeFoundation: 'Buradan başlayın', shapeMargin: 'Marjanı qoruyun', shapeGrowth: 'Tələbi artırın', shapePerformance: 'Hər iki tərəf' } },
   },
   ru: {
     header: { simulator: 'Калькулятор цен', platform: 'Платформа аналитики решений', pricing: 'Цены', instantQuote: 'Получить расчёт', bookDemo: 'Заказать демо' },
     footer: { privacy: 'Конфиденциальность', terms: 'Условия', contact: 'Контакты', demo: 'Демо' },
     pdf: { generating: 'Создание...', downloaded: 'Скачано!', download: 'Скачать PDF', failed: 'Не удалось создать PDF. Попробуйте ещё раз.' },
     summary: { monthlyInvestment: 'Ежемесячные инвестиции', annualInvestment: 'Ежегодные инвестиции', perLocation: 'за локацию', pricingEffective: 'Цены действуют с', allPricesIn: 'Все цены в', taxNote: 'Налоги не включены', locationPricingNote: 'Цена первой локации покрывает одну локацию. Каждая следующая оплачивается по своей ступени.', crossIntelligencePro: 'Cross-Intelligence Pro', crossIntelligence: 'Cross-Intelligence' },
-    overview: { perMonth: '/мес.', contactSales: 'Связаться с продажами', selectTier: 'Выбрать {tier}' },
-    builder: { tierSelector: { shapeFoundation: 'Начните отсюда', shapeMargin: 'Защитите маржу', shapeGrowth: 'Растите спрос', shapePerformance: 'Обе стороны' } },
+    overview: { aiCredits: 'Кредиты AI', perMonth: '/мес.', contactSales: 'Связаться с продажами', selectTier: 'Выбрать {tier}' },
+    simulator: { back: 'Назад' },
+    builder: { tierSelector: { feature: 'Возможность', shapeFoundation: 'Начните отсюда', shapeMargin: 'Защитите маржу', shapeGrowth: 'Растите спрос', shapePerformance: 'Обе стороны' } },
   },
   pap: {
     header: { simulator: 'Simulador di preis', platform: 'Plataforma di inteligensia pa desishon', pricing: 'Preisnan', instantQuote: 'Ha un estimashon', bookDemo: 'Reserva un demo' },
     footer: { privacy: 'Privasidat', terms: 'Kondishonnan', contact: 'Kontak', demo: 'Demo' },
     pdf: { generating: 'Ta prepara...', downloaded: 'Basha!', download: 'Basha PDF', failed: 'No por a krea PDF. Purba atrobe.' },
     summary: { monthlyInvestment: 'Investimentu mensual', annualInvestment: 'Investimentu anual', perLocation: 'pa lokashon', pricingEffective: 'Preis ta konta for di', allPricesIn: 'Tur preis den', taxNote: 'Impuesto no ta inkluí', locationPricingNote: 'E prijs di e promé lokashon ta kubri un lokashon. Kada lokashon adishonal ta kargá segun su eskala.', crossIntelligencePro: 'Cross-Intelligence Pro', crossIntelligence: 'Cross-Intelligence' },
-    overview: { perMonth: '/luna', contactSales: 'Kontakta benta', selectTier: 'Skohe {tier}' },
-    builder: { tierSelector: { shapeFoundation: 'Kuminsa aki', shapeMargin: 'Protehá margen', shapeGrowth: 'Krese demanda', shapePerformance: 'Tur dos' } },
+    overview: { aiCredits: 'Krédito AI', perMonth: '/luna', contactSales: 'Kontakta benta', selectTier: 'Skohe {tier}' },
+    simulator: { back: 'Bèk' },
+    builder: { tierSelector: { feature: 'Funshon', shapeFoundation: 'Kuminsa aki', shapeMargin: 'Protehá margen', shapeGrowth: 'Krese demanda', shapePerformance: 'Tur dos' } },
   },
 }
 
@@ -1285,6 +1289,8 @@ const LocaleContext = createContext<LocaleContextValue | null>(null)
 
 function getInitialLocale(): PricingLocale {
   if (typeof document === 'undefined') return 'en'
+  const sharedLocale = new URLSearchParams(window.location.search).get('lang')
+  if (sharedLocale) return normalizeLocale(sharedLocale)
   const cookieMatch = document.cookie.match(/(?:^|;\s*)sundae_locale=([^;]+)/)
   if (cookieMatch?.[1]) return normalizeLocale(decodeURIComponent(cookieMatch[1]))
   const storedLocale = window.localStorage.getItem(LOCALE_COOKIE)
@@ -1346,7 +1352,13 @@ function deepMergeMessages<T>(base: T, override: unknown): T {
   return out as T
 }
 
+const seatLabels: Record<PricingLocale,string> = { en:'Intelligence seats',ar:'مستخدمو الذكاء',fr:'Utilisateurs Intelligence',es:'Usuarios Intelligence',de:'Intelligence-Nutzer',nl:'Intelligence-gebruikers',pt:'Utilizadores Intelligence',hi:'इंटेलिजेंस उपयोगकर्ता',ur:'انٹیلیجنس صارفین',it:'Utenti Intelligence',pl:'Użytkownicy Intelligence',tr:'Intelligence kullanıcıları','zh-Hans':'智能分析用户',ja:'インテリジェンス利用者',ko:'인텔리전스 사용자',id:'Pengguna Intelligence',vi:'Người dùng Intelligence',ro:'Utilizatori Intelligence',sv:'Intelligence-användare',bn:'ইন্টেলিজেন্স ব্যবহারকারী',th:'ผู้ใช้ระบบวิเคราะห์',ms:'Pengguna Intelligence',az:'Intelligence istifadəçiləri',ru:'Пользователи Intelligence',pap:'Usuario di Intelligence' };
 export function resolveMessages(locale: string): typeof messages.en {
+  const resolved = resolveBaseMessages(locale);
+  const journey = getBuyerJourneyCopy(normalizeLocale(locale));
+  return { ...resolved, overview: { ...resolved.overview, intelligenceSeats: seatLabels[normalizeLocale(locale)] }, builder: { ...resolved.builder, tierSelector: { ...resolved.builder.tierSelector, estateSizeLabel: journey.locationQuestion } } };
+}
+function resolveBaseMessages(locale: string): typeof messages.en {
   const handWritten = messages[locale as keyof typeof messages]
   if (handWritten) return handWritten as typeof messages.en
   const generated =

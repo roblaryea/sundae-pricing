@@ -13,15 +13,8 @@ const Simulator = lazy(() =>
 );
 
 function RouteFallback() {
-  const { locale } = useLocale();
-  const copy =
-    locale === 'ar'
-      ? 'جارٍ تحميل تجربة التسعير...'
-      : locale === 'fr'
-        ? 'Chargement de l’experience tarifaire...'
-        : locale === 'es'
-          ? 'Cargando la experiencia de precios...'
-          : 'Loading pricing experience...';
+  const { messages } = useLocale();
+  const copy = messages.pdf.generating;
   return (
     <div className="mx-auto flex min-h-[40vh] max-w-7xl items-center justify-center px-4 text-sm text-sundae-muted">
       {copy}

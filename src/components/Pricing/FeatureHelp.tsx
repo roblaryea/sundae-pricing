@@ -7,8 +7,8 @@ import { englishFeatureHelp, extraFeatureHelp, featureHelpLabels, type FeatureHe
 const OPEN_EVENT = 'sundae-feature-help-open';
 
 /** Text-only help: focus stays on the trigger; click pins it for touch users. */
-export function FeatureHelp({ feature, name }: { feature: FeatureHelpId; name: string }) {
-  const { locale, messages, dir } = useLocale();
+export function TextHelp({ helpId, name, description }: { helpId: string; name: string; description: string }) {
+  const { locale, dir } = useLocale();
   const id = useId();
   const trigger = useRef<HTMLButtonElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -16,12 +16,6 @@ export function FeatureHelp({ feature, name }: { feature: FeatureHelpId; name: s
   const pinned = useRef(false);
   const dismissed = useRef(false);
   const [open, setOpen] = useState(false);
-  const description = extraFeatureHelp(feature, locale) ?? (
-    feature === 'cross_pro' ? messages.catalog.crossIntelligence.pro.description :
-    feature in messages.catalog.modules ? messages.catalog.modules[feature as keyof typeof messages.catalog.modules].description :
-    feature in messages.catalog.watchtower ? messages.catalog.watchtower[feature as keyof typeof messages.catalog.watchtower].description :
-    englishFeatureHelp[feature]
-  );
   const cancelClose = () => clearTimeout(timer.current);
   const show = () => {
     cancelClose();
@@ -80,7 +74,7 @@ export function FeatureHelp({ feature, name }: { feature: FeatureHelpId; name: s
     };
   }, [open, description]);
   return <span className="feature-help">
-    <button ref={trigger} type="button" className="feature-help-trigger" data-feature-help={feature}
+    <button ref={trigger} type="button" className="feature-help-trigger" data-feature-help={helpId}
       aria-label={featureHelpLabels[locale].replace('{feature}', name)} aria-expanded={open} aria-describedby={open ? id : undefined}
       onPointerEnter={(event) => { if (event.pointerType !== 'touch') show(); }} onPointerLeave={scheduleClose}
       onFocus={() => { if (!dismissed.current) show(); }} onBlur={() => { dismissed.current = false; scheduleClose(); }}
@@ -92,6 +86,17 @@ export function FeatureHelp({ feature, name }: { feature: FeatureHelpId; name: s
       <strong>{name}</strong><p id={id}>{description}</p>
     </div>, document.body)}
   </span>;
+}
+
+export function FeatureHelp({ feature, name }: { feature: FeatureHelpId; name: string }) {
+  const { locale, messages } = useLocale();
+  const description = extraFeatureHelp(feature, locale) ?? (
+    feature === 'cross_pro' ? messages.catalog.crossIntelligence.pro.description :
+    feature in messages.catalog.modules ? messages.catalog.modules[feature as keyof typeof messages.catalog.modules].description :
+    feature in messages.catalog.watchtower ? messages.catalog.watchtower[feature as keyof typeof messages.catalog.watchtower].description :
+    englishFeatureHelp[feature]
+  );
+  return <TextHelp helpId={feature} name={name} description={description}/>;
 }
 
 export function FeatureLabel({ feature, name, children }: { feature: FeatureHelpId; name: string; children?: ReactNode }) {

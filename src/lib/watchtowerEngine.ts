@@ -39,7 +39,7 @@ export function calculateWatchtowerPrice(
     return calculateEnterpriseWatchtower(selectedModules, locations);
   }
   
-  const additionalLocations = Math.max(0, locations - 1);
+  const priceFor = (id: WatchtowerModuleId) => watchtower[id].basePrice + Math.max(0,locations - watchtower[id].includedLocations) * watchtower[id].perLocationPrice;
   
   // Check if bundle is selected or all individual modules are selected
   const hasBundle = selectedModules.includes('bundle');
@@ -52,17 +52,11 @@ export function calculateWatchtowerPrice(
     // Bundle pricing
     const bundleData = watchtower.bundle;
     const basePrice = bundleData.basePrice;
-    const locationPrice = additionalLocations * bundleData.perLocationPrice;
+    const locationPrice = Math.max(0, locations - bundleData.includedLocations) * bundleData.perLocationPrice;
     const total = basePrice + locationPrice;
 
     // Calculate what individual would have cost
-    const individualBase = watchtower.competitive.basePrice +
-                          watchtower.events.basePrice +
-                          watchtower.trends.basePrice;
-    const individualPerLoc = (watchtower.competitive.perLocationPrice +
-                             watchtower.events.perLocationPrice +
-                             watchtower.trends.perLocationPrice) * additionalLocations;
-    const individualTotal = individualBase + individualPerLoc;
+    const individualTotal = priceFor('competitive') + priceFor('events') + priceFor('trends');
 
     return {
       modules: [{
@@ -87,7 +81,7 @@ export function calculateWatchtowerPrice(
     .map(id => {
       const moduleData = watchtower[id];
       const basePrice = moduleData.basePrice;
-      const locationPrice = additionalLocations * moduleData.perLocationPrice;
+      const locationPrice = Math.max(0,locations - moduleData.includedLocations) * moduleData.perLocationPrice;
       return {
         id: id as WatchtowerModuleId,
         name: moduleData.name,
@@ -105,8 +99,7 @@ export function calculateWatchtowerPrice(
   
   let bundleSavings = 0;
   if (hasAllThree) {
-    const bundleTotal = watchtower.bundle.basePrice + 
-                       (additionalLocations * watchtower.bundle.perLocationPrice);
+    const bundleTotal = priceFor('bundle');
     bundleSavings = total - bundleTotal;
   }
   
@@ -212,16 +205,16 @@ export function getWatchtowerPricingExamples(): {
   perLocation: number;
 }[] {
   return [1, 3, 5, 10, 20, 30].map(locations => {
-    const addl = Math.max(0, locations - 1);
+    const priceFor = (id: WatchtowerModuleId) => calculateWatchtowerPrice([id],locations).total;
 
     // v4.3: Use standard base + per-location pricing at all counts
     return {
       locations,
-      competitive: watchtower.competitive.basePrice + (addl * watchtower.competitive.perLocationPrice),
-      events: watchtower.events.basePrice + (addl * watchtower.events.perLocationPrice),
-      trends: watchtower.trends.basePrice + (addl * watchtower.trends.perLocationPrice),
-      bundle: watchtower.bundle.basePrice + (addl * watchtower.bundle.perLocationPrice),
-      perLocation: Math.round((watchtower.bundle.basePrice + (addl * watchtower.bundle.perLocationPrice)) / locations)
+      competitive: priceFor('competitive'),
+      events: priceFor('events'),
+      trends: priceFor('trends'),
+      bundle: priceFor('bundle'),
+      perLocation: Math.round(priceFor('bundle') / locations)
     };
   });
 }

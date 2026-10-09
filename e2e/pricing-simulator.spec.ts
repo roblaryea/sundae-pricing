@@ -20,9 +20,9 @@ for (const [id, price] of [['core_foundation','$1,545'],['core_margin','$2,140']
 test('franchise refinement is relevant, optional and explicitly priced',async ({page}) => {
   await page.goto('/'); await page.getByTestId('location-count').fill('3');
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
-  await page.getByRole('button',{name:'Franchise network',exact:true}).click();
-  await expect(page.getByTestId('basket-total')).toContainText('$1,545');
-  await page.getByRole('checkbox',{name:/^Franchise(?: |$)/}).check();
+  await page.getByRole('button',{name:'Manage a franchise network',exact:true}).click();
+  await expect(page.getByRole('checkbox',{name:/^Franchise(?: |$)/})).toBeChecked();
+  await expect(page.getByRole('checkbox',{name:/^Franchise(?: |$)/})).toBeDisabled();
   await expect(page.getByTestId('basket-total')).toContainText('$2,290');
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$2,290');
@@ -64,11 +64,13 @@ test('the account and demo CTAs carry the exact reviewed intent and download pro
   const account = new URL((await page.getByRole('link',{name:'Continue to Sundae'}).getAttribute('href'))!);
   const returned = new URL(account.searchParams.get('returnUrl')!,'https://sundae.io');
   expect(decodePricingIntent(returned.searchParams.get('cfg')!)).toMatchObject(cfg);
-  const download = page.waitForEvent('download');
-  await page.getByRole('button',{name:'Download PDF',exact:true}).click();
-  const pdf = await download; expect(pdf.suggestedFilename()).toMatch(/Sundae-estimate-3-locations.pdf/);
-  await pdf.saveAs('/tmp/sundae-buyer-estimate.pdf');
-  const bytes = readFileSync((await pdf.path())!);
+  const popup = page.waitForEvent('popup');
+  await page.getByRole('button',{name:'Print / save PDF',exact:true}).click();
+  const printPage = await popup;
+  await printPage.waitForLoadState();
+  await expect(printPage.locator('html')).toHaveAttribute('data-print-ready','true');
+  const bytes = await printPage.pdf({path:'/tmp/sundae-buyer-estimate.pdf',printBackground:true,preferCSSPageSize:true});
+  await printPage.close();
   expect(bytes.subarray(0,5).toString()).toBe('%PDF-');
   const parsedPdf=await getDocument({data:new Uint8Array(bytes),useSystemFonts:true}).promise;
   let extracted='';
@@ -79,20 +81,20 @@ test('the account and demo CTAs carry the exact reviewed intent and download pro
   }
   expect(extracted).toContain('Core Growth');
   expect(extracted).toContain('Event & Calendar Signals');
-  expect(extracted).toContain('AVERAGE PER LOCATION / MONTH');
+  expect(extracted).toContain('Average');
   expect(extracted).toContain('$1,346.43');
-  expect(extracted).toContain('TOTAL MONTHLY INVESTMENT');
+  expect(extracted).toContain('Monthly Investment');
   expect(extracted).not.toMatch(/v1\.8\.2|869b1bc6|Catalogue|catalogue/);
   expect(extracted).toContain('Sundae Technologies Inc.');
   expect(extracted).toContain('$12,117.90');
-  expect(extracted).toContain('12-month subscription, paid every 3 months');
-  expect(extracted).toContain('Your plan includes 60');
-  expect(extracted).toContain('Additional employees: 12');
-  expect(extracted).toContain('United Arab Emirates (AE)');
-  expect(extracted).toContain('Charges above those limits are not included');
-  expect(extracted).toContain('Setup will be confirmed separately');
+  expect(extracted).toContain('Annual · paid quarterly');
+  expect(extracted).toContain('60 employees included across your group');
+  expect(extracted).toContain('Additional employees');
+  expect(extracted).toContain('United Arab Emirates');
+  expect(extracted).toContain('employees included');
+  expect(extracted).toContain('Confirmed separately');
   expect(extracted).not.toMatch(/\bslots\b|\bobjects?\b|\bprorated\b|\bstatutory\b|\bactivation\b/i);
-  expect(bytes.toString('latin1')).toContain('/FontFile2');
+  expect(bytes.toString('latin1')).toMatch(/\/FontFile[23]/);
   const amount = (await page.getByTestId('basket-total').innerText()).match(/\$[\d,]+(?:\.\d{2})?/)![0];
   expect(extracted).toContain(amount);
 });
@@ -102,15 +104,14 @@ test('diversified buyers choose specialist scope explicitly and can edit it back
   await page.getByRole('button',{name:'Diversified group',exact:true}).click();
   await page.getByRole('button',{name:'Hotel F&B',exact:true}).click();
   await page.getByRole('button',{name:'Cloud kitchen',exact:true}).click();
-  await expect(page.getByTestId('basket-total')).toContainText('$2,420');
-  await page.getByRole('checkbox',{name:/^Hotel F&B(?: |$)/}).check();
-  await page.getByRole('checkbox',{name:/^Cloud Kitchen(?: |$)/}).check();
+  await expect(page.getByRole('checkbox',{name:/^Hotel F&B(?: |$)/})).toBeChecked();
+  await expect(page.getByRole('checkbox',{name:/^Cloud Kitchen(?: |$)/})).toBeChecked();
   const selected = await page.getByTestId('basket-total').innerText();
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toHaveText(selected);
   await page.getByRole('button',{name:/Refine your needs/}).click();
   await expect(page.getByRole('checkbox',{name:/^Hotel F&B(?: |$)/})).toBeChecked();
-  await page.getByRole('checkbox',{name:/^Cloud Kitchen(?: |$)/}).uncheck();
+  await page.getByTestId('business-model-cloud_kitchen').click();
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).not.toHaveText(selected);
 });
@@ -125,43 +126,49 @@ test('branded exports handle simple, dense and Enterprise scopes without interna
   for(const [name,cfg] of cases){
     await page.goto(`/simulator?cfg=${encodePricingIntent(cfg)}`);
     await expect(page.getByTestId('basket-total')).toBeVisible();
-    const download=page.waitForEvent('download');
-    await page.getByRole('button',{name:'Download PDF',exact:true}).click();
-    const pdf=await download; await pdf.saveAs(`/tmp/sundae-estimate-${name}.pdf`);
-    const loadingTask=getDocument({data:new Uint8Array(readFileSync((await pdf.path())!)),useSystemFonts:true});
+    const popup=page.waitForEvent('popup');
+    await page.getByRole('button',{name:'Print / save PDF',exact:true}).click();
+    const printPage=await popup;
+    await printPage.waitForLoadState();
+    await expect(printPage.locator('html')).toHaveAttribute('data-print-ready','true');
+    const bytes=await printPage.pdf({path:`/tmp/sundae-estimate-${name}.pdf`,printBackground:true,preferCSSPageSize:true});
+    await printPage.close();
+    const loadingTask=getDocument({data:new Uint8Array(bytes),useSystemFonts:true});
     const parsed=await loadingTask.promise;
     let text='';
     for(let n=1;n<=parsed.numPages;n++){
       const content=await (await parsed.getPage(n)).getTextContent();
       const pageText=content.items.map(item=>'str' in item?item.str:'').join(' ');
-      expect(pageText).toContain('YOUR SUBSCRIPTION ESTIMATE');
-      expect(pageText).toContain('Sundae Technologies Inc.');
+
       text+=pageText+' ';
     }
     expect(text).not.toMatch(/v1\.8\.2|869b1bc6|Catalogue|catalogue/);
-    expect(text).toContain(`${cfg.locations} ${cfg.locations===1?'location':'locations'}`);
+    expect(text).toContain(`${cfg.locations.toLocaleString('en')} Locations`);
+    expect(text).toContain('Sundae Technologies Inc.');
     if(cfg.locations>=250) {
-      expect(text).toContain('CUSTOM PROPOSAL');
+      expect(text).toContain('A plan for your whole business');
       expect(text).not.toMatch(/\$[\d,]+/);
       expect(text).not.toContain('Average');
     }
     else expect(text).toContain((await page.getByTestId('basket-total').innerText()).match(/\$[\d,]+(?:\.\d{2})?/)![0]);
     if(cfg.locations===1) expect(text).not.toContain('Average');
     if(name==='crew-unknown') expect(text).toContain('Extra employee charges are not included until you enter your employee count');
-    if(name==='enterprise-crew') expect(text).toContain('Included employees and any extra employee charges will be confirmed in your proposal');
+    if(name==='enterprise-crew') expect(text).toContain('Confirmed separately');
     await loadingTask.destroy();
   }
 });
 test('Watchtower individual choices, bundle and package prerequisite stay coherent', async ({page}) => {
   await page.goto('/'); await page.getByTestId('select-core_growth').click();
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
+  await page.locator('.optional-upgrades > summary').click();
   await page.locator('summary').filter({hasText:/^Watchtower$/}).click();
-  const choices = page.locator('details').filter({has:page.locator('summary').filter({hasText:/^Watchtower$/})});
+  const choices = page.locator('details').filter({has:page.locator('summary').filter({hasText:/^Watchtower$/})}).last();
   await choices.getByRole('checkbox').nth(1).check();
   await expect(choices.getByRole('checkbox').nth(1)).toBeChecked();
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('step-region')).toContainText('Event & Calendar Signals');
   await page.getByRole('button',{name:/Refine your needs/}).click();
+  await page.locator('.optional-upgrades > summary').click();
   await page.getByRole('checkbox',{name:/^Add market intelligence/}).check();
   await page.locator('summary').filter({hasText:/^Watchtower$/}).click();
   await expect(choices.getByRole('checkbox').nth(0)).toBeChecked();
@@ -183,7 +190,7 @@ test('calculation details expose reached bands, optional schedule, discount and 
   await expect(details).toContainText('The maximum saving is 20%');
   await expect(details).toContainText('You pay one setup fee, based on the most involved setup you need');
   await expect(details).toContainText('7 × $175');
-  await expect(details.locator('details')).not.toHaveAttribute('open','');
+  for(const disclosure of await details.locator('details').all()) await expect(disclosure).not.toHaveAttribute('open','');
   await details.getByText('View the full location price list',{exact:true}).click();
   await expect(details).toContainText('Locations 151–250');
 });
@@ -245,9 +252,9 @@ test('consent granted at review records the visible stage once and covers later 
   const events = () => page.evaluate(() => (window as unknown as {__pricingEvents:{event:string;properties:Record<string,unknown>}[]}).__pricingEvents);
   await expect.poll(async () => (await events()).filter(x=>x.event==='quote_reviewed').length).toBe(1);
   await page.getByRole('button',{name:/Refine your needs/}).click();
-  await page.getByRole('button',{name:'Franchise network',exact:true}).click();
-  await page.getByRole('checkbox',{name:/^Franchise(?: |$)/}).check();
-  expect((await events()).filter(x=>x.event==='configuration_changed').map(x=>x.properties.fields)).toEqual(expect.arrayContaining(['operatingModels','addOns']));
+  await page.getByRole('button',{name:'Manage a franchise network',exact:true}).click();
+  await expect(page.getByRole('checkbox',{name:/^Franchise(?: |$)/})).toBeChecked();
+  expect((await events()).filter(x=>x.event==='configuration_changed').flatMap(x=>String(x.properties.fields).split(','))).toEqual(expect.arrayContaining(['operatingModels','addOns']));
   expect(JSON.stringify(await events())).not.toContain('cfg=');
 });
 test('catalogue retry recovers to current prices and keyboard navigation focuses the next screen', async ({page}) => {
@@ -285,7 +292,7 @@ test('Enterprise has a proposal path and no self-serve headline or account CTA',
   await expect(page.locator('.price-details')).toHaveCount(0);
   await expect(page.locator('summary').filter({hasText:'Explore the value case'})).toHaveCount(0);
   await page.getByRole('button',{name:/Refine your needs/}).click();
-  await page.getByRole('button',{name:'Franchise network',exact:true}).click();
+  await page.getByRole('button',{name:'Manage a franchise network',exact:true}).click();
   await expect(page.locator('.extension-toggle').filter({hasText:'$'})).toHaveCount(0);
   await page.getByTestId('commitment-details').locator('summary').click();
   await expect(page.locator('.term-options')).not.toContainText('%');

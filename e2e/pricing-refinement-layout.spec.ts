@@ -53,11 +53,11 @@ test('closed payment summary explains the applied volume discount when it exceed
 });
 
 for (const [width,columns] of [[1440,3],[820,2],[390,2],[320,2]] as const) {
-  test(`business choices stay readable at ${width}px and recommend without adding a charge`, async ({page}) => {
+  test(`business choices stay readable at ${width}px and automatically include the relevant extension`, async ({page}) => {
     await page.setViewportSize({width,height:900});
     await page.goto(`/simulator?cfg=${encodePricingIntent(base)}`);
     await page.getByRole('button',{name:/Refine your needs/}).click();
-    const choices=page.locator('.model-options button');
+    const choices=page.locator('.model-choice > button');
     const first=await choices.first().boundingBox();
     const nextRow=await choices.nth(columns).boundingBox();
     for (let i=0;i<columns;i++) {
@@ -67,8 +67,8 @@ for (const [width,columns] of [[1440,3],[820,2],[390,2],[320,2]] as const) {
     }
     expect(nextRow!.y).toBeGreaterThan(first!.y);
     await page.getByTestId('business-model-franchise').click();
-    await expect(page.getByTestId('basket-total')).toHaveText('$1,545/mo');
-    await expect(page.getByRole('checkbox',{name:/^Franchise(?: |$)/})).not.toBeChecked();
+    await expect(page.getByTestId('basket-total')).toHaveText('$2,290/mo');
+    await expect(page.getByRole('checkbox',{name:/^Franchise(?: |$)/})).toBeChecked();
     await expect(page.getByTestId('setup-guide')).toBeVisible();
     expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     if(width===1440 || width===390) {

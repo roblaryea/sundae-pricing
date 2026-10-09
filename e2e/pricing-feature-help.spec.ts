@@ -73,11 +73,12 @@ test('comparison, Crew assembly and specialist help explain capabilities without
   await page.getByTestId('select-core_growth').click();
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
   await page.getByTestId('business-model-franchise').click();
+  await page.locator('.optional-upgrades > summary').click();
   for (const id of ['foresight_action','concept_franchise','bundle']) {
     await help(page,id).click();
     await expect(tooltip(page)).toContainText(englishFeatureHelp[id as keyof typeof englishFeatureHelp]);
   }
-  await expect(page.getByRole('checkbox',{name:/^Franchise/})).not.toBeChecked();
+  await expect(page.getByRole('checkbox',{name:/^Franchise/})).toBeChecked();
   await expect(page.getByRole('checkbox',{name:/^Add market intelligence/})).not.toBeChecked();
   await page.locator('summary').filter({hasText:'Cross-Intelligence Pro'}).click();
   await help(page,'cross_pro').click();
@@ -129,10 +130,11 @@ test('business icons match onboarding and selection remains optional and keyboar
     await expect(button).toHaveAttribute('aria-pressed','false');
     await button.press('Enter');
     await expect(button).toHaveAttribute('aria-pressed','true');
+    await button.press('Enter');
+    await expect(button).toHaveAttribute('aria-pressed','false');
     await expect(page.getByTestId('basket-total')).toHaveText('$1,195/mo');
   }
-  await page.getByTestId('business-model-franchise').press('Enter');
-  await expect(page.getByTestId('business-model-franchise')).toHaveAttribute('aria-pressed','false');
+
   expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations).toEqual([]);
   await page.screenshot({path:'docs/product/pricing/screenshots/business-model-icons.png',fullPage:false});
 });

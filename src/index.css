@@ -639,7 +639,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .pricing-disclosure[open] { padding-bottom:22px; }
 .pricing-disclosure > p { color:var(--color-sundae-muted); font-size:12px; line-height:1.65; margin-bottom:18px; }
 .pricing-disclosure[open] > summary > svg { transform:rotate(180deg); }
-.band-detail { padding:18px 0; border-top:1px solid color-mix(in srgb,var(--color-sundae-muted) 20%,transparent); max-width:540px; }
+.band-detail { padding:18px 0; border-top:1px solid color-mix(in srgb,var(--color-sundae-muted) 20%,transparent); min-width:0; }
 .band-detail h3 { font-family:var(--font-sans); font-weight:600; margin-bottom:12px; }
 .band-line { display:flex; justify-content:space-between; padding:6px 0; font-size:12px; }
 .band-detail details { color:var(--color-sundae-muted); margin-top:14px; }
@@ -690,7 +690,8 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .basket-average { color:var(--color-sundae-muted); font-size:13px; line-height:1.65; margin-bottom:10px; font-variant-numeric:tabular-nums; text-wrap:pretty; }
 .basket-lines { margin:26px 0 16px; font-size:12px; display:grid; gap:13px; }
 .basket-lines > div { display:flex; justify-content:space-between; gap:20px; }
-.basket-lines strong { white-space:nowrap; font-weight:500; }
+.basket-lines strong { white-space:normal; font-weight:500; text-align:end; max-width:48%; overflow-wrap:anywhere; }
+.basket-lines > div > span { min-width:0; }
 .discount-line { color:var(--color-sundae-accent); }
 .payment-line, .setup-line { display:flex; justify-content:space-between; gap:18px; border-top:1px solid color-mix(in srgb,var(--color-sundae-muted) 20%,transparent); padding:18px 0; font-size:12px; }
 .payment-line small { display:block; margin-top:5px; color:var(--color-sundae-muted); }
@@ -914,3 +915,20 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .plan-card li > svg { margin-top:4px; }
 .sku-options .crew-option label { display:block; min-height:unset; }
 .crew-option { min-height:44px; padding:8px 0; }
+
+/* Calculation cards use the entire disclosure width; schedules remain secondary. */
+.calculation-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr)); gap:16px; align-items:start; }
+.calculation-grid .band-detail { border:1px solid color-mix(in srgb,var(--color-sundae-muted) 22%,transparent); border-radius:12px; padding:18px; background:var(--color-sundae-surface); }
+.calculation-grid .band-detail p { font-size:12px; color:var(--color-sundae-muted); line-height:1.65; }
+.band-line { gap:16px; align-items:baseline; }
+.band-line strong { flex-shrink:0; }
+.calculation-policies { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr)); gap:16px; }
+.calculation-policies > details { margin-top:16px; padding-inline:18px; }
+.calculation-total { border-top:1px solid color-mix(in srgb,var(--color-sundae-muted) 25%,transparent); margin-top:10px; font-weight:600; }
+.allowance-details { display:flex; flex-wrap:wrap; gap:12px 28px; margin-top:22px; font-size:12px; color:var(--color-sundae-muted); }
+.model-choice { position:relative; min-width:0; }
+.model-options .model-choice > button { width:100%; height:100%; padding-inline-end:32px; }
+.model-choice > .feature-help { position:absolute; inset-inline-end:8px; bottom:8px; }
+.model-options .feature-help-trigger { display:grid; place-items:center; width:30px; height:30px; min-height:30px; padding:0; border:0; border-radius:50%; background:transparent; }
+.extension-linked { display:block; font-size:11px; font-weight:400; margin-top:5px; line-height:1.5; color:var(--color-sundae-muted); }
+.extension-toggle strong.is-scoped { white-space:normal; text-align:end; max-width:42%; overflow-wrap:anywhere; }

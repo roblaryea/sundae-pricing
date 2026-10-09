@@ -1,5 +1,6 @@
 import type { FullyLocalizedPricingLocale, PricingLocale } from './locales';
 import { generatedPricingI18nCopy } from './generatedPricingLocalePacks';
+import { getBuyerCopy } from './buyerCopy';
 
 export type { PricingLocale } from './locales';
 
@@ -328,6 +329,8 @@ export function localizeTierName(name: string, locale: PricingLocale): string {
 }
 
 export function localizeModuleName(moduleId: string, locale: PricingLocale): string {
+  const additional = additionalItemCopy[locale as keyof typeof additionalItemCopy];
+  if (additional?.modules[moduleId]) return additional.modules[moduleId];
   const copy =
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
     generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
@@ -336,6 +339,8 @@ export function localizeModuleName(moduleId: string, locale: PricingLocale): str
 }
 
 export function localizeWatchtowerName(moduleId: string, locale: PricingLocale): string {
+  const additional = additionalItemCopy[locale as keyof typeof additionalItemCopy];
+  if (additional?.watchtower[moduleId]) return additional.watchtower[moduleId];
   const copy =
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
     generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
@@ -363,7 +368,9 @@ export function localizeBreakdownLabel(name: string, locale: PricingLocale): str
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
     generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
     localizedCopy.en;
-  if(locale !== 'en') name = name.replace(/\((\d+) locations?\)/g,(_,count:string)=>`(${copy.pdf.locationsLabel}: ${new Intl.NumberFormat(locale).format(Number(count))})`);
+  if(locale !== 'en') name = name.replace(/\((\d+) locations?\)/g,(_,count:string)=>`(${getBuyerCopy(locale).bands}: ${new Intl.NumberFormat(locale).format(Number(count))})`);
+  const model = ({ 'Franchise':2, 'Hotel F&B':3, 'Cloud Kitchen':4, 'Catering & Events':5, 'Production':6 } as Record<string,number>)[name];
+  if (locale !== 'en' && model !== undefined) return getBuyerCopy(locale).models[model];
   const tierPrefix = Object.keys(copy.tiers).find((tierName) => name.startsWith(tierName));
   if (tierPrefix) {
     return name.replace(tierPrefix, copy.tiers[tierPrefix]);
@@ -376,7 +383,7 @@ export function localizeBreakdownLabel(name: string, locale: PricingLocale): str
 
   const watchtowerEntry = Object.entries(localizedCopy.en.watchtower).find(([, wtName]) => name === wtName);
   if (watchtowerEntry) {
-    return copy.watchtower[watchtowerEntry[0]] ?? name;
+    return localizeWatchtowerName(watchtowerEntry[0],locale);
   }
 
   if (name === 'Cross-Intelligence') {
@@ -388,6 +395,13 @@ export function localizeBreakdownLabel(name: string, locale: PricingLocale): str
 
   return name;
 }
+
+// Product names stay branded; descriptive capability names follow the language.
+const additionalItemCopy: Record<'az'|'ru'|'pap', {modules:Record<string,string>;watchtower:Record<string,string>}> = {
+  az:{modules:{profit:'Mənfəət analitikası',labor:'Əməkdaş xərclərinin təhlili',revenue:'Gəlirin qorunması',pulse:'Pulse',inventory:'İnventar nəzarəti',purchasing:'Satınalma təhlili',marketing:'Marketinq nəticələri',reservations:'Rezervasiya təhlili',delivery:'Çatdırılma iqtisadiyyatı',guest:'Qonaq təcrübəsi',guest_crm:'Qonaq münasibətləri'},watchtower:{competitive:'Rəqiblərin təhlili',events:'Tədbir və təqvim siqnalları',trends:'Bazar tendensiyaları',bundle:'Watchtower paketi'}},
+  ru:{modules:{profit:'Анализ прибыли',labor:'Анализ расходов на персонал',revenue:'Контроль потерь выручки',pulse:'Pulse',inventory:'Контроль запасов',purchasing:'Анализ закупок',marketing:'Результаты маркетинга',reservations:'Анализ бронирований',delivery:'Экономика доставки',guest:'Опыт гостей',guest_crm:'Отношения с гостями'},watchtower:{competitive:'Анализ конкурентов',events:'События и календарные сигналы',trends:'Рыночные тенденции',bundle:'Пакет Watchtower'}},
+  pap:{modules:{profit:'Analisis di ganashi',labor:'Analisis di kosto di personal',revenue:'Protehá entrada',pulse:'Pulse',inventory:'Kontrol di inventario',purchasing:'Analisis di kompra',marketing:'Resultado di marketin',reservations:'Analisis di reservashon',delivery:'Ekonomia di entrega',guest:'Eksperensia di bishitante',guest_crm:'Relashon ku bishitante'},watchtower:{competitive:'Analisis di kompetidornan',events:'Señalnan di evento i kalènder',trends:'Tendensianan di merkado',bundle:'Pakete Watchtower'}},
+};
 
 export function getPricingPdfCopy(locale: PricingLocale) {
   return (

@@ -324,11 +324,12 @@ export function isCrossIntelligenceEligible(hasCorePackage: boolean): boolean {
 export function calculateCrossIntelligencePrice(
   tier: CrossIntelligenceTier,
   locations: number,
+  packageId?: CorePackageId,
 ): number {
   if (tier === 'base') return 0;
   const pro = crossIntelligence.pro;
   const additionalLocs = Math.max(0, locations - pro.includedLocations);
-  return pro.monthlyFee + additionalLocs * pro.perLocationPrice;
+  return (packageId ? pro.pricingByPackage[packageId.replace('core_','')] ?? pro.monthlyFee : pro.monthlyFee) + additionalLocs * pro.perLocationPrice;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -573,7 +574,7 @@ export function calculateFullPrice(config: Configuration): PriceResult {
     if (config.crossIntelligence === 'pro') {
       breakdown.push({
         item: 'Cross-Intelligence Pro',
-        price: calculateCrossIntelligencePrice('pro', locations),
+        price: calculateCrossIntelligencePrice('pro', locations, config.corePackage),
         note: `$${crossIntelligence.pro.monthlyFee}/mo + $${crossIntelligence.pro.perLocationPrice}/loc from #2`,
       });
     } else {

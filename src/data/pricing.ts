@@ -318,6 +318,7 @@ function band(fromUnit: number, toUnit: number | null, pricePerUnit: number): Ma
 }
 
 export interface CorePackage extends BandedSku {
+  allowsWatchtower?: boolean;
   id: CorePackageId;
   tagline: string;
   /**
@@ -642,7 +643,7 @@ export const WATCHTOWER_MIN_PACKAGE: CorePackageId = 'core_growth';
 const WATCHTOWER_ALLOWED: readonly CorePackageId[] = ['core_growth', 'core_performance'];
 
 export function packageAllowsWatchtower(id: CorePackageId): boolean {
-  return WATCHTOWER_ALLOWED.includes(id);
+  return corePackages[id].allowsWatchtower ?? WATCHTOWER_ALLOWED.includes(id);
 }
 
 export const implementationClasses: Record<ImplementationClassId, ImplementationClass> = {
@@ -1756,6 +1757,7 @@ export const crossIntelligence = {
   },
   pro: {
     id: 'cross_intelligence_pro',
+    pricingByPackage: {} as Record<string,number>,
     name: 'Cross-Intelligence Pro',
     tier: 'pro' as CrossIntelligenceTier,
     monthlyFee: 199,

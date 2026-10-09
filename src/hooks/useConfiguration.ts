@@ -1,3 +1,4 @@
+import { recommendedConceptSkus } from '../lib/discoveryEngine';
 import { normalizeCrewSelection, normalizeWatchtowerSelection } from '../lib/pricingIntent';
 import { restorePricingSelection, restorePricingPreferences } from '../lib/persistedPricing';
 import { journeyFor, stepIndexIn, type JourneyStepId } from '../lib/journey';
@@ -409,7 +410,10 @@ export const useConfiguration = create<ConfigurationState>()(
 
         // Quiz actions
         setDiscoveryAnswers: (operatingModels, techStack) => {
-          set({ operatingModels, techStack });
+          const previous = recommendedConceptSkus(get().operatingModels);
+          const required = recommendedConceptSkus(operatingModels);
+          const addOns = [...new Set([...get().addOns.filter(id => !previous.includes(id as never) || required.includes(id as never)), ...required])];
+          set({ operatingModels, techStack, addOns });
         },
 
         setBillingCycle: (billingCycle) => {

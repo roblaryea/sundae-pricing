@@ -35,9 +35,9 @@ The chain pricing.sundae.io → app.sundaetech.ai → api.sundaetech.ai returns 
 
 ## Verification boundaries
 
-The final preview was opened through the native browser tool. The tool then became unavailable, so the final native click/mobile/locale walkthrough could not be repeated after the catalogue gate changes. Earlier hosted checks and the regression suite remain evidence; they are not labelled a new final-head native pass.
+After native controls became unavailable, the user explicitly authorized an isolated production Playwright browser. The [production click retest](PRICING_PRODUCTION_CLICK_RETEST_20261009.md) records 30 final passing checks against the real feed, mobile geometry, 25 locale location labels, and the full website-to-app handoff. The retest found and fixed the website sign-in link dropping the onboarding configuration (website PR154), then repeated the actual app landing and validated session storage check after production deployment. This is an isolated browser pass, not a native-browser certification.
 
-Real VoiceOver/NVDA certification remains unverified: the earlier VoiceOver launch timed out. Hosted native print/save opening was rejected by automatic browser approval review. Localized print source/unit checks cover the supported pricing locales, but no final native PDF pass is claimed. No alternative browser surface was used to bypass either restriction.
+Real VoiceOver/NVDA certification remains unverified: the earlier VoiceOver launch timed out. Hosted native print/save opening was rejected by automatic browser approval review. Localized print source/unit checks cover the supported pricing locales, but no final native PDF pass is claimed. The authorized isolated click retest excluded print/save and screen-reader launch; it did not bypass those restrictions.
 
 No paid checkout, subscription purchase, contractual acceptance or real demo-lead submission was performed. Production funnel code is instrumented and consent-gated; receipt of events in an external analytics dashboard is not certified by this release record.
 

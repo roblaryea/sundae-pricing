@@ -1,6 +1,6 @@
 # Pricing Audit Report — consolidated buyer audit, 2026-10-08
 
-**Current status:** the 2026-10-09 refinements are verified locally and being finalized on the existing pricing review branch. The earlier pricing UI is deployed to a Vercel preview; the new preview will be recorded below after deployment. Companion app, website and backend changes remain review work and are not released by a pricing-only deployment. No production promotion, catalogue activation or Stripe mutation was performed. This is not a billing-parity certification. The latest record supersedes earlier behavior and verification entries below.
+**Current status:** the 2026-10-09 refinements are committed and pushed on the existing pricing review branch. The fresh test preview is **https://sundae-pricing-9l4j1ysn3-sundaes-projects-afd45f7e.vercel.app** (Vercel Ready / preview, commit `99fef5c`). Companion app, website and backend changes remain review work and are not released by a pricing-only deployment. No production promotion, catalogue activation or Stripe mutation was performed. This is not a billing-parity certification. The latest record supersedes earlier behavior and verification entries below.
 
 **Audience:** internal engineering and QA. Catalogue revisions and IDs remain in audit evidence; customer screens, initial HTML, PDF text and outgoing selection links omit them. Customers see the effective date.
 

@@ -11,7 +11,7 @@ The published database catalogue in `sundae-backend` remains the runtime commerc
 
 ## Review deployment
 
-The latest 2026-10-09 refinements are being finalized on `codex/pricing-buyer-review-20261008`; the fresh preview will be recorded in `PRICING_AUDIT_REPORT.md` after deployment. Earlier protected previews are historical. The preview loads the published catalogue through its same-origin Vercel proxy. Companion backend/app/website changes remain review work, not released receivers. Production and billing are unchanged. Preview access tokens are kept outside Git and PRs.
+The latest 2026-10-09 refinements are in the Ready test preview **https://sundae-pricing-9l4j1ysn3-sundaes-projects-afd45f7e.vercel.app** (commit `99fef5c`). Earlier protected previews are historical. The preview loads the published catalogue through its same-origin Vercel proxy. Companion backend/app/website changes remain review work, not released receivers. Production and billing are unchanged. Preview access tokens are kept outside Git and PRs.
 
 ## Runtime sequence
 

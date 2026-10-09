@@ -8,20 +8,20 @@ The existing pricing site remains the buyer entry point. The implemented flow is
 
 | Component | Review branch / PR | Last code reviewed |
 | --- | --- | --- |
-| Pricing site | `codex/pricing-buyer-review-20261008` / [#47](https://github.com/roblaryea/sundae-pricing/pull/47) | `4bed61c` |
+| Pricing site | `codex/pricing-buyer-review-20261008` / [#47](https://github.com/roblaryea/sundae-pricing/pull/47) | `2e37de7` |
 | Admin, public feed and account handoff | `codex/pricing-account-handoff-review-20261008` / [#1823](https://github.com/Sundae-io/sundae-app/pull/1823) | `3200ee862` |
 | Catalogue, quote and activation | `codex/pricing-quote-parity-review-20261008` / [#1903](https://github.com/Sundae-io/sundae-stable/pull/1903) | `df4a8d35` |
 | Demo handoff | `codex/pricing-demo-handoff-review-20261008` / [#153](https://github.com/roblaryea/sundae-website/pull/153) | `643b092` |
 
-Pricing code preview: [immutable deployment](https://sundae-pricing-l21zs1bq6-sundaes-projects-afd45f7e.vercel.app/) and [stable branch preview](https://sundae-pricing-git-codex-prici-ecf6e9-sundaes-projects-afd45f7e.vercel.app/). Later pricing documentation commits do not change the buyer code.
+Pricing code preview: [immutable deployment](https://sundae-pricing-p0t8e4kol-sundaes-projects-afd45f7e.vercel.app/) and [stable branch preview](https://sundae-pricing-git-codex-prici-ecf6e9-sundaes-projects-afd45f7e.vercel.app/). Later pricing documentation commits do not change the buyer code.
 
 ## Completed preparation
 
 - Pricing: 43 files / 1,359 unit tests, lint and TypeScript/Vite build passed. The build also checks 25 locale packs, companion intent parity and catalogue-backed initial HTML.
-- App: 41 focused localization/intent/adapter tests passed. Full local preflight passed on `cd7b45425`; the later commit changes only CI startup. Changed-file done-gate typecheck/lint/wiring passed with browser checks explicitly skipped.
-- Backend: 117 focused tests across 12 files passed on a fresh isolated PostgreSQL16 database. Typecheck, targeted lint and pre-push formatting/lockfile/topology checks passed. Full schema parity: 1,218 tables / 6 views. Reconciliation and audit calls in activation tests were stubbed; no external financial action occurred.
+- App: exact-head public mobile and Crew a11y/performance workflows passed. The public mobile audit scored accessibility/best-practices/SEO at 100 on sign-in and offline; dev-mode performance scores are diagnostics, not production performance certification. 41 focused localization/intent/adapter tests passed. Full local preflight passed on `cd7b45425`; the later commit changes only CI startup. Changed-file done-gate typecheck/lint/wiring passed with browser checks explicitly skipped.
+- Backend: exact-head full quality/security CI passed on `df4a8d35`, including 7,734 tests (3 skipped), migrations/rollback/schema parity, pricing drift, persona/queue/worker gates and build. 117 focused tests across 12 files passed on a fresh isolated PostgreSQL16 database. Typecheck, targeted lint and pre-push formatting/lockfile/topology checks passed. Full schema parity: 1,218 tables / 6 views. Reconciliation and audit calls in activation tests were stubbed; no external financial action occurred.
 - Website: receiver tests/typecheck and exact-head quality/security/Vercel checks passed.
-- Hosted pricing: shared Crew Operating configuration restored eight locations, 200 employees and United Arab Emirates; 160 employees included, 40 charged, $1,312/month and $164/location/month. The country renders its full localized name. Earlier hosted checks covered required Franchise selection, commitment, invalid Starter scope, branding and price alignment.
+- Hosted pricing: shared Crew Operating configuration restored eight locations, 200 employees and United Arab Emirates; 160 employees included, 40 charged, $1,312/month and $164/location/month. The country renders its localized name; Russian summary/country copy was checked. Header language/homepage and footer landmark labels cover all 25 locales; social link names use their actual branded destinations. Earlier hosted checks covered required Franchise selection, commitment, invalid Starter scope, branding and price alignment.
 - Both scheduled activation paths now validate commercial policy, reject failed/skipped Stripe reconciliation for authoritative versions, preserve the active version on rejection and clear process-local caches after commit.
 
 CI evidence is recorded in the companion PR descriptions. A passing local preflight does not replace an incomplete or failed hosted run.

@@ -63,7 +63,14 @@ export async function downloadBasketPDF(config: PricingIntent, quote: BasketQuot
   try {
     // Navigate to a complete document instead of replacing about:blank with
     // document.write, which can strand font requests during popup navigation.
-    await new Promise<void>(resolve => output.addEventListener('load', () => resolve(), { once: true }));
+    await new Promise<void>((resolve, reject) => {
+      const loaded = () => { window.clearTimeout(timeout); resolve(); };
+      const timeout = window.setTimeout(() => {
+        output.removeEventListener('load', loaded);
+        reject(new Error('Print document did not load'));
+      }, 20_000);
+      output.addEventListener('load', loaded, { once: true });
+    });
     output.opener = null;
     // Start font loading explicitly. A background print window may not lay out
     // until focused, leaving fonts.ready pending while the opener waits for it.

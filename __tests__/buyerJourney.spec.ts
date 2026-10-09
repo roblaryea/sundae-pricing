@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import fixture from './fixtures/published-v1.8.2.json';
 import { applyLiveCatalogValues, getLivePricingState, type LiveCatalogResponse } from '../src/data/livePricing';
 import { calculateBasketQuote } from '../src/lib/basketQuote';
@@ -11,8 +11,26 @@ import { supportedLocales } from '../src/lib/locales';
 import type { PricingIntent } from '../src/lib/pricingIntent';
 import { localizeBreakdownLabel, localizeWatchtowerName } from '../src/lib/pricingI18n';
 import { calculateWatchtowerPrice } from '../src/lib/watchtowerEngine';
+import { downloadBasketPDF } from '../src/lib/basketPdf';
 const published = fixture as unknown as LiveCatalogResponse;
 const base: PricingIntent = {v:2,layer:'crew',corePackage:'core_foundation',locations:1,addOns:[],watchtowerModules:[],crewSkus:['crew_operations'],crossIntelligence:'none',billingCycle:'monthly',operatingModels:[],employees:40,payrollCountry:''};
+
+it('a print window that never loads returns a retryable failure and releases its resources', async () => {
+  vi.useFakeTimers();
+  const output = Object.assign(new EventTarget(), { close: vi.fn() });
+  const documentUrl = 'blob:https://pricing.example/estimate';
+  const revoke = vi.spyOn(URL, 'revokeObjectURL');
+  vi.spyOn(URL, 'createObjectURL').mockReturnValue(documentUrl);
+  vi.stubGlobal('window', { location: { origin: 'https://pricing.example' }, open: () => output, setTimeout, clearTimeout });
+  try {
+    applyLiveCatalogValues(published);
+    const failure = expect(downloadBasketPDF(base, calculateBasketQuote(base), 'https://pricing.example/simulator')).rejects.toThrow('Print document did not load');
+    await vi.advanceTimersByTimeAsync(20_000);
+    await failure;
+    expect(output.close).toHaveBeenCalledOnce();
+    expect(revoke).toHaveBeenCalledWith(documentUrl);
+  } finally { vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.useRealTimers(); }
+});
 
 describe('buyer journey copy coverage', () => {
   it('does not inherit English labels in the offered languages', () => {

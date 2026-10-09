@@ -1,0 +1,1106 @@
+{
+  "target": "https://pricing.sundae.io",
+  "testedAt": "2026-10-09T15:12:26.823Z",
+  "results": [
+    {
+      "name": "Core foundation: real three-location monthly quote",
+      "status": "passed",
+      "ms": 414,
+      "evidence": {
+        "total": "$1,545/mo",
+        "average": "Average\n$515\nper location / month · across 3 locations"
+      }
+    },
+    {
+      "name": "Core margin: real three-location monthly quote",
+      "status": "passed",
+      "ms": 196,
+      "evidence": {
+        "total": "$2,140/mo",
+        "average": "Average\n$713.33\nper location / month · across 3 locations"
+      }
+    },
+    {
+      "name": "Core growth: real three-location monthly quote",
+      "status": "passed",
+      "ms": 185,
+      "evidence": {
+        "total": "$2,445/mo",
+        "average": "Average\n$815\nper location / month · across 3 locations"
+      }
+    },
+    {
+      "name": "Core performance: real three-location monthly quote",
+      "status": "passed",
+      "ms": 376,
+      "evidence": {
+        "total": "$3,798/mo",
+        "average": "Average\n$1,266\nper location / month · across 3 locations"
+      }
+    },
+    {
+      "name": "Feature explanation click, keyboard escape and focus",
+      "status": "passed",
+      "ms": 105,
+      "evidence": "Profit Intelligence\n\nSee which locations are making money and what is reducing profit, so you know where to act first."
+    },
+    {
+      "name": "Franchise required extension and removal follow business choice",
+      "status": "passed",
+      "ms": 489,
+      "evidence": "Manage a franchise network\n\nFor franchisors who oversee franchise owners, royalties and network standards. If you only operate franchise outlets, choose Single brand or Diversified group."
+    },
+    {
+      "name": "Mixed operating group auto scope and backward editing",
+      "status": "passed",
+      "ms": 402,
+      "evidence": {
+        "before": "$4,288/mo",
+        "after": "$3,410/mo"
+      }
+    },
+    {
+      "name": "Watchtower eligibility and published complete price",
+      "status": "passed",
+      "ms": 1061,
+      "evidence": "$3,562/mo"
+    },
+    {
+      "name": "Unavailable Crew Starter at 120 has no price; volume saving disclosed",
+      "status": "passed",
+      "ms": 158,
+      "evidence": "UP TO 5 LOCATIONS\nCrew Starter\n\nNot available above 5 locations\n\nCrew Starter\nNot available above 5 locations"
+    },
+    {
+      "name": "Crew pooled allowance, automatic overage and country dropdown",
+      "status": "passed",
+      "ms": 795,
+      "evidence": {
+        "total": "$1,312/mo",
+        "options": [
+          "Choose a country",
+          "United Arab Emirates",
+          "Saudi Arabia",
+          "Qatar",
+          "Bahrain",
+          "Oman",
+          "Kuwait",
+          "United Kingdom",
+          "Ireland",
+          "Canada",
+          "United States",
+          "Austria",
+          "Belgium",
+          "Bulgaria",
+          "Croatia",
+          "Cyprus",
+          "Czechia",
+          "Denmark",
+          "Estonia",
+          "Finland",
+          "France",
+          "Germany",
+          "Greece",
+          "Hungary",
+          "Italy",
+          "Latvia",
+          "Lithuania",
+          "Luxembourg",
+          "Malta",
+          "Netherlands",
+          "Poland",
+          "Portugal",
+          "Romania",
+          "Slovakia",
+          "Slovenia",
+          "Spain",
+          "Sweden",
+          "Australia · availability to confirm",
+          "India · availability to confirm",
+          "Japan · availability to confirm",
+          "Malaysia · availability to confirm",
+          "New Zealand · availability to confirm",
+          "Singapore · availability to confirm",
+          "South Africa · availability to confirm"
+        ]
+      }
+    },
+    {
+      "name": "Core plus Crew single rail and annual upfront math",
+      "status": "passed",
+      "ms": 395,
+      "evidence": "$2,496.56/mo"
+    },
+    {
+      "name": "Saved selections disclosed and start over resets",
+      "status": "passed",
+      "ms": 2313
+    },
+    {
+      "name": "Copy share link reopened in fresh isolated context",
+      "status": "passed",
+      "ms": 3282,
+      "evidence": {
+        "link": "https://pricing.sundae.io/simulator?lang=en&cfg=eyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfbWFyZ2luIiwibG9jYXRpb25zIjozLCJhZGRPbnMiOltdLCJjcmV3U2t1cyI6W10sIndhdGNodG93ZXJNb2R1bGVzIjpbXSwiYmlsbGluZ0N5Y2xlIjoibW9udGhseSIsImNyb3NzSW50ZWxsaWdlbmNlIjoibm9uZSIsIm9wZXJhdGluZ01vZGVscyI6W119",
+        "cfg": {
+          "v": 2,
+          "layer": "core",
+          "corePackage": "core_margin",
+          "locations": 3,
+          "addOns": [],
+          "crewSkus": [],
+          "watchtowerModules": [],
+          "billingCycle": "monthly",
+          "crossIntelligence": "none",
+          "operatingModels": []
+        }
+      }
+    },
+    {
+      "name": "Core only handoff excludes stale Crew employee and country data",
+      "status": "passed",
+      "ms": 360,
+      "evidence": {
+        "demo": "https://sundae.io/demo?cfg=eyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfZm91bmRhdGlvbiIsImxvY2F0aW9ucyI6MSwiYWRkT25zIjpbXSwiY3Jld1NrdXMiOltdLCJ3YXRjaHRvd2VyTW9kdWxlcyI6W10sImJpbGxpbmdDeWNsZSI6Im1vbnRobHkiLCJjcm9zc0ludGVsbGlnZW5jZSI6Im5vbmUiLCJvcGVyYXRpbmdNb2RlbHMiOltdfQ&source=pricing-configurator",
+        "account": "https://sundae.io/sign-in?returnUrl=%2Fonboarding%3Flang%3Den%26cfg%3DeyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfZm91bmRhdGlvbiIsImxvY2F0aW9ucyI6MSwiYWRkT25zIjpbXSwiY3Jld1NrdXMiOltdLCJ3YXRjaHRvd2VyTW9kdWxlcyI6W10sImJpbGxpbmdDeWNsZSI6Im1vbnRobHkiLCJjcm9zc0ludGVsbGlnZW5jZSI6Im5vbmUiLCJvcGVyYXRpbmdNb2RlbHMiOltdfQ",
+        "cfg": {
+          "v": 2,
+          "layer": "core",
+          "corePackage": "core_foundation",
+          "locations": 1,
+          "addOns": [],
+          "crewSkus": [],
+          "watchtowerModules": [],
+          "billingCycle": "monthly",
+          "crossIntelligence": "none",
+          "operatingModels": []
+        }
+      }
+    },
+    {
+      "name": "Large workforce safely routes to sales",
+      "status": "passed",
+      "ms": 226,
+      "evidence": "PRICING SIMULATOR / 03\n\nReview your estimate\n\nMONTHLY INVESTMENT · 1 LOCATIONS\n\nContact Sales\n\nUSD · taxes and one-time setup excluded\n\nCrew Operating\nConfirmed separately\nOne-time setup\nConfirmed separately\nUnique employees across your locations: 1000000\nAdditional employees: Confirmed separately\nWe’ll confirm payroll availability, local legal requirements and setup for your country before you start. Confirmed separately\n\nPricing effective 10/9/2026\n\nSUNDAE\n\nMake the next step yours.\n\nBring this configuration to a demo, save it for your team, or continue to account setup.\n\nContact Sales\nCopy configuration link\nPrint / save PDF\n\nThis is an estimate, not a final quote. We’ll confirm current prices and plan availability before you start.\n\nOne-time setup\n\nCrew Operating · One-time setup: Confirmed separately.\n\nSetup guide only. One fee follows your launch scope. We’ll confirm your systems, data migration and specialist needs before you start.\n\nA plan for your whole business.\n\nFor teams above 100,000 employees, we will build a tailored plan with you.\n\nContact Sales"
+    },
+    {
+      "name": "Calculation full-width disclosure, nested bands and setup",
+      "status": "passed",
+      "ms": 2041,
+      "evidence": {
+        "grid": {
+          "x": 135,
+          "y": 587.546875,
+          "width": 1170,
+          "height": 216
+        },
+        "outer": {
+          "x": 112,
+          "y": 469.453125,
+          "width": 1216,
+          "height": 474.59375
+        }
+      }
+    },
+    {
+      "name": "Mobile 375px 8 locations: sticky layout and buyer navigation",
+      "status": "passed",
+      "ms": 595,
+      "evidence": {
+        "text": "Monthly Investment\n$2,420/mo\nAverage $302.50 per location / month · across 8 locations\nRefine this plan\nReview estimate",
+        "children": [
+          {
+            "tag": "DIV",
+            "cls": "decision-price has-average",
+            "text": "Monthly Investment$2,420/moAverage $302.50 per location / month · across 8 locations",
+            "rect": {
+              "x": 29,
+              "y": 700.3125,
+              "width": 317,
+              "height": 64.6875,
+              "top": 700.3125,
+              "right": 346,
+              "bottom": 765,
+              "left": 29
+            },
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "cls": "decision-total-row",
+            "text": "Monthly Investment$2,420/mo",
+            "rect": {
+              "x": 29,
+              "y": 700.3125,
+              "width": 305,
+              "height": 37.5,
+              "top": 700.3125,
+              "right": 334,
+              "bottom": 737.8125,
+              "left": 29
+            },
+            "font": "16px"
+          },
+          {
+            "tag": "SMALL",
+            "cls": "",
+            "text": "Monthly Investment",
+            "rect": {
+              "x": 29,
+              "y": 715.3125,
+              "width": 96.875,
+              "height": 16.5,
+              "top": 715.3125,
+              "right": 125.875,
+              "bottom": 731.8125,
+              "left": 29
+            },
+            "font": "11px"
+          },
+          {
+            "tag": "STRONG",
+            "cls": "",
+            "text": "$2,420/mo",
+            "rect": {
+              "x": 241.6875,
+              "y": 700.3125,
+              "width": 92.3125,
+              "height": 37.5,
+              "top": 700.3125,
+              "right": 334,
+              "bottom": 737.8125,
+              "left": 241.6875
+            },
+            "font": "25px"
+          },
+          {
+            "tag": "SPAN",
+            "cls": "",
+            "text": "/mo",
+            "rect": {
+              "x": 316.1875,
+              "y": 716.3125,
+              "width": 17.8125,
+              "height": 14,
+              "top": 716.3125,
+              "right": 334,
+              "bottom": 730.3125,
+              "left": 316.1875
+            },
+            "font": "11px"
+          },
+          {
+            "tag": "DIV",
+            "cls": "decision-average",
+            "text": "Average $302.50 per location / month · across 8 locations",
+            "rect": {
+              "x": 29,
+              "y": 742.8125,
+              "width": 317,
+              "height": 22.1875,
+              "top": 742.8125,
+              "right": 346,
+              "bottom": 765,
+              "left": 29
+            },
+            "font": "12px"
+          },
+          {
+            "tag": "DIV",
+            "cls": "average-price",
+            "text": "Average $302.50 per location / month · across 8 locations",
+            "rect": {
+              "x": 29,
+              "y": 742.8125,
+              "width": 317,
+              "height": 22.1875,
+              "top": 742.8125,
+              "right": 346,
+              "bottom": 765,
+              "left": 29
+            },
+            "font": "12px"
+          },
+          {
+            "tag": "SPAN",
+            "cls": "average-price-label",
+            "text": "Average ",
+            "rect": {
+              "x": 29,
+              "y": 747.8125,
+              "width": 42.5625,
+              "height": 14,
+              "top": 747.8125,
+              "right": 71.5625,
+              "bottom": 761.8125,
+              "left": 29
+            },
+            "font": "11px"
+          },
+          {
+            "tag": "STRONG",
+            "cls": "average-price-amount",
+            "text": "$302.50",
+            "rect": {
+              "x": 75.5625,
+              "y": 740.8125,
+              "width": 62.28125,
+              "height": 23,
+              "top": 740.8125,
+              "right": 137.84375,
+              "bottom": 763.8125,
+              "left": 75.5625
+            },
+            "font": "18px"
+          },
+          {
+            "tag": "BDI",
+            "cls": "",
+            "text": "$302.50",
+            "rect": {
+              "x": 75.5625,
+              "y": 740.8125,
+              "width": 62.28125,
+              "height": 23,
+              "top": 740.8125,
+              "right": 137.84375,
+              "bottom": 763.8125,
+              "left": 75.5625
+            },
+            "font": "18px"
+          },
+          {
+            "tag": "SPAN",
+            "cls": "average-price-unit",
+            "text": " per location / month · across 8 locations",
+            "rect": {
+              "x": 137.84375,
+              "y": 747.8125,
+              "width": 202.265625,
+              "height": 14,
+              "top": 747.8125,
+              "right": 340.109375,
+              "bottom": 761.8125,
+              "left": 137.84375
+            },
+            "font": "11px"
+          },
+          {
+            "tag": "DIV",
+            "cls": "decision-actions",
+            "text": "Refine this planReview estimate",
+            "rect": {
+              "x": 29,
+              "y": 777,
+              "width": 317,
+              "height": 46,
+              "top": 777,
+              "right": 346,
+              "bottom": 823,
+              "left": 29
+            },
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "cls": "pricing-secondary",
+            "text": "Refine this plan",
+            "rect": {
+              "x": 29,
+              "y": 777,
+              "width": 153.5,
+              "height": 46,
+              "top": 777,
+              "right": 182.5,
+              "bottom": 823,
+              "left": 29
+            },
+            "font": "12px"
+          },
+          {
+            "tag": "BUTTON",
+            "cls": "pricing-primary",
+            "text": "Review estimate",
+            "rect": {
+              "x": 192.5,
+              "y": 777,
+              "width": 153.5,
+              "height": 46,
+              "top": 777,
+              "right": 346,
+              "bottom": 823,
+              "left": 192.5
+            },
+            "font": "12px"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Mobile 375px 120 locations: sticky layout and buyer navigation",
+      "status": "passed",
+      "ms": 2129,
+      "evidence": {
+        "text": "Monthly Investment\n$15,290.25/mo\nAverage $127.42 per location / month · across 120 locations\nRefine this plan\nReview estimate",
+        "children": [
+          {
+            "tag": "DIV",
+            "cls": "decision-price has-average",
+            "text": "Monthly Investment$15,290.25/moAverage $127.42 per location / month · across 120 locations",
+            "rect": {
+              "x": 29,
+              "y": 681.125,
+              "width": 317,
+              "height": 83.875,
+              "top": 681.125,
+              "right": 346,
+              "bottom": 765,
+              "left": 29
+            },
+            "font": "16px"
+          },
+          {
+            "tag": "DIV",
+            "cls": "decision-total-row",
+            "text": "Monthly Investment$15,290.25/mo",
+            "rect": {
+              "x": 29,
+              "y": 681.125,
+              "width": 305,
+              "height": 37.5,
+              "top": 681.125,
+              "right": 334,
+              "bottom": 718.625,
+              "left": 29
+            },
+            "font": "16px"
+          },
+          {
+            "tag": "SMALL",
+            "cls": "",
+            "text": "Monthly Investment",
+            "rect": {
+              "x": 29,
+              "y": 696.125,
+              "width": 96.875,
+              "height": 16.5,
+              "top": 696.125,
+              "right": 125.875,
+              "bottom": 712.625,
+              "left": 29
+            },
+            "font": "11px"
+          },
+          {
+            "tag": "STRONG",
+            "cls": "",
+            "text": "$15,290.25/mo",
+            "rect": {
+              "x": 196.6875,
+              "y": 681.125,
+              "width": 137.3125,
+              "height": 37.5,
+              "top": 681.125,
+              "right": 334,
+              "bottom": 718.625,
+              "left": 196.6875
+            },
+            "font": "25px"
+          },
+          {
+            "tag": "SPAN",
+            "cls": "",
+            "text": "/mo",
+            "rect": {
+              "x": 316.1875,
+              "y": 697.125,
+              "width": 17.8125,
+              "height": 14,
+              "top": 697.125,
+              "right": 334,
+              "bottom": 711.125,
+              "left": 316.1875
+            },
+            "font": "11px"
+          },
+          {
+            "tag": "DIV",
+            "cls": "decision-average",
+            "text": "Average $127.42 per location / month · across 120 locations",
+            "rect": {
+              "x": 29,
+              "y": 723.625,
+              "width": 317,
+              "height": 41.375,
+              "top": 723.625,
+              "right": 346,
+              "bottom": 765,
+              "left": 29
+            },
+            "font": "12px"
+          },
+          {
+            "tag": "DIV",
+            "cls": "average-price",
+            "text": "Average $127.42 per location / month · across 120 locations",
+            "rect": {
+              "x": 29,
+              "y": 723.625,
+              "width": 317,
+              "height": 41.375,
+              "top": 723.625,
+              "right": 346,
+              "bottom": 765,
+              "left": 29
+            },
+            "font": "12px"
+          },
+          {
+            "tag": "SPAN",
+            "cls": "average-price-label",
+            "text": "Average ",
+            "rect": {
+              "x": 29,
+              "y": 728.625,
+              "width": 42.5625,
+              "height": 14,
+              "top": 728.625,
+              "right": 71.5625,
+              "bottom": 742.625,
+              "left": 29
+            },
+            "font": "11px"
+          },
+          {
+            "tag": "STRONG",
+            "cls": "average-price-amount",
+            "text": "$127.42",
+            "rect": {
+              "x": 75.5625,
+              "y": 721.625,
+              "width": 62.28125,
+              "height": 23,
+              "top": 721.625,
+              "right": 137.84375,
+              "bottom": 744.625,
+              "left": 75.5625
+            },
+            "font": "18px"
+          },
+          {
+            "tag": "BDI",
+            "cls": "",
+            "text": "$127.42",
+            "rect": {
+              "x": 75.5625,
+              "y": 721.625,
+              "width": 62.28125,
+              "height": 23,
+              "top": 721.625,
+              "right": 137.84375,
+              "bottom": 744.625,
+              "left": 75.5625
+            },
+            "font": "18px"
+          },
+          {
+            "tag": "SPAN",
+            "cls": "average-price-unit",
+            "text": " per location / month · across 120 locations",
+            "rect": {
+              "x": 29,
+              "y": 728.625,
+              "width": 275.84375,
+              "height": 33.1875,
+              "top": 728.625,
+              "right": 304.84375,
+              "bottom": 761.8125,
+              "left": 29
+            },
+            "font": "11px"
+          },
+          {
+            "tag": "DIV",
+            "cls": "decision-actions",
+            "text": "Refine this planReview estimate",
+            "rect": {
+              "x": 29,
+              "y": 777,
+              "width": 317,
+              "height": 46,
+              "top": 777,
+              "right": 346,
+              "bottom": 823,
+              "left": 29
+            },
+            "font": "16px"
+          },
+          {
+            "tag": "BUTTON",
+            "cls": "pricing-secondary",
+            "text": "Refine this plan",
+            "rect": {
+              "x": 29,
+              "y": 777,
+              "width": 153.5,
+              "height": 46,
+              "top": 777,
+              "right": 182.5,
+              "bottom": 823,
+              "left": 29
+            },
+            "font": "12px"
+          },
+          {
+            "tag": "BUTTON",
+            "cls": "pricing-primary",
+            "text": "Review estimate",
+            "rect": {
+              "x": 192.5,
+              "y": 777,
+              "width": 153.5,
+              "height": 46,
+              "top": 777,
+              "right": 346,
+              "bottom": 823,
+              "left": 192.5
+            },
+            "font": "12px"
+          }
+        ]
+      }
+    },
+    {
+      "name": "az: localized location question, refine, review and direction",
+      "status": "passed",
+      "ms": 604,
+      "evidence": {
+        "locationText": "Neçə məkan var?",
+        "total": "$ 1,545/ay"
+      }
+    },
+    {
+      "name": "ru: localized location question, refine, review and direction",
+      "status": "passed",
+      "ms": 440,
+      "evidence": {
+        "locationText": "Сколько локаций?",
+        "total": "1 545 $/мес."
+      }
+    },
+    {
+      "name": "pap: localized location question, refine, review and direction",
+      "status": "passed",
+      "ms": 408,
+      "evidence": {
+        "locationText": "Kuantu lokashon?",
+        "total": "$1,545/luna"
+      }
+    },
+    {
+      "name": "ar: localized location question, refine, review and direction",
+      "status": "passed",
+      "ms": 894,
+      "evidence": {
+        "locationText": "كم عدد المواقع؟",
+        "total": "‏1,545 US$/شهرياً"
+      }
+    },
+    {
+      "name": "Header review enters same quote and keyboard accessibility scan",
+      "status": "passed",
+      "ms": 1419,
+      "evidence": {
+        "rules": 24,
+        "violations": 0
+      }
+    },
+    {
+      "name": "Real Book Demo destination carries reviewed quote without submitting",
+      "status": "passed",
+      "ms": 3211,
+      "evidence": {
+        "href": "https://sundae.io/demo?cfg=eyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfZ3Jvd3RoIiwibG9jYXRpb25zIjozLCJhZGRPbnMiOltdLCJjcmV3U2t1cyI6W10sIndhdGNodG93ZXJNb2R1bGVzIjpbXSwiYmlsbGluZ0N5Y2xlIjoibW9udGhseSIsImNyb3NzSW50ZWxsaWdlbmNlIjoibm9uZSIsIm9wZXJhdGluZ01vZGVscyI6W119&source=pricing-configurator",
+        "finalURL": "https://www.sundae.io/demo?cfg=eyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfZ3Jvd3RoIiwibG9jYXRpb25zIjozLCJhZGRPbnMiOltdLCJjcmV3U2t1cyI6W10sIndhdGNodG93ZXJNb2R1bGVzIjpbXSwiYmlsbGluZ0N5Y2xlIjoibW9udGhseSIsImNyb3NzSW50ZWxsaWdlbmNlIjoibm9uZSIsIm9wZXJhdGluZ01vZGVscyI6W119&source=pricing-configurator",
+        "status": 200,
+        "cfg": {
+          "v": 2,
+          "layer": "core",
+          "corePackage": "core_growth",
+          "locations": 3,
+          "addOns": [],
+          "crewSkus": [],
+          "watchtowerModules": [],
+          "billingCycle": "monthly",
+          "crossIntelligence": "none",
+          "operatingModels": []
+        },
+        "body": "Skip to main content\nsundae\nProducts\nSolutions\nPricing\nAbout\nResources\nLanguage\nEN\nEnglish · EN\nالعربية · AR\nFrançais · FR\nEspañol · ES\nDeutsch · DE\nNederlands · NL\nPortuguês · PT\nहिन्दी · HI\nاردو · UR\nItaliano · IT\nPolski · PL\nTürkçe · TR\n简体中文 · ZH\n日本語 · JA\n한국어 · KO\nBahasa Indonesia · ID\nTiếng Việt · VI\nRomână · RO\nSvenska · SV\nবাংলা · BN\nไทย · TH\nBahasa Melayu · MS\nSign In\nBook a Demo\nHome\n/\nDemo\nBOOK A DEMO\n30 minutes. One real leak. A measurable next move.\n\nBring your operation. We will inspect where margin may be leaking, open the evidence, route the next move and show how Sundae measures what comes back.\n\n✦ RECOMMENDED · 10 MINUTES · PREMIUM REPORT\nWant substance before the call?\n\nTake the Sundae Operations Diagnostic - 20 strategic questions → personalized report showing the margin leaks we'd surface, the recommended stack, and a 30/60/90 plan. Same outcome as a discovery call, on your time, with a shareable artifact at the end.\n\nStart your diagnostic\n→\n\nNo credit card · Output is a directional read, never a promise\n\nRequest Your Demo\n\nTell us about your operation so we can prepare the right recovery working session for your priorities.\n\nSundae Core\n\nLocations: 3\n\nCore Growth\n\nMonthly · rolling\n\nThis is an estimate, not a final quote. We’ll confirm current prices and plan availability before you start.\n\nWebsite\nFull Name *\nWork Email *\nCompany or Group Name *\nRole / Title *\nCountry *\nSelect your country\nAfghanistan\nAlbania\nAlgeria\nAndorra\nAngola\nArgentina\nArmenia\nAustralia\nAustria\nAzerbaijan\nBahamas\nBahrain\nBangladesh\nBarbados\nBelarus\nBelgium\nBelize\nBenin\nBhutan\nBolivia\nBosnia and Herzegovina\nBotswana\nBrazil\nBrunei\nBulgaria\nBurkina Faso\nBurundi\nCambodia\nCameroon\nCanada\nCape Verde\nCentral African Republic\nChad\nChile\nChina\nColombia\nComoros\nCongo\nCongo (DRC)\nCosta Rica\nCroatia\nCuba\nCyprus\nCzech Republic\nDenmark\nDjibouti\nDominica\nDominican Republic\nEcuador\nEgypt\nEl Salvador\nEquatorial Guinea\nEritrea\nEstonia\nEswatini\nEthiopia\nFiji\nFinland\nFrance\nGabon\nGambia\nGeorgia\nGermany\nGhana\nGreece\nGrenada\nGuatemala\nGuinea\nGuinea-Bissau\nGuyana\nHaiti\nHonduras\nHong Kong\nHungary\nIceland\nIndia\nIndonesia\nIran\nIraq\nIreland\nIsrael\nItaly\nIvory Coast\nJamaica\nJapan\nJordan\nKazakhstan\nKenya\nKiribati\nKosovo\nKuwait\nKyrgyzstan\nLaos\nLatvia\nLebanon\nLesotho\nLiberia\nLibya\nLiechtenstein\nLithuania\nLuxembourg\nMacau\nMadagascar\nMalawi\nMalaysia\nMaldives\nMali\nMalta\nMarshall Islands\nMauritania\nMauritius\nMexico\nMicronesia\nMoldova\nMonaco\nMongolia\nMontenegro\nMorocco\nMozambique\nMyanmar\nNamibia\nNauru\nNepal\nNetherlands\nNew Zealand\nNicaragua\nNiger\nNigeria\nNorth Korea\nNorth Macedonia\nNorway\nOman\nPakistan\nPalau\nPalestine\nPanama\nPapua New Guinea\nParaguay\nPeru\nPhilippines\nPoland\nPortugal\nQatar\nRomania\nRussia\nRwanda\nSaint Kitts and Nevis\nSaint Lucia\nSaint Vincent and the Grenadines\nSamoa\nSan Marino\nSao Tome and Principe\nSaudi Arabia\nSenegal\nSerbia\nSeychelles\nSierra Leone\nSingapore\nSlovakia\nSlovenia\nSolomon Islands\nSomalia\nSouth Africa\nSouth Korea\nSouth Sudan\nSpain\nSri Lanka\nSudan\nSuriname\nSweden\nSwitzerland\nSyria\nTaiwan\nTajikistan\nTanzania\nThailand\nTimor-Leste\nTogo\nTonga\nTrinidad and Tobago\nTunisia\nTurkey\nTurkmenistan\nTuvalu\nUganda\nUkraine\nUnited Arab Emirates\nUnited Kingdom\nUnited States\nUruguay\nUzbekistan\nVanuatu\nVatican City\nVenezuela\nVietnam\nYemen\nZambia\nZimbabwe\nPhone Number *\nAF +93\nAL +355\nDZ +213\nAD +376\nAO +244\nAR +54\nAM +374\nAU +61\nAT +43\nAZ +994\nBS +1-242\nBH +973\nBD +880\nBB +1-246\nBY +375\nBE +32\nBZ +501\nBJ +229\nBT +975\nBO +591\nBA +387\nBW +267\nBR +55\nBN +673\nBG +359\nBF +226\nBI +257\nKH +855\nCM +237\nCA +1\nCV +238\nCF +236\nTD +235\nCL +56\nCN +86\nCO +57\nKM +269\nCG +242\nCD +243\nCR +506\nHR +385\nCU +53\nCY +357\nCZ +420\nDK +45\nDJ +253\nDM +1-767\nDO +1-809\nEC +593\nEG +20\nSV +503\nGQ +240\nER +291\nEE +372\nSZ +268\nET +251\nFJ +679\nFI +358\nFR +33\nGA +241\nGM +220\nGE +995\nDE +49\nGH +233\nGR +30\nGD +1-473\nGT +502\nGN +224\nGW +245\nGY +592\nHT +509\nHN +504\nHK +852\nHU +36\nIS +354\nIN +91\nID +62\nIR +98\nIQ +964\nIE +353\nIL +972\nIT +39\nCI +225\nJM +1-876\nJP +81\nJO +962\nKZ +7\nKE +254\nKI +686\nXK +383\nKW +965\nKG +996\nLA +856\nLV +371\nLB +961\nLS +266\nLR +231\nLY +218\nLI +423\nLT +370\nLU +352\nMO +853\nMG +261\nMW +265\nMY +60\nMV +960\nML +223\nMT +356\nMH +692\nMR +222\nMU +230\nMX +52\nFM +691\nMD +373\nMC +377\nMN +976\nME +382\nMA +212\nMZ +258\nMM +95\nNA +264\nNR +674\nNP +977\nNL +31\nNZ +64\nNI +505\nNE +227\nNG +234\nKP +850\nMK +389\nNO +47\nOM +968\nPK +92\nPW +680\nPS +970\nPA +507\nPG +675\nPY +595\nPE +51\nPH +63\nPL +48\nPT +351\nQA +974\nRO +40\nRU +7\nRW +250\nKN +1-869\nLC +1-758\nVC +1-784\nWS +685\nSM +378\nST +239\nSA +966\nSN +221\nRS +381\nSC +248\nSL +232\nSG +65\nSK +421\nSI +386\nSB +677\nSO +252\nZA +27\nKR +82\nSS +211\nES +34\nLK +94\nSD +249\nSR +597\nSE +46\nCH +41\nSY +963\nTW +886\nTJ +992\nTZ +255\nTH +66\nTL +670\nTG +228\nTO +676\nTT +1-868\nTN +216\nTR +90\nTM +993\nTV +688\nUG +256\nUA +380\nAE +971\nGB +44\nUS +1\nUY +598\nUZ +998\nVU +678\nVA +379\nVE +58\nVN +84\nYE +967\nZM +260\nZW +263\nNumber of Locations *\nSelect number of locations\n1 location\n2-5 locations\n6-10 locations\n11-25 locations\n26-50 locations\n51-100 locations\n101-200 locations\n200+ locations\nPrimary POS/System Used *\nTell us about your needs *\nBook a Demo\n\nBy submitting this form, you agree to our privacy policy. We'll never share your information.\n\nFollow one recovery decision end to end\n\nSee the signal, the source evidence, the accountable action and the measurement contract in one governed loop.\n\nYour Data, Live\n\nWe connect to your POS and show you what's actually happening across your locations - not a generic demo with sample data.\n\n✓\nLive POS integration\n✓\nMulti-location overview\n✓\nReal-time anomaly detection\n✓\nHistorical trend analysis\nYour Blind Spots\n\nWe'll surface the gaps you didn't know existed - revenue leakage, labor inefficiencies, and missed opportunities hiding in your data.\n\n✓\nRevenue leakage patterns\n✓\nLabor cost optimization\n✓\nMenu performance gaps\n✓\nOperational anomalies\nYour Questions, Answered\n\nBring your toughest operational questions. We'll show you exactly how Sundae answers them - or we'll tell you it can't.\n\n✓\nIntegration with your stack\n✓\nPricing for your scale\n✓\nImplementation timeline\n✓\nData security and compliance\nWhy Operators Take the Call\n30 min\nFocused demo - no filler, no fluff\nYour data\nWe use your actual numbers, not a sandbox\nZero pressure\nIf it's not a fit, we will tell you\n24 hr\nMost demos scheduled within one business day\nSee What You've Been Missing\n\n30 minutes to look at your data and understand what deserves attention first.\n\nBook Your Demo\nView Pricing\nsundae\n\nDecision intelligence for multi-location food-service. Find the leak, recover the profit.\n\nGlobal\n·\nAll currencies\n·\nLanguage\nEN\nEnglish · EN\nالعربية · AR\nFrançais · FR\nEspañol · ES\nDeutsch · DE\nNederlands · NL\nPortuguês · PT\nहिन्दी · HI\nاردو · UR\nItaliano · IT\nPolski · PL\nTürkçe · TR\n简体中文 · ZH\n日本語 · JA\n한국어 · KO\nBahasa Indonesia · ID\nTiếng Việt · VI\nRomână · RO\nSvenska · SV\nবাংলা · BN\nไทย · TH\nBahasa Melayu · MS\nPRODUCT\n\nCORE\n\nPulse\nBenchmarks\nWatchtower\nInsights\nAsk Sundae\nForesight\nProfit Recovery\n\nSUNDAE CREW\n\nScheduling\nTime & Attendance\nPayroll\nPeople & HR\nPeople Intelligence\nForesight & Action\nSundae Core\nSundae Crew\nPricing\nSOLUTIONS\nMulti-location Groups\nFranchises\nCloud Kitchens\nEnterprise Hospitality Groups\nOperations Leaders\nFinance & FP&A Teams\nMarketing Teams\nC-Suite & Owners\nData & Technology Teams\nPeople & HR Teams\nRESOURCES\nBlog\nDocumentation\nIndustry Outcomes\nFAQ\nFree Tools & Calculators\nGetting Started\nCOMPANY\nAbout\nCareers\nContact\nSecurity & Compliance\nIntegrations\n\n© 2026 Sundae. All rights reserved.\n\nPrivacy\nTerms\n\nWe use cookies to improve your experience and analyze site usage. Privacy Policy\n\nDecline\nAccept"
+      }
+    },
+    {
+      "name": "Real account destination preserves onboarding return intent without sign-in",
+      "status": "passed",
+      "ms": 3833,
+      "evidence": {
+        "href": "https://sundae.io/sign-in?returnUrl=%2Fonboarding%3Flang%3Den%26cfg%3DeyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfbWFyZ2luIiwibG9jYXRpb25zIjozLCJhZGRPbnMiOltdLCJjcmV3U2t1cyI6W10sIndhdGNodG93ZXJNb2R1bGVzIjpbXSwiYmlsbGluZ0N5Y2xlIjoibW9udGhseSIsImNyb3NzSW50ZWxsaWdlbmNlIjoibm9uZSIsIm9wZXJhdGluZ01vZGVscyI6W119",
+        "finalURL": "https://www.sundae.io/sign-in?returnUrl=%2Fonboarding%3Flang%3Den%26cfg%3DeyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfbWFyZ2luIiwibG9jYXRpb25zIjozLCJhZGRPbnMiOltdLCJjcmV3U2t1cyI6W10sIndhdGNodG93ZXJNb2R1bGVzIjpbXSwiYmlsbGluZ0N5Y2xlIjoibW9udGhseSIsImNyb3NzSW50ZWxsaWdlbmNlIjoibm9uZSIsIm9wZXJhdGluZ01vZGVscyI6W119",
+        "status": 200,
+        "text": "Skip to main content\nsundae\nProducts\nSolutions\nPricing\nAbout\nResources\nLanguage\nEN\nEnglish · EN\nالعربية · AR\nFrançais · FR\nEspañol · ES\nDeutsch · DE\nNederlands · NL\nPortuguês · PT\nहिन्दी · HI\nاردو · UR\nItaliano · IT\nPolski · PL\nTürkçe · TR\n简体中文 · ZH\n日本語 · JA\n한국어 · KO\nBahasa Indonesia · ID\nTiếng Việt · VI\nRomână · RO\nSvenska · SV\nবাংলা · BN\nไทย · TH\nBahasa Melayu · MS\nSign In\nBook a Demo\nHome\n/\nSign in\nsundae\nDecision intelligence for restaurants\n\nPerformance, operations, and competitive intelligence - unified in one platform.\n\nReal-time operations intelligence\nMulti-location benchmarking\nCompetitive market signals\nSign in to Sundae\n\nYour unified view of performance, operations, and competitive intelligence.\n\nSign-in happens in the main Sundae application. This website does not store or process your password.\n\nAccess your organization workspace\nSwitch locations and products\nManage password reset and account recovery\nContinue to Sundae App\n\nYou'll be redirected to https://app.sundaetech.ai.\n\nThis is Sundae's official app domain. Check for the padlock in your browser before entering your password.\n\nDon't have an account? Get started free\n\nTerms\nPrivacy\nSecurity & Compliance\nSupport\nsundae\n\nDecision intelligence for multi-location food-service. Find the leak, recover the profit.\n\nGlobal\n·\nAll currencies\n·\nLanguage\nEN\nEnglish · EN\nالعربية · AR\nFrançais · FR\nEspañol · ES\nDeutsch · DE\nNederlands · NL\nPortuguês · PT\nहिन्दी · HI\nاردو · UR\nItaliano · IT\nPolski · PL\nTürkçe · TR\n简体中文 · ZH\n日本語 · JA\n한국어 · KO\nBahasa Indonesia · ID\nTiếng Việt · VI\nRomână · RO\nSvenska · SV\nবাংলা · BN\nไทย · TH\nBahasa Melayu · MS\nPRODUCT\n\nCORE\n\nPulse\nBenchmarks\nWatchtower\nInsights\nAsk Sundae\nForesight\nProfit Recovery\n\nSUNDAE CREW\n\nScheduling\nTime & Attendance\nPayroll\nPeople & HR\nPeople Intelligence\nForesight & Action\nSundae Core\nSundae Crew\nPricing\nSOLUTIONS\nMulti-location Groups\nFranchises\nCloud Kitchens\nEnterprise Hospitality Groups\nOperations Leaders\nFinance & FP&A Teams\nMarketing Teams\nC-Suite & Owners\nData & Technology Teams\nPeople & HR Teams\nRESOURCES\nBlog\nDocumentation\nIndustry Outcomes\nFAQ\nFree Tools & Calculators\nGetting Started\nCOMPANY\nAbout\nCareers\nContact\nSecurity & Compliance\nIntegrations\n\n© 2026 Sundae. All rights reserved.\n\nPrivacy\nTerms\n\nWe use cookies to improve your experience and analyze site usage. Privacy Policy\n\nDecline\nAccept"
+      }
+    },
+    {
+      "name": "Mobile 8: amount-label separation and total emphasis",
+      "status": "passed",
+      "ms": 176,
+      "evidence": {
+        "label": {
+          "x": 29,
+          "y": 747.8125,
+          "width": 42.5625,
+          "height": 14
+        },
+        "amount": {
+          "x": 75.5625,
+          "y": 740.8125,
+          "width": 62.28125,
+          "height": 23
+        },
+        "total": {
+          "rect": {
+            "x": 241.6875,
+            "y": 700.3125,
+            "width": 92.3125,
+            "height": 37.5,
+            "top": 700.3125,
+            "right": 334,
+            "bottom": 737.8125,
+            "left": 241.6875
+          },
+          "font": 25
+        },
+        "average": {
+          "rect": {
+            "x": 75.5625,
+            "y": 740.8125,
+            "width": 62.28125,
+            "height": 23,
+            "top": 740.8125,
+            "right": 137.84375,
+            "bottom": 763.8125,
+            "left": 75.5625
+          },
+          "font": 18
+        },
+        "overlap": 0
+      }
+    },
+    {
+      "name": "Mobile 120: amount-label separation and total emphasis",
+      "status": "passed",
+      "ms": 326,
+      "evidence": {
+        "label": {
+          "x": 29,
+          "y": 728.625,
+          "width": 42.5625,
+          "height": 14
+        },
+        "amount": {
+          "x": 75.5625,
+          "y": 721.625,
+          "width": 62.28125,
+          "height": 23
+        },
+        "total": {
+          "rect": {
+            "x": 196.6875,
+            "y": 681.125,
+            "width": 137.3125,
+            "height": 37.5,
+            "top": 681.125,
+            "right": 334,
+            "bottom": 718.625,
+            "left": 196.6875
+          },
+          "font": 25
+        },
+        "average": {
+          "rect": {
+            "x": 75.5625,
+            "y": 721.625,
+            "width": 62.28125,
+            "height": 23,
+            "top": 721.625,
+            "right": 137.84375,
+            "bottom": 744.625,
+            "left": 75.5625
+          },
+          "font": 18
+        },
+        "overlap": 0
+      }
+    },
+    {
+      "name": "All 25 locale choices: location, scope and review labels",
+      "status": "passed",
+      "ms": 1598,
+      "evidence": [
+        {
+          "code": "en",
+          "location": "How many locations?",
+          "dir": "ltr"
+        },
+        {
+          "code": "ar",
+          "location": "كم عدد المواقع؟",
+          "dir": "rtl"
+        },
+        {
+          "code": "fr",
+          "location": "Combien de sites ?",
+          "dir": "ltr"
+        },
+        {
+          "code": "es",
+          "location": "¿Cuántas ubicaciones?",
+          "dir": "ltr"
+        },
+        {
+          "code": "de",
+          "location": "Wie viele Standorte?",
+          "dir": "ltr"
+        },
+        {
+          "code": "nl",
+          "location": "Hoeveel locaties?",
+          "dir": "ltr"
+        },
+        {
+          "code": "pt",
+          "location": "Quantas unidades?",
+          "dir": "ltr"
+        },
+        {
+          "code": "hi",
+          "location": "कितने स्थान हैं?",
+          "dir": "ltr"
+        },
+        {
+          "code": "ur",
+          "location": "کتنے مقامات ہیں؟",
+          "dir": "rtl"
+        },
+        {
+          "code": "it",
+          "location": "Quante sedi?",
+          "dir": "ltr"
+        },
+        {
+          "code": "pl",
+          "location": "Ile lokalizacji?",
+          "dir": "ltr"
+        },
+        {
+          "code": "tr",
+          "location": "Kaç konum var?",
+          "dir": "ltr"
+        },
+        {
+          "code": "zh-Hans",
+          "location": "有多少个地点？",
+          "dir": "ltr"
+        },
+        {
+          "code": "ja",
+          "location": "拠点はいくつありますか？",
+          "dir": "ltr"
+        },
+        {
+          "code": "ko",
+          "location": "지점이 몇 개인가요?",
+          "dir": "ltr"
+        },
+        {
+          "code": "id",
+          "location": "Berapa lokasi?",
+          "dir": "ltr"
+        },
+        {
+          "code": "vi",
+          "location": "Có bao nhiêu địa điểm?",
+          "dir": "ltr"
+        },
+        {
+          "code": "ro",
+          "location": "Câte locații?",
+          "dir": "ltr"
+        },
+        {
+          "code": "sv",
+          "location": "Hur många platser?",
+          "dir": "ltr"
+        },
+        {
+          "code": "bn",
+          "location": "কতটি স্থান আছে?",
+          "dir": "ltr"
+        },
+        {
+          "code": "th",
+          "location": "มีกี่สาขา?",
+          "dir": "ltr"
+        },
+        {
+          "code": "ms",
+          "location": "Berapa lokasi?",
+          "dir": "ltr"
+        },
+        {
+          "code": "az",
+          "location": "Neçə məkan var?",
+          "dir": "ltr"
+        },
+        {
+          "code": "ru",
+          "location": "Сколько локаций?",
+          "dir": "ltr"
+        },
+        {
+          "code": "pap",
+          "location": "Kuantu lokashon?",
+          "dir": "ltr"
+        }
+      ]
+    },
+    {
+      "name": "Account click reaches actual Sundae app auth with original onboarding configuration",
+      "status": "passed",
+      "ms": 3159,
+      "evidence": {
+        "href": "https://app.sundaetech.ai/sign-in?returnUrl=%2Fonboarding%3Flang%3Den%26cfg%3DeyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfbWFyZ2luIiwibG9jYXRpb25zIjozLCJhZGRPbnMiOltdLCJjcmV3U2t1cyI6W10sIndhdGNodG93ZXJNb2R1bGVzIjpbXSwiYmlsbGluZ0N5Y2xlIjoibW9udGhseSIsImNyb3NzSW50ZWxsaWdlbmNlIjoibm9uZSIsIm9wZXJhdGluZ01vZGVscyI6W119",
+        "finalURL": "https://app.sundaetech.ai/sign-in?returnUrl=%2Fonboarding%3Flang%3Den%26cfg%3DeyJ2IjoyLCJsYXllciI6ImNvcmUiLCJjb3JlUGFja2FnZSI6ImNvcmVfbWFyZ2luIiwibG9jYXRpb25zIjozLCJhZGRPbnMiOltdLCJjcmV3U2t1cyI6W10sIndhdGNodG93ZXJNb2R1bGVzIjpbXSwiYmlsbGluZ0N5Y2xlIjoibW9udGhseSIsImNyb3NzSW50ZWxsaWdlbmNlIjoibm9uZSIsIm9wZXJhdGluZ01vZGVscyI6W119",
+        "status": 200,
+        "text": "Skip to main content\nsundae\nWelcome back\n\nSign in to continue to your Sundae workspace.\n\nEmail\nPassword\nSign in\nForgot password?\nOrganization sign-in\n\nNeed access? Request access\n\nTerms\n·\nPrivacy\n·\nSupport"
+      }
+    },
+    {
+      "name": "Production fonts render with Sundae family assets and no normal-flow error",
+      "status": "passed",
+      "ms": 204,
+      "evidence": {
+        "heading": "Fraunces, Georgia, serif",
+        "amount": "\"Hanken Grotesk\", system-ui, sans-serif",
+        "loadedFonts": [
+          {
+            "family": "Fraunces",
+            "weight": "400"
+          },
+          {
+            "family": "Fraunces",
+            "weight": "500"
+          },
+          {
+            "family": "Fraunces",
+            "weight": "600"
+          },
+          {
+            "family": "Fraunces",
+            "weight": "700"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "400"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "400"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "400"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "500"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "500"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "500"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "600"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "600"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "600"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "700"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "700"
+          },
+          {
+            "family": "Hanken Grotesk",
+            "weight": "700"
+          }
+        ]
+      }
+    }
+  ],
+  "diagnostics": [
+    {
+      "type": "console",
+      "url": "https://pricing.sundae.io/simulator",
+      "message": "Connecting to 'https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap' violates the following Content Security Policy directive: \"connect-src 'self' https://*.posthog.com https://*.sentry.io\". The action has been blocked."
+    }
+  ],
+  "catalogueEvidence": {
+    "ids": [
+      "de526f40-6af7-48d0-8c42-8980870b0acd"
+    ],
+    "responseCount": 29,
+    "allAuthoritative": true,
+    "allActive": true,
+    "resolvedAtRange": [
+      "2026-10-09T15:10:26.386Z",
+      "2026-10-09T15:12:24.207Z"
+    ],
+    "effectiveDate": "2026-10-09T14:18:32.997+00:00"
+  },
+  "accessibility": {
+    "axePassedRules": 24,
+    "violations": 0,
+    "requiresManualReview": [
+      {
+        "id": "color-contrast",
+        "nodes": 25
+      }
+    ]
+  },
+  "diagnosticExplanation": "The only console entry was generated by axe cross-origin stylesheet inspection (XMLHttpRequest of the Google Fonts stylesheet blocked by CSP). Normal buyer navigation reported no runtime errors; a separate browser test confirmed loaded Fraunces and Hanken Grotesk fonts. CSP was not weakened.",
+  "finalizedAt": "2026-10-09T15:26:20.091Z",
+  "counts": {
+    "passed": 30,
+    "failed": 0
+  },
+  "releasedFix": {
+    "pullRequest": "https://github.com/roblaryea/sundae-website/pull/154",
+    "commit": "68316b9588f2cc3716cc44fcef6dd05768e65666",
+    "productionMerge": "00318da115e49b3877f69c73d2b418d29cae4a08",
+    "deployment": "https://sundae-website-bl5rscoon-sundaes-projects-afd45f7e.vercel.app",
+    "status": "Ready"
+  }
+}

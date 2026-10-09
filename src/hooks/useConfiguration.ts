@@ -1,10 +1,13 @@
+import { recommendedConceptSkus } from '../lib/discoveryEngine';
+import { normalizeCrewSelection, normalizeWatchtowerSelection } from '../lib/pricingIntent';
+import { restorePricingSelection, restorePricingPreferences } from '../lib/persistedPricing';
 import { journeyFor, stepIndexIn, type JourneyStepId } from '../lib/journey';
 // Configuration state management using Zustand
 
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import type { AddOnId, Configuration, CorePackageId, CrewSkuId } from '../types/configuration';
-import { corePackages, crewSkus, packageAllowsWatchtower, LEGACY_BILLING_CYCLES } from '../data/pricing';
+import { corePackages, crewSkus, packageAllowsWatchtower } from '../data/pricing';
 import type { ROIInputs } from './useROICalculation';
 import type { Persona } from '../data/personas';
 import type { Achievement } from '../data/personas';
@@ -23,6 +26,10 @@ export interface JourneyStep {
 }
 
 export interface ConfigurationState extends Configuration {
+  employees: number | null;
+  payrollCountry: string;
+  setEmployees: (employees: number | null) => void;
+  setPayrollCountry: (country: string) => void;
   // Journey state
   currentStep: number;
   journeySteps: JourneyStep[];
@@ -116,6 +123,8 @@ const initialState = {
   crossIntelligence: 'none' as 'none' | 'base' | 'pro',
   crewSkus: [] as CrewSkuId[],
   
+  employees: null as number | null,
+  payrollCountry: '',
   // Journey
   currentStep: 0,
   // Every step in every pathway. The RAIL shows only the ones the visitor's
@@ -165,10 +174,12 @@ const initialState = {
 
 export const useConfiguration = create<ConfigurationState>()(
   devtools(
-    persist(
+    persist<ConfigurationState, [], [], Partial<ConfigurationState>>(
       (set, get) => ({
         ...initialState,
         
+        setEmployees: (employees) => set({ employees: employees === null || !Number.isFinite(employees) ? null : Math.min(1000000, Math.max(0, Math.floor(employees))) }),
+        setPayrollCountry: (payrollCountry) => set({ payrollCountry: payrollCountry.replace(/[^a-z]/gi, '').slice(0,2).toUpperCase() }),
         // Configuration actions
         setLayer: (layer) => {
           // Switching to Crew clears Report/Core configuration that doesn't
@@ -176,7 +187,7 @@ export const useConfiguration = create<ConfigurationState>()(
           // (Operations + T&A + Payroll) so the visitor sees a populated
           // price card right away. Existing picks are preserved across
           // re-entries to the Crew step.
-          if (layer === 'crew') {
+          if (layer === 'crew' || layer === 'both') {
             const existing = get().crewSkus;
             // Operating Suite default seed. Scheduling rides along
             // because Operations is in it (Operations entitlement
@@ -186,13 +197,11 @@ export const useConfiguration = create<ConfigurationState>()(
               : ['crew_operations', 'crew_scheduling', 'crew_tna', 'crew_payroll'];
             set({
               layer,
-              addOns: [],
-              watchtowerModules: [],
-              crossIntelligence: 'none' as const,
+              addOns: layer === 'crew' ? [] : get().addOns,
+              watchtowerModules: layer === 'crew' ? [] : get().watchtowerModules,
+              crossIntelligence: layer === 'crew' ? 'none' as const : get().crossIntelligence,
               crewSkus: seed,
             });
-            // If the Lite cap (5) is exceeded by the persisted location
-            // count, clamp it. `seed` is never Lite here, so no clamp.
           } else {
             // Leaving Crew or switching away — clear the Crew SKU pick.
             set({ layer, crewSkus: [] });
@@ -209,7 +218,7 @@ export const useConfiguration = create<ConfigurationState>()(
           // wipes the rest; picking anything else wipes Lite.
           if (sku === 'crew_lite') {
             const next: CrewSkuId[] = isAdding ? ['crew_lite'] : [];
-            set({ crewSkus: next, locations: isAdding ? Math.min(get().locations, 5) : get().locations });
+            set({ crewSkus: next });
             get().markStepCompleted('package');
             get().checkAchievements();
             return;
@@ -278,11 +287,7 @@ export const useConfiguration = create<ConfigurationState>()(
         },
 
         setCrewSkus: (skus) => {
-          set({ crewSkus: skus });
-          // If preset is Lite, clamp locations to the hard cap of 5.
-          if (skus.length === 1 && skus[0] === 'crew_lite') {
-            set({ locations: Math.min(get().locations, 5) });
-          }
+          set({ crewSkus: normalizeCrewSelection(skus) });
           get().markStepCompleted('package');
           get().checkAchievements();
         },
@@ -290,6 +295,7 @@ export const useConfiguration = create<ConfigurationState>()(
         setCorePackage: (corePackage) => {
           set({
             corePackage,
+            addOns: corePackages[corePackage].includesForesight ? get().addOns.filter((id) => id !== 'foresight_action') : get().addOns,
             // A package change can make a previously valid Watchtower choice
             // unavailable. Clear it rather than carrying a priced-looking line
             // that the engine silently drops from the total.
@@ -325,13 +331,10 @@ export const useConfiguration = create<ConfigurationState>()(
         },
 
         setLocations: (locations) => {
-          // Crew Lite has a hard location cap of 5 (`crewSkus.crew_lite.caps.maxLocations`).
-          // Clamp any caller that requests more so the slider, persisted
-          // state, and pricing math never disagree.
-          const skus = get().crewSkus;
-          const liteOnly = skus.length === 1 && skus[0] === 'crew_lite';
-          const clamped = liteOnly ? Math.min(locations, 5) : locations;
-          set({ locations: clamped });
+          // Preserve the buyer's estate. Published plan eligibility is checked
+          // by the basket, including imported selections and catalogue refresh.
+          const safe = Number.isFinite(locations) ? Math.max(1, Math.min(10000, Math.floor(locations))) : 1;
+          set({ locations: safe });
           get().markStepCompleted('locations');
           get().checkAchievements();
         },
@@ -369,20 +372,11 @@ export const useConfiguration = create<ConfigurationState>()(
             }
           } else {
             // Toggle individual module
-            let newModules = watchtowerModules.includes(moduleId)
+            const newModules = watchtowerModules.includes(moduleId)
               ? watchtowerModules.filter(id => id !== moduleId)
               : [...watchtowerModules.filter(id => id !== 'bundle'), moduleId];
             
-            // Check if all individual modules are selected
-            const allIndividual = ['competitive', 'events', 'trends'];
-            const hasAll = allIndividual.every(id => newModules.includes(id));
-            
-            if (hasAll) {
-              // Suggest bundle instead
-              newModules = ['bundle'];
-            }
-            
-            set({ watchtowerModules: newModules });
+            set({ watchtowerModules: normalizeWatchtowerSelection(newModules) });
           }
           
           if (get().watchtowerModules.length > 0) {
@@ -392,7 +386,7 @@ export const useConfiguration = create<ConfigurationState>()(
         },
         
         setWatchtowerModules: (modules) => {
-          set({ watchtowerModules: modules });
+          set({ watchtowerModules: normalizeWatchtowerSelection(modules) });
           if (modules.length > 0) {
             get().markStepCompleted('watchtower');
           }
@@ -406,7 +400,10 @@ export const useConfiguration = create<ConfigurationState>()(
 
         // Quiz actions
         setDiscoveryAnswers: (operatingModels, techStack) => {
-          set({ operatingModels, techStack });
+          const previous = recommendedConceptSkus(get().operatingModels);
+          const required = recommendedConceptSkus(operatingModels);
+          const addOns = [...new Set([...get().addOns.filter(id => !previous.includes(id as never) || required.includes(id as never)), ...required])];
+          set({ operatingModels, techStack, addOns });
         },
 
         setBillingCycle: (billingCycle) => {
@@ -563,14 +560,15 @@ export const useConfiguration = create<ConfigurationState>()(
         // has no entry for — which reads as a 0% term rather than an error.
         // Map the retired terms onto their upfront equivalents, which is what
         // they were priced as before timing was a variable.
-        migrate: (persisted: unknown) => {
-          const state = persisted as { billingCycle?: string } | null;
-          if (state?.billingCycle && state.billingCycle in LEGACY_BILLING_CYCLES) {
-            state.billingCycle = LEGACY_BILLING_CYCLES[state.billingCycle];
-          }
-          return state as never;
+        version: 2,
+        migrate: (persisted: unknown) => ({ ...restorePricingSelection(persisted), ...restorePricingPreferences(persisted) }) as Partial<ConfigurationState>,
+        merge: (persisted, current) => {
+          const { roiInputs, ...preferences } = restorePricingPreferences(persisted);
+          return { ...current, ...restorePricingSelection(persisted), ...preferences, roiInputs: { ...current.roiInputs, ...roiInputs } };
         },
         partialize: (state) => ({
+          employees: state.employees,
+          payrollCountry: state.payrollCountry,
           // Only persist essential configuration
           layer: state.layer,
           corePackage: state.corePackage,
@@ -595,6 +593,6 @@ export const useConfiguration = create<ConfigurationState>()(
 );
 
 // Expose store for E2E testing in dev mode
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV && typeof window !== 'undefined') {
   (window as E2EStoreWindow).__SUNDAE_STORE__ = useConfiguration;
 }

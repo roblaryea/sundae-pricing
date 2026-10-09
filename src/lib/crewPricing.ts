@@ -187,8 +187,8 @@ function crewBundleMonthly(id: CrewBundleId, locations: number): number {
 
 export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): CrewQuote {
   const isLiteOnly = selectedSkus.length === 1 && selectedSkus[0] === 'crew_lite';
-  // Lite cap: 5 locations max. Defensive — useConfiguration also clamps.
-  const effectiveLocations = isLiteOnly ? Math.min(locations, 5) : locations;
+  // Starter follows its published location cap; selection state uses the same cap.
+  const effectiveLocations = isLiteOnly ? Math.min(locations, crewSkus.crew_lite.caps.maxLocations ?? Infinity) : locations;
   const selection = new Set(selectedSkus);
 
   const plan = cheapestPlan(selectedSkus, effectiveLocations);
@@ -241,7 +241,7 @@ export function computeCrewQuote(selectedSkus: CrewSkuId[], locations: number): 
     ]),
     bundleSavingsMonthly: Math.max(0, componentSum - monthly),
     employeeAllowancePerLocation: selectedSkus.length
-      ? Math.min(...selectedSkus.map((id) => crewSkus[id].caps.maxEmployeesPerLocation))
+      ? Math.max(...selectedSkus.map((id) => crewSkus[id].caps.maxEmployeesPerLocation))
       : null,
     isLiteOnly,
     locations: effectiveLocations,
@@ -270,7 +270,7 @@ export const CREW_PRESETS: Array<{
   {
     id: 'lite',
     label: 'Crew Starter',
-    description: 'SMB entry · 1–5 locations · basic scheduling + self-service',
+    description: 'Entry plan · basic scheduling + self-service',
     skus: ['crew_lite'],
   },
   {

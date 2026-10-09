@@ -1,5 +1,7 @@
 # Pricing Tests Audit
 
+> **Historical snapshot (pre-v1.7).** Test names and counts below no longer describe the current suite. Use `scripts/pricing/README.md` and `package.json` for current commands.
+
 > Catalog of all pricing-related tests, validation scripts, and safety nets.
 
 ## Test Infrastructure

@@ -9,6 +9,11 @@ const filesToAudit = [
   'src/lib/pricingI18n.ts',
   'src/lib/pricingUiCopy.ts',
   'src/lib/locales.ts',
+  'src/lib/buyerCopy.ts',
+  'src/lib/buyerReviewCopy.ts',
+  'src/lib/featureHelpCopy.ts',
+  'src/lib/buyerAuxiliaryCopy.ts',
+  'src/lib/pricingPolicyCopy.ts',
   // Copy hardcoded in a component is still shipped copy. LivePricingGate held
   // en/ar/fr/es inline and was audited by nothing, which is how its French and
   // Spanish lost every accent ("tarifs publies", "catalogo") while the same

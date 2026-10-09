@@ -1,5 +1,6 @@
 import type { FullyLocalizedPricingLocale, PricingLocale } from './locales';
 import { generatedPricingI18nCopy } from './generatedPricingLocalePacks';
+import { getBuyerCopy } from './buyerCopy';
 
 export type { PricingLocale } from './locales';
 
@@ -328,14 +329,18 @@ export function localizeTierName(name: string, locale: PricingLocale): string {
 }
 
 export function localizeModuleName(moduleId: string, locale: PricingLocale): string {
+  const additional = additionalItemCopy[locale as keyof typeof additionalItemCopy];
+  if (additional?.modules[moduleId]) return additional.modules[moduleId];
   const copy =
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
     generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
     localizedCopy.en;
-  return copy.modules[moduleId] ?? moduleId;
+  return copy.modules[moduleId] ?? (moduleId === 'guest_crm' ? 'Guest CRM Intelligence' : moduleId);
 }
 
 export function localizeWatchtowerName(moduleId: string, locale: PricingLocale): string {
+  const additional = additionalItemCopy[locale as keyof typeof additionalItemCopy];
+  if (additional?.watchtower[moduleId]) return additional.watchtower[moduleId];
   const copy =
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
     generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
@@ -363,6 +368,9 @@ export function localizeBreakdownLabel(name: string, locale: PricingLocale): str
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
     generatedPricingI18nCopy[locale as keyof typeof generatedPricingI18nCopy] ??
     localizedCopy.en;
+  if(locale !== 'en') name = name.replace(/\((\d+) locations?\)/g,(_,count:string)=>`(${getBuyerCopy(locale).bands}: ${new Intl.NumberFormat(locale).format(Number(count))})`);
+  const model = ({ 'Franchise':2, 'Hotel F&B':3, 'Cloud Kitchen':4, 'Catering & Events':5, 'Production':6 } as Record<string,number>)[name];
+  if (locale !== 'en' && model !== undefined) return getBuyerCopy(locale).models[model];
   const tierPrefix = Object.keys(copy.tiers).find((tierName) => name.startsWith(tierName));
   if (tierPrefix) {
     return name.replace(tierPrefix, copy.tiers[tierPrefix]);
@@ -375,7 +383,7 @@ export function localizeBreakdownLabel(name: string, locale: PricingLocale): str
 
   const watchtowerEntry = Object.entries(localizedCopy.en.watchtower).find(([, wtName]) => name === wtName);
   if (watchtowerEntry) {
-    return copy.watchtower[watchtowerEntry[0]] ?? name;
+    return localizeWatchtowerName(watchtowerEntry[0],locale);
   }
 
   if (name === 'Cross-Intelligence') {
@@ -388,6 +396,13 @@ export function localizeBreakdownLabel(name: string, locale: PricingLocale): str
   return name;
 }
 
+// Product names stay branded; descriptive capability names follow the language.
+const additionalItemCopy: Record<'az'|'ru'|'pap', {modules:Record<string,string>;watchtower:Record<string,string>}> = {
+  az:{modules:{profit:'Mənfəət analitikası',labor:'Əməkdaş xərclərinin təhlili',revenue:'Gəlirin qorunması',pulse:'Pulse',inventory:'İnventar nəzarəti',purchasing:'Satınalma təhlili',marketing:'Marketinq nəticələri',reservations:'Rezervasiya təhlili',delivery:'Çatdırılma iqtisadiyyatı',guest:'Qonaq təcrübəsi',guest_crm:'Qonaq münasibətləri'},watchtower:{competitive:'Rəqiblərin təhlili',events:'Tədbir və təqvim siqnalları',trends:'Bazar tendensiyaları',bundle:'Watchtower paketi'}},
+  ru:{modules:{profit:'Анализ прибыли',labor:'Анализ расходов на персонал',revenue:'Контроль потерь выручки',pulse:'Pulse',inventory:'Контроль запасов',purchasing:'Анализ закупок',marketing:'Результаты маркетинга',reservations:'Анализ бронирований',delivery:'Экономика доставки',guest:'Опыт гостей',guest_crm:'Отношения с гостями'},watchtower:{competitive:'Анализ конкурентов',events:'События и календарные сигналы',trends:'Рыночные тенденции',bundle:'Пакет Watchtower'}},
+  pap:{modules:{profit:'Analisis di ganashi',labor:'Analisis di kosto di personal',revenue:'Protehá entrada',pulse:'Pulse',inventory:'Kontrol di inventario',purchasing:'Analisis di kompra',marketing:'Resultado di marketin',reservations:'Analisis di reservashon',delivery:'Ekonomia di entrega',guest:'Eksperensia di bishitante',guest_crm:'Relashon ku bishitante'},watchtower:{competitive:'Analisis di kompetidornan',events:'Señalnan di evento i kalènder',trends:'Tendensianan di merkado',bundle:'Pakete Watchtower'}},
+};
+
 export function getPricingPdfCopy(locale: PricingLocale) {
   return (
     localizedCopy[locale as FullyLocalizedPricingLocale] ??
@@ -396,7 +411,7 @@ export function getPricingPdfCopy(locale: PricingLocale) {
   ).pdf;
 }
 
-// Shared UI micro-copy (buttons, aria-labels) localized for ALL 22 locales. These were previously
+// Shared UI micro-copy (buttons, aria-labels) localized for ALL 25 locales. These were previously
 // inline `{ en, ar, fr, es }` lookups scattered across components that silently fell back to English
 // for the other 18 locales (and a hardcoded English theme-toggle aria-label for all 22). Centralized
 // here so every surface stays transcreated.
@@ -404,23 +419,23 @@ const uiMicroCopy = {
   back: {
     en: 'Back', ar: 'رجوع', fr: 'Retour', es: 'Volver', de: 'Zurück', nl: 'Terug', pt: 'Voltar',
     hi: 'वापस', ur: 'واپس', it: 'Indietro', pl: 'Wstecz', tr: 'Geri', 'zh-Hans': '返回', ja: '戻る',
-    ko: '뒤로', id: 'Kembali', vi: 'Quay lại', ro: 'Înapoi', sv: 'Tillbaka', bn: 'ফিরে যান', th: 'ย้อนกลับ', ms: 'Kembali',
+    ko: '뒤로', id: 'Kembali', vi: 'Quay lại', ro: 'Înapoi', sv: 'Tillbaka', bn: 'ফিরে যান', th: 'ย้อนกลับ', ms: 'Kembali', az: 'Geri', ru: 'Назад', pap: 'Bai bek',
   },
   perLocation: {
     en: 'Per location', ar: 'لكل موقع', fr: 'Par site', es: 'Por local', de: 'Pro Standort', nl: 'Per locatie',
     pt: 'Por local', hi: 'प्रति स्थान', ur: 'فی مقام', it: 'Per sede', pl: 'Za lokalizację', tr: 'Şube başına',
     'zh-Hans': '每家门店', ja: '店舗ごと', ko: '지점당', id: 'Per lokasi', vi: 'Mỗi địa điểm', ro: 'Per locație',
-    sv: 'Per plats', bn: 'প্রতি স্থান', th: 'ต่อสาขา', ms: 'Setiap lokasi',
+    sv: 'Per plats', bn: 'প্রতি স্থান', th: 'ต่อสาขา', ms: 'Setiap lokasi', az: 'Məkan başına', ru: 'За локацию', pap: 'Pa lokashon',
   },
   total: {
     en: 'Total', ar: 'الإجمالي', fr: 'Total', es: 'Total', de: 'Gesamt', nl: 'Totaal', pt: 'Total',
     hi: 'कुल', ur: 'کل', it: 'Totale', pl: 'Razem', tr: 'Toplam', 'zh-Hans': '总计', ja: '合計',
-    ko: '합계', id: 'Total', vi: 'Tổng', ro: 'Total', sv: 'Totalt', bn: 'মোট', th: 'รวม', ms: 'Jumlah',
+    ko: '합계', id: 'Total', vi: 'Tổng', ro: 'Total', sv: 'Totalt', bn: 'মোট', th: 'รวม', ms: 'Jumlah', az: 'Cəmi', ru: 'Итого', pap: 'Total',
   },
   points: {
     en: 'points', ar: 'نقطة', fr: 'points', es: 'puntos', de: 'Punkte', nl: 'punten', pt: 'pontos',
     hi: 'अंक', ur: 'پوائنٹس', it: 'punti', pl: 'punkty', tr: 'puan', 'zh-Hans': '积分', ja: 'ポイント',
-    ko: '포인트', id: 'poin', vi: 'điểm', ro: 'puncte', sv: 'poäng', bn: 'পয়েন্ট', th: 'คะแนน', ms: 'mata',
+    ko: '포인트', id: 'poin', vi: 'điểm', ro: 'puncte', sv: 'poäng', bn: 'পয়েন্ট', th: 'คะแนน', ms: 'mata', az: 'bal', ru: 'баллы', pap: 'punto',
   },
   switchToLight: {
     en: 'Switch to light mode', ar: 'التبديل إلى الوضع الفاتح', fr: 'Passer en mode clair', es: 'Cambiar a modo claro',
@@ -428,7 +443,7 @@ const uiMicroCopy = {
     ur: 'لائٹ موڈ پر جائیں', it: 'Passa alla modalità chiara', pl: 'Przełącz na tryb jasny', tr: 'Açık moda geç',
     'zh-Hans': '切换到浅色模式', ja: 'ライトモードに切り替え', ko: '라이트 모드로 전환', id: 'Beralih ke mode terang',
     vi: 'Chuyển sang chế độ sáng', ro: 'Comută la modul luminos', sv: 'Byt till ljust läge', bn: 'লাইট মোডে যান',
-    th: 'สลับเป็นโหมดสว่าง', ms: 'Tukar ke mod cerah',
+    th: 'สลับเป็นโหมดสว่าง', ms: 'Tukar ke mod cerah', az: 'Açıq rejimə keç', ru: 'Переключить на светлую тему', pap: 'Kambia pa modo kla',
   },
   switchToDark: {
     en: 'Switch to dark mode', ar: 'التبديل إلى الوضع الداكن', fr: 'Passer en mode sombre', es: 'Cambiar a modo oscuro',
@@ -436,7 +451,7 @@ const uiMicroCopy = {
     ur: 'ڈارک موڈ پر جائیں', it: 'Passa alla modalità scura', pl: 'Przełącz na tryb ciemny', tr: 'Koyu moda geç',
     'zh-Hans': '切换到深色模式', ja: 'ダークモードに切り替え', ko: '다크 모드로 전환', id: 'Beralih ke mode gelap',
     vi: 'Chuyển sang chế độ tối', ro: 'Comută la modul întunecat', sv: 'Byt till mörkt läge', bn: 'ডার্ক মোডে যান',
-    th: 'สลับเป็นโหมดมืด', ms: 'Tukar ke mod gelap',
+    th: 'สลับเป็นโหมดมืด', ms: 'Tukar ke mod gelap', az: 'Tünd rejimə keç', ru: 'Переключить на тёмную тему', pap: 'Kambia pa modo skur',
   },
 } satisfies Record<string, Record<PricingLocale, string>>;
 

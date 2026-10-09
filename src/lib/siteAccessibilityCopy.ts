@@ -1,0 +1,30 @@
+import type { PricingLocale } from './locales';
+
+/** Shared chrome labels include every buyer locale, including assistive text. */
+export const siteAccessibilityCopy: Record<PricingLocale, { language: string; home: string; footer: string }> = {
+  en: { language: 'Language', home: 'Sundae homepage', footer: 'Footer navigation' },
+  ar: { language: 'اللغة', home: 'صفحة Sundae الرئيسية', footer: 'روابط تذييل الصفحة' },
+  fr: { language: 'Langue', home: 'Accueil Sundae', footer: 'Navigation de bas de page' },
+  es: { language: 'Idioma', home: 'Página principal de Sundae', footer: 'Navegación del pie de página' },
+  de: { language: 'Sprache', home: 'Sundae-Startseite', footer: 'Navigation im Seitenfuß' },
+  nl: { language: 'Taal', home: 'Sundae-startpagina', footer: 'Navigatie onderaan de pagina' },
+  pt: { language: 'Idioma', home: 'Página inicial da Sundae', footer: 'Navegação do rodapé' },
+  hi: { language: 'भाषा', home: 'Sundae का मुख्य पृष्ठ', footer: 'पृष्ठ के नीचे दिए गए लिंक' },
+  ur: { language: 'زبان', home: 'Sundae کا مرکزی صفحہ', footer: 'صفحے کے آخر میں روابط' },
+  it: { language: 'Lingua', home: 'Pagina iniziale di Sundae', footer: 'Navigazione a piè di pagina' },
+  pl: { language: 'Język', home: 'Strona główna Sundae', footer: 'Nawigacja w stopce' },
+  tr: { language: 'Dil', home: 'Sundae ana sayfası', footer: 'Alt bilgi bağlantıları' },
+  'zh-Hans': { language: '语言', home: 'Sundae 首页', footer: '页脚导航' },
+  ja: { language: '言語', home: 'Sundae ホームページ', footer: 'フッターナビゲーション' },
+  ko: { language: '언어', home: 'Sundae 홈페이지', footer: '페이지 하단 탐색' },
+  id: { language: 'Bahasa', home: 'Beranda Sundae', footer: 'Navigasi bagian bawah halaman' },
+  vi: { language: 'Ngôn ngữ', home: 'Trang chủ Sundae', footer: 'Điều hướng cuối trang' },
+  ro: { language: 'Limbă', home: 'Pagina principală Sundae', footer: 'Navigare în subsolul paginii' },
+  sv: { language: 'Språk', home: 'Sundaes startsida', footer: 'Länkar i sidfoten' },
+  bn: { language: 'ভাষা', home: 'Sundae-এর মূল পৃষ্ঠা', footer: 'পৃষ্ঠার নিচের লিঙ্কগুলো' },
+  th: { language: 'ภาษา', home: 'หน้าแรกของ Sundae', footer: 'ลิงก์ส่วนท้ายของหน้า' },
+  ms: { language: 'Bahasa', home: 'Halaman utama Sundae', footer: 'Navigasi bahagian bawah halaman' },
+  az: { language: 'Dil', home: 'Sundae ana səhifəsi', footer: 'Səhifənin alt keçidləri' },
+  ru: { language: 'Язык', home: 'Главная страница Sundae', footer: 'Навигация внизу страницы' },
+  pap: { language: 'Idioma', home: 'Página prinsipal di Sundae', footer: 'Linknan na fin di página' },
+};

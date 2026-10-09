@@ -55,6 +55,10 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      // Local live-catalogue QA stays same-origin. Never broaden production CORS.
+      proxy: process.env.SUNDAE_DEV_CATALOG_PROXY === 'true' ? {
+        '/api/pricing/catalog': { target: 'https://pricing.sundae.io', changeOrigin: true },
+      } : undefined,
       headers: {
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",

@@ -1,6 +1,6 @@
 // Site-navigation labels for the pricing site, lifted verbatim from the
 // marketing site's `navbar` block (sundae-website src/lib/i18n.ts) so the two
-// surfaces name the same destinations identically in all 22 locales. Do not
+// surfaces name the same destinations identically in all 25 locales. Do not
 // re-translate these here - update the marketing site and re-lift, otherwise
 // the same link reads differently depending on which site you are on.
 import type { PricingLocale } from './locales';
@@ -35,6 +35,9 @@ export const siteNavLabels: Record<PricingLocale, SiteNavLabels> = {
   bn: { products: 'পণ্য', solutions: 'সমাধান', resources: 'রিসোর্স', company: 'কোম্পানি' },
   th: { products: 'ผลิตภัณฑ์', solutions: 'โซลูชัน', resources: 'แหล่งข้อมูล', company: 'บริษัท' },
   ms: { products: 'Produk', solutions: 'Penyelesaian', resources: 'Sumber', company: 'Syarikat' },
+  az: { products: 'Məhsullar', solutions: 'Həllər', resources: 'Resurslar', company: 'Şirkət' },
+  ru: { products: 'Продукты', solutions: 'Решения', resources: 'Ресурсы', company: 'Компания' },
+  pap: { products: 'Produktonan', solutions: 'Solushonnan', resources: 'Rekursonan', company: 'Kompania' },
 };
 
 /** Marketing destinations mirrored in the pricing header and footer. */

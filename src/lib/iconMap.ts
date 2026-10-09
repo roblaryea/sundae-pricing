@@ -4,7 +4,8 @@
  * Official icon mapping for Sundae products, modules, and concepts.
  * Aligned with sundae.io for consistency across both sites.
  * 
- * @see /Users/robertlaryea/Desktop/sundae/SUNDAE_ICON_MAPPING.md
+ * Keep this mapping aligned with the shared Sundae product taxonomy and the
+ * public website icon treatment; do not depend on a workstation-local file.
  */
 
 import {

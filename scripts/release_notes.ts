@@ -12,7 +12,7 @@
  */
 
 import { execSync } from 'child_process';
-import { writeFileSync, existsSync, readFileSync } from 'fs';
+import { writeFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -82,7 +82,7 @@ function parseArgs(): { since?: string; limit: number } {
 function fetchMergedPRs(limit: number, since?: string): PR[] {
   try {
     const sinceFilter = since ? `--search "merged:>=${since}"` : '';
-    const cmd = `gh pr list --base develop --state merged --json number,title,mergedAt,labels,url --limit ${limit} ${sinceFilter}`;
+    const cmd = `gh pr list --base main --state merged --json number,title,mergedAt,labels,url --limit ${limit} ${sinceFilter}`;
 
     console.log(`Running: ${cmd}`);
     const output = execSync(cmd, { encoding: 'utf-8', timeout: 30000 });

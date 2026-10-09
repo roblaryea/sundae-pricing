@@ -60,11 +60,11 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'كيف تعمل الخصومات؟',
-        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 10% للسنوي و15% لسنتين. يُطبّق الخصم الأكبر من خصم الحجم أو دورة الفوترة، ولا يُجمعان. ومن 250 موقعاً لا توجد شريحة ذاتية الخدمة، ويصبح التسعير بعرض سعر مخصص.',
+        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 12% للالتزام السنوي المدفوع مقدماً (5% عند الدفع ربع سنوياً) و20% للالتزام لسنتين المدفوع مقدماً. يُطبّق الخصم الأكبر من خصم الحجم أو دورة الفوترة، ولا يُجمعان. ومن 250 موقعاً لا توجد شريحة ذاتية الخدمة، ويصبح التسعير بعرض سعر مخصص.',
       },
       {
         question: 'ما مدة العقد؟',
-        answer: 'الاشتراك شهري افتراضياً ويمكن الإلغاء في أي وقت دون غرامة. الدفع السنوي المسبق يوفر 10%، والدفع لسنتين يوفر 15%. أما عقود Enterprise فلها شروط مخصصة.',
+        answer: 'الاشتراك شهري افتراضياً ويمكن الإلغاء في أي وقت دون غرامة. الدفع السنوي المسبق يوفر 12% (5% عند الدفع ربع سنوياً)، والدفع المسبق لسنتين يوفر 20%. أما عقود Enterprise فلها شروط مخصصة.',
       },
     ],
     watchtower: [
@@ -104,7 +104,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'ما مدة العقد؟',
-        answer: 'الاشتراك شهري افتراضياً ويمكن الإلغاء في أي وقت دون غرامة. الدفع السنوي المسبق يوفر 10%، والدفع لسنتين يوفر 15%. أما عقود Enterprise فلها شروط مخصصة.',
+        answer: 'الاشتراك شهري افتراضياً ويمكن الإلغاء في أي وقت دون غرامة. الدفع السنوي المسبق يوفر 12% (5% عند الدفع ربع سنوياً)، والدفع المسبق لسنتين يوفر 20%. أما عقود Enterprise فلها شروط مخصصة.',
       },
       {
         question: 'هل يمكنني الترقية أو التخفيض لاحقاً؟',
@@ -112,7 +112,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'كيف تعمل الخصومات؟',
-        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 10% سنوي و15% لسنتين. يُطبّق الخصم الأكبر من خصم الحجم أو دورة الفوترة، ولا يُجمعان. ومن 250 موقعاً يكون التسعير بعرض سعر مخصص.',
+        answer: 'خصومات الحجم هي 0% تحت 50 موقعاً، و2.5% من 50 إلى 99، و5% من 100 إلى 199، و7% من 200 إلى 249. وخصومات دورة الفوترة هي 12% للالتزام السنوي المدفوع مقدماً (5% عند الدفع ربع سنوياً) و20% للالتزام لسنتين المدفوع مقدماً. يُطبّق الخصم الأكبر من خصم الحجم أو دورة الفوترة، ولا يُجمعان. ومن 250 موقعاً يكون التسعير بعرض سعر مخصص.',
       },
       {
         question: 'هل أرصدة الذكاء الاصطناعي مشتركة بين المواقع؟',
@@ -156,11 +156,11 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'Comment fonctionnent les remises ?',
-        answer: "Les remises volume sont de 0 % en dessous de 50 sites, 2,5 % de 50 à 99, 5 % de 100 à 199 et 7 % de 200 à 249. Les remises de cycle de facturation sont de 10 % en annuel et 15 % sur deux ans. Les deux SE CUMULENT, dans la limite de 15 % au total. À partir de 250 sites, il n'existe plus de palier en libre-service et le prix est établi sur devis.",
+        answer: "Les remises volume sont de 0 % en dessous de 50 sites, 2,5 % de 50 à 99, 5 % de 100 à 199 et 7 % de 200 à 249. Les remises de cycle de facturation sont de 12 % pour un engagement annuel payé d'avance (5 % s'il est payé chaque trimestre) et de 20 % sur deux ans payés d'avance. La remise la plus élevée entre le volume et le cycle de facturation s'applique ; elles ne se cumulent pas, dans la limite de 20 %. À partir de 250 sites, il n'existe plus de palier en libre-service et le prix est établi sur devis.",
       },
       {
         question: 'Quelle est la durée du contrat ?',
-        answer: "L'abonnement est mensuel par défaut et annulable à tout moment sans pénalité. Le prépaiement annuel offre 10 % de remise et le prépaiement sur deux ans 15 %. Les contrats Enterprise ont des conditions spécifiques.",
+        answer: "L'abonnement est mensuel par défaut et annulable à tout moment sans pénalité. Le prépaiement annuel offre 12 % de remise (5 % s'il est payé chaque trimestre) et le prépaiement sur deux ans 20 %. Les contrats Enterprise ont des conditions spécifiques.",
       },
     ],
     watchtower: [
@@ -200,7 +200,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'Quelle est la durée du contrat ?',
-        answer: "L'abonnement est mensuel par défaut et annulable à tout moment sans pénalité. Le prépaiement annuel offre 10 % de remise et le prépaiement sur deux ans 15 %. Les contrats Enterprise ont des conditions spécifiques.",
+        answer: "L'abonnement est mensuel par défaut et annulable à tout moment sans pénalité. Le prépaiement annuel offre 12 % de remise (5 % s'il est payé chaque trimestre) et le prépaiement sur deux ans 20 %. Les contrats Enterprise ont des conditions spécifiques.",
       },
       {
         question: 'Puis-je monter ou descendre de gamme ?',
@@ -208,7 +208,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: 'Comment fonctionnent les remises ?',
-        answer: "Les remises volume sont de 0 % en dessous de 50 sites, 2,5 % de 50 à 99, 5 % de 100 à 199 et 7 % de 200 à 249. Les remises de cycle de facturation sont de 10 % en annuel et 15 % sur deux ans. La remise la plus élevée entre le volume et le cycle de facturation s'applique ; elles ne se cumulent pas. À partir de 250 sites, le prix est établi sur devis.",
+        answer: "Les remises volume sont de 0 % en dessous de 50 sites, 2,5 % de 50 à 99, 5 % de 100 à 199 et 7 % de 200 à 249. Les remises de cycle de facturation sont de 12 % pour un engagement annuel payé d'avance (5 % s'il est payé chaque trimestre) et de 20 % sur deux ans payés d'avance. La remise la plus élevée entre le volume et le cycle de facturation s'applique ; elles ne se cumulent pas. À partir de 250 sites, le prix est établi sur devis.",
       },
       {
         question: 'Les crédits IA sont-ils partagés entre les sites ?',
@@ -252,11 +252,11 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: '¿Cómo funcionan los descuentos?',
-        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 10 % anual y del 15 % a dos años. Se aplica el mayor entre el descuento por volumen y el del ciclo de facturación; no se acumulan. A partir de 250 locales no hay tramo de autoservicio y el precio se presupuesta.',
+        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 12 % para el compromiso anual pagado por adelantado (5 % si se paga trimestralmente) y del 20 % para dos años pagados por adelantado. Se aplica el mayor entre el descuento por volumen y el del ciclo de facturación; no se acumulan. A partir de 250 locales no hay tramo de autoservicio y el precio se presupuesta.',
       },
       {
         question: '¿Cuál es el plazo del contrato?',
-        answer: 'La suscripción es mensual por defecto y se puede cancelar en cualquier momento sin penalización. El prepago anual ahorra un 10 % y el de dos años un 15 %. Los contratos Enterprise tienen condiciones personalizadas.',
+        answer: 'La suscripción es mensual por defecto y se puede cancelar en cualquier momento sin penalización. El prepago anual ahorra un 12 % (5 % si se paga trimestralmente) y el de dos años un 20 %. Los contratos Enterprise tienen condiciones personalizadas.',
       },
     ],
     watchtower: [
@@ -296,7 +296,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: '¿Cuál es el plazo del contrato?',
-        answer: 'La suscripción es mensual por defecto y se puede cancelar en cualquier momento sin penalización. El prepago anual ahorra un 10 % y el de dos años un 15 %. Los contratos Enterprise tienen condiciones personalizadas.',
+        answer: 'La suscripción es mensual por defecto y se puede cancelar en cualquier momento sin penalización. El prepago anual ahorra un 12 % (5 % si se paga trimestralmente) y el de dos años un 20 %. Los contratos Enterprise tienen condiciones personalizadas.',
       },
       {
         question: '¿Puedo subir o bajar de plan?',
@@ -304,7 +304,7 @@ const localizedFaqsByLocale: Partial<Record<'ar' | 'fr' | 'es', Partial<Record<F
       },
       {
         question: '¿Cómo funcionan los descuentos?',
-        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 10 % anual y del 15 % a dos años. Se aplica el mayor entre el descuento por volumen y el del ciclo de facturación; no se acumulan. A partir de 250 locales el precio se presupuesta.',
+        answer: 'Los descuentos por volumen son del 0 % por debajo de 50 locales, 2,5 % de 50 a 99, 5 % de 100 a 199 y 7 % de 200 a 249. Los descuentos por ciclo de facturación son del 12 % para el compromiso anual pagado por adelantado (5 % si se paga trimestralmente) y del 20 % para dos años pagados por adelantado. Se aplica el mayor entre el descuento por volumen y el del ciclo de facturación; no se acumulan. A partir de 250 locales el precio se presupuesta.',
       },
       {
         question: '¿Los créditos de IA se comparten entre locales?',
@@ -349,11 +349,11 @@ const coreFAQ: FAQItem[] = [
   },
   {
     question: 'How do discounts work?',
-    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% for annual and 15% for two-year. You receive the larger of the volume or billing-cycle discount; they do not stack. From 250 locations there is no self-serve band and pricing is quoted.'
+    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 12% for an annual commitment paid upfront (5% if paid quarterly) and 20% for two-year paid upfront. You receive the larger of the volume or billing-cycle discount; they do not stack. From 250 locations there is no self-serve band and pricing is quoted.'
   },
   {
     question: "What's the contract term?",
-    answer: 'Month-to-month by default. Cancel anytime with no penalty. Annual prepay saves 10%, 2-year prepay saves 15%. Enterprise contracts have custom terms.'
+    answer: 'Month-to-month by default. Cancel anytime with no penalty. Annual prepay saves 12% (5% if paid quarterly) and 2-year prepay saves 20%. Enterprise contracts have custom terms.'
   }
 ];
 
@@ -395,7 +395,7 @@ const generalFAQ: FAQItem[] = [
   },
   {
     question: "What's the contract term?",
-    answer: 'Month-to-month by default. Cancel anytime with no penalty. Annual prepay saves 10%, 2-year prepay saves 15%. Enterprise contracts have custom terms.'
+    answer: 'Month-to-month by default. Cancel anytime with no penalty. Annual prepay saves 12% (5% if paid quarterly) and 2-year prepay saves 20%. Enterprise contracts have custom terms.'
   },
   {
     question: 'Can I upgrade or downgrade?',
@@ -403,7 +403,7 @@ const generalFAQ: FAQItem[] = [
   },
   {
     question: 'How do discounts work?',
-    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 10% annual and 15% two-year. You receive the larger of the volume or billing-cycle discount; they do not stack. From 250 locations, pricing is quoted.'
+    answer: 'Volume discounts are 0% below 50 locations, 2.5% at 50-99, 5% at 100-199 and 7% at 200-249. Billing-cycle discounts are 12% for an annual commitment paid upfront (5% if paid quarterly) and 20% for two-year paid upfront. You receive the larger of the volume or billing-cycle discount; they do not stack. From 250 locations, pricing is quoted.'
   },
   {
     question: 'Are AI credits shared across locations?',
@@ -498,7 +498,7 @@ export function PricingFAQ({ category = 'general' }: PricingFAQProps) {
     curatedFallback ??
     (generatedFallback ?? []).map((item) => ({ ...item, isGenerated: true }));
 
-  // Retranslating 22 locales against v1.7 is a separate task; until then we
+  // Retranslating 25 locales against v1.7 is a separate task; until then we
   // DROP entries written for the retired book rather than display a retired
   // offer. Dropping is safe — a shorter FAQ beats a wrong one.
   const faqItems = resolvedFaqItems.filter((item) => {

@@ -1,14 +1,18 @@
 # Price book v1.8 — implementation brief
 
+> **Last verified:** 2026-09-18. This is a cutover brief, not proof that v1.8 is active. The published backend database catalogue is the runtime authority.
+
 Two changes, independent of each other. Either can ship without the other.
 
 1. **Extended band tail** — the volume curve keeps stepping past 50 locations.
 2. **Anchor relief** — a selectable, per-customer discount on the first unit only, tapering over four years.
 
-The pricing site (`sundae-pricing`) already implements both, on branch
-`fix/location-control-and-layer-ux`. **`sundae-backend/config/pricing_master.ts`
-is the authority and still carries v1.7 bands.** Until it is updated, the site
-quotes numbers the backend will not bill. That desync is the first thing to close.
+The pricing site (`sundae-pricing`) implements both on `main`. The documented
+published backend catalogue still carries v1.7, and
+`sundae-backend/config/pricing_master.ts` is only an emergency/offline fallback
+and staging input. Until an immutable v1.8 database catalogue is staged and
+activated, the site candidate can quote numbers the backend will not bill. That
+desync is the first thing to close.
 
 Implementation must create a new immutable v1.8 catalogue. The current backend
 seeder clears and recreates the active version, so using it as written would

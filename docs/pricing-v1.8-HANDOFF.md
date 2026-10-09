@@ -1,5 +1,7 @@
 # Price book v1.8 — implementation handoff
 
+> **Last verified:** 2026-09-18. This document describes a pending cutover; the published database catalogue remains the runtime authority.
+
 **For a session working in `sundae-backend`.** Self-contained: every value you
 need is below. Do not re-derive them from the pricing site.
 
@@ -8,10 +10,11 @@ Two independent changes. Either can ship without the other.
 - **Change A — extended band tail.** Data only, no engine change.
 - **Change B — anchor relief.** A new discount type; needs schema + logic + admin UI.
 
-**Current state:** the pricing site (`sundae-pricing`, branch
-`fix/location-control-and-layer-ux`) already implements both. `pricing_master.ts`
-still carries v1.7, so **the simulator currently quotes numbers the backend will
-not bill.** Closing that desync is the point of Change A.
+**Current state:** the pricing site (`sundae-pricing`, `main`) implements both.
+The documented published backend catalogue and the emergency
+`pricing_master.ts` fallback still carry v1.7, so **the simulator candidate can
+quote numbers the backend will not bill.** Closing that desync is the point of
+Change A.
 
 ## Mandatory release corrections
 

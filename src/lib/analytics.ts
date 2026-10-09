@@ -2,9 +2,9 @@ import posthog from "posthog-js";
 import * as Sentry from "@sentry/react";
 import { getSentryRuntimePolicy, prepareSentryEvent } from "./sentryPolicy";
 
-const POSTHOG_KEY = import.meta.env.VITE_POSTHOG_KEY;
-const POSTHOG_HOST = import.meta.env.VITE_POSTHOG_HOST || "https://us.i.posthog.com";
-const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
+const POSTHOG_KEY = import.meta.env?.VITE_POSTHOG_KEY;
+const POSTHOG_HOST = import.meta.env?.VITE_POSTHOG_HOST || "https://us.i.posthog.com";
+const SENTRY_DSN = import.meta.env?.VITE_SENTRY_DSN;
 
 let analyticsInitialized = false;
 
@@ -18,7 +18,13 @@ export function initAnalytics() {
       person_profiles: "identified_only",
       capture_pageview: true,
       capture_pageleave: true,
-      autocapture: true,
+      autocapture: false,
+      sanitize_properties: (properties) => {
+        for (const key of ["$current_url", "$referrer", "$pathname"]) {
+          if (typeof properties[key] === "string") properties[key] = properties[key].split("?")[0];
+        }
+        return properties;
+      },
       session_recording: { maskAllInputs: true },
       loaded: (ph) => {
         if (import.meta.env.DEV) ph.opt_out_capturing();
@@ -95,4 +101,11 @@ export function trackCtaClicked(ctaType: string, location: string) {
 
 export function trackPageView(page: string) {
   posthog.capture("$pageview", { page });
+}
+
+// Only semantic, non-contact properties may enter the pricing funnel.
+export function trackPricingEvent(event: string, properties: Record<string, string | number | boolean | null> = {}) {
+  if (!analyticsInitialized || !POSTHOG_KEY || typeof window === 'undefined' || localStorage.getItem('sundae_cookie_consent') !== 'accepted' || posthog.has_opted_out_capturing()) return false;
+  posthog.capture(`pricing_${event}`, properties);
+  return true;
 }

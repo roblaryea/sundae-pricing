@@ -21,6 +21,9 @@ export const supportedLocales = [
   'bn',
   'th',
   'ms',
+  'az',
+  'ru',
+  'pap',
 ] as const
 
 export type PricingLocale = (typeof supportedLocales)[number]
@@ -53,6 +56,9 @@ export const localeNames: Record<PricingLocale, string> = {
   bn: 'বাংলা',
   th: 'ไทย',
   ms: 'Bahasa Melayu',
+  az: 'Azərbaycanca',
+  ru: 'Русский',
+  pap: 'Papiamento',
 }
 
 export const localeDirection: Record<PricingLocale, 'ltr' | 'rtl'> = {
@@ -78,6 +84,9 @@ export const localeDirection: Record<PricingLocale, 'ltr' | 'rtl'> = {
   bn: 'ltr',
   th: 'ltr',
   ms: 'ltr',
+  az: 'ltr',
+  ru: 'ltr',
+  pap: 'ltr',
 }
 
 export const localeIntlTags: Record<PricingLocale, string> = {
@@ -103,6 +112,9 @@ export const localeIntlTags: Record<PricingLocale, string> = {
   bn: 'bn-BD',
   th: 'th-TH',
   ms: 'ms-MY',
+  az: 'az-AZ',
+  ru: 'ru-RU',
+  pap: 'pap-AW',
 }
 
 const localeLookup = new Map<string, PricingLocale>(

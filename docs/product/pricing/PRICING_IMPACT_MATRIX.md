@@ -1,5 +1,7 @@
 # Pricing Impact Matrix
 
+> **Historical snapshot (pre-v1.7).** The Report/Core tiers and file-level assertions below are superseded. Use `PRICING_CHANGE_PLAYBOOK.md` for the current cross-repository change path.
+
 > **Purpose:** Documents exactly where every pricing field appears across the codebase. Before changing any value in `src/data/pricing.ts`, consult this matrix to understand the full blast radius.
 >
 > **Source of Truth:** `src/data/pricing.ts`

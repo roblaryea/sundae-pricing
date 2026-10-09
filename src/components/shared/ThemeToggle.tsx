@@ -12,6 +12,9 @@ export function ThemeToggle() {
 
   return (
     <button
+      type="button"
+      data-testid="theme-toggle"
+      aria-pressed={theme === 'dark'}
       onClick={toggleTheme}
       className="relative w-14 h-7 bg-slate-700 dark:bg-slate-700 rounded-full p-1 transition-colors hover:bg-slate-600"
       aria-label={tMicro(locale, theme === 'dark' ? 'switchToLight' : 'switchToDark')}
@@ -22,8 +25,10 @@ export function ThemeToggle() {
       
       {/* Sliding thumb */}
       <motion.div
-        className="w-5 h-5 bg-white rounded-full shadow-md"
-        animate={{ x: theme === 'dark' ? 24 : 0 }}
+        data-testid="theme-thumb"
+        className="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-md"
+        initial={false}
+        animate={{ x: theme === 'dark' ? 28 : 0 }}
         transition={{ type: 'spring', stiffness: 500, damping: 30 }}
       />
     </button>

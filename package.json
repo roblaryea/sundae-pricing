@@ -11,15 +11,20 @@
     "preview": "vite preview",
     "validate:pricing": "tsx scripts/validate-pricing.ts",
     "qa:i18n": "node scripts/qa-translation-quality.mjs",
+    "qa:intent": "tsx scripts/sync-pricing-handoff.ts --check",
+    "sync:intent": "tsx scripts/sync-pricing-handoff.ts",
     "qa": "tsx scripts/validate-pricing.ts",
     "test": "vitest run",
     "test:pricing": "vitest run __tests__/pricing.v1_7.spec.ts __tests__/livePricing.test.ts",
     "test:e2e:pricing": "env -u NO_COLOR npx playwright test e2e/pricing-simulator.spec.ts",
     "sync:backend-pricing": "tsx scripts/sync-backend-pricing.ts",
     "release:notes": "tsx scripts/release_notes.ts",
-    "prebuild": "npm run qa:i18n && npm run validate:pricing",
+    "prebuild": "npm run qa:i18n && npm run qa:intent && npm run validate:pricing",
+    "prebuild:github": "npm run qa:i18n && npm run qa:intent && npm run validate:pricing",
     "predeploy": "npm run build:github",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "postbuild": "tsx scripts/prerender-pricing.ts",
+    "postbuild:github": "tsx scripts/prerender-pricing.ts"
   },
   "dependencies": {
     "@sentry/react": "^10.42.0",
@@ -37,6 +42,7 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@eslint/js": "^9.39.1",
     "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4.1.18",
@@ -51,6 +57,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "gh-pages": "^6.3.0",
     "globals": "^16.5.0",
+    "pdfjs-dist": "^6.4.299",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",

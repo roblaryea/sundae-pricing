@@ -71,6 +71,7 @@ export interface PriceBreakdown {
   item: string;
   price: number;
   note?: string;
+  watchtowerModuleId?: WatchtowerModuleId;
 }
 
 export interface DiscountLine {
@@ -211,9 +212,9 @@ export function calculateForesightActionPrice(locations: number): number {
   return calculateBandedTotal(foresightAction, locations);
 }
 
-/** Concept SKUs are published as a flat monthly price with no per-unit band. */
-export function calculateConceptPrice(conceptId: ConceptSkuId): number {
-  return conceptSkus[conceptId].monthlyPrice;
+/** Concept prices use the same published marginal curve as their quote lines. */
+export function calculateConceptPrice(conceptId: ConceptSkuId, locations = 1): number {
+  return calculateBandedTotal(conceptSkus[conceptId], locations);
 }
 
 export function isConceptId(id: string): id is ConceptSkuId {
@@ -223,7 +224,7 @@ export function isConceptId(id: string): id is ConceptSkuId {
 export function calculateAddOnsPrice(addOns: AddOnId[], locations: number): number {
   return addOns.reduce((sum, id) => {
     if (id === 'foresight_action') return sum + calculateForesightActionPrice(locations);
-    return sum + calculateConceptPrice(id);
+    return sum + calculateConceptPrice(id, locations);
   }, 0);
 }
 
@@ -323,11 +324,12 @@ export function isCrossIntelligenceEligible(hasCorePackage: boolean): boolean {
 export function calculateCrossIntelligencePrice(
   tier: CrossIntelligenceTier,
   locations: number,
+  packageId?: CorePackageId,
 ): number {
   if (tier === 'base') return 0;
   const pro = crossIntelligence.pro;
   const additionalLocs = Math.max(0, locations - pro.includedLocations);
-  return pro.monthlyFee + additionalLocs * pro.perLocationPrice;
+  return (packageId ? pro.pricingByPackage[packageId.replace('core_','')] ?? pro.monthlyFee : pro.monthlyFee) + additionalLocs * pro.perLocationPrice;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -511,7 +513,8 @@ export function calculateFullPrice(config: Configuration): PriceResult {
   let aiCredits = calculateAiCredits(pkg, locations);
 
   // Add-ons
-  for (const addOnId of config.addOns) {
+  for (const addOnId of new Set(config.addOns)) {
+    if (addOnId === 'foresight_action' && pkg.includesForesight) continue;
     if (addOnId === 'foresight_action') {
       const price = calculateForesightActionPrice(locations);
       const lines = calculateBandLines(foresightAction, locations);
@@ -557,11 +560,12 @@ export function calculateFullPrice(config: Configuration): PriceResult {
     });
   }
   if (config.watchtower.length > 0 && packageAllowsWatchtower(config.corePackage)) {
-    const wt = calculateWatchtowerPrice(config.watchtower, locations);
-    breakdown.push({
-      item: wt.isBundle ? 'Watchtower Bundle' : 'Watchtower',
-      price: wt.price,
-      note: wt.isBundle && wt.savings > 0 ? `Saves $${Math.round(wt.savings)}/mo (~18%)` : undefined,
+    const wt = calcWatchtowerPrice(config.watchtower as WatchtowerModuleId[], locations);
+    for(const module of wt.modules) breakdown.push({
+      item: module.id==='bundle'?'Watchtower Bundle':module.name,
+      price: module.totalPrice,
+      watchtowerModuleId: module.id,
+      note: wt.isBundle && wt.bundleSavings > 0 ? `Saves $${Math.round(wt.bundleSavings)}/mo` : undefined,
     });
   }
 
@@ -570,7 +574,7 @@ export function calculateFullPrice(config: Configuration): PriceResult {
     if (config.crossIntelligence === 'pro') {
       breakdown.push({
         item: 'Cross-Intelligence Pro',
-        price: calculateCrossIntelligencePrice('pro', locations),
+        price: calculateCrossIntelligencePrice('pro', locations, config.corePackage),
         note: `$${crossIntelligence.pro.monthlyFee}/mo + $${crossIntelligence.pro.perLocationPrice}/loc from #2`,
       });
     } else {
@@ -613,7 +617,7 @@ export function calculateFullPrice(config: Configuration): PriceResult {
 export function resolveCoreImplementation(config: Configuration): ImplementationResult {
   const classIds: (ImplementationClassId | null)[] = [
     corePackages[config.corePackage].implementationClass,
-    ...config.addOns.map((id) =>
+    ...config.addOns.filter((id) => !(id === 'foresight_action' && corePackages[config.corePackage].includesForesight)).map((id) =>
       id === 'foresight_action'
         ? foresightAction.implementationClass
         : conceptSkus[id].implementationClass,

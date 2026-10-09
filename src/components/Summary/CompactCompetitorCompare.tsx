@@ -598,7 +598,7 @@ function ComparisonCard({
             </div>
             {/* The always-visible line. Two things were wrong with it.
                 It was hardcoded English — "covers N of your M domains" — on a
-                row every visitor sees, in a product that ships 22 locales. And
+                row every visitor sees, in a product that ships 25 locales. And
                 it was a bare count: an inventory, not a reason to buy.
                 It now carries the day-one signal, so a buyer who never opens
                 the accordion still sees that a build-your-own option answers

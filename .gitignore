@@ -33,3 +33,4 @@ _audit_*.mjs
 _audit_*.mjs.bak
 _sim*.mjs
 _dbg*.mjs
+.env*

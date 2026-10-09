@@ -34,7 +34,6 @@ const FILES = [
   "src/components/ConfigBuilder/WatchtowerToggle.tsx",
   "src/components/ConfigBuilder/LayerStack.tsx",
   "src/components/ConfigBuilder/CrewBuilder.tsx",
-  "src/pages/Simulator.tsx",
 ] as const;
 
 /**

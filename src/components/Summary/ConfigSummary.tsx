@@ -35,35 +35,6 @@ const WATCHTOWER_ICON_MAP = {
   trends: TrendingUp,
 } as const;
 
-/**
- * Render a discount line in the buyer's language.
- *
- * The engine has no locale, so it emits English plus a stable key. Without this
- * the discount lines — the part of the quote a buyer scrutinises hardest —
- * stayed English on an otherwise translated screen.
- */
-function localiseDiscount(
-  d: DiscountLine,
-  q: ReturnType<typeof getQuoteSummaryCopy>,
-  locations: number,
-): string {
-  const pct = `${d.percent}%`;
-  switch (d.key) {
-    case 'volume':
-      return `${q.volumeLabel.replace('{locations}', String(locations))} — ${pct}`;
-    case 'term':
-      return `${q.commitmentTerm} — ${pct}`;
-    case 'earlyAdopter':
-      return `${q.earlyAdopter} — ${pct}`;
-    case 'volumeNotApplied':
-      return q.volumeNotApplied.replace('{percent}', pct);
-    case 'termNotApplied':
-      return q.termNotApplied.replace('{percent}', pct);
-    default:
-      return d.name;
-  }
-}
-
 export function ConfigSummary() {
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
@@ -592,7 +563,7 @@ export function ConfigSummary() {
                     <div className="mt-2 space-y-1">
                       {pricing.discounts.map((d: DiscountLine) => (
                         <div key={d.name} className="flex justify-between text-xs text-green-400">
-                          <span>{localiseDiscount(d, q, locations)}</span>
+                          <span>{localizeDiscountLine(d, locale, locations)}</span>
                           {/* `amount` is already signed negative; prefixing a
                               minus rendered "-$-562". */}
                           <span>-${Math.abs(Math.round(d.amount)).toLocaleString(locale)}</span>
@@ -1064,7 +1035,7 @@ import { computeCrewQuote } from '../../lib/crewPricing';
 import type { DiscountLine } from '../../types/configuration';
 import { pricingFooter } from '../../data/pricing';
 import { prefersReducedMotion } from '../../lib/motion';
-import { getQuoteSummaryCopy } from '../../lib/quoteSummaryCopy';
+import { getQuoteSummaryCopy, localizeDiscountLine } from '../../lib/quoteSummaryCopy';
 
 interface CrewSummaryBodyProps {
   selectedSkus: CrewSkuId[];

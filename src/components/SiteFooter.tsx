@@ -3,6 +3,7 @@ import { LEGAL, getMarketingUrl } from '../config/legal';
 import { useLocale } from '../contexts/LocaleContext';
 import { Logo } from './Brand/Logo';
 import { siteNavLabels, siteNavLinks } from '../lib/siteNavLabels';
+import { siteAccessibilityCopy } from '../lib/siteAccessibilityCopy';
 
 // Footer chrome intentionally mirrors the marketing site's footer structure
 // (brand lockup + tagline + social + link nav + legal bar) so pricing.sundae.io
@@ -10,6 +11,7 @@ import { siteNavLabels, siteNavLinks } from '../lib/siteNavLabels';
 // strings (messages.header.* / messages.footer.*) - no new i18n keys.
 export function SiteFooter() {
   const { messages, locale } = useLocale();
+  const chromeCopy = siteAccessibilityCopy[locale];
   const currentYear = new Date().getFullYear();
 
   const links = [
@@ -38,7 +40,7 @@ export function SiteFooter() {
           <div className="max-w-sm">
             <a
               href={getMarketingUrl('/', locale)}
-              aria-label="Sundae - Return to homepage"
+              aria-label={chromeCopy.home}
               className="inline-block transition-opacity hover:opacity-80"
             >
               <Logo size="md" />
@@ -53,7 +55,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sundae-muted hover:text-white transition-colors"
-                aria-label="Follow Sundae on X (formerly Twitter)"
+                aria-label="Sundae · X"
               >
                 <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -64,7 +66,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sundae-muted hover:text-white transition-colors"
-                aria-label="Follow Sundae on LinkedIn"
+                aria-label="Sundae · LinkedIn"
               >
                 <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
@@ -75,7 +77,7 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sundae-muted hover:text-white transition-colors"
-                aria-label="Subscribe to Sundae on YouTube"
+                aria-label="Sundae · YouTube"
               >
                 <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
@@ -85,7 +87,7 @@ export function SiteFooter() {
           </div>
 
           {/* Links */}
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-10 gap-y-2.5">
+          <nav aria-label={chromeCopy.footer} className="grid grid-cols-2 gap-x-10 gap-y-2.5">
             {links.map((link) =>
               link.kind === 'route' ? (
                 <Link key={link.to} to={link.to} className={linkClass}>

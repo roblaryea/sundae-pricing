@@ -1,7 +1,10 @@
 // ═══════════════════════════════════════════════════════════════════════════
-// SUNDAE PRICING DATA — PRICING SITE MIRROR (PRICE BOOK v1.7)
+// SUNDAE PRICING DATA — v1.8 SITE CANDIDATE OVER THE v1.7 CATALOGUE SHAPE
 // ═══════════════════════════════════════════════════════════════════════════
-// UPDATED: 2026-08-10 — cutover to approved price book v1.7.
+// UPDATED: 2026-08-23 — v1.8 candidate bands and payment terms.
+// RUNTIME AUTHORITY: the published backend database catalogue. This static
+// model is not proof that v1.8 has been staged or activated.
+// BASELINE: 2026-08-10 — cutover to approved price book v1.7.
 //   • Report Lite/Plus/Pro, Core Lite and Core Pro are RETIRED. They are not
 //     offered anywhere in this app. Their ids survive ONLY in
 //     `RETIRED_CATALOG_IDS` so an existing subscription can still be read and
@@ -219,6 +222,22 @@ export const pricingChangelog: PricingChange[] = [
       'Operating $499, Crew Complete $699). Volume ladder is now 0% under 50, 2.5% at 50-99, 5% at 100-199, 7% at ' +
       '200-249, Enterprise-only at 250+. Volume and billing-cycle discounts are mutually exclusive: the larger applies. ' +
       'Early-adopter concessions share the 15% calculated-discount cap.'
+  },
+  {
+    id: 'update-2026-08-23-v1.8-candidate',
+    date: '2026-08-23',
+    summary: 'Implement the v1.8 pricing-site candidate without activating the backend catalogue',
+    sectionsTouched: [
+      'Core marginal bands',
+      'Crew marginal bands and bundles',
+      'Billing commitment and payment timing',
+      'Calculated-discount cap',
+      'Anchor-relief candidate',
+      'Release guardrails'
+    ],
+    notes:
+      'Candidate only: extended Core and Crew band tails, split annual payment timing, a 20% two-year-upfront term and first-unit anchor-relief modelling. ' +
+      'The published backend database catalogue remains the runtime authority. v1.8 must not be called active until an immutable catalogue is staged, Stripe is reconciled, the live response covers all candidate fields, and renewal/grandfathering treatment is approved.'
   }
 ];
 
@@ -275,7 +294,7 @@ export const PACKAGE_DOMAIN_GRANTS = {
     'guest',
     'guest_crm',
   ],
-  core_performance: [...CORE_DOMAIN_MODULE_IDS],
+  core_performance: CORE_DOMAIN_MODULE_IDS.filter((id) => id !== 'delivery'),
 } as const satisfies Record<CorePackageId, readonly ModuleId[]>;
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -299,6 +318,7 @@ function band(fromUnit: number, toUnit: number | null, pricePerUnit: number): Ma
 }
 
 export interface CorePackage extends BandedSku {
+  allowsWatchtower?: boolean;
   id: CorePackageId;
   tagline: string;
   /**
@@ -323,6 +343,8 @@ export interface CorePackage extends BandedSku {
   creditRolloverCap: number;
   /** The domains this package actually grants — see PACKAGE_DOMAIN_GRANTS. */
   includesDomainModules: readonly ModuleId[];
+  /** Published included forecasting grant, distinct from the domain list. */
+  includesForesight?: boolean;
   /**
    * What the buyer GETS, in outcome language. Price book v1.7 section 3.1 is
    * explicit that a prospect should never hear "signal but not experience"
@@ -406,8 +428,9 @@ export const corePackages: Record<CorePackageId, CorePackage> = {
     seatsPerLocations: 2,
     creditRolloverCap: 6000,
     includesDomainModules: PACKAGE_DOMAIN_GRANTS.core_performance,
+    includesForesight: true,
     includedOutcome:
-      'The complete Core estate — every outcome domain, ready to extend with Foresight & Action',
+      'Margin and Growth together, with Foresight forecasting included',
     bestFor: 'Multi-brand and multi-region portfolios',
     implementationClass: null,
   },
@@ -620,7 +643,7 @@ export const WATCHTOWER_MIN_PACKAGE: CorePackageId = 'core_growth';
 const WATCHTOWER_ALLOWED: readonly CorePackageId[] = ['core_growth', 'core_performance'];
 
 export function packageAllowsWatchtower(id: CorePackageId): boolean {
-  return WATCHTOWER_ALLOWED.includes(id);
+  return corePackages[id].allowsWatchtower ?? WATCHTOWER_ALLOWED.includes(id);
 }
 
 export const implementationClasses: Record<ImplementationClassId, ImplementationClass> = {
@@ -1027,7 +1050,7 @@ export const crewSkus = {
     caps: {
       maxLocations: 5,
       maxEmployeesPerLocation: 15,
-      perEmployeeOverageUsd: 1,
+      perEmployeeOverageUsd: 2,
       hardLocationCap: true,
     },
     description: 'SMB entry. Basic scheduling, employee self-service, manual document upload, and time-off requests. Hard-capped at 5 locations and mutually exclusive with the full Crew SKUs.',
@@ -1059,8 +1082,8 @@ export const crewSkus = {
     prerequisites: [] as CrewSkuId[],
     caps: {
       maxLocations: null,
-      maxEmployeesPerLocation: 15,
-      perEmployeeOverageUsd: 1,
+      maxEmployeesPerLocation: 20,
+      perEmployeeOverageUsd: 3,
       hardLocationCap: false,
     },
     description: 'Schedule the workforce. View modes, AddEditShift drawer, eligibility-checked AssignToShift, AI Builder Sheet, headcount chart, swaps, offers, availability, marketplace, and staff mobile schedule views.',
@@ -1093,8 +1116,8 @@ export const crewSkus = {
     prerequisites: [] as CrewSkuId[],
     caps: {
       maxLocations: null,
-      maxEmployeesPerLocation: 15,
-      perEmployeeOverageUsd: 2,
+      maxEmployeesPerLocation: 20,
+      perEmployeeOverageUsd: 3,
       hardLocationCap: false,
     },
     description: 'Deep workforce operations. Includes Crew Schedule and adds HR operations, credentials, assets, attestations, helpdesk, disciplinary, e-sign, onboarding/offboarding, workflows, and partner sync imports.',
@@ -1134,8 +1157,8 @@ export const crewSkus = {
     prerequisiteMessage: 'Requires Crew Schedule or Crew Manage',
     caps: {
       maxLocations: null,
-      maxEmployeesPerLocation: 15,
-      perEmployeeOverageUsd: 1,
+      maxEmployeesPerLocation: 20,
+      perEmployeeOverageUsd: 3,
       hardLocationCap: false,
     },
     description: 'PWA clock-in, geofencing, WebAuthn, break attestation, anomaly detection, attendance review, and payroll readiness.',
@@ -1169,8 +1192,8 @@ export const crewSkus = {
     prerequisiteMessage: 'Requires Crew Manage',
     caps: {
       maxLocations: null,
-      maxEmployeesPerLocation: 15,
-      perEmployeeOverageUsd: 2,
+      maxEmployeesPerLocation: 20,
+      perEmployeeOverageUsd: 3,
       hardLocationCap: false,
     },
     description: 'Native Sundae payroll suite supporting 36 countries, with statutory outputs, payslips, year-end forms, and employee self-service. Integrations remain available when an operator chooses to retain another provider.',
@@ -1204,8 +1227,8 @@ export const crewSkus = {
     prerequisiteMessage: 'Requires Crew Manage',
     caps: {
       maxLocations: null,
-      maxEmployeesPerLocation: 15,
-      perEmployeeOverageUsd: 1.5,
+      maxEmployeesPerLocation: 20,
+      perEmployeeOverageUsd: 3,
       hardLocationCap: false,
     },
     description: 'Workforce intelligence layer: performance, talent, benefits, comp, recruiting, skills, surveys, and training analytics.',
@@ -1553,7 +1576,8 @@ export function getVolumeDiscount(locations: number): number {
 
 /** True when the unit count is past the self-serve ladder and must be quoted. */
 export function requiresEnterpriseQuote(locations: number): boolean {
-  return locations >= ENTERPRISE_ONLY_FROM_UNITS;
+  const boundary = volumeDiscounts.tiers.find(tier => tier.enterpriseOnly)?.min;
+  return boundary !== undefined && locations >= boundary;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1734,6 +1758,7 @@ export const crossIntelligence = {
   },
   pro: {
     id: 'cross_intelligence_pro',
+    pricingByPackage: {} as Record<string,number>,
     name: 'Cross-Intelligence Pro',
     tier: 'pro' as CrossIntelligenceTier,
     monthlyFee: 199,
@@ -1848,8 +1873,7 @@ export const competitorPricing = {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export const pricingFooter = {
-  effectiveDate: 'August 10, 2026',
-  priceBookVersion: 'v1.7',
+  effectiveDate: 'August 23, 2026',
   currency: 'USD',
   taxNote: 'Taxes (VAT/GST) not included unless stated',
   changeNotice: 'Subject to change with 30-day notice',

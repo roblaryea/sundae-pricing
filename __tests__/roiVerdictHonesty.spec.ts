@@ -3,7 +3,7 @@
  *
  * `generateROIDescription` falls through to `roiDescriptions.longTerm` when the
  * ROI multiple is below 1.0 — that is, when the modelled monthly saving is
- * SMALLER than the monthly cost. In every one of the 22 locales that branch read
+ * SMALLER than the monthly cost. In every one of the 25 locales that branch read
  * "Long-term investment in operational intelligence."
  *
  * A sweep of 103,680 UI-reachable configurations found 6,603 that never pay

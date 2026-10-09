@@ -22,6 +22,7 @@ import type { FeatureHelpId } from '../../lib/featureHelpCopy';
 import { buyerPlanCopy } from '../../lib/buyerPlanCopy';
 import { calculateWatchtowerPrice } from '../../lib/watchtowerEngine';
 import { fillBuyerReviewCopy } from '../../lib/buyerReviewCopy';
+import { formatPayrollCountry } from '../../lib/payrollCountryLabels';
 const ROISimulator = lazy(() => import('../PricingDisplay/ROISimulator').then((m) => ({ default: m.ROISimulator })));
 
 export function ScopeControls() {
@@ -163,7 +164,6 @@ export function PlanChoices() {
 export function RefineNeeds() {
   const { state, config, quote, live } = useBuyerQuote();
   const { copy, messages, locale, reviewCopy, journey } = useBuyerFormatting();
-  const countryNames = new Intl.DisplayNames(locale, { type: 'region' });
   const discount = useBuyerDiscount();
   const suggestions = recommendedConceptSkus(config.operatingModels);
   // Preserve imported/user-selected extensions even when the model changes.
@@ -199,7 +199,7 @@ export function RefineNeeds() {
       </details>
     </section>}
     {config.layer !== 'core' && <section className="refine-panel"><h2>{copy.crew}</h2><label className="field-label" htmlFor="buyer-employees">{copy.workforce}</label><input id="buyer-employees" type="number" min={0} max={MAX_EMPLOYEE_COUNT} value={config.employees ?? ''} onChange={(e) => state.setEmployees(e.target.value === '' ? null : Number(e.target.value))}/><p>{copy.workforceHint}</p>
-      {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><select id="payroll-country" value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value)}><option value="">{copy.countryPlaceholder}</option>{PAYROLL_COUNTRIES.map((country) => <option key={country.code} value={country.code}>{countryNames.of(country.code) ?? country.name}{country.supported ? '' : ` · ${reviewCopy.payrollAvailability}`}</option>)}</select><p>{copy.payrollNote}</p></>}
+      {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><select id="payroll-country" value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value)}><option value="">{copy.countryPlaceholder}</option>{PAYROLL_COUNTRIES.map((country) => <option key={country.code} value={country.code}>{formatPayrollCountry(country.code, locale)}{country.supported ? '' : ` · ${reviewCopy.payrollAvailability}`}</option>)}</select><p>{copy.payrollNote}</p></>}
     </section>}
     <details className="refine-panel pricing-disclosure commitment-panel" data-testid="commitment-details">
       <summary><span><span className="commitment-title">{copy.commitment}</span><small data-testid="selected-term">{copy.terms[INTENT_TERMS.indexOf(config.billingCycle)]}</small>{discount.label && <small className="commitment-discount">{discount.label}</small>}</span><ChevronDown size={18} aria-hidden/></summary>
@@ -255,7 +255,7 @@ export function BasketSummary({ compact = false }: { compact?: boolean }) {
       {quote.crew && config.employees !== null && <li>{copy.workforce}: {config.employees}</li>}
       {quote.crew && <li>{quote.enterprise ? <>{copy.overage}: {copy.scoped}</> : <>{quote.includedEmployees} {copy.allowance} · {money(quote.employeeRate)} {copy.perEmployee}</>}</li>}
       {quote.crew && !quote.enterprise && <li>{quote.workforceUnknown ? copy.workforceUnknown : copy.overageNote}</li>}
-      {quote.payrollNeedsScoping && <li>{copy.payrollNote} {config.payrollCountry ? new Intl.DisplayNames(locale, { type: 'region' }).of(config.payrollCountry) : copy.scoped}</li>}
+      {quote.payrollNeedsScoping && <li>{copy.payrollNote} {config.payrollCountry ? formatPayrollCountry(config.payrollCountry, locale) : copy.scoped}</li>}
       {quote.specialistScoping && <li>{copy.specialist}</li>}
     </ul>}
     <p className="catalogue-stamp">{live.catalog ? `${messages.summary.pricingEffective} ${new Date(live.catalog.effectiveDate).toLocaleDateString(locale)}` : copy.intentNote}</p>

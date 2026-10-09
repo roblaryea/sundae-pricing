@@ -7,6 +7,7 @@ import { resolveMessages } from '../contexts/LocaleContext';
 import { localeDirection, type PricingLocale } from './locales';
 import { localizeBreakdownLabel } from './pricingI18n';
 import { localizeDiscountLine } from './quoteSummaryCopy';
+import { formatPayrollCountry } from './payrollCountryLabels';
 
 const printLabels: Record<PricingLocale, string> = {
   en:'Print / save PDF',ar:'طباعة / حفظ PDF',fr:'Imprimer / enregistrer en PDF',es:'Imprimir / guardar PDF',de:'Drucken / als PDF speichern',nl:'Afdrukken / PDF opslaan',pt:'Imprimir / guardar PDF',hi:'प्रिंट / PDF सहेजें',ur:'پرنٹ / PDF محفوظ کریں',it:'Stampa / salva PDF',pl:'Drukuj / zapisz PDF',tr:'Yazdır / PDF kaydet','zh-Hans':'打印 / 保存 PDF',ja:'印刷 / PDF保存',ko:'인쇄 / PDF 저장',id:'Cetak / simpan PDF',vi:'In / lưu PDF',ro:'Tipăriți / salvați PDF',sv:'Skriv ut / spara PDF',bn:'প্রিন্ট / PDF সংরক্ষণ',th:'พิมพ์ / บันทึก PDF',ms:'Cetak / simpan PDF',az:'Çap et / PDF saxla',ru:'Печать / сохранить PDF',pap:'Print / warda PDF',
@@ -32,7 +33,7 @@ export function buildBasketPrintHTML(config: PricingIntent, quote: BasketQuote, 
     notes.push(quote.workforceUnknown ? copy.workforceUnknown : copy.overageNote);
   }
   if (quote.payrollNeedsScoping) {
-    const country = config.payrollCountry ? new Intl.DisplayNames(locale,{type:'region'}).of(config.payrollCountry) : copy.scoped;
+    const country = config.payrollCountry ? formatPayrollCountry(config.payrollCountry, locale) : copy.scoped;
     notes.push(`${copy.payroll}: ${country}. ${copy.payrollNote}`);
   }
   if (quote.specialistScoping) notes.push(journey.coverage, copy.specialist);

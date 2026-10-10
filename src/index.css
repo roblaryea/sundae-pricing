@@ -863,6 +863,9 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .basket-total-row > span { font-size:12px; color:var(--color-sundae-muted); }
 .basket-price.is-secondary { font-size:20px; letter-spacing:-.02em; margin:0; }
 .basket-price.is-secondary small { font-size:12px; }
+@media (min-width:641px) {
+  .pricing-decision-bar > .decision-price.has-average { gap:10px clamp(32px,5vw,72px); }
+}
 @media (max-width:640px) {
   .pricing-decision-bar > .decision-price { display:grid; gap:8px 14px; }
   .pricing-decision-bar .has-average .decision-total-row strong { font-size:18px; overflow-wrap:anywhere; }

@@ -6,7 +6,7 @@ The live production selector contains 43 ISO country choices: 36 covered country
 
 ## Price hierarchy and mobile refinements
 
-The overview bottom bar had intentionally emphasized the total following an earlier reviewer preference. The latest buyer instruction takes precedence: the location average is now larger than the total on desktop and mobile, with the total in a secondary right-aligned column. The multi-location plan cards, refinement/review summaries and branded print document already emphasize the average. One-location estimates retain the monthly amount without a redundant average; enterprise/invalid selections retain their eligibility notices.
+The overview bottom bar had intentionally emphasized the total following an earlier reviewer preference. The latest buyer instruction takes precedence: the location average is now larger than the total on desktop and mobile, with the total in a secondary right-aligned column. The combined-plan summary now follows the same hierarchy. The multi-location plan cards, refinement/review summaries and branded print document also emphasize the average. One-location estimates retain the monthly amount without a redundant average; enterprise/invalid selections retain their eligibility notices.
 
 Mobile location buttons and the language selector now have 44px targets. The theme switch has a larger pointer area. Plan/country/employee inputs use 16px text to avoid iPhone input zoom. Simulator Back/Continue actions remain sticky and respect the safe-area inset. The existing mobile plan selector, full selected-card description, collapsed comparison and optional upgrades are retained.
 
@@ -18,4 +18,4 @@ Mobile location buttons and the language selector now have 44px targets. The the
 - The original old E2E fixture lacked the server clock and policy fields required by current strict catalogue validation. The two exercised suites now use a trimmed snapshot of the public effective production catalogue captured on 2026-10-10. This is test data only; buyer prices still use the live authoritative feed.
 - This is responsive browser verification, not physical iPhone/Safari or VoiceOver certification.
 
-Screenshots from the final production retest are stored beside this report after rollout.
+Final production screenshots and raw logs are retained at `/tmp/sundae-mobile-review-20261010/`.

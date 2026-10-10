@@ -20,6 +20,10 @@ for(const width of [320,375,390,1440]) test(`${width}px leads with the location 
       expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
     }
   }
+  await page.getByTestId('pricing-tab-both').click();
+  await expect(page.getByTestId('other-plan-average')).toBeVisible();
+  const other=page.locator('.other-plan-price');
+  expect(await other.locator('strong').evaluate(e=>parseFloat(getComputedStyle(e).fontSize))).toBeGreaterThan(await other.locator('.plan-total').evaluate(e=>parseFloat(getComputedStyle(e).fontSize)));
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
   await expect(page.getByTestId('basket-average')).toBeVisible();
   expect(await page.getByTestId('basket-average').locator('strong').evaluate(e=>parseFloat(getComputedStyle(e).fontSize))).toBeGreaterThan(await page.getByTestId('basket-total').evaluate(e=>parseFloat(getComputedStyle(e).fontSize)));

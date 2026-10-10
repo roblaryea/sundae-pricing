@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFileSync } from 'node:fs';
-const fixture = JSON.parse(readFileSync(new URL('../__tests__/fixtures/published-v1.8.2.json', import.meta.url), 'utf8'));
+const fixture = JSON.parse(readFileSync(new URL('../__tests__/fixtures/published-policy-20261010.json', import.meta.url), 'utf8'));
 import { encodePricingIntent, type PricingIntent } from '../src/lib/pricingIntent';
 import { supportedLocales } from '../src/lib/locales';
 import { buyerReviewCopy, fillBuyerReviewCopy } from '../src/lib/buyerReviewCopy';
@@ -24,7 +24,7 @@ test('overview average follows the exact basket while cards round and explain th
   await expect(page.getByTestId('decision-average')).toContainText('Average $127.42 per location / month');
   const averageSize=await page.getByTestId('decision-average').locator('strong').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   const totalSize=await page.getByTestId('decision-total').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
-  expect(totalSize).toBeGreaterThan(averageSize);
+  expect(averageSize).toBeGreaterThan(totalSize);
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
   await page.getByRole('button',{name:'Manage a franchise network',exact:true}).click();
   const extension=page.locator('.extension-toggle').filter({hasText:'Franchise'});
@@ -46,9 +46,9 @@ test('unavailable Starter has no price and setup guidance follows the selected C
   await expect(page.getByTestId('preset-lite')).toBeDisabled();
   await expect(starter).toContainText('Not available above 5 locations');
   await expect(starter.locator('.plan-price')).toHaveCount(0);
-  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
-  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
-  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
+  await expect(page.getByTestId('setup-guide')).toContainText('One-time setup:');
+  await expect(page.getByTestId('setup-guide')).toContainText('One-time setup:');
+  await expect(page.getByTestId('setup-guide')).toContainText('One-time setup:');
   await expect(page.getByTestId('card-operating_suite')).toContainText('Add employee count');
   await page.getByRole('button',{name:'Add employee count to complete your estimate',exact:true}).click();
   await page.getByLabel('Unique employees across your locations').fill('2405');
@@ -59,14 +59,14 @@ test('unavailable Starter has no price and setup guidance follows the selected C
 
 test('setup guidance follows the selected pricing rail', async ({page}) => {
   await page.goto('/');
-  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
+  await expect(page.getByTestId('setup-guide')).toContainText('One-time setup:');
   await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter');
   await page.getByTestId('pricing-tab-both').click();
-  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
+  await expect(page.getByTestId('setup-guide')).toContainText('One-time setup:');
   await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter');
   await page.getByTestId('pricing-tab-crew').click();
   await page.getByTestId('preset-operating_suite').click();
-  await expect(page.getByTestId('setup-guide')).toContainText('Confirmed separately');
+  await expect(page.getByTestId('setup-guide')).toContainText('One-time setup:');
   await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter self-service setup');
 });
 
@@ -117,7 +117,7 @@ test('supported locales retain prices, localized notices and a usable mobile vie
   }
 });
 
-test('375px decision bar keeps the monthly total primary and the average readable', async ({page}) => {
+test('375px decision bar leads with the average and keeps the total readable', async ({page}) => {
   await page.setViewportSize({width:375,height:812});
   await page.goto('/');
   for (const locations of [8,120]) {
@@ -129,10 +129,10 @@ test('375px decision bar keeps the monthly total primary and the average readabl
     const totalBox = await total.boundingBox();
     const averageBox = await average.boundingBox();
     expect(totalBox && averageBox).toBeTruthy();
-    expect(averageBox!.y).toBeGreaterThanOrEqual(totalBox!.y + totalBox!.height);
+    expect(averageBox!.x + averageBox!.width).toBeLessThanOrEqual(totalBox!.x);
     const totalSize = await total.evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
     const averageSize = await average.locator('strong').evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
-    expect(totalSize).toBeGreaterThan(averageSize);
+    expect(averageSize).toBeGreaterThan(totalSize);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth)).toBe(true);
   }
 });

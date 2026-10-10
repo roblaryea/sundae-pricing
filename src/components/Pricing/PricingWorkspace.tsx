@@ -7,7 +7,7 @@ import { calculateBandedTotal, calculateBandLines, calculateAiCredits, calculate
 import { calculateBasketQuote } from '../../lib/basketQuote';
 import { useBuyerQuote, useBuyerFormatting } from '../../hooks/useBuyerQuote';
 import { demoUrl } from '../../lib/pricingLinks';
-import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, PAYROLL_COUNTRIES, SELF_SERVE_EMPLOYEE_LIMIT } from '../../lib/pricingIntent';
+import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, SELF_SERVE_EMPLOYEE_LIMIT } from '../../lib/pricingIntent';
 import { localizeTierName, localizeModuleName, localizeBreakdownLabel, localizeWatchtowerName } from '../../lib/pricingI18n';
 import { localizeDiscountLine } from '../../lib/quoteSummaryCopy';
 import { recommendedConceptSkus } from '../../lib/discoveryEngine';
@@ -22,7 +22,7 @@ import type { FeatureHelpId } from '../../lib/featureHelpCopy';
 import { buyerPlanCopy } from '../../lib/buyerPlanCopy';
 import { calculateWatchtowerPrice } from '../../lib/watchtowerEngine';
 import { fillBuyerReviewCopy } from '../../lib/buyerReviewCopy';
-import { formatPayrollCountry } from '../../lib/payrollCountryLabels';
+import { formatPayrollCountry, getPayrollCountryOptions } from '../../lib/payrollCountryLabels';
 const ROISimulator = lazy(() => import('../PricingDisplay/ROISimulator').then((m) => ({ default: m.ROISimulator })));
 
 export function ScopeControls() {
@@ -199,7 +199,7 @@ export function RefineNeeds() {
       </details>
     </section>}
     {config.layer !== 'core' && <section className="refine-panel"><h2>{copy.crew}</h2><label className="field-label" htmlFor="buyer-employees">{copy.workforce}</label><input id="buyer-employees" type="number" min={0} max={MAX_EMPLOYEE_COUNT} value={config.employees ?? ''} onChange={(e) => state.setEmployees(e.target.value === '' ? null : Number(e.target.value))}/><p>{copy.workforceHint}</p>
-      {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><select id="payroll-country" value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value)}><option value="">{copy.countryPlaceholder}</option>{PAYROLL_COUNTRIES.map((country) => <option key={country.code} value={country.code}>{formatPayrollCountry(country.code, locale)}{country.supported ? '' : ` · ${reviewCopy.payrollAvailability}`}</option>)}</select><p>{copy.payrollNote}</p></>}
+      {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><select id="payroll-country" value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value)}><option value="">{copy.countryPlaceholder}</option>{getPayrollCountryOptions(locale).map((country) => <option key={country.code} value={country.code}>{country.label}{country.supported ? '' : ` · ${reviewCopy.payrollAvailability}`}</option>)}</select><p>{copy.payrollNote}</p></>}
     </section>}
     <details className="refine-panel pricing-disclosure commitment-panel" data-testid="commitment-details">
       <summary><span><span className="commitment-title">{copy.commitment}</span><small data-testid="selected-term">{copy.terms[INTENT_TERMS.indexOf(config.billingCycle)]}</small>{discount.label && <small className="commitment-discount">{discount.label}</small>}</span><ChevronDown size={18} aria-hidden/></summary>

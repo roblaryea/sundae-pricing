@@ -37,3 +37,9 @@ it('does not display unrecognized handoff data as a country label', () => {
   expect(formatPayrollCountry('XX', 'az')).toBe('');
   expect(formatPayrollCountry('<script>', 'pap')).toBe('');
 });
+
+it('covers the 36 payroll country codes, with the four UK nations represented by GB', () => {
+  const expected = 'AE SA QA BH OM KW US CA GB AT BE BG HR CY CZ DK EE FI FR DE GR HU IE IT LV LT LU MT NL PL PT RO SK SI ES SE'.split(' ').sort();
+  expect(PAYROLL_COUNTRIES.filter(c => c.supported).map(c => c.code).sort()).toEqual(expected);
+  expect(new Set(PAYROLL_COUNTRIES.map(c => c.code)).size).toBe(PAYROLL_COUNTRIES.length);
+});

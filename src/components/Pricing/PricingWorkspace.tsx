@@ -7,7 +7,7 @@ import { calculateBandedTotal, calculateBandLines, calculateAiCredits, calculate
 import { calculateBasketQuote } from '../../lib/basketQuote';
 import { useBuyerQuote, useBuyerFormatting } from '../../hooks/useBuyerQuote';
 import { demoUrl } from '../../lib/pricingLinks';
-import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, PAYROLL_COUNTRIES, SELF_SERVE_EMPLOYEE_LIMIT } from '../../lib/pricingIntent';
+import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, SELF_SERVE_EMPLOYEE_LIMIT } from '../../lib/pricingIntent';
 import { localizeTierName, localizeModuleName, localizeBreakdownLabel, localizeWatchtowerName } from '../../lib/pricingI18n';
 import { localizeDiscountLine } from '../../lib/quoteSummaryCopy';
 import { recommendedConceptSkus } from '../../lib/discoveryEngine';
@@ -22,7 +22,7 @@ import type { FeatureHelpId } from '../../lib/featureHelpCopy';
 import { buyerPlanCopy } from '../../lib/buyerPlanCopy';
 import { calculateWatchtowerPrice } from '../../lib/watchtowerEngine';
 import { fillBuyerReviewCopy } from '../../lib/buyerReviewCopy';
-import { formatPayrollCountry } from '../../lib/payrollCountryLabels';
+import { formatPayrollCountry, getPayrollCountryOptions } from '../../lib/payrollCountryLabels';
 const ROISimulator = lazy(() => import('../PricingDisplay/ROISimulator').then((m) => ({ default: m.ROISimulator })));
 
 export function ScopeControls() {
@@ -112,7 +112,7 @@ export function PlanChoices() {
     <p className="pricing-caption">{copy.estimate}</p>
     {config.layer === 'both' && <div className="combined-plan-switch">
       <div role="group" aria-label={copy.choose}>{(['core','crew'] as const).map((id) => <button type="button" key={id} data-testid={`edit-${id}-plan`} aria-pressed={rail === id} onClick={() => setRail(id)}>Sundae {id === 'core' ? 'Core' : 'Crew'}</button>)}</div>
-      <div className="other-plan-summary"><span><small>{copy.selected} · Sundae {rail === 'core' ? 'Crew' : 'Core'}</small>{rail === 'core' ? quote.crew?.lines.map((line) => line.label).join(' + ') || copy.chooseCrew : localizeTierName(corePackages[config.corePackage].name,locale)}</span><strong>{quote.enterprise ? messages.overview.contactSales : money(otherQuote!.monthly)}{!quote.enterprise && <small>{messages.overview.perMonth}</small>}</strong></div>
+      <div className="other-plan-summary"><span><small>{copy.selected} · Sundae {rail === 'core' ? 'Crew' : 'Core'}</small>{rail === 'core' ? quote.crew?.lines.map((line) => line.label).join(' + ') || copy.chooseCrew : localizeTierName(corePackages[config.corePackage].name,locale)}</span><div className="other-plan-price">{otherQuote!.averageMonthlyPerLocation !== null ? <><AveragePrice amount={money(otherQuote!.averageMonthlyPerLocation)} locations={config.locations} testId="other-plan-average"/><p className="plan-total">{messages.summary.monthlyInvestment} <bdi>{money(otherQuote!.monthly)}</bdi>{messages.overview.perMonth}</p></> : <strong>{otherQuote!.needsCrewSelection ? copy.chooseCrew : quote.enterprise ? messages.overview.contactSales : money(otherQuote!.monthly)}{!quote.enterprise && !otherQuote!.needsCrewSelection && <small>{messages.overview.perMonth}</small>}</strong>}</div></div>
     </div>}
     {activeRail === 'core' && <>
       <div className="mobile-plan-select"><label htmlFor="core-plan">Sundae Core · {copy.choose}</label><select id="core-plan" data-testid="mobile-core-plan" value={config.corePackage} onChange={(e) => state.setCorePackage(e.target.value as typeof config.corePackage)}>{CORE_PACKAGE_IDS.map((id) => <option key={id} value={id}>{localizeTierName(corePackages[id].name,locale)}</option>)}</select></div>
@@ -199,7 +199,7 @@ export function RefineNeeds() {
       </details>
     </section>}
     {config.layer !== 'core' && <section className="refine-panel"><h2>{copy.crew}</h2><label className="field-label" htmlFor="buyer-employees">{copy.workforce}</label><input id="buyer-employees" type="number" min={0} max={MAX_EMPLOYEE_COUNT} value={config.employees ?? ''} onChange={(e) => state.setEmployees(e.target.value === '' ? null : Number(e.target.value))}/><p>{copy.workforceHint}</p>
-      {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><select id="payroll-country" value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value)}><option value="">{copy.countryPlaceholder}</option>{PAYROLL_COUNTRIES.map((country) => <option key={country.code} value={country.code}>{formatPayrollCountry(country.code, locale)}{country.supported ? '' : ` · ${reviewCopy.payrollAvailability}`}</option>)}</select><p>{copy.payrollNote}</p></>}
+      {config.crewSkus.includes('crew_payroll') && <><label className="field-label" htmlFor="payroll-country">{copy.payroll}</label><select id="payroll-country" value={config.payrollCountry} onChange={(e) => state.setPayrollCountry(e.target.value)}><option value="">{copy.countryPlaceholder}</option>{getPayrollCountryOptions(locale).map((country) => <option key={country.code} value={country.code}>{country.label}{country.supported ? '' : ` · ${reviewCopy.payrollAvailability}`}</option>)}</select><p>{copy.payrollNote}</p></>}
     </section>}
     <details className="refine-panel pricing-disclosure commitment-panel" data-testid="commitment-details">
       <summary><span><span className="commitment-title">{copy.commitment}</span><small data-testid="selected-term">{copy.terms[INTENT_TERMS.indexOf(config.billingCycle)]}</small>{discount.label && <small className="commitment-discount">{discount.label}</small>}</span><ChevronDown size={18} aria-hidden/></summary>

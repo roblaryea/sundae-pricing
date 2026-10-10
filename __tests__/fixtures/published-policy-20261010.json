@@ -1,0 +1,4791 @@
+{
+  "version": {
+    "id": "de526f40-6af7-48d0-8c42-8980870b0acd",
+    "versionName": "v1.8.2-policy-20261009",
+    "status": "active",
+    "publishedAt": "2026-10-09T14:18:32.997+00:00",
+    "effectiveDate": "2026-10-09T14:18:32.997+00:00",
+    "isAuthoritative": true,
+    "volumeDiscountTiers": [
+      {
+        "maxLocations": 49,
+        "minLocations": 1,
+        "discountPercent": 0
+      },
+      {
+        "maxLocations": 99,
+        "minLocations": 50,
+        "discountPercent": 2.5
+      },
+      {
+        "maxLocations": 199,
+        "minLocations": 100,
+        "discountPercent": 5
+      },
+      {
+        "maxLocations": 249,
+        "minLocations": 200,
+        "discountPercent": 7
+      }
+    ],
+    "maxCombinedDiscountPercent": 20,
+    "commercialPolicy": {
+      "watchtowerBundle": {
+        "basePrice": 899,
+        "perLocationPrice": 109,
+        "includedLocations": 1
+      },
+      "implementationClasses": {
+        "a": {
+          "fee": 1500,
+          "isFloor": false
+        },
+        "b": {
+          "fee": 2500,
+          "isFloor": false
+        },
+        "c": {
+          "fee": 7500,
+          "isFloor": false
+        },
+        "d": {
+          "fee": 12500,
+          "isFloor": true
+        },
+        "self_service": {
+          "fee": 0,
+          "isFloor": false
+        }
+      },
+      "offerImplementationClasses": {
+        "labor": "b",
+        "pulse": "b",
+        "growth": "b",
+        "margin": "b",
+        "profit": "b",
+        "crew_tna": "a",
+        "delivery": "b",
+        "crew_lite": "self_service",
+        "foresight": "a",
+        "guest_crm": "b",
+        "inventory": "b",
+        "marketing": "b",
+        "enterprise": "d",
+        "foundation": "b",
+        "purchasing": "b",
+        "performance": "c",
+        "crew_payroll": "c",
+        "reservations": "b",
+        "cloud_kitchen": "b",
+        "crew_catering": "a",
+        "crew_operations": "b",
+        "crew_production": "b",
+        "crew_scheduling": "a",
+        "guest_experience": "b",
+        "crew_suite_bundle": "c",
+        "rental_commissary": "b",
+        "revenue_assurance": "b",
+        "hotel_fb_analytics": "b",
+        "crew_complete_bundle": "c",
+        "franchise_intelligence": "b",
+        "crew_people_intelligence": "b",
+        "crew_schedule_time_bundle": "a"
+      }
+    },
+    "resolvedAt": "2026-10-10T06:09:28.726Z"
+  },
+  "tiers": [
+    {
+      "id": "foundation",
+      "basePrice": 1195,
+      "perLocationPrice": 175,
+      "locationBands": [
+        [
+          1,
+          1195
+        ],
+        [
+          10,
+          175
+        ],
+        [
+          25,
+          150
+        ],
+        [
+          50,
+          125
+        ],
+        [
+          100,
+          115
+        ],
+        [
+          150,
+          110
+        ],
+        [
+          250,
+          105
+        ],
+        [
+          251,
+          100
+        ]
+      ],
+      "includedModuleIds": [
+        "labor",
+        "profit",
+        "revenue_assurance",
+        "pulse"
+      ],
+      "aiCreditsBase": 14000,
+      "aiCreditsPerLocation": 2800,
+      "aiSeatsIncluded": 4,
+      "allowsWatchtower": false,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "ai_features_allowed",
+          "ruleValue": {
+            "features": [
+              "CHAT",
+              "CHAT_DATA_QUERY",
+              "DATA_ANALYSIS",
+              "SQL_GENERATION",
+              "DOC_EXTRACT_TEXT",
+              "DOC_EXTRACT_OCR",
+              "VIEW_SUMMARY",
+              "INSIGHTS_CHAT",
+              "INSIGHTS_WIDGET",
+              "REPORT_GENERATION",
+              "CREW_COPILOT",
+              "CREW_AI_SHIFT_BUILDER",
+              "CREW_SCHEDULE_QUALITY",
+              "CREW_VARIANCE_ROOT_CAUSE",
+              "CREW_BRIEFING_GENERATOR",
+              "CREW_POLICY_EXPLAINER",
+              "CREW_NO_SHOW_PREDICTION"
+            ]
+          }
+        },
+        {
+          "ruleKey": "ai_credits_base",
+          "ruleValue": {
+            "value": 14000
+          }
+        },
+        {
+          "ruleKey": "ai_credits_per_location",
+          "ruleValue": {
+            "value": 2800
+          }
+        },
+        {
+          "ruleKey": "ai_seats_included",
+          "ruleValue": {
+            "value": 4
+          }
+        },
+        {
+          "ruleKey": "allows_modules",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_watchtower",
+          "ruleValue": {
+            "value": false
+          }
+        },
+        {
+          "ruleKey": "allows_addons",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "max_additional_seats",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "extra_seat_price",
+          "ruleValue": {
+            "value": 15
+          }
+        },
+        {
+          "ruleKey": "historical_access_days",
+          "ruleValue": {
+            "value": 1095
+          }
+        },
+        {
+          "ruleKey": "intelligence_query_limit",
+          "ruleValue": {
+            "value": 150
+          }
+        },
+        {
+          "ruleKey": "credit_rollover_cap",
+          "ruleValue": {
+            "value": 3500
+          }
+        },
+        {
+          "ruleKey": "ai_seats_unit_divisor",
+          "ruleValue": {
+            "value": 5
+          }
+        }
+      ]
+    },
+    {
+      "id": "margin",
+      "basePrice": 1650,
+      "perLocationPrice": 245,
+      "locationBands": [
+        [
+          1,
+          1650
+        ],
+        [
+          10,
+          245
+        ],
+        [
+          25,
+          210
+        ],
+        [
+          50,
+          175
+        ],
+        [
+          100,
+          165
+        ],
+        [
+          150,
+          155
+        ],
+        [
+          250,
+          145
+        ],
+        [
+          251,
+          140
+        ]
+      ],
+      "includedModuleIds": [
+        "labor",
+        "inventory",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "purchasing"
+      ],
+      "aiCreditsBase": 16000,
+      "aiCreditsPerLocation": 3200,
+      "aiSeatsIncluded": 5,
+      "allowsWatchtower": false,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "ai_credits_base",
+          "ruleValue": {
+            "value": 16000
+          }
+        },
+        {
+          "ruleKey": "ai_credits_per_location",
+          "ruleValue": {
+            "value": 3200
+          }
+        },
+        {
+          "ruleKey": "ai_seats_included",
+          "ruleValue": {
+            "value": 5
+          }
+        },
+        {
+          "ruleKey": "allows_modules",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_watchtower",
+          "ruleValue": {
+            "value": false
+          }
+        },
+        {
+          "ruleKey": "allows_addons",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "max_additional_seats",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "extra_seat_price",
+          "ruleValue": {
+            "value": 15
+          }
+        },
+        {
+          "ruleKey": "historical_access_days",
+          "ruleValue": {
+            "value": 1095
+          }
+        },
+        {
+          "ruleKey": "intelligence_query_limit",
+          "ruleValue": {
+            "value": 200
+          }
+        },
+        {
+          "ruleKey": "credit_rollover_cap",
+          "ruleValue": {
+            "value": 4000
+          }
+        },
+        {
+          "ruleKey": "ai_features_allowed",
+          "ruleValue": {
+            "features": [
+              "CHAT",
+              "CHAT_DATA_QUERY",
+              "DATA_ANALYSIS",
+              "SQL_GENERATION",
+              "DOC_EXTRACT_TEXT",
+              "DOC_EXTRACT_OCR",
+              "VIEW_SUMMARY",
+              "INSIGHTS_CHAT",
+              "INSIGHTS_WIDGET",
+              "REPORT_GENERATION",
+              "CREW_COPILOT",
+              "CREW_AI_SHIFT_BUILDER",
+              "CREW_SCHEDULE_QUALITY",
+              "CREW_VARIANCE_ROOT_CAUSE",
+              "CREW_BRIEFING_GENERATOR",
+              "CREW_POLICY_EXPLAINER",
+              "CREW_NO_SHOW_PREDICTION"
+            ]
+          }
+        },
+        {
+          "ruleKey": "ai_seats_unit_divisor",
+          "ruleValue": {
+            "value": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "growth",
+      "basePrice": 1925,
+      "perLocationPrice": 260,
+      "locationBands": [
+        [
+          1,
+          1925
+        ],
+        [
+          10,
+          260
+        ],
+        [
+          25,
+          225
+        ],
+        [
+          50,
+          190
+        ],
+        [
+          100,
+          180
+        ],
+        [
+          150,
+          170
+        ],
+        [
+          250,
+          160
+        ],
+        [
+          251,
+          150
+        ]
+      ],
+      "includedModuleIds": [
+        "labor",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "marketing",
+        "reservations",
+        "guest_experience",
+        "guest_crm"
+      ],
+      "aiCreditsBase": 18000,
+      "aiCreditsPerLocation": 3600,
+      "aiSeatsIncluded": 6,
+      "allowsWatchtower": true,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "allows_addons",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "max_additional_seats",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "extra_seat_price",
+          "ruleValue": {
+            "value": 15
+          }
+        },
+        {
+          "ruleKey": "historical_access_days",
+          "ruleValue": {
+            "value": 1460
+          }
+        },
+        {
+          "ruleKey": "intelligence_query_limit",
+          "ruleValue": {
+            "value": 250
+          }
+        },
+        {
+          "ruleKey": "credit_rollover_cap",
+          "ruleValue": {
+            "value": 4500
+          }
+        },
+        {
+          "ruleKey": "ai_credits_base",
+          "ruleValue": {
+            "value": 18000
+          }
+        },
+        {
+          "ruleKey": "ai_credits_per_location",
+          "ruleValue": {
+            "value": 3600
+          }
+        },
+        {
+          "ruleKey": "ai_seats_included",
+          "ruleValue": {
+            "value": 6
+          }
+        },
+        {
+          "ruleKey": "allows_modules",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_watchtower",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "ai_features_allowed",
+          "ruleValue": {
+            "features": [
+              "CHAT",
+              "CHAT_DATA_QUERY",
+              "DATA_ANALYSIS",
+              "SQL_GENERATION",
+              "DOC_EXTRACT_TEXT",
+              "DOC_EXTRACT_OCR",
+              "VIEW_SUMMARY",
+              "INSIGHTS_CHAT",
+              "INSIGHTS_WIDGET",
+              "REPORT_GENERATION",
+              "CREW_COPILOT",
+              "CREW_AI_SHIFT_BUILDER",
+              "CREW_SCHEDULE_QUALITY",
+              "CREW_VARIANCE_ROOT_CAUSE",
+              "CREW_BRIEFING_GENERATOR",
+              "CREW_POLICY_EXPLAINER",
+              "CREW_NO_SHOW_PREDICTION"
+            ]
+          }
+        },
+        {
+          "ruleKey": "ai_seats_unit_divisor",
+          "ruleValue": {
+            "value": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "basePrice": 2980,
+      "perLocationPrice": 409,
+      "locationBands": [
+        [
+          1,
+          2980
+        ],
+        [
+          10,
+          409
+        ],
+        [
+          25,
+          348
+        ],
+        [
+          50,
+          290
+        ],
+        [
+          100,
+          275
+        ],
+        [
+          150,
+          255
+        ],
+        [
+          250,
+          245
+        ],
+        [
+          251,
+          230
+        ]
+      ],
+      "includedModuleIds": [
+        "labor",
+        "inventory",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "purchasing",
+        "marketing",
+        "reservations",
+        "guest_experience",
+        "guest_crm",
+        "foresight"
+      ],
+      "aiCreditsBase": 24000,
+      "aiCreditsPerLocation": 4800,
+      "aiSeatsIncluded": 8,
+      "allowsWatchtower": true,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "ai_credits_base",
+          "ruleValue": {
+            "value": 24000
+          }
+        },
+        {
+          "ruleKey": "ai_credits_per_location",
+          "ruleValue": {
+            "value": 4800
+          }
+        },
+        {
+          "ruleKey": "ai_seats_included",
+          "ruleValue": {
+            "value": 8
+          }
+        },
+        {
+          "ruleKey": "allows_modules",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_watchtower",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "allows_addons",
+          "ruleValue": {
+            "value": true
+          }
+        },
+        {
+          "ruleKey": "max_additional_seats",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "extra_seat_price",
+          "ruleValue": {
+            "value": 15
+          }
+        },
+        {
+          "ruleKey": "historical_access_days",
+          "ruleValue": {
+            "value": 1825
+          }
+        },
+        {
+          "ruleKey": "intelligence_query_limit",
+          "ruleValue": {
+            "value": -1
+          }
+        },
+        {
+          "ruleKey": "credit_rollover_cap",
+          "ruleValue": {
+            "value": 6000
+          }
+        },
+        {
+          "ruleKey": "ai_features_allowed",
+          "ruleValue": {
+            "features": [
+              "CHAT",
+              "CHAT_DATA_QUERY",
+              "DATA_ANALYSIS",
+              "SQL_GENERATION",
+              "DOC_EXTRACT_TEXT",
+              "DOC_EXTRACT_OCR",
+              "VIEW_SUMMARY",
+              "INSIGHTS_CHAT",
+              "INSIGHTS_WIDGET",
+              "REPORT_GENERATION",
+              "CREW_COPILOT",
+              "CREW_AI_SHIFT_BUILDER",
+              "CREW_SCHEDULE_QUALITY",
+              "CREW_VARIANCE_ROOT_CAUSE",
+              "CREW_BRIEFING_GENERATOR",
+              "CREW_HANDOVER_TRANSCRIPTION",
+              "CREW_POLICY_EXPLAINER",
+              "CREW_NO_SHOW_PREDICTION"
+            ]
+          }
+        },
+        {
+          "ruleKey": "ai_seats_unit_divisor",
+          "ruleValue": {
+            "value": 2
+          }
+        }
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "labor",
+      "orgLicense": 219,
+      "perLocationPrice": 22,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 249,
+          "perLocationPrice": 25,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 219,
+          "perLocationPrice": 22,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 399,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "inventory",
+      "orgLicense": 229,
+      "perLocationPrice": 24,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 259,
+          "perLocationPrice": 27,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 229,
+          "perLocationPrice": 24,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 499,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "purchasing",
+      "orgLicense": 169,
+      "perLocationPrice": 16,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 189,
+          "perLocationPrice": 18,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 169,
+          "perLocationPrice": 16,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 399,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "marketing",
+      "orgLicense": 249,
+      "perLocationPrice": 25,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 279,
+          "perLocationPrice": 29,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 249,
+          "perLocationPrice": 25,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 399,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "reservations",
+      "orgLicense": 169,
+      "perLocationPrice": 16,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_pro": {
+          "orgLicense": 169,
+          "perLocationPrice": 16,
+          "baseIncludesLocations": 3
+        },
+        "core_lite": {
+          "orgLicense": 189,
+          "perLocationPrice": 18,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 399,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "profit",
+      "orgLicense": 299,
+      "perLocationPrice": 28,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 339,
+          "perLocationPrice": 32,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 299,
+          "perLocationPrice": 28,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "labor",
+              "inventory"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "revenue_assurance",
+      "orgLicense": 149,
+      "perLocationPrice": 14,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 169,
+          "perLocationPrice": 16,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 149,
+          "perLocationPrice": 14,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 299,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "delivery",
+      "orgLicense": 219,
+      "perLocationPrice": 22,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 249,
+          "perLocationPrice": 25,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 219,
+          "perLocationPrice": 22,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 499,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "guest_experience",
+      "orgLicense": 149,
+      "perLocationPrice": 14,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 169,
+          "perLocationPrice": 16,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 149,
+          "perLocationPrice": 14,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 299,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "pulse",
+      "orgLicense": 269,
+      "perLocationPrice": 29,
+      "baseIncludesLocations": 3,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 299,
+          "perLocationPrice": 33,
+          "baseIncludesLocations": 3
+        },
+        "core_pro": {
+          "orgLicense": 269,
+          "perLocationPrice": 29,
+          "baseIncludesLocations": 3
+        }
+      },
+      "setupFee": 499,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "foresight",
+      "locationBands": [
+        [
+          1,
+          495
+        ],
+        [
+          10,
+          65
+        ],
+        [
+          25,
+          55
+        ],
+        [
+          50,
+          45
+        ],
+        [
+          100,
+          35
+        ]
+      ],
+      "orgLicense": 495,
+      "perLocationPrice": 65,
+      "baseIncludesLocations": 1,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 495,
+          "perLocationPrice": 65,
+          "baseIncludesLocations": 1
+        },
+        "core_pro": {
+          "orgLicense": 495,
+          "perLocationPrice": 65,
+          "baseIncludesLocations": 1
+        }
+      },
+      "setupFee": 599,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "crew_lite",
+      "locationBands": [
+        [
+          1,
+          99
+        ],
+        [
+          5,
+          19
+        ]
+      ],
+      "orgLicense": 99,
+      "perLocationPrice": 19,
+      "baseIncludesLocations": 1,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 99,
+          "perLocationPrice": 19,
+          "baseIncludesLocations": 1
+        }
+      },
+      "setupFee": 0,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": 5,
+            "hardLocationCap": true,
+            "perEmployeeOverageUsd": 2,
+            "maxEmployeesPerLocation": 15
+          }
+        },
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 1,
+            "creditsBase": 500,
+            "creditsPerLocation": 100,
+            "seatLocationBlockSize": null,
+            "seatsPerLocationBlock": 0
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_scheduling",
+      "locationBands": [
+        [
+          1,
+          179
+        ],
+        [
+          10,
+          39
+        ],
+        [
+          25,
+          35
+        ],
+        [
+          50,
+          31
+        ],
+        [
+          100,
+          29
+        ],
+        [
+          150,
+          27
+        ],
+        [
+          250,
+          26
+        ],
+        [
+          251,
+          25
+        ]
+      ],
+      "orgLicense": 179,
+      "perLocationPrice": 39,
+      "baseIncludesLocations": 1,
+      "setupFee": 399,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 1,
+            "creditsBase": 1000,
+            "creditsPerLocation": 250,
+            "seatLocationBlockSize": 10,
+            "seatsPerLocationBlock": 1
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_schedule_time_bundle",
+          "ruleValue": {
+            "setupFee": 499,
+            "basePrice": 249,
+            "bundleKey": "crew_schedule_time_bundle",
+            "bundleName": "Schedule & Time",
+            "includedItems": [
+              "crew_scheduling",
+              "crew_tna"
+            ],
+            "locationBands": [
+              [
+                1,
+                249
+              ],
+              [
+                10,
+                49
+              ],
+              [
+                25,
+                45
+              ],
+              [
+                50,
+                41
+              ],
+              [
+                100,
+                39
+              ],
+              [
+                150,
+                36
+              ],
+              [
+                250,
+                34
+              ],
+              [
+                251,
+                33
+              ]
+            ],
+            "bundleDiscount": 12,
+            "perLocationPrice": 49,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_operations",
+      "locationBands": [
+        [
+          1,
+          399
+        ],
+        [
+          10,
+          79
+        ],
+        [
+          25,
+          71
+        ],
+        [
+          50,
+          63
+        ],
+        [
+          100,
+          59
+        ],
+        [
+          150,
+          56
+        ],
+        [
+          250,
+          53
+        ],
+        [
+          251,
+          50
+        ]
+      ],
+      "orgLicense": 399,
+      "perLocationPrice": 79,
+      "baseIncludesLocations": 1,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 399,
+          "perLocationPrice": 79,
+          "baseIncludesLocations": 1
+        }
+      },
+      "setupFee": 499,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 2,
+            "creditsBase": 2500,
+            "creditsPerLocation": 500,
+            "seatLocationBlockSize": 5,
+            "seatsPerLocationBlock": 1
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_suite_bundle",
+          "ruleValue": {
+            "setupFee": 799,
+            "basePrice": 499,
+            "bundleKey": "crew_suite_bundle",
+            "bundleName": "Crew Operating",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll"
+            ],
+            "locationBands": [
+              [
+                1,
+                499
+              ],
+              [
+                10,
+                99
+              ],
+              [
+                25,
+                89
+              ],
+              [
+                50,
+                79
+              ],
+              [
+                100,
+                74
+              ],
+              [
+                150,
+                70
+              ],
+              [
+                250,
+                66
+              ],
+              [
+                251,
+                63
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 99,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "crew_complete_bundle",
+          "ruleValue": {
+            "setupFee": 999,
+            "basePrice": 699,
+            "bundleKey": "crew_complete_bundle",
+            "bundleName": "Crew Complete",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll",
+              "crew_people_intelligence"
+            ],
+            "locationBands": [
+              [
+                1,
+                699
+              ],
+              [
+                10,
+                129
+              ],
+              [
+                25,
+                115
+              ],
+              [
+                50,
+                102
+              ],
+              [
+                100,
+                96
+              ],
+              [
+                150,
+                90
+              ],
+              [
+                250,
+                86
+              ],
+              [
+                251,
+                82
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 129,
+            "priceBookVersion": "v1.8.0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_tna",
+      "locationBands": [
+        [
+          1,
+          99
+        ],
+        [
+          10,
+          19
+        ],
+        [
+          25,
+          17
+        ],
+        [
+          50,
+          15
+        ],
+        [
+          100,
+          14
+        ],
+        [
+          250,
+          13
+        ],
+        [
+          251,
+          12
+        ]
+      ],
+      "orgLicense": 99,
+      "perLocationPrice": 19,
+      "baseIncludesLocations": 1,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 99,
+          "perLocationPrice": 19,
+          "baseIncludesLocations": 1
+        }
+      },
+      "setupFee": 199,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_scheduling"
+            ]
+          }
+        },
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 1,
+            "creditsBase": 750,
+            "creditsPerLocation": 150,
+            "seatLocationBlockSize": null,
+            "seatsPerLocationBlock": 0
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_schedule_time_bundle",
+          "ruleValue": {
+            "setupFee": 499,
+            "basePrice": 249,
+            "bundleKey": "crew_schedule_time_bundle",
+            "bundleName": "Schedule & Time",
+            "includedItems": [
+              "crew_scheduling",
+              "crew_tna"
+            ],
+            "locationBands": [
+              [
+                1,
+                249
+              ],
+              [
+                10,
+                49
+              ],
+              [
+                25,
+                45
+              ],
+              [
+                50,
+                41
+              ],
+              [
+                100,
+                39
+              ],
+              [
+                150,
+                36
+              ],
+              [
+                250,
+                34
+              ],
+              [
+                251,
+                33
+              ]
+            ],
+            "bundleDiscount": 12,
+            "perLocationPrice": 49,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "crew_suite_bundle",
+          "ruleValue": {
+            "setupFee": 799,
+            "basePrice": 499,
+            "bundleKey": "crew_suite_bundle",
+            "bundleName": "Crew Operating",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll"
+            ],
+            "locationBands": [
+              [
+                1,
+                499
+              ],
+              [
+                10,
+                99
+              ],
+              [
+                25,
+                89
+              ],
+              [
+                50,
+                79
+              ],
+              [
+                100,
+                74
+              ],
+              [
+                150,
+                70
+              ],
+              [
+                250,
+                66
+              ],
+              [
+                251,
+                63
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 99,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "crew_complete_bundle",
+          "ruleValue": {
+            "setupFee": 999,
+            "basePrice": 699,
+            "bundleKey": "crew_complete_bundle",
+            "bundleName": "Crew Complete",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll",
+              "crew_people_intelligence"
+            ],
+            "locationBands": [
+              [
+                1,
+                699
+              ],
+              [
+                10,
+                129
+              ],
+              [
+                25,
+                115
+              ],
+              [
+                50,
+                102
+              ],
+              [
+                100,
+                96
+              ],
+              [
+                150,
+                90
+              ],
+              [
+                250,
+                86
+              ],
+              [
+                251,
+                82
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 129,
+            "priceBookVersion": "v1.8.0"
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_payroll",
+      "locationBands": [
+        [
+          1,
+          129
+        ],
+        [
+          10,
+          29
+        ],
+        [
+          25,
+          26
+        ],
+        [
+          50,
+          23
+        ],
+        [
+          100,
+          22
+        ],
+        [
+          150,
+          20
+        ],
+        [
+          250,
+          19
+        ],
+        [
+          251,
+          18
+        ]
+      ],
+      "orgLicense": 129,
+      "perLocationPrice": 29,
+      "baseIncludesLocations": 1,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 129,
+          "perLocationPrice": 29,
+          "baseIncludesLocations": 1
+        }
+      },
+      "setupFee": 399,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_scheduling"
+            ]
+          }
+        },
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 1,
+            "creditsBase": 1000,
+            "creditsPerLocation": 250,
+            "seatLocationBlockSize": null,
+            "seatsPerLocationBlock": 0
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_suite_bundle",
+          "ruleValue": {
+            "setupFee": 799,
+            "basePrice": 499,
+            "bundleKey": "crew_suite_bundle",
+            "bundleName": "Crew Operating",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll"
+            ],
+            "locationBands": [
+              [
+                1,
+                499
+              ],
+              [
+                10,
+                99
+              ],
+              [
+                25,
+                89
+              ],
+              [
+                50,
+                79
+              ],
+              [
+                100,
+                74
+              ],
+              [
+                150,
+                70
+              ],
+              [
+                250,
+                66
+              ],
+              [
+                251,
+                63
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 99,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "crew_complete_bundle",
+          "ruleValue": {
+            "setupFee": 999,
+            "basePrice": 699,
+            "bundleKey": "crew_complete_bundle",
+            "bundleName": "Crew Complete",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll",
+              "crew_people_intelligence"
+            ],
+            "locationBands": [
+              [
+                1,
+                699
+              ],
+              [
+                10,
+                129
+              ],
+              [
+                25,
+                115
+              ],
+              [
+                50,
+                102
+              ],
+              [
+                100,
+                96
+              ],
+              [
+                150,
+                90
+              ],
+              [
+                250,
+                86
+              ],
+              [
+                251,
+                82
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 129,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_people_intelligence",
+      "locationBands": [
+        [
+          1,
+          249
+        ],
+        [
+          10,
+          39
+        ],
+        [
+          25,
+          35
+        ],
+        [
+          50,
+          31
+        ],
+        [
+          100,
+          29
+        ],
+        [
+          150,
+          27
+        ],
+        [
+          250,
+          26
+        ],
+        [
+          251,
+          25
+        ]
+      ],
+      "orgLicense": 249,
+      "perLocationPrice": 39,
+      "baseIncludesLocations": 1,
+      "pricingByTier": {
+        "report_plus": {
+          "orgLicense": 249,
+          "perLocationPrice": 39,
+          "baseIncludesLocations": 1
+        },
+        "report_lite": {
+          "orgLicense": 249,
+          "perLocationPrice": 39,
+          "baseIncludesLocations": 1
+        },
+        "core_lite": {
+          "orgLicense": 249,
+          "perLocationPrice": 39,
+          "baseIncludesLocations": 1
+        },
+        "core_pro": {
+          "orgLicense": 249,
+          "perLocationPrice": 39,
+          "baseIncludesLocations": 1
+        },
+        "report_pro": {
+          "orgLicense": 249,
+          "perLocationPrice": 39,
+          "baseIncludesLocations": 1
+        }
+      },
+      "setupFee": 299,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_operations"
+            ]
+          }
+        },
+        {
+          "ruleKey": "crew_ai_allowance",
+          "ruleValue": {
+            "seatsBase": 2,
+            "creditsBase": 2000,
+            "creditsPerLocation": 500,
+            "seatLocationBlockSize": null,
+            "seatsPerLocationBlock": 0
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "crew_complete_bundle",
+          "ruleValue": {
+            "setupFee": 999,
+            "basePrice": 699,
+            "bundleKey": "crew_complete_bundle",
+            "bundleName": "Crew Complete",
+            "includedItems": [
+              "crew_operations",
+              "crew_tna",
+              "crew_payroll",
+              "crew_people_intelligence"
+            ],
+            "locationBands": [
+              [
+                1,
+                699
+              ],
+              [
+                10,
+                129
+              ],
+              [
+                25,
+                115
+              ],
+              [
+                50,
+                102
+              ],
+              [
+                100,
+                96
+              ],
+              [
+                150,
+                90
+              ],
+              [
+                250,
+                86
+              ],
+              [
+                251,
+                82
+              ]
+            ],
+            "bundleDiscount": 20,
+            "perLocationPrice": 129,
+            "priceBookVersion": "v1.8.0"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_catering",
+      "locationBands": [
+        [
+          1,
+          349
+        ],
+        [
+          10,
+          69
+        ],
+        [
+          50,
+          59
+        ],
+        [
+          100,
+          49
+        ]
+      ],
+      "orgLicense": 349,
+      "perLocationPrice": 69,
+      "baseIncludesLocations": 1,
+      "setupFee": 299,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_operations"
+            ],
+            "alternatives": []
+          }
+        },
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "perEmployeeOverageUsd": 3,
+            "maxEmployeesPerLocation": 20
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_production",
+      "locationBands": [
+        [
+          1,
+          595
+        ],
+        [
+          10,
+          95
+        ],
+        [
+          25,
+          80
+        ],
+        [
+          50,
+          65
+        ],
+        [
+          100,
+          50
+        ]
+      ],
+      "orgLicense": 595,
+      "perLocationPrice": 95,
+      "baseIncludesLocations": 1,
+      "setupFee": 299,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "outlet_caps",
+          "ruleValue": {
+            "maxLocations": null,
+            "hardLocationCap": false,
+            "maxEmployeesPerLocation": null
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "hotel_fb_analytics",
+      "locationBands": [
+        [
+          1,
+          395
+        ],
+        [
+          10,
+          85
+        ],
+        [
+          25,
+          72
+        ],
+        [
+          50,
+          60
+        ],
+        [
+          100,
+          48
+        ]
+      ],
+      "orgLicense": 395,
+      "perLocationPrice": 85,
+      "baseIncludesLocations": 1,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 395,
+          "perLocationPrice": 85,
+          "baseIncludesLocations": 1
+        }
+      },
+      "setupFee": 299,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "franchise_intelligence",
+      "locationBands": [
+        [
+          1,
+          595
+        ],
+        [
+          10,
+          75
+        ],
+        [
+          25,
+          65
+        ],
+        [
+          50,
+          55
+        ],
+        [
+          100,
+          45
+        ]
+      ],
+      "orgLicense": 595,
+      "perLocationPrice": 75,
+      "baseIncludesLocations": 1,
+      "pricingByTier": {
+        "core_lite": {
+          "orgLicense": 595,
+          "perLocationPrice": 75,
+          "baseIncludesLocations": 1
+        }
+      },
+      "setupFee": 299,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "cloud_kitchen",
+      "locationBands": [
+        [
+          1,
+          395
+        ],
+        [
+          10,
+          69
+        ],
+        [
+          25,
+          59
+        ],
+        [
+          50,
+          49
+        ],
+        [
+          100,
+          39
+        ]
+      ],
+      "orgLicense": 395,
+      "perLocationPrice": 69,
+      "baseIncludesLocations": 1,
+      "setupFee": 299,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": []
+    },
+    {
+      "id": "rental_commissary",
+      "locationBands": [
+        [
+          1,
+          395
+        ],
+        [
+          10,
+          75
+        ],
+        [
+          25,
+          65
+        ],
+        [
+          50,
+          55
+        ],
+        [
+          100,
+          45
+        ]
+      ],
+      "orgLicense": 395,
+      "perLocationPrice": 75,
+      "baseIncludesLocations": 1,
+      "setupFee": 499,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "required_modules",
+          "ruleValue": {
+            "moduleIds": [
+              "crew_production"
+            ],
+            "alternatives": []
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "watchtower": [
+    {
+      "id": "competitive",
+      "basePrice": 549,
+      "perLocationPrice": 69,
+      "baseIncludesLocations": 1,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "enterprise_flat_rate",
+          "ruleValue": {
+            "flatRate": 2500,
+            "threshold": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "events",
+      "basePrice": 249,
+      "perLocationPrice": 39,
+      "baseIncludesLocations": 1,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "enterprise_flat_rate",
+          "ruleValue": {
+            "flatRate": 1200,
+            "threshold": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "trends",
+      "basePrice": 299,
+      "perLocationPrice": 29,
+      "baseIncludesLocations": 1,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "enterprise_flat_rate",
+          "ruleValue": {
+            "flatRate": 800,
+            "threshold": 30
+          }
+        }
+      ]
+    },
+    {
+      "id": "bundle",
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [],
+      "basePrice": 899,
+      "perLocationPrice": 109,
+      "baseIncludesLocations": 1
+    }
+  ],
+  "addons": [
+    {
+      "id": "additional_ai_seats",
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "quantity_limits",
+          "ruleValue": {
+            "max": null,
+            "min": 1
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "price_per_unit_by_tier",
+          "ruleValue": {
+            "growth": 15,
+            "margin": 15,
+            "core_pro": 10,
+            "core_lite": 12,
+            "foundation": 15,
+            "report_pro": 15,
+            "performance": 15,
+            "report_plus": 19
+          }
+        },
+        {
+          "ruleKey": "price_per_unit_bands",
+          "ruleValue": {
+            "growth": [
+              [
+                20,
+                15
+              ],
+              [
+                50,
+                12
+              ]
+            ],
+            "margin": [
+              [
+                20,
+                15
+              ],
+              [
+                50,
+                12
+              ]
+            ],
+            "foundation": [
+              [
+                20,
+                15
+              ],
+              [
+                50,
+                12
+              ]
+            ],
+            "performance": [
+              [
+                20,
+                15
+              ],
+              [
+                50,
+                12
+              ]
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sundae_secrets_vault",
+      "pricingByTier": {
+        "growth": 99,
+        "margin": 99,
+        "core_pro": 99,
+        "core_lite": 99,
+        "enterprise": 99,
+        "foundation": 99,
+        "performance": 99
+      },
+      "perLocationPrice": 19,
+      "baseIncludesLocations": 1,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "enterprise",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 99,
+            "margin": 99,
+            "core_pro": 99,
+            "core_lite": 99,
+            "enterprise": 99,
+            "foundation": 99,
+            "performance": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "data_retention_upgrade",
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_lite",
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "options",
+          "ruleValue": {
+            "options": [
+              {
+                "id": "to_1_year",
+                "name": "1 Year Total",
+                "value": 365,
+                "pricingByTier": {
+                  "report_lite": 19
+                }
+              },
+              {
+                "id": "to_2_years",
+                "name": "2 Years Total",
+                "value": 730,
+                "pricingByTier": {
+                  "report_plus": 19
+                }
+              },
+              {
+                "id": "to_3_years",
+                "name": "3 Years Total",
+                "value": 1095,
+                "pricingByTier": {
+                  "margin": 29,
+                  "core_lite": 29,
+                  "foundation": 29,
+                  "report_pro": 29,
+                  "report_plus": 32
+                }
+              },
+              {
+                "id": "to_5_years",
+                "name": "5 Years Total",
+                "value": 1825,
+                "pricingByTier": {
+                  "growth": 49,
+                  "margin": 49,
+                  "core_pro": 49,
+                  "core_lite": 49,
+                  "foundation": 49,
+                  "report_pro": 49,
+                  "performance": 49
+                }
+              },
+              {
+                "id": "to_7_years",
+                "name": "7 Years Total",
+                "value": 2555,
+                "pricingByTier": {
+                  "growth": 79,
+                  "core_pro": 79,
+                  "performance": 79
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "benchmarking_radius",
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "options",
+          "ruleValue": {
+            "options": [
+              {
+                "id": "to_10km",
+                "name": "Extend to 10km",
+                "value": 10,
+                "pricingByTier": {
+                  "growth": 0,
+                  "margin": 99,
+                  "core_pro": 0,
+                  "core_lite": 99,
+                  "foundation": 99,
+                  "performance": 0
+                }
+              },
+              {
+                "id": "to_20km",
+                "name": "Extend to 20km",
+                "value": 20,
+                "pricingByTier": {
+                  "growth": 199,
+                  "margin": 199,
+                  "core_pro": 199,
+                  "core_lite": 199,
+                  "foundation": 199,
+                  "performance": 199
+                }
+              },
+              {
+                "id": "to_50km",
+                "name": "Extend to 50km",
+                "value": 50,
+                "pricingByTier": {
+                  "growth": 399,
+                  "core_pro": 399,
+                  "performance": 399
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "advanced_ml_package",
+      "pricingByTier": {
+        "growth": 79,
+        "margin": 79,
+        "core_pro": 79,
+        "core_lite": 79,
+        "foundation": 79,
+        "performance": 79
+      },
+      "perLocationPrice": 49,
+      "baseIncludesLocations": 1,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 79,
+            "margin": 79,
+            "core_pro": 79,
+            "core_lite": 79,
+            "foundation": 79,
+            "performance": 79
+          }
+        }
+      ]
+    },
+    {
+      "id": "custom_kpi_builder",
+      "pricingByTier": {
+        "growth": 99,
+        "margin": 99,
+        "core_pro": 99,
+        "core_lite": 99,
+        "foundation": 99,
+        "performance": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 99,
+            "margin": 99,
+            "core_pro": 99,
+            "core_lite": 99,
+            "foundation": 99,
+            "performance": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "advanced_forecasting",
+      "pricingByTier": {
+        "growth": 49,
+        "margin": 49,
+        "core_pro": 49,
+        "core_lite": 49,
+        "foundation": 49,
+        "performance": 49
+      },
+      "perLocationPrice": 39,
+      "baseIncludesLocations": 1,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 49,
+            "margin": 49,
+            "core_pro": 49,
+            "core_lite": 49,
+            "foundation": 49,
+            "performance": 49
+          }
+        }
+      ]
+    },
+    {
+      "id": "multi_market_analysis",
+      "pricingByTier": {
+        "growth": 299,
+        "core_pro": 299,
+        "performance": 299
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_pro",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 299,
+            "core_pro": 299,
+            "performance": 299
+          }
+        }
+      ]
+    },
+    {
+      "id": "additional_shared_views",
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "quantity_limits",
+          "ruleValue": {
+            "max": null,
+            "min": 1
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "price_per_unit_by_tier",
+          "ruleValue": {
+            "growth": 15,
+            "margin": 15,
+            "core_pro": 15,
+            "core_lite": 15,
+            "foundation": 15,
+            "report_pro": 19,
+            "performance": 15
+          }
+        }
+      ]
+    },
+    {
+      "id": "collaboration_suite",
+      "pricingByTier": {
+        "growth": 79,
+        "margin": 79,
+        "core_pro": 79,
+        "core_lite": 79,
+        "foundation": 79,
+        "performance": 79
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 79,
+            "margin": 79,
+            "core_pro": 79,
+            "core_lite": 79,
+            "foundation": 79,
+            "performance": 79
+          }
+        }
+      ]
+    },
+    {
+      "id": "external_sharing_portal",
+      "pricingByTier": {
+        "growth": 149,
+        "core_pro": 149,
+        "performance": 149
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_pro",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 149,
+            "core_pro": 149,
+            "performance": 149
+          }
+        }
+      ]
+    },
+    {
+      "id": "team_workspaces",
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "quantity_limits",
+          "ruleValue": {
+            "max": null,
+            "min": 1
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "price_per_unit_by_tier",
+          "ruleValue": {
+            "growth": 49,
+            "margin": 49,
+            "core_pro": 49,
+            "core_lite": 49,
+            "foundation": 49,
+            "performance": 49
+          }
+        }
+      ]
+    },
+    {
+      "id": "priority_support",
+      "pricingByTier": {
+        "margin": 99,
+        "core_lite": 99,
+        "foundation": 99,
+        "report_pro": 99,
+        "report_plus": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "foundation",
+              "margin"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "margin": 99,
+            "core_lite": 99,
+            "foundation": 99,
+            "report_pro": 99,
+            "report_plus": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "premium_24_7_support",
+      "pricingByTier": {
+        "growth": 149,
+        "margin": 199,
+        "core_pro": 149,
+        "core_lite": 199,
+        "foundation": 199,
+        "report_pro": 249,
+        "performance": 149,
+        "report_plus": 249
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 149,
+            "margin": 199,
+            "core_pro": 149,
+            "core_lite": 199,
+            "foundation": 199,
+            "report_pro": 249,
+            "performance": 149,
+            "report_plus": 249
+          }
+        }
+      ]
+    },
+    {
+      "id": "slack_teams_connect",
+      "pricingByTier": {
+        "growth": 99,
+        "margin": 149,
+        "core_pro": 99,
+        "core_lite": 149,
+        "foundation": 149,
+        "performance": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 99,
+            "margin": 149,
+            "core_pro": 99,
+            "core_lite": 149,
+            "foundation": 149,
+            "performance": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "additional_api_calls",
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "options",
+          "ruleValue": {
+            "options": [
+              {
+                "id": "10k",
+                "name": "10,000 calls",
+                "value": 10000,
+                "pricingByTier": {
+                  "growth": 29,
+                  "margin": 39,
+                  "core_pro": 29,
+                  "core_lite": 39,
+                  "foundation": 39,
+                  "report_pro": 49,
+                  "performance": 29
+                }
+              },
+              {
+                "id": "50k",
+                "name": "50,000 calls",
+                "value": 50000,
+                "pricingByTier": {
+                  "growth": 99,
+                  "margin": 149,
+                  "core_pro": 99,
+                  "core_lite": 149,
+                  "foundation": 149,
+                  "report_pro": 199,
+                  "performance": 99
+                }
+              },
+              {
+                "id": "100k",
+                "name": "100,000 calls",
+                "value": 100000,
+                "pricingByTier": {
+                  "growth": 149,
+                  "margin": 249,
+                  "core_pro": 149,
+                  "core_lite": 249,
+                  "foundation": 249,
+                  "report_pro": 349,
+                  "performance": 149
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "additional_webhooks",
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro",
+              "core_lite",
+              "foundation",
+              "margin"
+            ]
+          }
+        },
+        {
+          "ruleKey": "options",
+          "ruleValue": {
+            "options": [
+              {
+                "id": "5_webhooks",
+                "name": "5 webhooks",
+                "value": 5,
+                "pricingByTier": {
+                  "margin": 19,
+                  "core_lite": 19,
+                  "foundation": 19,
+                  "report_pro": 29
+                }
+              },
+              {
+                "id": "10_webhooks",
+                "name": "10 webhooks",
+                "value": 10,
+                "pricingByTier": {
+                  "margin": 29,
+                  "core_lite": 29,
+                  "foundation": 29,
+                  "report_pro": 49
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "write_api_access",
+      "pricingByTier": {
+        "margin": 99,
+        "core_lite": 99,
+        "foundation": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "foundation",
+              "margin"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "margin": 99,
+            "core_lite": 99,
+            "foundation": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "realtime_streaming",
+      "pricingByTier": {
+        "growth": 99,
+        "margin": 199,
+        "core_pro": 99,
+        "core_lite": 199,
+        "foundation": 199,
+        "performance": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 99,
+            "margin": 199,
+            "core_pro": 99,
+            "core_lite": 199,
+            "foundation": 199,
+            "performance": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "bi_connector",
+      "pricingByTier": {
+        "growth": 99,
+        "margin": 149,
+        "core_pro": 99,
+        "core_lite": 149,
+        "foundation": 149,
+        "performance": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 99,
+            "margin": 149,
+            "core_pro": 99,
+            "core_lite": 149,
+            "foundation": 149,
+            "performance": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "additional_pos_integration",
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "quantity_limits",
+          "ruleValue": {
+            "max": null,
+            "min": 1
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "price_per_unit_by_tier",
+          "ruleValue": {
+            "growth": 0,
+            "margin": 99,
+            "core_pro": 0,
+            "core_lite": 99,
+            "foundation": 99,
+            "performance": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": "accounting_integration",
+      "pricingByTier": {
+        "growth": 79,
+        "margin": 79,
+        "core_pro": 79,
+        "core_lite": 79,
+        "foundation": 79,
+        "performance": 79
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 79,
+            "margin": 79,
+            "core_pro": 79,
+            "core_lite": 79,
+            "foundation": 79,
+            "performance": 79
+          }
+        }
+      ]
+    },
+    {
+      "id": "hr_system_integration",
+      "pricingByTier": {
+        "growth": 99,
+        "margin": 99,
+        "core_pro": 99,
+        "core_lite": 99,
+        "foundation": 99,
+        "performance": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 99,
+            "margin": 99,
+            "core_pro": 99,
+            "core_lite": 99,
+            "foundation": 99,
+            "performance": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "advanced_audit_logs",
+      "pricingByTier": {
+        "growth": 79,
+        "margin": 79,
+        "core_pro": 79,
+        "core_lite": 79,
+        "foundation": 79,
+        "performance": 79
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 79,
+            "margin": 79,
+            "core_pro": 79,
+            "core_lite": 79,
+            "foundation": 79,
+            "performance": 79
+          }
+        }
+      ]
+    },
+    {
+      "id": "ip_whitelisting",
+      "pricingByTier": {
+        "growth": 49,
+        "margin": 49,
+        "core_pro": 49,
+        "core_lite": 49,
+        "foundation": 49,
+        "performance": 49
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 49,
+            "margin": 49,
+            "core_pro": 49,
+            "core_lite": 49,
+            "foundation": 49,
+            "performance": 49
+          }
+        }
+      ]
+    },
+    {
+      "id": "compliance_pack_gdpr",
+      "pricingByTier": {
+        "growth": 99,
+        "margin": 149,
+        "core_pro": 99,
+        "core_lite": 149,
+        "foundation": 149,
+        "performance": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 99,
+            "margin": 149,
+            "core_pro": 99,
+            "core_lite": 149,
+            "foundation": 149,
+            "performance": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "custom_report_builder",
+      "pricingByTier": {
+        "growth": 99,
+        "margin": 129,
+        "core_pro": 99,
+        "core_lite": 129,
+        "foundation": 129,
+        "performance": 99
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 99,
+            "margin": 129,
+            "core_pro": 99,
+            "core_lite": 129,
+            "foundation": 129,
+            "performance": 99
+          }
+        }
+      ]
+    },
+    {
+      "id": "scheduled_reports",
+      "pricingByTier": {
+        "growth": 29,
+        "margin": 39,
+        "core_pro": 29,
+        "core_lite": 39,
+        "foundation": 39,
+        "report_pro": 49,
+        "performance": 29
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 29,
+            "margin": 39,
+            "core_pro": 29,
+            "core_lite": 39,
+            "foundation": 39,
+            "report_pro": 49,
+            "performance": 29
+          }
+        }
+      ]
+    },
+    {
+      "id": "advanced_data_export",
+      "pricingByTier": {
+        "growth": 39,
+        "margin": 49,
+        "core_pro": 39,
+        "core_lite": 49,
+        "foundation": 49,
+        "report_pro": 59,
+        "performance": 39
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 39,
+            "margin": 49,
+            "core_pro": 39,
+            "core_lite": 49,
+            "foundation": 49,
+            "report_pro": 59,
+            "performance": 39
+          }
+        }
+      ]
+    },
+    {
+      "id": "anomaly_detection_ai",
+      "pricingByTier": {
+        "growth": 149,
+        "margin": 179,
+        "core_pro": 149,
+        "core_lite": 179,
+        "foundation": 179,
+        "performance": 149
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 149,
+            "margin": 179,
+            "core_pro": 149,
+            "core_lite": 179,
+            "foundation": 179,
+            "performance": 149
+          }
+        }
+      ]
+    },
+    {
+      "id": "automated_backup",
+      "pricingByTier": {
+        "growth": 59,
+        "margin": 79,
+        "core_pro": 59,
+        "core_lite": 79,
+        "foundation": 79,
+        "performance": 59
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 59,
+            "margin": 79,
+            "core_pro": 59,
+            "core_lite": 79,
+            "foundation": 79,
+            "performance": 59
+          }
+        }
+      ]
+    },
+    {
+      "id": "mobile_app_access",
+      "pricingByTier": {
+        "growth": 0,
+        "margin": 0,
+        "core_pro": 0,
+        "core_lite": 0,
+        "foundation": 0,
+        "report_pro": 19,
+        "performance": 0,
+        "report_plus": 29
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 0,
+            "margin": 0,
+            "core_pro": 0,
+            "core_lite": 0,
+            "foundation": 0,
+            "report_pro": 19,
+            "performance": 0,
+            "report_plus": 29
+          }
+        }
+      ]
+    },
+    {
+      "id": "offline_mode",
+      "pricingByTier": {
+        "growth": 39,
+        "margin": 49,
+        "core_pro": 39,
+        "core_lite": 49,
+        "foundation": 49,
+        "performance": 39
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 39,
+            "margin": 49,
+            "core_pro": 39,
+            "core_lite": 49,
+            "foundation": 49,
+            "performance": 39
+          }
+        }
+      ]
+    },
+    {
+      "id": "team_training_package",
+      "pricingByTier": {
+        "growth": 299,
+        "margin": 399,
+        "core_pro": 299,
+        "core_lite": 399,
+        "foundation": 399,
+        "report_pro": 499,
+        "performance": 299,
+        "report_plus": 499
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 299,
+            "margin": 399,
+            "core_pro": 299,
+            "core_lite": 399,
+            "foundation": 399,
+            "report_pro": 499,
+            "performance": 299,
+            "report_plus": 499
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_credit_topup_100",
+      "pricingByTier": {
+        "growth": 10,
+        "margin": 10,
+        "core_pro": 10,
+        "core_lite": 12,
+        "foundation": 10,
+        "report_pro": 15,
+        "performance": 10,
+        "report_lite": 30,
+        "report_plus": 20,
+        "no_tier": 10
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_lite",
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 10,
+            "margin": 10,
+            "core_pro": 10,
+            "core_lite": 12,
+            "foundation": 10,
+            "report_pro": 15,
+            "performance": 10,
+            "report_lite": 30,
+            "report_plus": 20
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_credit_topup_300",
+      "pricingByTier": {
+        "growth": 28,
+        "margin": 28,
+        "core_pro": 27,
+        "core_lite": 33,
+        "foundation": 28,
+        "report_pro": 40,
+        "performance": 28,
+        "report_plus": 55,
+        "no_tier": 27
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 28,
+            "margin": 28,
+            "core_pro": 27,
+            "core_lite": 33,
+            "foundation": 28,
+            "report_pro": 40,
+            "performance": 28,
+            "report_plus": 55
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_credit_topup_500",
+      "pricingByTier": {
+        "growth": 40,
+        "margin": 40,
+        "core_pro": 40,
+        "core_lite": 50,
+        "foundation": 40,
+        "report_pro": 60,
+        "performance": 40,
+        "no_tier": 40
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 40,
+            "margin": 40,
+            "core_pro": 40,
+            "core_lite": 50,
+            "foundation": 40,
+            "report_pro": 60,
+            "performance": 40
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_credit_topup_1000",
+      "pricingByTier": {
+        "growth": 70,
+        "margin": 70,
+        "core_pro": 70,
+        "core_lite": 90,
+        "foundation": 70,
+        "performance": 70,
+        "no_tier": 70
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 70,
+            "margin": 70,
+            "core_pro": 70,
+            "core_lite": 90,
+            "foundation": 70,
+            "performance": 70
+          }
+        }
+      ]
+    },
+    {
+      "id": "intelligence_unlock",
+      "pricingByTier": {
+        "report_pro": 79
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "report_pro": 79
+          }
+        }
+      ]
+    },
+    {
+      "id": "intelligence_pro",
+      "pricingByTier": {
+        "growth": 399,
+        "margin": 399,
+        "core_pro": 399,
+        "core_lite": 399,
+        "foundation": 399,
+        "performance": 399
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "exclusivity_group",
+          "ruleValue": {
+            "group": "intelligence_pro"
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 399,
+            "margin": 399,
+            "core_pro": 399,
+            "core_lite": 399,
+            "foundation": 399,
+            "performance": 399
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "cross_intelligence_pro",
+      "pricingByTier": {
+        "growth": 199,
+        "margin": 199,
+        "core_pro": 199,
+        "core_lite": 199,
+        "foundation": 199,
+        "performance": 199
+      },
+      "perLocationPrice": 19,
+      "baseIncludesLocations": 1,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "exclusivity_group",
+          "ruleValue": {
+            "group": "cross_intelligence"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 199,
+            "margin": 199,
+            "core_pro": 199,
+            "core_lite": 199,
+            "foundation": 199,
+            "performance": 199
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_package_plus",
+      "pricingByTier": {
+        "growth": 399,
+        "margin": 399,
+        "core_pro": 399,
+        "core_lite": 399,
+        "foundation": 399,
+        "report_pro": 299,
+        "performance": 399
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "exclusivity_group",
+          "ruleValue": {
+            "group": "ai_package"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 399,
+            "margin": 399,
+            "core_pro": 399,
+            "core_lite": 399,
+            "foundation": 399,
+            "report_pro": 299,
+            "performance": 399
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_package_pro",
+      "pricingByTier": {
+        "growth": 599,
+        "margin": 599,
+        "core_pro": 599,
+        "core_lite": 599,
+        "foundation": 599,
+        "performance": 599
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "exclusivity_group",
+          "ruleValue": {
+            "group": "ai_package"
+          }
+        },
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 599,
+            "margin": 599,
+            "core_pro": 599,
+            "core_lite": 599,
+            "foundation": 599,
+            "performance": 599
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_credit_topup_1000_monthly",
+      "pricingByTier": {
+        "growth": 70,
+        "margin": 70,
+        "core_pro": 70,
+        "core_lite": 90,
+        "foundation": 70,
+        "performance": 70,
+        "no_tier": 70
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 70,
+            "margin": 70,
+            "core_pro": 70,
+            "core_lite": 90,
+            "foundation": 70,
+            "performance": 70
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_credit_topup_100_monthly",
+      "pricingByTier": {
+        "growth": 10,
+        "margin": 10,
+        "core_pro": 10,
+        "core_lite": 12,
+        "foundation": 10,
+        "report_pro": 15,
+        "performance": 10,
+        "report_lite": 30,
+        "report_plus": 20,
+        "no_tier": 10
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_lite",
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 10,
+            "margin": 10,
+            "core_pro": 10,
+            "core_lite": 12,
+            "foundation": 10,
+            "report_pro": 15,
+            "performance": 10,
+            "report_lite": 30,
+            "report_plus": 20
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_credit_topup_500_monthly",
+      "pricingByTier": {
+        "growth": 40,
+        "margin": 40,
+        "core_pro": 40,
+        "core_lite": 50,
+        "foundation": 40,
+        "report_pro": 60,
+        "performance": 40,
+        "no_tier": 40
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 40,
+            "margin": 40,
+            "core_pro": 40,
+            "core_lite": 50,
+            "foundation": 40,
+            "report_pro": 60,
+            "performance": 40
+          }
+        }
+      ]
+    },
+    {
+      "id": "ai_credit_topup_300_monthly",
+      "pricingByTier": {
+        "growth": 28,
+        "margin": 28,
+        "core_pro": 28,
+        "core_lite": 33,
+        "foundation": 28,
+        "report_pro": 40,
+        "performance": 28,
+        "report_plus": 55,
+        "no_tier": 28
+      },
+      "perLocationPrice": 0,
+      "baseIncludesLocations": 0,
+      "setupFee": null,
+      "isActive": true,
+      "isSellableToCustomer": true,
+      "isHidden": false,
+      "rules": [
+        {
+          "ruleKey": "available_tiers",
+          "ruleValue": {
+            "tiers": [
+              "report_plus",
+              "report_pro",
+              "core_lite",
+              "core_pro",
+              "foundation",
+              "margin",
+              "growth",
+              "performance",
+              "no_tier"
+            ]
+          }
+        },
+        {
+          "ruleKey": "pricing_by_tier",
+          "ruleValue": {
+            "growth": 28,
+            "margin": 28,
+            "core_pro": 28,
+            "core_lite": 33,
+            "foundation": 28,
+            "report_pro": 40,
+            "performance": 28,
+            "report_plus": 55
+          }
+        }
+      ]
+    }
+  ],
+  "discounts": [
+    {
+      "id": 42,
+      "billingCycle": "annual",
+      "discountPercent": "5.00",
+      "appliesToItemTypes": null,
+      "appliesToItemKeys": null,
+      "name": "Annual Commitment — Quarterly Payments",
+      "description": "Default 5% discount for an annual commitment paid quarterly",
+      "isActive": true,
+      "priority": 10,
+      "effectiveFrom": "2026-08-23T02:04:53.960+00:00",
+      "effectiveUntil": null,
+      "createdAt": "2026-10-09T14:18:04.857+00:00",
+      "updatedAt": "2026-10-09T14:18:04.857+00:00",
+      "catalogVersionId": "de526f40-6af7-48d0-8c42-8980870b0acd",
+      "paymentSchedule": "quarterly"
+    },
+    {
+      "id": 43,
+      "billingCycle": "annual",
+      "discountPercent": "12.00",
+      "appliesToItemTypes": null,
+      "appliesToItemKeys": null,
+      "name": "Annual Commitment — Upfront Payment",
+      "description": "Default 12% discount for an annual commitment paid upfront",
+      "isActive": true,
+      "priority": 10,
+      "effectiveFrom": "2026-08-23T02:04:53.960+00:00",
+      "effectiveUntil": null,
+      "createdAt": "2026-10-09T14:18:04.870+00:00",
+      "updatedAt": "2026-10-09T14:18:04.870+00:00",
+      "catalogVersionId": "de526f40-6af7-48d0-8c42-8980870b0acd",
+      "paymentSchedule": "upfront"
+    },
+    {
+      "id": 44,
+      "billingCycle": "2year",
+      "discountPercent": "20.00",
+      "appliesToItemTypes": null,
+      "appliesToItemKeys": null,
+      "name": "Two-Year Commitment — Upfront Payment",
+      "description": "Default 20% discount with a 24-month price lock",
+      "isActive": true,
+      "priority": 10,
+      "effectiveFrom": "2026-08-23T02:04:53.960+00:00",
+      "effectiveUntil": null,
+      "createdAt": "2026-10-09T14:18:04.878+00:00",
+      "updatedAt": "2026-10-09T14:18:04.878+00:00",
+      "catalogVersionId": "de526f40-6af7-48d0-8c42-8980870b0acd",
+      "paymentSchedule": "upfront"
+    }
+  ],
+  "bundles": [
+    {
+      "id": "crew_schedule_time_bundle",
+      "basePrice": 249,
+      "perLocationPrice": 49,
+      "locationBands": [
+        [
+          1,
+          249
+        ],
+        [
+          10,
+          49
+        ],
+        [
+          25,
+          45
+        ],
+        [
+          50,
+          41
+        ],
+        [
+          100,
+          39
+        ],
+        [
+          150,
+          36
+        ],
+        [
+          250,
+          34
+        ],
+        [
+          251,
+          33
+        ]
+      ],
+      "setupFee": 499
+    },
+    {
+      "id": "crew_complete_bundle",
+      "basePrice": 699,
+      "perLocationPrice": 129,
+      "locationBands": [
+        [
+          1,
+          699
+        ],
+        [
+          10,
+          129
+        ],
+        [
+          25,
+          115
+        ],
+        [
+          50,
+          102
+        ],
+        [
+          100,
+          96
+        ],
+        [
+          150,
+          90
+        ],
+        [
+          250,
+          86
+        ],
+        [
+          251,
+          82
+        ]
+      ],
+      "setupFee": 999
+    },
+    {
+      "id": "crew_suite_bundle",
+      "basePrice": 499,
+      "perLocationPrice": 99,
+      "locationBands": [
+        [
+          1,
+          499
+        ],
+        [
+          10,
+          99
+        ],
+        [
+          25,
+          89
+        ],
+        [
+          50,
+          79
+        ],
+        [
+          100,
+          74
+        ],
+        [
+          150,
+          70
+        ],
+        [
+          250,
+          66
+        ],
+        [
+          251,
+          63
+        ]
+      ],
+      "setupFee": 799
+    }
+  ],
+  "resolvedAt": "2026-10-10T06:09:28.726Z",
+  "implementationClasses": {
+    "class_a": {
+      "fee": 1500,
+      "isFloor": false
+    },
+    "class_b": {
+      "fee": 2500,
+      "isFloor": false
+    },
+    "class_c": {
+      "fee": 7500,
+      "isFloor": false
+    },
+    "class_d": {
+      "fee": 12500,
+      "isFloor": true
+    },
+    "self_service": {
+      "fee": 0,
+      "isFloor": false
+    }
+  },
+  "offerImplementationClasses": {
+    "labor": "class_b",
+    "pulse": "class_b",
+    "growth": "class_b",
+    "margin": "class_b",
+    "profit": "class_b",
+    "crew_tna": "class_a",
+    "delivery": "class_b",
+    "crew_lite": "self_service",
+    "foresight": "class_a",
+    "guest_crm": "class_b",
+    "inventory": "class_b",
+    "marketing": "class_b",
+    "enterprise": "class_d",
+    "foundation": "class_b",
+    "purchasing": "class_b",
+    "performance": "class_c",
+    "crew_payroll": "class_c",
+    "reservations": "class_b",
+    "cloud_kitchen": "class_b",
+    "crew_catering": "class_a",
+    "crew_operations": "class_b",
+    "crew_production": "class_b",
+    "crew_scheduling": "class_a",
+    "guest_experience": "class_b",
+    "crew_suite_bundle": "class_c",
+    "rental_commissary": "class_b",
+    "revenue_assurance": "class_b",
+    "hotel_fb_analytics": "class_b",
+    "crew_complete_bundle": "class_c",
+    "franchise_intelligence": "class_b",
+    "crew_people_intelligence": "class_b",
+    "crew_schedule_time_bundle": "class_a"
+  }
+}

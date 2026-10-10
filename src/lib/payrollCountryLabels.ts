@@ -39,6 +39,13 @@ const nativeCountryNames: Partial<Record<PricingLocale, Record<PayrollCountryCod
 
 const regionNames = new Map<PricingLocale, Intl.DisplayNames>();
 
+/** Country choices retain ISO handoff codes. The UK covers all four nations;
+ * covered markets precede those whose availability needs confirmation. */
+export function getPayrollCountryOptions(locale: PricingLocale) {
+  return PAYROLL_COUNTRIES.map(country => ({ ...country, label: formatPayrollCountry(country.code, locale) }))
+    .sort((a,b) => Number(b.supported) - Number(a.supported) || a.label.localeCompare(b.label, getPricingIntlLocale(locale)));
+}
+
 export function formatPayrollCountry(code: string, locale: PricingLocale): string {
   const country = PAYROLL_COUNTRIES.find(country => country.code === code);
   if (!country) return '';

@@ -800,6 +800,10 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .other-plan-summary span small { display:block; font-size:10px; color:var(--color-sundae-muted); margin-bottom:5px; }
 .other-plan-summary strong { font-size:18px; text-align:end; }
 .other-plan-summary strong small { font-size:11px; font-weight:400; }
+.other-plan-price { max-width:50%; min-width:0; text-align:end; }
+.other-plan-price .average-price-amount { font-size:24px; }
+.other-plan-price .average-price-label, .other-plan-price .average-price-unit { font-size:10px; }
+.other-plan-price .plan-total { font-size:11px; margin:6px 0 0; }
 .mobile-plan-select, .comparison-mobile { display:none; }
 .mobile-plan-select label, .comparison-mobile label { display:block; font-size:12px; margin-bottom:8px; font-weight:600; }
 .mobile-plan-select select, .comparison-mobile select { width:100%; min-height:46px; border-radius:10px; padding:10px 12px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 30%,transparent); background:var(--color-sundae-surface); color:var(--color-sundae-text); font-size:14px; }
@@ -846,12 +850,12 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .plan-total bdi { font-weight:600; margin-inline-start:5px; }
 .is-selected .plan-total { color:#64564a; }
 .decision-total-row { display:flex; align-items:baseline; justify-content:space-between; gap:16px; }
-.pricing-decision-bar .has-average { display:grid; gap:7px; }
-.pricing-decision-bar .average-price { display:flex; flex-wrap:wrap; align-items:baseline; gap:3px 7px; }
-.pricing-decision-bar .average-price-label { flex-basis:100%; }
-.pricing-decision-bar .average-price-amount { font-size:18px; font-weight:500; letter-spacing:-.02em; }
-.has-average .decision-total-row { order:2; }
-.pricing-decision-bar .has-average .decision-total-row strong { font-size:32px; letter-spacing:-.03em; }
+.pricing-decision-bar .has-average { display:grid; grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:10px 28px; }
+.pricing-decision-bar .average-price { display:grid; gap:3px; }
+.pricing-decision-bar .average-price-amount { font-size:32px; font-weight:600; letter-spacing:-.03em; color:var(--color-sundae-text); }
+.has-average .decision-total-row { grid-column:2; grid-row:1; flex-direction:column; align-items:flex-end; gap:4px; text-align:end; }
+.has-average .decision-average { grid-column:1; grid-row:1; }
+.pricing-decision-bar .has-average .decision-total-row strong { font-size:20px; font-weight:500; letter-spacing:-.02em; }
 .pricing-decision-bar .has-average .decision-total-row strong span { font-size:11px; }
 .basket-summary > .average-price { margin:18px 0 16px; }
 .basket-summary .average-price-amount { font-size:clamp(40px,4vw,52px); }
@@ -860,15 +864,23 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .basket-price.is-secondary { font-size:20px; letter-spacing:-.02em; margin:0; }
 .basket-price.is-secondary small { font-size:12px; }
 @media (max-width:640px) {
-  .pricing-decision-bar > .decision-price { display:flex; flex-direction:column; gap:7px; }
-  .pricing-decision-bar .decision-total-row { order:0; width:100%; align-items:baseline; }
-  .pricing-decision-bar .has-average .decision-total-row strong { font-size:25px; letter-spacing:-.03em; }
-  .pricing-decision-bar .decision-average { order:1; width:100%; }
-  .pricing-decision-bar .average-price { display:block; }
-  .pricing-decision-bar .average-price-amount { font-size:18px; font-weight:500; letter-spacing:-.02em; margin-inline-start:4px; }
+  .pricing-decision-bar > .decision-price { display:grid; gap:8px 14px; }
+  .pricing-decision-bar .has-average .decision-total-row strong { font-size:18px; overflow-wrap:anywhere; }
+  .pricing-decision-bar .has-average .decision-total-row { max-width:130px; }
+  .pricing-decision-bar .decision-average { width:100%; grid-column:1; }
+  .pricing-decision-bar .average-price-amount { font-size:30px; }
   .pricing-decision-bar .average-price-label, .pricing-decision-bar .average-price-unit { font-size:11px; }
   .basket-summary .average-price-amount { font-size:42px; }
   .basket-total-row { flex-wrap:wrap; gap:3px 14px; }
+  .workforce-prompt { grid-column:1 / -1; }
+  .mobile-plan-select select, .comparison-mobile select, .refine-panel select, .refine-panel > input { font-size:16px; }
+  .location-control button { width:44px; height:44px; }
+  header select[aria-label] { width:44px; height:44px; }
+  header [data-testid=theme-toggle]::after { content:''; position:absolute; inset:-8px 0; }
+  .buyer-progress button { min-height:48px; }
+  .step-actions { position:sticky; bottom:max(8px,env(safe-area-inset-bottom)); z-index:30; padding:12px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 25%,transparent); border-radius:14px; background:var(--color-sundae-dark); box-shadow:0 8px 32px #0003; }
+  .step-actions .pricing-primary { flex:1; }
+  .pricing-decision-bar { bottom:max(8px,env(safe-area-inset-bottom)); }
 }
 
 /* Independently operable feature explanations, above the card selection target. */

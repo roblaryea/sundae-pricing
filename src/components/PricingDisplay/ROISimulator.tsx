@@ -57,10 +57,10 @@ export function ROISimulator() {
     </div>
 
     <dl className="roi-metrics" data-testid="roi-metrics">
-      <div><dt>{ui.monthlyBenefit}</dt><dd data-testid="roi-monthly-funding">{money(roi.monthlyFunding)}</dd></div>
-      <div data-state={state}><dt>{copy.netMonthlyBenefit}</dt><dd data-testid="roi-monthly-net">{signedMoney(roi.monthlyNetBenefit)}</dd></div>
+      <div><dt>{ui.monthlyBenefit}</dt><dd data-testid="roi-monthly-funding"><bdi dir="ltr">{money(roi.monthlyFunding)}</bdi></dd></div>
+      <div data-state={state}><dt>{copy.netMonthlyBenefit}</dt><dd data-testid="roi-monthly-net"><bdi dir="ltr">{signedMoney(roi.monthlyNetBenefit)}</bdi></dd></div>
       <div><dt>{economicsCopy.paybackLabel}</dt><dd className="roi-payback-value" data-numeric={roi.monthlyNetBenefit > 0 && roi.paybackDays !== null} data-testid="roi-payback">{paybackText}</dd></div>
-      <div data-state={roi.firstYearNetBenefit !== null && roi.firstYearNetBenefit > 0 ? 'positive' : 'neutral'}><dt>{economicsCopy.firstYearNetLabel}</dt><dd data-testid="roi-first-year-net">{roi.firstYearNetBenefit === null ? '—' : money(roi.firstYearNetBenefit)}</dd></div>
+      <div data-state={roi.firstYearNetBenefit !== null && roi.firstYearNetBenefit > 0 ? 'positive' : 'neutral'}><dt>{economicsCopy.firstYearNetLabel}</dt><dd data-testid="roi-first-year-net"><bdi dir="ltr">{roi.firstYearNetBenefit === null ? '—' : money(roi.firstYearNetBenefit)}</bdi></dd></div>
     </dl>
     <p className="roi-equation"><span>{ui.monthlyBenefit}: <bdi>{money(roi.monthlyFunding)}</bdi></span><span aria-hidden>−</span><span>{copy.monthlyPlatformCost}: <bdi>{money(pricing.monthly)}</bdi></span><span aria-hidden>≈</span><strong>{copy.netMonthlyBenefit}: <bdi>{signedMoney(roi.monthlyNetBenefit)}</bdi></strong></p>
     <p className="roi-rounding-note">{ui.roundingNote}</p>

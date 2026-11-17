@@ -98,6 +98,11 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
     : roi.paybackDays === null ? economicsCopy.unknownSetup
       : roi.paybackDays === 0 ? economicsCopy.immediate
         : formatMessage(copy.days, { count: roi.paybackDays.toLocaleString(locale) });
+  const recoveryExplanation = roi.paysBack && implementationCost !== null && implementationCost > 0 && roi.paybackDays !== null
+    ? formatMessage(economicsCopy.recoveryExplanation, {
+        net: money(roi.monthlyNetBenefit), fee: money(implementationCost),
+        days: roi.paybackDays.toLocaleString(locale),
+      }) : null;
 
   // The configuration store is persisted, so a visitor who set $50,000 before
   // the floor moved would otherwise keep modelling a figure the slider can no
@@ -418,6 +423,7 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
           </p>
         </div>
 
+        {recoveryExplanation && <p className="mt-3 text-sm text-center" data-testid="roi-recovery-explanation">{recoveryExplanation}</p>}
         <p className="mt-3 text-xs text-sundae-muted text-center">{economicsCopy.scopeNote}</p>
         <p className="mt-2 text-xs text-sundae-muted text-center">{economicsCopy.methodNote}</p>
         <p className="mt-2 text-xs text-sundae-muted text-center">{economicsCopy.paybackLabel} = {economicsCopy.implementationLabel} ÷ {copy.netMonthlyBenefit} × (365 ÷ 12)</p>

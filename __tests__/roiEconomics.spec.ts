@@ -112,7 +112,8 @@ describe('economic payback and net benefit', () => {
   });
   it.each(supportedLocales)('explains the economic/full-plan basis in %s', locale => {
     const copy = getRoiEconomicsCopy(locale);
-    expect(Object.values(copy)).toHaveLength(8);
+    expect(Object.values(copy)).toHaveLength(9);
+    for (const token of ['{net}', '{fee}', '{days}']) expect(copy.recoveryExplanation).toContain(token);
     for (const value of Object.values(copy)) expect(value.length).toBeGreaterThan(0);
     if (locale !== 'en') for (const key of Object.keys(copy) as (keyof typeof copy)[]) expect(copy[key]).not.toBe(getRoiEconomicsCopy('en')[key]);
   });

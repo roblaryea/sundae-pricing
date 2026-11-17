@@ -1,7 +1,8 @@
 import type { PricingLocale } from './locales';
 
-const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: string; nextHint: string; adjust: string; method: string; cashTitle: string; cashNote: string; tools: string; hours: string; rate: string; capacity: string; capacityNote: string; monthlyBenefit: string; operatingSavings: string }> = {
+const copy: Record<PricingLocale, { title: string; hint: string; roundingNote: string; nextTitle: string; nextHint: string; adjust: string; method: string; cashTitle: string; cashNote: string; tools: string; hours: string; rate: string; capacity: string; capacityNote: string; monthlyBenefit: string; operatingSavings: string }> = {
   "en": {
+    "roundingNote": "Amounts are rounded to the nearest dollar. Calculations use unrounded values.",
     "nextTitle": "Next steps",
     "nextHint": "Book a demo, request access, or save this estimate for your team.",
     "title": "Estimated returns",
@@ -19,6 +20,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Modelled operating savings"
   },
   "ar": {
+    "roundingNote": "تُقرَّب المبالغ إلى أقرب دولار. تستخدم الحسابات القيم غير المقرَّبة.",
     "nextTitle": "الخطوات التالية",
     "nextHint": "احجز عرضًا، أو اطلب الوصول، أو احفظ هذا التقدير لفريقك.",
     "title": "العوائد المقدّرة",
@@ -36,6 +38,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "وفورات تشغيلية مقدّرة بالنموذج"
   },
   "fr": {
+    "roundingNote": "Les montants sont arrondis au dollar le plus proche. Les calculs utilisent les valeurs non arrondies.",
     "nextTitle": "Prochaines étapes",
     "nextHint": "Réservez une démo, demandez un accès ou enregistrez cette estimation pour votre équipe.",
     "title": "Retours estimés",
@@ -53,6 +56,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Économies opérationnelles modélisées"
   },
   "es": {
+    "roundingNote": "Los importes se redondean al dólar más cercano. Los cálculos usan valores sin redondear.",
     "nextTitle": "Próximos pasos",
     "nextHint": "Reserva una demo, solicita acceso o guarda esta estimación para tu equipo.",
     "title": "Retornos estimados",
@@ -70,6 +74,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Ahorros operativos modelados"
   },
   "de": {
+    "roundingNote": "Beträge werden auf volle US-Dollar gerundet. Berechnungen verwenden ungerundete Werte.",
     "nextTitle": "Nächste Schritte",
     "nextHint": "Buchen Sie eine Demo, fragen Sie Zugang an oder speichern Sie diese Schätzung für Ihr Team.",
     "title": "Geschätzter Nutzen",
@@ -87,6 +92,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Modellierte betriebliche Einsparungen"
   },
   "nl": {
+    "roundingNote": "Bedragen worden afgerond op hele dollars. Berekeningen gebruiken niet-afgeronde waarden.",
     "nextTitle": "Volgende stappen",
     "nextHint": "Boek een demo, vraag toegang aan of bewaar deze raming voor uw team.",
     "title": "Geschatte opbrengsten",
@@ -104,6 +110,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Gemodelleerde operationele besparingen"
   },
   "pt": {
+    "roundingNote": "Os montantes são arredondados ao dólar mais próximo. Os cálculos usam valores não arredondados.",
     "nextTitle": "Próximos passos",
     "nextHint": "Marque uma demonstração, solicite acesso ou guarde esta estimativa para a sua equipa.",
     "title": "Retornos estimados",
@@ -121,6 +128,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Poupanças operacionais modeladas"
   },
   "hi": {
+    "roundingNote": "राशियाँ निकटतम डॉलर तक गोल की गई हैं। गणना में बिना गोल किए मानों का उपयोग होता है।",
     "nextTitle": "अगले कदम",
     "nextHint": "डेमो बुक करें, एक्सेस का अनुरोध करें या अपनी टीम के लिए यह अनुमान सहेजें।",
     "title": "अनुमानित लाभ",
@@ -138,6 +146,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "मॉडल के अनुसार परिचालन बचत"
   },
   "ur": {
+    "roundingNote": "رقوم کو قریب ترین ڈالر تک گول کیا گیا ہے۔ حساب میں اصل غیر گول شدہ اعداد استعمال ہوتے ہیں۔",
     "nextTitle": "اگلے مراحل",
     "nextHint": "ڈیمو بک کریں، رسائی کی درخواست کریں یا یہ تخمینہ اپنی ٹیم کے لیے محفوظ کریں۔",
     "title": "تخمینی فوائد",
@@ -155,6 +164,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "ماڈل کے مطابق عملیاتی بچت"
   },
   "it": {
+    "roundingNote": "Gli importi sono arrotondati al dollaro più vicino. I calcoli usano valori non arrotondati.",
     "nextTitle": "Prossimi passi",
     "nextHint": "Prenota una demo, richiedi accesso o salva questa stima per il tuo team.",
     "title": "Benefici stimati",
@@ -172,6 +182,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Risparmi operativi modellati"
   },
   "pl": {
+    "roundingNote": "Kwoty są zaokrąglone do pełnych dolarów. Obliczenia używają wartości niezaokrąglonych.",
     "nextTitle": "Kolejne kroki",
     "nextHint": "Umów demo, poproś o dostęp lub zapisz tę wycenę dla zespołu.",
     "title": "Szacowane korzyści",
@@ -189,6 +200,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Modelowane oszczędności operacyjne"
   },
   "tr": {
+    "roundingNote": "Tutarlar en yakın dolara yuvarlanır. Hesaplamalarda yuvarlanmamış değerler kullanılır.",
     "nextTitle": "Sonraki adımlar",
     "nextHint": "Demo ayırtın, erişim talep edin veya bu tahmini ekibiniz için kaydedin.",
     "title": "Tahmini getiriler",
@@ -206,6 +218,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Modellenen operasyonel tasarruf"
   },
   "zh-Hans": {
+    "roundingNote": "金额四舍五入到最接近的美元整数。计算使用未舍入的数值。",
     "nextTitle": "下一步",
     "nextHint": "预约演示、申请访问，或为团队保存此估算。",
     "title": "预计收益",
@@ -223,6 +236,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "模型估算的运营节省"
   },
   "ja": {
+    "roundingNote": "金額は1米ドル単位に四捨五入して表示しています。計算には丸め前の値を使用します。",
     "nextTitle": "次のステップ",
     "nextHint": "デモの予約、アクセスの申請、またはチーム用にこの見積もりを保存できます。",
     "title": "推定効果",
@@ -240,6 +254,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "モデルによる運営費削減額"
   },
   "ko": {
+    "roundingNote": "금액은 가장 가까운 달러 단위로 반올림합니다. 계산에는 반올림 전 값을 사용합니다.",
     "nextTitle": "다음 단계",
     "nextHint": "데모를 예약하거나 이용을 신청하거나 팀을 위해 이 견적을 저장하세요.",
     "title": "예상 편익",
@@ -257,6 +272,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "모델 기반 운영 절감액"
   },
   "id": {
+    "roundingNote": "Jumlah dibulatkan ke dolar terdekat. Perhitungan memakai nilai sebelum pembulatan.",
     "nextTitle": "Langkah berikutnya",
     "nextHint": "Jadwalkan demo, minta akses, atau simpan estimasi ini untuk tim Anda.",
     "title": "Estimasi manfaat",
@@ -274,6 +290,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Penghematan operasional dalam model"
   },
   "vi": {
+    "roundingNote": "Số tiền được làm tròn đến đô la gần nhất. Phép tính sử dụng giá trị chưa làm tròn.",
     "nextTitle": "Các bước tiếp theo",
     "nextHint": "Đặt lịch demo, yêu cầu truy cập hoặc lưu ước tính này cho đội ngũ của bạn.",
     "title": "Lợi ích ước tính",
@@ -291,6 +308,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Tiết kiệm vận hành theo mô hình"
   },
   "ro": {
+    "roundingNote": "Sumele sunt rotunjite la cel mai apropiat dolar. Calculele folosesc valorile nerotunjite.",
     "nextTitle": "Pașii următori",
     "nextHint": "Programează o demonstrație, solicită acces sau salvează această estimare pentru echipa ta.",
     "title": "Beneficii estimate",
@@ -308,6 +326,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Economii operaționale modelate"
   },
   "sv": {
+    "roundingNote": "Beloppen avrundas till närmaste dollar. Beräkningarna använder oavrundade värden.",
     "nextTitle": "Nästa steg",
     "nextHint": "Boka en demo, begär åtkomst eller spara den här uppskattningen för ditt team.",
     "title": "Beräknad nytta",
@@ -325,6 +344,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Modellerade driftbesparingar"
   },
   "bn": {
+    "roundingNote": "অঙ্কগুলো নিকটতম ডলারে পূর্ণ করা হয়েছে। গণনায় অপরিবর্তিত মূল মান ব্যবহার করা হয়।",
     "nextTitle": "পরবর্তী ধাপ",
     "nextHint": "ডেমো বুক করুন, অ্যাক্সেসের অনুরোধ করুন বা দলের জন্য এই হিসাব সংরক্ষণ করুন।",
     "title": "আনুমানিক সুবিধা",
@@ -342,6 +362,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "মডেল অনুযায়ী পরিচালন সাশ্রয়"
   },
   "th": {
+    "roundingNote": "จำนวนเงินปัดเป็นดอลลาร์ที่ใกล้ที่สุด การคำนวณใช้ค่าที่ยังไม่ปัดเศษ",
     "nextTitle": "ขั้นตอนถัดไป",
     "nextHint": "จองเดโม ขอสิทธิ์เข้าใช้งาน หรือบันทึกประมาณการนี้ให้ทีมของคุณ",
     "title": "ผลประโยชน์โดยประมาณ",
@@ -359,6 +380,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "การประหยัดจากการดำเนินงานตามแบบจำลอง"
   },
   "ms": {
+    "roundingNote": "Amaun dibundarkan kepada dolar terdekat. Pengiraan menggunakan nilai sebelum pembundaran.",
     "nextTitle": "Langkah seterusnya",
     "nextHint": "Tempah demo, minta akses atau simpan anggaran ini untuk pasukan anda.",
     "title": "Anggaran manfaat",
@@ -376,6 +398,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Penjimatan operasi yang dimodelkan"
   },
   "az": {
+    "roundingNote": "Məbləğlər ən yaxın dollara yuvarlaqlaşdırılır. Hesablamalarda yuvarlaqlaşdırılmamış dəyərlər istifadə olunur.",
     "nextTitle": "Növbəti addımlar",
     "nextHint": "Demo sifariş edin, giriş üçün müraciət edin və ya bu hesablamanı komandanız üçün saxlayın.",
     "title": "Təxmini faydalar",
@@ -393,6 +416,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Modelləşdirilmiş əməliyyat qənaəti"
   },
   "ru": {
+    "roundingNote": "Суммы округлены до ближайшего доллара. Расчёты используют неокруглённые значения.",
     "nextTitle": "Следующие шаги",
     "nextHint": "Запишитесь на демо, запросите доступ или сохраните этот расчёт для команды.",
     "title": "Ожидаемые выгоды",
@@ -410,6 +434,7 @@ const copy: Record<PricingLocale, { title: string; hint: string; nextTitle: stri
     "operatingSavings": "Расчётная операционная экономия"
   },
   "pap": {
+    "roundingNote": "Montantenan ta rondá na e dòler mas serka. Kalkulashonnan ta usa balornan sin rondá.",
     "nextTitle": "Siguiente pasonan",
     "nextHint": "Reserva un demo, pidi akseso òf warda e estimashon aki pa bo ekipo.",
     "title": "Benefisionan estimá",

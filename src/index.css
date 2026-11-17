@@ -983,12 +983,13 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .roi-metrics > div { min-width:0; padding-inline-start:18px; border-inline-start:1px solid var(--roi-border); }
 .roi-metrics > div:first-child { padding-inline-start:0; border:0; }
 .roi-metrics dt { font-size:12px; line-height:1.5; color:var(--color-sundae-muted); max-width:220px; min-height:3em; }
-.roi-metrics dd { font-family:var(--font-display); font-size:clamp(24px,2.6vw,34px); line-height:1.25; font-weight:600; margin-top:8px; font-variant-numeric:tabular-nums; overflow-wrap:anywhere; }
-.roi-metrics .roi-payback-value { font-family:var(--font-sans); font-size:22px; line-height:1.4; font-weight:600; }
+.roi-metrics dd { font-family:var(--font-sans); font-size:clamp(24px,2.6vw,34px); line-height:1.25; font-weight:600; letter-spacing:-.035em; margin-top:8px; font-variant-numeric:tabular-nums lining-nums; overflow-wrap:anywhere; }
+.roi-metrics .roi-payback-value[data-numeric=false] { font-size:20px; line-height:1.4; letter-spacing:-.015em; }
 .roi-metrics [data-state=positive] dd { color:var(--roi-positive); }
 .roi-metrics [data-state=shortfall] dd { color:var(--roi-warning); }
 .roi-equation { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 10px; font-size:12px; line-height:1.7; padding-block:14px; border-top:1px solid var(--roi-border); color:var(--color-sundae-muted); }
 .roi-equation bdi, .roi-equation strong { color:var(--color-sundae-text); font-variant-numeric:tabular-nums; font-weight:500; }
+.roi-rounding-note { color:var(--color-sundae-muted); font-size:12px; line-height:1.6; margin-top:-6px; margin-bottom:14px; }
 .roi-recovery-note, .roi-shortfall-note { font-size:13px; line-height:1.7; margin-bottom:18px; max-width:900px; }
 .roi-shortfall-note { color:var(--roi-warning); }
 .roi-disclosure { border:0; border-top:1px solid var(--roi-border); font-size:13px; }
@@ -1047,8 +1048,8 @@ button:disabled { opacity:.45; cursor:not-allowed; }
   .roi-metrics { gap:20px 14px; }
   .roi-metrics > div { padding-inline-start:12px; }
   .roi-metrics dd { font-size:26px; }
-  .roi-metrics .roi-payback-value { font-size:17px; }
-  .roi-metrics dt { font-size:11px; }
+  .roi-metrics .roi-payback-value[data-numeric=false] { font-size:17px; }
+  .roi-metrics dt { font-size:12px; }
   .roi-equation { display:grid; grid-template-columns:minmax(0,1fr); gap:4px; }
   .roi-equation > span[aria-hidden] { display:none; }
   .roi-input-grid, .roi-method-values { grid-template-columns:minmax(0,1fr); gap:14px; }

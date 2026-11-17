@@ -9,24 +9,38 @@ import { getRoiPresentationCopy } from '../../lib/roiPresentationCopy';
 import { formatMessage, getRoiCopy } from '../../lib/pricingUiCopy';
 import { getQuoteSummaryCopy } from '../../lib/quoteSummaryCopy';
 import { corePackages } from '../../data/pricing';
+import { getImplementationPlanningCopy } from '../../lib/implementationPlanningCopy';
+import type { BasketQuote } from '../../lib/basketQuote';
 
 /** Results remain visible; assumptions and methodology expand independently. */
 export function ROISimulator() {
+  const { quote, config } = useBuyerQuote();
+  // A custom planning cost belongs to this quote only, never a different plan
+  // or a newly published implementation policy. It is not a handoff field.
+  return <ROIWorkspace key={JSON.stringify([config, quote.implementation])} pricing={quote}/>;
+}
+
+function ROIWorkspace({ pricing }: { pricing: BasketQuote }) {
   const { locale } = useLocale();
   const copy = getRoiCopy(locale);
   const ui = getRoiPresentationCopy(locale);
   const economicsCopy = getRoiEconomicsCopy(locale);
+  const setupCopy = getImplementationPlanningCopy(locale);
   const q = getQuoteSummaryCopy(locale);
   const { layer, corePackage, locations, watchtowerModules, roiInputs, setROIInputs } = useConfiguration();
-  const { quote: pricing } = useBuyerQuote();
   const headingId = useId();
+  const setupInputId = useId();
+  const [setupDraft, setSetupDraft] = useState<string | null>(null);
   // Round presentation only; model inputs, net benefit and recovery keep their precision.
   const wholeDollars = (amount: number) => Math.sign(amount) * Math.round(Math.abs(amount)) || 0;
   const moneyFormat = new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
   const signedMoneyFormat = new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0, signDisplay: 'exceptZero' });
   const money = (amount: number) => moneyFormat.format(wholeDollars(amount));
   const activeDomains = (corePackages[corePackage]?.includesDomainModules ?? []) as readonly string[];
-  const implementationCost = pricing.implementation.requiresScoping || pricing.implementation.isFloor ? null : pricing.implementation.fee;
+  const planImplementationCost = pricing.implementation.requiresScoping || pricing.implementation.isFloor ? null : pricing.implementation.fee;
+  const enteredCost = setupDraft === null || setupDraft.trim() === '' ? null : Number(setupDraft);
+  const implementationCost = setupDraft === null ? planImplementationCost
+    : enteredCost !== null && Number.isFinite(enteredCost) && enteredCost >= 0 ? enteredCost : null;
   const roi = useROICalculation(
     { layer: layer === 'core' || layer === 'both' ? 'core' : null, corePackage, locations, activeDomains: [...activeDomains], watchtowerModules },
     roiInputs,
@@ -64,6 +78,7 @@ export function ROISimulator() {
     </dl>
     <p className="roi-equation"><span>{ui.monthlyBenefit}: <bdi>{money(roi.monthlyFunding)}</bdi></span><span aria-hidden>−</span><span>{copy.monthlyPlatformCost}: <bdi>{money(pricing.monthly)}</bdi></span><span aria-hidden>≈</span><strong>{copy.netMonthlyBenefit}: <bdi>{signedMoney(roi.monthlyNetBenefit)}</bdi></strong></p>
     <p className="roi-rounding-note">{ui.roundingNote}</p>
+    <p className="roi-setup-note" data-testid="roi-setup-assumption">{implementationCost === null ? setupCopy.needsAssumption : formatMessage(setupCopy.assumptionSummary, { fee: money(implementationCost) })}</p>
     {recoveryExplanation && <p className="roi-recovery-note" data-testid="roi-recovery-explanation">{recoveryExplanation}</p>}
     {roi.monthlyNetBenefit <= 0 && <p className="roi-shortfall-note">{copy.roiDescriptions.longTerm}</p>}
 
@@ -76,6 +91,11 @@ export function ROISimulator() {
         {activeDomains.includes('marketing') && <RangeField label={copy.monthlyMarketingSpend} min={0} max={10000} step={500} value={roiInputs.marketingSpend || 0} display={money(roiInputs.marketingSpend || 0)} onChange={value => setROIInputs({ marketingSpend: value })}/>}
         {activeDomains.includes('delivery') && <RangeField label={copy.deliveryRevenuePct} min={0} max={50} step={5} value={roiInputs.deliveryRevenuePct || 0} display={`${(roiInputs.deliveryRevenuePct || 0).toLocaleString(locale)}%`} onChange={value => setROIInputs({ deliveryRevenuePct: value })}/>}
         {activeDomains.includes('guest') && <div className="roi-toggle-field"><span>{copy.reviewData}</span><button type="button" aria-pressed={Boolean(roiInputs.hasReviewData)} onClick={() => setROIInputs({ hasReviewData: !roiInputs.hasReviewData })}>{roiInputs.hasReviewData ? copy.yes : copy.no}</button></div>}
+      </div>
+      <div className="roi-setup-control">
+        <div className="roi-number-field"><label htmlFor={setupInputId}>{setupCopy.assumptionLabel}</label><input id={setupInputId} data-testid="roi-setup-input" type="number" min={0} step="any" inputMode="decimal" aria-describedby={`${setupInputId}-note`} value={setupDraft ?? planImplementationCost ?? ''} onChange={event => setSetupDraft(event.target.value)}/></div>
+        <button type="button" disabled={setupDraft === null} onClick={() => setSetupDraft(null)}>{setupCopy.reset}</button>
+        <p id={`${setupInputId}-note`}>{setupCopy.planningNote}</p>
       </div>
       <details className="roi-disclosure roi-extra-inputs">
         <summary><span>{ui.cashTitle}</span><ChevronDown size={16} aria-hidden/></summary>

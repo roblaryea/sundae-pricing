@@ -8,6 +8,7 @@ import { calculateBasketQuote } from '../../lib/basketQuote';
 import { useBuyerQuote, useBuyerFormatting } from '../../hooks/useBuyerQuote';
 import { getAccessRequestCopy } from '../../lib/accessRequestCopy';
 import { getRoiPresentationCopy } from '../../lib/roiPresentationCopy';
+import { getImplementationPlanningCopy } from '../../lib/implementationPlanningCopy';
 import { demoUrl, accessRequestUrl } from '../../lib/pricingLinks';
 import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, SELF_SERVE_EMPLOYEE_LIMIT } from '../../lib/pricingIntent';
 import { localizeTierName, localizeModuleName, localizeBreakdownLabel, localizeWatchtowerName } from '../../lib/pricingI18n';
@@ -58,7 +59,7 @@ function useBuyerDiscount() {
 
 export function SetupGuide({ compact = false }: { compact?: boolean }) {
   const { config, quote, live } = useBuyerQuote();
-  const { copy, reviewCopy, money, locale } = useBuyerFormatting();
+  const { copy, money, locale } = useBuyerFormatting();
   const policy = pricingPolicyCopy[locale];
   const selectedCrewPreset = CREW_PRESETS.find((preset) => preset.skus.length === config.crewSkus.length && preset.skus.every((id) => config.crewSkus.includes(id)));
   const setupProduct = config.layer === 'core'
@@ -69,9 +70,9 @@ export function SetupGuide({ compact = false }: { compact?: boolean }) {
   const setupPublished = !live.catalog || live.policyCoverage?.implementation;
   const selectedSetup = quote.enterprise || quote.implementation.requiresScoping ? copy.scoped : `${quote.implementation.isFloor ? '≥ ' : ''}${money(quote.implementation.fee)}`;
   return <section className={`setup-guide ${compact ? 'is-compact' : ''}`} aria-label={copy.setup} data-testid="setup-guide">
-    <h3>{copy.setup}</h3>
+    <h3>{getImplementationPlanningCopy(locale).estimatedSetup}</h3>
     <p>{setupProduct} · {copy.setup}: {setupPublished ? selectedSetup : copy.scoped}.</p>
-    <p className="pricing-caption">{reviewCopy.setupNote}</p>
+    <p className="pricing-caption">{getImplementationPlanningCopy(locale).scopeNote}</p>
     {!compact && setupPublished && <details className="pricing-disclosure"><summary>{copy.setup}<ChevronDown size={16} aria-hidden/></summary>
       {IMPLEMENTATION_CLASS_ORDER.map((id, i) => <div key={id} className="band-line"><span>{policy.classes[i].replace(/^[A-D]\s*[·-]\s*/, '')}</span><strong>{implementationClasses[id].isFloor ? '≥ ' : ''}{money(implementationClasses[id].fee)}</strong></div>)}
     </details>}
@@ -252,7 +253,8 @@ export function BasketSummary({ compact = false, showReturnsLink = false }: { co
       {!quote.enterprise && quote.employeeOverage > 0 && <div><span>{copy.overage}</span><strong>{money(quote.employeeOverage)}</strong></div>}
     </div>
     {!quote.enterprise && <div className="payment-line"><span>{copy.payment}<small>{copy.terms[INTENT_TERMS.indexOf(config.billingCycle)]}</small></span><strong>{money(quote.paymentAmount)}</strong></div>}
-    <div className="setup-line"><span>{copy.setup}</span><strong>{quote.enterprise || quote.implementation.requiresScoping ? copy.scoped : `${quote.implementation.isFloor ? '≥ ' : ''}${money(quote.implementation.fee)}`}</strong></div>
+    <div className="setup-line"><span>{getImplementationPlanningCopy(locale).estimatedSetup}</span><strong>{quote.enterprise || quote.implementation.requiresScoping ? copy.scoped : `${quote.implementation.isFloor ? '≥ ' : ''}${money(quote.implementation.fee)}`}</strong></div>
+    {showReturnsLink && <p className="pricing-caption setup-scope-note">{getImplementationPlanningCopy(locale).scopeNote}</p>}
     {(quote.crew || quote.specialistScoping) && <ul className="scope-notes pricing-caption">
       {quote.crew && config.employees !== null && <li>{copy.workforce}: {config.employees}</li>}
       {quote.crew && <li>{quote.enterprise ? <>{copy.overage}: {copy.scoped}</> : <>{quote.includedEmployees} {copy.allowance} · {money(quote.employeeRate)} {copy.perEmployee}</>}</li>}

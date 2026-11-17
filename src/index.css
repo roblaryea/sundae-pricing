@@ -990,6 +990,12 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .roi-equation { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 10px; font-size:12px; line-height:1.7; padding-block:14px; border-top:1px solid var(--roi-border); color:var(--color-sundae-muted); }
 .roi-equation bdi, .roi-equation strong { color:var(--color-sundae-text); font-variant-numeric:tabular-nums; font-weight:500; }
 .roi-rounding-note { color:var(--color-sundae-muted); font-size:12px; line-height:1.6; margin-top:-6px; margin-bottom:14px; }
+.roi-setup-note { color:var(--color-sundae-muted); font-size:13px; line-height:1.7; margin-bottom:10px; }
+.roi-setup-control { display:grid; grid-template-columns:minmax(0,280px) auto; justify-content:start; align-items:end; gap:10px 16px; padding-block:16px; }
+.roi-setup-control > button { min-height:44px; font-size:12px; text-align:start; text-decoration:underline; text-underline-offset:4px; cursor:pointer; }
+.roi-setup-control > button:disabled { color:var(--color-sundae-muted); cursor:default; text-decoration:none; }
+.roi-setup-control > p { grid-column:1 / -1; max-width:640px; color:var(--color-sundae-muted); font-size:12px; line-height:1.65; }
+.setup-scope-note { margin-block:10px 0; }
 .roi-recovery-note, .roi-shortfall-note { font-size:13px; line-height:1.7; margin-bottom:18px; max-width:900px; }
 .roi-shortfall-note { color:var(--roi-warning); }
 .roi-disclosure { border:0; border-top:1px solid var(--roi-border); font-size:13px; }
@@ -1053,6 +1059,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
   .roi-equation { display:grid; grid-template-columns:minmax(0,1fr); gap:4px; }
   .roi-equation > span[aria-hidden] { display:none; }
   .roi-input-grid, .roi-method-values { grid-template-columns:minmax(0,1fr); gap:14px; }
+  .roi-setup-control { grid-template-columns:minmax(0,1fr); gap:8px; }
   .roi-range-field input[type=range] { height:44px; }
 }
 @media (prefers-reduced-motion:reduce) { .roi-disclosure > summary > svg { transition:none; } }

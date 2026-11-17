@@ -20,7 +20,11 @@ export function ROISimulator() {
   const { layer, corePackage, locations, watchtowerModules, roiInputs, setROIInputs } = useConfiguration();
   const { quote: pricing } = useBuyerQuote();
   const headingId = useId();
-  const money = (amount: number) => new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', maximumFractionDigits: amount % 1 ? 2 : 0 }).format(amount);
+  // Round presentation only; model inputs, net benefit and recovery keep their precision.
+  const wholeDollars = (amount: number) => Math.sign(amount) * Math.round(Math.abs(amount)) || 0;
+  const moneyFormat = new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  const signedMoneyFormat = new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0, signDisplay: 'exceptZero' });
+  const money = (amount: number) => moneyFormat.format(wholeDollars(amount));
   const activeDomains = (corePackages[corePackage]?.includesDomainModules ?? []) as readonly string[];
   const implementationCost = pricing.implementation.requiresScoping || pricing.implementation.isFloor ? null : pricing.implementation.fee;
   const roi = useROICalculation(
@@ -39,7 +43,7 @@ export function ROISimulator() {
   useEffect(() => {
     if (roiInputs.monthlyRevenue !== revenue) setROIInputs({ monthlyRevenue: revenue });
   }, [roiInputs.monthlyRevenue, revenue, setROIInputs]);
-  const signedMoney = (amount: number) => new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', maximumFractionDigits: amount % 1 ? 2 : 0, signDisplay: amount > 0 ? 'always' : 'auto' }).format(amount);
+  const signedMoney = (amount: number) => signedMoneyFormat.format(wholeDollars(amount));
   const state = roi.monthlyNetBenefit > 0 ? 'positive' : 'shortfall';
 
   return <section id="estimated-returns" tabIndex={-1} className="roi-workspace" aria-labelledby={headingId} data-testid="roi-workspace">
@@ -53,12 +57,13 @@ export function ROISimulator() {
     </div>
 
     <dl className="roi-metrics" data-testid="roi-metrics">
-      <div><dt>{ui.monthlyBenefit}</dt><dd data-testid="roi-monthly-funding">{money(roi.monthlyFunding)}</dd></div>
-      <div data-state={state}><dt>{copy.netMonthlyBenefit}</dt><dd data-testid="roi-monthly-net">{signedMoney(roi.monthlyNetBenefit)}</dd></div>
-      <div><dt>{economicsCopy.paybackLabel}</dt><dd className="roi-payback-value" data-testid="roi-payback">{paybackText}</dd></div>
-      <div data-state={roi.firstYearNetBenefit !== null && roi.firstYearNetBenefit > 0 ? 'positive' : 'neutral'}><dt>{economicsCopy.firstYearNetLabel}</dt><dd data-testid="roi-first-year-net">{roi.firstYearNetBenefit === null ? '—' : money(roi.firstYearNetBenefit)}</dd></div>
+      <div><dt>{ui.monthlyBenefit}</dt><dd data-testid="roi-monthly-funding"><bdi dir="ltr">{money(roi.monthlyFunding)}</bdi></dd></div>
+      <div data-state={state}><dt>{copy.netMonthlyBenefit}</dt><dd data-testid="roi-monthly-net"><bdi dir="ltr">{signedMoney(roi.monthlyNetBenefit)}</bdi></dd></div>
+      <div><dt>{economicsCopy.paybackLabel}</dt><dd className="roi-payback-value" data-numeric={roi.monthlyNetBenefit > 0 && roi.paybackDays !== null} data-testid="roi-payback">{paybackText}</dd></div>
+      <div data-state={roi.firstYearNetBenefit !== null && roi.firstYearNetBenefit > 0 ? 'positive' : 'neutral'}><dt>{economicsCopy.firstYearNetLabel}</dt><dd data-testid="roi-first-year-net"><bdi dir="ltr">{roi.firstYearNetBenefit === null ? '—' : money(roi.firstYearNetBenefit)}</bdi></dd></div>
     </dl>
-    <p className="roi-equation"><span>{ui.monthlyBenefit}: <bdi>{money(roi.monthlyFunding)}</bdi></span><span aria-hidden>−</span><span>{copy.monthlyPlatformCost}: <bdi>{money(pricing.monthly)}</bdi></span><span aria-hidden>=</span><strong>{copy.netMonthlyBenefit}: <bdi>{signedMoney(roi.monthlyNetBenefit)}</bdi></strong></p>
+    <p className="roi-equation"><span>{ui.monthlyBenefit}: <bdi>{money(roi.monthlyFunding)}</bdi></span><span aria-hidden>−</span><span>{copy.monthlyPlatformCost}: <bdi>{money(pricing.monthly)}</bdi></span><span aria-hidden>≈</span><strong>{copy.netMonthlyBenefit}: <bdi>{signedMoney(roi.monthlyNetBenefit)}</bdi></strong></p>
+    <p className="roi-rounding-note">{ui.roundingNote}</p>
     {recoveryExplanation && <p className="roi-recovery-note" data-testid="roi-recovery-explanation">{recoveryExplanation}</p>}
     {roi.monthlyNetBenefit <= 0 && <p className="roi-shortfall-note">{copy.roiDescriptions.longTerm}</p>}
 

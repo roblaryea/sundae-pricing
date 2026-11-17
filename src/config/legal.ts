@@ -33,11 +33,16 @@ export const LEGAL = {
   signUpUrl: 'https://sundae.io/get-started',
 } as const;
 
+// The product/pricing UI has 25 locales; published marketing pages have 22.
+const marketingLocales = new Set<PricingLocale>([
+  'en', 'ar', 'fr', 'es', 'de', 'nl', 'pt', 'hi', 'ur', 'it', 'pl', 'tr',
+  'zh-Hans', 'ja', 'ko', 'id', 'vi', 'ro', 'sv', 'bn', 'th', 'ms',
+]);
 export type MarketingLocale = PricingLocale;
 
 function localizeMarketingPath(pathname: string, locale: MarketingLocale): string {
   const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`;
-  if (locale === 'en') return normalizedPath;
+  if (locale === 'en' || !marketingLocales.has(locale)) return normalizedPath;
   return normalizedPath === '/' ? `/${locale}` : `/${locale}${normalizedPath}`;
 }
 

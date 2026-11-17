@@ -1,3 +1,4 @@
+import { getPricingReturnStep } from '../lib/pricingNavigationHistory';
 import { useBuyerQuote, useBuyerFormatting } from '../hooks/useBuyerQuote';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -28,7 +29,10 @@ export function Simulator() {
       const intent = decodePricingIntent(raw);
       if (intent) useConfiguration.setState({ ...intent, currentStep: 2 });
       const url = new URL(window.location.href); url.searchParams.delete('cfg');
-      window.history.replaceState(null,'',url.pathname + url.search);
+      window.history.replaceState(window.history.state,'',url.pathname + url.search);
+    } else {
+      const returnStep = getPricingReturnStep();
+      if (returnStep !== null) useConfiguration.getState().setCurrentStep(returnStep);
     }
   },[]);
   useEffect(() => {

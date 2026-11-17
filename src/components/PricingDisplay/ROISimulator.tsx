@@ -1,6 +1,6 @@
 // ROI calculator component with dynamic module-based savings
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   type LucideIcon,
@@ -22,8 +22,7 @@ import {
 } from 'lucide-react';
 import { useConfiguration } from '../../hooks/useConfiguration';
 import { useBuyerQuote } from '../../hooks/useBuyerQuote';
-import { calculateBasketQuote } from '../../lib/basketQuote';
-import { resolveImplementationClass } from '../../lib/discoveryEngine';
+import { getRoiEconomicsCopy } from '../../lib/roiEconomicsCopy';
 import {
   useROICalculation,
   generateROIDescription,
@@ -72,85 +71,33 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
     roiInputs,
     setROIInputs,
     goToStep, goToPrevStep,
-    crewSkus: selectedCrewSkus,
-    techStack,
-    operatingModels,
   } = useConfiguration();
 
   const q = getQuoteSummaryCopy(locale);
+  const economicsCopy = getRoiEconomicsCopy(locale);
+  const money = (amount: number) => new Intl.NumberFormat(locale, { style: 'currency', currency: 'USD', maximumFractionDigits: amount % 1 ? 2 : 0 }).format(amount);
   const [hoveredTooltip, setHoveredTooltip] = useState<string | null>(null);
 
-  const { config, quote: pricing } = useBuyerQuote();
-  // Only Core domains have evidenced benefit assumptions. Price that same scope
-  // under the buyer's selected commitment, and disclose the excluded basket cost.
-  const corePricing = calculateBasketQuote({ ...config, layer: 'core', crewSkus: [],
-    addOns: [], watchtowerModules: [], crossIntelligence: 'none', employees: null });
-  // Identical resolution order to ConfigSummary and CompactCompetitorCompare:
-  // the discovery answers override the per-SKU classes when the visitor told us
-  // what they run. A blank is honest when they skipped it; an invented fee is
-  // not.
-  const stackEstimate = useMemo(
-    () =>
-      techStack.length > 0
-        ? resolveImplementationClass(techStack, operatingModels, {
-            crewPayrollSelected: selectedCrewSkus.includes('crew_payroll'),
-          })
-        : null,
-    [techStack, operatingModels, selectedCrewSkus],
-  );
-  // Credit ONLY the domains the selected package actually grants.
-  //
-  // This passed all eleven regardless of package, on the belief that every Core
-  // package shipped every domain. Price book v1.7 section 3.1 grants four to
-  // Foundation, six to Margin and eight to Growth — so a Foundation buyer was
-  // shown savings from inventory, purchasing, marketing, reservations and guest
-  // domains their package does not include, overstating the case by roughly ten
-  // times ($234,400/mo credited against $24,000 earned at eight locations).
-  const activeDomains = (corePackages[corePackage]?.includesDomainModules ??
-    []) as readonly string[];
-  const coreOnlyMonthly = corePricing.monthly;
-  const excludedFromRoi = Math.max(0, pricing.monthly - coreOnlyMonthly);
-
+  const { quote: pricing } = useBuyerQuote();
+  const activeDomains = (corePackages[corePackage]?.includesDomainModules ?? []) as readonly string[];
+  // Use the exact recurring and implementation costs displayed in the basket.
+  // Unknown/floor-only setup prices cannot support a precise payback claim.
+  const implementationCost = pricing.implementation.requiresScoping || pricing.implementation.isFloor
+    ? null : pricing.implementation.fee;
   const roi = useROICalculation(
     {
-      // ROI models the Core decision layer; 'both' contributes its Core side.
       layer: layer === 'core' || layer === 'both' ? 'core' : null,
-      corePackage,
-      locations,
-      activeDomains: [...activeDomains],
-      watchtowerModules,
+      corePackage, locations, activeDomains: [...activeDomains], watchtowerModules,
     },
     roiInputs,
-    // The Core rail alone, priced under the same discount rules.
-    //
-    // This previously read `pricing.monthly + crewMonthly`, added so the combined
-    // pathway did not understate monthly cost. That fixed a real understatement
-    // but produced the mirror error: Crew has no savings line either, so the
-    // combined quote charged two rails against one rail's benefit. Matching the
-    // scope on BOTH sides is the repair that is right in both directions, and
-    // the excluded spend is named on screen rather than dropped quietly.
-    coreOnlyMonthly,
-    // And payback must clear the one-time implementation the quote charges.
-    //
-    // This read `pricing.implementation` alone, which collects the class of each
-    // selected SKU — and every Core package publishes `implementationClass:
-    // null`. One null forces `requiresScoping`, so the fee resolved to 0 on
-    // EVERY Core quote, payback fell to the 14-day floor, and the tile printed
-    // "14 days" on 100% of paying configurations: the same answer for a
-    // $1,195/mo single site and a $78,576/mo hundred-site estate.
-    //
-    // The buyer has usually already told us. The discovery step asks which
-    // systems they run and `resolveImplementationClass` grades that into a real
-    // class — the same resolution ConfigSummary and the competitor card use to
-    // quote the fee. Payback now clears the fee we actually quote. When the
-    // systems question was skipped there is genuinely nothing to charge, and it
-    // stays scoped at contract.
-    stackEstimate
-      ? stackEstimate.fee
-      : pricing.implementation.requiresScoping
-        ? 0
-        : pricing.implementation.fee,
+    pricing.monthly,
+    implementationCost,
   );
+  const paybackText = roi.monthlyNetBenefit <= 0
+    ? copy.noPaybackAtTheseInputs
+    : roi.paybackDays === null ? economicsCopy.unknownSetup
+      : roi.paybackDays === 0 ? economicsCopy.immediate
+        : formatMessage(copy.days, { count: roi.paybackDays.toLocaleString(locale) });
 
   // The configuration store is persisted, so a visitor who set $50,000 before
   // the floor moved would otherwise keep modelling a figure the slider can no
@@ -416,15 +363,15 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-xl p-8 border border-green-500/30 mb-8"
+        className={cn("rounded-xl p-5 sm:p-8 border mb-8", roi.monthlyNetBenefit > 0 ? "bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/30" : "bg-amber-500/5 border-amber-500/30")}
       >
         <h3 className="text-lg font-bold mb-6">{copy.projectedReturns}</h3>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
           <div>
-            <div className="text-sm text-sundae-muted mb-1">Monthly funding case</div>
-            <div className="font-display text-3xl font-bold text-green-400">
-              ${roi.monthlyFunding.toLocaleString(locale)}
+            <div className="text-sm text-sundae-muted mb-1">{copy.monthlySavings}</div>
+            <div className="font-display text-xl sm:text-3xl font-bold text-green-400 [overflow-wrap:anywhere]" data-testid="roi-monthly-funding">
+              {money(roi.monthlyFunding)}
             </div>
             {locations > 1 && (
               <div className="text-xs text-sundae-muted mt-1">
@@ -433,9 +380,9 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
             )}
           </div>
           <div>
-            <div className="text-sm text-sundae-muted mb-1">Annual funding case</div>
-            <div className="font-display text-3xl font-bold text-green-400">
-              ${roi.annualFunding.toLocaleString(locale)}
+            <div className="text-sm text-sundae-muted mb-1">{copy.annualSavings}</div>
+            <div className="font-display text-xl sm:text-3xl font-bold text-green-400 [overflow-wrap:anywhere]">
+              {money(roi.annualFunding)}
             </div>
             {locations > 1 && (
               <div className="text-xs text-sundae-muted mt-1">
@@ -444,24 +391,23 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
             )}
           </div>
           <div>
-            <div className="text-sm text-sundae-muted mb-1">{copy.roiMultiple}</div>
+            <div className="text-sm text-sundae-muted mb-1">{economicsCopy.coverageLabel}</div>
             {/* Show the cap as a floor. Printing a bare "15x" for every strong
                 configuration made the headline read as a constant rather than a
                 result, and hid the difference between packages. */}
-            <div className="font-display text-3xl font-bold text-green-400">
-              {roi.roi}x{roi.roiCapped ? '+' : ''}
+            <div className="font-display text-xl sm:text-3xl font-bold text-green-400 [overflow-wrap:anywhere]">
+              {roi.roi.toLocaleString(locale)}x{roi.roiCapped ? '+' : ''}
             </div>
           </div>
           <div>
-            <div className="text-sm text-sundae-muted mb-1">{copy.paybackPeriod}</div>
+            <div className="text-sm text-sundae-muted mb-1">{economicsCopy.paybackLabel}</div>
             {/* A model that can only ever say "yes" is a brochure. When the
                 monthly saving does not overtake the monthly cost, say so. */}
             <div
-              className={`font-display text-3xl font-bold ${roi.paysBack ? 'text-green-400' : 'text-sundae-muted'}`}
+              data-testid="roi-payback"
+              className={`font-display text-xl sm:text-3xl font-bold [overflow-wrap:anywhere] ${roi.paysBack ? 'text-green-400' : 'text-sundae-muted'}`}
             >
-              {roi.paysBack
-                ? formatMessage(copy.days, { count: roi.paybackDays })
-                : copy.noPaybackAtTheseInputs ?? 'Not at these inputs'}
+              {paybackText}
             </div>
           </div>
         </div>
@@ -472,16 +418,13 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
           </p>
         </div>
 
-        {/* Naming the excluded spend is what makes modelling the Core rail
-            alone honest rather than flattering. Without this line the return
-            would simply look better for reasons the buyer cannot see. */}
-        {excludedFromRoi > 0 && (
-          <p className="mt-3 text-xs text-sundae-muted text-center">
-            {formatMessage(copy.roiBasisNote, {
-              excluded: `$${Math.round(excludedFromRoi).toLocaleString(locale)}`,
-            })}
-          </p>
-        )}
+        <p className="mt-3 text-xs text-sundae-muted text-center">{economicsCopy.scopeNote}</p>
+        <p className="mt-2 text-xs text-sundae-muted text-center">{economicsCopy.methodNote}</p>
+        <p className="mt-2 text-xs text-sundae-muted text-center">{economicsCopy.paybackLabel} = {economicsCopy.implementationLabel} ÷ {copy.netMonthlyBenefit} × (365 ÷ 12)</p>
+        <dl className="mt-4 grid gap-3 sm:grid-cols-2 text-sm">
+          <div><dt>{economicsCopy.implementationLabel}</dt><dd data-testid="roi-implementation">{implementationCost === null ? economicsCopy.unknownSetup : money(implementationCost)}</dd></div>
+          <div><dt>{economicsCopy.firstYearNetLabel}</dt><dd data-testid="roi-first-year-net">{roi.firstYearNetBenefit === null ? '—' : money(roi.firstYearNetBenefit)}</dd></div>
+        </dl>
       </motion.div>
 
       <motion.div
@@ -502,7 +445,7 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
           <div>
             <div className="text-xs uppercase tracking-wide text-sundae-muted">Cash cost avoidance</div>
             <div className="mt-1 text-2xl font-bold tabular-nums">
-              ${roi.replaceableSystemsSavings.toLocaleString(locale)}/mo
+              {money(roi.replaceableSystemsSavings)}/mo
             </div>
             <p className="mt-1 text-xs text-sundae-muted">Buyer-entered spend expected to be retired.</p>
           </div>
@@ -584,29 +527,28 @@ export function ROISimulator({ onBack }: ROISimulatorProps = {}) {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <div className="text-sm text-sundae-muted mb-1">{copy.monthlyPlatformCost}</div>
-            <div className="font-display text-2xl font-bold">${pricing.monthly.toLocaleString(locale)}</div>
+            <div className="font-display text-2xl font-bold">{money(pricing.monthly)}</div>
           </div>
           <div className="text-center px-8">
             <Clock className="w-8 h-8 mx-auto mb-2 text-sundae-accent" />
-            <div className="text-sm text-sundae-muted">{copy.paysForItselfIn}</div>
+            <div className="text-sm text-sundae-muted">{economicsCopy.paybackLabel}</div>
             <div
               className={`font-display text-xl font-bold ${roi.paysBack ? 'text-green-400' : 'text-sundae-muted'}`}
             >
-              {roi.paysBack
-                ? formatMessage(copy.days, { count: roi.paybackDays })
-                : copy.noPaybackAtTheseInputs ?? 'Not at these inputs'}
+              {paybackText}
             </div>
           </div>
           <div className="text-right">
             <div className="text-sm text-sundae-muted mb-1">{copy.netMonthlyBenefit}</div>
             <div
+              data-testid="roi-monthly-net"
               className={cn(
                 'text-2xl font-bold',
-                roi.monthlyFunding - pricing.monthly > 0 ? 'text-green-400' : 'text-sundae-muted'
+                roi.monthlyNetBenefit > 0 ? 'text-green-400' : 'text-sundae-muted'
               )}
             >
-              {roi.monthlyFunding - pricing.monthly > 0 ? '+' : ''}
-              ${(roi.monthlyFunding - pricing.monthly).toLocaleString(locale)}
+              {roi.monthlyNetBenefit > 0 ? '+' : ''}
+              {money(roi.monthlyNetBenefit)}
             </div>
           </div>
         </div>

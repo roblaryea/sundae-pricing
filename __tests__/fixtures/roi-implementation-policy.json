@@ -1,0 +1,58 @@
+{
+  "implementationClasses": {
+    "class_a": {
+      "fee": 1500,
+      "isFloor": false
+    },
+    "class_b": {
+      "fee": 2500,
+      "isFloor": false
+    },
+    "class_c": {
+      "fee": 7500,
+      "isFloor": false
+    },
+    "class_d": {
+      "fee": 12500,
+      "isFloor": true
+    },
+    "self_service": {
+      "fee": 0,
+      "isFloor": false
+    }
+  },
+  "offerImplementationClasses": {
+    "labor": "class_b",
+    "pulse": "class_b",
+    "growth": "class_b",
+    "margin": "class_b",
+    "profit": "class_b",
+    "crew_tna": "class_a",
+    "delivery": "class_b",
+    "crew_lite": "self_service",
+    "foresight": "class_a",
+    "guest_crm": "class_b",
+    "inventory": "class_b",
+    "marketing": "class_b",
+    "enterprise": "class_d",
+    "foundation": "class_b",
+    "purchasing": "class_b",
+    "performance": "class_c",
+    "crew_payroll": "class_c",
+    "reservations": "class_b",
+    "cloud_kitchen": "class_b",
+    "crew_catering": "class_a",
+    "crew_operations": "class_b",
+    "crew_production": "class_b",
+    "crew_scheduling": "class_a",
+    "guest_experience": "class_b",
+    "crew_suite_bundle": "class_c",
+    "rental_commissary": "class_b",
+    "revenue_assurance": "class_b",
+    "hotel_fb_analytics": "class_b",
+    "crew_complete_bundle": "class_c",
+    "franchise_intelligence": "class_b",
+    "crew_people_intelligence": "class_b",
+    "crew_schedule_time_bundle": "class_a"
+  }
+}

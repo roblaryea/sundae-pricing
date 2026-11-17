@@ -1,6 +1,8 @@
 // ROI calculation hook for Sundae pricing configurator
 // CONSERVATIVE + DEFENSIBLE assumptions based on module selection
 
+import { calculateRoiEconomics, moneyAmount, nonNegativeFinite } from '../lib/roiEconomics';
+import { getRoiEconomicsCopy } from '../lib/roiEconomicsCopy';
 import { useMemo } from 'react';
 import { useLocale } from '../contexts/LocaleContext';
 import { getRoiCopy, type PricingUiLocale, formatMessage } from '../lib/pricingUiCopy';
@@ -17,19 +19,8 @@ interface Configuration {
   watchtowerModules: string[];
 }
 
-/**
- * The revenue-per-location range the ROI step will model.
- *
- * The floor was $50,000. Core Foundation costs $1,195 for a single location and
- * breaks even at roughly $73,000 of monthly revenue per site, so every position
- * between the old floor and that break-even modelled a purchase that cannot pay
- * for itself — a dead end reachable in one drag of the first control on the
- * step. Raising the floor to $75,000 puts the whole slider inside the range
- * where a Core package is a rational purchase.
- *
- * This is a bound on what the SIMULATOR models, not a statement that smaller
- * operators are unwelcome: below this, the fitting products are Profit Snapshot
- * and Crew Starter rather than a Core package.
+/** Revenue-per-location range supported by the current simulator controls.
+ * This range does not guarantee positive economics; losses remain visible.
  */
 export const MIN_MONTHLY_REVENUE_PER_LOCATION = 75_000;
 export const MAX_MONTHLY_REVENUE_PER_LOCATION = 500_000;
@@ -67,9 +58,9 @@ export interface ROIInputs {
 export function calculateCostAvoidance(
   inputs: Pick<ROIInputs, 'replaceableSystemsSpend' | 'manualReportingHoursPerWeek' | 'loadedHourlyRate'>,
 ) {
-  const replaceableSystemsSavings = Math.max(0, inputs.replaceableSystemsSpend || 0);
-  const hours = Math.max(0, inputs.manualReportingHoursPerWeek || 0);
-  const rate = Math.max(0, inputs.loadedHourlyRate || 0);
+  const replaceableSystemsSavings = nonNegativeFinite(inputs.replaceableSystemsSpend);
+  const hours = nonNegativeFinite(inputs.manualReportingHoursPerWeek);
+  const rate = nonNegativeFinite(inputs.loadedHourlyRate);
   return {
     replaceableSystemsSavings,
     capacityValue: hours * rate * (52 / 12),
@@ -120,7 +111,11 @@ export interface ROICalculation {
   /** True when the published cap clipped the result — render as "Nx+". */
   roiCapped: boolean;
   roiPercent: number;
-  paybackDays: number;
+  paybackDays: number | null;
+  monthlyNetBenefit: number;
+  annualNetBenefit: number;
+  firstYearNetBenefit: number | null;
+  implementationCost: number | null;
   /** False when the monthly saving never overtakes the monthly cost. */
   paysBack: boolean;
   savingsLines: SavingsLineItem[];
@@ -280,7 +275,6 @@ export const GUARDRAILS = {
   },
   maxTotalShareOfRevenue: 0.08,
   maxROIMultiple: 15,
-  minPaybackDays: 14, // Floor at 14 days to avoid unrealistic claims
 };
 
 /**
@@ -360,7 +354,7 @@ export function useROICalculation(
   inputs: ROIInputs,
   platformCost: number,
   /** One-time implementation charged by the same quote. */
-  oneTimeCost = 0
+  oneTimeCost: number | null = null
 ): ROICalculation {
   const { locale } = useLocale();
 
@@ -381,7 +375,8 @@ export function useROICalculation(
       loadedHourlyRate = 0,
     } = inputs;
 
-    const totalMonthlyRevenue = monthlyRevenue * config.locations;
+    const totalMonthlyRevenue = nonNegativeFinite(monthlyRevenue) * nonNegativeFinite(config.locations);
+    const activeDomains = config.layer === 'core' ? config.activeDomains : [];
 
     // Labour and food-cost savings scale with the SPEND they optimise, not with
     // revenue alone.
@@ -393,8 +388,8 @@ export function useROICalculation(
     // more labour to optimise than one running 20%, and a model that cannot see
     // that is not modelling their business.
     //
-    const laborBase = totalMonthlyRevenue * (Math.min(60, Math.max(0, laborPercent || TYPICAL_COST_RATIOS.labor)) / 100);
-    const foodBase = totalMonthlyRevenue * (Math.min(60, Math.max(0, foodCostPercent || TYPICAL_COST_RATIOS.food)) / 100);
+    const laborBase = totalMonthlyRevenue * (Math.min(60, Math.max(0, nonNegativeFinite(laborPercent, TYPICAL_COST_RATIOS.labor))) / 100);
+    const foodBase = totalMonthlyRevenue * (Math.min(60, Math.max(0, nonNegativeFinite(foodCostPercent, TYPICAL_COST_RATIOS.food))) / 100);
     const savingsLines: SavingsLineItem[] = [];
     const breakdowns: Record<string, number> = {};
     const projectedImprovements: Record<string, number> = {};
@@ -427,7 +422,7 @@ export function useROICalculation(
       
       // Apply the per-location plausibility ceiling. It is a share of revenue,
       // and it can never cut below the top of this line's own evidenced band.
-      const maxCap = plausibilityCeiling(moduleId, monthlyRevenue, config.locations, maxAmount);
+      const maxCap = plausibilityCeiling(moduleId, nonNegativeFinite(monthlyRevenue), nonNegativeFinite(config.locations), maxAmount);
       const cappedAmount = Math.min(midAmount, maxCap);
       
       const line: SavingsLineItem = {
@@ -458,29 +453,29 @@ export function useROICalculation(
     // ═══════════════════════════════════════════════════════════════════
     
     // Labor Intelligence
-    if (config.activeDomains.includes('labor')) {
+    if (activeDomains.includes('labor')) {
       totalSavings += addSavingsLine('labor', laborBase, SAVINGS_ASSUMPTIONS.labor);
     }
     
     // Inventory Connect
-    if (config.activeDomains.includes('inventory')) {
+    if (activeDomains.includes('inventory')) {
       totalSavings += addSavingsLine('inventory', foodBase, SAVINGS_ASSUMPTIONS.inventory);
     }
     
     // Purchasing Analytics
-    if (config.activeDomains.includes('purchasing')) {
+    if (activeDomains.includes('purchasing')) {
       totalSavings += addSavingsLine('purchasing', foodBase, SAVINGS_ASSUMPTIONS.purchasing);
     }
     
     // Reservations Intelligence
-    if (config.activeDomains.includes('reservations')) {
+    if (activeDomains.includes('reservations')) {
       totalSavings += addSavingsLine('reservations', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.reservations);
     }
     
     // Marketing Performance (requires marketing spend input)
-    if (config.activeDomains.includes('marketing')) {
+    if (activeDomains.includes('marketing')) {
       const hasMarketingInput = marketingSpend > 0;
-      const marketingBase = marketingSpend * config.locations;
+      const marketingBase = nonNegativeFinite(marketingSpend) * config.locations;
       totalSavings += addSavingsLine(
         'marketing', 
         marketingBase, 
@@ -491,7 +486,7 @@ export function useROICalculation(
     }
     
     // Profit Intelligence
-    if (config.activeDomains.includes('profit')) {
+    if (activeDomains.includes('profit')) {
       addSavingsLine('profit', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.profit, false, true);
       const profitLine = savingsLines.find((line) => line.moduleId === 'profit');
       if (profitLine) {
@@ -500,14 +495,14 @@ export function useROICalculation(
     }
     
     // Revenue Assurance
-    if (config.activeDomains.includes('revenue')) {
+    if (activeDomains.includes('revenue')) {
       totalSavings += addSavingsLine('revenue', totalMonthlyRevenue, SAVINGS_ASSUMPTIONS.revenue);
     }
     
     // Delivery Economics (requires delivery revenue % input)
-    if (config.activeDomains.includes('delivery')) {
+    if (activeDomains.includes('delivery')) {
       const hasDeliveryInput = deliveryRevenuePct > 0;
-      const deliveryRevenue = totalMonthlyRevenue * (deliveryRevenuePct / 100);
+      const deliveryRevenue = totalMonthlyRevenue * (Math.min(100, nonNegativeFinite(deliveryRevenuePct)) / 100);
       totalSavings += addSavingsLine(
         'delivery',
         deliveryRevenue,
@@ -518,7 +513,7 @@ export function useROICalculation(
     }
     
     // Guest Experience (soft benefit unless review data exists)
-    if (config.activeDomains.includes('guest')) {
+    if (activeDomains.includes('guest')) {
       const countInTotal = hasReviewData;
       totalSavings += addSavingsLine(
         'guest',
@@ -553,6 +548,8 @@ export function useROICalculation(
       savingsLines.forEach(line => {
         if (line.isCountedInTotal && line.amount > 0) {
           line.amount = Math.round(line.amount * scaleFactor);
+          line.rangeMin = Math.round(line.rangeMin * scaleFactor);
+          line.rangeMax = Math.round(line.rangeMax * scaleFactor);
           breakdowns[line.moduleId] = line.amount;
         }
       });
@@ -570,11 +567,16 @@ export function useROICalculation(
       savingsLines.forEach((line) => {
         if (line.isCountedInTotal && line.amount > 0) {
           line.amount = Math.round(line.amount * maturity);
+          line.rangeMin = Math.round(line.rangeMin * maturity);
+          line.rangeMax = Math.round(line.rangeMax * maturity);
           breakdowns[line.moduleId] = line.amount;
         }
       });
     }
 
+    // Sum the displayed lines after rounding, so the breakdown always reconciles.
+    totalSavings = savingsLines.filter(line => line.isCountedInTotal)
+      .reduce((sum, line) => sum + line.amount, 0);
     const annualSavings = totalSavings * 12;
     // Only a number the buyer supplies as genuinely replaceable is cashable.
     // Manual time is shown separately because time does not become cash unless
@@ -584,64 +586,30 @@ export function useROICalculation(
       manualReportingHoursPerWeek,
       loadedHourlyRate,
     });
-    const monthlyFunding = totalSavings + replaceableSystemsSavings;
+    const monthlyFunding = moneyAmount(totalSavings + replaceableSystemsSavings);
     const annualFunding = monthlyFunding * 12;
     
-    // Calculate ROI
-    let roi = platformCost > 0 ? monthlyFunding / platformCost : 0;
-    // The cap keeps the headline from claiming an absurd multiple, but it also
-    // makes every strong configuration print the SAME "15x" — so the number
-    // stops discriminating between packages and reads as a constant rather than
-    // a result. Flag it so the UI can show it as a floor.
-    let roiCapped = false;
-    if (roi > GUARDRAILS.maxROIMultiple) {
-      roi = GUARDRAILS.maxROIMultiple;
-      roiCapped = true;
-    }
-    
-    // Payback must clear the ONE-TIME cost as well as the recurring one.
-    //
-    // This computed `platformCost / totalSavings * 30` — how many days of
-    // savings cover a single month of subscription — and ignored the
-    // implementation fee the same quote charges, which is the largest one-time
-    // line in the deal ($1,500 to $12,500). A CFO reconciling the two screens
-    // would find the payback claim excluded a cost the quote itself listed.
-    //
-    // The honest form solves for the day the cumulative saving overtakes the
-    // cumulative cost: implementation + monthlyCost x (d/30) = savings x (d/30),
-    // so d = 30 x implementation / (savings - monthlyCost). If the monthly
-    // saving does not exceed the monthly cost, it never pays back — and the
-    // model must be able to say so.
-    const monthlyNet = monthlyFunding - platformCost;
-    let paybackDays = 0;
-    let paysBack = false;
-    if (monthlyFunding > 0 && monthlyNet > 0) {
-      paysBack = true;
-      paybackDays = oneTimeCost > 0
-        ? Math.ceil((oneTimeCost / monthlyNet) * 30)
-        : GUARDRAILS.minPaybackDays;
-    }
+    const economics = calculateRoiEconomics(monthlyFunding, platformCost, oneTimeCost);
+    const roiCapped = economics.benefitCostMultiple > GUARDRAILS.maxROIMultiple;
+    const roi = Math.min(economics.benefitCostMultiple, GUARDRAILS.maxROIMultiple);
 
-    // The floor stays: it exists to stop the model claiming a payback faster
-    // than anyone could actually realise, and it makes the answer WORSE, not
-    // better.
-    if (paysBack && paybackDays < GUARDRAILS.minPaybackDays) {
-      paybackDays = GUARDRAILS.minPaybackDays;
-    }
-    
     return {
       monthlySavings: Math.round(totalSavings),
       annualSavings: Math.round(annualSavings),
-      monthlyFunding: Math.round(monthlyFunding),
-      annualFunding: Math.round(annualFunding),
-      replaceableSystemsSavings: Math.round(replaceableSystemsSavings),
+      monthlyFunding,
+      annualFunding: moneyAmount(annualFunding),
+      replaceableSystemsSavings: moneyAmount(replaceableSystemsSavings),
       capacityValue: Math.round(capacityValue),
       capacityFte: Math.round(capacityFte * 100) / 100,
       roi: Math.round(roi * 10) / 10,
       roiCapped,
-      roiPercent: Math.round(roi * 100),
-      paybackDays,
-      paysBack,
+      roiPercent: Math.round(economics.roiPercent),
+      paybackDays: economics.paybackDays,
+      paysBack: economics.paysBack,
+      monthlyNetBenefit: economics.monthlyNetBenefit,
+      annualNetBenefit: economics.annualNetBenefit,
+      firstYearNetBenefit: economics.firstYearNetBenefit,
+      implementationCost: economics.implementationCost,
       savingsLines,
       breakdowns,
       projectedImprovements
@@ -655,7 +623,10 @@ export function generateROIDescription(
   locale: PricingUiLocale = 'en'
 ): string {
   const copy = getRoiCopy(locale);
-  const weeks = Math.ceil(roi.paybackDays / 7);
+  if (roi.monthlyNetBenefit <= 0) return copy.roiDescriptions.longTerm;
+  if (roi.implementationCost === null) return getRoiEconomicsCopy(locale).unknownSetup;
+  if (roi.paybackDays === 0) return getRoiEconomicsCopy(locale).immediate;
+  const weeks = Math.ceil((roi.paybackDays ?? 0) / 7);
   if (roi.roi >= 10) {
     return formatMessage(copy.roiDescriptions.strong, { roi: roi.roi, weeks });
   } else if (roi.roi >= 5) {

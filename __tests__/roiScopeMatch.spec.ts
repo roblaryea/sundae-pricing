@@ -1,24 +1,8 @@
 /**
- * The ROI denominator must contain exactly what the numerator credits.
- *
- * `pricing.total` carries the add-ons, Watchtower and Cross-Intelligence, and
- * `SAVINGS_ASSUMPTIONS` has a rate for NONE of them — nine domain rates, and
- * nothing for Watchtower, Foresight & Action or any concept SKU. So every
- * incremental purchase entered the model as pure cost against zero benefit and
- * mechanically lowered the return. A Core Performance single site at $100k/month
- * went from +$378/mo net to -$521/mo simply by ticking Watchtower Complete, and
- * the verdict flipped to "does not pay for itself". The configurator argued
- * against its own upsell.
- *
- * Charging something in the denominator while refusing it a numerator is an
- * arithmetic error, not conservatism. The two honest repairs are to give each
- * rail a reasoned savings line, or to model the return on the rail we can
- * evidence and say so. An evidence review rejected five separate attempts to
- * raise or invent savings rates, so a Watchtower rate is not available.
- *
- * The disclosure is what makes the narrower denominator honest rather than
- * flattering: without a line naming the excluded spend, the return would simply
- * look better for reasons the buyer cannot see.
+ * Full-plan economics use all selected costs while benefit assumptions stay
+ * limited to supported Core domains. Historical partial-scope copy remains
+ * covered for legacy consumers; the current calculator uses the explicit
+ * full-plan/economic disclosure tested in roiEconomics and roiRendering.
  */
 import { describe, expect, it } from "vitest";
 
@@ -76,29 +60,16 @@ describe("the model has no savings rate for the rails it used to charge", () => 
   });
 });
 
-describe("the ROI step charges the Core rail only", () => {
+describe("the ROI step prices the full basket and discloses the recovery boundary", () => {
   const SRC = readFileSync("src/components/PricingDisplay/ROISimulator.tsx", "utf8");
-
-  it("prices the Core rail separately from the full quote", () => {
-    expect(SRC).toContain("corePricing = calculateBasketQuote");
-    expect(SRC).toContain("layer: 'core'");
+  it("passes the selected basket cost to the calculation", () => {
+    expect(SRC).toMatch(/roiInputs,\s*pricing\.monthly,\s*implementationCost/);
+    expect(SRC).not.toContain('coreOnlyMonthly');
+    expect(SRC).toContain('roi.monthlyNetBenefit');
   });
-
-  it("no longer bills add-ons and Crew against Core-only savings", () => {
-    const offending = SRC.split("\n").filter((l) =>
-      /^\s*pricing\.total \+ crewMonthly,\s*$/.test(l),
-    );
-    expect(offending, "the full quote is still the ROI denominator").toEqual([]);
-  });
-
-  it("computes what it excluded rather than discarding it silently", () => {
-    expect(SRC).toMatch(/excludedFromRoi/);
-    expect(SRC).toMatch(/pricing\.monthly - coreOnlyMonthly/);
-  });
-
-  it("renders the exclusion to the buyer", () => {
-    expect(SRC).toMatch(/copy\.roiBasisNote/);
-    expect(SRC).toMatch(/excludedFromRoi > 0/);
+  it("discloses Core-only benefit assumptions without excluding purchased costs", () => {
+    expect(SRC).toContain('economicsCopy.scopeNote');
+    expect(SRC).toContain('economicsCopy.methodNote');
   });
 });
 

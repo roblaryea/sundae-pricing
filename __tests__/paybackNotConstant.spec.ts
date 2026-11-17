@@ -1,29 +1,13 @@
 /**
- * Payback must be a measurement, not a constant.
- *
- * A sweep found the payback tile printing exactly "14 days" on 100.00% of
- * paying configurations — the same answer for a $1,195/mo single site and a
- * $78,576/mo hundred-site estate. It was not computing anything.
- *
- * Root cause, and it is two layers deep:
- *
- *   1. Every Core package publishes `implementationClass: null`, and
- *      `resolveImplementationFee` raises `requiresScoping` if ANY selected SKU
- *      lacks a class. So every Core quote is "scoped at contract".
- *   2. `ROISimulator` then passed `requiresScoping ? 0 : fee` as the one-time
- *      cost — always 0 — so payback collapsed to `GUARDRAILS.minPaybackDays`.
- *
- * The buyer had usually already told us. The discovery step asks which systems
- * they run, and `resolveImplementationClass` grades that into a real class —
- * the same resolution ConfigSummary and the competitor card already used to
- * QUOTE the fee. The ROI step simply was not reading it, so payback ignored a
- * charge the quote on the next screen went on to make.
+ * Payback must use the same published setup fee as the displayed basket.
+ * An unknown fee remains unknown; zero is not a substitute. Economic payback
+ * uses the actual formula without an invented minimum duration.
  */
 import { describe, expect, it } from "vitest";
 
 import { readFileSync } from "node:fs";
 
-import { GUARDRAILS } from "../src/hooks/useROICalculation";
+import { calculateRoiEconomics } from "../src/lib/roiEconomics";
 import { resolveImplementationClass } from "../src/lib/discoveryEngine";
 import { implementationClasses } from "../src/data/pricing";
 
@@ -57,41 +41,27 @@ describe("the discovery answers resolve a real implementation fee", () => {
   });
 });
 
-describe("the ROI step reads that fee", () => {
+describe("the ROI step uses the implementation fee on the buyer basket", () => {
   const SRC = readFileSync("src/components/PricingDisplay/ROISimulator.tsx", "utf8");
-
-  it("resolves the implementation class from the discovery answers", () => {
-    expect(SRC).toMatch(/resolveImplementationClass\(/);
-    expect(SRC).toMatch(/stackEstimate/);
+  it("reads the same published setup fee as the quote", () => {
+    expect(SRC).toContain('pricing.implementation.fee');
+    expect(SRC).toContain('pricing.implementation.requiresScoping');
+    expect(SRC).toMatch(/roiInputs,\s*pricing\.monthly,\s*implementationCost/);
   });
-
-  it("no longer passes a bare zero as the one-time cost", () => {
-    // The defect in one line: `requiresScoping ? 0 : fee` with requiresScoping
-    // always true on a Core quote.
-    const collapsed = SRC.split("\n").filter((l) =>
-      /pricing\.implementation\.requiresScoping \? 0 : pricing\.implementation\.fee,\s*\)/.test(l),
-    );
-    expect(collapsed, "the ROI step still zeroes the one-time cost").toEqual([]);
-  });
-
-  it("prefers the discovery estimate over the per-SKU resolution", () => {
-    expect(SRC).toMatch(/stackEstimate\s*\n?\s*\?\s*stackEstimate\.fee/);
+  it("does not replace the published quote with a discovery estimate", () => {
+    expect(SRC).not.toContain('resolveImplementationClass');
   });
 });
 
-describe("a floored payback stays possible but must not be universal", () => {
-  it("keeps the 14-day floor, which was never the bug", () => {
-    // The floor is a legitimate guard against claiming a 3-day payback. The bug
-    // was that every input reached it.
-    expect(GUARDRAILS.minPaybackDays).toBe(14);
+describe("payback is calculated rather than floored", () => {
+  it("distinguishes zero, unknown, small and large setup fees", () => {
+    expect(calculateRoiEconomics(2000, 1000, 0).paybackDays).toBe(0);
+    expect(calculateRoiEconomics(2000, 1000, null).paybackDays).toBeNull();
+    expect(calculateRoiEconomics(2000, 1000, 100).paybackDays).toBe(4);
+    expect(calculateRoiEconomics(2000, 1000, 7500).paybackDays).toBe(229);
   });
-
-  it("has implementation classes expensive enough to move payback off the floor", () => {
-    // If every class were trivially small the fix would be cosmetic.
-    const fees = Object.values(implementationClasses)
-      .map((c) => c.fee)
-      .filter((f) => f > 0);
-    expect(fees.length).toBeGreaterThan(0);
-    expect(Math.max(...fees)).toBeGreaterThan(1_000);
+  it("keeps the published implementation ladder", () => {
+    const fees = Object.values(implementationClasses).map(c => c.fee);
+    expect(Math.max(...fees)).toBeGreaterThan(1000);
   });
 });

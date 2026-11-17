@@ -8,6 +8,7 @@ const filesToAudit = [
   'src/lib/generatedAuxiliaryLocalePacks.ts',
   'src/lib/pricingI18n.ts',
   'src/lib/pricingUiCopy.ts',
+  'src/lib/roiEconomicsCopy.ts',
   'src/lib/locales.ts',
   'src/lib/buyerCopy.ts',
   'src/lib/buyerReviewCopy.ts',

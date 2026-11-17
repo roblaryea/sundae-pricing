@@ -1,3 +1,4 @@
+import { rememberPricingStepForReturn } from '../lib/pricingNavigationHistory';
 import { Link } from 'react-router-dom';
 import { LEGAL, getMarketingUrl } from '../config/legal';
 import { useLocale } from '../contexts/LocaleContext';
@@ -15,15 +16,15 @@ export function SiteFooter() {
   const currentYear = new Date().getFullYear();
 
   const links = [
-    { label: messages.header.pricing, kind: 'route' as const, to: '/' },
     { label: messages.header.simulator, kind: 'route' as const, to: '/simulator' },
     // Marketing-site destinations. Without these the pricing site is a dead end
     // on mobile, where the header nav is hidden: the logo was the only way back.
     ...siteNavLinks.map((link) => ({
       label: siteNavLabels[locale][link.key],
       kind: 'external' as const,
-      href: getMarketingUrl(link.path, locale),
+      href: 'pricing' in link ? 'https://pricing.sundae.io/' : getMarketingUrl(link.path, locale),
     })),
+    { label: siteNavLabels[locale].about, kind: 'external' as const, href: getMarketingUrl('/about', locale) },
     { label: messages.footer.demo, kind: 'external' as const, href: getMarketingUrl('/demo', locale) },
     { label: messages.footer.contact, kind: 'external' as const, href: getMarketingUrl('/contact', locale) },
     { label: messages.footer.privacy, kind: 'external' as const, href: getMarketingUrl('/privacy', locale) },
@@ -33,7 +34,7 @@ export function SiteFooter() {
   const linkClass = 'text-sm text-sundae-muted hover:text-white transition-colors';
 
   return (
-    <footer className="border-t border-white/[0.08] bg-sundae-dark mt-16" role="contentinfo">
+    <footer onClickCapture={rememberPricingStepForReturn} className="border-t border-white/[0.08] bg-sundae-dark mt-16" role="contentinfo">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 lg:py-14">
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
           {/* Brand */}
@@ -62,7 +63,7 @@ export function SiteFooter() {
                 </svg>
               </a>
               <a
-                href="https://www.linkedin.com/company/managewithsundae"
+                href="https://www.linkedin.com/company/sundae-io/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sundae-muted hover:text-white transition-colors"

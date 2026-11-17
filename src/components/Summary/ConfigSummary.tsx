@@ -35,7 +35,12 @@ const WATCHTOWER_ICON_MAP = {
   trends: TrendingUp,
 } as const;
 
+import { accessRequestUrl } from '../../lib/pricingLinks';
+import { getAccessRequestCopy } from '../../lib/accessRequestCopy';
+import { useBuyerQuote } from '../../hooks/useBuyerQuote';
+
 export function ConfigSummary() {
+  const { config: signupConfig } = useBuyerQuote();
   const { locale, messages } = useLocale();
   useLivePricingCatalog();
   const {
@@ -963,20 +968,18 @@ export function ConfigSummary() {
       >
         <h3 className="text-2xl font-bold mb-3">{messages.summary.readyTitle}</h3>
         <p className="text-base md:text-lg text-sundae-muted mb-5">
-          {messages.summary.readyDescription}
+          {getAccessRequestCopy(locale).description}
         </p>
         <a
-          href={LEGAL.signUpUrl}
+          href={accessRequestUrl(signupConfig, locale)}
           target="_blank"
           rel="noopener noreferrer"
           className="bg-gradient-primary text-white font-bold px-8 py-4 rounded-lg text-lg hover:shadow-glow transition-all inline-flex items-center gap-2"
         >
           <Rocket className="w-6 h-6" />
-          {messages.summary.startTrial}
+          {getAccessRequestCopy(locale).title}
         </a>
-        <p className="text-sm text-sundae-muted mt-4">
-          {messages.summary.noCard}
-        </p>
+
       </motion.div>
 
       {/* Support info */}

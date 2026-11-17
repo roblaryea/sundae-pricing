@@ -879,6 +879,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
   .mobile-plan-select select, .comparison-mobile select, .refine-panel select, .refine-panel > input { font-size:16px; }
   .location-control button { width:44px; height:44px; }
   header select[aria-label] { width:44px; height:44px; }
+  #pricing-site-menu select[aria-label] { width:12rem; height:44px; font-size:16px; }
   header [data-testid=theme-toggle]::after { content:''; position:absolute; inset:-8px 0; }
   .buyer-progress button { min-height:48px; }
   .step-actions { position:sticky; bottom:max(8px,env(safe-area-inset-bottom)); z-index:30; padding:12px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 25%,transparent); border-radius:14px; background:var(--color-sundae-dark); box-shadow:0 8px 32px #0003; }

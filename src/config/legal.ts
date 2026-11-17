@@ -30,7 +30,7 @@ export const LEGAL = {
   contactUrl: 'https://sundae.io/contact',
   privacyUrl: 'https://sundae.io/privacy',
   termsUrl: 'https://sundae.io/terms',
-  signUpUrl: 'https://sundae.io/sign-in',
+  signUpUrl: 'https://sundae.io/get-started',
 } as const;
 
 export type MarketingLocale = PricingLocale;

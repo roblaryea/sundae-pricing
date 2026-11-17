@@ -6,7 +6,8 @@ import { CREW_PRESETS, CREW_SKU_LIST } from '../../lib/crewPricing';
 import { calculateBandedTotal, calculateBandLines, calculateAiCredits, calculateIntelligenceSeats, calculateCombinedDiscount, calculateCrossIntelligencePrice } from '../../lib/pricingEngine';
 import { calculateBasketQuote } from '../../lib/basketQuote';
 import { useBuyerQuote, useBuyerFormatting } from '../../hooks/useBuyerQuote';
-import { demoUrl } from '../../lib/pricingLinks';
+import { getAccessRequestCopy } from '../../lib/accessRequestCopy';
+import { demoUrl, accessRequestUrl } from '../../lib/pricingLinks';
 import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, SELF_SERVE_EMPLOYEE_LIMIT } from '../../lib/pricingIntent';
 import { localizeTierName, localizeModuleName, localizeBreakdownLabel, localizeWatchtowerName } from '../../lib/pricingI18n';
 import { localizeDiscountLine } from '../../lib/quoteSummaryCopy';
@@ -301,11 +302,10 @@ export function QuoteReview() {
     setDownloading(true); setStatus(''); trackPricingEvent('pdf_clicked');
     try { await downloadBasketPDF(config,quote,url.toString(),live.catalog?.effectiveDate,locale); trackPricingEvent('pdf_downloaded'); } catch { setStatus(copy.pdfError); trackPricingEvent('pdf_failed'); } finally { setDownloading(false); }
   };
-  const appUrl = new URL('https://sundae.io/sign-in');
-  appUrl.searchParams.set('returnUrl',`/onboarding?lang=${locale}&cfg=${encodePricingIntent(config)}`);
+  const appUrl = accessRequestUrl(config, locale);
   return <><div className="review-layout"><BasketSummary/><div className="next-step-panel"><p className="plan-kicker">Sundae</p><h2>{copy.next}</h2><p>{copy.nextHint}</p>
     <a className="pricing-primary" href={demoUrl(config,locale)} onClick={() => trackPricingEvent('demo_clicked')}>{quote.enterprise ? messages.overview.contactSales : messages.header.bookDemo}<ArrowRight size={16}/></a>
-    {!quote.enterprise && <a className="pricing-secondary" href={appUrl.toString()} onClick={() => trackPricingEvent('onboarding_clicked')}>{copy.continue}<ArrowRight size={16}/></a>}
+    {!quote.enterprise && <a className="pricing-secondary" href={appUrl} onClick={() => trackPricingEvent('onboarding_clicked')}>{getAccessRequestCopy(locale).title}<ArrowRight size={16}/></a>}
     <div className="quote-utilities"><button type="button" onClick={share}><LinkIcon size={16}/>{copy.share}</button><button type="button" disabled={downloading} onClick={download}><Download size={16}/>{downloading ? messages.pdf.generating : getEstimatePrintLabel(locale)}</button></div>
     <p role="status">{status}</p>{shareLink && <input aria-label={copy.shareError} readOnly value={shareLink} onFocus={(e) => e.target.select()}/>}<p className="pricing-caption">{copy.intentNote}</p>
     </div></div><SetupGuide compact/><PriceDetails/>{quote.enterprise && <EnterprisePanel/>}

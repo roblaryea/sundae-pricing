@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { readFileSync } from 'node:fs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
-const fixture = JSON.parse(readFileSync(new URL('../__tests__/fixtures/published-v1.8.2.json', import.meta.url), 'utf8'));
+const fixture = JSON.parse(readFileSync(new URL('../__tests__/fixtures/published-policy-20261010.json', import.meta.url), 'utf8'));
 import { encodePricingIntent, decodePricingIntent, type PricingIntent } from '../src/lib/pricingIntent';
 const base: PricingIntent = {v:2,layer:'core',corePackage:'core_foundation',locations:3,addOns:[],watchtowerModules:[],crewSkus:[],crossIntelligence:'none',billingCycle:'monthly',operatingModels:[],employees:null,payrollCountry:''};
 test.beforeEach(async ({ page }, testInfo) => {
@@ -26,7 +26,7 @@ test('franchise refinement is relevant, optional and explicitly priced',async ({
   await expect(page.getByTestId('basket-total')).toContainText('$2,290');
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$2,290');
-  await expect(page.locator('summary').filter({hasText:'Explore the value case'})).toBeVisible();
+  await expect(page.getByTestId('roi-workspace')).toBeVisible();
 });
 test('Crew-only base estimate collects headcount without double charging bundle components',async ({page}) => {
   await page.goto('/'); await page.getByTestId('pricing-tab-crew').click();
@@ -38,7 +38,7 @@ test('Crew-only base estimate collects headcount without double charging bundle 
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$712');
   await expect(page.getByTestId('step-region')).toContainText('60 employees included');
-  await expect(page.getByTestId('step-region')).toContainText('AE');
+  await expect(page.getByTestId('step-region')).toContainText('United Arab Emirates');
 });
 test('Both uses one estate and one basket with the selected term',async ({page}) => {
   await page.goto('/'); await page.getByTestId('pricing-tab-both').click();
@@ -51,7 +51,7 @@ test('Both uses one estate and one basket with the selected term',async ({page})
   await expect(page.getByTestId('basket-total')).toContainText('$2,496.56');
   await expect(page.getByTestId('step-region')).toContainText('$29,958.72');
 });
-test('the account and demo CTAs carry the exact reviewed intent and download produces a PDF',async ({page}) => {
+test('the access request and demo CTAs carry the exact reviewed intent and download produces a PDF',async ({page}) => {
   const cfg: PricingIntent = {...base,layer:'both',corePackage:'core_growth',watchtowerModules:['events'],addOns:['concept_franchise'],crewSkus:['crew_operations','crew_scheduling','crew_payroll'],employees:72,payrollCountry:'AE',billingCycle:'annual_quarterly'};
   await page.goto(`/simulator?cfg=${encodePricingIntent(cfg)}`);
   await expect(page.getByTestId('basket-total')).toBeVisible();
@@ -61,9 +61,9 @@ test('the account and demo CTAs carry the exact reviewed intent and download pro
   expect(received).toMatchObject(cfg);
   expect(received?.catalogue).toBeUndefined();
   expect(demo.searchParams.has('email')).toBe(false);
-  const account = new URL((await page.getByRole('link',{name:'Continue to Sundae'}).getAttribute('href'))!);
-  const returned = new URL(account.searchParams.get('returnUrl')!,'https://sundae.io');
-  expect(decodePricingIntent(returned.searchParams.get('cfg')!)).toMatchObject(cfg);
+  const access = new URL((await page.getByRole('link',{name:'Request access',exact:true}).getAttribute('href'))!);
+  expect(access.pathname).toBe('/get-started');
+  expect(decodePricingIntent(access.searchParams.get('cfg')!)).toMatchObject(cfg);
   const popup = page.waitForEvent('popup');
   await page.getByRole('button',{name:'Print / save PDF',exact:true}).click();
   const printPage = await popup;
@@ -92,7 +92,8 @@ test('the account and demo CTAs carry the exact reviewed intent and download pro
   expect(extracted).toContain('Additional employees');
   expect(extracted).toContain('United Arab Emirates');
   expect(extracted).toContain('employees included');
-  expect(extracted).toContain('Confirmed separately');
+  expect(extracted).toContain('One-time setup');
+  expect(extracted).toContain('$7,500.00');
   expect(extracted).not.toMatch(/\bslots\b|\bobjects?\b|\bprorated\b|\bstatutory\b|\bactivation\b/i);
   expect(bytes.toString('latin1')).toMatch(/\/FontFile[23]/);
   const amount = (await page.getByTestId('basket-total').innerText()).match(/\$[\d,]+(?:\.\d{2})?/)![0];
@@ -196,23 +197,27 @@ test('calculation details expose reached bands, optional schedule, discount and 
 });
 test('returning visitors retain their edited ROI assumptions after a reload', async ({page}) => {
   await page.goto(`/simulator?cfg=${encodePricingIntent(base)}`);
-  await page.locator('summary').filter({hasText:'Explore the value case'}).click();
+  await page.getByTestId('roi-assumptions').locator('summary').first().click();
   const slider = page.locator('input[type=range]').first();
   await slider.fill('250000');
   await page.reload();
   await page.getByRole('button',{name:/Review your estimate/}).click();
-  await page.locator('summary').filter({hasText:'Explore the value case'}).click();
+  await page.getByTestId('roi-assumptions').locator('summary').first().click();
   await expect(page.locator('input[type=range]').first()).toHaveValue('250000');
 });
-test('numeric edges and Starter cap keep the visible scope and reviewed quote aligned', async ({page}) => {
+test('numeric edges preserve the estate and Starter eligibility requires a suitable plan above its cap', async ({page}) => {
   await page.goto('/'); const locations=page.getByTestId('location-count');
   await locations.fill('3'); await locations.fill(''); await locations.press('Tab');
   await expect(locations).toHaveValue('3');
   await locations.fill('3.9'); await locations.press('Enter'); await expect(locations).toHaveValue('3');
   await page.getByTestId('pricing-tab-crew').click(); await page.getByTestId('preset-lite').click();
-  await locations.fill('7'); await locations.press('Tab'); await expect(locations).toHaveValue('5');
+  await locations.fill('7'); await locations.press('Tab'); await expect(locations).toHaveValue('7');
+  await expect(page.getByTestId('preset-lite')).toBeDisabled();
+  await expect(page.getByRole('button',{name:'Review estimate',exact:true})).toBeDisabled();
+  await page.getByTestId('preset-operating_suite').click();
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
-  await expect(page.getByTestId('step-region')).toContainText('5 locations');
+  await expect(page.getByTestId('step-region')).toContainText('7 locations');
+  await expect(page.getByTestId('roi-workspace')).toHaveCount(0);
 });
 test('share clipboard fallback produces a reopenable exact configuration', async ({page}) => {
   await page.addInitScript(() => Object.defineProperty(navigator,'clipboard',{value:{writeText:async () => { throw new Error('blocked'); }},configurable:true}));
@@ -290,7 +295,7 @@ test('Enterprise has a proposal path and no self-serve headline or account CTA',
   await expect(page.getByRole('link',{name:'Continue to Sundae'})).toHaveCount(0);
   await expect(page.getByTestId('basket-average')).toHaveCount(0);
   await expect(page.locator('.price-details')).toHaveCount(0);
-  await expect(page.locator('summary').filter({hasText:'Explore the value case'})).toHaveCount(0);
+  await expect(page.getByTestId('roi-workspace')).toHaveCount(0);
   await page.getByRole('button',{name:/Refine your needs/}).click();
   await page.getByRole('button',{name:'Manage a franchise network',exact:true}).click();
   await expect(page.locator('.extension-toggle').filter({hasText:'$'})).toHaveCount(0);
@@ -346,13 +351,17 @@ test('German has localized refinement and bill-affecting exclusions', async ({pa
   await expect(page.getByTestId('step-region')).toContainText('Vor Aktivierung separat festgelegt');
   await expect(page.getByTestId('step-region')).toContainText('Zusätzliche Personalkosten');
 });
-test('optional ROI closes back to the same quote and preserves the term', async ({page}) => {
+test('returns stay visible while assumptions open independently and preserve the quote', async ({page}) => {
   await page.goto(`/simulator?cfg=${encodePricingIntent({...base,billingCycle:'annual_upfront'})}`);
   await expect(page.getByTestId('basket-total')).toContainText('$1,359.60');
-  await page.locator('summary').filter({hasText:'Explore the value case'}).click();
-  await expect(page.getByTestId('continue-button-roi')).toBeVisible();
-  await page.getByTestId('continue-button-roi').click();
-  await expect(page.getByTestId('continue-button-roi')).toHaveCount(0);
+  await page.getByTestId('roi-assumptions').locator('summary').first().click();
+  await expect(page.getByTestId('roi-assumptions')).toHaveAttribute('open', '');
+  await expect(page.getByTestId('roi-metrics')).toBeVisible();
+  await page.getByTestId('roi-assumptions').locator('summary').first().click();
+  await expect(page.getByTestId('roi-assumptions')).not.toHaveAttribute('open', '');
+  await expect(page.getByTestId('roi-metrics')).toBeVisible();
+  await page.locator('.roi-summary-link').click();
+  await expect(page.getByTestId('roi-workspace')).toBeFocused();
   await expect(page.getByTestId('basket-total')).toContainText('$1,359.60');
   await expect(page.getByRole('button',{name:/Review your estimate/})).toHaveAttribute('aria-current','step');
 });

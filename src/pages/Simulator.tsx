@@ -41,6 +41,6 @@ export function Simulator() {
     <div ref={region} tabIndex={-1} data-testid="step-region" className="buyer-step"><div className="section-title step-title"><p className="pricing-eyebrow">{messages.header.simulator} / 0{step+1}</p><h1>{names[step]}</h1></div>
       {step === 0 ? <PlanChoices/> : step === 1 ? <RefineNeeds/> : <QuoteReview/>}
     </div>
-    <div className="step-actions"><button className="pricing-secondary" type="button" disabled={step === 0} onClick={() => state.setCurrentStep(step - 1)}><ArrowLeft size={16}/>{messages.simulator.back}</button>{step < 2 && <button className="pricing-primary" type="button" disabled={quote.needsCrewSelection} onClick={() => state.setCurrentStep(step + 1)}>{step === 1 ? copy.reviewCta : copy.refineCta}<ArrowRight size={16}/></button>}</div>
+    <div className={`step-actions ${step === 2 ? 'is-review' : ''}`}><button className="pricing-secondary" type="button" disabled={step === 0} onClick={() => state.setCurrentStep(step - 1)}><ArrowLeft size={16}/>{messages.simulator.back}</button>{step < 2 && <button className="pricing-primary" type="button" disabled={quote.needsCrewSelection} onClick={() => state.setCurrentStep(step + 1)}>{step === 1 ? copy.reviewCta : copy.refineCta}<ArrowRight size={16}/></button>}</div>
   </div></LivePricingGate>;
 }

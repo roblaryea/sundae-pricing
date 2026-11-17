@@ -1,12 +1,13 @@
 import { getEstimatePrintLabel, downloadBasketPDF } from '../../lib/basketPdf';
-import { lazy, Suspense, useId, useRef, useState } from 'react';
-import { ArrowRight, Check, ChevronDown, Download, Link as LinkIcon, Minus, Plus, SlidersHorizontal } from 'lucide-react';
+import { lazy, Suspense, useId, useState } from 'react';
+import { ArrowDown, ArrowRight, Check, ChevronDown, Download, Link as LinkIcon, Minus, Plus } from 'lucide-react';
 import { corePackages, CORE_PACKAGE_IDS, conceptSkus, foresightAction, packageAllowsWatchtower, billingDiscounts, crossIntelligence, crewSkus, crewBundles, watchtower, volumeDiscounts, DISCOUNT_RULES, implementationClasses, IMPLEMENTATION_CLASS_ORDER } from '../../data/pricing';
 import { CREW_PRESETS, CREW_SKU_LIST } from '../../lib/crewPricing';
 import { calculateBandedTotal, calculateBandLines, calculateAiCredits, calculateIntelligenceSeats, calculateCombinedDiscount, calculateCrossIntelligencePrice } from '../../lib/pricingEngine';
 import { calculateBasketQuote } from '../../lib/basketQuote';
 import { useBuyerQuote, useBuyerFormatting } from '../../hooks/useBuyerQuote';
 import { getAccessRequestCopy } from '../../lib/accessRequestCopy';
+import { getRoiPresentationCopy } from '../../lib/roiPresentationCopy';
 import { demoUrl, accessRequestUrl } from '../../lib/pricingLinks';
 import { encodePricingIntent, INTENT_TERMS, INTENT_MODELS, MAX_EMPLOYEE_COUNT, SELF_SERVE_EMPLOYEE_LIMIT } from '../../lib/pricingIntent';
 import { localizeTierName, localizeModuleName, localizeBreakdownLabel, localizeWatchtowerName } from '../../lib/pricingI18n';
@@ -234,7 +235,7 @@ export function EnterprisePanel() {
     : copy.enterpriseBody;
   return <div className="enterprise-panel"><div><h2>{copy.enterprise}</h2><p>{body}</p></div><a className="pricing-primary" href={demoUrl(config,locale)} onClick={() => trackPricingEvent('proposal_clicked')}>{messages.overview.contactSales}<ArrowRight size={16}/></a></div>;
 }
-export function BasketSummary({ compact = false }: { compact?: boolean }) {
+export function BasketSummary({ compact = false, showReturnsLink = false }: { compact?: boolean; showReturnsLink?: boolean }) {
   const { quote, config, live } = useBuyerQuote();
   const { money, copy, messages, locale } = useBuyerFormatting();
   if (quote.needsCrewSelection) return <p role="status">{copy.chooseCrew}</p>;
@@ -259,6 +260,7 @@ export function BasketSummary({ compact = false }: { compact?: boolean }) {
       {quote.payrollNeedsScoping && <li>{copy.payrollNote} {config.payrollCountry ? formatPayrollCountry(config.payrollCountry, locale) : copy.scoped}</li>}
       {quote.specialistScoping && <li>{copy.specialist}</li>}
     </ul>}
+    {showReturnsLink && <a className="roi-summary-link" href="#estimated-returns" onClick={() => document.getElementById('estimated-returns')?.focus({ preventScroll: true })}>{getRoiPresentationCopy(locale).title}<ArrowDown size={16} aria-hidden/></a>}
     <p className="catalogue-stamp">{live.catalog ? `${messages.summary.pricingEffective} ${new Date(live.catalog.effectiveDate).toLocaleDateString(locale)}` : copy.intentNote}</p>
   </div>;
 }
@@ -288,9 +290,7 @@ export function QuoteReview() {
   const { copy, messages, locale } = useBuyerFormatting();
   const [status, setStatus] = useState('');
   const [shareLink, setShareLink] = useState('');
-  const [showRoi, setShowRoi] = useState(false);
   const [downloading, setDownloading] = useState(false);
-  const roiDisclosure = useRef<HTMLDetailsElement>(null);
   usePricingViewEvent('quote_reviewed', { layer: config.layer, locations: config.locations, monthly: quote.monthly }, !quote.needsCrewSelection);
   if (quote.needsCrewSelection) return <PlanChoices/>;
   const url = new URL('/simulator',window.location.origin); url.searchParams.set('lang',locale); url.searchParams.set('cfg',encodePricingIntent(config));
@@ -303,12 +303,13 @@ export function QuoteReview() {
     try { await downloadBasketPDF(config,quote,url.toString(),live.catalog?.effectiveDate,locale); trackPricingEvent('pdf_downloaded'); } catch { setStatus(copy.pdfError); trackPricingEvent('pdf_failed'); } finally { setDownloading(false); }
   };
   const appUrl = accessRequestUrl(config, locale);
-  return <><div className="review-layout"><BasketSummary/><div className="next-step-panel"><p className="plan-kicker">Sundae</p><h2>{copy.next}</h2><p>{copy.nextHint}</p>
+  return <><div className="review-layout"><BasketSummary showReturnsLink={config.layer !== 'crew' && !quote.enterprise}/><div className="next-step-panel"><p className="plan-kicker">Sundae</p><h2>{getRoiPresentationCopy(locale).nextTitle}</h2><p>{getRoiPresentationCopy(locale).nextHint}</p>
     <a className="pricing-primary" href={demoUrl(config,locale)} onClick={() => trackPricingEvent('demo_clicked')}>{quote.enterprise ? messages.overview.contactSales : messages.header.bookDemo}<ArrowRight size={16}/></a>
     {!quote.enterprise && <a className="pricing-secondary" href={appUrl} onClick={() => trackPricingEvent('onboarding_clicked')}>{getAccessRequestCopy(locale).title}<ArrowRight size={16}/></a>}
     <div className="quote-utilities"><button type="button" onClick={share}><LinkIcon size={16}/>{copy.share}</button><button type="button" disabled={downloading} onClick={download}><Download size={16}/>{downloading ? messages.pdf.generating : getEstimatePrintLabel(locale)}</button></div>
     <p role="status">{status}</p>{shareLink && <input aria-label={copy.shareError} readOnly value={shareLink} onFocus={(e) => e.target.select()}/>}<p className="pricing-caption">{copy.intentNote}</p>
-    </div></div><SetupGuide compact/><PriceDetails/>{quote.enterprise && <EnterprisePanel/>}
-    {config.layer !== 'crew' && !quote.enterprise && <details ref={roiDisclosure} className="pricing-disclosure" onToggle={(e) => setShowRoi(e.currentTarget.open)}><summary><span>{copy.roi}<small>{copy.roiHint}</small></span><SlidersHorizontal size={16}/></summary>{showRoi && <Suspense fallback={<p>{messages.pdf.generating}</p>}><ROISimulator onBack={() => { if (roiDisclosure.current) roiDisclosure.current.open = false; setShowRoi(false); roiDisclosure.current?.querySelector('summary')?.focus(); }}/></Suspense>}</details>}
+    </div></div>
+    {config.layer !== 'crew' && !quote.enterprise && <Suspense fallback={<p className="pricing-caption">{messages.pdf.generating}</p>}><ROISimulator/></Suspense>}
+    <SetupGuide compact/><PriceDetails/>{quote.enterprise && <EnterprisePanel/>}
   </>;
 }

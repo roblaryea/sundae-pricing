@@ -2,7 +2,7 @@
 +++ b/src/components/ui/ThemeProvider.tsx
 @@ -3,6 +3,22 @@
  import { createContext, useContext, useEffect, useState, useCallback } from 'react';
- 
+
  type Theme = 'dark' | 'light';
 +
 +// Share an explicit preference with pricing.sundae.io; keep the chosen dark default.
@@ -20,7 +20,7 @@
 +  try { document.cookie = `sundae_theme=${theme}; Path=/; Max-Age=31536000; SameSite=Lax${domain}${location.protocol === 'https:' ? '; Secure' : ''}`; } catch { /* Preference storage can be unavailable. */ }
 +}
 +
- 
+
  interface ThemeContextValue {
    theme: Theme;
 @@ -26,23 +42,17 @@
@@ -33,7 +33,7 @@
      />
    );
  }
- 
+
  export function ThemeProvider({ children }: { children: React.ReactNode }) {
 -  const [theme, setTheme] = useState<Theme>(() => {
 -    if (typeof window === 'undefined') {
@@ -43,7 +43,7 @@
 -    return localStorage.getItem('sundae-theme') === 'light' ? 'light' : 'dark';
 -  });
 +  const [theme, setTheme] = useState<Theme>(readTheme);
- 
+
    useEffect(() => {
 -    localStorage.setItem('sundae-theme', theme);
 +    saveTheme(theme);
@@ -53,7 +53,7 @@
 @@ -50,10 +60,18 @@
      }
    }, [theme]);
- 
+
 +  useEffect(() => {
 +    const sync = () => setTheme(readTheme());
 +    window.addEventListener('pageshow', sync);

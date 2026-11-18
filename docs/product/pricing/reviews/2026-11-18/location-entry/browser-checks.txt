@@ -1,0 +1,91 @@
+[WebServer] Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+[WebServer]   npx update-browserslist-db@latest
+[WebServer]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+
+Running 67 tests using 2 workers
+
+(node:23005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:23006) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:23006) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:23005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/67] [chromium] › e2e/pricing-consent-contrast.spec.ts:4:82 › light consent stays readable at 1440px
+[2/67] [chromium] › e2e/pricing-consent-contrast.spec.ts:4:82 › light consent stays readable at 390px
+[3/67] [chromium] › e2e/pricing-consent-contrast.spec.ts:4:82 › dark consent stays readable at 412px
+[4/67] [chromium] › e2e/pricing-loading.spec.ts:7:37 › delayed authoritative prices preserve structure at 320px
+[5/67] [chromium] › e2e/pricing-loading.spec.ts:7:37 › delayed authoritative prices preserve structure at 412px
+[6/67] [chromium] › e2e/pricing-loading.spec.ts:7:37 › delayed authoritative prices preserve structure at 1440px
+[7/67] [chromium] › e2e/pricing-loading.spec.ts:40:1 › catalogue fetch starts while the page chunk is still loading
+[8/67] [chromium] › e2e/pricing-loading.spec.ts:52:1 › a catalogue failure blocks all prices and retry recovers
+[9/67] [chromium] › e2e/pricing-loading.spec.ts:62:1 › a delayed simulator preserves the incoming quote, language and attribution
+[10/67] [chromium] › e2e/pricing-location-gate.spec.ts:11:1 › fresh overview asks for locations before showing any monetary values
+[11/67] [chromium] › e2e/pricing-location-gate.spec.ts:24:1 › entering locations reveals the unchanged totals and per-location framing
+[12/67] [chromium] › e2e/pricing-location-gate.spec.ts:35:1 › explicit simulator links remain immediately reviewable
+[13/67] [chromium] › e2e/pricing-location-gate.spec.ts:41:37 › crew browsing and custom capabilities do not leak prices before a footprint
+[14/67] [chromium] › e2e/pricing-location-gate.spec.ts:41:37 › both browsing and custom capabilities do not leak prices before a footprint
+[15/67] [chromium] › e2e/pricing-location-gate.spec.ts:54:49 › invalid footprint 0 cannot reveal the one-location default
+[16/67] [chromium] › e2e/pricing-location-gate.spec.ts:54:49 › invalid footprint -1 cannot reveal the one-location default
+[17/67] [chromium] › e2e/pricing-location-gate.spec.ts:54:49 › invalid footprint 1.5 cannot reveal the one-location default
+[18/67] [chromium] › e2e/pricing-location-gate.spec.ts:54:49 › invalid footprint 10001 cannot reveal the one-location default
+[19/67] [chromium] › e2e/pricing-location-gate.spec.ts:62:1 › one location is valid, clearing hides pricing, and Start over reopens the gate
+[20/67] [chromium] › e2e/pricing-location-gate.spec.ts:76:1 › legacy multi-location returns retain their meaningful footprint
+[21/67] [chromium] › e2e/pricing-location-gate.spec.ts:83:1 › an old automatically saved one-location default stays gated
+[22/67] [chromium] › e2e/pricing-location-gate.spec.ts:90:1 › entering a multi-digit count avoids a one-location price flash
+[23/67] [chromium] › e2e/pricing-location-gate.spec.ts:108:1 › the plus control starts at one and replaces an invalid draft consistently
+[24/67] [chromium] › e2e/pricing-location-gate.spec.ts:122:1 › the existing simulator retains numeric normalization
+[25/67] [chromium] › e2e/pricing-location-gate.spec.ts:132:1 › the header review and card prompts focus the required existing field
+[26/67] [chromium] › e2e/pricing-location-gate.spec.ts:142:1 › overview Review prompts for a footprint while shared reviews still work
+[27/67] [chromium] › e2e/pricing-simulator.spec.ts:19:3 › core_foundation carries its actual selection from overview to review
+[28/67] [chromium] › e2e/pricing-simulator.spec.ts:19:3 › core_margin carries its actual selection from overview to review
+[29/67] [chromium] › e2e/pricing-simulator.spec.ts:19:3 › core_growth carries its actual selection from overview to review
+[30/67] [chromium] › e2e/pricing-simulator.spec.ts:19:3 › core_performance carries its actual selection from overview to review
+[31/67] [chromium] › e2e/pricing-simulator.spec.ts:27:1 › franchise refinement is relevant, optional and explicitly priced
+[32/67] [chromium] › e2e/pricing-simulator.spec.ts:38:1 › Crew-only base estimate collects headcount without double charging bundle components
+[33/67] [chromium] › e2e/pricing-simulator.spec.ts:50:1 › Both uses one estate and one basket with the selected term
+[34/67] [chromium] › e2e/pricing-simulator.spec.ts:61:1 › the access request and demo CTAs carry the exact reviewed intent and download produces a PDF
+[35/67] [chromium] › e2e/pricing-simulator.spec.ts:109:1 › diversified buyers choose specialist scope explicitly and can edit it backwards
+[36/67] [chromium] › e2e/pricing-simulator.spec.ts:126:1 › branded exports handle simple, dense and Enterprise scopes without internal identifiers
+[37/67] [chromium] › e2e/pricing-simulator.spec.ts:168:1 › Watchtower individual choices, bundle and package prerequisite stay coherent
+[38/67] [chromium] › e2e/pricing-simulator.spec.ts:193:1 › calculation details expose reached bands, optional schedule, discount and setup policy
+[39/67] [chromium] › e2e/pricing-simulator.spec.ts:205:1 › returning visitors retain their edited ROI assumptions after a reload
+[40/67] [chromium] › e2e/pricing-simulator.spec.ts:215:1 › invalid overview inputs hide prices and Starter eligibility requires a suitable plan above its cap
+[41/67] [chromium] › e2e/pricing-simulator.spec.ts:232:1 › share clipboard fallback produces a reopenable exact configuration
+[42/67] [chromium] › e2e/pricing-simulator.spec.ts:243:1 › clipboard success is announced and its link can be opened in a fresh context
+[43/67] [chromium] › e2e/pricing-simulator.spec.ts:254:1 › consent granted at review records the visible stage once and covers later refinements
+[44/67] [chromium] › e2e/pricing-simulator.spec.ts:275:1 › catalogue retry recovers to current prices and keyboard navigation focuses the next screen
+[45/67] [chromium] › e2e/pricing-simulator.spec.ts:287:1 › returning visitors can change the chosen package without stale summary state
+[46/67] [chromium] › e2e/pricing-simulator.spec.ts:295:1 › an invalid retired link does not silently replace the current selection
+[47/67] [chromium] › e2e/pricing-simulator.spec.ts:302:1 › Enterprise has a proposal path and no self-serve headline or account CTA
+[48/67] [chromium] › e2e/pricing-simulator.spec.ts:315:1 › the location average follows monthly scope and term, stays localized and is omitted for one location
+[49/67] [chromium] › e2e/pricing-simulator.spec.ts:332:1 › published catalogue failure blocks stale prices
+[50/67] [chromium] › e2e/pricing-simulator.spec.ts:339:1 › Crew cannot be reviewed without a selected plan
+[51/67] [chromium] › e2e/pricing-simulator.spec.ts:354:1 › German has localized refinement and bill-affecting exclusions
+[52/67] [chromium] › e2e/pricing-simulator.spec.ts:364:1 › returns stay visible while assumptions open independently and preserve the quote
+[53/67] [chromium] › e2e/pricing-simulator.spec.ts:378:1 › implementation assumptions change only ROI and reset with the quote
+[54/67] [chromium] › e2e/pricing-simulator.spec.ts:411:1 › a floor-only setup quote needs an explicit ROI implementation assumption
+[55/67] [chromium] › e2e/pricing-simulator.spec.ts:429:1 › refinement and review premium visual references
+[56/67] [chromium] › e2e/pricing-simulator.spec.ts:439:3 › mobile 375px shows a first price, readable header and usable controls
+[57/67] [chromium] › e2e/pricing-simulator.spec.ts:439:3 › mobile 390px shows a first price, readable header and usable controls
+[58/67] [chromium] › e2e/pricing-simulator.spec.ts:462:1 › Arabic remains RTL with localized controls and coherent totals
+[59/67] [chromium] › e2e/pricing-simulator.spec.ts:478:1 › desktop overview visual reference
+[60/67] [chromium] › e2e/pricing-simulator.spec.ts:483:1 › light theme and mobile review retain readable premium layouts
+[61/67] [chromium] › e2e/pricing-simulator.spec.ts:495:1 › custom Crew capability choices explain a covering bundle without promising a per-toggle saving
+[62/67] [chromium] › e2e/pricing-simulator.spec.ts:516:1 › review leads with monthly total and labels actual payment periods and the effective date
+[63/67] [chromium] › e2e/pricing-simulator.spec.ts:529:36 › consent and compact estimate remain separate at 320px
+[64/67] [chromium] › e2e/pricing-simulator.spec.ts:529:36 › consent and compact estimate remain separate at 390px
+[65/67] [chromium] › e2e/pricing-simulator.spec.ts:529:36 › consent and compact estimate remain separate at 768px
+[66/67] [chromium] › e2e/pricing-simulator.spec.ts:549:51 › /simulator retains Arabic metadata and shared quote attribution
+[67/67] [chromium] › e2e/pricing-simulator.spec.ts:549:51 › /simulator/ retains Arabic metadata and shared quote attribution
+  67 passed (34.6s)

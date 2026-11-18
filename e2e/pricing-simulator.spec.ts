@@ -212,11 +212,14 @@ test('returning visitors retain their edited ROI assumptions after a reload', as
   await page.getByTestId('roi-assumptions').locator('summary').first().click();
   await expect(page.locator('input[type=range]').first()).toHaveValue('250000');
 });
-test('numeric edges preserve the estate and Starter eligibility requires a suitable plan above its cap', async ({page}) => {
+test('invalid overview inputs hide prices and Starter eligibility requires a suitable plan above its cap', async ({page}) => {
   await page.goto('/'); const locations=page.getByTestId('location-count');
   await locations.fill('3'); await locations.fill(''); await locations.press('Tab');
-  await expect(locations).toHaveValue('3');
-  await locations.fill('3.9'); await locations.press('Enter'); await expect(locations).toHaveValue('3');
+  await expect(locations).toHaveValue('');
+  await expect(page.getByTestId('decision-total')).toHaveCount(0);
+  await locations.fill('3.9'); await locations.press('Enter'); await expect(locations).toHaveValue('3.9');
+  await expect(page.getByTestId('decision-total')).toHaveCount(0);
+  await locations.fill('3'); await locations.press('Enter');
   await page.getByTestId('pricing-tab-crew').click(); await page.getByTestId('preset-lite').click();
   await locations.fill('7'); await locations.press('Tab'); await expect(locations).toHaveValue('7');
   await expect(page.getByTestId('preset-lite')).toBeDisabled();
@@ -558,4 +561,12 @@ for (const path of ['/simulator', '/simulator/']) test(`${path} retains Arabic m
   expect(url.searchParams.get('utm_campaign')).toBe('slash');
   const demo = new URL((await page.locator('a[href*="cfg="]').last().getAttribute('href'))!);
   expect(decodePricingIntent(demo.searchParams.get('cfg')!)).toMatchObject(cfg);
+});
+
+// These existing scenarios exercise a configured visitor; first-visit gating
+// is covered separately by pricing-location-gate.spec.ts.
+test.beforeEach(async ({page}) => {
+  await page.addInitScript(() => {
+    if (!localStorage.getItem('sundae-pricing-config-v1-7')) localStorage.setItem('sundae-pricing-config-v1-7', JSON.stringify({version:2,state:{layer:'core',corePackage:'core_foundation',locations:1,locationsConfirmed:true,addOns:[],crewSkus:[],watchtowerModules:[],crossIntelligence:'none',billingCycle:'monthly',operatingModels:[],employees:null,payrollCountry:''}}));
+  });
 });

@@ -11,10 +11,12 @@ import { siteAccessibilityCopy } from '../lib/siteAccessibilityCopy';
 import { siteNavLabels, siteNavLinks } from '../lib/siteNavLabels';
 import { useBuyerFormatting } from '../hooks/useBuyerQuote';
 import { trackPricingEvent } from '../lib/analytics';
+import { focusLocationInput } from '../lib/locationInput';
 
 export function SiteHeader() {
   const { locale, setLocale, messages } = useLocale();
   const location = useLocation();
+  const locationsConfirmed = useConfiguration(state => state.locationsConfirmed);
   const navigate = useNavigate();
   const { copy, reviewCopy } = useBuyerFormatting();
   const isSimulator = location.pathname === '/simulator';
@@ -105,7 +107,7 @@ export function SiteHeader() {
             {isSimulator ? (
               <Link to="/" className="text-sm text-sundae-muted hover:text-sundae-text">{labels.pricing}</Link>
             ) : (
-              <Link to="/simulator" onClick={() => { const state = useConfiguration.getState(); if (!state.layer) state.setLayer('core'); state.setCurrentStep(state.layer !== 'core' && state.layer !== null && state.crewSkus.length === 0 ? 0 : 2); trackPricingEvent('header_review_clicked'); }} className="rounded-lg border border-sundae-muted/25 px-3 py-2 text-center text-xs font-semibold text-sundae-text hover:bg-sundae-surface-hover">{copy.reviewCta}</Link>
+              <Link to={location.pathname === '/' && !locationsConfirmed ? '/#buyer-locations' : '/simulator'} onClick={(event) => { const state = useConfiguration.getState(); if (location.pathname === '/' && !state.locationsConfirmed) { event.preventDefault(); focusLocationInput(); return; } if (!state.layer) state.setLayer('core'); state.setCurrentStep(state.layer !== 'core' && state.layer !== null && state.crewSkus.length === 0 ? 0 : 2); trackPricingEvent('header_review_clicked'); }} className="rounded-lg border border-sundae-muted/25 px-3 py-2 text-center text-xs font-semibold text-sundae-text hover:bg-sundae-surface-hover">{copy.reviewCta}</Link>
             )}
           </div>
         </div>

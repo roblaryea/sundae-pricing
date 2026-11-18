@@ -1,0 +1,6 @@
+import type { PricingLocale } from './locales';
+
+const copy: Record<PricingLocale, string> = {
+  en: 'Enter your locations to see pricing', ar: 'أدخل عدد المواقع لرؤية الأسعار', fr: 'Saisissez vos sites pour voir les tarifs', es: 'Introduce tus ubicaciones para ver los precios', de: 'Geben Sie Ihre Standorte ein, um Preise zu sehen', nl: 'Voer uw locaties in om prijzen te zien', pt: 'Introduza as suas localizações para ver os preços', hi: 'कीमतें देखने के लिए अपने स्थान दर्ज करें', ur: 'قیمتیں دیکھنے کے لیے اپنے مقامات درج کریں', it: 'Inserisci le sedi per vedere i prezzi', pl: 'Wpisz lokalizacje, aby zobaczyć ceny', tr: 'Fiyatları görmek için konumlarınızı girin', 'zh-Hans': '输入地点数量以查看价格', ja: '価格を見るには拠点数を入力してください', ko: '가격을 보려면 위치 수를 입력하세요', id: 'Masukkan lokasi untuk melihat harga', vi: 'Nhập số địa điểm để xem giá', ro: 'Introduceți locațiile pentru a vedea prețurile', sv: 'Ange antal platser för att se priser', bn: 'দাম দেখতে আপনার লোকেশন লিখুন', th: 'ป้อนจำนวนสาขาเพื่อดูราคา', ms: 'Masukkan lokasi untuk melihat harga', az: 'Qiymətləri görmək üçün məkanları daxil edin', ru: 'Введите количество локаций, чтобы увидеть цены', pap: 'Yena bo lokashonnan pa mira preisnan',
+};
+export function getLocationGateCopy(locale: PricingLocale) { return copy[locale]; }

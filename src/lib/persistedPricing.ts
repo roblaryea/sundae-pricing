@@ -53,3 +53,16 @@ export function restorePricingSelection(saved: unknown): Partial<PricingIntent> 
   void _version;
   return selection;
 }
+
+/** Preserve explicit footprints without mistaking the legacy one-location
+ * calculator default for a buyer choice. Invalid saved configurations never
+ * unlock the overview. Older multi-location choices remain usable. */
+export function restoreLocationConfirmation(saved: unknown): boolean {
+  if (!saved || typeof saved !== 'object') return false;
+  const raw = (saved as Record<string, unknown>).locations;
+  if (typeof raw !== 'number' || !Number.isInteger(raw) || raw < 1 || raw > 10000) return false;
+  const selection = restorePricingSelection(saved);
+  if (selection.locations === undefined) return false;
+  const marker = (saved as Record<string, unknown>).locationsConfirmed;
+  return typeof marker === 'boolean' ? marker : selection.locations > 1;
+}

@@ -37,7 +37,7 @@ export function PricingPending({ status }: { status: ReactNode }) {
     <div aria-hidden="true" inert>
       <div className="scope-controls">
         <fieldset className="need-control" disabled><legend>{copy.need}</legend><div className="need-options">{(['core','crew','both'] as const).map(id => <button key={id} type="button" disabled aria-pressed={(config.layer ?? 'core') === id}><span>{id === 'both' ? 'Core + Crew' : id === 'core' ? 'Core' : 'Crew'}</span><small>{copy[id]}</small></button>)}</div></fieldset>
-        <div className="location-control"><span>{journey.locationQuestion}</span><div><button type="button" disabled><Minus size={16}/></button><input type="number" disabled readOnly value={config.locations} aria-label={journey.locationQuestion}/><button type="button" disabled><Plus size={16}/></button></div></div>
+        <div className="location-control"><span>{journey.locationQuestion}</span><div><button type="button" disabled><Minus size={16}/></button><input type="number" disabled readOnly value={pathname === '/' && !config.locationsConfirmed ? '' : config.locations} aria-label={journey.locationQuestion}/><button type="button" disabled><Plus size={16}/></button></div></div>
       </div>
     </div>
     <div className="pricing-pending-status" role="status">{status}</div>

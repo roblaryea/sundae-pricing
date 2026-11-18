@@ -1,0 +1,108 @@
+{
+  "layouts": [
+    {
+      "label": "desktop-dark",
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "complete": true,
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "complete": true,
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ],
+      "total": "$1,545/mo",
+      "overflow": false
+    },
+    {
+      "label": "desktop-light",
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces.png",
+          "complete": true,
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces.png",
+          "complete": true,
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ],
+      "total": "$1,545/mo",
+      "overflow": false
+    },
+    {
+      "label": "mobile-dark",
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "complete": true,
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "complete": true,
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ],
+      "total": "$1,545/mo",
+      "overflow": false
+    },
+    {
+      "label": "mobile-light",
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces.png",
+          "complete": true,
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces.png",
+          "complete": true,
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ],
+      "total": "$1,545/mo",
+      "overflow": false
+    }
+  ],
+  "print": {
+    "src": "http://127.0.0.1:4188/logos/sundae-wordmark-fraunces.png",
+    "naturalWidth": 480,
+    "naturalHeight": 120,
+    "width": 160,
+    "height": 40
+  },
+  "iconSizes": [
+    16,
+    32,
+    180
+  ]
+}

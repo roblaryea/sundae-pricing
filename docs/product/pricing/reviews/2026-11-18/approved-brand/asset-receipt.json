@@ -1,0 +1,58 @@
+{
+  "sourceCommit": "b15b88e64fdfebd1a8b898c0ef0a342f068b9982",
+  "baseCommit": "140def24416bebd7fd3dcae919463b0987f4424c",
+  "registry": "/Users/robertlaryea/Documents/Dev/sundae-marketing/configs/brand-assets.yml",
+  "assets": [
+    {
+      "file": "public/logos/sundae-wordmark-fraunces.png",
+      "source": "/Users/robertlaryea/Documents/Dev/sundae-remotion/public/images/sundae-wordmark-fraunces.png",
+      "sha256": "5d1ec6d45bebb84f04c578cf599a65f459101bb2883f21159d2778090c7fb8d6",
+      "byteIdentical": true,
+      "dimensions": [
+        480,
+        120
+      ]
+    },
+    {
+      "file": "public/logos/sundae-wordmark-fraunces-white.png",
+      "source": "/Users/robertlaryea/Documents/Dev/sundae-remotion/public/images/sundae-wordmark-fraunces-white.png",
+      "sha256": "cc7489eacda4d63e1af03f6dfbab29ab443a1659bffba7350b6644baafbf2f1b",
+      "byteIdentical": true,
+      "dimensions": [
+        480,
+        120
+      ]
+    }
+  ],
+  "iconDerivation": {
+    "source": "public/logos/sundae-wordmark-fraunces.png",
+    "trim": "Empty alpha margins only, bounds [74,12,406,107]",
+    "background": "#F6F1E8",
+    "fit": "Proportional full wordmark at up to 90% of square; no lettering cropped, retyped, redrawn or recoloured",
+    "sizes": [
+      16,
+      32,
+      180,
+      192,
+      512
+    ],
+    "generator": "scripts/build-approved-brand-icons.py",
+    "limitation": "At 16px the complete wordmark is approximately 14x4px and is not independently readable; reviewer has the actual specimens for the small-format asset boundary."
+  },
+  "validation": {
+    "unitTests": 1458,
+    "unitFiles": 52,
+    "browserTests": 41,
+    "lint": "pass",
+    "build": "pass",
+    "translationQa": "pass",
+    "catalogueValidation": "pass",
+    "optionalSiblingRoots": "Absent for standalone build; no sibling parity claim"
+  },
+  "shareArtwork": {
+    "url": "https://www.sundae.io/logos/og-operations.png",
+    "owner": "Existing website positioning chat",
+    "status": "Existing URL preserved; main owner replacing artwork from approved PNG. Publication is coordinated by SEO owner."
+  },
+  "publication": "Draft review candidate; no production publication by pricing worker"
+}

@@ -1,0 +1,33 @@
+{
+  "source": "d74a09f29c77a876ba35d68cd925468b8fee0d74",
+  "baseline": "b3410c3ac2c0bd4f577e04eec8e3ced86409a6b0",
+  "localPerformance": {
+    "before": {
+      "score": 0.6,
+      "CLS": 0.3244228432563791,
+      "LCP": 6028.79825,
+      "FCP": 2054.17675,
+      "TBT": 41
+    },
+    "after": {
+      "score": 0.79,
+      "CLS": 0,
+      "LCP": 5680.90075,
+      "FCP": 930.7998,
+      "TBT": 61
+    }
+  },
+  "acceptedRegressionBaseline": {
+    "unitTests": 1458,
+    "browserJourneys": 41
+  },
+  "focusedChecks": {
+    "loadingBrowserTests": 6,
+    "catalogueAndJourneyUnitTests": 22,
+    "existingFailureRetryAndPdfBrowserTests": 3,
+    "localizedStaticDocuments": 50,
+    "lint": "pass",
+    "build": "pass"
+  },
+  "boundary": "Not merged or published. CLS and first-paint comparison is matched local lab evidence. No field/production LCP closure claim; final after LCP is5.454\u20135.736s and consent copy is the candidate. Footer remains visible in flow and can move below the viewport as validated details are added."
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "file": "public/fonts/fraunces-vietnamese.woff2",
+    "originalUrl": "https://fonts.gstatic.com/s/fraunces/v38/6NU78FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0KxCBTeP2Xz5fU8w.woff2",
+    "sha256": "7e3c04662669cd2b8ee672e4e5d63146d21f6aa36654b211718af5fe0bb3bd51",
+    "bytes": 19748,
+    "family": "Fraunces",
+    "subset": "vietnamese",
+    "source": "Unmodified original WOFF2 returned by the prior Google Fonts stylesheet; matching variable weight range.",
+    "licenseFile": "public/fonts/Fraunces-LICENSE.txt",
+    "licenseSha256": "6732d6cc72c5d09292ff754dc1f39d9ea14918f74e87a17afa3f00a5120c3d48",
+    "licenseAlreadyTracked": true
+  },
+  {
+    "file": "public/fonts/fraunces-latin-ext.woff2",
+    "originalUrl": "https://fonts.gstatic.com/s/fraunces/v38/6NU78FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0KxCFTeP2Xz5fU8w.woff2",
+    "sha256": "f120089b9440f3e35a980a2137347b1851ad46ee4b8ad5c63b6c07e053fa40e2",
+    "bytes": 59540,
+    "family": "Fraunces",
+    "subset": "latin-ext",
+    "source": "Unmodified original WOFF2 returned by the prior Google Fonts stylesheet; matching variable weight range.",
+    "licenseFile": "public/fonts/Fraunces-LICENSE.txt",
+    "licenseSha256": "6732d6cc72c5d09292ff754dc1f39d9ea14918f74e87a17afa3f00a5120c3d48",
+    "licenseAlreadyTracked": true
+  },
+  {
+    "file": "public/fonts/fraunces-latin.woff2",
+    "originalUrl": "https://fonts.gstatic.com/s/fraunces/v38/6NU78FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0KxC9TeP2Xz5c.woff2",
+    "sha256": "48282a415ec22e31beaf0a0666e6fae0c8cbddcd0b1f6e729f27c3ade8a64e43",
+    "bytes": 67388,
+    "family": "Fraunces",
+    "subset": "latin",
+    "source": "Unmodified original WOFF2 returned by the prior Google Fonts stylesheet; matching variable weight range.",
+    "licenseFile": "public/fonts/Fraunces-LICENSE.txt",
+    "licenseSha256": "6732d6cc72c5d09292ff754dc1f39d9ea14918f74e87a17afa3f00a5120c3d48",
+    "licenseAlreadyTracked": true
+  },
+  {
+    "file": "public/fonts/hanken-grotesk-cyrillic-ext.woff2",
+    "originalUrl": "https://fonts.gstatic.com/s/hankengrotesk/v12/ieVn2YZDLWuGJpnzaiwFXS9tYtpQ59CxCis4UvI.woff2",
+    "sha256": "2f52020a90793104e4178b0ae3ccd30eea28cac27e0fea8fcf4f246151777f74",
+    "bytes": 1644,
+    "family": "Hanken Grotesk",
+    "subset": "cyrillic-ext",
+    "source": "Unmodified original WOFF2 returned by the prior Google Fonts stylesheet; matching variable weight range.",
+    "licenseFile": "public/fonts/HankenGrotesk-LICENSE.txt",
+    "licenseSha256": "bb93c61eef5b10204ac305aeb3d204ce74c22c40aa8398f9e2c3bdab2263f2d1",
+    "licenseAlreadyTracked": true
+  },
+  {
+    "file": "public/fonts/hanken-grotesk-vietnamese.woff2",
+    "originalUrl": "https://fonts.gstatic.com/s/hankengrotesk/v12/ieVn2YZDLWuGJpnzaiwFXS9tYtpS59CxCis4UvI.woff2",
+    "sha256": "2f467719b2167cc4778b5780a2fb42fadf5203b29d0fb5f1482bbab32b1b7999",
+    "bytes": 9364,
+    "family": "Hanken Grotesk",
+    "subset": "vietnamese",
+    "source": "Unmodified original WOFF2 returned by the prior Google Fonts stylesheet; matching variable weight range.",
+    "licenseFile": "public/fonts/HankenGrotesk-LICENSE.txt",
+    "licenseSha256": "bb93c61eef5b10204ac305aeb3d204ce74c22c40aa8398f9e2c3bdab2263f2d1",
+    "licenseAlreadyTracked": true
+  },
+  {
+    "file": "public/fonts/hanken-grotesk-latin-ext.woff2",
+    "originalUrl": "https://fonts.gstatic.com/s/hankengrotesk/v12/ieVn2YZDLWuGJpnzaiwFXS9tYtpT59CxCis4UvI.woff2",
+    "sha256": "a1376a563717f1efa2f5286ab23da2b61ae8dec827a77b97adfa01cad4ec4ee2",
+    "bytes": 19572,
+    "family": "Hanken Grotesk",
+    "subset": "latin-ext",
+    "source": "Unmodified original WOFF2 returned by the prior Google Fonts stylesheet; matching variable weight range.",
+    "licenseFile": "public/fonts/HankenGrotesk-LICENSE.txt",
+    "licenseSha256": "bb93c61eef5b10204ac305aeb3d204ce74c22c40aa8398f9e2c3bdab2263f2d1",
+    "licenseAlreadyTracked": true
+  },
+  {
+    "file": "public/fonts/hanken-grotesk-latin.woff2",
+    "originalUrl": "https://fonts.gstatic.com/s/hankengrotesk/v12/ieVn2YZDLWuGJpnzaiwFXS9tYtpd59CxCis4.woff2",
+    "sha256": "1f21c6eaa0000f3329cfcfac966b43d5bebf5aa610303e33294ac31bc6f4bb59",
+    "bytes": 34664,
+    "family": "Hanken Grotesk",
+    "subset": "latin",
+    "source": "Unmodified original WOFF2 returned by the prior Google Fonts stylesheet; matching variable weight range.",
+    "licenseFile": "public/fonts/HankenGrotesk-LICENSE.txt",
+    "licenseSha256": "bb93c61eef5b10204ac305aeb3d204ce74c22c40aa8398f9e2c3bdab2263f2d1",
+    "licenseAlreadyTracked": true
+  }
+]

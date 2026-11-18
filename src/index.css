@@ -1,6 +1,6 @@
 /* Warm-signature type system (parity with sundae-website):
    Hanken Grotesk = body/UI, Fraunces = display/headings. */
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap');
+@import "./styles/ui-fonts.css";
 @import "tailwindcss";
 
 @theme {
@@ -1103,3 +1103,28 @@ html { scroll-padding-top:calc(var(--pricing-header-height,100px) + 16px); }
   .need-options button { min-height:44px; }
 }
 .plan-card, .refine-panel, .roi-workspace { scroll-margin-top:0; }
+
+/* Loading uses the same responsive scope/card structure as the buyer form.
+   No fixed page height, stale quote, or hidden footer is used to reserve space. */
+.pricing-pending-status { margin:14px 2px 22px; font-size:12px; line-height:1.6; color:var(--color-sundae-muted); }
+.pricing-placeholder { display:inline-block; border-radius:4px; background:color-mix(in srgb,currentColor 12%,transparent); line-height:1; }
+.pricing-pending .location-control > span, .pricing-pending .mobile-plan-select > span { font-size:12px; font-weight:600; }
+.pricing-pending .plan-card { cursor:default; }
+.pricing-pending .plan-select { pointer-events:none; }
+@media(max-width:640px) { .pricing-pending-status { margin:12px 2px 14px; } .pricing-pending .mobile-plan-select > span { font-size:11px; } }
+
+/* Static React shell uses the same approved PNGs and the existing pre-paint
+   preference; no recolouring or alternate wordmark is introduced. */
+.pricing-static-wordmark { display:inline-flex; }
+.pricing-static-wordmark [data-prerender-theme="light"] { display:none; }
+html.light .pricing-static-wordmark [data-prerender-theme="light"] { display:block; }
+html.light .pricing-static-wordmark [data-prerender-theme="dark"] { display:none; }
+
+/* Consent keeps its existing espresso surface in light mode. Its text/link
+   colours must not inherit the light-page slate/white remaps. */
+.light .pricing-cookie-banner :is(p.text-slate-300,button.text-slate-300) { color:var(--color-cream-edge); }
+.light .pricing-cookie-banner a,
+.light .pricing-cookie-banner a:hover,
+.light .pricing-cookie-banner a:focus-visible,
+.light .pricing-cookie-banner button.text-slate-300:hover,
+.light .pricing-cookie-banner button.text-slate-300:focus-visible { color:var(--color-cream); }

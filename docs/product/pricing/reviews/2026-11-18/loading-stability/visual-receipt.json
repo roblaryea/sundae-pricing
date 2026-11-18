@@ -1,0 +1,362 @@
+[
+  {
+    "case": {
+      "stage": "before",
+      "width": 412,
+      "theme": "dark",
+      "lang": "en"
+    },
+    "initial": {
+      "h1": {
+        "x": 40,
+        "y": 101.4375,
+        "width": 332,
+        "height": 74
+      },
+      "heading": "Pricing that fits your business.",
+      "footer": null
+    },
+    "pending": {
+      "h1": {
+        "x": 49,
+        "y": 315,
+        "width": 314,
+        "height": 32
+      },
+      "footer": {
+        "x": 0,
+        "y": 556,
+        "width": 412,
+        "height": 511.75
+      },
+      "footerVisibility": "visible"
+    },
+    "ready": {
+      "h1": {
+        "x": 16,
+        "y": 184.5,
+        "width": 380,
+        "height": 64.78125
+      },
+      "footer": {
+        "x": 0,
+        "y": 1774.4375,
+        "width": 412,
+        "height": 511.75
+      },
+      "total": "$1,195/mo",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "CLS": 0.3244228432563791,
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "stage": "after",
+      "width": 412,
+      "theme": "dark",
+      "lang": "en"
+    },
+    "initial": {
+      "h1": {
+        "x": 16,
+        "y": 184.5,
+        "width": 380,
+        "height": 64.78125
+      },
+      "heading": "Pricing that fits your business.",
+      "footer": {
+        "x": 0,
+        "y": 1338.21875,
+        "width": 412,
+        "height": 511.75
+      }
+    },
+    "pending": {
+      "h1": {
+        "x": 16,
+        "y": 184.5,
+        "width": 380,
+        "height": 64.78125
+      },
+      "footer": {
+        "x": 0,
+        "y": 1338.21875,
+        "width": 412,
+        "height": 511.75
+      },
+      "footerVisibility": "visible"
+    },
+    "ready": {
+      "h1": {
+        "x": 16,
+        "y": 184.5,
+        "width": 380,
+        "height": 64.78125
+      },
+      "footer": {
+        "x": 0,
+        "y": 1774.4375,
+        "width": 412,
+        "height": 511.75
+      },
+      "total": "$1,195/mo",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "CLS": 0,
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "stage": "after",
+      "width": 412,
+      "theme": "light",
+      "lang": "en"
+    },
+    "initial": {
+      "h1": {
+        "x": 16,
+        "y": 184.5,
+        "width": 380,
+        "height": 64.78125
+      },
+      "heading": "Pricing that fits your business.",
+      "footer": {
+        "x": 0,
+        "y": 1338.21875,
+        "width": 412,
+        "height": 511.75
+      }
+    },
+    "pending": {
+      "h1": {
+        "x": 16,
+        "y": 184.5,
+        "width": 380,
+        "height": 64.78125
+      },
+      "footer": {
+        "x": 0,
+        "y": 1338.21875,
+        "width": 412,
+        "height": 511.75
+      },
+      "footerVisibility": "visible"
+    },
+    "ready": {
+      "h1": {
+        "x": 16,
+        "y": 184.5,
+        "width": 380,
+        "height": 64.78125
+      },
+      "footer": {
+        "x": 0,
+        "y": 1774.4375,
+        "width": 412,
+        "height": 511.75
+      },
+      "total": "$1,195/mo",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "CLS": 0,
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "stage": "after",
+      "width": 1440,
+      "theme": "light",
+      "lang": "en"
+    },
+    "initial": {
+      "h1": {
+        "x": 112,
+        "y": 200.5,
+        "width": 700,
+        "height": 125.25
+      },
+      "heading": "Pricing that fits your business.",
+      "footer": {
+        "x": 0,
+        "y": 1423.609375,
+        "width": 1440,
+        "height": 368
+      }
+    },
+    "pending": {
+      "h1": {
+        "x": 112,
+        "y": 200.5,
+        "width": 700,
+        "height": 125.25
+      },
+      "footer": {
+        "x": 0,
+        "y": 1423.609375,
+        "width": 1440,
+        "height": 368
+      },
+      "footerVisibility": "visible"
+    },
+    "ready": {
+      "h1": {
+        "x": 112,
+        "y": 200.5,
+        "width": 700,
+        "height": 125.25
+      },
+      "footer": {
+        "x": 0,
+        "y": 1841.28125,
+        "width": 1440,
+        "height": 368
+      },
+      "total": "$1,195/mo",
+      "lang": "en",
+      "dir": "ltr",
+      "overflow": false,
+      "CLS": 0,
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ]
+    }
+  },
+  {
+    "case": {
+      "stage": "after",
+      "width": 390,
+      "theme": "dark",
+      "lang": "ar"
+    },
+    "initial": {
+      "h1": {
+        "x": 102.171875,
+        "y": 184.5,
+        "width": 271.828125,
+        "height": 32.390625
+      },
+      "heading": "أسعار تناسب أعمالك.",
+      "footer": {
+        "x": 0,
+        "y": 1301.328125,
+        "width": 390,
+        "height": 511.75
+      }
+    },
+    "pending": {
+      "h1": {
+        "x": 102.171875,
+        "y": 184.5,
+        "width": 271.828125,
+        "height": 32.390625
+      },
+      "footer": {
+        "x": 0,
+        "y": 1301.328125,
+        "width": 390,
+        "height": 511.75
+      },
+      "footerVisibility": "visible"
+    },
+    "ready": {
+      "h1": {
+        "x": 102.171875,
+        "y": 184.5,
+        "width": 271.828125,
+        "height": 32.390625
+      },
+      "footer": {
+        "x": 0,
+        "y": 1737.546875,
+        "width": 390,
+        "height": 511.75
+      },
+      "total": "‏1,195 US$/شهرياً",
+      "lang": "ar",
+      "dir": "rtl",
+      "overflow": false,
+      "CLS": 0,
+      "images": [
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        },
+        {
+          "src": "/logos/sundae-wordmark-fraunces-white.png",
+          "naturalWidth": 480,
+          "naturalHeight": 120,
+          "width": 144,
+          "height": 36
+        }
+      ]
+    }
+  }
+]

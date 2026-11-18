@@ -6,6 +6,7 @@ import { PlanChoices, PriceDetails } from '../components/Pricing/PricingWorkspac
 import { trackPricingEvent } from '../lib/analytics';
 import { usePricingViewEvent, usePricingConfigurationTelemetry } from '../hooks/usePricingTelemetry';
 import { getBuyerClarityCopy } from '../lib/buyerClarityCopy';
+import { PricingHero } from '../components/Pricing/PricingPending';
 import { AveragePrice } from '../components/Pricing/AveragePrice';
 
 export function PricingOverview() {
@@ -17,7 +18,7 @@ export function PricingOverview() {
   usePricingConfigurationTelemetry(config, ready);
   const proceed = (step: number) => { if (!state.layer) state.setLayer('core'); state.setCurrentStep(step); trackPricingEvent(step === 1 ? 'refinement_started' : 'review_started', { step }); navigate('/simulator'); window.scrollTo(0,0); };
   return <LivePricingGate state={live}><div className="buyer-page">
-    <section className="pricing-hero"><div><p className="pricing-eyebrow">SUNDAE / {messages.header.pricing}</p><h1>{copy.title}</h1><p>{copy.subtitle}</p></div><a href="#plan-comparison" className="hero-note">Core · Crew · Core + Crew<ArrowRight size={16}/></a></section>
+    <PricingHero/>
     <div id="plan-comparison"><PlanChoices/></div>
     <button type="button" className="compact-refine pricing-secondary" disabled={quote.needsCrewSelection} onClick={() => proceed(1)}>{copy.refineCta}</button>
     <div className="pricing-decision-bar"><div className={`decision-price ${quote.averageMonthlyPerLocation !== null ? 'has-average' : ''}`}>

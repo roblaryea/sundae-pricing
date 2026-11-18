@@ -10,7 +10,7 @@ Status: implemented and locally verified; **not accepted, merged or published**.
 | Finding | Current production symptom verified | This cut | Remaining boundary |
 |---|---|---|---|
 | F10 | 320×640: estimate bar 134 px, y=498–632; consent y=513–640, directly overlapping. | Compact estimate bar 66 px; one Review action on phone/tablet; Refine remains in flow. Consent makes estimate actions static and reserves its measured height. Header-aware scroll padding keeps the selected card title and first inclusion visible after scrolling it into view. Simulator step actions are in flow on small screens. | This does not claim the entire initial pricing form and first inclusion fit above the fold at 320×640. The unchanged shared navigation occupies 142 px. It resolves obstruction, not the separate F11 performance/layout-shift audit. |
-| F12 | Live root/simulator share the old title/canonical. `/sitemap.xml`, `/llms.txt`, and an invented path all return 200 HTML. | 25 localized overview documents with canonical/hreflang/social metadata and WebPage schema; XML sitemap; plain-text llms; simulator noindex/follow; finite route rewrites and genuine static 404. | Exact HTTP status/content-type/query-rewrite checks require this cut's Vercel preview. Production unchanged until accepted release. |
+| F12 | Live root/simulator share the old title/canonical. `/sitemap.xml`, `/llms.txt`, and an invented path all return 200 HTML. | 25 localized overview documents with canonical/hreflang/social metadata and WebPage schema; XML sitemap; plain-text llms; simulator noindex/follow; finite route rewrites and genuine static 404. | Preview HTTP checks pass: Arabic/French roots serve localized static metadata, XML sitemap is application/xml, llms is text/plain, unknown path is 404, simulator is noindex. Production unchanged until accepted release. |
 | F13 | Current main-site provider reads/writes only origin-local `sundae-theme`; pricing does the same. | Pricing reads/writes a shared explicit theme cookie and synchronizes on focus/pageshow/storage. Dark-first preserved per Robert's preference. | **Not end-to-end complete:** main owner must adopt companion, then verify www light → pricing light → www light on deployed hosts. |
 | F20 | Card/summary repeated Monthly Investment; review emphasizes average; payment amounts lack explicit period; numeric effective date; custom capabilities show standalone prices even when a bundle bills them. | Family-qualified monthly totals on cards; total-primary review/PDF with secondary average; explicit monthly/quarterly/annual/24-month payment labels; named-month UTC effective date; visible non-stacking discount explanation; selected capability list separated from applied covering bundle. Checked bundle-covered rows show the billing bundle rather than a false marginal saving. | All arithmetic, eligibility, discounts, allowances, setup policy and implementation-cost ROI assumptions are unchanged. |
 
@@ -29,7 +29,7 @@ Navigation and LinkedIn fixes were already present in base PR61 and were not dup
 
 ## Validation and observed results
 
-- 1,448 tests in 51 unit test files pass, including shared-cookie precedence/blocked-storage checks and metadata/payment-label coverage for all 25 locales.
+- 1,449 tests in 51 unit test files pass, including shared-cookie precedence/blocked-storage checks and metadata/payment-label coverage for all 25 locales.
 - All 39 pricing browser tests pass, including the prior ROI assumptions, exact quote/PDF intent, custom Crew bundle behavior, and consent/bar geometry at 320, 390 and 768 px.
 - Lint, translation QA, TypeScript, catalogue validation and standalone production build pass. Optional sibling roots were absent to match Vercel, rather than claiming unrelated sibling parity.
 - Real live-catalogue browser journey: seven-location Core Growth + Crew Operating, 150 employees, AE, annual paid quarterly: **$4,379.10/month**, average **$625.59/location/month**, quarterly payment **$13,137.30**. Arabic mobile navigation visited actual `https://www.sundae.io/ar/resources`, then browser Back restored review step 03, the same total and average.
@@ -45,3 +45,12 @@ Navigation and LinkedIn fixes were already present in base PR61 and were not dup
 - [Custom capability selection and covering-bundle explanation](evidence/custom-crew.png)
 
 Publication gate: exact immutable source/visual acceptance from the existing reviewer and passing checks. Full F13 closure additionally needs the separately owned main companion and deployed cross-site retake. Do not treat this source cut as production evidence.
+
+## Immutable source and preview receipt
+
+- Application/configuration source: **`99400cb6d6efba92760d52bece107b3f2f1dbd6f`** on `codex/pricing-buyer-clarity-20261118`.
+- Draft review: https://github.com/roblaryea/sundae-pricing/pull/62
+- Tested deployment for that exact source: https://sundae-pricing-is0y71o15-sundaes-projects-afd45f7e.vercel.app (Vercel-protected preview).
+- [Sanitized HTTP receipt](http-preview-evidence.json) contains status, MIME type, canonical, language and robots readbacks without authentication data.
+- Preview testing caught and corrected root-locale rewrites being shadowed by the existing index file. Explicit locale routes now precede filesystem matching, with a regression check. Arabic and French static root responses now pass before JavaScript; the Arabic simulator remains noindex/follow.
+- Final document/evidence commits after this source are packaging-only; independent review should bind the PR's immutable head and this source commit. No acceptance or production publication is implied.

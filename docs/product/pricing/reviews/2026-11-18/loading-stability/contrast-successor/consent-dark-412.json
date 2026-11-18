@@ -1,0 +1,108 @@
+{
+  "theme": "dark",
+  "width": 412,
+  "normal": {
+    "background": "oklab(0.196893 0.00655285 0.0121528 / 0.95)",
+    "effectiveBackground": [
+      37.67450980392158,
+      31.980392156862756,
+      27.23529411764707
+    ],
+    "items": [
+      {
+        "text": "We use cookies to improve your experience and analyze site usage. Privacy Policy",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      },
+      {
+        "text": "Privacy Policy",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      },
+      {
+        "text": "Decline",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      }
+    ],
+    "height": 133
+  },
+  "linkHover": {
+    "background": "oklab(0.196893 0.00655285 0.0121528 / 0.95)",
+    "effectiveBackground": [
+      37.67450980392158,
+      31.980392156862756,
+      27.23529411764707
+    ],
+    "items": [
+      {
+        "text": "We use cookies to improve your experience and analyze site usage. Privacy Policy",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      },
+      {
+        "text": "Privacy Policy",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      },
+      {
+        "text": "Decline",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      }
+    ],
+    "height": 133
+  },
+  "declineHover": {
+    "background": "oklab(0.196893 0.00655285 0.0121528 / 0.95)",
+    "effectiveBackground": [
+      37.67450980392158,
+      31.980392156862756,
+      27.23529411764707
+    ],
+    "items": [
+      {
+        "text": "We use cookies to improve your experience and analyze site usage. Privacy Policy",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      },
+      {
+        "text": "Privacy Policy",
+        "color": "rgb(210, 200, 184)",
+        "contrast": 9.737632701665182
+      },
+      {
+        "text": "Decline",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      }
+    ],
+    "height": 133
+  },
+  "declineFocus": {
+    "background": "oklab(0.196893 0.00655285 0.0121528 / 0.95)",
+    "effectiveBackground": [
+      37.67450980392158,
+      31.980392156862756,
+      27.23529411764707
+    ],
+    "items": [
+      {
+        "text": "We use cookies to improve your experience and analyze site usage. Privacy Policy",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      },
+      {
+        "text": "Privacy Policy",
+        "color": "rgb(208, 198, 182)",
+        "contrast": 9.538890759266062
+      },
+      {
+        "text": "Decline",
+        "color": "rgb(208, 198, 183)",
+        "contrast": 9.545257397050058
+      }
+    ],
+    "height": 133
+  }
+}

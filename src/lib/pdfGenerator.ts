@@ -209,7 +209,7 @@ export async function generateQuotePDF(
 
   // Load logo image - use current origin (works in browser)
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark-white.png` : '/logos/sundae-wordmark-white.png';
+  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark-fraunces-white.png` : '/logos/sundae-wordmark-fraunces-white.png';
 
   // Header
   doc.setFillColor(15, 23, 42);
@@ -600,7 +600,7 @@ export async function generateCrewQuotePDF(
 
   // Header (same chrome as the analytics quote)
   const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark-white.png` : '/logos/sundae-wordmark-white.png';
+  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark-fraunces-white.png` : '/logos/sundae-wordmark-fraunces-white.png';
 
   doc.setFillColor(15, 23, 42);
   doc.rect(0, 0, pageWidth, 40, 'F');

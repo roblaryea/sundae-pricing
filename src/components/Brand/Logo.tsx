@@ -1,48 +1,29 @@
-// Reusable Sundae logo component - Single source of truth for branding.
-// The mark + Fraunces logotype lockup mirrors the marketing site navbar so the
-// brand reads identically across marketing, pricing, and app surfaces.
-
+// Use the approved registry PNGs directly; never recreate the identity in type or SVG.
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../contexts/ThemeContext';
-import { SundaeMark } from './SundaeMark';
-import { SundaeLogotype } from './SundaeLogotype';
 
 interface LogoProps {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   linkToHome?: boolean;
-  variant?: 'wordmark'; // retained for API compatibility
+  variant?: 'wordmark';
 }
 
-const sizeMap = {
-  sm: { mark: 26, text: 'text-[20px]', gap: 'gap-2' },
-  md: { mark: 30, text: 'text-[24px]', gap: 'gap-2.5' },
-  lg: { mark: 34, text: 'text-[30px]', gap: 'gap-2.5' },
-};
+const widths = { sm: 128, md: 144, lg: 176 };
 
 export function Logo({ size = 'md', className, linkToHome = false }: LogoProps) {
   const { theme } = useTheme();
-  const { mark, text, gap } = sizeMap[size];
-  const textColor = theme === 'dark' ? '#FBF8F4' : '#2A2320';
+  const width = widths[size];
+  const logoContent = <img
+    src={`${import.meta.env.BASE_URL}logos/sundae-wordmark-fraunces${theme === 'dark' ? '-white' : ''}.png`}
+    alt="Sundae"
+    width={width}
+    height={width / 4}
+    className={cn('block shrink-0 select-none object-contain', className)}
+    style={{ width, height: width / 4 }}
+  />;
 
-  const logoContent = (
-    <span className={cn('inline-flex items-center', gap, className)}>
-      <SundaeMark size={mark} className="flex-shrink-0" />
-      <SundaeLogotype className={text} style={{ color: textColor }} />
-    </span>
-  );
-
-  if (linkToHome) {
-    return (
-      <a
-        href="/"
-        aria-label="Sundae"
-        className="inline-flex items-center transition-opacity hover:opacity-80"
-      >
-        {logoContent}
-      </a>
-    );
-  }
-
-  return <div className="inline-flex items-center">{logoContent}</div>;
+  return linkToHome
+    ? <a href="/" aria-label="Sundae" className="inline-flex items-center transition-opacity hover:opacity-80">{logoContent}</a>
+    : <span className="inline-flex items-center">{logoContent}</span>;
 }

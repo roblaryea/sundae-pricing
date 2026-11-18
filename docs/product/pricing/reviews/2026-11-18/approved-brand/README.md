@@ -1,6 +1,6 @@
 # Approved Sundae brand correction — pricing
 
-Source: **`b15b88e64fdfebd1a8b898c0ef0a342f068b9982`**, branch `codex/pricing-approved-brand-20261118`, isolated from published pricing `140def24416bebd7fd3dcae919463b0987f4424c`. Status: prepared for the established independent review/publication process; no pricing publication is implied.
+Source: **`b15b88e64fdfebd1a8b898c0ef0a342f068b9982`**, branch `codex/pricing-approved-brand-20261118`, isolated from published pricing `140def24416bebd7fd3dcae919463b0987f4424c`. Status: prepared for the established independent review/publication process; the small-format complete-wordmark fallback is accepted by the existing SEO reviewer. No pricing publication is implied.
 
 ## What was corrected
 
@@ -23,7 +23,7 @@ Primary PNGs are **byte-identical**, 480×120 originals. [Asset provenance, hash
 
 [Print estimate](evidence/estimate-print.png) · [actual 16/32/180 px icon specimens, plus magnified views](evidence/icon-specimens.png) · [browser dimensions and exact quote readbacks](browser-receipt.json).
 
-The complete six-letter wordmark is approximately **14×4 px at 16 px**, so it is not independently readable at that size. The 32 px specimen is more recognizable and the 180 px Apple specimen is clear. These concrete specimens were sent to the existing SEO and main-site reviewers for the approved small-format asset decision; no standalone glyph was invented and the retired S was not retained.
+The complete six-letter wordmark is approximately **14×4 px at 16 px**, so it is not independently readable at that size. The 32 px specimen is more recognizable and the 180 px Apple specimen is clear. The existing SEO reviewer accepted this complete-wordmark square as the compliant small-format fallback. At 16 px the wordmark is tiny and not fully legible; 32 px is more recognizable and 180 px is clear. No standalone glyph was invented and the retired S was not retained.
 
 ## Validation and scope
 

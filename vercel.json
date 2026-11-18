@@ -1,27 +1,562 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/pricing/catalog/active",
-      "destination": "https://app.sundaetech.ai/api/pricing/catalog/active"
+      "src": "/(.*)",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "X-XSS-Protection": "1; mode=block",
+        "Referrer-Policy": "strict-origin-when-cross-origin",
+        "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+        "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload"
+      },
+      "continue": true
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "headers": [
+      "src": "/api/pricing/catalog/active",
+      "dest": "https://app.sundaetech.ai/api/pricing/catalog/active"
+    },
     {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "X-XSS-Protection", "value": "1; mode=block" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
-      ]
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ar"
+        }
+      ],
+      "dest": "/localized/ar/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "fr"
+        }
+      ],
+      "dest": "/localized/fr/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "es"
+        }
+      ],
+      "dest": "/localized/es/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "de"
+        }
+      ],
+      "dest": "/localized/de/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "nl"
+        }
+      ],
+      "dest": "/localized/nl/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "pt"
+        }
+      ],
+      "dest": "/localized/pt/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "hi"
+        }
+      ],
+      "dest": "/localized/hi/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ur"
+        }
+      ],
+      "dest": "/localized/ur/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "it"
+        }
+      ],
+      "dest": "/localized/it/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "pl"
+        }
+      ],
+      "dest": "/localized/pl/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "tr"
+        }
+      ],
+      "dest": "/localized/tr/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "zh-Hans"
+        }
+      ],
+      "dest": "/localized/zh-Hans/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ja"
+        }
+      ],
+      "dest": "/localized/ja/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ko"
+        }
+      ],
+      "dest": "/localized/ko/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "id"
+        }
+      ],
+      "dest": "/localized/id/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "vi"
+        }
+      ],
+      "dest": "/localized/vi/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ro"
+        }
+      ],
+      "dest": "/localized/ro/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "sv"
+        }
+      ],
+      "dest": "/localized/sv/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "bn"
+        }
+      ],
+      "dest": "/localized/bn/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "th"
+        }
+      ],
+      "dest": "/localized/th/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ms"
+        }
+      ],
+      "dest": "/localized/ms/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "az"
+        }
+      ],
+      "dest": "/localized/az/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ru"
+        }
+      ],
+      "dest": "/localized/ru/index.html"
+    },
+    {
+      "src": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "pap"
+        }
+      ],
+      "dest": "/localized/pap/index.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ar"
+        }
+      ],
+      "dest": "/localized/ar/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "fr"
+        }
+      ],
+      "dest": "/localized/fr/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "es"
+        }
+      ],
+      "dest": "/localized/es/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "de"
+        }
+      ],
+      "dest": "/localized/de/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "nl"
+        }
+      ],
+      "dest": "/localized/nl/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "pt"
+        }
+      ],
+      "dest": "/localized/pt/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "hi"
+        }
+      ],
+      "dest": "/localized/hi/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ur"
+        }
+      ],
+      "dest": "/localized/ur/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "it"
+        }
+      ],
+      "dest": "/localized/it/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "pl"
+        }
+      ],
+      "dest": "/localized/pl/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "tr"
+        }
+      ],
+      "dest": "/localized/tr/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "zh-Hans"
+        }
+      ],
+      "dest": "/localized/zh-Hans/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ja"
+        }
+      ],
+      "dest": "/localized/ja/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ko"
+        }
+      ],
+      "dest": "/localized/ko/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "id"
+        }
+      ],
+      "dest": "/localized/id/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "vi"
+        }
+      ],
+      "dest": "/localized/vi/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ro"
+        }
+      ],
+      "dest": "/localized/ro/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "sv"
+        }
+      ],
+      "dest": "/localized/sv/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "bn"
+        }
+      ],
+      "dest": "/localized/bn/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "th"
+        }
+      ],
+      "dest": "/localized/th/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ms"
+        }
+      ],
+      "dest": "/localized/ms/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "az"
+        }
+      ],
+      "dest": "/localized/az/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "ru"
+        }
+      ],
+      "dest": "/localized/ru/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "has": [
+        {
+          "type": "query",
+          "key": "lang",
+          "value": "pap"
+        }
+      ],
+      "dest": "/localized/pap/simulator.html"
+    },
+    {
+      "src": "/simulator/?",
+      "dest": "/simulator.html"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "status": 404,
+      "dest": "/404.html"
     }
   ]
 }

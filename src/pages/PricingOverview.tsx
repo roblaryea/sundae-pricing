@@ -5,12 +5,13 @@ import { LivePricingGate } from '../components/shared/LivePricingGate';
 import { PlanChoices, PriceDetails } from '../components/Pricing/PricingWorkspace';
 import { trackPricingEvent } from '../lib/analytics';
 import { usePricingViewEvent, usePricingConfigurationTelemetry } from '../hooks/usePricingTelemetry';
+import { getBuyerClarityCopy } from '../lib/buyerClarityCopy';
 import { AveragePrice } from '../components/Pricing/AveragePrice';
 
 export function PricingOverview() {
   const navigate = useNavigate();
   const { state, config, quote, live } = useBuyerQuote();
-  const { copy, reviewCopy, money, messages } = useBuyerFormatting();
+  const { copy, reviewCopy, money, messages, locale } = useBuyerFormatting();
   const ready = !live.required || live.status === 'ready';
   usePricingViewEvent('first_price_displayed', { layer: config.layer, locations: config.locations, monthly: quote.monthly }, ready && !quote.needsCrewSelection);
   usePricingConfigurationTelemetry(config, ready);
@@ -18,11 +19,12 @@ export function PricingOverview() {
   return <LivePricingGate state={live}><div className="buyer-page">
     <section className="pricing-hero"><div><p className="pricing-eyebrow">SUNDAE / {messages.header.pricing}</p><h1>{copy.title}</h1><p>{copy.subtitle}</p></div><a href="#plan-comparison" className="hero-note">Core · Crew · Core + Crew<ArrowRight size={16}/></a></section>
     <div id="plan-comparison"><PlanChoices/></div>
+    <button type="button" className="compact-refine pricing-secondary" disabled={quote.needsCrewSelection} onClick={() => proceed(1)}>{copy.refineCta}</button>
     <div className="pricing-decision-bar"><div className={`decision-price ${quote.averageMonthlyPerLocation !== null ? 'has-average' : ''}`}>
-      <div className="decision-total-row"><small>{messages.summary.monthlyInvestment}</small><strong data-testid="decision-total">{quote.needsCrewSelection ? copy.chooseCrew : quote.enterprise ? messages.overview.contactSales : money(quote.monthly)}{!quote.enterprise && !quote.needsCrewSelection && <span>{messages.overview.perMonth}</span>}</strong></div>
+      <div className="decision-total-row"><small>{getBuyerClarityCopy(locale).total}</small><strong data-testid="decision-total">{quote.needsCrewSelection ? copy.chooseCrew : quote.enterprise ? messages.overview.contactSales : money(quote.monthly)}{!quote.enterprise && !quote.needsCrewSelection && <span>{messages.overview.perMonth}</span>}</strong></div>
       {quote.averageMonthlyPerLocation !== null && <div className="decision-average"><AveragePrice amount={money(quote.averageMonthlyPerLocation)} locations={config.locations} testId="decision-average"/></div>}
       {quote.workforceUnknown && !quote.enterprise && !quote.needsCrewSelection && <button type="button" className="workforce-prompt" onClick={() => proceed(1)}>{reviewCopy.addEmployees}<ArrowRight size={12} aria-hidden/></button>}
-    </div><div className="decision-actions"><button type="button" disabled={quote.needsCrewSelection} className="pricing-secondary" onClick={() => proceed(1)}><SlidersHorizontal size={16} aria-hidden/>{copy.refineCta}</button><button type="button" disabled={quote.needsCrewSelection} className="pricing-primary" onClick={() => proceed(2)}>{copy.reviewCta}<ArrowRight size={16} aria-hidden/></button></div></div>
+    </div><div className="decision-actions"><button type="button" disabled={quote.needsCrewSelection} className="pricing-secondary" onClick={() => proceed(1)}><SlidersHorizontal size={16} aria-hidden/>{copy.refineCta}</button><button type="button" disabled={quote.needsCrewSelection} className="pricing-primary" onClick={() => proceed(2)}><span className="desktop-review-label">{copy.reviewCta}</span><span className="compact-review-label">{getBuyerClarityCopy(locale).review}</span><ArrowRight size={16} aria-hidden/></button></div></div>
     <PriceDetails/>
     <div className="pricing-notes overview-notes"><p>{copy.scoped} · {copy.intentNote}</p><p>{copy.exclusions}</p></div>
   </div></LivePricingGate>;

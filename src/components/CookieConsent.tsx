@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { getMarketingUrl } from "../config/legal";
 import { useLocale } from "../contexts/LocaleContext";
 import { generatedAuxiliaryLocalePacks } from "../lib/generatedAuxiliaryLocalePacks";
@@ -58,6 +58,17 @@ export function CookieConsent() {
     cookieConsentCopy.en;
   const [visible, setVisible] = useState(() => getConsentStatus() === null);
 
+  const banner = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    document.documentElement.dataset.consentPending = String(visible);
+    if (!visible || !banner.current) return;
+    const measure = () => document.documentElement.style.setProperty('--pricing-consent-height', `${banner.current?.getBoundingClientRect().height ?? 0}px`);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(banner.current);
+    return () => { observer.disconnect(); document.documentElement.style.removeProperty('--pricing-consent-height'); delete document.documentElement.dataset.consentPending; };
+  }, [visible]);
+
   const handleAccept = useCallback(() => {
     localStorage.setItem(CONSENT_KEY, "accepted");
     setVisible(false);
@@ -73,9 +84,10 @@ export function CookieConsent() {
 
   return (
     <div
+      ref={banner}
       role="dialog"
       aria-label={copy.ariaLabel}
-      className="fixed bottom-0 left-0 right-0 z-[9999] border-t border-white/10 bg-slate-900/95 backdrop-blur-md"
+      className="pricing-cookie-banner fixed bottom-0 left-0 right-0 z-[9999] border-t border-white/10 bg-slate-900/95 backdrop-blur-md"
     >
       <div className="mx-auto flex max-w-5xl flex-col items-center gap-4 px-4 py-4 sm:flex-row sm:justify-between sm:px-6">
         <p className="text-sm text-slate-300 text-center sm:text-left">
@@ -91,7 +103,7 @@ export function CookieConsent() {
           </button>
           <button
             onClick={handleAccept}
-            className="rounded-lg bg-[#FF5C4D] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#FF5C4D] focus:outline-none focus:ring-2 focus:ring-[#FF5C4D]"
+            className="rounded-lg bg-[#FF5C4D] px-4 py-2 text-sm font-medium text-[#15110d] transition-colors hover:bg-[#FF5C4D] focus:outline-none focus:ring-2 focus:ring-[#FF5C4D]"
           >
             {copy.accept}
           </button>

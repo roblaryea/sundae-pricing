@@ -1,9 +1,16 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+import { getPricingMetadata } from '../src/lib/pricingMetadata';
 import { readFileSync } from 'node:fs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 const fixture = JSON.parse(readFileSync(new URL('../__tests__/fixtures/published-policy-20261010.json', import.meta.url), 'utf8'));
 import { encodePricingIntent, decodePricingIntent, type PricingIntent } from '../src/lib/pricingIntent';
 const base: PricingIntent = {v:2,layer:'core',corePackage:'core_foundation',locations:3,addOns:[],watchtowerModules:[],crewSkus:[],crossIntelligence:'none',billingCycle:'monthly',operatingModels:[],employees:null,payrollCountry:''};
+async function chooseLanguage(page: Page, locale: string) {
+  const visible = page.locator('header select[aria-label]:visible');
+  if (await visible.count() === 0) await page.locator('button[aria-controls="pricing-site-menu"]').click();
+  await visible.selectOption(locale);
+  if (await page.locator('#pricing-site-menu').isVisible()) await page.keyboard.press('Escape');
+}
 test.beforeEach(async ({ page }, testInfo) => {
   await page.route('**/api/pricing/catalog/active*',(route) => route.fulfill({json:fixture}));
   if(!testInfo.title.startsWith('mobile ')) await page.addInitScript(() => localStorage.setItem('sundae_cookie_consent','declined'));
@@ -83,7 +90,7 @@ test('the access request and demo CTAs carry the exact reviewed intent and downl
   expect(extracted).toContain('Event & Calendar Signals');
   expect(extracted).toContain('Average');
   expect(extracted).toContain('$1,346.43');
-  expect(extracted).toContain('Monthly Investment');
+  expect(extracted).toContain('Monthly total');
   expect(extracted).not.toMatch(/v1\.8\.2|869b1bc6|Catalogue|catalogue/);
   expect(extracted).toContain('Sundae Technologies Inc.');
   expect(extracted).toContain('$12,117.90');
@@ -311,10 +318,10 @@ test('the location average follows monthly scope and term, stays localized and i
   await page.getByRole('button',{name:'Annual · paid upfront'}).click();
   await expect(page.getByTestId('basket-average')).toContainText('$1,248.11');
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
-  await page.getByLabel('Language',{exact:true}).selectOption('ar');
+  await chooseLanguage(page,'ar');
   await expect(page.getByTestId('basket-average')).toContainText('متوسط');
   await expect(page.locator('html')).toHaveAttribute('dir','rtl');
-  await page.getByRole('combobox').selectOption('en');
+  await chooseLanguage(page,'en');
   await page.goto(`/simulator?cfg=${encodePricingIntent({...base,locations:1})}`);
   await expect(page.getByTestId('basket-total')).toContainText('$1,195');
   await expect(page.getByTestId('basket-average')).toHaveCount(0);
@@ -342,7 +349,7 @@ test('Crew cannot be reviewed without a selected plan', async ({page}) => {
   await expect(page.getByRole('link',{name:'Contact Sales',exact:true})).toBeVisible();
 });
 test('German has localized refinement and bill-affecting exclusions', async ({page}) => {
-  await page.goto('/'); await page.getByLabel('Language',{exact:true}).selectOption('de');
+  await page.goto('/'); await chooseLanguage(page,'de');
   await page.getByTestId('pricing-tab-crew').click();
   await page.getByRole('button',{name:'Bedarf verfeinern',exact:true}).click();
   await expect(page.getByLabel('Einmalig gezählte Mitarbeitende an allen Standorten')).toBeVisible();
@@ -429,6 +436,7 @@ for (const width of [375,390]) {
   test(`mobile ${width}px shows a first price, readable header and usable controls`,async ({page}) => {
     await page.setViewportSize({width,height:844}); await page.goto('/');
     await expect(page.getByTestId('select-core_foundation')).toBeVisible();
+    await page.getByTestId('card-core_foundation').locator('.plan-price').scrollIntoViewIfNeeded();
     const priceBox = await page.getByTestId('card-core_foundation').locator('.plan-price').boundingBox();
     expect(priceBox!.y + priceBox!.height).toBeLessThan(760);
     const consent=page.getByRole('dialog',{name:'Cookie consent'});
@@ -438,10 +446,10 @@ for (const width of [375,390]) {
     if(width===390) await page.screenshot({path:'docs/product/pricing/screenshots/mobile-fresh.png',fullPage:false});
     await consent.getByRole('button',{name:'Decline',exact:true}).click();
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth); expect(overflow).toBe(false);
-    await page.getByLabel('Language',{exact:true}).selectOption('ar');
+    await chooseLanguage(page,'ar');
     await expect(page.locator('html')).toHaveAttribute('dir','rtl');
     expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
-    await page.getByLabel('اللغة',{exact:true}).selectOption('en');
+    await chooseLanguage(page,'en');
     if (width === 390) await page.screenshot({path:'docs/product/pricing/screenshots/mobile.png',fullPage:false});
     await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
     await page.getByRole('button',{name:'Review estimate',exact:true}).click();
@@ -449,7 +457,7 @@ for (const width of [375,390]) {
   });
 }
 test('Arabic remains RTL with localized controls and coherent totals',async ({page}) => {
-  await page.goto('/'); await page.getByLabel('Language',{exact:true}).selectOption('ar');
+  await page.goto('/'); await chooseLanguage(page,'ar');
   await expect(page.locator('html')).toHaveAttribute('dir','rtl');
   await expect(page.getByRole('heading',{name:'أسعار تناسب أعمالك.'})).toBeVisible();
   await page.getByTestId('location-count').fill('3');
@@ -475,8 +483,79 @@ test('light theme and mobile review retain readable premium layouts',async ({pag
   await expect(page.locator('html')).toHaveClass(/light/);
   await page.screenshot({path:'docs/product/pricing/screenshots/light.png',fullPage:false});
   await page.setViewportSize({width:390,height:844});
-  await page.getByRole('button',{name:'Review estimate',exact:true}).click();
+  await page.locator('.pricing-decision-bar .pricing-primary').click();
   await expect(page.getByTestId('basket-total')).toContainText('$1,195');
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
   await page.screenshot({path:'docs/product/pricing/screenshots/mobile-review.png',fullPage:true});
+});
+
+test('custom Crew capability choices explain a covering bundle without promising a per-toggle saving', async ({page}) => {
+  await page.goto('/');
+  await page.getByTestId('pricing-tab-crew').click();
+  await page.getByTestId('location-count').fill('3');
+  await page.getByTestId('preset-operating_suite').click();
+  await page.locator('summary').filter({hasText:'Choose individual Crew capabilities'}).click();
+  await expect(page.getByTestId('crew-bundle-explanation')).toContainText('Billed as Crew Operating');
+  await page.getByRole('checkbox',{name:/^Crew Time(?: |$)/}).uncheck();
+  await expect(page.getByTestId('decision-total')).toContainText('$697');
+  await expect(page.locator('.custom-crew-summary')).not.toContainText('Crew Time');
+  await expect(page.getByTestId('crew-bundle-explanation')).toHaveCount(1);
+  await expect(page.getByTestId('crew-bundle-explanation')).toContainText('may not reduce the price');
+  await expect(page.getByTestId('crew-bundle-extras')).toHaveText('Also included in this bundle: Crew Time.');
+  await page.getByRole('checkbox',{name:/^Crew Time(?: |$)/}).check();
+  await expect(page.getByTestId('crew-bundle-extras')).toHaveCount(0);
+  await expect(page.getByTestId('crew-bundle-explanation')).toHaveCount(1);
+  await expect(page.getByTestId('decision-total')).toContainText('$697');
+  await page.getByRole('button',{name:'Review estimate',exact:true}).click();
+  await expect(page.getByTestId('basket-total')).toContainText('$697');
+});
+
+test('review leads with monthly total and labels actual payment periods and the effective date', async ({page}) => {
+  await page.goto(`/simulator?cfg=${encodePricingIntent({...base,corePackage:'core_growth',locations:7,billingCycle:'annual_quarterly'})}`);
+  await expect(page.getByTestId('basket-total')).toContainText('$3,310.75');
+  await expect(page.locator('.payment-line')).toContainText('Quarterly payment');
+  await expect(page.locator('.payment-line')).toContainText('$9,932.25');
+  await expect(page.locator('.catalogue-stamp')).toContainText('Oct');
+  const totalSize = await page.getByTestId('basket-total').evaluate(e=>parseFloat(getComputedStyle(e).fontSize));
+  const averageSize = await page.getByTestId('basket-average').locator('strong').evaluate(e=>parseFloat(getComputedStyle(e).fontSize));
+  expect(totalSize).toBeGreaterThan(averageSize);
+  await page.getByRole('button',{name:/Refine your needs/}).click();
+  await expect(page.getByTestId('discount-policy')).toContainText('whichever saving is greater');
+});
+
+for (const width of [320,390,768]) test(`consent and compact estimate remain separate at ${width}px`, async ({page}) => {
+  await page.setViewportSize({width,height:width === 320 ? 640 : 900});
+  await page.addInitScript(()=>localStorage.removeItem('sundae_cookie_consent'));
+  await page.goto('/');
+  const consent = page.getByRole('dialog',{name:'Cookie consent'});
+  await expect(consent).toBeVisible();
+  await expect(page.locator('.pricing-decision-bar')).toHaveCSS('position','static');
+  await consent.getByRole('button',{name:'Decline',exact:true}).click();
+  const bar = await page.locator('.pricing-decision-bar').boundingBox();
+  expect(bar!.height).toBeLessThan(90);
+  await page.getByTestId('card-core_foundation').evaluate(e=>e.scrollIntoView({block:'start'}));
+  const header = await page.locator('header').boundingBox();
+  const title = await page.getByTestId('card-core_foundation').locator('h2').boundingBox();
+  const first = await page.getByTestId('card-core_foundation').locator('li').first().boundingBox();
+  const activeBar = await page.locator('.pricing-decision-bar').boundingBox();
+  expect(title!.y).toBeGreaterThanOrEqual(header!.y+header!.height);
+  expect(first!.y+first!.height).toBeLessThan(activeBar!.y);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
+});
+
+for (const path of ['/simulator', '/simulator/']) test(`${path} retains Arabic metadata and shared quote attribution`, async ({page}) => {
+  const cfg = {...base, corePackage:'core_growth', locations:7, billingCycle:'annual_quarterly'} as PricingIntent;
+  await page.goto(`${path}?lang=ar&cfg=${encodePricingIntent(cfg)}&utm_source=review&utm_campaign=slash`);
+  await expect(page.getByTestId('basket-total')).toBeVisible();
+  await expect(page).toHaveTitle(getPricingMetadata('ar', true).title);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex,follow');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://pricing.sundae.io/?lang=ar');
+  const total = await page.getByTestId('basket-total').innerText();
+  expect(total.replace(/[^0-9٠-٩]/g, '')).toMatch(/331075|٣٣١٠٧٥/);
+  const url = new URL(page.url());
+  expect(url.searchParams.get('lang')).toBe('ar');
+  expect(url.searchParams.get('utm_source')).toBe('review');
+  expect(url.searchParams.get('utm_campaign')).toBe('slash');
+  const demo = new URL((await page.locator('a[href*="cfg="]').last().getAttribute('href'))!);
+  expect(decodePricingIntent(demo.searchParams.get('cfg')!)).toMatchObject(cfg);
 });

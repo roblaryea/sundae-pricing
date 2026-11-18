@@ -1,0 +1,91 @@
+{
+  "source": "99400cb6d6efba92760d52bece107b3f2f1dbd6f",
+  "deployment": "https://sundae-pricing-is0y71o15-sundaes-projects-afd45f7e.vercel.app",
+  "date": "2026-11-18",
+  "requests": [
+    {
+      "request": "ar",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": [
+        "أسعار تناسب أعمالك. | Sundae Core + Crew"
+      ],
+      "html": [
+        "<html lang=\"ar\" dir=\"rtl\">"
+      ],
+      "canonical": [
+        "https://pricing.sundae.io/?lang=ar"
+      ],
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "request": "fr",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": [
+        "Des tarifs adaptés à votre activité. | Sundae Core + Crew"
+      ],
+      "html": [
+        "<html lang=\"fr\" dir=\"ltr\">"
+      ],
+      "canonical": [
+        "https://pricing.sundae.io/?lang=fr"
+      ],
+      "robots": [
+        "index,follow"
+      ]
+    },
+    {
+      "request": "sim-ar",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "title": [
+        "راجع تقديرك | Sundae Core + Crew"
+      ],
+      "html": [
+        "<html lang=\"ar\" dir=\"rtl\">"
+      ],
+      "canonical": [
+        "https://pricing.sundae.io/?lang=ar"
+      ],
+      "robots": [
+        "noindex,follow"
+      ]
+    },
+    {
+      "request": "sitemap",
+      "status": 200,
+      "contentType": "application/xml",
+      "title": [],
+      "html": [],
+      "canonical": [],
+      "robots": []
+    },
+    {
+      "request": "missing",
+      "status": 404,
+      "contentType": "text/html; charset=utf-8",
+      "title": [
+        "Page not found | Sundae Pricing"
+      ],
+      "html": [
+        "<html lang=\"en\">"
+      ],
+      "canonical": [],
+      "robots": [
+        "noindex,follow"
+      ]
+    },
+    {
+      "request": "llms",
+      "status": 200,
+      "contentType": "text/plain; charset=utf-8",
+      "title": [],
+      "html": [],
+      "canonical": [],
+      "robots": []
+    }
+  ]
+}

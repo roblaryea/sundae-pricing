@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
-type Theme = 'dark' | 'light';
+import { readThemePreference, writeThemePreference, type Theme } from '../lib/themePreference';
 
 interface ThemeContextType {
   theme: Theme;
@@ -13,23 +13,23 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    const saved = localStorage.getItem('sundae-theme') as Theme | null;
-    if (saved === 'dark' || saved === 'light') {
-      return saved;
-    }
-    // Default to dark — pricing site is designed dark-first; visitors can
-    // still toggle, and their choice persists in localStorage.
-    return 'dark';
-  });
-  
+  const [theme, setThemeState] = useState<Theme>(readThemePreference);
+
   // Apply theme to document
   useEffect(() => {
     document.documentElement.classList.remove('dark', 'light');
     document.documentElement.classList.add(theme);
-    localStorage.setItem('sundae-theme', theme);
+    writeThemePreference(theme);
   }, [theme]);
   
+  useEffect(() => {
+    const sync = () => setThemeState(readThemePreference());
+    window.addEventListener('pageshow', sync);
+    window.addEventListener('focus', sync);
+    window.addEventListener('storage', sync);
+    return () => { window.removeEventListener('pageshow', sync); window.removeEventListener('focus', sync); window.removeEventListener('storage', sync); };
+  }, []);
+
   const toggleTheme = () => {
     setThemeState(prev => prev === 'dark' ? 'light' : 'dark');
   };

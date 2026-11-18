@@ -1,0 +1,61 @@
+import type { PricingLocale } from './locales';
+import type { BillingCycle } from '../data/pricing';
+type Pack = readonly [string,string,string,string,string,string,string,string];
+const packs: Record<PricingLocale,Pack> = {
+ en:['Monthly total','Monthly payment','Quarterly payment','Annual upfront payment','24-month upfront payment','Billed as {bundle}. Removing a capability may not reduce the price when the covering bundle is still the lowest-priced option.','Standalone reference','Review'],
+ ar:['الإجمالي الشهري','الدفعة الشهرية','الدفعة ربع السنوية','دفعة سنوية مقدّمة','دفعة مقدّمة لـ24 شهرًا','تُفوتر ضمن {bundle}. قد لا تؤدي إزالة قدرة إلى خفض السعر إذا بقيت الباقة التي تشملها الخيار الأقل سعرًا.','سعر مستقل للمقارنة','مراجعة'],
+ fr:['Total mensuel','Paiement mensuel','Paiement trimestriel','Paiement annuel anticipé','Paiement anticipé de 24 mois','Facturé via {bundle}. Retirer une fonction ne réduit pas forcément le prix si cette offre reste la moins chère pour couvrir vos besoins.','Tarif individuel indicatif','Vérifier'],
+ es:['Total mensual','Pago mensual','Pago trimestral','Pago anual anticipado','Pago anticipado de 24 meses','Se factura como {bundle}. Quitar una función puede no reducir el precio si el paquete que la cubre sigue siendo la opción más económica.','Precio individual de referencia','Revisar'],
+ de:['Monatliche Gesamtkosten','Monatliche Zahlung','Vierteljährliche Zahlung','Jährliche Vorauszahlung','Vorauszahlung für 24 Monate','Abgerechnet als {bundle}. Das Entfernen einer Funktion senkt den Preis nicht unbedingt, wenn das abdeckende Paket die günstigste Option bleibt.','Einzelpreis als Referenz','Prüfen'],
+ nl:['Maandtotaal','Maandbetaling','Kwartaalbetaling','Jaarlijkse vooruitbetaling','Vooruitbetaling voor 24 maanden','Gefactureerd als {bundle}. Een functie verwijderen verlaagt de prijs mogelijk niet als de dekkende bundel de voordeligste optie blijft.','Losse referentieprijs','Bekijken'],
+ pt:['Total mensal','Pagamento mensal','Pagamento trimestral','Pagamento anual antecipado','Pagamento antecipado de 24 meses','Faturado como {bundle}. Remover uma função pode não reduzir o preço se o pacote que a inclui continuar a ser a opção mais económica.','Preço individual de referência','Rever'],
+ hi:['मासिक कुल','मासिक भुगतान','त्रैमासिक भुगतान','वार्षिक अग्रिम भुगतान','24 माह का अग्रिम भुगतान','बिलिंग {bundle} के अनुसार है। कोई सुविधा हटाने से कीमत नहीं घट सकती यदि उसे कवर करने वाला बंडल सबसे सस्ता विकल्प बना रहे।','अलग कीमत का संदर्भ','समीक्षा'],
+ ur:['ماہانہ کل','ماہانہ ادائیگی','سہ ماہی ادائیگی','سالانہ پیشگی ادائیگی','24 ماہ کی پیشگی ادائیگی','بل {bundle} کے مطابق ہے۔ اگر متعلقہ بنڈل سب سے سستا انتخاب رہے تو صلاحیت ہٹانے سے قیمت کم نہیں بھی ہو سکتی۔','انفرادی حوالہ قیمت','جائزہ'],
+ it:['Totale mensile','Pagamento mensile','Pagamento trimestrale','Pagamento annuale anticipato','Pagamento anticipato di 24 mesi','Fatturato come {bundle}. Rimuovere una funzione può non ridurre il prezzo se il pacchetto che la comprende resta l’opzione meno costosa.','Prezzo singolo di riferimento','Rivedi'],
+ pl:['Suma miesięczna','Płatność miesięczna','Płatność kwartalna','Roczna płatność z góry','Płatność z góry za 24 miesiące','Rozliczane jako {bundle}. Usunięcie funkcji może nie obniżyć ceny, jeśli obejmujący ją pakiet pozostaje najtańszą opcją.','Cena pojedyncza orientacyjna','Sprawdź'],
+ tr:['Aylık toplam','Aylık ödeme','Üç aylık ödeme','Yıllık peşin ödeme','24 aylık peşin ödeme','{bundle} olarak faturalandırılır. Kapsayan paket en düşük fiyatlı seçenek olmaya devam ederse bir yeteneği kaldırmak fiyatı düşürmeyebilir.','Tekil referans fiyat','İncele'],
+ 'zh-Hans':['每月总额','每月付款','每季度付款','年度预付款','24个月预付款','按 {bundle} 计费。如果覆盖所选功能的组合仍是最低价方案，移除某项功能可能不会降低价格。','单项参考价','查看'],
+ ja:['月額合計','月次支払額','四半期支払額','年間前払額','24か月分の前払額','{bundle} として請求されます。必要な機能を含むバンドルが最安の場合、機能を外しても価格が下がらないことがあります。','単体の参考価格','確認'],
+ ko:['월 총액','월별 결제액','분기별 결제액','연간 선불 결제액','24개월 선불 결제액','{bundle} 기준으로 청구됩니다. 기능을 포함하는 번들이 가장 저렴한 옵션이면 기능을 제거해도 가격이 낮아지지 않을 수 있습니다.','개별 참고 가격','검토'],
+ id:['Total bulanan','Pembayaran bulanan','Pembayaran triwulanan','Pembayaran tahunan di muka','Pembayaran 24 bulan di muka','Ditagih sebagai {bundle}. Menghapus kemampuan mungkin tidak menurunkan harga jika bundel yang mencakupnya tetap menjadi pilihan termurah.','Harga satuan referensi','Tinjau'],
+ vi:['Tổng hằng tháng','Thanh toán hằng tháng','Thanh toán hằng quý','Trả trước hằng năm','Trả trước 24 tháng','Tính phí theo {bundle}. Bỏ một tính năng có thể không giảm giá nếu gói bao gồm tính năng đó vẫn là lựa chọn rẻ nhất.','Giá tham khảo riêng lẻ','Xem lại'],
+ ro:['Total lunar','Plată lunară','Plată trimestrială','Plată anuală în avans','Plată în avans pentru 24 de luni','Facturat ca {bundle}. Eliminarea unei funcții poate să nu reducă prețul dacă pachetul care o acoperă rămâne opțiunea cea mai ieftină.','Preț individual de referință','Verifică'],
+ sv:['Månadstotal','Månadsbetalning','Kvartalsbetalning','Årsbetalning i förskott','Förskottsbetalning för 24 månader','Faktureras som {bundle}. Att ta bort en funktion sänker inte alltid priset om paketet som täcker den fortfarande är billigast.','Enskilt referenspris','Granska'],
+ bn:['মাসিক মোট','মাসিক পেমেন্ট','ত্রৈমাসিক পেমেন্ট','বার্ষিক অগ্রিম পেমেন্ট','24 মাসের অগ্রিম পেমেন্ট','{bundle} অনুযায়ী বিল করা হয়। সংশ্লিষ্ট বান্ডল সবচেয়ে সস্তা থাকলে কোনো সুবিধা সরালেও দাম নাও কমতে পারে।','স্বতন্ত্র তুলনামূলক মূল্য','পর্যালোচনা'],
+ th:['ยอดรวมรายเดือน','ชำระรายเดือน','ชำระรายไตรมาส','ชำระรายปีล่วงหน้า','ชำระล่วงหน้า 24 เดือน','คิดค่าบริการเป็น {bundle} การนำความสามารถออกอาจไม่ลดราคา หากบันเดิลที่ครอบคลุมยังเป็นตัวเลือกที่ถูกที่สุด','ราคาเดี่ยวอ้างอิง','ตรวจสอบ'],
+ ms:['Jumlah bulanan','Bayaran bulanan','Bayaran suku tahunan','Bayaran tahunan pendahuluan','Bayaran pendahuluan 24 bulan','Dibilkan sebagai {bundle}. Mengeluarkan keupayaan mungkin tidak mengurangkan harga jika pakej yang meliputinya kekal sebagai pilihan termurah.','Harga individu rujukan','Semak'],
+ az:['Aylıq cəm','Aylıq ödəniş','Rüblük ödəniş','İllik əvvəlcədən ödəniş','24 aylıq əvvəlcədən ödəniş','{bundle} kimi hesablanır. Əhatə edən paket ən ucuz seçim olaraq qalırsa, funksiyanı silmək qiyməti azaltmaya bilər.','Ayrıca istinad qiyməti','Yoxla'],
+ ru:['Итого в месяц','Ежемесячный платёж','Ежеквартальный платёж','Годовая предоплата','Предоплата за 24 месяца','Оплачивается как {bundle}. Удаление функции может не снизить цену, если покрывающий её пакет остаётся самым дешёвым вариантом.','Отдельная справочная цена','Проверить'],
+ pap:['Total mensual','Pago mensual','Pago trimestral','Pago anual adelantá','Pago adelantá pa 24 luna','Ta wordu fakturá komo {bundle}. Kita un funshon no semper ta baha preis si e pakete ku ta kubri esaki ta keda e opshon mas barata.','Preis individual di referensia','Revisa'],
+};
+const alsoIncluded: Record<PricingLocale,string> = {
+  "en": "Also included in this bundle: {capabilities}.",
+  "ar": "تشمل هذه الباقة أيضًا: {capabilities}.",
+  "fr": "Également inclus dans cette offre : {capabilities}.",
+  "es": "También incluido en este paquete: {capabilities}.",
+  "de": "In diesem Paket außerdem enthalten: {capabilities}.",
+  "nl": "Ook inbegrepen in deze bundel: {capabilities}.",
+  "pt": "Também incluído neste pacote: {capabilities}.",
+  "hi": "इस बंडल में यह भी शामिल है: {capabilities}।",
+  "ur": "اس بنڈل میں یہ بھی شامل ہے: {capabilities}۔",
+  "it": "Incluso anche in questo pacchetto: {capabilities}.",
+  "pl": "Ten pakiet obejmuje również: {capabilities}.",
+  "tr": "Bu pakete ayrıca dahil: {capabilities}.",
+  "zh-Hans": "此组合还包含：{capabilities}。",
+  "ja": "このバンドルには次も含まれます：{capabilities}。",
+  "ko": "이 번들에 추가로 포함됨: {capabilities}.",
+  "id": "Juga termasuk dalam bundel ini: {capabilities}.",
+  "vi": "Gói này cũng bao gồm: {capabilities}.",
+  "ro": "Inclus și în acest pachet: {capabilities}.",
+  "sv": "Ingår också i detta paket: {capabilities}.",
+  "bn": "এই বান্ডলে আরও অন্তর্ভুক্ত: {capabilities}।",
+  "th": "รวมอยู่ในบันเดิลนี้ด้วย: {capabilities}",
+  "ms": "Turut disertakan dalam pakej ini: {capabilities}.",
+  "az": "Bu paketə həmçinin daxildir: {capabilities}.",
+  "ru": "В этот пакет также входит: {capabilities}.",
+  "pap": "Tambe inkluí den e pakete aki: {capabilities}."
+};
+export function getBuyerClarityCopy(locale: PricingLocale) {
+ const [total,monthly,quarterly,annual,twoYear,bundleNote,standalone,review] = packs[locale];
+ return {total,bundleNote,alsoIncluded:alsoIncluded[locale],standalone,review,payments:{monthly,annual_quarterly:quarterly,annual_upfront:annual,two_year_upfront:twoYear} satisfies Record<BillingCycle,string>};
+}

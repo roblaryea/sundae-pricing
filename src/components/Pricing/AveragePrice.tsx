@@ -6,6 +6,6 @@ export function AveragePrice({ amount, locations, testId }: { amount: string; lo
   const { locale } = useLocale();
   const [before, after] = formatLocationAverage('{price}', locations, locale).split('{price}');
   return <div className="average-price" data-testid={testId}>
-    <span className="average-price-label">{before}</span><strong className="average-price-amount"><bdi>{amount}</bdi></strong><span className="average-price-unit">{after}</span>
+    <span className="average-price-label">{before}</span><strong className="average-price-amount"><bdi dir="ltr">{amount}</bdi></strong><span className="average-price-unit">{after}</span>
   </div>;
 }

@@ -21,7 +21,16 @@ export function SiteHeader() {
   const chromeCopy = siteAccessibilityCopy[locale];
   const labels = siteNavLabels[locale];
   const [menuOpen, setMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const measure = () => document.documentElement.style.setProperty('--pricing-header-height', `${headerRef.current?.getBoundingClientRect().height ?? 0}px`);
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (headerRef.current) observer.observe(headerRef.current);
+    return () => { observer.disconnect(); document.documentElement.style.removeProperty('--pricing-header-height'); };
+  }, []);
 
   // Native modal focus management includes Escape and return to the opener.
   useEffect(() => {
@@ -72,7 +81,7 @@ export function SiteHeader() {
   );
 
   return (
-    <header onClickCapture={rememberPricingStepForReturn} className="sticky top-0 z-50 border-b border-sundae-muted/20">
+    <header ref={headerRef} onClickCapture={rememberPricingStepForReturn} className="sticky top-0 z-50 border-b border-sundae-muted/20">
       {/* Keep backdrop-filter off the header containing the mobile dialog. */}
       <div aria-hidden className="absolute inset-0 bg-sundae-dark/95 backdrop-blur-md" />
       <div className="relative mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">

@@ -1064,3 +1064,42 @@ button:disabled { opacity:.45; cursor:not-allowed; }
   .roi-range-field input[type=range] { height:44px; }
 }
 @media (prefers-reduced-motion:reduce) { .roi-disclosure > summary > svg { transition:none; } }
+
+/* Buyer-clarity cut: compact estimate actions, never underneath consent. */
+.compact-refine, .compact-review-label { display:none; }
+html { scroll-padding-bottom:calc(var(--pricing-consent-height,0px) + 96px); }
+#root { padding-bottom:var(--pricing-consent-height,0px); }
+html[data-consent-pending=true] :is(.pricing-decision-bar,.step-actions:not(.is-review)) { position:static; }
+.pricing-cookie-banner button { min-height:44px; }
+.basket-average-secondary { margin:8px 0 20px; }
+.basket-average-secondary .average-price { display:flex; flex-wrap:wrap; align-items:baseline; gap:3px 7px; }
+.basket-average-secondary .average-price-amount { font-size:20px; letter-spacing:-.02em; }
+.basket-total-row { display:block; }
+.discount-policy, .crew-bundle-explanation { font-size:12px; line-height:1.7; color:var(--color-sundae-muted); margin-top:12px; }
+.crew-bundle-explanation { margin-bottom:14px; }
+.crew-option small { white-space:normal; max-width:40%; text-align:end; }
+@media (max-width:850px) {
+  .compact-refine { display:inline-flex; margin-top:18px; }
+  .pricing-decision-bar { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:12px; padding:10px 12px; margin-top:12px; }
+  .pricing-decision-bar > .decision-price, .pricing-decision-bar .has-average { display:block; min-width:0; }
+  .pricing-decision-bar .decision-average, .pricing-decision-bar .workforce-prompt, .pricing-decision-bar .decision-actions > .pricing-secondary { display:none; }
+  .pricing-decision-bar .has-average .decision-total-row, .pricing-decision-bar .decision-total-row { display:block; max-width:none; text-align:start; }
+  .pricing-decision-bar .decision-total-row small { display:block; font-size:11px; }
+  .pricing-decision-bar .has-average .decision-total-row strong, .pricing-decision-bar .decision-total-row strong { display:block; font-size:22px; line-height:1.2; overflow-wrap:anywhere; }
+  .pricing-decision-bar .decision-actions { width:auto; }
+  .pricing-decision-bar .decision-actions button { min-height:44px; }
+  .desktop-review-label { display:none; }
+  .compact-review-label { display:inline; }
+  .step-actions:not(.is-review) { position:static; border:0; background:none; box-shadow:none; padding:0; }
+}
+html { scroll-padding-top:calc(var(--pricing-header-height,100px) + 16px); }
+.plan-card, .refine-panel, .roi-workspace { scroll-margin-top:calc(var(--pricing-header-height,100px) + 16px); }
+@media (max-width:640px) {
+  .buyer-page { padding-top:18px; }
+  .pricing-hero { margin-bottom:18px; }
+  .pricing-hero h1 { font-size:30px; }
+  .scope-controls { padding:12px; gap:10px; }
+  .need-options button small { display:none; }
+  .need-options button { min-height:44px; }
+}
+.plan-card, .refine-panel, .roi-workspace { scroll-margin-top:0; }

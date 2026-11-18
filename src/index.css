@@ -1119,3 +1119,12 @@ html { scroll-padding-top:calc(var(--pricing-header-height,100px) + 16px); }
 .pricing-static-wordmark [data-prerender-theme="light"] { display:none; }
 html.light .pricing-static-wordmark [data-prerender-theme="light"] { display:block; }
 html.light .pricing-static-wordmark [data-prerender-theme="dark"] { display:none; }
+
+/* Consent keeps its existing espresso surface in light mode. Its text/link
+   colours must not inherit the light-page slate/white remaps. */
+.light .pricing-cookie-banner :is(p.text-slate-300,button.text-slate-300) { color:var(--color-cream-edge); }
+.light .pricing-cookie-banner a,
+.light .pricing-cookie-banner a:hover,
+.light .pricing-cookie-banner a:focus-visible,
+.light .pricing-cookie-banner button.text-slate-300:hover,
+.light .pricing-cookie-banner button.text-slate-300:focus-visible { color:var(--color-cream); }

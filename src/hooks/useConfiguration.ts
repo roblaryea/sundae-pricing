@@ -1,6 +1,6 @@
 import { recommendedConceptSkus } from '../lib/discoveryEngine';
 import { normalizeCrewSelection, normalizeWatchtowerSelection } from '../lib/pricingIntent';
-import { restorePricingSelection, restorePricingPreferences } from '../lib/persistedPricing';
+import { restorePricingSelection, restorePricingPreferences, restoreLocationConfirmation } from '../lib/persistedPricing';
 import { journeyFor, stepIndexIn, type JourneyStepId } from '../lib/journey';
 // Configuration state management using Zustand
 
@@ -26,6 +26,8 @@ export interface JourneyStep {
 }
 
 export interface ConfigurationState extends Configuration {
+  /** A deliberate footprint choice, never inferred from the calculator default. */
+  locationsConfirmed: boolean;
   employees: number | null;
   payrollCountry: string;
   setEmployees: (employees: number | null) => void;
@@ -78,6 +80,7 @@ export interface ConfigurationState extends Configuration {
   toggleCrewSku: (sku: CrewSkuId) => void;
   setCrewSkus: (skus: CrewSkuId[]) => void;
   setLocations: (locations: number) => void;
+  clearLocationConfirmation: () => void;
   /** Navigate by step NAME, resolved against the current pathway. */
   goToStep: (id: JourneyStepId) => void;
   /** Advance one step within the current pathway. */
@@ -118,6 +121,7 @@ const initialState = {
   layer: null as 'core' | 'crew' | 'both' | null,
   corePackage: 'core_foundation' as CorePackageId,
   locations: 1,
+  locationsConfirmed: false,
   addOns: [] as AddOnId[],
   watchtowerModules: [] as string[],
   crossIntelligence: 'none' as 'none' | 'base' | 'pro',
@@ -334,11 +338,13 @@ export const useConfiguration = create<ConfigurationState>()(
           // Preserve the buyer's estate. Published plan eligibility is checked
           // by the basket, including imported selections and catalogue refresh.
           const safe = Number.isFinite(locations) ? Math.max(1, Math.min(10000, Math.floor(locations))) : 1;
-          set({ locations: safe });
+          set({ locations: safe, locationsConfirmed: Number.isInteger(locations) && locations >= 1 && locations <= 10000 });
           get().markStepCompleted('locations');
           get().checkAchievements();
         },
         
+        clearLocationConfirmation: () => set({ locationsConfirmed: false }),
+
         toggleAddOn: (addOnId) => {
           const addOns = get().addOns;
           const next = addOns.includes(addOnId)
@@ -561,10 +567,10 @@ export const useConfiguration = create<ConfigurationState>()(
         // Map the retired terms onto their upfront equivalents, which is what
         // they were priced as before timing was a variable.
         version: 2,
-        migrate: (persisted: unknown) => ({ ...restorePricingSelection(persisted), ...restorePricingPreferences(persisted) }) as Partial<ConfigurationState>,
+        migrate: (persisted: unknown) => ({ ...restorePricingSelection(persisted), ...restorePricingPreferences(persisted), locationsConfirmed: restoreLocationConfirmation(persisted) }) as Partial<ConfigurationState>,
         merge: (persisted, current) => {
           const { roiInputs, ...preferences } = restorePricingPreferences(persisted);
-          return { ...current, ...restorePricingSelection(persisted), ...preferences, roiInputs: { ...current.roiInputs, ...roiInputs } };
+          return { ...current, ...restorePricingSelection(persisted), ...preferences, locationsConfirmed: restoreLocationConfirmation(persisted), roiInputs: { ...current.roiInputs, ...roiInputs } };
         },
         partialize: (state) => ({
           employees: state.employees,
@@ -573,6 +579,7 @@ export const useConfiguration = create<ConfigurationState>()(
           layer: state.layer,
           corePackage: state.corePackage,
           locations: state.locations,
+          locationsConfirmed: state.locationsConfirmed,
           addOns: state.addOns,
           watchtowerModules: state.watchtowerModules,
           crossIntelligence: state.crossIntelligence,

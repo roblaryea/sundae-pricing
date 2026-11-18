@@ -27,7 +27,7 @@ export function Simulator() {
     const raw = new URLSearchParams(window.location.search).get('cfg');
     if (raw) {
       const intent = decodePricingIntent(raw);
-      if (intent) useConfiguration.setState({ ...intent, currentStep: 2 });
+      if (intent) useConfiguration.setState({ ...intent, currentStep: 2, locationsConfirmed: true });
       const url = new URL(window.location.href); url.searchParams.delete('cfg');
       window.history.replaceState(window.history.state,'',url.pathname + url.search);
     } else {

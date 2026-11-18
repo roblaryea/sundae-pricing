@@ -1128,3 +1128,12 @@ html.light .pricing-static-wordmark [data-prerender-theme="dark"] { display:none
 .light .pricing-cookie-banner a:focus-visible,
 .light .pricing-cookie-banner button.text-slate-300:hover,
 .light .pricing-cookie-banner button.text-slate-300:focus-visible { color:var(--color-cream); }
+
+.location-price-prompt { position:relative; z-index:1; display:block; max-width:24ch; text-align:start; cursor:pointer; font-size:13px; line-height:1.35; letter-spacing:0; font-weight:500; }
+.location-gate-message { margin:0; max-width:34ch; font-size:13px; line-height:1.45; color:var(--color-sundae-muted); }
+.pricing-decision-bar.is-location-gated { align-items:center; }
+@media (max-width:640px) { .location-price-prompt { font-size:12px; } .location-gate-message { font-size:12px; } }
+
+.location-required-mark { color:var(--color-sundae-accent); }
+.location-gate-message { text-align:start; cursor:pointer; }
+.location-price-prompt:focus-visible, .location-gate-message:focus-visible { outline:2px solid var(--color-sundae-accent); outline-offset:4px; border-radius:3px; }

@@ -1,0 +1,76 @@
+
+> sundae-pricing@0.0.0 test
+> vitest run
+
+
+ RUN  v4.0.16 /Users/robertlaryea/Documents/Dev/wt-pricing-location-gate-20261118
+
+ ✓ __tests__/pricingTelemetry.test.ts (2 tests) 76ms
+ ✓ __tests__/motion.spec.ts (13 tests) 3ms
+ ✓ __tests__/roiVerdictHonesty.spec.ts (67 tests) 9ms
+ ✓ __tests__/competitorRegistry.spec.ts (21 tests) 16ms
+ ✓ __tests__/forkCopyLocales.spec.ts (153 tests) 20ms
+ ✓ __tests__/competitorSurface.spec.ts (55 tests) 19ms
+ ✓ __tests__/comparisonBasis.spec.ts (6 tests) 41ms
+ ✓ __tests__/imputedCostDisclosure.spec.ts (23 tests) 24ms
+ ✓ __tests__/crewBundleCeiling.spec.ts (47 tests) 43ms
+ ✓ __tests__/roiEconomics.spec.ts (38 tests) 42ms
+ ✓ __tests__/sourceUrlIntegrity.spec.ts (21 tests) 16ms
+ ✓ __tests__/valueRail.spec.ts (55 tests) 18ms
+ ✓ __tests__/conceptBands.spec.ts (17 tests) 14ms
+ ✓ __tests__/competitorClaimHygiene.spec.ts (10 tests) 15ms
+ ✓ __tests__/pricing.v1_7.spec.ts (120 tests) 26ms
+ ✓ __tests__/pricingDiscovery.spec.ts (26 tests) 6ms
+ ✓ __tests__/payrollCountryLabels.spec.ts (7 tests) 23ms
+ ✓ __tests__/scenarioSweep.spec.ts (48 tests) 20ms
+ ✓ __tests__/quoteSummaryLocales.spec.ts (32 tests) 21ms
+ ✓ __tests__/catalogueAuthority.spec.ts (4 tests) 26ms
+ ✓ __tests__/competitorClaims.spec.ts (19 tests) 3ms
+ ✓ __tests__/quoteSummary.spec.ts (11 tests) 24ms
+ ✓ __tests__/roiScopeMatch.spec.ts (73 tests) 5ms
+ ✓ __tests__/roiRendering.spec.ts (4 tests) 53ms
+ ✓ __tests__/localePackParity.spec.ts (128 tests) 7ms
+ ✓ __tests__/regionalCompetitors.spec.ts (50 tests) 13ms
+ ✓ __tests__/discovery.spec.ts (13 tests) 6ms
+ ✓ __tests__/copyResolver.spec.ts (92 tests) 8ms
+ ✓ __tests__/revenueSliderFloor.spec.ts (10 tests) 2ms
+ ✓ __tests__/configBuilderMotion.spec.ts (45 tests) 3ms
+ ✓ __tests__/packageClaimTruthfulness.spec.ts (8 tests) 6ms
+ ✓ __tests__/roiGuardrails.spec.ts (11 tests) 6ms
+ ✓ __tests__/compareRowLocalization.spec.ts (51 tests) 5ms
+ ✓ __tests__/packageShape.spec.ts (12 tests) 5ms
+ ✓ __tests__/pdfComparisonParity.spec.ts (10 tests) 3ms
+ ✓ __tests__/buyerPricing.spec.ts (30 tests) 38ms
+ ✓ __tests__/commercialFunding.spec.ts (9 tests) 6ms
+ ✓ __tests__/themePreference.spec.ts (10 tests) 5ms
+ ✓ __tests__/lazyImport.spec.ts (7 tests) 3ms
+ ✓ __tests__/packageGrants.spec.ts (7 tests) 3ms
+ ✓ __tests__/paybackNotConstant.spec.ts (8 tests) 2ms
+stderr | __tests__/buyerJourney.spec.ts > published updates flow through the reviewed estimate > updates Starter location limits in state, calculation, handoff and localized disclosures
+[zustand persist middleware] Unable to update item 'sundae-pricing-config-v1-7', the given storage is currently unavailable.
+[zustand persist middleware] Unable to update item 'sundae-pricing-config-v1-7', the given storage is currently unavailable.
+[zustand persist middleware] Unable to update item 'sundae-pricing-config-v1-7', the given storage is currently unavailable.
+[zustand persist middleware] Unable to update item 'sundae-pricing-config-v1-7', the given storage is currently unavailable.
+[zustand persist middleware] Unable to update item 'sundae-pricing-config-v1-7', the given storage is currently unavailable.
+[zustand persist middleware] Unable to update item 'sundae-pricing-config-v1-7', the given storage is currently unavailable.
+[zustand persist middleware] Unable to update item 'sundae-pricing-config-v1-7', the given storage is currently unavailable.
+[zustand persist middleware] Unable to update item 'sundae-pricing-config-v1-7', the given storage is currently unavailable.
+
+ ✓ __tests__/journey.spec.ts (3 tests) 2ms
+ ✓ __tests__/estateMaturity.spec.ts (8 tests) 7ms
+ ✓ __tests__/buyerJourney.spec.ts (8 tests) 54ms
+ ✓ __tests__/allowances.spec.ts (15 tests) 3ms
+ ✓ __tests__/anchorRelief.spec.ts (10 tests) 2ms
+ ✓ __tests__/crewPresentation.spec.ts (4 tests) 2ms
+ ✓ __tests__/accessRequestLinks.test.ts (2 tests) 2ms
+ ✓ __tests__/pdfOutputIntegrity.spec.ts (13 tests) 3ms
+ ✓ __tests__/sentry-policy.spec.ts (2 tests) 1ms
+ ✓ __tests__/personaScoring.spec.ts (10 tests) 2ms
+ ✓ __tests__/locationConfirmation.spec.ts (13 tests) 3ms
+ ✓ __tests__/livePricing.test.ts (10 tests) 2ms
+
+ Test Files  53 passed (53)
+      Tests  1471 passed (1471)
+   Start at  23:56:25
+   Duration  1.42s (transform 4.03s, setup 0ms, import 7.91s, tests 770ms, environment 4ms)
+

@@ -1,0 +1,384 @@
+{
+  "source": "7aa69ee5bb54fe85d99e294609983e28a3e1539f",
+  "environment": "Local production build served through Vite preview, published catalogue fixture v1.8.2-policy-20261009 intercepted at the catalogue boundary. Not production or hosted-preview evidence.",
+  "cases": [
+    {
+      "label": "1440-dark-en",
+      "before": {
+        "overflow": false,
+        "count": "",
+        "hasMoney": false,
+        "headerY": 0,
+        "scrollY": 0,
+        "colors": [
+          {
+            "color": "rgb(26, 20, 15)",
+            "background": "rgb(246, 241, 232)",
+            "contrastRatio": 16.22
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(168, 159, 146)",
+            "background": "rgb(21, 17, 13)",
+            "contrastRatio": 7.19
+          }
+        ],
+        "card": {
+          "x": 112,
+          "y": 575.546875,
+          "width": 293.5,
+          "height": 483.171875,
+          "top": 575.546875,
+          "right": 405.5,
+          "bottom": 1058.71875,
+          "left": 112
+        }
+      },
+      "after": {
+        "overflow": false,
+        "count": "3",
+        "total": "$1,545/mo",
+        "average": "Average $515 per location / month · across 3 locations",
+        "card": {
+          "x": 112,
+          "y": 575.546875,
+          "width": 293.5,
+          "height": 562.34375,
+          "top": 575.546875,
+          "right": 405.5,
+          "bottom": 1137.890625,
+          "left": 112
+        }
+      }
+    },
+    {
+      "label": "1440-light-en",
+      "before": {
+        "overflow": false,
+        "count": "",
+        "hasMoney": false,
+        "headerY": 0,
+        "scrollY": 0,
+        "colors": [
+          {
+            "color": "rgb(26, 20, 15)",
+            "background": "rgb(246, 241, 232)",
+            "contrastRatio": 16.22
+          },
+          {
+            "color": "rgb(21, 17, 13)",
+            "background": "rgb(255, 255, 255)",
+            "contrastRatio": 18.79
+          },
+          {
+            "color": "rgb(21, 17, 13)",
+            "background": "rgb(255, 255, 255)",
+            "contrastRatio": 18.79
+          },
+          {
+            "color": "rgb(21, 17, 13)",
+            "background": "rgb(255, 255, 255)",
+            "contrastRatio": 18.79
+          },
+          {
+            "color": "rgb(107, 97, 87)",
+            "background": "rgb(250, 247, 242)",
+            "contrastRatio": 5.66
+          }
+        ],
+        "card": {
+          "x": 112,
+          "y": 575.546875,
+          "width": 293.5,
+          "height": 483.171875,
+          "top": 575.546875,
+          "right": 405.5,
+          "bottom": 1058.71875,
+          "left": 112
+        }
+      },
+      "after": {
+        "overflow": false,
+        "count": "3",
+        "total": "$1,545/mo",
+        "average": "Average $515 per location / month · across 3 locations",
+        "card": {
+          "x": 112,
+          "y": 575.546875,
+          "width": 293.5,
+          "height": 562.34375,
+          "top": 575.546875,
+          "right": 405.5,
+          "bottom": 1137.890625,
+          "left": 112
+        }
+      }
+    },
+    {
+      "label": "390-dark-en",
+      "before": {
+        "overflow": false,
+        "count": "",
+        "hasMoney": false,
+        "headerY": 0,
+        "scrollY": 0,
+        "colors": [
+          {
+            "color": "rgb(26, 20, 15)",
+            "background": "rgb(246, 241, 232)",
+            "contrastRatio": 16.22
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(168, 159, 146)",
+            "background": "rgb(21, 17, 13)",
+            "contrastRatio": 7.19
+          }
+        ],
+        "card": {
+          "x": 16,
+          "y": 577.578125,
+          "width": 358,
+          "height": 369.75,
+          "top": 577.578125,
+          "right": 374,
+          "bottom": 947.328125,
+          "left": 16
+        }
+      },
+      "after": {
+        "overflow": false,
+        "count": "3",
+        "total": "$1,545/mo",
+        "average": "Average $515 per location / month · across 3 locations",
+        "card": {
+          "x": 16,
+          "y": 577.578125,
+          "width": 358,
+          "height": 454.640625,
+          "top": 577.578125,
+          "right": 374,
+          "bottom": 1032.21875,
+          "left": 16
+        }
+      }
+    },
+    {
+      "label": "390-light-en",
+      "before": {
+        "overflow": false,
+        "count": "",
+        "hasMoney": false,
+        "headerY": 0,
+        "scrollY": 0,
+        "colors": [
+          {
+            "color": "rgb(26, 20, 15)",
+            "background": "rgb(246, 241, 232)",
+            "contrastRatio": 16.22
+          },
+          {
+            "color": "rgb(21, 17, 13)",
+            "background": "rgb(255, 255, 255)",
+            "contrastRatio": 18.79
+          },
+          {
+            "color": "rgb(21, 17, 13)",
+            "background": "rgb(255, 255, 255)",
+            "contrastRatio": 18.79
+          },
+          {
+            "color": "rgb(21, 17, 13)",
+            "background": "rgb(255, 255, 255)",
+            "contrastRatio": 18.79
+          },
+          {
+            "color": "rgb(107, 97, 87)",
+            "background": "rgb(250, 247, 242)",
+            "contrastRatio": 5.66
+          }
+        ],
+        "card": {
+          "x": 16,
+          "y": 577.578125,
+          "width": 358,
+          "height": 369.75,
+          "top": 577.578125,
+          "right": 374,
+          "bottom": 947.328125,
+          "left": 16
+        }
+      },
+      "after": {
+        "overflow": false,
+        "count": "3",
+        "total": "$1,545/mo",
+        "average": "Average $515 per location / month · across 3 locations",
+        "card": {
+          "x": 16,
+          "y": 577.578125,
+          "width": 358,
+          "height": 454.640625,
+          "top": 577.578125,
+          "right": 374,
+          "bottom": 1032.21875,
+          "left": 16
+        }
+      }
+    },
+    {
+      "label": "320-dark-en",
+      "before": {
+        "overflow": false,
+        "count": "",
+        "hasMoney": false,
+        "headerY": 0,
+        "scrollY": 0,
+        "colors": [
+          {
+            "color": "rgb(26, 20, 15)",
+            "background": "rgb(246, 241, 232)",
+            "contrastRatio": 16.22
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(168, 159, 146)",
+            "background": "rgb(21, 17, 13)",
+            "contrastRatio": 7.19
+          }
+        ],
+        "card": {
+          "x": 16,
+          "y": 595.578125,
+          "width": 288,
+          "height": 391.1875,
+          "top": 595.578125,
+          "right": 304,
+          "bottom": 986.765625,
+          "left": 16
+        }
+      },
+      "after": {
+        "overflow": false,
+        "count": "3",
+        "total": "$1,545/mo",
+        "average": "Average $515 per location / month · across 3 locations",
+        "card": {
+          "x": 16,
+          "y": 595.578125,
+          "width": 288,
+          "height": 476.078125,
+          "top": 595.578125,
+          "right": 304,
+          "bottom": 1071.65625,
+          "left": 16
+        }
+      }
+    },
+    {
+      "label": "390-dark-ar",
+      "before": {
+        "overflow": false,
+        "count": "",
+        "hasMoney": false,
+        "headerY": 0,
+        "scrollY": 0,
+        "colors": [
+          {
+            "color": "rgb(26, 20, 15)",
+            "background": "rgb(246, 241, 232)",
+            "contrastRatio": 16.22
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(251, 248, 244)",
+            "background": "rgb(31, 26, 21)",
+            "contrastRatio": 16.3
+          },
+          {
+            "color": "rgb(168, 159, 146)",
+            "background": "rgb(21, 17, 13)",
+            "contrastRatio": 7.19
+          }
+        ],
+        "card": {
+          "x": 16,
+          "y": 521.1875,
+          "width": 358,
+          "height": 353.5625,
+          "top": 521.1875,
+          "right": 374,
+          "bottom": 874.75,
+          "left": 16
+        }
+      },
+      "after": {
+        "overflow": false,
+        "count": "3",
+        "total": "‏1,545 US$/شهرياً",
+        "average": "متوسط ‏515 US$ لكل موقع شهرياً · عبر 3 مواقع",
+        "card": {
+          "x": 16,
+          "y": 521.1875,
+          "width": 358,
+          "height": 454.640625,
+          "top": 521.1875,
+          "right": 374,
+          "bottom": 975.828125,
+          "left": 16
+        }
+      }
+    }
+  ]
+}

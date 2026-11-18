@@ -39,3 +39,11 @@ for(const [theme,width] of [['light',1440],['light',390],['dark',412]] as const)
   await expect(banner).toHaveCount(0);
   expect(await page.evaluate(()=>localStorage.getItem('sundae_cookie_consent'))).toBe('declined');
 });
+
+// These existing scenarios exercise a configured visitor; first-visit gating
+// is covered separately by pricing-location-gate.spec.ts.
+test.beforeEach(async ({page}) => {
+  await page.addInitScript(() => {
+    if (!localStorage.getItem('sundae-pricing-config-v1-7')) localStorage.setItem('sundae-pricing-config-v1-7', JSON.stringify({version:2,state:{layer:'core',corePackage:'core_foundation',locations:1,locationsConfirmed:true,addOns:[],crewSkus:[],watchtowerModules:[],crossIntelligence:'none',billingCycle:'monthly',operatingModels:[],employees:null,payrollCountry:''}}));
+  });
+});

@@ -3,6 +3,8 @@ import { lazy, Suspense, useId, useState } from 'react';
 import { ArrowDown, ArrowRight, Check, ChevronDown, Download, Link as LinkIcon, Minus, Plus } from 'lucide-react';
 import { corePackages, CORE_PACKAGE_IDS, conceptSkus, foresightAction, packageAllowsWatchtower, billingDiscounts, crossIntelligence, crewSkus, crewBundles, watchtower, volumeDiscounts, DISCOUNT_RULES, implementationClasses, IMPLEMENTATION_CLASS_ORDER } from '../../data/pricing';
 import { CREW_PRESETS, CREW_SKU_LIST } from '../../lib/crewPricing';
+import { additionalBundleCapabilities } from '../../lib/crewPresentation';
+import type { CrewBundleId } from '../../types/configuration';
 import { calculateBandedTotal, calculateBandLines, calculateAiCredits, calculateIntelligenceSeats, calculateCombinedDiscount, calculateCrossIntelligencePrice } from '../../lib/pricingEngine';
 import { calculateBasketQuote } from '../../lib/basketQuote';
 import { useBuyerQuote, useBuyerFormatting } from '../../hooks/useBuyerQuote';
@@ -156,7 +158,7 @@ export function PlanChoices() {
           </article>;
         })}
       </div>
-      <details className="pricing-disclosure"><summary>{copy.customCrew}<ChevronDown size={16} aria-hidden/></summary><CrewBundleExplanation/><div className="sku-options">{CREW_SKU_LIST.map((id) => <CrewOption key={id} id={id}/>)}</div>{discount.label && <p className="pricing-caption">{discount.label}</p>}</details>{quote.needsCrewSelection && <p role="status">{copy.chooseCrew}</p>}
+      <details className="pricing-disclosure"><summary>{copy.customCrew}<ChevronDown size={16} aria-hidden/></summary>{selectedPreset && <CrewBundleExplanation/>}<div className="sku-options">{CREW_SKU_LIST.map((id) => <CrewOption key={id} id={id}/>)}</div>{discount.label && <p className="pricing-caption">{discount.label}</p>}</details>{quote.needsCrewSelection && <p role="status">{copy.chooseCrew}</p>}
     </section>}
     <p className="pricing-caption rounding-note">{copy.exclusions} · {copy.terms[INTENT_TERMS.indexOf(config.billingCycle)]}</p>
     {!quote.enterprise && <p className="pricing-caption rounding-note">{reviewCopy.rounding}</p>}
@@ -232,10 +234,18 @@ function CrewOption({ id }: { id: typeof CREW_SKU_LIST[number] }) {
   return <div className="crew-option"><input id={inputId} type="checkbox" aria-describedby={`${inputId}-price`} checked={config.crewSkus.includes(id)} disabled={included || unavailable} onChange={() => state.toggleCrewSku(id)}/><label htmlFor={inputId}>{crewSkus[id].name}</label><FeatureHelp feature={id} name={crewSkus[id].name}/><small id={`${inputId}-price`}>{included ? copy.included : unavailable ? copy.scoped : quote.enterprise ? copy.scoped : coveringBundle ? localizeBreakdownLabel(coveringBundle.label,locale) : <>{getBuyerClarityCopy(locale).standalone}: {money(discount.net(calculateBandedTotal(crewSkus[id], config.locations)))}{messages.overview.perMonth}</>}</small></div>;
 }
 function CrewBundleExplanation() {
-  const { quote } = useBuyerQuote();
+  const { quote, config } = useBuyerQuote();
   const { locale } = useBuyerFormatting();
+  const copy = getBuyerClarityCopy(locale);
   const bundles = quote.crew?.lines.filter(line => line.id in crewBundles) ?? [];
-  return <>{bundles.map(line => <p className="crew-bundle-explanation pricing-caption" key={line.id} data-testid="crew-bundle-explanation">{getBuyerClarityCopy(locale).bundleNote.replace('{bundle}',localizeBreakdownLabel(line.label,locale))}</p>)}</>;
+  return <>{bundles.map(line => {
+    const extras = additionalBundleCapabilities(line.id as CrewBundleId, config.crewSkus);
+    const capabilities = new Intl.ListFormat(locale, { style: 'long', type: 'conjunction' }).format(extras.map(id => localizeBreakdownLabel(crewSkus[id].name, locale)));
+    return <div key={line.id}>
+      <p className="crew-bundle-explanation pricing-caption" data-testid="crew-bundle-explanation">{copy.bundleNote.replace('{bundle}',localizeBreakdownLabel(line.label,locale))}</p>
+      {extras.length > 0 && <p className="crew-bundle-explanation pricing-caption" data-testid="crew-bundle-extras">{copy.alsoIncluded.replace('{capabilities}',capabilities)}</p>}
+    </div>;
+  })}</>;
 }
 export function EnterprisePanel() {
   const { copy, messages, locale, reviewCopy } = useBuyerFormatting();

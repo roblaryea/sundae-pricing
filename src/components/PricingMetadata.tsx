@@ -7,8 +7,11 @@ export function PricingMetadata() {
   const { locale } = useLocale();
   const { pathname } = useLocation();
   useEffect(() => {
-    const known = pathname === '/' || pathname === '/simulator';
-    const meta = getPricingMetadata(locale, pathname !== '/');
+    // Normalize only the pathname used for presentation. Leave query values
+    // (locale, configuration and attribution) to their existing owners.
+    const normalizedPath = pathname.replace(/\/+$/, '') || '/';
+    const known = normalizedPath === '/' || normalizedPath === '/simulator';
+    const meta = getPricingMetadata(locale, normalizedPath !== '/');
     document.title = known ? meta.title : 'Page not found | Sundae Pricing';
     const setMeta = (key: string, value: string) => {
       const attr = key.startsWith('og:') ? 'property' : 'name';

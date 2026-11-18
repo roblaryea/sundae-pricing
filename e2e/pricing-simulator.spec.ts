@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
+import { getPricingMetadata } from '../src/lib/pricingMetadata';
 import { readFileSync } from 'node:fs';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 const fixture = JSON.parse(readFileSync(new URL('../__tests__/fixtures/published-policy-20261010.json', import.meta.url), 'utf8'));
@@ -498,7 +499,13 @@ test('custom Crew capability choices explain a covering bundle without promising
   await page.getByRole('checkbox',{name:/^Crew Time(?: |$)/}).uncheck();
   await expect(page.getByTestId('decision-total')).toContainText('$697');
   await expect(page.locator('.custom-crew-summary')).not.toContainText('Crew Time');
-  await expect(page.getByTestId('crew-bundle-explanation').first()).toContainText('may not reduce the price');
+  await expect(page.getByTestId('crew-bundle-explanation')).toHaveCount(1);
+  await expect(page.getByTestId('crew-bundle-explanation')).toContainText('may not reduce the price');
+  await expect(page.getByTestId('crew-bundle-extras')).toHaveText('Also included in this bundle: Crew Time.');
+  await page.getByRole('checkbox',{name:/^Crew Time(?: |$)/}).check();
+  await expect(page.getByTestId('crew-bundle-extras')).toHaveCount(0);
+  await expect(page.getByTestId('crew-bundle-explanation')).toHaveCount(1);
+  await expect(page.getByTestId('decision-total')).toContainText('$697');
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$697');
 });
@@ -534,4 +541,21 @@ for (const width of [320,390,768]) test(`consent and compact estimate remain sep
   expect(title!.y).toBeGreaterThanOrEqual(header!.y+header!.height);
   expect(first!.y+first!.height).toBeLessThan(activeBar!.y);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
+});
+
+for (const path of ['/simulator', '/simulator/']) test(`${path} retains Arabic metadata and shared quote attribution`, async ({page}) => {
+  const cfg = {...base, corePackage:'core_growth', locations:7, billingCycle:'annual_quarterly'} as PricingIntent;
+  await page.goto(`${path}?lang=ar&cfg=${encodePricingIntent(cfg)}&utm_source=review&utm_campaign=slash`);
+  await expect(page.getByTestId('basket-total')).toBeVisible();
+  await expect(page).toHaveTitle(getPricingMetadata('ar', true).title);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content','noindex,follow');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href','https://pricing.sundae.io/?lang=ar');
+  const total = await page.getByTestId('basket-total').innerText();
+  expect(total.replace(/[^0-9٠-٩]/g, '')).toMatch(/331075|٣٣١٠٧٥/);
+  const url = new URL(page.url());
+  expect(url.searchParams.get('lang')).toBe('ar');
+  expect(url.searchParams.get('utm_source')).toBe('review');
+  expect(url.searchParams.get('utm_campaign')).toBe('slash');
+  const demo = new URL((await page.locator('a[href*="cfg="]').last().getAttribute('href'))!);
+  expect(decodePricingIntent(demo.searchParams.get('cfg')!)).toMatchObject(cfg);
 });

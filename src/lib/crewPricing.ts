@@ -90,6 +90,9 @@ function entitlementsOf(skus: readonly CrewSkuId[]): Set<CrewSkuId> {
   return granted;
 }
 
+// Reuse the engine entitlement expansion for display without changing selection.
+export { entitlementsOf as crewEntitlementsOf };
+
 /**
  * Standalone monthly for one SKU in the context of a selection. Schedule bills
  * $0 while Manage is in the set — it stays a visible line so the quote matches

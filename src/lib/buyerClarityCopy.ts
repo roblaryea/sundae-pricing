@@ -28,7 +28,34 @@ const packs: Record<PricingLocale,Pack> = {
  ru:['Итого в месяц','Ежемесячный платёж','Ежеквартальный платёж','Годовая предоплата','Предоплата за 24 месяца','Оплачивается как {bundle}. Удаление функции может не снизить цену, если покрывающий её пакет остаётся самым дешёвым вариантом.','Отдельная справочная цена','Проверить'],
  pap:['Total mensual','Pago mensual','Pago trimestral','Pago anual adelantá','Pago adelantá pa 24 luna','Ta wordu fakturá komo {bundle}. Kita un funshon no semper ta baha preis si e pakete ku ta kubri esaki ta keda e opshon mas barata.','Preis individual di referensia','Revisa'],
 };
+const alsoIncluded: Record<PricingLocale,string> = {
+  "en": "Also included in this bundle: {capabilities}.",
+  "ar": "تشمل هذه الباقة أيضًا: {capabilities}.",
+  "fr": "Également inclus dans cette offre : {capabilities}.",
+  "es": "También incluido en este paquete: {capabilities}.",
+  "de": "In diesem Paket außerdem enthalten: {capabilities}.",
+  "nl": "Ook inbegrepen in deze bundel: {capabilities}.",
+  "pt": "Também incluído neste pacote: {capabilities}.",
+  "hi": "इस बंडल में यह भी शामिल है: {capabilities}।",
+  "ur": "اس بنڈل میں یہ بھی شامل ہے: {capabilities}۔",
+  "it": "Incluso anche in questo pacchetto: {capabilities}.",
+  "pl": "Ten pakiet obejmuje również: {capabilities}.",
+  "tr": "Bu pakete ayrıca dahil: {capabilities}.",
+  "zh-Hans": "此组合还包含：{capabilities}。",
+  "ja": "このバンドルには次も含まれます：{capabilities}。",
+  "ko": "이 번들에 추가로 포함됨: {capabilities}.",
+  "id": "Juga termasuk dalam bundel ini: {capabilities}.",
+  "vi": "Gói này cũng bao gồm: {capabilities}.",
+  "ro": "Inclus și în acest pachet: {capabilities}.",
+  "sv": "Ingår också i detta paket: {capabilities}.",
+  "bn": "এই বান্ডলে আরও অন্তর্ভুক্ত: {capabilities}।",
+  "th": "รวมอยู่ในบันเดิลนี้ด้วย: {capabilities}",
+  "ms": "Turut disertakan dalam pakej ini: {capabilities}.",
+  "az": "Bu paketə həmçinin daxildir: {capabilities}.",
+  "ru": "В этот пакет также входит: {capabilities}.",
+  "pap": "Tambe inkluí den e pakete aki: {capabilities}."
+};
 export function getBuyerClarityCopy(locale: PricingLocale) {
  const [total,monthly,quarterly,annual,twoYear,bundleNote,standalone,review] = packs[locale];
- return {total,bundleNote,standalone,review,payments:{monthly,annual_quarterly:quarterly,annual_upfront:annual,two_year_upfront:twoYear} satisfies Record<BillingCycle,string>};
+ return {total,bundleNote,alsoIncluded:alsoIncluded[locale],standalone,review,payments:{monthly,annual_quarterly:quarterly,annual_upfront:annual,two_year_upfront:twoYear} satisfies Record<BillingCycle,string>};
 }

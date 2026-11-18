@@ -1,0 +1,12 @@
+# Sundae Pricing
+
+> Sundae Core and Crew pricing for hospitality and food-service operations.
+
+- [Pricing overview](https://pricing.sundae.io/): compare current packages and configure locations.
+- [Pricing simulator](https://pricing.sundae.io/simulator): review an estimate for selected Core and Crew capabilities.
+- [Published pricing catalogue](https://pricing.sundae.io/api/pricing/catalog/active): authoritative current prices and commercial policy.
+- [Sundae](https://www.sundae.io/): product capabilities and supporting information.
+
+Amounts are USD. A monthly total covers the selected estate; a per-location average is the total divided by entered locations. The subscription payment depends on the selected payment period. Taxes and one-time setup are excluded from recurring prices. The larger eligible volume or commitment discount applies once, subject to the published cap. Extra employee charges and setup do not receive that subscription discount.
+
+Implementation fees are estimates subject to scope review. ROI results are planning estimates. An edited implementation-cost assumption changes the model, not the quoted fee. Refer to the live catalogue and reviewed quote rather than extracting a stale price from this document.

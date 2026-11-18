@@ -47,7 +47,7 @@ export function SiteFooter() {
               <Logo size="md" />
             </a>
             <p className="text-sm text-sundae-muted mt-4 leading-relaxed">
-              {messages.header.platform}
+              Core + Crew
             </p>
             {/* Social */}
             <div className="flex items-center gap-3 mt-5">

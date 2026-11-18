@@ -1,0 +1,72 @@
+--- a/src/components/ui/ThemeProvider.tsx
++++ b/src/components/ui/ThemeProvider.tsx
+@@ -3,6 +3,22 @@
+ import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+ 
+ type Theme = 'dark' | 'light';
++
++// Share an explicit preference with pricing.sundae.io; keep the chosen dark default.
++function readTheme(): Theme {
++  if (typeof window === 'undefined') return 'dark';
++  try {
++    const shared = document.cookie.match(/(?:^|;\s*)sundae_theme=(light|dark)(?:;|$)/)?.[1];
++    if (shared === 'light' || shared === 'dark') return shared;
++  } catch { /* Preference storage can be unavailable. */ }
++  try { return localStorage.getItem('sundae-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; }
++}
++function saveTheme(theme: Theme) {
++  try { localStorage.setItem('sundae-theme', theme); } catch { /* Preference storage can be unavailable. */ }
++  const domain = location.hostname === 'sundae.io' || location.hostname.endsWith('.sundae.io') ? '; Domain=.sundae.io' : '';
++  try { document.cookie = `sundae_theme=${theme}; Path=/; Max-Age=31536000; SameSite=Lax${domain}${location.protocol === 'https:' ? '; Secure' : ''}`; } catch { /* Preference storage can be unavailable. */ }
++}
++
+ 
+ interface ThemeContextValue {
+   theme: Theme;
+@@ -26,23 +42,17 @@
+   return (
+     <script
+       dangerouslySetInnerHTML={{
+-        __html: `(function(){try{var t=localStorage.getItem('sundae-theme');if(t==='light'){document.documentElement.classList.add('light')}else{document.documentElement.classList.remove('light')}}catch(e){}})()`,
++        __html: `(function(){try{var c=document.cookie.match(/(?:^|;\\s*)sundae_theme=(light|dark)(?:;|$)/);var t=c?c[1]:localStorage.getItem('sundae-theme');if(t==='light'){document.documentElement.classList.add('light')}else{document.documentElement.classList.remove('light')}}catch(e){}})()`,
+       }}
+     />
+   );
+ }
+ 
+ export function ThemeProvider({ children }: { children: React.ReactNode }) {
+-  const [theme, setTheme] = useState<Theme>(() => {
+-    if (typeof window === 'undefined') {
+-      return 'dark';
+-    }
+-
+-    return localStorage.getItem('sundae-theme') === 'light' ? 'light' : 'dark';
+-  });
++  const [theme, setTheme] = useState<Theme>(readTheme);
+ 
+   useEffect(() => {
+-    localStorage.setItem('sundae-theme', theme);
++    saveTheme(theme);
+     if (theme === 'light') {
+       document.documentElement.classList.add('light');
+     } else {
+@@ -50,10 +60,18 @@
+     }
+   }, [theme]);
+ 
++  useEffect(() => {
++    const sync = () => setTheme(readTheme());
++    window.addEventListener('pageshow', sync);
++    window.addEventListener('focus', sync);
++    window.addEventListener('storage', sync);
++    return () => { window.removeEventListener('pageshow', sync); window.removeEventListener('focus', sync); window.removeEventListener('storage', sync); };
++  }, []);
++
+   const toggleTheme = useCallback(() => {
+     setTheme((prev) => {
+       const next = prev === 'dark' ? 'light' : 'dark';
+-      localStorage.setItem('sundae-theme', next);
++      saveTheme(next);
+       if (next === 'light') {
+         document.documentElement.classList.add('light');
+       } else {

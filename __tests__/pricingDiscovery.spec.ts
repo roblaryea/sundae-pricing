@@ -17,3 +17,15 @@ describe('pricing discovery and buyer labels', () => {
     expect(copy.bundleNote).toContain('{bundle}');
   });
 });
+
+// Root index.html exists: locale routes must run BEFORE filesystem matching.
+// High-level rewrites silently served English for /?lang=ar on Vercel.
+import routing from '../vercel.json';
+it('routes every localized root before the static index file and retains a real 404', () => {
+  const fs = routing.routes.findIndex(route=>'handle' in route && route.handle === 'filesystem');
+  for (const locale of supportedLocales.filter(l=>l!=='en')) {
+    const at = routing.routes.findIndex(route=>'src' in route && route.src === '/' && 'has' in route && route.has?.some(h=>h.key==='lang' && h.value === locale));
+    expect(at).toBeGreaterThan(-1); expect(at).toBeLessThan(fs);
+  }
+  expect(routing.routes.at(-1)).toMatchObject({status:404,dest:'/404.html'});
+});

@@ -1298,8 +1298,8 @@ function getInitialLocale(): PricingLocale {
   return normalizeLocale(window.navigator.language)
 }
 
-export function LocaleProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocaleState] = useState<PricingLocale>(() => getInitialLocale())
+export function LocaleProvider({ children, initialLocale }: { children: ReactNode; initialLocale?: PricingLocale }) {
+  const [locale, setLocaleState] = useState<PricingLocale>(() => initialLocale ?? getInitialLocale())
 
   useEffect(() => {
     document.documentElement.lang = locale

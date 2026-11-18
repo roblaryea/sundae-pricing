@@ -2,6 +2,7 @@ import { AlertCircle, LoaderCircle } from 'lucide-react';
 import type { ReactNode } from 'react';
 import type { LivePricingState } from '../../data/livePricing';
 import { useLocale } from '../../contexts/LocaleContext';
+import { PricingPending } from '../Pricing/PricingPending';
 import { generatedAuxiliaryLocalePacks } from '../../lib/generatedAuxiliaryLocalePacks';
 
 const LIVE_PRICING_COPY = {
@@ -63,18 +64,30 @@ interface LivePricingGateProps {
   children: ReactNode;
 }
 
-export function LivePricingGate({ state, children }: LivePricingGateProps) {
+function useLivePricingCopy() {
   const { locale } = useLocale();
   const copy =
     LIVE_PRICING_COPY[locale as LivePricingCopyLocale] ??
     generatedAuxiliaryLocalePacks.supportCopy[locale as keyof typeof generatedAuxiliaryLocalePacks.supportCopy]?.livePricingCopy ??
     LIVE_PRICING_COPY.en;
+  return copy;
+}
+
+export function LivePricingPending() {
+  const copy = useLivePricingCopy();
+  return <PricingPending status={<><strong>{copy.loadingTitle}</strong> · {copy.loadingBody}</>}/>;
+}
+
+export function LivePricingGate({ state, children }: LivePricingGateProps) {
+  const copy = useLivePricingCopy();
 
   if (!state.required || state.status === 'ready') {
     return <>{children}</>;
   }
 
   const isLoading = state.status === 'idle' || state.status === 'loading';
+
+  if (isLoading) return <LivePricingPending/>;
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-16">

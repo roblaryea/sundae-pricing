@@ -449,7 +449,9 @@ export function useLivePricingCatalog(): LivePricingState {
       window.addEventListener('focus', refreshVisible);
     }
     sync();
-    void hydrateLivePricingCatalog();
+    // main starts this before lazy routes. Do not silently retry a completed
+    // failure when a later subscriber mounts; keep the explicit error/retry UI.
+    if (livePricingState.status === 'idle') void hydrateLivePricingCatalog();
 
     return () => {
       subscribers.delete(sync);

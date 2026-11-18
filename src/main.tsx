@@ -4,7 +4,11 @@ import './index.css'
 import App from './App.tsx'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { LocaleProvider } from './contexts/LocaleContext'
+import { hydrateLivePricingCatalog } from './data/livePricing'
 import { initAnalyticsIfConsented } from './lib/analytics'
+
+// Start the existing validated request before route chunks and React effects.
+void hydrateLivePricingCatalog()
 
 // Only initialize analytics if user has already consented
 initAnalyticsIfConsented()

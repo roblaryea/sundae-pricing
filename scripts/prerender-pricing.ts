@@ -19,7 +19,7 @@ function render(locale: PricingLocale, simulator = false) {
   const copy = getBuyerCopy(locale);
   const meta = getPricingMetadata(locale, simulator);
   const snapshot = `<main aria-label="Sundae Core + Crew" style="max-width:1120px;margin:auto;padding:32px;font-family:var(--font-sans),sans-serif;color:#fbf8f4;background:#2A231C">
-    <a href="https://www.sundae.io" style="color:inherit">sundae</a><h1>${escape(simulator ? copy.review : copy.title)}</h1><p>${escape(copy.subtitle)}</p>
+    <a href="https://www.sundae.io" aria-label="Sundae"><img src="/logos/sundae-wordmark-fraunces-white.png" alt="Sundae" width="144" height="36"></a><h1>${escape(simulator ? copy.review : copy.title)}</h1><p>${escape(copy.subtitle)}</p>
     <h2>Sundae Core</h2><ul>${CORE_PACKAGE_IDS.map((id,i) => `<li><h3>${escape(corePackages[id].name)}</h3><p>${escape(buyerPlanCopy[locale].purposes[i])}</p></li>`).join('')}</ul>
     <h2>Sundae Crew</h2><ul>${CREW_PRESETS.map(p=>`<li>${escape(p.label)}</li>`).join('')}</ul>
     <p>${escape(copy.exclusions)}</p><p>${escape(copy.intentNote)}</p>

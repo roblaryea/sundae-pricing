@@ -1,0 +1,22 @@
+{
+  "source": "e596b1d8a0b9ffc67c5a4db8c713ea67582c7d2e",
+  "deployment": "https://sundae-pricing-5kscgg59a-sundaes-projects-afd45f7e.vercel.app",
+  "state": "READY",
+  "responses": [
+    {
+      "path": "/simulator/?lang=ar&utm_source=review",
+      "status": 200,
+      "title": "راجع تقديرك | Sundae Core + Crew",
+      "robots": "noindex,follow",
+      "canonical": "https://pricing.sundae.io/?lang=ar"
+    },
+    {
+      "path": "/simulator?lang=ar&utm_source=review",
+      "status": 200,
+      "title": "راجع تقديرك | Sundae Core + Crew",
+      "robots": "noindex,follow",
+      "canonical": "https://pricing.sundae.io/?lang=ar"
+    }
+  ],
+  "browserValidation": "Both routes pass hydration, quote, locale and attribution checks in local browser suite for this exact source. Direct preview browser visit requires Vercel sign-in; authenticated CLI verified deployed static responses."
+}

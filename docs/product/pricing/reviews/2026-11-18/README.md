@@ -54,3 +54,18 @@ Publication gate: exact immutable source/visual acceptance from the existing rev
 - [Sanitized HTTP receipt](http-preview-evidence.json) contains status, MIME type, canonical, language and robots readbacks without authentication data.
 - Preview testing caught and corrected root-locale rewrites being shadowed by the existing index file. Explicit locale routes now precede filesystem matching, with a regression check. Arabic and French static root responses now pass before JavaScript; the Arabic simulator remains noindex/follow.
 - Final document/evidence commits after this source are packaging-only; independent review should bind the PR's immutable head and this source commit. No acceptance or production publication is implied.
+
+## Reviewer-correction successor
+
+Source: **`e596b1d8a0b9ffc67c5a4db8c713ea67582c7d2e`**. This supersedes the application/configuration source above; the earlier preview remains historical evidence only. Independent acceptance of this successor is pending.
+
+- Both `/simulator` and `/simulator/` receive the localized simulator title after hydration. Normalization is confined to metadata pathname interpretation. Arabic locale, configuration handoff, totals and attribution parameters are checked for both forms.
+- The actual inline pre-paint script now uses a valid shared cookie before attempting localStorage. Five VM tests execute the shipped HTML script, including a light cookie after unrelated cookies with storage blocked, dark-cookie precedence, cookie denial, fallback storage and both stores unavailable.
+- The billed bundle explanation now explicitly lists additional supplied capabilities in all 25 locales. It reads the actual billed bundle and reuses the optimizer's existing entitlement expansion, including Manage → Schedule; requested capability selections and all optimizer arithmetic remain unchanged. Custom selections show one explanation even with their selector open.
+- Three-location custom Manage + Schedule + Pay remains **$697/month**; the requested list excludes Time and the supplied-capability note says **“Also included in this bundle: Crew Time.”** Re-selecting Time removes the extras note without changing the total.
+
+Validation: **1,458 tests in 52 unit files**, **41 pricing browser tests**, lint, translation QA, TypeScript, catalogue validation and standalone production build pass. Optional sibling roots were absent for this build; no cross-repository parity claim is made. Existing ROI checks continue to cover a temporary implementation-cost assumption affecting recovery and first-year returns while preserving the quote, plus unknown/floor-only implementation fees and reset on plan changes.
+
+Updated visual evidence: [desktop custom bundle](evidence/custom-crew-successor.png) and [Arabic mobile custom bundle](evidence/custom-crew-successor-arabic-mobile.png). The latter is 390×844, has one bundle explanation and no horizontal overflow. Both were captured against the live published catalogue through a local same-origin proxy. Source is prepared for review, not production publication.
+
+Successor preview: https://sundae-pricing-5kscgg59a-sundaes-projects-afd45f7e.vercel.app (Ready, exact source above). [Sanitized successor receipt](successor-preview-evidence.json) verifies HTTP 200, Arabic simulator title, canonical and noindex for both slash forms. Browser hydration and configuration/attribution retention pass locally for the same source. Direct preview browser access requires Vercel sign-in; no deployed browser-hydration claim is made.

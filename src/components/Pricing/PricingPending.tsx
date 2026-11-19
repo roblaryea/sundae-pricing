@@ -6,6 +6,7 @@ import { getBuyerCopy } from '../../lib/buyerCopy';
 import { buyerPlanCopy } from '../../lib/buyerPlanCopy';
 import { getImplementationPlanningCopy } from '../../lib/implementationPlanningCopy';
 import { getBuyerJourneyCopy } from '../../lib/buyerJourneyCopy';
+import { brandSignature } from '../../lib/brandSignature';
 import { corePackages, CORE_PACKAGE_IDS } from '../../data/pricing';
 import { CREW_PRESETS } from '../../lib/crewPricing';
 import { localizeTierName } from '../../lib/pricingI18n';
@@ -15,7 +16,7 @@ import type { ReactNode } from 'react';
 export function PricingHero() {
   const { locale, messages } = useLocale();
   const copy = getBuyerCopy(locale);
-  return <section className="pricing-hero"><div><p className="pricing-eyebrow">SUNDAE / {messages.header.pricing}</p><h1>{copy.title}</h1><p>{copy.subtitle}</p></div><a href="#plan-comparison" className="hero-note">Core · Crew · Core + Crew<ArrowRight size={16}/></a></section>;
+  return <section className="pricing-hero"><div><p className="pricing-eyebrow">SUNDAE / {messages.header.pricing}</p><p className="pricing-brand-signature">{brandSignature[locale]}</p><h1>{copy.title}</h1><p>{copy.subtitle}</p></div><a href="#plan-comparison" className="hero-note">Core · Crew · Core + Crew<ArrowRight size={16}/></a></section>;
 }
 
 /** Structural placeholders only: no quote calculation, pricing controls, or

@@ -1,0 +1,5 @@
+
+> sundae-pricing@0.0.0 lint
+> eslint .
+
+[BABEL] Note: The code generator has deoptimised the styling of /Users/robertlaryea/Documents/Dev/wt-pricing-symbol-restore-20261119/src/lib/generatedPricingLocalePacks.ts as it exceeds the max of 500KB.

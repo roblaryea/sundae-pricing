@@ -1,0 +1,656 @@
+[
+  {
+    "width": 1440,
+    "theme": "dark",
+    "locale": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "total": "$2,242/mo",
+    "expected": "$2,242",
+    "logos": [
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 112,
+          "y": 20.828750610351562,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 20.828750610351562,
+          "right": 145.75,
+          "bottom": 54.57875061035156,
+          "left": 112
+        },
+        "lockup": {
+          "x": 112,
+          "y": 19.0625,
+          "width": 164.25,
+          "height": 36,
+          "top": 19.0625,
+          "right": 276.25,
+          "bottom": 55.0625,
+          "left": 112
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lockup": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 112,
+          "y": 2238.485107421875,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 2238.485107421875,
+          "right": 145.75,
+          "bottom": 2272.235107421875,
+          "left": 112
+        },
+        "lockup": {
+          "x": 112,
+          "y": 2236.71875,
+          "width": 164.25,
+          "height": 36,
+          "top": 2236.71875,
+          "right": 276.25,
+          "bottom": 2272.71875,
+          "left": 112
+        },
+        "direction": "ltr"
+      }
+    ],
+    "wordmarks": [
+      "/logos/sundae-wordmark-fraunces-white.png",
+      "/logos/sundae-wordmark-fraunces-white.png",
+      "/logos/sundae-wordmark-fraunces-white.png"
+    ],
+    "optical": [
+      {
+        "coloredForegroundCenter": 36.91273498535156,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 22.6625,
+        "wordmarkInkBottom": 51.1625,
+        "wordmarkInkCenter": 36.9125,
+        "delta": 0.00023498535156107891
+      },
+      {
+        "coloredForegroundCenter": 2254.569091796875,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 2240.31875,
+        "wordmarkInkBottom": 2268.81875,
+        "wordmarkInkCenter": 2254.56875,
+        "delta": 0.00034179687509094947
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "locale": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "total": "$2,242/mo",
+    "expected": "$2,242",
+    "logos": [
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 112,
+          "y": 20.828750610351562,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 20.828750610351562,
+          "right": 145.75,
+          "bottom": 54.57875061035156,
+          "left": 112
+        },
+        "lockup": {
+          "x": 112,
+          "y": 19.0625,
+          "width": 164.25,
+          "height": 36,
+          "top": 19.0625,
+          "right": 276.25,
+          "bottom": 55.0625,
+          "left": 112
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lockup": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 112,
+          "y": 2238.485107421875,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 2238.485107421875,
+          "right": 145.75,
+          "bottom": 2272.235107421875,
+          "left": 112
+        },
+        "lockup": {
+          "x": 112,
+          "y": 2236.71875,
+          "width": 164.25,
+          "height": 36,
+          "top": 2236.71875,
+          "right": 276.25,
+          "bottom": 2272.71875,
+          "left": 112
+        },
+        "direction": "ltr"
+      }
+    ],
+    "wordmarks": [
+      "/logos/sundae-wordmark-fraunces.png",
+      "/logos/sundae-wordmark-fraunces.png",
+      "/logos/sundae-wordmark-fraunces.png"
+    ],
+    "optical": [
+      {
+        "coloredForegroundCenter": 36.91273498535156,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 22.6625,
+        "wordmarkInkBottom": 51.1625,
+        "wordmarkInkCenter": 36.9125,
+        "delta": 0.00023498535156107891
+      },
+      {
+        "coloredForegroundCenter": 2254.569091796875,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 2240.31875,
+        "wordmarkInkBottom": 2268.81875,
+        "wordmarkInkCenter": 2254.56875,
+        "delta": 0.00034179687509094947
+      }
+    ]
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "locale": "de",
+    "dir": "ltr",
+    "overflow": false,
+    "total": "2.242 $/Monat",
+    "expected": "2.242 $",
+    "logos": [
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 32,
+          "y": 20.828750610351562,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 20.828750610351562,
+          "right": 65.75,
+          "bottom": 54.57875061035156,
+          "left": 32
+        },
+        "lockup": {
+          "x": 32,
+          "y": 19.0625,
+          "width": 164.25,
+          "height": 36,
+          "top": 19.0625,
+          "right": 196.25,
+          "bottom": 55.0625,
+          "left": 32
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lockup": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 32,
+          "y": 2255.656982421875,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 2255.656982421875,
+          "right": 65.75,
+          "bottom": 2289.406982421875,
+          "left": 32
+        },
+        "lockup": {
+          "x": 32,
+          "y": 2253.890625,
+          "width": 164.25,
+          "height": 36,
+          "top": 2253.890625,
+          "right": 196.25,
+          "bottom": 2289.890625,
+          "left": 32
+        },
+        "direction": "ltr"
+      }
+    ],
+    "wordmarks": [
+      "/logos/sundae-wordmark-fraunces.png",
+      "/logos/sundae-wordmark-fraunces.png",
+      "/logos/sundae-wordmark-fraunces.png"
+    ],
+    "optical": [
+      {
+        "coloredForegroundCenter": 36.91273498535156,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 22.6625,
+        "wordmarkInkBottom": 51.1625,
+        "wordmarkInkCenter": 36.9125,
+        "delta": 0.00023498535156107891
+      },
+      {
+        "coloredForegroundCenter": 2271.740966796875,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 2257.490625,
+        "wordmarkInkBottom": 2285.990625,
+        "wordmarkInkCenter": 2271.740625,
+        "delta": 0.00034179687509094947
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "locale": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "total": "$2,242/mo",
+    "expected": "$2,242",
+    "logos": [
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 16,
+          "y": 20.828750610351562,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 20.828750610351562,
+          "right": 49.75,
+          "bottom": 54.57875061035156,
+          "left": 16
+        },
+        "lockup": {
+          "x": 16,
+          "y": 19.0625,
+          "width": 164.25,
+          "height": 36,
+          "top": 19.0625,
+          "right": 180.25,
+          "bottom": 55.0625,
+          "left": 16
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lockup": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 16,
+          "y": 2132.438232421875,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 2132.438232421875,
+          "right": 49.75,
+          "bottom": 2166.188232421875,
+          "left": 16
+        },
+        "lockup": {
+          "x": 16,
+          "y": 2130.671875,
+          "width": 164.25,
+          "height": 36,
+          "top": 2130.671875,
+          "right": 180.25,
+          "bottom": 2166.671875,
+          "left": 16
+        },
+        "direction": "ltr"
+      }
+    ],
+    "wordmarks": [
+      "/logos/sundae-wordmark-fraunces-white.png",
+      "/logos/sundae-wordmark-fraunces-white.png",
+      "/logos/sundae-wordmark-fraunces-white.png"
+    ],
+    "optical": [
+      {
+        "coloredForegroundCenter": 36.91273498535156,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 22.6625,
+        "wordmarkInkBottom": 51.1625,
+        "wordmarkInkCenter": 36.9125,
+        "delta": 0.00023498535156107891
+      },
+      {
+        "coloredForegroundCenter": 2148.522216796875,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 2134.271875,
+        "wordmarkInkBottom": 2162.771875,
+        "wordmarkInkCenter": 2148.521875,
+        "delta": 0.00034179687509094947
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "locale": "en",
+    "dir": "ltr",
+    "overflow": false,
+    "total": "$2,242/mo",
+    "expected": "$2,242",
+    "logos": [
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 16,
+          "y": 20.828750610351562,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 20.828750610351562,
+          "right": 49.75,
+          "bottom": 54.57875061035156,
+          "left": 16
+        },
+        "lockup": {
+          "x": 16,
+          "y": 19.0625,
+          "width": 164.25,
+          "height": 36,
+          "top": 19.0625,
+          "right": 180.25,
+          "bottom": 55.0625,
+          "left": 16
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lockup": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 16,
+          "y": 2132.438232421875,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 2132.438232421875,
+          "right": 49.75,
+          "bottom": 2166.188232421875,
+          "left": 16
+        },
+        "lockup": {
+          "x": 16,
+          "y": 2130.671875,
+          "width": 164.25,
+          "height": 36,
+          "top": 2130.671875,
+          "right": 180.25,
+          "bottom": 2166.671875,
+          "left": 16
+        },
+        "direction": "ltr"
+      }
+    ],
+    "wordmarks": [
+      "/logos/sundae-wordmark-fraunces.png",
+      "/logos/sundae-wordmark-fraunces.png",
+      "/logos/sundae-wordmark-fraunces.png"
+    ],
+    "optical": [
+      {
+        "coloredForegroundCenter": 36.91273498535156,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 22.6625,
+        "wordmarkInkBottom": 51.1625,
+        "wordmarkInkCenter": 36.9125,
+        "delta": 0.00023498535156107891
+      },
+      {
+        "coloredForegroundCenter": 2148.522216796875,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 2134.271875,
+        "wordmarkInkBottom": 2162.771875,
+        "wordmarkInkCenter": 2148.521875,
+        "delta": 0.00034179687509094947
+      }
+    ]
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "locale": "ar",
+    "dir": "rtl",
+    "overflow": false,
+    "total": "‏2,242 US$/شهرياً",
+    "expected": "‏2,242 US$",
+    "logos": [
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 139.75,
+          "y": 20.828750610351562,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 20.828750610351562,
+          "right": 173.5,
+          "bottom": 54.57875061035156,
+          "left": 139.75
+        },
+        "lockup": {
+          "x": 139.75,
+          "y": 19.0625,
+          "width": 164.25,
+          "height": 36,
+          "top": 19.0625,
+          "right": 304,
+          "bottom": 55.0625,
+          "left": 139.75
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "lockup": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "direction": "ltr"
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "complete": true,
+        "mark": {
+          "x": 139.75,
+          "y": 2115.938232421875,
+          "width": 33.75,
+          "height": 33.75,
+          "top": 2115.938232421875,
+          "right": 173.5,
+          "bottom": 2149.688232421875,
+          "left": 139.75
+        },
+        "lockup": {
+          "x": 139.75,
+          "y": 2114.171875,
+          "width": 164.25,
+          "height": 36,
+          "top": 2114.171875,
+          "right": 304,
+          "bottom": 2150.171875,
+          "left": 139.75
+        },
+        "direction": "ltr"
+      }
+    ],
+    "wordmarks": [
+      "/logos/sundae-wordmark-fraunces-white.png",
+      "/logos/sundae-wordmark-fraunces-white.png",
+      "/logos/sundae-wordmark-fraunces-white.png"
+    ],
+    "optical": [
+      {
+        "coloredForegroundCenter": 36.91273498535156,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 22.6625,
+        "wordmarkInkBottom": 51.1625,
+        "wordmarkInkCenter": 36.9125,
+        "delta": 0.00023498535156107891
+      },
+      {
+        "coloredForegroundCenter": 2132.022216796875,
+        "coloredForegroundHeight": 28.8720703125,
+        "wordmarkInkTop": 2117.771875,
+        "wordmarkInkBottom": 2146.271875,
+        "wordmarkInkCenter": 2132.021875,
+        "delta": 0.00034179687509094947
+      }
+    ]
+  }
+]

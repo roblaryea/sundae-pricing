@@ -27,6 +27,31 @@ const ARABIC_PDF_FONT_PATH = `/fonts/${ARABIC_PDF_FONT_FILE}`;
 
 let arabicFontBase64Promise: Promise<string> | null = null;
 
+/** Embed the exact released SVG geometry and original white Fraunces PNG. */
+async function addApprovedPdfLogo(doc: jsPDF) {
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const assets = `${origin}${import.meta.env?.BASE_URL || '/'}logos/`;
+  const load = (name: string) => new Promise<HTMLImageElement>((resolve, reject) => {
+    const image = new Image();
+    image.crossOrigin = 'anonymous';
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error('Failed to load approved brand asset'));
+    image.src = `${assets}${name}`;
+  });
+  const [mark, wordmark] = await Promise.all([load('sundae-mark.svg'), load('sundae-wordmark-fraunces-white.png')]);
+  // jsPDF needs a bitmap; rasterize the unchanged SVG rather than redrawing it.
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 512;
+  const context = canvas.getContext('2d');
+  if (!context) throw new Error('Brand image rendering unavailable');
+  context.drawImage(mark, 0, 0, 512, 512);
+  const unit = 44 / 6.4;
+  const markSize = unit * 1.5;
+  // Match the shared web lockup, including its colored-foreground alignment.
+  doc.addImage(canvas, 'PNG', 20, 16 + (11 - markSize) / 2 + unit * 0.0285, markSize, markSize);
+  doc.addImage(wordmark, 'PNG', 20 + markSize - unit * 0.6, 16, 44, 11);
+}
+
 interface PricingData {
   total: number;
   perLocation: number;
@@ -207,29 +232,12 @@ export async function generateQuotePDF(
   const validUntil = new Date(today);
   validUntil.setDate(validUntil.getDate() + 30);
 
-  // Load logo image - use current origin (works in browser)
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark-fraunces-white.png` : '/logos/sundae-wordmark-fraunces-white.png';
-
   // Header
   doc.setFillColor(15, 23, 42);
   doc.rect(0, 0, pageWidth, 40, 'F');
 
   try {
-    await new Promise<void>((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        try {
-          doc.addImage(img, 'PNG', 20, 16, 0, 11);
-          resolve();
-        } catch (err) {
-          reject(err);
-        }
-      };
-      img.onerror = () => reject(new Error('Failed to load logo'));
-      img.src = logoUrl;
-    });
+    await addApprovedPdfLogo(doc);
 
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
@@ -238,9 +246,9 @@ export async function generateQuotePDF(
   } catch (error) {
     console.warn('Logo image failed to load, using text fallback:', error);
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(20);
-    setPdfFont(doc, locale, 'bold');
-    doc.text('SUNDAE', 20, 25);
+    doc.setFontSize(10);
+    setPdfFont(doc, locale, 'normal');
+    doc.text(LEGAL.legalName, 20, 25);
 
     doc.setFontSize(10);
     setPdfFont(doc, locale, 'normal');
@@ -599,27 +607,12 @@ export async function generateCrewQuotePDF(
   validUntil.setDate(validUntil.getDate() + 30);
 
   // Header (same chrome as the analytics quote)
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const logoUrl = baseUrl ? `${baseUrl}/logos/sundae-wordmark-fraunces-white.png` : '/logos/sundae-wordmark-fraunces-white.png';
 
   doc.setFillColor(15, 23, 42);
   doc.rect(0, 0, pageWidth, 40, 'F');
 
   try {
-    await new Promise<void>((resolve, reject) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        try {
-          doc.addImage(img, 'PNG', 20, 16, 0, 11);
-          resolve();
-        } catch (err) {
-          reject(err);
-        }
-      };
-      img.onerror = () => reject(new Error('Failed to load logo'));
-      img.src = logoUrl;
-    });
+    await addApprovedPdfLogo(doc);
 
     doc.setTextColor(255, 255, 255);
     doc.setFontSize(10);
@@ -627,9 +620,9 @@ export async function generateCrewQuotePDF(
     renderPdfText(doc, copy.headerSubtitle, 20, 33, locale);
   } catch {
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(20);
-    setPdfFont(doc, locale, 'bold');
-    doc.text('SUNDAE', 20, 25);
+    doc.setFontSize(10);
+    setPdfFont(doc, locale, 'normal');
+    doc.text(LEGAL.legalName, 20, 25);
     doc.setFontSize(10);
     setPdfFont(doc, locale, 'normal');
     renderPdfText(doc, copy.headerSubtitle, 20, 32, locale);

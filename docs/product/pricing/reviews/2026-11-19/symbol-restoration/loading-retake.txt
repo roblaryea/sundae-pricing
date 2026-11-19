@@ -1,0 +1,22 @@
+
+Running 6 tests using 1 worker
+
+(node:8667) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[WebServer] Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+[WebServer]   npx update-browserslist-db@latest
+[WebServer]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+(node:8667) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/6] [chromium] › e2e/pricing-loading.spec.ts:7:37 › delayed authoritative prices preserve structure at 320px
+[2/6] [chromium] › e2e/pricing-loading.spec.ts:7:37 › delayed authoritative prices preserve structure at 412px
+[3/6] [chromium] › e2e/pricing-loading.spec.ts:7:37 › delayed authoritative prices preserve structure at 1440px
+[4/6] [chromium] › e2e/pricing-loading.spec.ts:40:1 › catalogue fetch starts while the page chunk is still loading
+[5/6] [chromium] › e2e/pricing-loading.spec.ts:52:1 › a catalogue failure blocks all prices and retry recovers
+[6/6] [chromium] › e2e/pricing-loading.spec.ts:62:1 › a delayed simulator preserves the incoming quote, language and attribution
+  6 passed (12.5s)

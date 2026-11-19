@@ -1,0 +1,13 @@
+{
+  "baselineModule": "published2bb4015:src/lib/pdfGenerator.ts",
+  "currentModule": "e83c964:src/lib/pdfGenerator.ts",
+  "sample": "CrewOperating3locations,Arabic",
+  "comparedBodyRectangle": [
+    0,
+    200,
+    990,
+    1200
+  ],
+  "bodyPixelsIdentical": true,
+  "scope": "Existing Arabic legacy jsPDF shaping/body issue is unchanged; current buyer browser-print Arabic renders correctly."
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "width": 1440,
+    "theme": "dark",
+    "symbols": [
+      {
+        "src": "/logos/sundae-mark.svg",
+        "loaded": true
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "loaded": true
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "loaded": true
+      }
+    ],
+    "visibleWordmarks": [
+      "/logos/sundae-wordmark-fraunces-white.png",
+      "/logos/sundae-wordmark-fraunces-white.png"
+    ],
+    "overflow": false,
+    "initialInput": ""
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "symbols": [
+      {
+        "src": "/logos/sundae-mark.svg",
+        "loaded": true
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "loaded": true
+      },
+      {
+        "src": "/logos/sundae-mark.svg",
+        "loaded": true
+      }
+    ],
+    "visibleWordmarks": [
+      "/logos/sundae-wordmark-fraunces.png",
+      "/logos/sundae-wordmark-fraunces.png"
+    ],
+    "overflow": false,
+    "initialInput": ""
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "type": "basket",
+    "locale": "en",
+    "symbol": "http://localhost:5182/logos/sundae-mark.svg",
+    "loaded": true,
+    "dir": "ltr",
+    "overflow": false
+  },
+  {
+    "type": "basket",
+    "locale": "ar",
+    "symbol": "http://localhost:5182/logos/sundae-mark.svg",
+    "loaded": true,
+    "dir": "ltr",
+    "overflow": false
+  },
+  {
+    "type": "legacy",
+    "mode": "core",
+    "file": "legacy-core.pdf"
+  },
+  {
+    "type": "legacy",
+    "mode": "crew",
+    "file": "legacy-crew.pdf"
+  }
+]

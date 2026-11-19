@@ -1,0 +1,71 @@
+[
+  {
+    "file": "public/logos/sundae-mark.svg",
+    "sha256": "dff75ed182b38965d4b4c066f41152b66e1c525b92d4aac40e458a0d1909ee05",
+    "source": "website d926935:public/logos/sundae-mark.svg",
+    "byteIdentical": true
+  },
+  {
+    "file": "public/logos/sundae-icon.svg",
+    "sha256": "dff75ed182b38965d4b4c066f41152b66e1c525b92d4aac40e458a0d1909ee05",
+    "source": "website d926935:public/logos/sundae-icon.svg",
+    "byteIdentical": true
+  },
+  {
+    "file": "public/logos/sundae-app-icon.png",
+    "sha256": "450d9eb46bdd6dd381783697287b5059313716f4a9b3094bfa5f1013a562c65c",
+    "source": "website d926935:public/logos/sundae-app-icon.png",
+    "byteIdentical": true
+  },
+  {
+    "file": "public/logos/apple-touch-icon.png",
+    "sha256": "5a32f34e2f68a60e82ceaf214c1f3e8e8fe7d246c6ed85906ac824fee8e71e52",
+    "source": "website d926935:public/logos/apple-touch-icon.png",
+    "byteIdentical": true
+  },
+  {
+    "file": "public/favicon.ico",
+    "sha256": "57738fa33dff423eca8e3f6d320dd149e1b2cefac70e84f9eccebd28c988a5bc",
+    "source": "website d926935:public/favicon.ico",
+    "byteIdentical": true
+  },
+  {
+    "file": "public/logos/sundae-wordmark-fraunces.png",
+    "sha256": "5d1ec6d45bebb84f04c578cf599a65f459101bb2883f21159d2778090c7fb8d6",
+    "source": "published pricing2bb4015:public/logos/sundae-wordmark-fraunces.png",
+    "byteIdentical": true
+  },
+  {
+    "file": "public/logos/sundae-wordmark-fraunces-white.png",
+    "sha256": "cc7489eacda4d63e1af03f6dfbab29ab443a1659bffba7350b6644baafbf2f1b",
+    "source": "published pricing2bb4015:public/logos/sundae-wordmark-fraunces-white.png",
+    "byteIdentical": true
+  },
+  {
+    "file": "public/logos/favicon-16x16.png",
+    "sha256": "89c06a523735088b96b6b78bb5698e1ad4d2f7464b473f313a9fa5275e29dc10",
+    "source": "Full approved512RGBA resized LANCZOS; no crop/recolor",
+    "size": [
+      16,
+      16
+    ]
+  },
+  {
+    "file": "public/logos/favicon-32x32.png",
+    "sha256": "713ac577341e8bad6974d90b56801fc1dff19c7558ee69a651882494a657443f",
+    "source": "Full approved512RGBA resized LANCZOS; no crop/recolor",
+    "size": [
+      32,
+      32
+    ]
+  },
+  {
+    "file": "public/logos/sundae-icon-192.png",
+    "sha256": "a58a0f48279ac11cf322fa29370779740fa12c83aa7aa92050ab7fb3dbb130e1",
+    "source": "Full approved512RGBA resized LANCZOS; no crop/recolor",
+    "size": [
+      192,
+      192
+    ]
+  }
+]

@@ -1,4 +1,5 @@
 import { useBuyerQuote, useBuyerFormatting } from '../hooks/useBuyerQuote';
+import { useConfiguration } from '../hooks/useConfiguration';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, SlidersHorizontal } from 'lucide-react';
 import { LivePricingGate } from '../components/shared/LivePricingGate';
@@ -19,7 +20,7 @@ export function PricingOverview() {
   const pricesVisible = state.locationsConfirmed;
   usePricingViewEvent('first_price_displayed', { layer: config.layer, locations: config.locations, monthly: quote.monthly }, ready && pricesVisible && !quote.needsCrewSelection);
   usePricingConfigurationTelemetry(config, ready && pricesVisible);
-  const proceed = (step: number) => { if (!pricesVisible) { focusLocationInput(); return; } if (!state.layer) state.setLayer('core'); state.setCurrentStep(step); trackPricingEvent(step === 1 ? 'refinement_started' : 'review_started', { step }); navigate('/simulator'); window.scrollTo(0,0); };
+  const proceed = (step: number) => { state.recordLocationActivity(); if (!useConfiguration.getState().locationsConfirmed) { focusLocationInput(); return; } if (!state.layer) state.setLayer('core'); state.setCurrentStep(step); trackPricingEvent(step === 1 ? 'refinement_started' : 'review_started', { step }); navigate('/simulator'); window.scrollTo(0,0); };
   return <LivePricingGate state={live}><div className="buyer-page">
     <PricingHero/>
     <div id="plan-comparison"><PlanChoices showPrices={pricesVisible}/></div>

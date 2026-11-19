@@ -66,18 +66,20 @@ test('one location is valid, clearing hides pricing, and Start over reopens the 
   await page.getByTestId('location-count').fill('');
   await page.getByTestId('location-count').press('Tab');
   await expect(page.getByTestId('decision-total')).toHaveCount(0);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('sundae-pricing-config-v1-7')!).state.locationsLastActiveAt)).toBe(null);
   await page.getByTestId('location-count').fill('3');
   await expect(page.getByTestId('decision-total')).toContainText('$1,545');
   await page.getByRole('button',{name:'Start over',exact:true}).click();
   await expect(page.getByTestId('location-count')).toHaveValue('');
   await expect(page.getByTestId('decision-total')).toHaveCount(0);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('sundae-pricing-config-v1-7')!).state.locationsLastActiveAt)).toBe(null);
 });
 
-test('legacy multi-location returns retain their meaningful footprint', async ({page}) => {
+test('untimestamped legacy multi-location returns ask for their footprint again', async ({page}) => {
   await page.addInitScript(saved => localStorage.setItem('sundae-pricing-config-v1-7',JSON.stringify({state:saved,version:2})), base);
   await page.goto('/');
-  await expect(page.getByTestId('location-count')).toHaveValue('3');
-  await expect(page.getByTestId('decision-total')).toContainText('$1,545');
+  await expect(page.getByTestId('location-count')).toHaveValue('');
+  await expect(page.getByTestId('decision-total')).toHaveCount(0);
 });
 
 test('an old automatically saved one-location default stays gated', async ({page}) => {
@@ -148,4 +150,89 @@ test('overview Review prompts for a footprint while shared reviews still work', 
   await page.getByTestId('location-count').press('Enter');
   await page.getByRole('button',{name:'Review estimate',exact:true}).click();
   await expect(page.getByTestId('basket-total')).toContainText('$1,545');
+});
+
+const DAY = 24 * 60 * 60 * 1000;
+const MEMORY_NOW = new Date('2026-11-19T10:30:00Z').getTime();
+const memoryTimestamp = () => JSON.parse(localStorage.getItem('sundae-pricing-config-v1-7')!).state.locationsLastActiveAt as number | null;
+for (const elapsed of [DAY-1,DAY,DAY+1]) test(`remembered locations expire at the 24-hour boundary: age ${elapsed}ms`, async ({page}) => {
+  await page.clock.setFixedTime(new Date(MEMORY_NOW));
+  await page.addInitScript(saved => {
+    if(!localStorage.getItem('sundae-pricing-config-v1-7')) localStorage.setItem('sundae-pricing-config-v1-7',JSON.stringify({version:2,state:saved}));
+  },{...base,locationsConfirmed:true,locationsLastActiveAt:MEMORY_NOW-elapsed});
+  await page.goto('/');
+  await expect(page.getByTestId('location-count')).toHaveValue(elapsed<DAY?'3':'');
+  if(elapsed<DAY) await expect(page.getByTestId('decision-total')).toContainText('$1,545');
+  else { await expect(page.getByTestId('decision-total')).toHaveCount(0); await expect(page.locator('main')).not.toContainText('$'); }
+});
+
+test('a future activity timestamp cannot keep old pricing visible', async ({page}) => {
+  await page.clock.setFixedTime(new Date(MEMORY_NOW));
+  await page.addInitScript(saved => localStorage.setItem('sundae-pricing-config-v1-7',JSON.stringify({version:2,state:saved})),{...base,locationsConfirmed:true,locationsLastActiveAt:MEMORY_NOW+DAY});
+  await page.goto('/');
+  await expect(page.getByTestId('location-count')).toHaveValue('');
+  await expect(page.getByTestId('decision-total')).toHaveCount(0);
+});
+
+test('active comparisons extend the inactivity window across midnight and navigation', async ({page}) => {
+  await page.clock.setFixedTime(new Date(MEMORY_NOW));
+  await page.goto('/');await page.getByTestId('location-count').fill('3');await page.getByTestId('location-count').press('Enter');
+  await expect(page.getByTestId('decision-total')).toContainText('$1,545');
+  expect(await page.evaluate(memoryTimestamp)).toBe(MEMORY_NOW);
+  await page.clock.setFixedTime(new Date(MEMORY_NOW+23*60*60*1000));
+  await page.getByTestId('select-core_margin').click();
+  expect(await page.evaluate(memoryTimestamp)).toBe(MEMORY_NOW+23*60*60*1000);
+  await page.clock.setFixedTime(new Date(MEMORY_NOW+25*60*60*1000));
+  await page.reload();
+  await expect(page.getByTestId('location-count')).toHaveValue('3');
+  await expect(page.getByTestId('decision-total')).toContainText('$2,140');
+  await page.getByRole('button',{name:'Review estimate',exact:true}).click();
+  await expect(page.getByTestId('basket-total')).toContainText('$2,140');
+  await page.goBack();
+  await expect(page.getByTestId('location-count')).toHaveValue('3');
+  await expect(page.getByTestId('decision-total')).toContainText('$2,140');
+});
+
+test('background catalogue refresh does not renew activity and an idle tab expires on return', async ({page}) => {
+  await page.clock.install({time:new Date(MEMORY_NOW)});
+  let requests=0;
+  await page.route('**/api/pricing/catalog/active*',route=>{requests++;return route.fulfill({json:fixture});});
+  await page.goto('/');await page.getByTestId('location-count').fill('3');await page.getByTestId('location-count').press('Enter');
+  await expect(page.getByTestId('decision-total')).toContainText('$1,545');
+  const activeAt=await page.evaluate(memoryTimestamp);
+  await Promise.all([page.waitForResponse(response=>response.url().includes('/api/pricing/catalog/active')),page.clock.fastForward(61_000)]);
+  expect(requests).toBeGreaterThan(1);
+  expect(await page.evaluate(memoryTimestamp)).toBe(activeAt);
+  await page.clock.fastForward(DAY);
+  expect(await page.evaluate(memoryTimestamp)).toBe(activeAt);
+  await page.evaluate(()=>window.dispatchEvent(new Event('focus')));
+  await expect(page.getByTestId('location-count')).toHaveValue('');
+  await expect(page.getByTestId('decision-total')).toHaveCount(0);
+  expect(await page.evaluate(memoryTimestamp)).toBe(null);
+});
+
+test('an explicit shared quote replaces expired remembered locations with its own scope', async ({page}) => {
+  await page.clock.setFixedTime(new Date(MEMORY_NOW));
+  await page.addInitScript(saved => {
+    if(!localStorage.getItem('sundae-pricing-config-v1-7')) localStorage.setItem('sundae-pricing-config-v1-7',JSON.stringify({version:2,state:saved}));
+  },{...base,locations:99,corePackage:'core_margin',locationsConfirmed:true,locationsLastActiveAt:MEMORY_NOW-DAY-1});
+  await page.goto(`/simulator?cfg=${encodePricingIntent(base)}`);
+  await expect(page.getByTestId('basket-total')).toContainText('$1,545');
+  expect(await page.evaluate(memoryTimestamp)).toBe(MEMORY_NOW);
+  await page.goto('/');
+  await expect(page.getByTestId('location-count')).toHaveValue('3');
+  await expect(page.getByTestId('decision-total')).toContainText('$1,545');
+});
+
+for (const action of ['click','keyboard']) for (const draft of [false,true]) test(`the first ${action} after 24 idle hours cannot review a stale default (pending edit: ${draft})`, async ({page}) => {
+  await page.clock.setFixedTime(new Date(MEMORY_NOW));
+  await page.goto('/');await page.getByTestId('location-count').fill('3');await page.getByTestId('location-count').press('Enter');
+  await expect(page.getByTestId('decision-total')).toContainText('$1,545');
+  if(draft) await page.getByTestId('location-count').fill('4');
+  await page.clock.setFixedTime(new Date(MEMORY_NOW+DAY));
+  const review=page.getByRole('button',{name:'Review estimate',exact:true});
+  if(action==='click') await review.click(); else await review.press('Enter');
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByTestId('location-count')).toHaveValue('');
+  await expect(page.getByTestId('decision-total')).toHaveCount(0);
 });

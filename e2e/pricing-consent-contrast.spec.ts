@@ -44,6 +44,6 @@ for(const [theme,width] of [['light',1440],['light',390],['dark',412]] as const)
 // is covered separately by pricing-location-gate.spec.ts.
 test.beforeEach(async ({page}) => {
   await page.addInitScript(() => {
-    if (!localStorage.getItem('sundae-pricing-config-v1-7')) localStorage.setItem('sundae-pricing-config-v1-7', JSON.stringify({version:2,state:{layer:'core',corePackage:'core_foundation',locations:1,locationsConfirmed:true,addOns:[],crewSkus:[],watchtowerModules:[],crossIntelligence:'none',billingCycle:'monthly',operatingModels:[],employees:null,payrollCountry:''}}));
+    if (!localStorage.getItem('sundae-pricing-config-v1-7')) localStorage.setItem('sundae-pricing-config-v1-7', JSON.stringify({version:2,state:{layer:'core',corePackage:'core_foundation',locations:1,locationsConfirmed:true,locationsLastActiveAt:Date.now(),addOns:[],crewSkus:[],watchtowerModules:[],crossIntelligence:'none',billingCycle:'monthly',operatingModels:[],employees:null,payrollCountry:''}}));
   });
 });

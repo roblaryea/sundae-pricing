@@ -1,5 +1,5 @@
 import { getEstimatePrintLabel, downloadBasketPDF } from '../../lib/basketPdf';
-import { lazy, Suspense, useEffect, useId, useState } from 'react';
+import { lazy, Suspense, useEffect, useId, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ArrowDown, ArrowRight, Check, ChevronDown, Download, Link as LinkIcon, Minus, Plus } from 'lucide-react';
 import { corePackages, CORE_PACKAGE_IDS, conceptSkus, foresightAction, packageAllowsWatchtower, billingDiscounts, crossIntelligence, crewSkus, crewBundles, watchtower, volumeDiscounts, DISCOUNT_RULES, implementationClasses, IMPLEMENTATION_CLASS_ORDER } from '../../data/pricing';
@@ -19,6 +19,7 @@ import { localizeTierName, localizeModuleName, localizeBreakdownLabel, localizeW
 import { localizeDiscountLine } from '../../lib/quoteSummaryCopy';
 import { getLocationGateCopy } from '../../lib/locationGateCopy';
 import { focusLocationInput } from '../../lib/locationInput';
+import { isRecentLocationActivity } from '../../lib/locationMemory';
 import { recommendedConceptSkus } from '../../lib/discoveryEngine';
 import { trackPricingEvent } from '../../lib/analytics';
 import { usePricingViewEvent } from '../../hooks/usePricingTelemetry';
@@ -41,8 +42,21 @@ export function ScopeControls() {
   const overview = pathname === '/';
   const gated = overview && !state.locationsConfirmed;
   const [draft, setDraft] = useState<string | null>(null);
+  const draftEditedAt = useRef(0);
   const setLocations = state.setLocations;
-  const commit = () => { const raw = draft ?? (gated ? '' : String(config.locations)); const n = Number(raw); if (!overview) { state.setLocations(Number.isFinite(n) && n >= 1 ? n : config.locations); setDraft(null); } else if (raw.trim() && Number.isInteger(n) && n >= 1 && n <= 10000) { state.setLocations(n); setDraft(null); } };
+  const commit = () => {
+    // Merely leaving an unchanged or day-old field must not renew its count.
+    if (draft === null) return;
+    if (overview && !isRecentLocationActivity(draftEditedAt.current)) {
+      state.clearLocationConfirmation(); setDraft(null); return;
+    }
+    const n = Number(draft);
+    if (!overview) {
+      state.setLocations(Number.isFinite(n) && n >= 1 ? n : config.locations); setDraft(null);
+    } else if (draft.trim() && Number.isInteger(n) && n >= 1 && n <= 10000) {
+      state.setLocations(n); setDraft(null);
+    }
+  };
   const max = 10000;
   useEffect(() => {
     if (!gated || draft === null || !draft.trim()) return;
@@ -50,7 +64,7 @@ export function ScopeControls() {
     if (!Number.isInteger(n) || n < 1 || n > max) return;
     // Wait for the first typed footprint to settle so entering “10” does not
     // briefly anchor the buyer on the one-location price after the “1”.
-    const timer = window.setTimeout(() => { setLocations(n); setDraft(null); }, 300);
+    const timer = window.setTimeout(() => { if (isRecentLocationActivity(draftEditedAt.current)) setLocations(n); setDraft(null); }, 300);
     return () => window.clearTimeout(timer);
   }, [draft, gated, setLocations]);
   return <div className="scope-controls">
@@ -61,7 +75,7 @@ export function ScopeControls() {
     </div></fieldset>
     <div className="location-control"><label htmlFor="buyer-locations">{journey.locationQuestion}{gated && <span aria-hidden="true" className="location-required-mark"> *</span>}</label><div>
       <button type="button" aria-label={`${journey.locationQuestion} −`} disabled={gated || config.locations <= 1} onClick={() => { setDraft(null); state.setLocations(config.locations - 1); }}><Minus size={16}/></button>
-      <input id="buyer-locations" data-testid="location-count" type="number" min={1} max={max} step={1} inputMode="numeric" required={gated} aria-required={gated} aria-describedby={gated ? 'location-required-note' : undefined} value={draft ?? (gated ? '' : String(config.locations))} onChange={(e) => { const raw = e.target.value; setDraft(raw); const n = Number(raw); if (raw.trim() && Number.isInteger(n) && n >= 1 && n <= max) { if (!gated) state.setLocations(n); } else if (overview) state.clearLocationConfirmation(); }} onBlur={commit} onKeyDown={(e) => { if (e.key === 'Enter') commit(); }}/>
+      <input id="buyer-locations" data-testid="location-count" type="number" min={1} max={max} step={1} inputMode="numeric" required={gated} aria-required={gated} aria-describedby={gated ? 'location-required-note' : undefined} value={draft ?? (gated ? '' : String(config.locations))} onChange={(e) => { const raw = e.target.value; draftEditedAt.current = Date.now(); setDraft(raw); const n = Number(raw); if (raw.trim() && Number.isInteger(n) && n >= 1 && n <= max) { if (!gated) state.setLocations(n); } else if (overview) state.clearLocationConfirmation(); }} onBlur={commit} onKeyDown={(e) => { if (e.key === 'Enter') commit(); }}/>
       <button type="button" aria-label={`${journey.locationQuestion} +`} disabled={!gated && config.locations >= max} onClick={() => { setDraft(null); state.setLocations(gated ? 1 : config.locations + 1); }}><Plus size={16}/></button>
     </div></div>
   </div>;

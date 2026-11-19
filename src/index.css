@@ -795,15 +795,15 @@ button:disabled { opacity:.45; cursor:not-allowed; }
 .combined-plan-switch > div:first-child { display:flex; gap:8px; margin-bottom:14px; }
 .combined-plan-switch button { padding:12px 20px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 25%,transparent); border-radius:10px; font-size:13px; font-weight:600; cursor:pointer; }
 .combined-plan-switch button[aria-pressed=true] { background:var(--color-cream); color:var(--color-ink); border-color:var(--color-cream-edge); }
-.other-plan-summary { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 20px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 20%,transparent); border-radius:12px; font-size:13px; }
-.other-plan-summary span { min-width:0; }
-.other-plan-summary span small { display:block; font-size:10px; color:var(--color-sundae-muted); margin-bottom:5px; }
-.other-plan-summary strong { font-size:18px; text-align:end; }
-.other-plan-summary strong small { font-size:11px; font-weight:400; }
-.other-plan-price { max-width:50%; min-width:0; text-align:end; }
-.other-plan-price .average-price-amount { font-size:24px; }
-.other-plan-price .average-price-label, .other-plan-price .average-price-unit { font-size:10px; }
-.other-plan-price .plan-total { font-size:11px; margin:6px 0 0; }
+.selected-plan-summary { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 20px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 20%,transparent); border-radius:12px; font-size:13px; }
+.selected-plan-summary span { min-width:0; }
+.selected-plan-summary span small { display:block; font-size:10px; color:var(--color-sundae-muted); margin-bottom:5px; }
+.selected-plan-summary strong { font-size:18px; text-align:end; }
+.selected-plan-summary strong small { font-size:11px; font-weight:400; }
+.selected-plan-price { max-width:50%; min-width:0; text-align:end; }
+.selected-plan-price .average-price-amount { font-size:24px; }
+.selected-plan-price .average-price-label, .selected-plan-price .average-price-unit { font-size:10px; }
+.selected-plan-price .plan-total { font-size:11px; margin:6px 0 0; }
 .mobile-plan-select, .comparison-mobile { display:none; }
 .mobile-plan-select label, .comparison-mobile label { display:block; font-size:12px; margin-bottom:8px; font-weight:600; }
 .mobile-plan-select select, .comparison-mobile select { width:100%; min-height:46px; border-radius:10px; padding:10px 12px; border:1px solid color-mix(in srgb,var(--color-sundae-muted) 30%,transparent); background:var(--color-sundae-surface); color:var(--color-sundae-text); font-size:14px; }
@@ -836,7 +836,7 @@ button:disabled { opacity:.45; cursor:not-allowed; }
   .plan-price { font-size:32px; }
   .setup-guide { padding:18px; }
   .combined-plan-switch button { flex:1; }
-  .other-plan-summary { padding:14px; align-items:start; }
+  .selected-plan-summary { padding:14px; align-items:start; }
 }
 
 /* Lead with the estate average; keep the full investment beside it. */

@@ -1,0 +1,336 @@
+[WebServer] Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+[WebServer]   npx update-browserslist-db@latest
+[WebServer]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+
+Running 72 tests using 2 workers
+
+(node:46317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46316) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46317) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/72] [chromium] › e2e/pricing-location-gate.spec.ts:11:1 › fresh overview asks for locations before showing any monetary values
+[2/72] [chromium] › e2e/pricing-location-gate.spec.ts:24:1 › entering locations reveals the unchanged totals and per-location framing
+[3/72] [chromium] › e2e/pricing-location-gate.spec.ts:35:1 › explicit simulator links remain immediately reviewable
+[4/72] [chromium] › e2e/pricing-location-gate.spec.ts:41:37 › crew browsing and custom capabilities do not leak prices before a footprint
+[5/72] [chromium] › e2e/pricing-location-gate.spec.ts:41:37 › both browsing and custom capabilities do not leak prices before a footprint
+[6/72] [chromium] › e2e/pricing-location-gate.spec.ts:54:49 › invalid footprint 0 cannot reveal the one-location default
+[7/72] [chromium] › e2e/pricing-location-gate.spec.ts:54:49 › invalid footprint -1 cannot reveal the one-location default
+[8/72] [chromium] › e2e/pricing-location-gate.spec.ts:54:49 › invalid footprint 1.5 cannot reveal the one-location default
+[9/72] [chromium] › e2e/pricing-location-gate.spec.ts:54:49 › invalid footprint 10001 cannot reveal the one-location default
+[10/72] [chromium] › e2e/pricing-location-gate.spec.ts:62:1 › one location is valid, clearing hides pricing, and Start over reopens the gate
+[11/72] [chromium] › e2e/pricing-location-gate.spec.ts:76:1 › legacy multi-location returns retain their meaningful footprint
+[12/72] [chromium] › e2e/pricing-location-gate.spec.ts:83:1 › an old automatically saved one-location default stays gated
+[13/72] [chromium] › e2e/pricing-location-gate.spec.ts:90:1 › entering a multi-digit count avoids a one-location price flash
+[14/72] [chromium] › e2e/pricing-location-gate.spec.ts:108:1 › the plus control starts at one and replaces an invalid draft consistently
+[15/72] [chromium] › e2e/pricing-location-gate.spec.ts:122:1 › the existing simulator retains numeric normalization
+[16/72] [chromium] › e2e/pricing-location-gate.spec.ts:132:1 › the header review and card prompts focus the required existing field
+[17/72] [chromium] › e2e/pricing-location-gate.spec.ts:142:1 › overview Review prompts for a footprint while shared reviews still work
+[18/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:16:1 › overview average follows the exact basket while cards round and explain the applied discount
+[19/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:42:1 › unavailable Starter has no price and setup guidance follows the selected Crew plan
+[20/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:60:1 › setup guidance follows the selected pricing rail
+[21/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:73:1 › combined product summaries follow the active button while retaining both selections
+[22/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:105:1 › mobile keeps plan descriptions and a complete non-scrolling comparison
+[23/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:118:1 › supported locales retain prices, localized notices and a usable mobile viewport
+[24/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:134:1 › 375px decision bar leads with the average and keeps the total readable
+  1) [chromium] › e2e/pricing-review-enhancements.spec.ts:118:1 › supported locales retain prices, localized notices and a usable mobile viewport 
+
+    Error: locator.selectOption: Error: strict mode violation: locator('header select') resolved to 2 elements:
+        1) <select aria-label="Language" class="h-10 w-28 appearance-none rounded-lg border border-sundae-muted/25 bg-sundae-dark ps-8 pe-2 text-xs text-sundae-text outline-none focus-visible:ring-2 focus-visible:ring-sundae-accent">…</select> aka getByLabel('Language').first()
+        2) <select aria-label="Language" class="h-10 w-28 appearance-none rounded-lg border border-sundae-muted/25 bg-sundae-dark ps-8 pe-2 text-xs text-sundae-text outline-none focus-visible:ring-2 focus-visible:ring-sundae-accent">…</select> aka locator('#pricing-site-menu').getByLabel('Language')
+
+    Call log:
+      - waiting for locator('header select')
+
+
+      120 |   await page.getByTestId('location-count').fill('120');
+      121 |   for (const locale of supportedLocales) {
+    > 122 |     await page.locator('header select').selectOption(locale);
+          |                                         ^
+      123 |     await expect(page.locator('.selection-memory')).toHaveText(buyerReviewCopy[locale].saved);
+      124 |     await expect(page.locator('header select')).toHaveValue(locale);
+      125 |     const browserAmount = await page.evaluate((value) => new Intl.NumberFormat(value.locale,{style:'currency',currency:'USD',maximumFractionDigits:2}).format(value.amount), { locale, amount: 15290.25 });
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-selection-scope-20261119/e2e/pricing-review-enhancements.spec.ts:122:41
+
+    Error Context: test-results/pricing-review-enhancement-a13ff-nd-a-usable-mobile-viewport-chromium/error-context.md
+
+
+(node:46626) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46626) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[25/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:154:1 › Crew payroll uses a controlled country list and large workforces route to sales
+  2) [chromium] › e2e/pricing-review-enhancements.spec.ts:134:1 › 375px decision bar leads with the average and keeps the total readable 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByTestId('decision-average')
+    Expected: visible
+    Received: hidden
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('decision-average')
+        9 × locator resolved to <div class="average-price" data-testid="decision-average">…</div>
+          - unexpected value "hidden"
+
+
+      140 |     const average = page.getByTestId('decision-average');
+      141 |     await expect(total).toBeVisible();
+    > 142 |     await expect(average).toBeVisible();
+          |                           ^
+      143 |     const totalBox = await total.boundingBox();
+      144 |     const averageBox = await average.boundingBox();
+      145 |     expect(totalBox && averageBox).toBeTruthy();
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-selection-scope-20261119/e2e/pricing-review-enhancements.spec.ts:142:27
+
+    Error Context: test-results/pricing-review-enhancement-b009a-nd-keeps-the-total-readable-chromium/error-context.md
+
+
+(node:46829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[26/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:168:1 › eligibility and workforce safety notices follow all 25 selected languages
+  3) [chromium] › e2e/pricing-review-enhancements.spec.ts:154:1 › Crew payroll uses a controlled country list and large workforces route to sales 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByLabel('Payroll country', { exact: true }).locator('option').filter({ hasText: 'Australia' })
+    Expected substring: "availability to confirm"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for getByLabel('Payroll country', { exact: true }).locator('option').filter({ hasText: 'Australia' })
+
+
+      159 |   const country = page.getByLabel('Payroll country',{exact:true});
+      160 |   await expect(country.locator('option[value="ZZ"]')).toHaveCount(0);
+    > 161 |   await expect(country.locator('option').filter({hasText:'Australia'})).toContainText('availability to confirm');
+          |                                                                         ^
+      162 |   await country.selectOption('US');
+      163 |   await page.getByLabel('Unique employees across your locations').fill('100001');
+      164 |   await expect(page.getByText('Contact Sales',{exact:true}).first()).toBeVisible();
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-selection-scope-20261119/e2e/pricing-review-enhancements.spec.ts:161:73
+
+    Error Context: test-results/pricing-review-enhancement-2eb5a-e-workforces-route-to-sales-chromium/error-context.md
+
+
+(node:46837) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46837) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[27/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:188:1 › header reviews the current plan and Start over removes remembered choices
+  4) [chromium] › e2e/pricing-review-enhancements.spec.ts:168:1 › eligibility and workforce safety notices follow all 25 selected languages 
+
+    Error: locator.selectOption: Error: strict mode violation: locator('header select') resolved to 2 elements:
+        1) <select aria-label="Language" class="h-10 w-28 appearance-none rounded-lg border border-sundae-muted/25 bg-sundae-dark ps-8 pe-2 text-xs text-sundae-text outline-none focus-visible:ring-2 focus-visible:ring-sundae-accent">…</select> aka getByLabel('Language').first()
+        2) <select aria-label="Language" class="h-10 w-28 appearance-none rounded-lg border border-sundae-muted/25 bg-sundae-dark ps-8 pe-2 text-xs text-sundae-text outline-none focus-visible:ring-2 focus-visible:ring-sundae-accent">…</select> aka locator('#pricing-site-menu').getByLabel('Language')
+
+    Call log:
+      - waiting for locator('header select')
+
+
+      171 |   await page.getByRole('button',{name:/Refine your needs/}).click();
+      172 |   for (const locale of supportedLocales) {
+    > 173 |     await page.locator('header select').selectOption(locale);
+          |                                         ^
+      174 |     const copy = buyerReviewCopy[locale];
+      175 |     await expect(page.locator('.availability-note')).toHaveText(copy.watchtowerAvailability);
+      176 |     await expect(page.locator('#payroll-country option[value="AU"]')).toContainText(copy.payrollAvailability);
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-selection-scope-20261119/e2e/pricing-review-enhancements.spec.ts:173:41
+
+    Error Context: test-results/pricing-review-enhancement-debd4-w-all-25-selected-languages-chromium/error-context.md
+
+
+(node:46852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[28/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:203:3 › core_growth exposes and preserves Watchtower selections
+[29/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:203:3 › core_performance exposes and preserves Watchtower selections
+[30/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:214:3 › desktop buyer controls have accessible names and pass axe
+  5) [chromium] › e2e/pricing-review-enhancements.spec.ts:188:1 › header reviews the current plan and Start over removes remembered choices 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Review your estimate', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Review your estimate', exact: true })
+
+
+      191 |   await expect(page.locator('.selection-memory')).toContainText('saved in this browser');
+      192 |   await page.getByRole('link',{name:'Review estimate',exact:true}).click();
+    > 193 |   await expect(page.getByRole('heading',{name:'Review your estimate',exact:true})).toBeVisible();
+          |                                                                                    ^
+      194 |   await expect(page.getByTestId('basket-total')).toContainText('$3,190');
+      195 |   await page.getByRole('button',{name:'Start over',exact:true}).click();
+      196 |   await expect(page.getByTestId('location-count')).toHaveValue('1');
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-selection-scope-20261119/e2e/pricing-review-enhancements.spec.ts:193:84
+
+    Error Context: test-results/pricing-review-enhancement-e5462--removes-remembered-choices-chromium/error-context.md
+
+
+(node:46955) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46955) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[31/72] [chromium] › e2e/pricing-review-enhancements.spec.ts:214:3 › mobile buyer controls have accessible names and pass axe
+  6) [chromium] › e2e/pricing-review-enhancements.spec.ts:214:3 › desktop buyer controls have accessible names and pass axe 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('decision-total')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('decision-total')
+
+
+      214 |   test(`${mobile ? 'mobile' : 'desktop'} buyer controls have accessible names and pass axe`, async ({page}) => {
+      215 |     if(mobile) await page.setViewportSize({width:390,height:844});
+    > 216 |     await page.goto('/'); await expect(page.getByTestId('decision-total')).toBeVisible();
+          |                                                                            ^
+      217 |     await page.getByTestId('pricing-tab-both').click();
+      218 |     const results=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+      219 |     expect(results.violations).toEqual([]);
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-selection-scope-20261119/e2e/pricing-review-enhancements.spec.ts:216:76
+
+    Error Context: test-results/pricing-review-enhancement-25c9b-cessible-names-and-pass-axe-chromium/error-context.md
+
+
+(node:46990) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:46990) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[32/72] [chromium] › e2e/pricing-simulator.spec.ts:19:3 › core_foundation carries its actual selection from overview to review
+[33/72] [chromium] › e2e/pricing-simulator.spec.ts:19:3 › core_margin carries its actual selection from overview to review
+[34/72] [chromium] › e2e/pricing-simulator.spec.ts:19:3 › core_growth carries its actual selection from overview to review
+[35/72] [chromium] › e2e/pricing-simulator.spec.ts:19:3 › core_performance carries its actual selection from overview to review
+[36/72] [chromium] › e2e/pricing-simulator.spec.ts:27:1 › franchise refinement is relevant, optional and explicitly priced
+  7) [chromium] › e2e/pricing-review-enhancements.spec.ts:214:3 › mobile buyer controls have accessible names and pass axe 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('decision-total')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('decision-total')
+
+
+      214 |   test(`${mobile ? 'mobile' : 'desktop'} buyer controls have accessible names and pass axe`, async ({page}) => {
+      215 |     if(mobile) await page.setViewportSize({width:390,height:844});
+    > 216 |     await page.goto('/'); await expect(page.getByTestId('decision-total')).toBeVisible();
+          |                                                                            ^
+      217 |     await page.getByTestId('pricing-tab-both').click();
+      218 |     const results=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+      219 |     expect(results.violations).toEqual([]);
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-selection-scope-20261119/e2e/pricing-review-enhancements.spec.ts:216:76
+
+    Error Context: test-results/pricing-review-enhancement-c280a-cessible-names-and-pass-axe-chromium/error-context.md
+
+
+(node:47109) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:47109) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[37/72] [chromium] › e2e/pricing-simulator.spec.ts:38:1 › Crew-only base estimate collects headcount without double charging bundle components
+[38/72] [chromium] › e2e/pricing-simulator.spec.ts:50:1 › Both uses one estate and one basket with the selected term
+[39/72] [chromium] › e2e/pricing-simulator.spec.ts:61:1 › the access request and demo CTAs carry the exact reviewed intent and download produces a PDF
+[40/72] [chromium] › e2e/pricing-simulator.spec.ts:109:1 › diversified buyers choose specialist scope explicitly and can edit it backwards
+[41/72] [chromium] › e2e/pricing-simulator.spec.ts:126:1 › branded exports handle simple, dense and Enterprise scopes without internal identifiers
+[42/72] [chromium] › e2e/pricing-simulator.spec.ts:168:1 › Watchtower individual choices, bundle and package prerequisite stay coherent
+[43/72] [chromium] › e2e/pricing-simulator.spec.ts:193:1 › calculation details expose reached bands, optional schedule, discount and setup policy
+[44/72] [chromium] › e2e/pricing-simulator.spec.ts:205:1 › returning visitors retain their edited ROI assumptions after a reload
+[45/72] [chromium] › e2e/pricing-simulator.spec.ts:215:1 › invalid overview inputs hide prices and Starter eligibility requires a suitable plan above its cap
+[46/72] [chromium] › e2e/pricing-simulator.spec.ts:232:1 › share clipboard fallback produces a reopenable exact configuration
+[47/72] [chromium] › e2e/pricing-simulator.spec.ts:243:1 › clipboard success is announced and its link can be opened in a fresh context
+[48/72] [chromium] › e2e/pricing-simulator.spec.ts:254:1 › consent granted at review records the visible stage once and covers later refinements
+[49/72] [chromium] › e2e/pricing-simulator.spec.ts:275:1 › catalogue retry recovers to current prices and keyboard navigation focuses the next screen
+[50/72] [chromium] › e2e/pricing-simulator.spec.ts:287:1 › returning visitors can change the chosen package without stale summary state
+[51/72] [chromium] › e2e/pricing-simulator.spec.ts:295:1 › an invalid retired link does not silently replace the current selection
+[52/72] [chromium] › e2e/pricing-simulator.spec.ts:302:1 › Enterprise has a proposal path and no self-serve headline or account CTA
+[53/72] [chromium] › e2e/pricing-simulator.spec.ts:315:1 › the location average follows monthly scope and term, stays localized and is omitted for one location
+[54/72] [chromium] › e2e/pricing-simulator.spec.ts:332:1 › published catalogue failure blocks stale prices
+[55/72] [chromium] › e2e/pricing-simulator.spec.ts:339:1 › Crew cannot be reviewed without a selected plan
+[56/72] [chromium] › e2e/pricing-simulator.spec.ts:354:1 › German has localized refinement and bill-affecting exclusions
+[57/72] [chromium] › e2e/pricing-simulator.spec.ts:364:1 › returns stay visible while assumptions open independently and preserve the quote
+[58/72] [chromium] › e2e/pricing-simulator.spec.ts:378:1 › implementation assumptions change only ROI and reset with the quote
+[59/72] [chromium] › e2e/pricing-simulator.spec.ts:411:1 › a floor-only setup quote needs an explicit ROI implementation assumption
+[60/72] [chromium] › e2e/pricing-simulator.spec.ts:429:1 › refinement and review premium visual references
+[61/72] [chromium] › e2e/pricing-simulator.spec.ts:439:3 › mobile 375px shows a first price, readable header and usable controls
+[62/72] [chromium] › e2e/pricing-simulator.spec.ts:439:3 › mobile 390px shows a first price, readable header and usable controls
+[63/72] [chromium] › e2e/pricing-simulator.spec.ts:462:1 › Arabic remains RTL with localized controls and coherent totals
+[64/72] [chromium] › e2e/pricing-simulator.spec.ts:478:1 › desktop overview visual reference
+[65/72] [chromium] › e2e/pricing-simulator.spec.ts:483:1 › light theme and mobile review retain readable premium layouts
+[66/72] [chromium] › e2e/pricing-simulator.spec.ts:495:1 › custom Crew capability choices explain a covering bundle without promising a per-toggle saving
+[67/72] [chromium] › e2e/pricing-simulator.spec.ts:516:1 › review leads with monthly total and labels actual payment periods and the effective date
+[68/72] [chromium] › e2e/pricing-simulator.spec.ts:529:36 › consent and compact estimate remain separate at 320px
+[69/72] [chromium] › e2e/pricing-simulator.spec.ts:529:36 › consent and compact estimate remain separate at 390px
+[70/72] [chromium] › e2e/pricing-simulator.spec.ts:529:36 › consent and compact estimate remain separate at 768px
+[71/72] [chromium] › e2e/pricing-simulator.spec.ts:549:51 › /simulator retains Arabic metadata and shared quote attribution
+[72/72] [chromium] › e2e/pricing-simulator.spec.ts:549:51 › /simulator/ retains Arabic metadata and shared quote attribution
+  7 failed
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:118:1 › supported locales retain prices, localized notices and a usable mobile viewport 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:134:1 › 375px decision bar leads with the average and keeps the total readable 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:154:1 › Crew payroll uses a controlled country list and large workforces route to sales 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:168:1 › eligibility and workforce safety notices follow all 25 selected languages 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:188:1 › header reviews the current plan and Start over removes remembered choices 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:214:3 › desktop buyer controls have accessible names and pass axe 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:214:3 › mobile buyer controls have accessible names and pass axe 
+  65 passed (54.7s)

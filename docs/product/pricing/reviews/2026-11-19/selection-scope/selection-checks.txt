@@ -1,0 +1,31 @@
+
+Running 7 tests using 2 workers
+
+[WebServer] Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+[WebServer]   npx update-browserslist-db@latest
+[WebServer]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+(node:49343) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49343) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49342) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:106:3 › selected product prices follow every Core and Crew choice at 1440px dark en
+[2/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:73:1 › combined product summaries follow the active button while retaining both selections
+[3/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:106:3 › selected product prices follow every Core and Crew choice at 1440px light en
+[4/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:106:3 › selected product prices follow every Core and Crew choice at 390px dark en
+[5/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:106:3 › selected product prices follow every Core and Crew choice at 390px light en
+[6/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:106:3 › selected product prices follow every Core and Crew choice at 320px dark ar
+[7/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:144:1 › selected product summary retains imported extras, discounts and custom workforce scope
+  7 passed (7.1s)

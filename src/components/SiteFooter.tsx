@@ -5,6 +5,7 @@ import { useLocale } from '../contexts/LocaleContext';
 import { Logo } from './Brand/Logo';
 import { siteNavLabels, siteNavLinks } from '../lib/siteNavLabels';
 import { siteAccessibilityCopy } from '../lib/siteAccessibilityCopy';
+import { brandSignature } from '../lib/brandSignature';
 
 // Footer chrome intentionally mirrors the marketing site's footer structure
 // (brand lockup + tagline + social + link nav + legal bar) so pricing.sundae.io
@@ -31,7 +32,7 @@ export function SiteFooter() {
     { label: messages.footer.terms, kind: 'external' as const, href: getMarketingUrl('/terms', locale) },
   ];
 
-  const linkClass = 'text-sm text-sundae-muted hover:text-white transition-colors';
+  const linkClass = 'min-w-0 break-words text-sm text-sundae-muted hover:text-white transition-colors';
 
   return (
     <footer onClickCapture={rememberPricingStepForReturn} className="border-t border-white/[0.08] bg-sundae-dark mt-16" role="contentinfo">
@@ -47,7 +48,7 @@ export function SiteFooter() {
               <Logo size="md" />
             </a>
             <p className="text-sm text-sundae-muted mt-4 leading-relaxed">
-              Core + Crew
+              {brandSignature[locale]}
             </p>
             {/* Social */}
             <div className="flex items-center gap-3 mt-5">

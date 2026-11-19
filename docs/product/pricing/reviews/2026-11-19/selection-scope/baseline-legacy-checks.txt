@@ -1,0 +1,254 @@
+
+Running 7 tests using 2 workers
+
+[WebServer] Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+[WebServer]   npx update-browserslist-db@latest
+[WebServer]   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+
+(node:49568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49567) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49567) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:104:1 › supported locales retain prices, localized notices and a usable mobile viewport
+[2/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:120:1 › 375px decision bar leads with the average and keeps the total readable
+  1) [chromium] › e2e/pricing-review-enhancements.spec.ts:104:1 › supported locales retain prices, localized notices and a usable mobile viewport 
+
+    Error: locator.selectOption: Error: strict mode violation: locator('header select') resolved to 2 elements:
+        1) <select aria-label="Language" class="h-10 w-28 appearance-none rounded-lg border border-sundae-muted/25 bg-sundae-dark ps-8 pe-2 text-xs text-sundae-text outline-none focus-visible:ring-2 focus-visible:ring-sundae-accent">…</select> aka getByLabel('Language').first()
+        2) <select aria-label="Language" class="h-10 w-28 appearance-none rounded-lg border border-sundae-muted/25 bg-sundae-dark ps-8 pe-2 text-xs text-sundae-text outline-none focus-visible:ring-2 focus-visible:ring-sundae-accent">…</select> aka locator('#pricing-site-menu').getByLabel('Language')
+
+    Call log:
+      - waiting for locator('header select')
+
+
+      106 |   await page.getByTestId('location-count').fill('120');
+      107 |   for (const locale of supportedLocales) {
+    > 108 |     await page.locator('header select').selectOption(locale);
+          |                                         ^
+      109 |     await expect(page.locator('.selection-memory')).toHaveText(buyerReviewCopy[locale].saved);
+      110 |     await expect(page.locator('header select')).toHaveValue(locale);
+      111 |     const browserAmount = await page.evaluate((value) => new Intl.NumberFormat(value.locale,{style:'currency',currency:'USD',maximumFractionDigits:2}).format(value.amount), { locale, amount: 15290.25 });
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-location-gate-20261118/e2e/pricing-review-enhancements.spec.ts:108:41
+
+    Error Context: test-results/pricing-review-enhancement-a13ff-nd-a-usable-mobile-viewport-chromium/error-context.md
+
+
+(node:49594) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49594) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:140:1 › Crew payroll uses a controlled country list and large workforces route to sales
+  2) [chromium] › e2e/pricing-review-enhancements.spec.ts:120:1 › 375px decision bar leads with the average and keeps the total readable 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByTestId('decision-average')
+    Expected: visible
+    Received: hidden
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('decision-average')
+        9 × locator resolved to <div class="average-price" data-testid="decision-average">…</div>
+          - unexpected value "hidden"
+
+
+      126 |     const average = page.getByTestId('decision-average');
+      127 |     await expect(total).toBeVisible();
+    > 128 |     await expect(average).toBeVisible();
+          |                           ^
+      129 |     const totalBox = await total.boundingBox();
+      130 |     const averageBox = await average.boundingBox();
+      131 |     expect(totalBox && averageBox).toBeTruthy();
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-location-gate-20261118/e2e/pricing-review-enhancements.spec.ts:128:27
+
+    Error Context: test-results/pricing-review-enhancement-b009a-nd-keeps-the-total-readable-chromium/error-context.md
+
+
+(node:49718) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49718) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:154:1 › eligibility and workforce safety notices follow all 25 selected languages
+  3) [chromium] › e2e/pricing-review-enhancements.spec.ts:140:1 › Crew payroll uses a controlled country list and large workforces route to sales 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByLabel('Payroll country', { exact: true }).locator('option').filter({ hasText: 'Australia' })
+    Expected substring: "availability to confirm"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" with timeout 5000ms
+      - waiting for getByLabel('Payroll country', { exact: true }).locator('option').filter({ hasText: 'Australia' })
+
+
+      145 |   const country = page.getByLabel('Payroll country',{exact:true});
+      146 |   await expect(country.locator('option[value="ZZ"]')).toHaveCount(0);
+    > 147 |   await expect(country.locator('option').filter({hasText:'Australia'})).toContainText('availability to confirm');
+          |                                                                         ^
+      148 |   await country.selectOption('US');
+      149 |   await page.getByLabel('Unique employees across your locations').fill('100001');
+      150 |   await expect(page.getByText('Contact Sales',{exact:true}).first()).toBeVisible();
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-location-gate-20261118/e2e/pricing-review-enhancements.spec.ts:147:73
+
+    Error Context: test-results/pricing-review-enhancement-2eb5a-e-workforces-route-to-sales-chromium/error-context.md
+
+
+(node:49735) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+  4) [chromium] › e2e/pricing-review-enhancements.spec.ts:154:1 › eligibility and workforce safety notices follow all 25 selected languages 
+
+    Error: locator.selectOption: Error: strict mode violation: locator('header select') resolved to 2 elements:
+        1) <select aria-label="Language" class="h-10 w-28 appearance-none rounded-lg border border-sundae-muted/25 bg-sundae-dark ps-8 pe-2 text-xs text-sundae-text outline-none focus-visible:ring-2 focus-visible:ring-sundae-accent">…</select> aka getByLabel('Language').first()
+        2) <select aria-label="Language" class="h-10 w-28 appearance-none rounded-lg border border-sundae-muted/25 bg-sundae-dark ps-8 pe-2 text-xs text-sundae-text outline-none focus-visible:ring-2 focus-visible:ring-sundae-accent">…</select> aka locator('#pricing-site-menu').getByLabel('Language')
+
+    Call log:
+      - waiting for locator('header select')
+
+
+      157 |   await page.getByRole('button',{name:/Refine your needs/}).click();
+      158 |   for (const locale of supportedLocales) {
+    > 159 |     await page.locator('header select').selectOption(locale);
+          |                                         ^
+      160 |     const copy = buyerReviewCopy[locale];
+      161 |     await expect(page.locator('.availability-note')).toHaveText(copy.watchtowerAvailability);
+      162 |     await expect(page.locator('#payroll-country option[value="AU"]')).toContainText(copy.payrollAvailability);
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-location-gate-20261118/e2e/pricing-review-enhancements.spec.ts:159:41
+
+    Error Context: test-results/pricing-review-enhancement-debd4-w-all-25-selected-languages-chromium/error-context.md
+
+
+(node:49735) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49737) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:174:1 › header reviews the current plan and Start over removes remembered choices
+(node:49737) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[6/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:200:3 › desktop buyer controls have accessible names and pass axe
+  5) [chromium] › e2e/pricing-review-enhancements.spec.ts:200:3 › desktop buyer controls have accessible names and pass axe 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('decision-total')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('decision-total')
+
+
+      200 |   test(`${mobile ? 'mobile' : 'desktop'} buyer controls have accessible names and pass axe`, async ({page}) => {
+      201 |     if(mobile) await page.setViewportSize({width:390,height:844});
+    > 202 |     await page.goto('/'); await expect(page.getByTestId('decision-total')).toBeVisible();
+          |                                                                            ^
+      203 |     await page.getByTestId('pricing-tab-both').click();
+      204 |     const results=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+      205 |     expect(results.violations).toEqual([]);
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-location-gate-20261118/e2e/pricing-review-enhancements.spec.ts:202:76
+
+    Error Context: test-results/pricing-review-enhancement-25c9b-cessible-names-and-pass-axe-chromium/error-context.md
+
+
+  6) [chromium] › e2e/pricing-review-enhancements.spec.ts:174:1 › header reviews the current plan and Start over removes remembered choices 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: 'Review your estimate', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('heading', { name: 'Review your estimate', exact: true })
+
+
+      177 |   await expect(page.locator('.selection-memory')).toContainText('saved in this browser');
+      178 |   await page.getByRole('link',{name:'Review estimate',exact:true}).click();
+    > 179 |   await expect(page.getByRole('heading',{name:'Review your estimate',exact:true})).toBeVisible();
+          |                                                                                    ^
+      180 |   await expect(page.getByTestId('basket-total')).toContainText('$3,190');
+      181 |   await page.getByRole('button',{name:'Start over',exact:true}).click();
+      182 |   await expect(page.getByTestId('location-count')).toHaveValue('1');
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-location-gate-20261118/e2e/pricing-review-enhancements.spec.ts:179:84
+
+    Error Context: test-results/pricing-review-enhancement-e5462--removes-remembered-choices-chromium/error-context.md
+
+
+(node:49848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+(node:49848) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/7] [chromium] › e2e/pricing-review-enhancements.spec.ts:200:3 › mobile buyer controls have accessible names and pass axe
+  7) [chromium] › e2e/pricing-review-enhancements.spec.ts:200:3 › mobile buyer controls have accessible names and pass axe 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('decision-total')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByTestId('decision-total')
+
+
+      200 |   test(`${mobile ? 'mobile' : 'desktop'} buyer controls have accessible names and pass axe`, async ({page}) => {
+      201 |     if(mobile) await page.setViewportSize({width:390,height:844});
+    > 202 |     await page.goto('/'); await expect(page.getByTestId('decision-total')).toBeVisible();
+          |                                                                            ^
+      203 |     await page.getByTestId('pricing-tab-both').click();
+      204 |     const results=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
+      205 |     expect(results.violations).toEqual([]);
+        at /Users/robertlaryea/Documents/Dev/wt-pricing-location-gate-20261118/e2e/pricing-review-enhancements.spec.ts:202:76
+
+    Error Context: test-results/pricing-review-enhancement-c280a-cessible-names-and-pass-axe-chromium/error-context.md
+
+
+  7 failed
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:104:1 › supported locales retain prices, localized notices and a usable mobile viewport 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:120:1 › 375px decision bar leads with the average and keeps the total readable 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:140:1 › Crew payroll uses a controlled country list and large workforces route to sales 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:154:1 › eligibility and workforce safety notices follow all 25 selected languages 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:174:1 › header reviews the current plan and Start over removes remembered choices 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:200:3 › desktop buyer controls have accessible names and pass axe 
+    [chromium] › e2e/pricing-review-enhancements.spec.ts:200:3 › mobile buyer controls have accessible names and pass axe 

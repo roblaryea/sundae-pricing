@@ -21,8 +21,8 @@ for(const width of [320,375,390,1440]) test(`${width}px leads with the location 
     }
   }
   await page.getByTestId('pricing-tab-both').click();
-  await expect(page.getByTestId('other-plan-average')).toBeVisible();
-  const other=page.locator('.other-plan-price');
+  await expect(page.getByTestId('selected-plan-average')).toBeVisible();
+  const other=page.locator('.selected-plan-price');
   expect(await other.locator('strong').evaluate(e=>parseFloat(getComputedStyle(e).fontSize))).toBeGreaterThan(await other.locator('.plan-total').evaluate(e=>parseFloat(getComputedStyle(e).fontSize)));
   await page.getByRole('button',{name:'Refine this plan',exact:true}).click();
   await expect(page.getByTestId('basket-average')).toBeVisible();

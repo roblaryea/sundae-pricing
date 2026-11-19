@@ -70,22 +70,98 @@ test('setup guidance follows the selected pricing rail', async ({page}) => {
   await expect(page.getByTestId('setup-guide')).not.toContainText('Crew Starter self-service setup');
 });
 
-test('combined buyers edit one card set at a time and retain the other selection', async ({page}) => {
+test('combined product summaries follow the active button while retaining both selections', async ({page}) => {
   await page.goto('/'); await page.getByTestId('location-count').fill('3');
   await page.getByTestId('pricing-tab-both').click();
   await page.getByTestId('select-core_margin').click();
   await expect(page.locator('.plan-grid')).toHaveCount(1);
-  await expect(page.locator('.other-plan-summary')).toContainText('Crew Operating');
+  await expect(page.getByTestId('selected-plan-summary')).toContainText('Selected · Sundae Core');
+  await expect(page.getByTestId('selected-plan-summary')).toContainText('Core Margin');
+  await expect(page.getByTestId('selected-plan-average')).toContainText('$713.33');
+  await expect(page.getByTestId('selected-plan-summary')).toContainText('Core · Monthly total $2,140/mo');
+  await expect(page.getByTestId('decision-total')).toHaveText('$2,837/mo');
   await page.getByTestId('edit-crew-plan').click();
   await expect(page.locator('.plan-grid')).toHaveCount(1);
-  await expect(page.locator('.other-plan-summary')).toContainText('Core Margin');
+  await expect(page.getByTestId('selected-plan-summary')).toContainText('Selected · Sundae Crew');
+  await expect(page.getByTestId('selected-plan-summary')).toContainText('Crew Operating');
+  await expect(page.getByTestId('selected-plan-average')).toContainText('$232.33');
+  await expect(page.getByTestId('selected-plan-summary')).toContainText('Crew · Monthly total $697/mo');
+  await expect(page.getByTestId('decision-total')).toHaveText('$2,837/mo');
   await page.getByTestId('preset-schedule_time').click();
   await page.getByTestId('edit-core-plan').click();
   await expect(page.getByTestId('select-core_margin')).toHaveAttribute('aria-pressed','true');
-  await expect(page.locator('.other-plan-summary')).toContainText('Schedule & Time');
+  await expect(page.getByTestId('selected-plan-summary')).toContainText('Core Margin');
+  await expect(page.getByTestId('selected-plan-average')).toContainText('$713.33');
+  await page.getByTestId('edit-crew-plan').click();
+  await expect(page.getByTestId('preset-schedule_time')).toHaveAttribute('aria-pressed','true');
+  await expect(page.getByTestId('selected-plan-summary')).toContainText('Schedule & Time');
+  await expect(page.getByTestId('selected-plan-average')).toContainText('$115.67');
+  await page.getByTestId('edit-core-plan').click();
   await expect(page.getByTestId('decision-total')).toHaveText('$2,487/mo');
   await expect(page.getByTestId('card-core_margin')).toContainText('Everything in Foundation, plus');
   await expect(page.getByTestId('card-core_performance')).toContainText('Everything in Margin and Growth, plus');
+});
+
+for (const [width,theme,locale] of [[1440,'dark','en'],[1440,'light','en'],[390,'dark','en'],[390,'light','en'],[320,'dark','ar']] as const) {
+  test(`selected product prices follow every Core and Crew choice at ${width}px ${theme} ${locale}`, async ({page}) => {
+    await page.setViewportSize({width,height:width===320?740:1000});
+    await page.addInitScript(theme => {localStorage.setItem('sundae-theme',theme);document.cookie=`sundae_theme=${theme}; Path=/`;},theme);
+    await page.goto(`/?lang=${locale}`);
+    await page.getByTestId('location-count').fill('3');
+    await page.getByTestId('pricing-tab-both').click();
+    const summary=page.getByTestId('selected-plan-summary');
+    for (const [id,total] of [['foundation','1,545'],['margin','2,140'],['growth','2,445'],['performance','3,798']]) {
+      if(width<640) await page.getByTestId('mobile-core-plan').selectOption(`core_${id}`);
+      else await page.getByTestId(`select-core_${id}`).click();
+      await expect(summary).toHaveAttribute('data-product','core');
+      await expect(summary).toContainText('Sundae Core');
+      await expect(summary.locator('.plan-total')).toContainText(total);
+    }
+    const combinedBefore=await page.getByTestId('decision-total').innerText();
+    await page.getByTestId('edit-crew-plan').click();
+    await expect(summary).toContainText('Sundae Crew');
+    await expect(summary.locator('.plan-total')).toContainText('697');
+    await expect(page.getByTestId('decision-total')).toHaveText(combinedBefore);
+    for (const [id,total] of [['lite','137'],['schedule_time','347'],['operating_suite','697'],['complete_suite','957']]) {
+      if(width<640) await page.getByTestId('mobile-crew-plan').selectOption(id);
+      else await page.getByTestId(`preset-${id}`).click();
+      await expect(summary).toHaveAttribute('data-product','crew');
+      await expect(summary.locator('.plan-total')).toContainText(total);
+    }
+    await page.getByTestId('edit-core-plan').click();
+    await expect(summary.locator('.plan-total')).toContainText('3,798');
+    await expect(page.getByTestId('decision-total')).toContainText('4,755');
+    await expect(page.locator('.decision-total-row > small')).toContainText('Core + Crew');
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    await summary.scrollIntoViewIfNeeded();
+    await page.screenshot({path:`output/playwright/selection-scope/core-${width}-${theme}-${locale}.png`});
+    await page.getByTestId('edit-crew-plan').click();
+    await summary.scrollIntoViewIfNeeded();
+    await page.screenshot({path:`output/playwright/selection-scope/crew-${width}-${theme}-${locale}.png`});
+  });
+}
+
+test('selected product summary retains imported extras, discounts and custom workforce scope', async ({page}) => {
+  const cfg:PricingIntent={...base,locations:3,layer:'both',corePackage:'core_growth',addOns:['concept_franchise'],operatingModels:['franchise'],watchtowerModules:['bundle'],billingCycle:'annual_upfront',crewSkus:['crew_operations','crew_scheduling','crew_payroll'],employees:65,payrollCountry:'US'};
+  const totals:Record<string,string>={};
+  for (const layer of ['core','crew','both'] as const) {
+    const productCfg=layer==='crew'?{...cfg,layer,addOns:[],watchtowerModules:[],operatingModels:[]}:{...cfg,layer};
+    await page.goto(`/simulator?cfg=${encodePricingIntent(productCfg)}`);
+    await expect(page.getByTestId('basket-total')).toBeVisible();
+    totals[layer]=await page.getByTestId('basket-total').innerText();
+  }
+  await page.locator('.buyer-progress button').first().click();
+  const summary=page.getByTestId('selected-plan-summary');
+  await expect(summary.locator('.plan-total')).toContainText(totals.core);
+  await expect(page.getByTestId('select-core_growth')).toHaveAttribute('aria-pressed','true');
+  await page.getByTestId('edit-crew-plan').click();
+  await expect(summary.locator('.plan-total')).toContainText(totals.crew);
+  await expect(summary).toContainText('Crew Operating');
+  await expect(page.getByTestId('basket-total')).toHaveCount(0);
+  await page.locator('.buyer-progress button').last().click();
+  await expect(page.getByTestId('basket-total')).toHaveText(totals.both);
+  await expect(page.getByTestId('step-region')).toContainText('Watchtower');
+  await expect(page.getByTestId('step-region')).toContainText('Franchise');
 });
 
 test('mobile keeps plan descriptions and a complete non-scrolling comparison', async ({page}) => {

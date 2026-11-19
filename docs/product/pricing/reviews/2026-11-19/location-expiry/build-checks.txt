@@ -1,0 +1,56 @@
+
+> sundae-pricing@0.0.0 prebuild
+> npm run qa:i18n && npm run qa:intent && npm run validate:pricing
+
+
+> sundae-pricing@0.0.0 qa:i18n
+> node scripts/qa-translation-quality.mjs
+
+Pricing translation quality QA passed
+
+> sundae-pricing@0.0.0 qa:intent
+> tsx scripts/sync-pricing-handoff.ts --check
+
+Sibling sundae-pricing unavailable; cross-repo check skipped.
+Sibling sundae-app unavailable; cross-repo check skipped.
+Sibling sundae-website unavailable; cross-repo check skipped.
+Pricing handoff contract and copy parity passed.
+
+> sundae-pricing@0.0.0 validate:pricing
+> tsx scripts/validate-pricing.ts
+
+🔍 Validating pricing data against price book v1.8...
+
+
+✅ All price book v1.8 validations passed!
+
+
+> sundae-pricing@0.0.0 build
+> tsc -b && vite build
+
+vite v7.3.0 building client environment for production...
+transforming...
+Browserslist: browsers data (caniuse-lite) is 6 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2470 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                              3.51 kB │ gzip:   1.32 kB
+dist/assets/index-DTBEVs5v.css             133.61 kB │ gzip:  20.72 kB
+dist/assets/Simulator-CCSrGAZa.js            2.63 kB │ gzip:   1.24 kB
+dist/assets/PricingOverview-CDNefuA3.js      3.06 kB │ gzip:   1.24 kB
+dist/assets/icons-kttuPMlD.js                6.93 kB │ gzip:   2.83 kB
+dist/assets/ROISimulator-GgjbUTSd.js        55.97 kB │ gzip:  21.38 kB
+dist/assets/motion-Dd5pZFg1.js             112.04 kB │ gzip:  36.86 kB
+dist/assets/auxiliary-locales-BTfSmwa2.js  139.60 kB │ gzip:  40.84 kB
+dist/assets/PricingWorkspace-DYOR2h0C.js   148.65 kB │ gzip:  60.44 kB
+dist/assets/pricing-locales-r9lLfNZT.js    438.83 kB │ gzip: 126.41 kB
+dist/assets/react-vendor-Dmb_z3L6.js       486.78 kB │ gzip: 158.25 kB
+dist/assets/index-CSgwyxx6.js              613.55 kB │ gzip: 221.25 kB
+✓ built in 8.93s
+
+> sundae-pricing@0.0.0 postbuild
+> tsx scripts/prerender-pricing.ts
+
+Localized pricing discovery generated for 25 languages from v1.8.2-policy-20261009

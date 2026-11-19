@@ -1,12 +1,14 @@
 import type { ReactNode } from 'react';
 import { SiteHeader } from './SiteHeader';
 import { SiteFooter } from './SiteFooter';
+import { useLocationMemoryActivity } from '../hooks/useLocationMemoryActivity';
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
+  useLocationMemoryActivity();
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-sundae-dark via-sundae-surface to-sundae-dark">
       {/* Background decoration */}

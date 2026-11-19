@@ -3,6 +3,7 @@ import { parsePricingIntent } from './pricingIntent';
 import type { PricingIntent } from './pricingIntent';
 import type { ROIInputs } from '../hooks/useROICalculation';
 import type { TechStackId } from './discoveryEngine';
+import { isRecentLocationActivity } from './locationMemory';
 
 const techStackIds: readonly TechStackId[] = ['pos_standard','pos_multiple','accounting','payroll_hr','inventory_supply','delivery_reservations','custom_legacy','not_sure'];
 const roiBounds = {
@@ -54,15 +55,19 @@ export function restorePricingSelection(saved: unknown): Partial<PricingIntent> 
   return selection;
 }
 
-/** Preserve explicit footprints without mistaking the legacy one-location
- * calculator default for a buyer choice. Invalid saved configurations never
- * unlock the overview. Older multi-location choices remain usable. */
-export function restoreLocationConfirmation(saved: unknown): boolean {
+/** Only a validated, deliberately entered footprint with recent activity can
+ * unlock the overview. Untimestamped older choices must be entered once more. */
+export function restoreLocationConfirmation(saved: unknown, now = Date.now()): boolean {
   if (!saved || typeof saved !== 'object') return false;
   const raw = (saved as Record<string, unknown>).locations;
   if (typeof raw !== 'number' || !Number.isInteger(raw) || raw < 1 || raw > 10000) return false;
   const selection = restorePricingSelection(saved);
   if (selection.locations === undefined) return false;
-  const marker = (saved as Record<string, unknown>).locationsConfirmed;
-  return typeof marker === 'boolean' ? marker : selection.locations > 1;
+  const value = saved as Record<string, unknown>;
+  return value.locationsConfirmed === true && isRecentLocationActivity(value.locationsLastActiveAt, now);
+}
+
+export function restoreLocationMemory(saved: unknown, now = Date.now()) {
+  const locationsConfirmed = restoreLocationConfirmation(saved, now);
+  return { locationsConfirmed, locationsLastActiveAt: locationsConfirmed ? (saved as { locationsLastActiveAt: number }).locationsLastActiveAt : null };
 }

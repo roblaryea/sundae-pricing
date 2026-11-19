@@ -1,6 +1,7 @@
 import { recommendedConceptSkus } from '../lib/discoveryEngine';
 import { normalizeCrewSelection, normalizeWatchtowerSelection } from '../lib/pricingIntent';
-import { restorePricingSelection, restorePricingPreferences, restoreLocationConfirmation } from '../lib/persistedPricing';
+import { restorePricingSelection, restorePricingPreferences, restoreLocationMemory } from '../lib/persistedPricing';
+import { isRecentLocationActivity } from '../lib/locationMemory';
 import { journeyFor, stepIndexIn, type JourneyStepId } from '../lib/journey';
 // Configuration state management using Zustand
 
@@ -28,6 +29,8 @@ export interface JourneyStep {
 export interface ConfigurationState extends Configuration {
   /** A deliberate footprint choice, never inferred from the calculator default. */
   locationsConfirmed: boolean;
+  locationsLastActiveAt: number | null;
+  recordLocationActivity: () => void;
   employees: number | null;
   payrollCountry: string;
   setEmployees: (employees: number | null) => void;
@@ -122,6 +125,7 @@ const initialState = {
   corePackage: 'core_foundation' as CorePackageId,
   locations: 1,
   locationsConfirmed: false,
+  locationsLastActiveAt: null as number | null,
   addOns: [] as AddOnId[],
   watchtowerModules: [] as string[],
   crossIntelligence: 'none' as 'none' | 'base' | 'pro',
@@ -338,12 +342,24 @@ export const useConfiguration = create<ConfigurationState>()(
           // Preserve the buyer's estate. Published plan eligibility is checked
           // by the basket, including imported selections and catalogue refresh.
           const safe = Number.isFinite(locations) ? Math.max(1, Math.min(10000, Math.floor(locations))) : 1;
-          set({ locations: safe, locationsConfirmed: Number.isInteger(locations) && locations >= 1 && locations <= 10000 });
+          const locationsConfirmed = Number.isInteger(locations) && locations >= 1 && locations <= 10000;
+          set({ locations: safe, locationsConfirmed, locationsLastActiveAt: locationsConfirmed ? Date.now() : null });
           get().markStepCompleted('locations');
           get().checkAchievements();
         },
         
-        clearLocationConfirmation: () => set({ locationsConfirmed: false }),
+        clearLocationConfirmation: () => set({ locationsConfirmed: false, locationsLastActiveAt: null }),
+
+        recordLocationActivity: () => {
+          const { locationsConfirmed, locationsLastActiveAt } = get();
+          if (!locationsConfirmed) return;
+          const now = Date.now();
+          if (!isRecentLocationActivity(locationsLastActiveAt, now)) {
+            set({ locationsConfirmed: false, locationsLastActiveAt: null });
+          } else if (locationsLastActiveAt !== now) {
+            set({ locationsLastActiveAt: now });
+          }
+        },
 
         toggleAddOn: (addOnId) => {
           const addOns = get().addOns;
@@ -567,10 +583,10 @@ export const useConfiguration = create<ConfigurationState>()(
         // Map the retired terms onto their upfront equivalents, which is what
         // they were priced as before timing was a variable.
         version: 2,
-        migrate: (persisted: unknown) => ({ ...restorePricingSelection(persisted), ...restorePricingPreferences(persisted), locationsConfirmed: restoreLocationConfirmation(persisted) }) as Partial<ConfigurationState>,
+        migrate: (persisted: unknown) => ({ ...restorePricingSelection(persisted), ...restorePricingPreferences(persisted), ...restoreLocationMemory(persisted) }) as Partial<ConfigurationState>,
         merge: (persisted, current) => {
           const { roiInputs, ...preferences } = restorePricingPreferences(persisted);
-          return { ...current, ...restorePricingSelection(persisted), ...preferences, locationsConfirmed: restoreLocationConfirmation(persisted), roiInputs: { ...current.roiInputs, ...roiInputs } };
+          return { ...current, ...restorePricingSelection(persisted), ...preferences, ...restoreLocationMemory(persisted), roiInputs: { ...current.roiInputs, ...roiInputs } };
         },
         partialize: (state) => ({
           employees: state.employees,
@@ -580,6 +596,7 @@ export const useConfiguration = create<ConfigurationState>()(
           corePackage: state.corePackage,
           locations: state.locations,
           locationsConfirmed: state.locationsConfirmed,
+          locationsLastActiveAt: state.locationsLastActiveAt,
           addOns: state.addOns,
           watchtowerModules: state.watchtowerModules,
           crossIntelligence: state.crossIntelligence,

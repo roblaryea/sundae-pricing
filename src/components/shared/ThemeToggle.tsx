@@ -1,7 +1,6 @@
 // Theme toggle switch for light/dark mode
 
 import { Sun, Moon } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useLocale } from '../../contexts/LocaleContext';
 import { tMicro } from '../../lib/pricingI18n';
@@ -24,12 +23,11 @@ export function ThemeToggle() {
       <Moon className="absolute right-1.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
       
       {/* Sliding thumb */}
-      <motion.div
+      <div
         data-testid="theme-thumb"
-        className="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-md"
-        initial={false}
-        animate={{ x: theme === 'dark' ? 28 : 0 }}
-        transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+        className="absolute left-1 top-1 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-300 ease-[cubic-bezier(0.2,0.9,0.2,1.06)] motion-reduce:transition-none"
+        aria-hidden="true"
+        style={{ transform: `translateX(${theme === 'dark' ? 28 : 0}px)` }}
       />
     </button>
   );

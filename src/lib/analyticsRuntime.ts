@@ -1,5 +1,6 @@
 import posthog from "posthog-js";
 import * as Sentry from "@sentry/react";
+import { isPublicWebVitalsUrl, sanitizeWebVitalsProperties } from "./webVitalsPrivacy";
 import { getSentryRuntimePolicy, prepareSentryEvent } from "./sentryPolicy";
 
 const POSTHOG_KEY = import.meta.env?.VITE_POSTHOG_KEY;
@@ -8,8 +9,13 @@ const SENTRY_DSN = import.meta.env?.VITE_SENTRY_DSN;
 
 let analyticsInitialized = false;
 
+function hasAnalyticsConsent() {
+  try { return localStorage.getItem('sundae_cookie_consent') === 'accepted'; }
+  catch { return false; }
+}
+
 export function initAnalytics() {
-  if (analyticsInitialized) return;
+  if (analyticsInitialized || !hasAnalyticsConsent()) return;
 
   // PostHog
   if (POSTHOG_KEY) {
@@ -19,6 +25,16 @@ export function initAnalytics() {
       capture_pageview: true,
       capture_pageleave: true,
       autocapture: false,
+      capture_performance: import.meta.env.PROD && isPublicWebVitalsUrl(window.location.href, 'pricing')
+        ? { network_timing: false, web_vitals: true, web_vitals_attribution: false, web_vitals_allowed_metrics: ['LCP', 'CLS', 'FCP', 'INP'] }
+        : false,
+      before_send: (event) => {
+        if (!hasAnalyticsConsent()) return null;
+        if (event?.event !== '$web_vitals') return event;
+        if (!isPublicWebVitalsUrl(window.location.href, 'pricing') || posthog.has_opted_out_capturing()) return null;
+        const properties = sanitizeWebVitalsProperties(event.properties, 'pricing');
+        return properties ? { uuid: event.uuid, event: event.event, timestamp: event.timestamp, properties } : null;
+      },
       sanitize_properties: (properties) => {
         for (const key of ["$current_url", "$referrer", "$pathname"]) {
           if (typeof properties[key] === "string") properties[key] = properties[key].split("?")[0];

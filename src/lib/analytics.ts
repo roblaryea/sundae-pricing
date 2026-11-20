@@ -1,111 +1,93 @@
-import posthog from "posthog-js";
-import * as Sentry from "@sentry/react";
-import { getSentryRuntimePolicy, prepareSentryEvent } from "./sentryPolicy";
+type AnalyticsRuntime = typeof import('./analyticsRuntime');
+type EventProperties = Record<string, string | number | boolean | null>;
 
-const POSTHOG_KEY = import.meta.env?.VITE_POSTHOG_KEY;
-const POSTHOG_HOST = import.meta.env?.VITE_POSTHOG_HOST || "https://us.i.posthog.com";
-const SENTRY_DSN = import.meta.env?.VITE_SENTRY_DSN;
+let runtime: AnalyticsRuntime | undefined;
+let pendingLoad: Promise<AnalyticsRuntime | null> | undefined;
 
-let analyticsInitialized = false;
-
-export function initAnalytics() {
-  if (analyticsInitialized) return;
-
-  // PostHog
-  if (POSTHOG_KEY) {
-    posthog.init(POSTHOG_KEY, {
-      api_host: POSTHOG_HOST,
-      person_profiles: "identified_only",
-      capture_pageview: true,
-      capture_pageleave: true,
-      autocapture: false,
-      sanitize_properties: (properties) => {
-        for (const key of ["$current_url", "$referrer", "$pathname"]) {
-          if (typeof properties[key] === "string") properties[key] = properties[key].split("?")[0];
-        }
-        return properties;
-      },
-      session_recording: { maskAllInputs: true },
-      loaded: (ph) => {
-        if (import.meta.env.DEV) ph.opt_out_capturing();
-      },
-    });
-  }
-
-  // Sentry
-  if (SENTRY_DSN) {
-    const sentryPolicy = getSentryRuntimePolicy({
-      hostname: window.location.hostname,
-      mode: import.meta.env.MODE,
-    });
-
-    Sentry.init({
-      dsn: SENTRY_DSN,
-      integrations: [
-        Sentry.browserTracingIntegration(),
-        ...(sentryPolicy.replaysOnErrorSampleRate > 0
-          ? [Sentry.replayIntegration({ maskAllText: true, maskAllInputs: true })]
-          : []),
-      ],
-      tracesSampleRate: 0.1,
-      replaysSessionSampleRate: sentryPolicy.replaysSessionSampleRate,
-      replaysOnErrorSampleRate: sentryPolicy.replaysOnErrorSampleRate,
-      environment: sentryPolicy.environment,
-      beforeSend: prepareSentryEvent,
-    });
-  }
-
-  analyticsInitialized = true;
-}
-
-/**
- * Initialize analytics only if the user has given cookie consent.
- * Called on app start + when consent is granted.
- */
-export function initAnalyticsIfConsented() {
-  const consent = localStorage.getItem("sundae_cookie_consent");
-  if (consent === "accepted") {
-    initAnalytics();
+function hasConsent() {
+  if (typeof window === 'undefined') return false;
+  try {
+    return localStorage.getItem('sundae_cookie_consent') === 'accepted';
+  } catch {
+    return false;
   }
 }
 
-// --- Pricing-specific event tracking ---
+/** Optional measurement must not delay the first quote or reload the page. */
+function loadConsentedRuntime(): Promise<AnalyticsRuntime | null> {
+  if (!hasConsent() || (!import.meta.env?.VITE_POSTHOG_KEY && !import.meta.env?.VITE_SENTRY_DSN)) return Promise.resolve(null);
+  if (runtime) return Promise.resolve(runtime);
+  if (!pendingLoad) {
+    pendingLoad = import('./analyticsRuntime')
+      .then((module) => {
+        // Consent can change while the SDK chunks are in flight.
+        if (!hasConsent()) return null;
+        module.initAnalytics();
+        runtime = module;
+        return module;
+      })
+      .catch(() => null)
+      .finally(() => { pendingLoad = undefined; });
+  }
+  return pendingLoad;
+}
+
+export async function initAnalytics() {
+  await loadConsentedRuntime();
+}
+
+export async function initAnalyticsIfConsented() {
+  await loadConsentedRuntime();
+}
+
+function whenReady(capture: (module: AnalyticsRuntime) => void) {
+  if (!hasConsent()) return;
+  void loadConsentedRuntime().then((module) => {
+    if (module && hasConsent()) capture(module);
+  }).catch(() => { /* Optional measurement cannot break a pricing action. */ });
+}
 
 export function trackModuleSelected(moduleName: string, price: number) {
-  posthog.capture("pricing_module_selected", { module: moduleName, price });
+  whenReady((module) => module.trackModuleSelected(moduleName, price));
 }
 
 export function trackModuleDeselected(moduleName: string) {
-  posthog.capture("pricing_module_deselected", { module: moduleName });
+  whenReady((module) => module.trackModuleDeselected(moduleName));
 }
 
-export function trackPricingConfigured(config: { modules: string[]; totalPrice: number; locationCount: number }) {
-  posthog.capture("pricing_configured", config);
+export function trackPricingConfigured(config: Parameters<AnalyticsRuntime['trackPricingConfigured']>[0]) {
+  whenReady((module) => module.trackPricingConfigured(config));
 }
 
 export function trackSimulatorStarted() {
-  posthog.capture("simulator_started");
+  whenReady((module) => module.trackSimulatorStarted());
 }
 
-export function trackSimulatorCompleted(result: { roi: number; paybackMonths: number }) {
-  posthog.capture("simulator_completed", result);
+export function trackSimulatorCompleted(result: Parameters<AnalyticsRuntime['trackSimulatorCompleted']>[0]) {
+  whenReady((module) => module.trackSimulatorCompleted(result));
 }
 
-export function trackPdfExported(config: { modules: string[]; totalPrice: number }) {
-  posthog.capture("pricing_pdf_exported", config);
+export function trackPdfExported(config: Parameters<AnalyticsRuntime['trackPdfExported']>[0]) {
+  whenReady((module) => module.trackPdfExported(config));
 }
 
 export function trackCtaClicked(ctaType: string, location: string) {
-  posthog.capture("cta_clicked", { cta_type: ctaType, location });
+  whenReady((module) => module.trackCtaClicked(ctaType, location));
 }
 
 export function trackPageView(page: string) {
-  posthog.capture("$pageview", { page });
+  whenReady((module) => module.trackPageView(page));
 }
 
-// Only semantic, non-contact properties may enter the pricing funnel.
-export function trackPricingEvent(event: string, properties: Record<string, string | number | boolean | null> = {}) {
-  if (!analyticsInitialized || !POSTHOG_KEY || typeof window === 'undefined' || localStorage.getItem('sundae_cookie_consent') !== 'accepted' || posthog.has_opted_out_capturing()) return false;
-  posthog.capture(`pricing_${event}`, properties);
+export function capturePricingException(error: Error, componentStack?: string | null) {
+  whenReady((module) => module.capturePricingException(error, componentStack));
+}
+
+/** True means sent or queued after consent; never replay pre-consent actions. */
+export function trackPricingEvent(event: string, properties: EventProperties = {}) {
+  if (!hasConsent() || !import.meta.env?.VITE_POSTHOG_KEY) return false;
+  if (runtime) return runtime.trackPricingEvent(event, properties);
+  const snapshot = { ...properties };
+  whenReady((module) => module.trackPricingEvent(event, snapshot));
   return true;
 }

@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from "react";
-import * as Sentry from "@sentry/react";
+import { capturePricingException } from "../lib/analytics";
 import { normalizePricingLocale, type FullyLocalizedPricingLocale, type PricingLocale } from "../lib/locales";
 import { generatedAuxiliaryLocalePacks } from "../lib/generatedAuxiliaryLocalePacks";
 
@@ -40,7 +40,7 @@ export class ErrorBoundary extends Component<Props, State> {
   static getDerivedStateFromError(): State { return { hasError: true }; }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    Sentry.captureException(error, { extra: { componentStack: errorInfo.componentStack } });
+    capturePricingException(error, errorInfo.componentStack);
   }
 
   render() {

@@ -5,6 +5,7 @@ const root = process.cwd()
 
 const filesToAudit = [
   'src/lib/generatedPricingLocalePacks.ts',
+  'src/lib/generatedPricingUiLocalePacks.ts',
   'src/lib/generatedAuxiliaryLocalePacks.ts',
   'src/lib/pricingI18n.ts',
   'src/lib/pricingUiCopy.ts',

@@ -1,5 +1,5 @@
 import type { FullyLocalizedPricingLocale, PricingLocale } from './locales'
-import { generatedPricingUiCopy } from './generatedPricingLocalePacks'
+import { generatedPricingUiCopy } from './generatedPricingUiLocalePacks'
 
 export type PricingUiLocale = PricingLocale
 

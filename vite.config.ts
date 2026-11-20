@@ -11,6 +11,12 @@ export default defineConfig(({ mode }) => {
       rollupOptions: {
         output: {
           manualChunks(id) {
+            // These SDKs are loaded only after analytics consent. Keep Sentry's
+            // React integration out of the eagerly required React vendor chunk.
+            if (id.includes('/node_modules/@sentry/') || id.includes('/node_modules/posthog-js/')) {
+              return 'analytics-sdk';
+            }
+
             if (id.includes('/src/lib/generatedPricingLocalePacks')) {
               return 'pricing-locales';
             }

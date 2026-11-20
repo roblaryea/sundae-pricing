@@ -21,6 +21,7 @@ function isQaUrl(value: unknown): boolean {
 
 function cleanUrl(value: unknown): string | undefined {
   if (typeof value !== 'string') return;
+  if (value === '$direct') return value;
   try {
     const url = new URL(value, 'https://www.sundae.io');
     if (!['http:', 'https:'].includes(url.protocol)) return;
@@ -33,9 +34,13 @@ function cleanUrl(value: unknown): string | undefined {
 export function sanitizeWebVitalsProperties(properties: Record<string, unknown>, surface: 'website' | 'pricing'): Record<string, unknown> | null {
   if (!isPublicWebVitalsUrl(String(properties.$current_url || ''), surface)) return null;
   const safe: Record<string, unknown> = {};
-  for (const key of ['distinct_id', '$session_id', '$window_id', '$lib', '$lib_version', '$host', '$device_type', '$browser', '$browser_version', '$os', '$os_version', '$screen_width', '$screen_height', '$viewport_width', '$viewport_height']) {
+  for (const key of ['token', 'distinct_id', '$device_id', '$user_id', '$session_id', '$window_id', '$lib', '$lib_version', '$host', '$device_type', '$browser', '$browser_version', '$os', '$os_version', '$screen_width', '$screen_height', '$viewport_width', '$viewport_height']) {
     const value = properties[key];
     if (typeof value === 'string' || (typeof value === 'number' && Number.isFinite(value))) safe[key] = value;
+  }
+  // Preserve SDK transport and identified_only/opt-out identity semantics.
+  for (const key of ['$process_person_profile', '$is_identified', '$geoip_disable']) {
+    if (typeof properties[key] === 'boolean') safe[key] = properties[key];
   }
   for (const key of ['$current_url', '$referrer', '$pathname']) {
     const value = cleanUrl(properties[key]);

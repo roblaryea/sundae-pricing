@@ -13,6 +13,12 @@ export function isPublicWebVitalsUrl(value: string, surface: 'website' | 'pricin
   } catch { return false; }
 }
 
+function isQaUrl(value: unknown): boolean {
+  if (typeof value !== 'string') return false;
+  try { return new URL(value, 'https://www.sundae.io').searchParams.get('utm_source') === 'internal_qa'; }
+  catch { return false; }
+}
+
 function cleanUrl(value: unknown): string | undefined {
   if (typeof value !== 'string') return;
   try {
@@ -35,8 +41,8 @@ export function sanitizeWebVitalsProperties(properties: Record<string, unknown>,
     const value = cleanUrl(properties[key]);
     if (value) safe[key] = value;
   }
-  // Existing internal QA exclusion survives removal of URL query strings.
-  if (properties.utm_source === 'internal_qa') safe.utm_source = 'internal_qa';
+  // Keep an explicit QA marker for vitals queries after removing URL query strings.
+  if (properties.utm_source === 'internal_qa' || isQaUrl(properties.$current_url)) safe.utm_source = 'internal_qa';
   for (const metric of metrics) {
     const key = `$web_vitals_${metric}`;
     const value = properties[`${key}_value`];

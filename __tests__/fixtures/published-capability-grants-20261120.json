@@ -1,0 +1,63 @@
+{
+  "source": "https://pricing.sundae.io/api/pricing/catalog/active",
+  "version": "v1.8.2-policy-20261009",
+  "resolvedAt": "2026-11-20T05:57:03.374Z",
+  "tiers": [
+    {
+      "id": "foundation",
+      "includedModuleIds": [
+        "labor",
+        "profit",
+        "revenue_assurance",
+        "pulse"
+      ],
+      "allowsWatchtower": false
+    },
+    {
+      "id": "margin",
+      "includedModuleIds": [
+        "labor",
+        "inventory",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "purchasing",
+        "delivery"
+      ],
+      "allowsWatchtower": false
+    },
+    {
+      "id": "growth",
+      "includedModuleIds": [
+        "labor",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "marketing",
+        "reservations",
+        "guest_experience",
+        "guest_crm",
+        "delivery"
+      ],
+      "allowsWatchtower": true
+    },
+    {
+      "id": "performance",
+      "includedModuleIds": [
+        "labor",
+        "inventory",
+        "profit",
+        "revenue_assurance",
+        "pulse",
+        "purchasing",
+        "marketing",
+        "reservations",
+        "guest_experience",
+        "guest_crm",
+        "delivery",
+        "foresight"
+      ],
+      "allowsWatchtower": true
+    }
+  ]
+}

@@ -255,6 +255,7 @@ test('consent granted at review records the visible stage once and covers later 
   await page.addInitScript(() => localStorage.removeItem('sundae_cookie_consent'));
   await page.route('**/src/lib/analytics.ts*', route => route.fulfill({contentType:'application/javascript',body:`
     export const initAnalyticsIfConsented = () => {};
+    export const capturePricingException = () => {};
     export function trackPricingEvent(event, properties={}) {
       if(localStorage.getItem('sundae_cookie_consent')!=='accepted')return false;
       (window.__pricingEvents ??= []).push({event,properties}); return true;
